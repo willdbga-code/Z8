@@ -1,0 +1,266 @@
+/* Brandbook Custom Styles */
+
+.brandbook-hero {
+  text-align: center;
+}
+
+.brandbook-tab-content {
+  display: none;
+}
+
+.brandbook-tab-content.active {
+  display: flex;
+  flex-direction: column;
+}
+
+.identity-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.logo-showcase-box {
+  padding: 24px;
+}
+
+.logo-preview-frame {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.brandbook-logo-large {
+  max-width: 80%;
+  max-height: 80px;
+  object-fit: contain;
+}
+
+.logo-specs-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.swatches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.swatch-card {
+  background: var(--bg-card);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-metal);
+}
+
+.swatch-color {
+  height: 60px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.swatch-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+}
+
+.swatch-usage {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Mockup Full Panels */
+.mockup-full-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.mockup-frame {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-raised);
+  border: 2px solid var(--border-metal);
+}
+
+.mockup-img-large {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.uniform-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.detail-card {
+  padding: 20px;
+}
+
+.detail-card ul {
+  padding-left: 20px;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.detail-card li {
+  margin-bottom: 6px;
+}
+
+/* Renderings Grid */
+.renderings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.render-card {
+  padding: 20px;
+}
+
+.render-img-wrapper {
+  margin-top: 14px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.render-img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Architectural Blueprint Viewer */
+.blueprint-container {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.blueprint-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.blueprint-zone {
+  background: var(--bg-card);
+  border: 2px dashed var(--border-metal);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+
+.blueprint-zone:hover, .blueprint-zone.zone-active {
+  background: var(--bg-panel);
+  border: 2px solid var(--accent-cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.zone-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  background: rgba(251, 191, 36, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.zone-info-box {
+  padding: 20px;
+}
+
+.zone-specs {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  background: var(--bg-inset);
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* VIN Decoder */
+.vin-decoder-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.vin-input-row {
+  display: flex;
+  gap: 16px;
+}
+
+.vin-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.vin-res-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-metal);
+  padding: 14px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vin-res-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Compliance Checklist Cards */
+.compliance-checklist-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.check-item-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+}
+
+.check-item-card i {
+  font-size: 1.5rem;
+}
+
+.check-item-card h4 {
+  font-size: 1rem;
+  color: var(--text-heading);
+  margin-bottom: 2px;
+}
+
+.check-item-card p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 900px) {
+  .identity-grid, .uniform-details-grid, .renderings-grid, .blueprint-container {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Z8 N95C E-motion | A Nova Era da Mobilidade Elétrica</title>
+  <meta name="description" content="Apresentação Oficial da Z8 N95C E-motion inspirada na estética RADIAN. Motor 1200W, bateria 240km e scrollytelling interativo." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="/src/n95c.css" />
+</head>
+<body>
+
+  <!-- RADIAN TOP NAVIGATION BAR -->
+  <header class="radian-nav">
+    <div class="radian-nav-left">Discover N95C</div>
+
+    <a href="/" class="radian-brand-logo">Z8 E-MOTION</a>
+
+    <nav class="radian-nav-right">
+      <a href="/" class="radian-nav-link">Nossa história</a>
+      <a href="#features" class="radian-nav-link">Suporte</a>
+      <a href="#features" class="radian-nav-link">Franquias</a>
+      <a href="/" class="radian-btn-action">
+        Faça uma reserva <span class="plus-circle">+</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- RADIAN HERO SCROLL-DRIVEN EXPERIENCE -->
+  <section class="hero-scroll-wrapper" id="hero-wrapper">
+    <div class="hero-sticky-viewport">
+      
+      <!-- Canvas for Video Frame Scrubbing -->
+      <canvas id="hero-canvas"></canvas>
+
+      <!-- Radian Hero Overlay Elements -->
+      <div class="radian-hero-overlay">
+        
+        <!-- Hero Text Block (Active on Intro) -->
+        <div id="radian-hero-text" class="hero-text-block active">
+          <span class="radian-tag">THE Z8 N95C EXR</span>
+          <h1 class="radian-title">A nova era da mobilidade elétrica.</h1>
+          <p class="radian-subtitle">
+            Feita para quem exige autonomia estendida de 240km, torque instantâneo de 1200W e zero emissões urbanas.
+          </p>
+
+          <div class="radian-hero-buttons">
+            <a href="#features" class="btn-radian-pill">
+              Explorar a moto <span class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/" class="btn-radian-pill emerald">
+              Cotar no atacado <span class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Hero Bar -->
+        <div class="hero-bottom-bar">
+          <div class="radian-scroll-hint" id="scroll-hint">
+            Scroll <br/> <i class="fa-solid fa-chevron-down"></i>
+          </div>
+
+          <div class="video-thumb-card">
+            <img src="/assets/n95c/n95c_hero.jpg" alt="Preview Vídeo" />
+            <span class="video-thumb-caption">Assistir vídeo de lançamento 02:56</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RADIAN FEATURE LIST SECTION - SCROLL-DRIVEN PINNED STICKY -->
+  <section id="features" class="radian-feature-section">
+    <div class="radian-feature-sticky-viewport">
+      <div class="radian-feature-layout">
+        
+        <!-- Left Side: Vertical Typography Headlines -->
+        <div class="feature-headlines-list" id="feature-headlines">
+          <div class="feature-headline-item active" data-idx="0">Troca em 30 segundos</div>
+          <div class="feature-headline-item" data-idx="1">Potência instantânea</div>
+          <div class="feature-headline-item" data-idx="2">Farol LED DRL Horizontal</div>
+          <div class="feature-headline-item" data-idx="3">Cockpit LCD Digital</div>
+          <div class="feature-headline-item" data-idx="4">Freio a disco & 130mm</div>
+          <div class="feature-headline-item" data-idx="5">Menos manutenção</div>
+        </div>
+
+        <!-- Right Side: Large Rounded Media Card -->
+        <div class="feature-media-card">
+          <img src="/assets/n95c/n95c_hero.jpg" alt="Detalhe N95C" id="feature-card-img" />
+          <div class="feature-media-caption" id="feature-card-caption">
+            Bateria de Lítio removível 60V 120Ah com até 240km de autonomia estendida.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="radian-footer">
+    <p>© 2026 Z8 E-motion Brasil - Modelo N95C. Todos os direitos reservados.</p>
+  </footer>
+
+  <script type="module" src="/src/n95c.js"></script>
+</body>
+</html>

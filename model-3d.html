@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Z8 E-motion | Visualizador 3D Interativo da Scooter Syuan Emerald</title>
+  <meta name="description" content="Visualizador 3D WebGL Interativo em Tempo Real do Modelo Z8 Syuan Emerald com customização de cores, inspeção de componentes e simulador de iluminação LED." />
+
+  <!-- Fonts Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="/src/style.css" />
+  <style>
+    .viewer-3d-wrapper {
+      position: relative;
+      width: 100%;
+      height: 600px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow-raised);
+      border: 2px solid var(--border-metal);
+    }
+    
+    #scooter-3d-canvas-container {
+      width: 100%;
+      height: 100%;
+    }
+
+    .controls-overlay {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 18, 23, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 14px 20px;
+      border-radius: 14px;
+      border: 1px solid var(--border-metal);
+    }
+
+    .color-picker-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .color-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+
+    .color-btn.active {
+      transform: scale(1.2);
+      border-color: var(--accent-cyan);
+      box-shadow: var(--glow-cyan);
+    }
+  </style>
+</head>
+<body class="skeuo-body">
+
+  <header class="skeuo-header">
+    <div class="header-container">
+      <div class="brand-logo-wrapper">
+        <a href="/index.html" class="metallic-emblem" style="text-decoration: none;">
+          <img src="/assets/logos/logos (1)_page_1.png" alt="Z8 E-motion Logo" class="brand-logo-img" />
+        </a>
+        <div class="brand-tagline">
+          <span class="badge-national"><i class="fa-solid fa-cube"></i> Estúdio de Modelagem 3D & Engenharia</span>
+          <span class="badge-factory">Modelo Mesh Syuan Emerald</span>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 12px;">
+        <a href="/brandbook.html" class="skeuo-button secondary-metal-btn" style="text-decoration: none; padding: 8px 14px; font-size: 0.82rem;">
+          <i class="fa-solid fa-book-open"></i> Ver Brandbook
+        </a>
+        <a href="/index.html" class="skeuo-button primary-metal-btn" style="text-decoration: none; padding: 8px 14px; font-size: 0.82rem;">
+          <i class="fa-solid fa-house"></i> Voltar ao Site
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    
+    <section class="skeuo-panel" style="text-align: center;">
+      <div class="embossed-badge"><i class="fa-solid fa-cubes"></i> ENGINE MODELO 3D REAL-TIME WEBGL</div>
+      <h1 class="hero-title" style="font-size: 2.2rem;">Z8 Syuan Emerald E-Scooter <span class="metal-text">Modelo 3D Mesh</span></h1>
+      <p class="hero-subtitle" style="margin-bottom: 0;">
+        Inspeção tridimensional completa da scooter elétrica reconstruída com base na análise anatômica das imagens da pasta <code>3D/</code>.
+      </p>
+    </section>
+
+    <!-- 3D CANVAS CANVAS CONTAINER -->
+    <section class="section-container">
+      <div class="viewer-3d-wrapper">
+        <div id="scooter-3d-canvas-container"></div>
+
+        <!-- Controls Overlay Bar -->
+        <div class="controls-overlay">
+          <div class="color-picker-row">
+            <span style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">Customizar Cor:</span>
+            <button class="color-btn active" data-color="0x006847" style="background: #006847;" title="Verde Esmeralda Matriz"></button>
+            <button class="color-btn" data-color="0x111111" style="background: #111111;" title="Preto Obsidiana"></button>
+            <button class="color-btn" data-color="0xd97706" style="background: #d97706;" title="Laranja Volt"></button>
+            <button class="color-btn" data-color="0x0284c7" style="background: #0284c7;" title="Azul Ciano"></button>
+            <button class="color-btn" data-color="0xdc2626" style="background: #dc2626;" title="Vermelho Racing"></button>
+          </div>
+
+          <div style="display: flex; gap: 10px;">
+            <button class="skeuo-button secondary-metal-btn" id="btn-toggle-lights" style="padding: 8px 14px; font-size: 0.82rem;">
+              <i class="fa-solid fa-lightbulb"></i> Farol LED (On/Off)
+            </button>
+            <button class="skeuo-button secondary-metal-btn" id="btn-toggle-spin" style="padding: 8px 14px; font-size: 0.82rem;">
+              <i class="fa-solid fa-rotate"></i> Rotação 360°
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANÁLISE ANATÔMICA DOS COMPONENTES -->
+    <section class="section-container skeuo-panel">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fa-solid fa-list-check"></i> Detalhamento Anatômico do Modelo Mesh</h2>
+        <p class="section-sub">Resumo dos componentes extraídos da pasta 3D:</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;">
+        <div class="skeuo-card" style="padding: 20px;">
+          <h3 class="orbitron-title" style="color: var(--accent-emerald);"><i class="fa-solid fa-shield-halved"></i> Carenagem & Farol DRL</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 8px;">
+            Escudo frontal convexo verde esmeralda metálico brilho com conjunto óptico LED retangular integrado e grafismos esportivos nas laterais inferiores.
+          </p>
+        </div>
+
+        <div class="skeuo-card" style="padding: 20px;">
+          <h3 class="orbitron-title" style="color: var(--accent-cyan);"><i class="fa-solid fa-gauge-high"></i> Cockpit & Tela LCD</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 8px;">
+            Display digital LCD mostrando tensão (50.1V), velocímetro, marchas P/1/2/3, comutadores de pisca-alerta, buzina e botão seletor de Ré (R).
+          </p>
+        </div>
+
+        <div class="skeuo-card" style="padding: 20px;">
+          <h3 class="orbitron-title" style="color: var(--accent-gold);"><i class="fa-solid fa-cogs"></i> Motor & Freios</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 8px;">
+            Motor de cubo traseiro de 1200W selado, freio a disco hidráulico dianteiro com aro de liga leve 10" e duplo amortecimento traseiro.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module">
+    import { Scooter3DViewer } from '/src/components/Scooter3DViewer.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const viewer = new Scooter3DViewer('scooter-3d-canvas-container');
+
+      // Color picker
+      document.querySelectorAll('.color-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const hex = parseInt(btn.getAttribute('data-color'), 16);
+          viewer.setColor(hex);
+        });
+      });
+
+      // Lights toggle
+      document.getElementById('btn-toggle-lights')?.addEventListener('click', () => {
+        viewer.toggleLights();
+      });
+
+      // Spin toggle
+      document.getElementById('btn-toggle-spin')?.addEventListener('click', () => {
+        viewer.toggleAutoRotate();
+      });
+    });
+  </script>
+</body>
+</html>
