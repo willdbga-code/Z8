@@ -1088,7 +1088,7 @@
   }
 
   /* --------------------------------------------------------------------------
-     13. RESPONSIVE BREAKPOINTS
+     13. RESPONSIVE BREAKPOINTS (MOBILE & TABLET OPTIMIZED)
      -------------------------------------------------------------------------- */
   @media (max-width: 900px) {
     .hero-grid, .calc-skeuo-wrapper {
@@ -1102,11 +1102,38 @@
     .skeuo-nav {
       overflow-x: auto;
       width: 100%;
+      white-space: nowrap;
+      justify-content: flex-start;
+      padding: 6px;
     }
     
     .header-container {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-tagline {
+      display: none;
+    }
+
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-actions {
       flex-direction: column;
-      align-items: flex-start;
+      width: 100%;
+    }
+
+    .skeuo-button {
+      width: 100%;
+    }
+
+    .models-grid {
+      grid-template-columns: 1fr;
     }
 
     .footer-container {
@@ -1115,3 +1142,27 @@
       text-align: center;
     }
   }
+
+  @media (max-width: 480px) {
+    .skeuo-panel {
+      padding: 20px 14px;
+    }
+
+    .hero-title {
+      font-size: 1.65rem;
+    }
+
+    .hero-stats-panel {
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .stat-number {
+      font-size: 1.3rem;
+    }
+
+    .stat-divider {
+      display: none;
+    }
+  }
+

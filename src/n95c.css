@@ -38,7 +38,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* RADIAN TOP NAVIGATION BAR (INVISIBLE UNTIL SECTION SWITCH) */
+/* RADIAN HIGH-CONTRAST TOP NAVIGATION BAR (INVISIBLE UNTIL SECTION SWITCH) */
 .radian-nav {
   position: fixed;
   top: 0;
@@ -421,7 +421,9 @@ body {
   color: var(--text-light-theme);
 }
 
-/* MOBILE & TABLET RESPONSIVENESS */
+/* --------------------------------------------------------------------------
+   MOBILE & TABLET RESPONSIVENESS
+   -------------------------------------------------------------------------- */
 @media (max-width: 992px) {
   .radian-nav {
     padding: 1rem 1.5rem;
@@ -474,10 +476,23 @@ body {
     display: none;
   }
 
+  .radian-feature-section {
+    height: auto;
+    padding: 4rem 1.5rem 3rem 1.5rem;
+    background: var(--bg-light);
+  }
+
+  .radian-feature-sticky-viewport {
+    position: relative;
+    top: auto;
+    height: auto;
+    overflow: visible;
+  }
+
   .radian-feature-layout {
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 0 1.5rem;
+    padding: 0;
   }
 
   .feature-headline-item {

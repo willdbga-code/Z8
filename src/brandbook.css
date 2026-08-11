@@ -260,7 +260,31 @@
 }
 
 @media (max-width: 900px) {
-  .identity-grid, .uniform-details-grid, .renderings-grid, .blueprint-container {
+  .identity-grid, .uniform-details-grid, .renderings-grid, .blueprint-container, .vin-input-row {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .render-img {
+    height: 200px;
+  }
+
+  .logo-preview-frame {
+    height: 140px;
+  }
+
+  .swatches-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .swatches-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .blueprint-grid {
     grid-template-columns: 1fr;
   }
 }
+

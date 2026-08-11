@@ -510,7 +510,34 @@ body.radian-body {
 }
 
 @media (max-width: 900px) {
-  .radian-hero-title { font-size: 2.5rem; }
+  .radian-hero-title { font-size: 2.3rem; }
   .radian-usp-container, .radian-config-grid, .radian-form-grid { grid-template-columns: 1fr; }
   .radian-nav-menu { display: none; }
+  .radian-nav {
+    width: calc(100% - 24px);
+    padding: 8px 16px;
+  }
+  .radian-hero-subtitle {
+    font-size: 0.95rem;
+  }
+  .radian-hero-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+  .radian-pill-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .radian-metrics-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .metric-separator {
+    display: none;
+  }
 }
+
+@media (max-width: 480px) {
+  .radian-hero-title { font-size: 1.85rem; }
+}
+
