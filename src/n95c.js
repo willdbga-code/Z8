@@ -1,4 +1,4 @@
-/* src/n95c.js - Radian EXR Inspired Interactive Logic, Navbar Visibility on Final Frame & Scroll Feature Switching */
+/* src/n95c.js - Radian EXR Inspired Interactive Logic, Ultra-Smooth Heavy LERP Easing (0.06) & Navbar Visibility */
 
 document.addEventListener('DOMContentLoaded', () => {
   initRadianVideoScrollytelling();
@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   1. 240-FRAME HIGH-DENSITY VIDEO SCRUBBING & NAVBAR APPEARANCE ON LAST FRAME
+   1. 240-FRAME HIGH-DENSITY VIDEO SCRUBBING WITH HEAVY LERP (0.06) FOR SLOW FLUID SCROLL
    -------------------------------------------------------------------------- */
 function initRadianVideoScrollytelling() {
   const scrollWrapper = document.getElementById('hero-wrapper');
@@ -80,7 +80,8 @@ function initRadianVideoScrollytelling() {
   function animationLoop() {
     requestAnimationFrame(animationLoop);
 
-    currentProgress += (targetProgress - currentProgress) * 0.12;
+    // HEAVY LERP (0.06 factor) for a slower, butter-smooth cinematic scroll motion on PC & Mobile!
+    currentProgress += (targetProgress - currentProgress) * 0.06;
 
     const frameIndex = Math.min(
       totalFrames - 1,
@@ -117,7 +118,7 @@ function initRadianVideoScrollytelling() {
 }
 
 /* --------------------------------------------------------------------------
-   2. RADIAN VERTICAL FEATURE LIST WITH AUTOMATIC SCROLL-DRIVEN SWITCHING
+   2. RADIAN VERTICAL FEATURE LIST WITH SLOW FLUID AUTOMATIC SCROLL-DRIVEN SWITCHING
    -------------------------------------------------------------------------- */
 const radianFeatureData = [
   {
@@ -161,6 +162,8 @@ function initRadianFeatureList() {
   if (!featureSection || !headlineItems.length) return;
 
   let currentActiveIndex = 0;
+  let targetFeatureProgress = 0;
+  let currentFeatureProgress = 0;
 
   function selectRadianFeature(index) {
     if (index === currentActiveIndex) return;
@@ -187,23 +190,33 @@ function initRadianFeatureList() {
     }
   }
 
-  function onFeatureScroll() {
+  function updateFeatureScrollTarget() {
     const rect = featureSection.getBoundingClientRect();
     const maxScroll = rect.height - window.innerHeight;
     if (maxScroll <= 0) return;
 
     let p = -rect.top / maxScroll;
-    p = Math.max(0, Math.min(1, p));
+    targetFeatureProgress = Math.max(0, Math.min(1, p));
+  }
+
+  window.addEventListener('scroll', updateFeatureScrollTarget, { passive: true });
+  updateFeatureScrollTarget();
+
+  function featureAnimationLoop() {
+    requestAnimationFrame(featureAnimationLoop);
+
+    // Smooth fluid LERP for feature auto-switching
+    currentFeatureProgress += (targetFeatureProgress - currentFeatureProgress) * 0.07;
 
     const index = Math.min(
       radianFeatureData.length - 1,
-      Math.floor(p * radianFeatureData.length)
+      Math.floor(currentFeatureProgress * radianFeatureData.length)
     );
 
     selectRadianFeature(index);
   }
 
-  window.addEventListener('scroll', onFeatureScroll, { passive: true });
+  requestAnimationFrame(featureAnimationLoop);
 
   headlineItems.forEach(item => {
     item.addEventListener('click', () => {
