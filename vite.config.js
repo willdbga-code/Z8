@@ -10,7 +10,9 @@ export default defineConfig({
         brandbook: resolve(import.meta.dirname, 'brandbook.html'),
         model3d: resolve(import.meta.dirname, 'model-3d.html'),
         landing: resolve(import.meta.dirname, 'landing.html'),
-        n95c: resolve(import.meta.dirname, 'n95c.html')
+        n95c: resolve(import.meta.dirname, 'n95c.html'),
+        franquias: resolve(import.meta.dirname, 'franquias.html'),
+        instagram: resolve(import.meta.dirname, 'instagram.html')
       }
     }
   }
