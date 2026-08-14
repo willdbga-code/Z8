@@ -4,6 +4,4 @@ dist
 *.log
 *.zip
 *.obj
-*.glb
-3D/
-N95C/3D/
+
