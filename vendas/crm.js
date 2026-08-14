@@ -10,6 +10,7 @@ export function initCRM() {
   const crmModal = document.getElementById('crm-modal');
   const openCrmBtn = document.getElementById('open-crm-btn');
   const closeCrmBtn = document.getElementById('close-crm-btn');
+  const crmBackBtn = document.getElementById('crm-back-btn');
   const logoutCrmBtn = document.getElementById('crm-logout-btn');
   const exportExcelBtn = document.getElementById('export-excel-btn');
   const crmTableBody = document.getElementById('crm-table-body');
@@ -214,6 +215,12 @@ export function initCRM() {
 
   if (closeCrmBtn) {
     closeCrmBtn.addEventListener('click', () => {
+      crmModal.style.display = 'none';
+    });
+  }
+
+  if (crmBackBtn) {
+    crmBackBtn.addEventListener('click', () => {
       crmModal.style.display = 'none';
     });
   }
