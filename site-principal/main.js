@@ -390,7 +390,7 @@ function initCatalogAuth() {
           logoutCatalogUser();
         }
       } else {
-        if (loginModal) loginModal.classList.remove('hidden');
+        if (loginGate) loginGate.style.display = 'flex';
       }
     }
   });
@@ -433,7 +433,8 @@ function initCatalogAuth() {
       const res = loginCatalogUser(userVal, passVal);
       if (res.success) {
         if (loginMsg) loginMsg.style.display = 'none';
-        if (loginModal) loginModal.classList.add('hidden');
+        if (loginGate) loginGate.style.display = 'none';
+        if (mainContent) mainContent.style.display = 'block';
         renderShowroom();
       } else {
         if (loginMsg) {
