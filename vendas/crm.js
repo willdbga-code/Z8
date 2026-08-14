@@ -1,5 +1,10 @@
+// ==========================================================================
+// Z8 E-Motion - B2B CRM Engine, User Directory & Admin Suite
+// Real-time Lead Management, User Registration & Excel Export
+// ==========================================================================
+
 import { getLocalLeads, saveLead, updateLeadStatus } from './firebase-config.js';
-import { isAuthenticated, login, logout } from './auth.js';
+import { isAuthenticated, login, logout, registerUser, getRegisteredUsers, getCurrentUser } from './auth.js';
 
 export function initCRM() {
   const crmModal = document.getElementById('crm-modal');
@@ -8,15 +13,31 @@ export function initCRM() {
   const logoutCrmBtn = document.getElementById('crm-logout-btn');
   const exportExcelBtn = document.getElementById('export-excel-btn');
   const crmTableBody = document.getElementById('crm-table-body');
+  const usersTableBody = document.getElementById('users-table-body');
   const statusFilter = document.getElementById('crm-status-filter');
+  const adminBadgeEmail = document.getElementById('admin-badge-email');
 
-  // Login Modal elements
+  // Auth / Login / Register Modal Elements
   const loginModal = document.getElementById('login-modal');
   const loginForm = document.getElementById('login-form');
+  const registerForm = document.getElementById('register-form');
   const loginUser = document.getElementById('login-user');
   const loginPass = document.getElementById('login-pass');
   const loginError = document.getElementById('login-error');
+  const registerError = document.getElementById('register-error');
+  const registerSuccess = document.getElementById('register-success');
   const togglePassBtn = document.getElementById('toggle-pass-btn');
+
+  // Tab Switching Elements
+  const authTabLoginBtn = document.getElementById('tab-btn-login');
+  const authTabRegBtn = document.getElementById('tab-btn-register');
+  const authBoxLogin = document.getElementById('auth-box-login');
+  const authBoxReg = document.getElementById('auth-box-register');
+
+  const adminTabLeadsBtn = document.getElementById('admin-tab-leads');
+  const adminTabUsersBtn = document.getElementById('admin-tab-users');
+  const adminViewLeads = document.getElementById('admin-view-leads');
+  const adminViewUsers = document.getElementById('admin-view-users');
 
   if (!crmModal) return;
 
@@ -97,6 +118,59 @@ export function initCRM() {
     });
   }
 
+  function renderRegisteredUsersTable() {
+    if (!usersTableBody) return;
+    const users = getRegisteredUsers();
+
+    if (users.length === 0) {
+      usersTableBody.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; color: #94a3b8; padding: 2rem;">
+            Nenhum usuário cadastrado até o momento.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    usersTableBody.innerHTML = users.map(u => {
+      const dateStr = new Date(u.createdAt).toLocaleDateString('pt-BR', {
+        day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      });
+      const badgeColor = u.role === 'admin' ? '#00F2FE' : '#10B981';
+      const roleLabel = u.role === 'admin' ? '👑 Administrador Master' : '🤝 Parceiro Comercial';
+
+      return `
+        <tr>
+          <td><strong>${u.name}</strong><br><span style="font-size: 0.75rem; color: #64748b;">${u.company}</span></td>
+          <td><a href="mailto:${u.email}" style="color: #38bdf8; text-decoration: none;">${u.email}</a></td>
+          <td><a href="https://wa.me/55${(u.phone || '').replace(/\D/g, '')}" target="_blank" style="color: #10B981; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-whatsapp"></i> ${u.phone || 'N/A'}</a></td>
+          <td><span style="background: rgba(0,242,254,0.1); border: 1px solid ${badgeColor}; color: ${badgeColor}; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.78rem;">${roleLabel}</span></td>
+          <td><span style="font-size: 0.75rem; color: #94a3b8;">${dateStr}</span></td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function openProtectedCRM() {
+    if (isAuthenticated()) {
+      const currentUser = getCurrentUser();
+      if (adminBadgeEmail && currentUser) {
+        adminBadgeEmail.textContent = currentUser.email;
+      }
+      renderTable();
+      renderRegisteredUsersTable();
+      if (loginModal) loginModal.style.display = 'none';
+      crmModal.style.display = 'flex';
+    } else {
+      if (crmModal) crmModal.style.display = 'none';
+      if (loginError) loginError.style.display = 'none';
+      if (registerError) registerError.style.display = 'none';
+      if (registerSuccess) registerSuccess.style.display = 'none';
+      if (loginModal) loginModal.style.display = 'flex';
+    }
+  }
+
   // Export to Excel / CSV
   function exportToExcel() {
     const leads = getLocalLeads();
@@ -131,18 +205,6 @@ export function initCRM() {
     document.body.removeChild(link);
   }
 
-  function openProtectedCRM() {
-    if (isAuthenticated()) {
-      renderTable();
-      if (loginModal) loginModal.style.display = 'none';
-      crmModal.style.display = 'flex';
-    } else {
-      if (crmModal) crmModal.style.display = 'none';
-      if (loginError) loginError.style.display = 'none';
-      if (loginModal) loginModal.style.display = 'flex';
-    }
-  }
-
   // Event Listeners
   if (openCrmBtn) {
     openCrmBtn.addEventListener('click', openProtectedCRM);
@@ -158,10 +220,46 @@ export function initCRM() {
     logoutCrmBtn.addEventListener('click', () => {
       logout();
       crmModal.style.display = 'none';
-      alert('Sessão de administrador encerrada com sucesso.');
+      alert('Sessão encerrada com sucesso.');
     });
   }
 
+  // Auth Modal Tab Switcher (Login vs Cadastro)
+  if (authTabLoginBtn && authTabRegBtn) {
+    authTabLoginBtn.addEventListener('click', () => {
+      authTabLoginBtn.classList.add('active');
+      authTabRegBtn.classList.remove('active');
+      if (authBoxLogin) authBoxLogin.style.display = 'block';
+      if (authBoxReg) authBoxReg.style.display = 'none';
+    });
+
+    authTabRegBtn.addEventListener('click', () => {
+      authTabRegBtn.classList.add('active');
+      authTabLoginBtn.classList.remove('active');
+      if (authBoxReg) authBoxReg.style.display = 'block';
+      if (authBoxLogin) authBoxLogin.style.display = 'none';
+    });
+  }
+
+  // Admin Area Tab Switcher (Leads vs Usuários Cadastrados)
+  if (adminTabLeadsBtn && adminTabUsersBtn) {
+    adminTabLeadsBtn.addEventListener('click', () => {
+      adminTabLeadsBtn.classList.add('active');
+      adminTabUsersBtn.classList.remove('active');
+      if (adminViewLeads) adminViewLeads.style.display = 'block';
+      if (adminViewUsers) adminViewUsers.style.display = 'none';
+    });
+
+    adminTabUsersBtn.addEventListener('click', () => {
+      adminTabUsersBtn.classList.add('active');
+      adminTabLeadsBtn.classList.remove('active');
+      if (adminViewUsers) adminViewUsers.style.display = 'block';
+      if (adminViewLeads) adminViewLeads.style.display = 'none';
+      renderRegisteredUsersTable();
+    });
+  }
+
+  // Login Form Submission
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -173,6 +271,37 @@ export function initCRM() {
         if (loginError) {
           loginError.textContent = res.error;
           loginError.style.display = 'block';
+        }
+      }
+    });
+  }
+
+  // Registration Form Submission
+  if (registerForm) {
+    registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('reg-name').value;
+      const company = document.getElementById('reg-company').value;
+      const email = document.getElementById('reg-email').value;
+      const phone = document.getElementById('reg-phone').value;
+      const password = document.getElementById('reg-pass').value;
+
+      const res = registerUser({ name, company, email, phone, password });
+      if (res.success) {
+        if (registerError) registerError.style.display = 'none';
+        if (registerSuccess) {
+          registerSuccess.textContent = '🎉 Conta criada com sucesso! Você já pode fazer login.';
+          registerSuccess.style.display = 'block';
+        }
+        registerForm.reset();
+        setTimeout(() => {
+          if (authTabLoginBtn) authTabLoginBtn.click();
+        }, 1500);
+      } else {
+        if (registerSuccess) registerSuccess.style.display = 'none';
+        if (registerError) {
+          registerError.textContent = res.error;
+          registerError.style.display = 'block';
         }
       }
     });

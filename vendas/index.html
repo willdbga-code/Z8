@@ -607,116 +607,218 @@
     </div>
   </footer>
 
-  <!-- 15. MODAL B2B CRM & ANALYTICS -->
+  <!-- 15. ÁREA DO ADMINISTRADOR Z8 (CRM & GESTÃO DE PARCEIROS) -->
   <div class="crm-modal-overlay" id="crm-modal" style="display: none;">
     <div class="crm-modal-container">
       <div class="crm-modal-header">
         <div class="crm-modal-title">
-          <i class="fa-solid fa-chart-pie"></i> Z8 E-Motion - Gestão de CRM & Análise de Vendas (Google Cloud Firebase API)
+          <i class="fa-solid fa-user-gear"></i> ÁREA DO ADMINISTRADOR Z8
+          <span style="font-size: 0.78rem; background: rgba(0,242,254,0.15); border: 1px solid #00F2FE; color: #00F2FE; padding: 4px 10px; border-radius: 20px; font-weight: 700;">
+            <i class="fa-solid fa-shield-halved"></i> <span id="admin-badge-email">christian.tkh@gmail.com</span>
+          </span>
         </div>
         <div style="display: flex; gap: 12px; align-items: center;">
           <button type="button" id="crm-logout-btn" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.8rem;">
-            <i class="fa-solid fa-right-from-bracket"></i> Sair do CRM
+            <i class="fa-solid fa-right-from-bracket"></i> Sair da Área Admin
           </button>
           <button type="button" class="crm-close-btn" id="close-crm-btn">&times;</button>
         </div>
       </div>
 
+      <!-- ADMIN SUITE TABS -->
+      <div class="admin-tabs-nav">
+        <button type="button" class="admin-tab-btn active" id="admin-tab-leads">
+          <i class="fa-solid fa-chart-line"></i> Gestão de Leads B2B & CRM
+        </button>
+        <button type="button" class="admin-tab-btn" id="admin-tab-users">
+          <i class="fa-solid fa-users-gear"></i> Usuários & Parceiros Cadastrados
+        </button>
+      </div>
+
       <div class="crm-modal-body">
-        <!-- KPI METRICS SUMMARY -->
-        <div class="crm-kpi-grid">
-          <div class="crm-kpi-card">
-            <span class="crm-kpi-label"><i class="fa-solid fa-users"></i> Total de Leads Captação</span>
-            <span class="crm-kpi-value" id="crm-kpi-total">0</span>
+        <!-- VIEW 1: LEADS & CRM -->
+        <div id="admin-view-leads">
+          <!-- KPI METRICS SUMMARY -->
+          <div class="crm-kpi-grid">
+            <div class="crm-kpi-card">
+              <span class="crm-kpi-label"><i class="fa-solid fa-users"></i> Total de Leads Captação</span>
+              <span class="crm-kpi-value" id="crm-kpi-total">0</span>
+            </div>
+            <div class="crm-kpi-card">
+              <span class="crm-kpi-label"><i class="fa-solid fa-city"></i> Cidades Reservadas</span>
+              <span class="crm-kpi-value" id="crm-kpi-cities">0</span>
+            </div>
+            <div class="crm-kpi-card">
+              <span class="crm-kpi-label"><i class="fa-solid fa-sack-dollar"></i> Potencial Bruto Reserva</span>
+              <span class="crm-kpi-value" id="crm-kpi-revenue" style="color: #10B981;">R$ 0,00</span>
+            </div>
+            <div class="crm-kpi-card">
+              <span class="crm-kpi-label"><i class="fa-solid fa-chart-line"></i> Taxa Conversão Fechado</span>
+              <span class="crm-kpi-value" id="crm-kpi-rate" style="color: #00F2FE;">0%</span>
+            </div>
           </div>
-          <div class="crm-kpi-card">
-            <span class="crm-kpi-label"><i class="fa-solid fa-city"></i> Cidades Reservadas</span>
-            <span class="crm-kpi-value" id="crm-kpi-cities">0</span>
+
+          <!-- TOOLBAR & EXPORT -->
+          <div class="crm-toolbar" style="margin-top: 20px;">
+            <div class="crm-status-filter-group">
+              <label for="crm-status-filter" style="font-size: 0.85rem; color: #94a3b8; margin-right: 8px;">Filtrar por Status:</label>
+              <select id="crm-status-filter">
+                <option value="all">🔍 Todos os Leads</option>
+                <option value="novo">🔵 Novos Leads</option>
+                <option value="em_contato">🟡 Em Contato</option>
+                <option value="proposta">🟠 Proposta Enviada</option>
+                <option value="fechado">🟢 Fechados / Pagos</option>
+                <option value="perdido">🔴 Perdidos</option>
+              </select>
+            </div>
+
+            <button type="button" class="crm-export-btn" id="export-excel-btn">
+              <i class="fa-solid fa-file-excel"></i> EXPORTAR PARA EXCEL (.CSV)
+            </button>
           </div>
-          <div class="crm-kpi-card">
-            <span class="crm-kpi-label"><i class="fa-solid fa-sack-dollar"></i> Potencial Bruto Reserva</span>
-            <span class="crm-kpi-value" id="crm-kpi-revenue" style="color: #10B981;">R$ 0,00</span>
-          </div>
-          <div class="crm-kpi-card">
-            <span class="crm-kpi-label"><i class="fa-solid fa-chart-line"></i> Taxa Conversão Fechado</span>
-            <span class="crm-kpi-value" id="crm-kpi-rate" style="color: #00F2FE;">0%</span>
+
+          <!-- TABLE OF LEADS -->
+          <div class="crm-table-wrapper" style="margin-top: 16px;">
+            <table class="crm-table">
+              <thead>
+                <tr>
+                  <th>Nome / Empresa</th>
+                  <th>Cidade / UF</th>
+                  <th>E-mail</th>
+                  <th>WhatsApp</th>
+                  <th>Forma Pag.</th>
+                  <th>Valor Reserva</th>
+                  <th>Status CRM</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+              <tbody id="crm-table-body">
+                <!-- Loaded via JavaScript -->
+              </tbody>
+            </table>
           </div>
         </div>
 
-        <!-- TOOLBAR & EXPORT -->
-        <div class="crm-toolbar">
-          <div class="crm-status-filter-group">
-            <label for="crm-status-filter" style="font-size: 0.85rem; color: #94a3b8; margin-right: 8px;">Filtrar por Status:</label>
-            <select id="crm-status-filter">
-              <option value="all">🔍 Todos os Leads</option>
-              <option value="novo">🔵 Novos Leads</option>
-              <option value="em_contato">🟡 Em Contato</option>
-              <option value="proposta">🟠 Proposta Enviada</option>
-              <option value="fechado">🟢 Fechados / Pagos</option>
-              <option value="perdido">🔴 Perdidos</option>
-            </select>
+        <!-- VIEW 2: REGISTERED USERS DIRECTORY -->
+        <div id="admin-view-users" style="display: none;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3 style="color: #f8fafc; font-size: 1.1rem; font-weight: 700; margin: 0;">
+              <i class="fa-solid fa-address-book" style="color: #00F2FE;"></i> Diretório de Usuários & Parceiros Cadastrados
+            </h3>
           </div>
 
-          <button type="button" class="crm-export-btn" id="export-excel-btn">
-            <i class="fa-solid fa-file-excel"></i> EXPORTAR PARA EXCEL (.CSV)
-          </button>
-        </div>
-
-        <!-- TABLE OF LEADS -->
-        <div class="crm-table-wrapper">
-          <table class="crm-table">
-            <thead>
-              <tr>
-                <th>Nome / Empresa</th>
-                <th>Cidade / UF</th>
-                <th>E-mail</th>
-                <th>WhatsApp</th>
-                <th>Forma Pag.</th>
-                <th>Valor Reserva</th>
-                <th>Status CRM</th>
-                <th>Data</th>
-              </tr>
-            </thead>
-            <tbody id="crm-table-body">
-              <!-- Loaded via JavaScript -->
-            </tbody>
-          </table>
+          <div class="crm-table-wrapper">
+            <table class="crm-table">
+              <thead>
+                <tr>
+                  <th>Nome / Razão Social</th>
+                  <th>E-mail de Acesso</th>
+                  <th>WhatsApp</th>
+                  <th>Nível de Acesso</th>
+                  <th>Data de Cadastro</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body">
+                <!-- Loaded via JavaScript -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 16. MODAL DE LOGIN EXCLUSIVO GESTOR Z8 -->
+  <!-- 16. MODAL DE LOGIN & CADASTRO DE PARCEIROS Z8 -->
   <div class="login-modal-overlay" id="login-modal" style="display: none;">
     <div class="login-card">
       <div class="login-header">
         <img src="/assets/logos/ztrasparente.png" alt="Z8 Logo" class="login-logo" />
-        <h2 class="login-title">ACESSO EXCLUSIVO Z8</h2>
-        <p class="login-subtitle">Autenticação de Segurança do Administrador / Gestor de Vendas</p>
+        <h2 class="login-title">ACESSO Z8 E-MOTION</h2>
+        <p class="login-subtitle">Portal do Administrador & Cadastro de Parceiros Comerciais</p>
       </div>
 
-      <form id="login-form" class="login-form">
-        <div id="login-error" class="login-error-msg"></div>
-
-        <div class="login-input-group">
-          <label for="login-user"><i class="fa-solid fa-user-shield"></i> E-mail ou Usuário Master:</label>
-          <div class="login-input-wrapper">
-            <input type="text" id="login-user" placeholder="admin@z8emotion.com.br" required />
-          </div>
-        </div>
-
-        <div class="login-input-group">
-          <label for="login-pass"><i class="fa-solid fa-lock"></i> Senha de Acesso Exclusiva:</label>
-          <div class="login-input-wrapper">
-            <input type="password" id="login-pass" placeholder="••••••••••••" required />
-            <button type="button" id="toggle-pass-btn" class="login-eye-btn"><i class="fa-solid fa-eye"></i></button>
-          </div>
-        </div>
-
-        <button type="submit" class="login-submit-btn">
-          <i class="fa-solid fa-key"></i> ENTRAR NO PAINEL EXCLUSIVO
+      <!-- AUTH SWITCHER TABS -->
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab-btn active" id="tab-btn-login">
+          <i class="fa-solid fa-key"></i> Entrar (Login)
         </button>
-      </form>
+        <button type="button" class="auth-tab-btn" id="tab-btn-register">
+          <i class="fa-solid fa-user-plus"></i> Cadastrar-se
+        </button>
+      </div>
+
+      <!-- BOX LOGIN -->
+      <div id="auth-box-login">
+        <form id="login-form" class="login-form">
+          <div id="login-error" class="login-error-msg"></div>
+
+          <div class="login-input-group">
+            <label for="login-user"><i class="fa-solid fa-user-shield"></i> E-mail ou Usuário Master:</label>
+            <div class="login-input-wrapper">
+              <input type="text" id="login-user" placeholder="christian.tkh@gmail.com" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="login-pass"><i class="fa-solid fa-lock"></i> Senha de Acesso:</label>
+            <div class="login-input-wrapper">
+              <input type="password" id="login-pass" placeholder="••••••••••••" required />
+              <button type="button" id="toggle-pass-btn" class="login-eye-btn"><i class="fa-solid fa-eye"></i></button>
+            </div>
+          </div>
+
+          <button type="submit" class="login-submit-btn">
+            <i class="fa-solid fa-right-to-bracket"></i> ENTRAR NA ÁREA EXCLUSIVA
+          </button>
+        </form>
+      </div>
+
+      <!-- BOX CADASTRO (REGISTRO) -->
+      <div id="auth-box-register" style="display: none;">
+        <form id="register-form" class="login-form">
+          <div id="register-error" class="login-error-msg"></div>
+          <div id="register-success" style="display: none; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; font-size: 0.82rem; padding: 10px 14px; border-radius: 8px;"></div>
+
+          <div class="login-input-group">
+            <label for="reg-name"><i class="fa-solid fa-user"></i> Nome Completo:</label>
+            <div class="login-input-wrapper">
+              <input type="text" id="reg-name" placeholder="Ex: Carlos Silva" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="reg-company"><i class="fa-solid fa-building"></i> Nome da Empresa / Loja:</label>
+            <div class="login-input-wrapper">
+              <input type="text" id="reg-company" placeholder="Ex: Silva Motos Ltda" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="reg-email"><i class="fa-solid fa-envelope"></i> E-mail Comercial:</label>
+            <div class="login-input-wrapper">
+              <input type="email" id="reg-email" placeholder="contato@empresa.com.br" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="reg-phone"><i class="fa-solid fa-phone"></i> WhatsApp do Responsável:</label>
+            <div class="login-input-wrapper">
+              <input type="tel" id="reg-phone" placeholder="(11) 99999-9999" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="reg-pass"><i class="fa-solid fa-lock"></i> Criar Senha de Acesso:</label>
+            <div class="login-input-wrapper">
+              <input type="password" id="reg-pass" placeholder="Crie sua senha segura" required />
+            </div>
+          </div>
+
+          <button type="submit" class="login-submit-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff;">
+            <i class="fa-solid fa-user-check"></i> CRIAR CONTA DE PARCEIRO
+          </button>
+        </form>
+      </div>
     </div>
   </div>
 
