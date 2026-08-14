@@ -596,7 +596,79 @@
     </div>
   </div>
 
-  <!-- 14. FOOTER B2B -->
+  <!-- 14. EXPANSÃO Z8 E-MOTION BRASIL (FORMULÁRIO DE INTERESSE NA FRANQUIA) -->
+  <section class="section-padding" id="expansao-franquia" style="background: rgba(10, 13, 20, 0.85); border-top: 1px solid var(--border-glass);">
+    <div class="vendas-container">
+      <div class="section-header" style="text-align: center; margin-bottom: 32px;">
+        <span class="section-tag"><i class="fa-solid fa-earth-americas"></i> EXPANSÃO Z8 E-MOTION BRASIL</span>
+        <h2 class="section-title" style="font-size: 2.2rem; color: #00F2FE;">Cadastre-se para Garantir sua Cidade</h2>
+        <p class="section-desc" style="color: #94a3b8; max-width: 680px; margin: 8px auto 0 auto;">
+          Entraremos em contato com a tabela oficial de importação e minuta do contrato de franquia.
+        </p>
+      </div>
+
+      <div style="max-width: 640px; margin: 0 auto; background: #111827; border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 16px; padding: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+        <form id="franquia-landing-form" class="login-form">
+          <div id="franquia-landing-msg" style="display: none; padding: 12px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 16px;"></div>
+
+          <div class="login-input-group">
+            <label for="f-name"><i class="fa-solid fa-user"></i> Nome Completo / Razão Social:</label>
+            <div class="login-input-wrapper">
+              <input type="text" id="f-name" placeholder="Ex: Carlos Eduardo Silva - Silva Motos Ltda" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="f-email"><i class="fa-solid fa-envelope"></i> E-mail Corporativo:</label>
+            <div class="login-input-wrapper">
+              <input type="email" id="f-email" placeholder="contato@sualoja.com.br" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="f-phone"><i class="fa-solid fa-phone"></i> WhatsApp / Telefone:</label>
+            <div class="login-input-wrapper">
+              <input type="tel" id="f-phone" placeholder="(11) 99999-9999" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="f-city"><i class="fa-solid fa-location-dot"></i> Cidade e Estado de Interesse:</label>
+            <div class="login-input-wrapper">
+              <input type="text" id="f-city" placeholder="Ex: Campinas - SP" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="f-investment"><i class="fa-solid fa-sack-dollar"></i> Capacidade Estimada de Investimento:</label>
+            <div class="login-input-wrapper">
+              <select id="f-investment" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 12px 16px; color: #fff; font-size: 0.95rem;">
+                <option value="R$ 50.000 a R$ 100.000">R$ 50.000 a R$ 100.000 (Atacado Inicial)</option>
+                <option value="R$ 100.000 a R$ 250.000">R$ 100.000 a R$ 250.000 (Franquia Padrão)</option>
+                <option value="Acima de R$ 250.000">Acima de R$ 250.000 (Master Regional)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="f-has-store"><i class="fa-solid fa-store"></i> Já possui loja física ou oficina?</label>
+            <div class="login-input-wrapper">
+              <select id="f-has-store" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 12px 16px; color: #fff; font-size: 0.95rem;">
+                <option value="Sim">Sim, já tenho estrutura física</option>
+                <option value="Não">Não, pretendo abrir novo ponto</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="login-submit-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; margin-top: 10px; padding: 16px;">
+            <i class="fa-solid fa-paper-plane"></i> ENVIAR CADASTRO DE INTERESSE NA FRANQUIA Z8
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. FOOTER B2B -->
   <footer class="vendas-footer">
     <div class="vendas-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
       <p>&copy; 2026 Z8 E-Motion Brasil. Portal Corporativo de Atacado & Franquias.</p>
@@ -607,7 +679,7 @@
     </div>
   </footer>
 
-  <!-- 15. ÁREA DO ADMINISTRADOR Z8 (CRM & GESTÃO DE PARCEIROS) -->
+  <!-- 16. ÁREA DO ADMINISTRADOR Z8 (CRM & GESTÃO DE PARCEIROS) -->
   <div class="crm-modal-overlay" id="crm-modal" style="display: none;">
     <div class="crm-modal-container">
       <div class="crm-modal-header">
@@ -715,8 +787,11 @@
               <thead>
                 <tr>
                   <th>Nome / Razão Social</th>
-                  <th>E-mail de Acesso</th>
+                  <th>Cidade de Interesse</th>
+                  <th>E-mail Corporativo</th>
                   <th>WhatsApp</th>
+                  <th>Capacidade Investimento</th>
+                  <th>Loja Física / Oficina</th>
                   <th>Nível de Acesso</th>
                   <th>Data de Cadastro</th>
                 </tr>

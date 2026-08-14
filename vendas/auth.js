@@ -58,10 +58,13 @@ export function registerUser(userData) {
   const newUser = {
     id: 'user_' + Date.now(),
     name: userData.name || 'Novo Parceiro',
-    company: userData.company || 'Empresa Parceira',
+    company: userData.company || userData.name || 'Empresa Parceira',
+    city: userData.city || 'Não informada',
     email: cleanEmail,
     phone: userData.phone || '',
-    password: userData.password || '',
+    investment: userData.investment || 'R$ 50.000 a R$ 100.000',
+    hasStore: userData.hasStore || 'Não',
+    password: userData.password || 'z8partner123',
     role: cleanEmail === MASTER_ADMIN_EMAIL ? 'admin' : 'partner',
     createdAt: new Date().toISOString()
   };

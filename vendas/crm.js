@@ -141,13 +141,16 @@ export function initCRM() {
         day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
       });
       const badgeColor = u.role === 'admin' ? '#00F2FE' : '#10B981';
-      const roleLabel = u.role === 'admin' ? '👑 Administrador Master' : '🤝 Parceiro Comercial';
+      const roleLabel = u.role === 'admin' ? '👑 Administrador Master' : '🤝 Franquia / Parceiro';
 
       return `
         <tr>
           <td><strong>${u.name}</strong><br><span style="font-size: 0.75rem; color: #64748b;">${u.company}</span></td>
+          <td><i class="fa-solid fa-location-dot" style="color: #00F2FE;"></i> ${u.city || 'Não informada'}</td>
           <td><a href="mailto:${u.email}" style="color: #38bdf8; text-decoration: none;">${u.email}</a></td>
           <td><a href="https://wa.me/55${(u.phone || '').replace(/\D/g, '')}" target="_blank" style="color: #10B981; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-whatsapp"></i> ${u.phone || 'N/A'}</a></td>
+          <td><span style="color: #F59E0B; font-weight: 700;">${u.investment || 'R$ 50k - 100k'}</span></td>
+          <td><strong>${u.hasStore || 'Não'}</strong></td>
           <td><span style="background: rgba(0,242,254,0.1); border: 1px solid ${badgeColor}; color: ${badgeColor}; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.78rem;">${roleLabel}</span></td>
           <td><span style="font-size: 0.75rem; color: #94a3b8;">${dateStr}</span></td>
         </tr>
@@ -343,6 +346,61 @@ export function initCRM() {
       if (cityInput && city) cityInput.value = city;
     }
   });
+
+  // Handle EXPANSÃO Z8 E-MOTION BRASIL Landing Form Submission
+  const franquiaLandingForm = document.getElementById('franquia-landing-form');
+  const franquiaLandingMsg = document.getElementById('franquia-landing-msg');
+
+  if (franquiaLandingForm) {
+    franquiaLandingForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('f-name').value;
+      const email = document.getElementById('f-email').value;
+      const phone = document.getElementById('f-phone').value;
+      const city = document.getElementById('f-city').value;
+      const investment = document.getElementById('f-investment').value;
+      const hasStore = document.getElementById('f-has-store').value;
+
+      // 1. Save into Registered Partners Database
+      const userRes = registerUser({
+        name,
+        company: name,
+        email,
+        phone,
+        city,
+        investment,
+        hasStore,
+        password: 'z8partner123'
+      });
+
+      // 2. Save into CRM Leads
+      saveLead({
+        name,
+        company: name,
+        city,
+        state: 'BR',
+        email,
+        phone,
+        paymentMethod: `Interesse Franquia (${investment})`
+      });
+
+      if (franquiaLandingMsg) {
+        franquiaLandingMsg.style.display = 'block';
+        if (userRes.success) {
+          franquiaLandingMsg.style.background = 'rgba(16,185,129,0.15)';
+          franquiaLandingMsg.style.border = '1px solid rgba(16,185,129,0.3)';
+          franquiaLandingMsg.style.color = '#6ee7b7';
+          franquiaLandingMsg.innerHTML = `🎉 <strong>CADASTRO DE INTERESSE REGISTRADO COM SUCESSO!</strong><br>Sua cidade (<strong>${city.toUpperCase()}</strong>) e seus dados foram gravados na Área de Parceiros Cadastrados! Entraremos em contato via WhatsApp e E-mail com a minuta do contrato e a tabela oficial de importação.`;
+          franquiaLandingForm.reset();
+        } else {
+          franquiaLandingMsg.style.background = 'rgba(239,68,68,0.15)';
+          franquiaLandingMsg.style.border = '1px solid rgba(239,68,68,0.3)';
+          franquiaLandingMsg.style.color = '#fca5a5';
+          franquiaLandingMsg.textContent = userRes.error || 'Erro ao registrar cadastro.';
+        }
+      }
+    });
+  }
 
   if (togglePassBtn && loginPass) {
     togglePassBtn.addEventListener('click', () => {
