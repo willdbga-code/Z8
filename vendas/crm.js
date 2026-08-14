@@ -1,17 +1,22 @@
-// ==========================================================================
-// Z8 E-Motion - B2B CRM Engine & Analytics Dashboard
-// Real-time Lead Management, Metrics Analysis & Excel Export
-// ==========================================================================
-
 import { getLocalLeads, saveLead, updateLeadStatus } from './firebase-config.js';
+import { isAuthenticated, login, logout } from './auth.js';
 
 export function initCRM() {
   const crmModal = document.getElementById('crm-modal');
   const openCrmBtn = document.getElementById('open-crm-btn');
   const closeCrmBtn = document.getElementById('close-crm-btn');
+  const logoutCrmBtn = document.getElementById('crm-logout-btn');
   const exportExcelBtn = document.getElementById('export-excel-btn');
   const crmTableBody = document.getElementById('crm-table-body');
   const statusFilter = document.getElementById('crm-status-filter');
+
+  // Login Modal elements
+  const loginModal = document.getElementById('login-modal');
+  const loginForm = document.getElementById('login-form');
+  const loginUser = document.getElementById('login-user');
+  const loginPass = document.getElementById('login-pass');
+  const loginError = document.getElementById('login-error');
+  const togglePassBtn = document.getElementById('toggle-pass-btn');
 
   if (!crmModal) return;
 
@@ -126,17 +131,58 @@ export function initCRM() {
     document.body.removeChild(link);
   }
 
+  function openProtectedCRM() {
+    if (isAuthenticated()) {
+      renderTable();
+      if (loginModal) loginModal.style.display = 'none';
+      crmModal.style.display = 'flex';
+    } else {
+      if (crmModal) crmModal.style.display = 'none';
+      if (loginError) loginError.style.display = 'none';
+      if (loginModal) loginModal.style.display = 'flex';
+    }
+  }
+
   // Event Listeners
   if (openCrmBtn) {
-    openCrmBtn.addEventListener('click', () => {
-      renderTable();
-      crmModal.style.display = 'flex';
-    });
+    openCrmBtn.addEventListener('click', openProtectedCRM);
   }
 
   if (closeCrmBtn) {
     closeCrmBtn.addEventListener('click', () => {
       crmModal.style.display = 'none';
+    });
+  }
+
+  if (logoutCrmBtn) {
+    logoutCrmBtn.addEventListener('click', () => {
+      logout();
+      crmModal.style.display = 'none';
+      alert('Sessão de administrador encerrada com sucesso.');
+    });
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const res = login(loginUser.value, loginPass.value);
+      if (res.success) {
+        if (loginModal) loginModal.style.display = 'none';
+        openProtectedCRM();
+      } else {
+        if (loginError) {
+          loginError.textContent = res.error;
+          loginError.style.display = 'block';
+        }
+      }
+    });
+  }
+
+  if (togglePassBtn && loginPass) {
+    togglePassBtn.addEventListener('click', () => {
+      const type = loginPass.getAttribute('type') === 'password' ? 'text' : 'password';
+      loginPass.setAttribute('type', type);
+      togglePassBtn.innerHTML = type === 'password' ? '<i class="fa-solid fa-eye"></i>' : '<i class="fa-solid fa-eye-slash"></i>';
     });
   }
 
@@ -149,11 +195,11 @@ export function initCRM() {
   }
 
   window.addEventListener('z8-lead-added', () => {
-    renderTable();
+    if (isAuthenticated()) renderTable();
   });
 
   window.addEventListener('z8-lead-updated', () => {
-    renderTable();
+    if (isAuthenticated()) renderTable();
   });
 }
 

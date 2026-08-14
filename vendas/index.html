@@ -614,7 +614,12 @@
         <div class="crm-modal-title">
           <i class="fa-solid fa-chart-pie"></i> Z8 E-Motion - Gestão de CRM & Análise de Vendas (Google Cloud Firebase API)
         </div>
-        <button type="button" class="crm-close-btn" id="close-crm-btn">&times;</button>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <button type="button" id="crm-logout-btn" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.8rem;">
+            <i class="fa-solid fa-right-from-bracket"></i> Sair do CRM
+          </button>
+          <button type="button" class="crm-close-btn" id="close-crm-btn">&times;</button>
+        </div>
       </div>
 
       <div class="crm-modal-body">
@@ -681,7 +686,41 @@
     </div>
   </div>
 
-  <!-- App Script & CRM Module -->
+  <!-- 16. MODAL DE LOGIN EXCLUSIVO GESTOR Z8 -->
+  <div class="login-modal-overlay" id="login-modal" style="display: none;">
+    <div class="login-card">
+      <div class="login-header">
+        <img src="/assets/logos/ztrasparente.png" alt="Z8 Logo" class="login-logo" />
+        <h2 class="login-title">ACESSO EXCLUSIVO Z8</h2>
+        <p class="login-subtitle">Autenticação de Segurança do Administrador / Gestor de Vendas</p>
+      </div>
+
+      <form id="login-form" class="login-form">
+        <div id="login-error" class="login-error-msg"></div>
+
+        <div class="login-input-group">
+          <label for="login-user"><i class="fa-solid fa-user-shield"></i> E-mail ou Usuário Master:</label>
+          <div class="login-input-wrapper">
+            <input type="text" id="login-user" placeholder="admin@z8emotion.com.br" required />
+          </div>
+        </div>
+
+        <div class="login-input-group">
+          <label for="login-pass"><i class="fa-solid fa-lock"></i> Senha de Acesso Exclusiva:</label>
+          <div class="login-input-wrapper">
+            <input type="password" id="login-pass" placeholder="••••••••••••" required />
+            <button type="button" id="toggle-pass-btn" class="login-eye-btn"><i class="fa-solid fa-eye"></i></button>
+          </div>
+        </div>
+
+        <button type="submit" class="login-submit-btn">
+          <i class="fa-solid fa-key"></i> ENTRAR NO PAINEL EXCLUSIVO
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- App Script & CRM Modules -->
   <script src="./app.js"></script>
   <script type="module" src="./crm.js"></script>
 </body>
