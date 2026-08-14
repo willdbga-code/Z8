@@ -1,8 +1,8 @@
-/* src/n95c.css - Radian EXR Inspired Minimal Luxury Design with High Contrast & Mobile Responsiveness */
+/* n95c/style.css - Radian EXR Inspired Minimal Luxury Design with High Contrast & Mobile Responsiveness */
 
 :root {
-  --bg-dark: #374151; /* Studio dark slate background */
-  --bg-light: #f4f3f0; /* Off-white / light cream slate */
+  --bg-dark: #374151;
+  --bg-light: #f4f3f0;
   --bg-active: var(--bg-dark);
   
   --text-dark-theme: #ffffff;
@@ -42,7 +42,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* RADIAN HIGH-CONTRAST TOP NAVIGATION BAR (INVISIBLE UNTIL SECTION SWITCH) */
 .radian-nav {
   position: fixed;
   top: 0;
@@ -56,12 +55,11 @@ body {
   font-size: 0.95rem;
   font-weight: 600;
   backdrop-filter: blur(20px);
-  background: rgba(255, 255, 255, 0.92); /* High contrast light backdrop blur */
+  background: rgba(255, 255, 255, 0.92);
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   color: #0f172a;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
-  /* INITIALLY INVISIBLE */
   opacity: 0;
   pointer-events: none;
   transform: translateY(-20px);
@@ -115,7 +113,6 @@ body {
   color: var(--emerald-main);
 }
 
-/* BRAND PALETTE HIGH-CONTRAST ACTION BUTTON */
 .radian-btn-action {
   background: var(--emerald-main);
   color: #041d10;
@@ -150,10 +147,9 @@ body {
   font-weight: 900;
 }
 
-/* HERO SCROLL STICKY CONTAINER - SLOWER CINEMATIC HEIGHT (500vh) */
 .hero-scroll-wrapper {
   position: relative;
-  height: 500vh; /* Increased height for slower, smoother video scrubbing */
+  height: 500vh;
 }
 
 .hero-sticky-viewport {
@@ -179,7 +175,6 @@ body {
   pointer-events: none;
 }
 
-/* RADIAN HERO OVERLAY ELEMENTS */
 .radian-hero-overlay {
   position: absolute;
   inset: 0;
@@ -278,7 +273,6 @@ body {
   font-size: 0.7rem;
 }
 
-/* BOTTOM HERO BAR */
 .hero-bottom-bar {
   display: flex;
   justify-content: space-between;
@@ -328,10 +322,9 @@ body {
   text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
-/* RADIAN FEATURE LIST SECTION - PINNED SCROLL-DRIVEN STICKY WRAPPER (450vh) */
 .radian-feature-section {
   position: relative;
-  height: 450vh; /* Increased height for slower feature switching */
+  height: 450vh;
 }
 
 .radian-feature-sticky-viewport {
@@ -355,7 +348,6 @@ body {
   padding: 0 3rem;
 }
 
-/* LEFT SIDE: VERTICAL TYPOGRAPHY HEADLINES */
 .feature-headlines-list {
   display: flex;
   flex-direction: column;
@@ -381,7 +373,6 @@ body {
   transform: translateX(12px);
 }
 
-/* RIGHT SIDE: LARGE ROUNDED MEDIA CARD WITH SMOOTH IMAGE FADE */
 .feature-media-card {
   position: relative;
   width: 100%;
@@ -415,7 +406,6 @@ body {
   transition: opacity 0.4s ease;
 }
 
-/* FOOTER */
 .radian-footer {
   text-align: center;
   padding: 3rem;
@@ -425,12 +415,9 @@ body {
   color: var(--text-light-theme);
 }
 
-/* --------------------------------------------------------------------------
-   MOBILE & TABLET RESPONSIVENESS
-   -------------------------------------------------------------------------- */
 @media (max-width: 992px) {
   .hero-scroll-wrapper {
-    height: 400vh; /* Smooth, controlled mobile scroll distance */
+    height: 400vh;
   }
 
   .radian-nav {

@@ -1,13 +1,10 @@
-/* src/n95c.js - Radian EXR Inspired Interactive Logic, Ultra-Smooth Heavy LERP Easing (0.06) & Navbar Visibility */
+/* n95c/app.js - Radian EXR Inspired Interactive Logic, Ultra-Smooth Heavy LERP Easing & Navbar Visibility */
 
 document.addEventListener('DOMContentLoaded', () => {
   initRadianVideoScrollytelling();
   initRadianFeatureList();
 });
 
-/* --------------------------------------------------------------------------
-   1. 240-FRAME HIGH-DENSITY VIDEO SCRUBBING WITH HEAVY LERP (0.06) FOR SLOW FLUID SCROLL
-   -------------------------------------------------------------------------- */
 function initRadianVideoScrollytelling() {
   const scrollWrapper = document.getElementById('hero-wrapper');
   const canvas = document.getElementById('hero-canvas');
@@ -27,15 +24,11 @@ function initRadianVideoScrollytelling() {
 
   const totalFrames = 240;
   const frames = [];
-  let loadedCount = 0;
 
   for (let i = 1; i <= totalFrames; i++) {
     const img = new Image();
     const numStr = String(i).padStart(3, '0');
     img.src = `/assets/n95c/frames/frame_${numStr}.jpg`;
-    img.onload = () => {
-      loadedCount++;
-    };
     frames.push(img);
   }
 
@@ -80,7 +73,6 @@ function initRadianVideoScrollytelling() {
   function animationLoop() {
     requestAnimationFrame(animationLoop);
 
-    // HEAVY LERP (0.06 factor) for a slower, butter-smooth cinematic scroll motion on PC & Mobile!
     currentProgress += (targetProgress - currentProgress) * 0.06;
 
     const frameIndex = Math.min(
@@ -90,7 +82,6 @@ function initRadianVideoScrollytelling() {
 
     renderFrame(frameIndex);
 
-    // NAVBAR VISIBILITY: Navbar stays 100% INVISIBLE until the final frames of the hero animation!
     const isNearFinalFrame = (frameIndex >= 225) || (currentProgress >= 0.92);
 
     if (isNearFinalFrame) {
@@ -117,9 +108,6 @@ function initRadianVideoScrollytelling() {
   requestAnimationFrame(animationLoop);
 }
 
-/* --------------------------------------------------------------------------
-   2. RADIAN VERTICAL FEATURE LIST WITH SLOW FLUID AUTOMATIC SCROLL-DRIVEN SWITCHING
-   -------------------------------------------------------------------------- */
 const radianFeatureData = [
   {
     headline: 'Troca em 30 segundos',
@@ -205,7 +193,6 @@ function initRadianFeatureList() {
   function featureAnimationLoop() {
     requestAnimationFrame(featureAnimationLoop);
 
-    // Smooth fluid LERP for feature auto-switching
     currentFeatureProgress += (targetFeatureProgress - currentFeatureProgress) * 0.07;
 
     const index = Math.min(

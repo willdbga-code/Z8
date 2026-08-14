@@ -48,7 +48,7 @@ Posição:      1 2 3  4 5 6 7 8 9 10 11 12 13 14 15 16 17
 - **Posição 4-8 (VDS - Vehicle Descriptor Section)**: `EM123` (Código do Modelo, ex: Tank, FX-10, N7).
 - **Posição 9 (Dígito Verificador)**: Dígito matemático de validação.
 - **Posição 10 (Ano do Modelo)**: `R` (2024), `S` (2025), `T` (2026).
-- **Posição 11 (Planta de Montagem)**: `A` (Fábrica Principal China), `B` (CKD Brasil).
+- **Posição 11 (Planta de Montagem)**: `A` (Fábrica Principal), `B` (CKD Brasil).
 - **Posição 12-17 (VIS - Número de Série)**: Sequencial de produção de 6 dígitos.
 
 ---

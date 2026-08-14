@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Z8 N95C EXR | A Nova Era da Mobilidade Elétrica</title>
+  
+  <!-- Fonts Google (Inter + Orbitron) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Radian Custom CSS -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <!-- RADIAN HIGH-CONTRAST TOP NAVIGATION BAR (INVISIBLE UNTIL SECTION SWITCH) -->
+  <header class="radian-nav">
+    <div class="radian-nav-left">
+      <span>Z8 N95C EXR — 100% HOMOLOGADA</span>
+    </div>
+
+    <a href="/site-principal/" class="radian-brand-logo">Z8 E-MOTION</a>
+
+    <div class="radian-nav-right">
+      <a href="/site-principal/#showroom-section" class="radian-nav-link">Catálogo Completo</a>
+      <a href="/vendas/index.html#franchise-form-section" class="radian-btn-action">
+        <span class="plus-circle"><i class="fa-solid fa-plus"></i></span> RESERVAR MODELO
+      </a>
+    </div>
+  </header>
+
+  <!-- SECTION 1: PINNED HERO SCROLL-DRIVEN VIDEO SCRUBBING WRAPPER (500vh) -->
+  <section class="hero-scroll-wrapper" id="hero-wrapper">
+    <div class="hero-sticky-viewport">
+      <canvas id="hero-canvas"></canvas>
+
+      <!-- RADIAN HERO OVERLAY CONTENT -->
+      <div class="radian-hero-overlay">
+        
+        <!-- Hero Text Block (Active on Intro) -->
+        <div id="radian-hero-text" class="hero-text-block active">
+          <span class="radian-tag">THE Z8 N95C EXR — 9º LUGAR NO RANKING DE RENTABILIDADE</span>
+          <h1 class="radian-title">A nova era da mobilidade elétrica.</h1>
+          <p class="radian-subtitle">
+            Autonomia estendida de 240km e torque instantâneo de 1200W. <strong>Rentabilidade no Atacado:</strong> Custo Atacado R$ 6.500,00 | Varejo Sugerido R$ 8.000,00 | <strong>Lucro R$ 1.500,00/unid</strong> (23,08% Markup).
+          </p>
+
+          <div class="radian-hero-buttons">
+            <a href="#features" class="btn-radian-pill">
+              Explorar a moto <span class="arrow-circle"><i class="fa-solid fa-arrow-right"></i></span>
+            </a>
+            <a href="/vendas/index.html#franchise-form-section" class="btn-radian-pill emerald">
+              Pedir no Atacado <span class="arrow-circle"><i class="fa-solid fa-bolt"></i></span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Bottom Status Bar & Thumbnail Card -->
+        <div class="hero-bottom-bar">
+          <div class="radian-scroll-hint" id="scroll-hint">
+            <span>ROLE PARA DESCOBRIR</span> <i class="fa-solid fa-chevron-down"></i>
+          </div>
+
+          <div class="video-thumb-card" onclick="window.location.href='/vendas/index.html#franchise-form-section'">
+            <img src="/assets/n95c/n95c_hero.jpg" alt="Z8 N95C Verde Esmeralda" />
+            <div class="video-thumb-caption">
+              Z8 N95C EXR — 1200W 60V
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: RADIAN PINNED FEATURE SWITCHER WRAPPER (450vh) -->
+  <section class="radian-feature-section" id="features">
+    <div class="radian-feature-sticky-viewport">
+      <div class="radian-feature-layout">
+        
+        <!-- Left Column: Typography Headlines -->
+        <div class="feature-headlines-list">
+          <div class="feature-headline-item active" data-idx="0">Troca em 30 segundos</div>
+          <div class="feature-headline-item" data-idx="1">Potência instantânea</div>
+          <div class="feature-headline-item" data-idx="2">Farol LED DRL Horizontal</div>
+          <div class="feature-headline-item" data-idx="3">Cockpit LCD Digital</div>
+          <div class="feature-headline-item" data-idx="4">Freio a disco & 130mm</div>
+          <div class="feature-headline-item" data-idx="5">Menos manutenção</div>
+        </div>
+
+        <!-- Right Column: Media Card & Dynamic Caption -->
+        <div class="feature-media-card">
+          <img id="feature-card-img" src="/assets/n95c/n95c_hero.jpg" alt="Recurso Z8 N95C EXR" />
+          <div class="feature-media-caption" id="feature-card-caption">
+            Bateria de Lítio removível 60V 120Ah com até 240km de autonomia estendida e carregamento rápido.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="radian-footer">
+    <p>© 2026 Z8 E-Motion Brasil. Modelo Z8 N95C EXR Homologado DENATRAN / INMETRO.</p>
+  </footer>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

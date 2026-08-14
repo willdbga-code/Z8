@@ -5,7 +5,7 @@ export const franchiseTiers = [
     discount: '35% de desconto s/ Tabela Varejo',
     margin: 'Aproximadamente 42% a 48% de margem líquida',
     exclusiveModels: false,
-    support: 'Kit Inicial de Mídias, Suporte de Vendas B2B, Garantia Direta Fábrica 1 Ano',
+    support: 'Kit Inicial de Mídias, Suporte de Vendas, Garantia Direta Fábrica 1 Ano',
     badge: 'Iniciante'
   },
   {

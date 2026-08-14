@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Z8 E-motion | Franquia & Importação de Motos Elétricas no Atacado Brasil</title>
+  <meta name="description" content="Seja um Franqueado ou Distribuidor Z8 E-motion. Motos e Scooters Elétricas Direto da Fábrica no Atacado com margens de lucro de até 41,51% sobre o custo." />
+  
+  <!-- Fonts Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Skeuomorphic CSS -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="skeuo-body">
+
+  <!-- Header Fixo Skeuomorphic -->
+  <header class="skeuo-header">
+    <div class="header-container">
+      <div class="brand-logo-wrapper">
+        <div class="metallic-emblem">
+          <img src="/assets/logos/ztrasparente.png" alt="Z8 E-motion Logo" class="brand-logo-img" />
+        </div>
+        <div class="brand-tagline">
+          <span class="badge-national"><i class="fa-solid fa-flag"></i> Distribuição Nacional</span>
+          <span class="badge-factory">Direto da Fábrica</span>
+        </div>
+      </div>
+
+      <!-- Skeuomorphic Nav Buttons -->
+      <nav class="skeuo-nav">
+        <button class="skeuo-nav-btn active" data-target="hero">
+          <i class="fa-solid fa-house"></i> Início
+        </button>
+        <button class="skeuo-nav-btn" data-target="showroom">
+          <i class="fa-solid fa-motorcycle"></i> Modelos & Preços
+        </button>
+        <button class="skeuo-nav-btn" data-target="franchise">
+          <i class="fa-solid fa-handshake"></i> Franquias & Atacado
+        </button>
+        <button class="skeuo-nav-btn" data-target="calculator">
+          <i class="fa-solid fa-calculator"></i> Calculadora de Rentabilidade
+        </button>
+        <button class="skeuo-nav-btn" data-target="orderdesk">
+          <i class="fa-solid fa-boxes-packing"></i> Portal do Franqueado
+        </button>
+      </nav>
+
+      <!-- Rocker Switch (Light/Dark Theme) -->
+      <div class="theme-switch-container">
+        <span class="switch-label"><i class="fa-solid fa-moon"></i></span>
+        <label class="rocker-switch">
+          <input type="checkbox" id="theme-toggle-switch" />
+          <span class="rocker-slider"></span>
+        </label>
+        <span class="switch-label"><i class="fa-solid fa-sun"></i></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    
+    <!-- SECTION: HERO SECTION -->
+    <section id="hero-section" class="hero-grid skeuo-panel">
+      <div class="hero-text-block">
+        <div class="embossed-badge">
+          <i class="fa-solid fa-industry"></i> Importação Direta & Franquias
+        </div>
+        
+        <h1 class="hero-title">
+          Mobilidade Elétrica de Alta Performance no <span class="metal-text">Atacado Brasil</span>
+        </h1>
+        
+        <p class="hero-subtitle">
+          Seja um parceiro de distribuição ou abra uma Franquia Z8 E-motion na sua região. Preços direto de fábrica no atacado com markups de até 41,51% sobre o custo (lucros de até R$ 2.200 por moto).
+        </p>
+
+        <!-- Painel de Métricas Skeuomorphic -->
+        <div class="skeuo-inset hero-stats-panel">
+          <div class="stat-box">
+            <span class="stat-number">41,51%</span>
+            <span class="stat-desc">Markup Máximo</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-box">
+            <span class="stat-number">100%</span>
+            <span class="stat-desc">Homologado DENATRAN</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-box">
+            <span class="stat-number">2 Anos</span>
+            <span class="stat-desc">Garantia Nacional</span>
+          </div>
+        </div>
+
+        <div class="hero-actions">
+          <button class="skeuo-button primary-metal-btn" id="btn-open-franchise">
+            <i class="fa-solid fa-briefcase"></i> Quero Ser Parceiro Z8
+          </button>
+          <button class="skeuo-button secondary-metal-btn" id="btn-explore-models">
+            <i class="fa-solid fa-layer-group"></i> Ver Catálogo Completo
+          </button>
+        </div>
+      </div>
+
+      <!-- Card em Destaque 3D / Glass -->
+      <div class="skeuo-display-card">
+        <div class="glass-reflection"></div>
+        <div class="hero-badge-exclusive">DESTAQUE NACIONAL</div>
+        
+        <img src="/assets/models/z8_tank_offroad.jpg" alt="Z8 Tank High-Speed" class="hero-featured-image" />
+        
+        <div class="hero-featured-info">
+          <h3 class="orbitron-title">Z8 TANK HIGH-SPEED</h3>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">2000W sem escovas | 80 km/h | Bateria Lítio Removível</p>
+          <div class="hero-featured-specs">
+            <span><i class="fa-solid fa-bolt"></i> 2000W</span>
+            <span><i class="fa-solid fa-gauge-high"></i> 80 km/h</span>
+            <span><i class="fa-solid fa-shield"></i> CAT Denatran</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: SHOWROOM / CATÁLOGO DE MODELOS -->
+    <section id="showroom-section" class="section-container">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fa-solid fa-motorcycle"></i> Catálogo Completo de Veículos Elétricos</h2>
+        <p class="section-sub">Conheça nossa linha de scooters, e-bikes e motos elétricas homologadas para o mercado brasileiro.</p>
+        
+        <div class="skeuo-filter-bar">
+          <button class="filter-btn active" data-filter="todos">Todos os Modelos</button>
+          <button class="filter-btn" data-filter="urbana">Urbanas & Scooters</button>
+          <button class="filter-btn" data-filter="performance">Esportiva / High-Speed</button>
+          <button class="filter-btn" data-filter="vintage">Linha Vintage Retrô</button>
+          <button class="filter-btn" data-filter="utilitaria">E-Bikes & Utilitárias</button>
+        </div>
+      </div>
+
+      <!-- Grid de Cards Preenchido Dinamicamente via JS -->
+      <div class="models-grid" id="models-grid-container">
+        <!-- Preenchido via main.js -->
+      </div>
+    </section>
+
+    <!-- SECTION: FRANQUIAS & ATACADO (MODELO DE NEGÓCIOS) -->
+    <section id="franchise-section" class="section-container skeuo-panel">
+      <div class="section-header">
+        <div class="embossed-badge"><i class="fa-solid fa-handshake"></i> Modelo de Expansão</div>
+        <h2 class="section-title">Como Funciona a Franquia & Distribuição Z8 E-motion</h2>
+        <p class="section-sub">Estrutura comercial flexível projetada para lojistas de motos, investidores e hubs regionais.</p>
+      </div>
+
+      <div class="franchise-pillars-grid">
+        <div class="skeuo-card pillar-card">
+          <div class="pillar-icon"><i class="fa-solid fa-boxes-packing"></i></div>
+          <h3>1. Sem Royalties Excessivos</h3>
+          <p>Trabalhamos com modelo de atacado direto. Seu lucro vem da margem de venda das motos e peças de reposição.</p>
+        </div>
+
+        <div class="skeuo-card pillar-card">
+          <div class="pillar-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3>2. Proteção Territorial</h3>
+          <p>Concessão de exclusividade de vendas por raio de quilometragem para franqueados nível Master e Distribuidores.</p>
+        </div>
+
+        <div class="skeuo-card pillar-card">
+          <div class="pillar-icon"><i class="fa-solid fa-certificate"></i></div>
+          <h3>3. Homologação Completa</h3>
+          <p>Todos os modelos acompanham suporte para emplacamento, laudos DENATRAN e nota fiscal com RENAVAM pronto.</p>
+        </div>
+
+        <div class="skeuo-card pillar-card">
+          <div class="pillar-icon"><i class="fa-solid fa-wrench"></i></div>
+          <h3>4. Peças & Assistência SP</h3>
+          <p>Estoque central mantido no Brasil para envio rápido de peças de reposição e treinamento técnico oficial.</p>
+        </div>
+      </div>
+
+      <!-- Tabela de Categorias / Cotas de Investimento -->
+      <h3 class="tiers-title"><i class="fa-solid fa-layer-group"></i> Cotas de Importação no Atacado</h3>
+      <div class="tiers-grid" id="tiers-grid-container">
+        <!-- Preenchido via JS -->
+      </div>
+    </section>
+
+    <!-- SECTION: CALCULADORA DE RENTABILIDADE SKEUOMORPHIC -->
+    <section id="calculator-section" class="section-container">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fa-solid fa-calculator"></i> Calculadora de Rentabilidade</h2>
+        <p class="section-sub">Simule seu lote inicial de importação no atacado, faturamento estimado e tempo de retorno do investimento (ROI).</p>
+      </div>
+
+      <div class="skeuo-panel calc-skeuo-wrapper">
+        <!-- Controles Interativos -->
+        <div class="calc-controls-side">
+          <h3 class="calc-subtitle"><i class="fa-solid fa-sliders"></i> Parâmetros do Lote</h3>
+          
+          <div class="control-group">
+            <div class="control-label">
+              <span>Quantidade do Lote (MOQ):</span>
+              <strong id="display-moq-val" class="metal-text">10 Motos</strong>
+            </div>
+            <div class="skeuo-track-container">
+              <input type="range" id="calc-moq-slider" min="5" max="50" step="5" value="10" class="skeuo-slider" />
+            </div>
+            <div class="slider-ticks">
+              <span>5 un</span>
+              <span>15 un</span>
+              <span>30 un</span>
+              <span>50 un</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">
+              <span>Modelo Principal do Mix:</span>
+            </div>
+            <div class="skeuo-select-wrapper">
+              <select id="select-model-mix" class="skeuo-select">
+                <option value="z8-n710">1º Z8 N710 Urban (R$ 5.300 / R$ 7.500)</option>
+                <option value="z8-q11">2º Z8 Q11 Compact (R$ 5.200 / R$ 7.300)</option>
+                <option value="z8-n7">3º Z8 N7 Standard (R$ 5.500 / R$ 7.500)</option>
+                <option value="z8-q10">4º Z8 Q10 Vintage (R$ 5.800 / R$ 7.800)</option>
+                <option value="z8-fx10">5º Z8 FX-10 Sport (R$ 7.000 / R$ 9.000)</option>
+                <option value="z8-tank">6º Z8 Tank High-Speed (R$ 7.500 / R$ 9.500)</option>
+                <option value="z8-u2-delivery">7º Z8 U2 Delivery Cargo (R$ 6.000 / R$ 7.500)</option>
+                <option value="z8-harley-x21">8º Z8 Harley X21 Custom (R$ 6.500 / R$ 8.000)</option>
+                <option value="z8-n95c">9º Z8 N95C Max Comfort (R$ 6.500 / R$ 8.000)</option>
+                <option value="z8-diamond">10º Z8 Diamond Luxury (R$ 3.400 / R$ 4.800)</option>
+                <option value="z8-base-norte">11º Z8 Base Norte GS-005 (R$ 3.200 / R$ 4.200)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-label">
+              <span>Cota de Desconto Aplicada:</span>
+            </div>
+            <div id="display-tier-discount" class="discount-badge-active">
+              41,51% MARKUP
+            </div>
+          </div>
+        </div>
+
+        <!-- Visor LCD Digital Dashboard -->
+        <div class="skeuo-lcd-dashboard">
+          <div class="lcd-screen-bezel">
+            <div class="lcd-header"><i class="fa-solid fa-desktop"></i> SIMULAÇÃO FINANCEIRA DE LOTE DE ATACADO</div>
+            
+            <div class="lcd-grid">
+              <div class="lcd-cell">
+                <span class="lcd-label">INVESTIMENTO TOTAL (CUSTO FÁBRICA):</span>
+                <span class="lcd-value text-gold" id="res-cost-total">R$ 53.000,00</span>
+              </div>
+
+              <div class="lcd-cell">
+                <span class="lcd-label">FATURAMENTO ESTIMADO (VAREJO):</span>
+                <span class="lcd-value text-cyan" id="res-revenue-total">R$ 75.000,00</span>
+              </div>
+
+              <div class="lcd-cell highlight-cell">
+                <span class="lcd-label">LUCRO BRUTO ESTIMADO:</span>
+                <span class="lcd-value text-neon" id="res-profit-total">R$ 22.000,00</span>
+              </div>
+
+              <div class="lcd-cell">
+                <span class="lcd-label">INDICADORES DE RENTABILIDADE:</span>
+                <span class="lcd-value text-emerald" id="res-margin-pct">41,51% Markup</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="calc-action-row" style="margin-top: 16px;">
+            <button class="skeuo-button primary-metal-btn full-width" id="btn-request-proposal">
+              <i class="fa-solid fa-file-invoice-dollar"></i> Solicitar Proposta Oficial para meu Lote
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: PORTAL DO FRANQUEADO (ORDER DESK) -->
+    <section id="orderdesk-section" class="section-container skeuo-panel">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fa-solid fa-boxes-packing"></i> Portal do Franqueado (Simulador de Pedidos)</h2>
+        <p class="section-sub">Tabela direta de custos de importação e pedidos de peças de reposição com despacho prioritário.</p>
+      </div>
+
+      <div class="orderdesk-table-wrapper">
+        <table class="skeuo-table">
+          <thead>
+            <tr>
+              <th>Posição</th>
+              <th>Modelo</th>
+              <th>Código</th>
+              <th>Preço Atacado</th>
+              <th>Preço Varejo</th>
+              <th>Lucro (R$)</th>
+              <th>Markup (% Custo)</th>
+              <th>Margem (% Venda)</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="orderdesk-table-body">
+            <!-- Preenchido via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION: COMPLIANCE & LEGISLAÇÃO DENATRAN -->
+    <section id="compliance-section" class="section-container">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fa-solid fa-scale-balanced"></i> Compliance, Homologação & Garantia</h2>
+        <p class="section-sub">Tudo o que sua empresa precisa para revender motos elétricas com total segurança jurídica no Brasil.</p>
+      </div>
+
+      <div class="compliance-grid" id="compliance-grid-container">
+        <!-- Preenchido via JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal Detalhes do Modelo -->
+  <div id="modal-model-detail" class="skeuo-modal-backdrop hidden">
+    <div class="skeuo-modal-box skeuo-panel">
+      <button class="modal-close-btn" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal-body" id="modal-body-content">
+        <!-- Preenchido via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Metal -->
+  <footer class="skeuo-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <img src="/assets/logos/ztrasparente.png" alt="Z8 E-motion Logo" class="footer-logo" />
+        <p>© 2026 Z8 E-motion Brasil. Todos os direitos reservados. Importação e Distribuição Exclusiva no Atacado.</p>
+      </div>
+      <div class="footer-right">
+        <span><i class="fa-solid fa-shield"></i> Homologado CONTRAN / INMETRO</span>
+        <span><i class="fa-solid fa-bolt"></i> Z8 E-motion® - Franchising & Wholesale</span>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
