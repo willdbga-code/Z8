@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initNavigation();
   renderShowroom();
-  renderTiers();
   renderOrderDesk();
   renderCompliance();
   initCalculator();
@@ -141,30 +140,7 @@ function initFilterBar() {
   });
 }
 
-/* --------------------------------------------------------------------------
-   4. FRANCHISE TIERS RENDER
-   -------------------------------------------------------------------------- */
-function renderTiers() {
-  const container = document.getElementById('tiers-grid-container');
-  if (!container) return;
 
-  container.innerHTML = franchiseTiers.map(tier => `
-    <div class="skeuo-card tier-card">
-      <div>
-        <div class="tier-header">
-          <h3 class="tier-title">${tier.name}</h3>
-          <span class="tier-badge">${tier.badge}</span>
-        </div>
-        <div class="tier-moq"><i class="fa-solid fa-boxes-stacked"></i> ${tier.moq}</div>
-        <div class="tier-discount"><i class="fa-solid fa-tags"></i> ${tier.discount}</div>
-        <p class="tier-support">${tier.support}</p>
-      </div>
-      <button class="skeuo-button primary-metal-btn full-width" style="margin-top: 20px;" onclick="window.location.href='/vendas/index.html#franchise-form-section'">
-        <i class="fa-solid fa-paper-plane"></i> Selecionar Cota
-      </button>
-    </div>
-  `).join('');
-}
 
 /* --------------------------------------------------------------------------
    5. ORDER DESK TABLE RENDER
