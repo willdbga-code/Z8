@@ -303,21 +303,25 @@ export function initCRM() {
       e.preventDefault();
       const name = document.getElementById('reg-name').value;
       const company = document.getElementById('reg-company').value;
+      const city = document.getElementById('reg-city') ? document.getElementById('reg-city').value : 'Não informada';
       const email = document.getElementById('reg-email').value;
       const phone = document.getElementById('reg-phone').value;
       const password = document.getElementById('reg-pass').value;
 
-      const res = registerUser({ name, company, email, phone, password });
+      const res = registerUser({ name, company, city, email, phone, password });
       if (res.success) {
+        // Also save lead reservation into CRM!
+        saveLead({ name, company, city, state: 'BR', email, phone, paymentMethod: 'PIX (Cadastro Exclusivo)' });
+
         if (registerError) registerError.style.display = 'none';
         if (registerSuccess) {
-          registerSuccess.textContent = '🎉 Conta criada com sucesso! Você já pode fazer login.';
+          registerSuccess.innerHTML = `🎉 <strong>Cadastro realizado com sucesso!</strong><br>Sua cidade (<strong>${city.toUpperCase()}</strong>) e conta de parceiro foram reservadas! Faça login para acessar o painel.`;
           registerSuccess.style.display = 'block';
         }
         registerForm.reset();
         setTimeout(() => {
           if (authTabLoginBtn) authTabLoginBtn.click();
-        }, 1500);
+        }, 2200);
       } else {
         if (registerSuccess) registerSuccess.style.display = 'none';
         if (registerError) {
@@ -327,6 +331,18 @@ export function initCRM() {
       }
     });
   }
+
+  // Handle open registration triggers across the page
+  document.addEventListener('click', (e) => {
+    const regTriggerBtn = e.target.closest('.btn-open-register');
+    if (regTriggerBtn) {
+      const city = regTriggerBtn.getAttribute('data-city') || '';
+      if (loginModal) loginModal.style.display = 'flex';
+      if (authTabRegBtn) authTabRegBtn.click();
+      const cityInput = document.getElementById('reg-city');
+      if (cityInput && city) cityInput.value = city;
+    }
+  });
 
   if (togglePassBtn && loginPass) {
     togglePassBtn.addEventListener('click', () => {

@@ -104,7 +104,14 @@ function initCepChecker() {
       btn.disabled = false;
 
       resultMsg.className = 'cep-result-msg active highlight-green';
-      resultMsg.innerHTML = `<i class="fa-solid fa-circle-check"></i> EXCLUSIVIDADE DISPONÍVEL para "<strong>${val.toUpperCase()}</strong>"! Trave sua cidade antes do seu concorrente local.`;
+      resultMsg.innerHTML = `
+        <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start; margin-top: 10px;">
+          <span><i class="fa-solid fa-circle-check"></i> EXCLUSIVIDADE DISPONÍVEL para "<strong>${val.toUpperCase()}</strong>"! Trave sua cidade antes do seu concorrente local.</span>
+          <button type="button" class="btn-open-register" data-city="${val}" style="background: linear-gradient(135deg, #10B981, #059669); color: #ffffff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; box-shadow: 0 4px 14px rgba(16,185,129,0.3);">
+            <i class="fa-solid fa-shield-halved"></i> CADASTRE-SE E GARANTA SUA CIDADE
+          </button>
+        </div>
+      `;
     }, 800);
   });
 }

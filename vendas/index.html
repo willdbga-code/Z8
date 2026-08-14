@@ -779,6 +779,10 @@
 
       <!-- BOX CADASTRO (REGISTRO) -->
       <div id="auth-box-register" style="display: none;">
+        <h3 style="color: #00F2FE; font-size: 1.05rem; font-weight: 800; text-align: center; margin: 0 0 16px 0; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.5px;">
+          <i class="fa-solid fa-city"></i> CADASTRE-SE PARA GARANTIR SUA CIDADE
+        </h3>
+
         <form id="register-form" class="login-form">
           <div id="register-error" class="login-error-msg"></div>
           <div id="register-success" style="display: none; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; font-size: 0.82rem; padding: 10px 14px; border-radius: 8px;"></div>
@@ -794,6 +798,13 @@
             <label for="reg-company"><i class="fa-solid fa-building"></i> Nome da Empresa / Loja:</label>
             <div class="login-input-wrapper">
               <input type="text" id="reg-company" placeholder="Ex: Silva Motos Ltda" required />
+            </div>
+          </div>
+
+          <div class="login-input-group">
+            <label for="reg-city"><i class="fa-solid fa-location-dot"></i> Cidade / Estado para Exclusividade:</label>
+            <div class="login-input-wrapper">
+              <input type="text" id="reg-city" placeholder="Ex: Ribeirão Preto - SP" required />
             </div>
           </div>
 
@@ -819,7 +830,7 @@
           </div>
 
           <button type="submit" class="login-submit-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff;">
-            <i class="fa-solid fa-user-check"></i> CRIAR CONTA DE PARCEIRO
+            <i class="fa-solid fa-shield-halved"></i> CADASTRE-SE E GARANTA SUA CIDADE
           </button>
         </form>
       </div>
