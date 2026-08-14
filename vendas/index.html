@@ -49,6 +49,9 @@
           </div>
         </div>
         <div style="display: flex; gap: 12px; align-items: center;">
+          <a href="/site-principal/" class="nav-cta-btn" style="background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff; text-decoration: none;">
+            <i class="fa-solid fa-arrow-left"></i> Voltar ao Site Principal
+          </a>
           <button type="button" id="open-crm-btn" class="nav-cta-btn" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #00F2FE; cursor: pointer;">
             <i class="fa-solid fa-database"></i> PAINEL CRM & ANÁLISE
           </button>
@@ -731,6 +734,7 @@
   <!-- 16. MODAL DE LOGIN & CADASTRO DE PARCEIROS Z8 -->
   <div class="login-modal-overlay" id="login-modal" style="display: none;">
     <div class="login-card">
+      <button type="button" class="crm-close-btn" id="close-login-btn" style="position: absolute; top: 16px; right: 20px;">&times;</button>
       <div class="login-header">
         <img src="/assets/logos/ztrasparente.png" alt="Z8 Logo" class="login-logo" />
         <h2 class="login-title">ACESSO Z8 E-MOTION</h2>
@@ -819,6 +823,11 @@
           </button>
         </form>
       </div>
+
+      <!-- BOTÃO VOLTAR À PÁGINA -->
+      <button type="button" id="back-to-page-btn" style="background: transparent; border: none; color: #94a3b8; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-top: 12px; transition: color 0.2s;">
+        <i class="fa-solid fa-arrow-left"></i> Voltar para a página de vendas
+      </button>
     </div>
   </div>
 

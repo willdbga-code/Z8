@@ -19,6 +19,8 @@ export function initCRM() {
 
   // Auth / Login / Register Modal Elements
   const loginModal = document.getElementById('login-modal');
+  const closeLoginBtn = document.getElementById('close-login-btn');
+  const backToPageBtn = document.getElementById('back-to-page-btn');
   const loginForm = document.getElementById('login-form');
   const registerForm = document.getElementById('register-form');
   const loginUser = document.getElementById('login-user');
@@ -213,6 +215,18 @@ export function initCRM() {
   if (closeCrmBtn) {
     closeCrmBtn.addEventListener('click', () => {
       crmModal.style.display = 'none';
+    });
+  }
+
+  if (closeLoginBtn) {
+    closeLoginBtn.addEventListener('click', () => {
+      if (loginModal) loginModal.style.display = 'none';
+    });
+  }
+
+  if (backToPageBtn) {
+    backToPageBtn.addEventListener('click', () => {
+      if (loginModal) loginModal.style.display = 'none';
     });
   }
 
