@@ -1749,5 +1749,72 @@ body {
   background: rgba(0, 242, 254, 0.05);
 }
 
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES FOR MOBILE, TABLETS AND LAPTOPS
+   ========================================================================== */
+@media (max-width: 992px) {
+  .vendas-header .nav-wrapper {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .hero-grid-sales {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .crm-modal-container {
+    width: 96%;
+    padding: 16px;
+    max-height: 92vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .vendas-header .nav-wrapper div {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  .nav-cta-btn {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+  .hero-title-main {
+    font-size: 1.8rem !important;
+  }
+  .section-title {
+    font-size: 1.6rem !important;
+  }
+  .login-card {
+    width: 94%;
+    padding: 20px;
+    margin: 10px;
+  }
+  .crm-kpi-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .crm-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .brand-title {
+    font-size: 1.1rem;
+  }
+  .brand-sub {
+    font-size: 0.68rem;
+  }
+  .admin-tabs-nav {
+    flex-direction: column;
+    padding: 0 10px;
+  }
+  .admin-tab-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 
 
