@@ -62,7 +62,7 @@ export function registerUser(userData) {
     city: userData.city || 'Não informada',
     email: cleanEmail,
     phone: userData.phone || '',
-    investment: userData.investment || 'R$ 22.600,00 (Lote Econômico)',
+    investment: userData.investment || 'R$ 22.600,00 (Atacado Inicial)',
     hasStore: userData.hasStore || 'Não',
     password: userData.password || 'z8partner123',
     role: cleanEmail === MASTER_ADMIN_EMAIL ? 'admin' : 'partner',

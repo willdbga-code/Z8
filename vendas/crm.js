@@ -311,7 +311,7 @@ export function initCRM() {
       const phone = document.getElementById('reg-phone').value;
       const password = document.getElementById('reg-pass').value;
 
-      const investment = document.getElementById('reg-investment') ? document.getElementById('reg-investment').value : 'R$ 22.600,00 (Lote Econômico)';
+      const investment = document.getElementById('reg-investment') ? document.getElementById('reg-investment').value : 'R$ 22.600,00 (Atacado Inicial)';
 
       const res = registerUser({ name, company, city, email, phone, investment, password });
       if (res.success) {
