@@ -81,23 +81,10 @@ function renderShowroom(filterCategory = 'todos') {
     ? z8Models
     : z8Models.filter(m => m.category === filterCategory);
 
-  const approved = isCatalogApproved();
-
   grid.innerHTML = filtered.map(model => {
     const profit = model.profit ?? (model.retailPrice - model.wholesalePrice);
     const markupPct = model.markupPct ?? (((model.retailPrice - model.wholesalePrice) / model.wholesalePrice) * 100).toFixed(1);
     const rankText = model.rank ? `#${model.rank} Ranking` : '';
-
-    const wholesaleHtml = approved
-      ? `<span class="price-val">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</span>`
-      : `<span class="price-val" style="filter: blur(5px); user-select: none;">R$ 9.999,00</span>
-         <button type="button" class="skeuo-button open-catalog-login-trigger" style="font-size: 0.72rem; padding: 4px 10px; margin-top: 4px; background: rgba(0,242,254,0.15); border: 1px solid #00F2FE; color: #00F2FE; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-           <i class="fa-solid fa-lock"></i> Liberar Tabela de Atacado
-         </button>`;
-
-    const marginHtml = approved
-      ? `Lucro R$ ${profit.toLocaleString('pt-BR')}`
-      : `🔒 Requer Aprovação do Admin`;
 
     return `
     <div class="skeuo-card model-card animate-on-scroll">
@@ -126,10 +113,10 @@ function renderShowroom(filterCategory = 'todos') {
         <div class="model-price-box">
           <div class="price-wholesale">
             <span class="price-label">Preço Atacado Parceiro</span>
-            ${wholesaleHtml}
+            <span class="price-val">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</span>
           </div>
           <div class="price-margin">
-            ${marginHtml}
+            Lucro R$ ${profit.toLocaleString('pt-BR')}
           </div>
         </div>
 
@@ -346,12 +333,12 @@ function openModelModal(modelId) {
    8. CATALOG ACCESS CONTROL & ADMIN APPROVAL MANAGEMENT
    -------------------------------------------------------------------------- */
 function initCatalogAuth() {
-  const loginModal = document.getElementById('catalog-login-modal');
+  const loginGate = document.getElementById('catalog-login-gate');
+  const mainContent = document.getElementById('catalog-main-content');
   const adminModal = document.getElementById('catalog-admin-modal');
+  const openLoginBtn = document.getElementById('open-catalog-login-btn');
   const openAdminBtn = document.getElementById('open-catalog-admin-btn');
-  const closeLoginBtn = document.getElementById('close-catalog-login-btn');
   const closeAdminBtn = document.getElementById('close-catalog-admin-btn');
-  const closeBottomBtn = document.getElementById('close-cat-modal-bottom-btn');
   const badgeText = document.getElementById('catalog-user-badge');
 
   const tabLoginBtn = document.getElementById('tab-cat-login');
@@ -367,12 +354,18 @@ function initCatalogAuth() {
 
   function updateHeaderAuth() {
     const user = getCurrentCatalogUser();
-    if (user) {
-      if (badgeText) badgeText.textContent = `${user.email} (${user.status === 'approved' ? 'Aprovado' : 'Pendente'})`;
+    const approved = isCatalogApproved();
+
+    if (user && approved) {
+      if (loginGate) loginGate.style.display = 'none';
+      if (mainContent) mainContent.style.display = 'block';
+      if (badgeText) badgeText.textContent = `Sair (${user.email})`;
       if (openAdminBtn) {
         openAdminBtn.style.display = (user.email.toLowerCase() === 'christian.tkh@gmail.com') ? 'inline-flex' : 'none';
       }
     } else {
+      if (loginGate) loginGate.style.display = 'flex';
+      if (mainContent) mainContent.style.display = 'none';
       if (badgeText) badgeText.textContent = 'Área de Login';
       if (openAdminBtn) openAdminBtn.style.display = 'none';
     }
@@ -382,7 +375,6 @@ function initCatalogAuth() {
 
   window.addEventListener('z8-catalog-auth-changed', () => {
     updateHeaderAuth();
-    renderShowroom();
   });
 
   window.addEventListener('z8-catalog-users-updated', () => {
@@ -410,9 +402,7 @@ function initCatalogAuth() {
     });
   }
 
-  if (closeLoginBtn) closeLoginBtn.addEventListener('click', () => loginModal?.classList.add('hidden'));
   if (closeAdminBtn) closeAdminBtn.addEventListener('click', () => adminModal?.classList.add('hidden'));
-  if (closeBottomBtn) closeBottomBtn.addEventListener('click', () => loginModal?.classList.add('hidden'));
 
   if (tabLoginBtn && tabRegBtn) {
     tabLoginBtn.addEventListener('click', () => {
