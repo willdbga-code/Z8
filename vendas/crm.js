@@ -311,10 +311,12 @@ export function initCRM() {
       const phone = document.getElementById('reg-phone').value;
       const password = document.getElementById('reg-pass').value;
 
-      const res = registerUser({ name, company, city, email, phone, password });
+      const investment = document.getElementById('reg-investment') ? document.getElementById('reg-investment').value : 'R$ 22.600,00 (Lote Econômico)';
+
+      const res = registerUser({ name, company, city, email, phone, investment, password });
       if (res.success) {
         // Also save lead reservation into CRM!
-        saveLead({ name, company, city, state: 'BR', email, phone, paymentMethod: 'PIX (Cadastro Exclusivo)' });
+        saveLead({ name, company, city, state: 'BR', email, phone, paymentMethod: `Cadastro Exclusivo (${investment})` });
 
         if (registerError) registerError.style.display = 'none';
         if (registerSuccess) {
