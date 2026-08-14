@@ -199,12 +199,26 @@ function initCheckoutModal() {
   });
 
   if (checkoutForm) {
-    checkoutForm.addEventListener('submit', (e) => {
+    checkoutForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const company = document.getElementById('input-company').value || 'Sua Empresa';
-      const city = document.getElementById('input-city').value || 'Sua Cidade';
+      const name = document.getElementById('input-name') ? document.getElementById('input-name').value : 'Parceiro Z8';
+      const company = document.getElementById('input-company') ? document.getElementById('input-company').value : 'Sua Empresa';
+      const city = document.getElementById('input-city') ? document.getElementById('input-city').value : 'Sua Cidade';
+      const email = document.getElementById('input-email') ? document.getElementById('input-email').value : '';
+      const phone = document.getElementById('input-phone') ? document.getElementById('input-phone').value : '';
+      
+      const activePay = document.querySelector('.pay-option.active span');
+      const paymentMethod = activePay ? activePay.textContent.trim() : 'PIX';
 
-      alert(`🎉 EXCLUSIVIDADE RESERVADA COM SUCESSO!\n\nEmpresa: ${company.toUpperCase()}\nRegião: ${city.toUpperCase()}\n\nSeu pedido de Reserva de Exclusividade Territorial (R$ 2.989,00) foi registrado!\nEste valor será 100% ABATIDO no seu pedido mínimo de 5 motos de atacado.\n\nO Dossiê Comercial B2B e as instruções de faturamento foram enviados para o seu e-mail e WhatsApp.`);
+      // Save lead into Firebase / Hybrid Storage Engine
+      try {
+        const { saveLead } = await import('./firebase-config.js');
+        saveLead({ name, company, city, state: 'SP', email, phone, paymentMethod });
+      } catch (err) {
+        console.error('Lead storage sync:', err);
+      }
+
+      alert(`🎉 EXCLUSIVIDADE RESERVADA COM SUCESSO!\n\nEmpresa: ${company.toUpperCase()}\nRegião: ${city.toUpperCase()}\n\nSeu pedido de Reserva de Exclusividade Territorial (R$ 2.989,00) foi registrado no CRM!\nEste valor será 100% ABATIDO no seu pedido mínimo de atacado.\n\nO Dossiê Comercial B2B e as instruções de faturamento foram enviados para o seu e-mail e WhatsApp.`);
       modal.classList.remove('active');
     });
   }

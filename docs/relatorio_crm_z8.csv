@@ -1,0 +1,5 @@
+﻿ID;Nome;Empresa;Cidade;UF;Email;Telefone;FormaPagamento;ValorReserva;Status;DataCadastro
+lead_demo_01;Roberto Andrade;Motos & Cia Ltda;Ribeirão Preto;SP;roberto@motosecia.com.br;(16) 99876-5432;PIX;2989.00;fechado;2026-08-13T10:30:00.000Z
+lead_demo_02;Juliana Mendes;E-Scooter Brasil;Campinas;SP;contato@escooterbrasil.com;(19) 99123-4567;Cartão 12x;2989.00;proposta;2026-08-14T09:15:00.000Z
+lead_demo_03;Carlos Eduardo Silva;Auto Veloce Mobilidade;Belo Horizonte;MG;carlos@autoveloce.com.br;(31) 98888-7777;PIX;2989.00;em_contato;2026-08-14T11:45:00.000Z
+lead_demo_04;Fernanda Lima;Green Motion E-Bikes;Curitiba;PR;fernanda@greenmotion.com;(41) 99777-6666;PIX;2989.00;fechado;2026-08-14T13:20:00.000Z

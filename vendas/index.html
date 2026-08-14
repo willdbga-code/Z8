@@ -49,6 +49,9 @@
           </div>
         </div>
         <div style="display: flex; gap: 12px; align-items: center;">
+          <button type="button" id="open-crm-btn" class="nav-cta-btn" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #00F2FE; cursor: pointer;">
+            <i class="fa-solid fa-database"></i> PAINEL CRM & ANÁLISE
+          </button>
           <a href="#tripwire-offer" class="nav-cta-btn btn-open-checkout">
             <i class="fa-solid fa-chart-line"></i> SEJA UM REVENDEDOR AUTORIZADO
           </a>
@@ -604,8 +607,83 @@
     </div>
   </footer>
 
-  <!-- App Script -->
+  <!-- 15. MODAL B2B CRM & ANALYTICS -->
+  <div class="crm-modal-overlay" id="crm-modal" style="display: none;">
+    <div class="crm-modal-container">
+      <div class="crm-modal-header">
+        <div class="crm-modal-title">
+          <i class="fa-solid fa-chart-pie"></i> Z8 E-Motion - Gestão de CRM & Análise de Vendas (Google Cloud Firebase API)
+        </div>
+        <button type="button" class="crm-close-btn" id="close-crm-btn">&times;</button>
+      </div>
+
+      <div class="crm-modal-body">
+        <!-- KPI METRICS SUMMARY -->
+        <div class="crm-kpi-grid">
+          <div class="crm-kpi-card">
+            <span class="crm-kpi-label"><i class="fa-solid fa-users"></i> Total de Leads Captação</span>
+            <span class="crm-kpi-value" id="crm-kpi-total">0</span>
+          </div>
+          <div class="crm-kpi-card">
+            <span class="crm-kpi-label"><i class="fa-solid fa-city"></i> Cidades Reservadas</span>
+            <span class="crm-kpi-value" id="crm-kpi-cities">0</span>
+          </div>
+          <div class="crm-kpi-card">
+            <span class="crm-kpi-label"><i class="fa-solid fa-sack-dollar"></i> Potencial Bruto Reserva</span>
+            <span class="crm-kpi-value" id="crm-kpi-revenue" style="color: #10B981;">R$ 0,00</span>
+          </div>
+          <div class="crm-kpi-card">
+            <span class="crm-kpi-label"><i class="fa-solid fa-chart-line"></i> Taxa Conversão Fechado</span>
+            <span class="crm-kpi-value" id="crm-kpi-rate" style="color: #00F2FE;">0%</span>
+          </div>
+        </div>
+
+        <!-- TOOLBAR & EXPORT -->
+        <div class="crm-toolbar">
+          <div class="crm-status-filter-group">
+            <label for="crm-status-filter" style="font-size: 0.85rem; color: #94a3b8; margin-right: 8px;">Filtrar por Status:</label>
+            <select id="crm-status-filter">
+              <option value="all">🔍 Todos os Leads</option>
+              <option value="novo">🔵 Novos Leads</option>
+              <option value="em_contato">🟡 Em Contato</option>
+              <option value="proposta">🟠 Proposta Enviada</option>
+              <option value="fechado">🟢 Fechados / Pagos</option>
+              <option value="perdido">🔴 Perdidos</option>
+            </select>
+          </div>
+
+          <button type="button" class="crm-export-btn" id="export-excel-btn">
+            <i class="fa-solid fa-file-excel"></i> EXPORTAR PARA EXCEL (.CSV)
+          </button>
+        </div>
+
+        <!-- TABLE OF LEADS -->
+        <div class="crm-table-wrapper">
+          <table class="crm-table">
+            <thead>
+              <tr>
+                <th>Nome / Empresa</th>
+                <th>Cidade / UF</th>
+                <th>E-mail</th>
+                <th>WhatsApp</th>
+                <th>Forma Pag.</th>
+                <th>Valor Reserva</th>
+                <th>Status CRM</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+            <tbody id="crm-table-body">
+              <!-- Loaded via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Script & CRM Module -->
   <script src="./app.js"></script>
+  <script type="module" src="./crm.js"></script>
 </body>
 
 </html>
