@@ -72,13 +72,18 @@ function renderShowroom(filterCategory = 'todos') {
     ? z8Models
     : z8Models.filter(m => m.category === filterCategory);
 
-  grid.innerHTML = filtered.map(model => `
-    <div class="skeuo-card model-card">
-      <div class="card-top-tag">
-        <span class="tag-badge ${model.isExclusiveFranchise ? 'tag-exclusive' : 'tag-standard'}">
-          <i class="fa-solid fa-crown"></i> ${model.tag}
+  grid.innerHTML = filtered.map(model => {
+    const profit = model.profit ?? (model.retailPrice - model.wholesalePrice);
+    const markupPct = model.markupPct ?? (((model.retailPrice - model.wholesalePrice) / model.wholesalePrice) * 100).toFixed(1);
+    const rankText = model.rank ? `#${model.rank} Ranking` : '';
+
+    return `
+    <div class="skeuo-card model-card animate-on-scroll">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <span class="skeuo-badge ${model.isExclusiveFranchise ? 'gold' : ''}">
+          ${model.tag}
         </span>
-        <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">#${model.rank} Ranking</span>
+        <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700;">${rankText}</span>
       </div>
 
       <div class="model-img-wrapper">
@@ -93,7 +98,7 @@ function renderShowroom(filterCategory = 'todos') {
           <div class="spec-item"><i class="fa-solid fa-bolt"></i> ${model.motor}</div>
           <div class="spec-item"><i class="fa-solid fa-gauge-high"></i> ${model.speed}</div>
           <div class="spec-item"><i class="fa-solid fa-battery-full"></i> ${model.range}</div>
-          <div class="spec-item"><i class="fa-solid fa-chart-line"></i> ${model.markupPct}% Markup</div>
+          <div class="spec-item"><i class="fa-solid fa-chart-line"></i> ${markupPct}% Markup</div>
         </div>
 
         <div class="model-price-box">
@@ -102,7 +107,7 @@ function renderShowroom(filterCategory = 'todos') {
             <span class="price-val">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</span>
           </div>
           <div class="price-margin">
-            Lucro R$ ${model.profit.toLocaleString('pt-BR')}
+            Lucro R$ ${profit.toLocaleString('pt-BR')}
           </div>
         </div>
 
@@ -111,7 +116,8 @@ function renderShowroom(filterCategory = 'todos') {
         </button>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 
   grid.querySelectorAll('.btn-detail').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -167,23 +173,30 @@ function renderOrderDesk() {
   const tbody = document.getElementById('orderdesk-table-body');
   if (!tbody) return;
 
-  tbody.innerHTML = z8Models.map(model => `
+  tbody.innerHTML = z8Models.map((model, idx) => {
+    const profit = model.profit ?? (model.retailPrice - model.wholesalePrice);
+    const markupPct = model.markupPct ?? (((model.retailPrice - model.wholesalePrice) / model.wholesalePrice) * 100).toFixed(1);
+    const marginPct = model.marginPct ?? (((model.retailPrice - model.wholesalePrice) / model.retailPrice) * 100).toFixed(1);
+    const rank = model.rank ?? (idx + 1);
+
+    return `
     <tr>
-      <td><strong>${model.rank}º</strong></td>
+      <td><strong>${rank}º</strong></td>
       <td><strong>${model.name}</strong></td>
       <td><code style="background: var(--bg-inset); padding: 2px 6px; border-radius: 4px;">${model.code}</code></td>
       <td><span style="color: var(--accent-neon); font-weight: 700;">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</span></td>
       <td>R$ ${model.retailPrice.toLocaleString('pt-BR')},00</td>
-      <td><strong style="color: var(--accent-emerald);">R$ ${model.profit.toLocaleString('pt-BR')},00</strong></td>
-      <td><span style="color: var(--accent-gold); font-weight: 700;">${model.markupPct}%</span></td>
-      <td>${model.marginPct}%</td>
+      <td><strong style="color: var(--accent-emerald);">R$ ${profit.toLocaleString('pt-BR')},00</strong></td>
+      <td><span style="color: var(--accent-gold); font-weight: 700;">${markupPct}%</span></td>
+      <td>${marginPct}%</td>
       <td>
         <button class="skeuo-button secondary-metal-btn btn-table-order" data-id="${model.id}" style="padding: 6px 12px; font-size: 0.8rem;">
           <i class="fa-solid fa-cart-plus"></i> Pedir Lote
         </button>
       </td>
     </tr>
-  `).join('');
+  `;
+  }).join('');
 
   tbody.querySelectorAll('.btn-table-order').forEach(btn => {
     btn.addEventListener('click', () => {
