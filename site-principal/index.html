@@ -49,6 +49,12 @@
         <button class="skeuo-nav-btn" data-target="orderdesk">
           <i class="fa-solid fa-boxes-packing"></i> Portal do Franqueado
         </button>
+        <button class="skeuo-nav-btn" id="open-catalog-login-btn" style="color: #00F2FE; border: 1px solid rgba(0,242,254,0.3);">
+          <i class="fa-solid fa-right-to-bracket"></i> <span id="catalog-user-badge">Área de Login</span>
+        </button>
+        <button class="skeuo-nav-btn" id="open-catalog-admin-btn" style="display: none; color: #fbbf24; border: 1px solid rgba(251,191,36,0.3);">
+          <i class="fa-solid fa-user-shield"></i> Aprovações de Acesso
+        </button>
       </nav>
 
       <!-- Rocker Switch (Light/Dark Theme) -->
@@ -344,6 +350,130 @@
       </div>
     </div>
   </footer>
+
+  <!-- MODAL 1: LOGIN & CADASTRO COM APROVAÇÃO -->
+  <div id="catalog-login-modal" class="skeuo-modal-backdrop hidden">
+    <div class="skeuo-modal-box skeuo-panel" style="max-width: 460px; position: relative;">
+      <button class="modal-close-btn" id="close-catalog-login-btn"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div style="text-align: center; margin-bottom: 20px;">
+        <img src="/assets/logos/ztrasparente.png" alt="Z8 Logo" style="height: 48px; margin-bottom: 8px;" />
+        <h2 style="font-family: 'Orbitron', sans-serif; color: #00F2FE; font-size: 1.25rem;">ACESSO AO CATÁLOGO Z8</h2>
+        <p style="font-size: 0.82rem; color: #94a3b8;">Tabelas de Atacado, Margens & Preços de Importação</p>
+      </div>
+
+      <!-- TABS SWITCHER -->
+      <div style="display: flex; gap: 8px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px;">
+        <button type="button" id="tab-cat-login" style="flex: 1; padding: 10px; border: none; background: #00F2FE; color: #0b0e14; border-radius: 8px; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; font-size: 0.85rem;">
+          <i class="fa-solid fa-key"></i> Entrar
+        </button>
+        <button type="button" id="tab-cat-register" style="flex: 1; padding: 10px; border: none; background: transparent; color: #94a3b8; border-radius: 8px; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; font-size: 0.85rem;">
+          <i class="fa-solid fa-user-plus"></i> Cadastrar-se
+        </button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="cat-box-login">
+        <form id="cat-login-form">
+          <div id="cat-login-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
+
+          <div style="margin-bottom: 14px;">
+            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-envelope"></i> E-mail ou Usuário Master:</label>
+            <input type="text" id="cat-login-user" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="Digite seu e-mail" required />
+          </div>
+
+          <div style="margin-bottom: 18px;">
+            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-lock"></i> Senha de Acesso:</label>
+            <input type="password" id="cat-login-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="••••••••••••" required />
+          </div>
+
+          <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 14px;">
+            <i class="fa-solid fa-right-to-bracket"></i> ENTRAR NO CATÁLOGO
+          </button>
+        </form>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="cat-box-register" style="display: none;">
+        <div style="background: rgba(0,242,254,0.08); border: 1px solid rgba(0,242,254,0.2); padding: 10px 14px; border-radius: 8px; font-size: 0.78rem; color: #38bdf8; margin-bottom: 14px;">
+          <i class="fa-solid fa-circle-info"></i> <strong>Aprovação Necessária:</strong> Após o cadastro, o 1º acesso precisa ser aprovado pelo Administrador Master (<code>christian.tkh@gmail.com</code>).
+        </div>
+
+        <form id="cat-register-form">
+          <div id="cat-reg-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-user"></i> Nome Completo:</label>
+            <input type="text" id="cat-reg-name" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: João da Silva" required />
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-building"></i> Nome da Empresa / Cidade:</label>
+            <input type="text" id="cat-reg-company" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: Silva Motos - Campinas SP" required />
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Comercial:</label>
+            <input type="email" id="cat-reg-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="contato@empresa.com.br" required />
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-phone"></i> WhatsApp:</label>
+            <input type="tel" id="cat-reg-phone" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="(11) 99999-9999" required />
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-lock"></i> Criar Senha:</label>
+            <input type="password" id="cat-reg-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Crie sua senha segura" required />
+          </div>
+
+          <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 14px; background: linear-gradient(135deg, #10B981, #059669);">
+            <i class="fa-solid fa-user-clock"></i> SOLICITAR ACESSO AO ADMINISTRADOR
+          </button>
+        </form>
+      </div>
+
+      <button type="button" id="close-cat-modal-bottom-btn" style="background: transparent; border: none; color: #94a3b8; font-size: 0.82rem; cursor: pointer; width: 100%; margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao Catálogo
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: GESTÃO DE APROVAÇÕES DO ADMINISTRADOR MASTER -->
+  <div id="catalog-admin-modal" class="skeuo-modal-backdrop hidden">
+    <div class="skeuo-modal-box skeuo-panel" style="max-width: 900px; position: relative;">
+      <button class="modal-close-btn" id="close-catalog-admin-btn"><i class="fa-solid fa-xmark"></i></button>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px;">
+        <div>
+          <h2 style="font-family: 'Orbitron', sans-serif; color: #fbbf24; font-size: 1.2rem; margin: 0;">
+            <i class="fa-solid fa-user-shield"></i> PAINEL DE APROVAÇÃO DE ACESSOS (ADMINISTRADOR MASTER)
+          </h2>
+          <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">Gerencie e aprove o 1º acesso dos parceiros para visualização das tabelas de atacado.</p>
+        </div>
+        <span style="font-size: 0.78rem; background: rgba(251,191,36,0.15); border: 1px solid #fbbf24; color: #fbbf24; padding: 4px 12px; border-radius: 20px; font-weight: 700;">
+          christian.tkh@gmail.com
+        </span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.2); color: #00F2FE;">
+              <th style="padding: 10px;">Nome / Empresa</th>
+              <th style="padding: 10px;">E-mail</th>
+              <th style="padding: 10px;">WhatsApp</th>
+              <th style="padding: 10px;">Status Atual</th>
+              <th style="padding: 10px;">Ação do Administrador</th>
+            </tr>
+          </thead>
+          <tbody id="cat-admin-users-list">
+            <!-- Renderizado via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <script type="module" src="./main.js"></script>
 </body>
