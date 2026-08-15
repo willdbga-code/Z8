@@ -51,3 +51,18 @@
 - **Usuário Autorizado**: `christian-hideyuki`
 - **Servidor Dev Vite**: Port 3004 (`http://localhost:3004/`)
 - **Localtunnel Público**: `https://social-dots-lead.loca.lt` (Password IP: `189.111.85.132`)
+
+---
+
+## 5. 📦 Cadeia de Suprimentos & Fornecedores de Capacetes (Atacado)
+
+| Fabricante / Distribuidor | Marcas Representadas | Perfil / Categoria | Link Oficial B2B | Contato |
+| :--- | :--- | :--- | :--- | :--- |
+| **Starplast** | Peels, Bieffe, Fly | Escamoteável, Jet/Aberto, Retrô | [starplast.com.br](https://www.starplast.com.br) | (19) 3456-9000 / `contato@starplast.com.br` |
+| **Pro Tork** | Evolution, Stealth, New Liberty, R8 | Entrada, Frotas, Alto Giro | [protork.com.br](https://www.protork.com.br) | Partner Center B2B |
+| **Taurus Helmets** | San Marino, Urban Helmets, Taurus | Delivery clássico e Custom/Vintage | [taurushelmets.com.br](https://www.taurushelmets.com.br) | Portal Comercial B2B |
+| **EBF Capacetes** | Spark, City, EBF 7, New Spark | Urbano Econômico | [ebfcapacetes.com.br](https://www.ebfcapacetes.com.br) | Fábrica SP |
+| **Laquila Moto** | Texx + Multimarcas | Distribuidor Geral e Vestuário | [laquila.com.br](https://www.laquila.com.br) | Seção Revendedor |
+| **BR Motorsport** | LS2, Norisk, KYT, AGV | Premium, Esportivo, Viseira Solar | [brmotorsport.com.br](https://www.brmotorsport.com.br) | Portal Lojista |
+| **MTO Distribuidora** | Multimarcas Nacional | Motopeças e Capacetes | [mtodistribuidora.com.br](https://www.mtodistribuidora.com.br) | Portal B2B |
+| **Damásio Motopeças** | Multimarcas Nacional | Distribuição Atacado | [damasiomotopecas.com.br](https://www.damasiomotopecas.com.br) | Representantes |
