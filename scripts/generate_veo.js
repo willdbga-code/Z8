@@ -85,6 +85,18 @@ const PRESETS = {
       'The safety orange tubular frame and glowing circular halo LED headlight stand out with crisp commercial reflections, 60fps.',
     aspectRatio: '16:9',
     durationSeconds: 5
+  },
+  'harley-carvalhopinto': {
+    title: 'Z8 Harley X21 Custom na Rodovia Carvalho Pinto (SP-070)',
+    image: path.join(MODELS_DIR, 'z8_harley_carvalho_wide.jpg'),
+    output: 'z8_harley_carvalho_veo.mp4',
+    prompt:
+      'Cinematic highway tracking drone shot following the Z8 Harley X21 Custom electric chopper motorcycle ' +
+      'cruising along the smooth asphalt curves of Rodovia Carvalho Pinto (SP-070). Polished chrome ape-hanger ' +
+      'handlebars and satin black teardrop bodywork gleaming under a breathtaking golden hour sunset horizon. ' +
+      'Rolling green hills of Vale do Paraíba, modern viaducts, wide open road freedom, high-end 8k automotive commercial, 60fps.',
+    aspectRatio: '16:9',
+    durationSeconds: 5
   }
 };
 

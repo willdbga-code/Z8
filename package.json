@@ -10,6 +10,7 @@
     "veo:tank": "node scripts/generate_veo.js --preset tank-paulista",
     "veo:fx10": "node scripts/generate_veo.js --preset fx10-sjc",
     "veo:u2": "node scripts/generate_veo.js --preset u2-warehouse",
+    "veo:harley": "node scripts/generate_veo.js --preset harley-carvalhopinto",
     "veo:list": "node scripts/generate_veo.js --list"
   },
   "devDependencies": {
