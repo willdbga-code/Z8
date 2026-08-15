@@ -88,6 +88,19 @@ PRESETS = {
         ),
         "aspect_ratio": "16:9",
         "duration_seconds": 5
+    },
+    "u2-warehouse": {
+        "title": "Z8 U2 Delivery Cargo no Galpão de Fulfillment (Shopee / Mercado Livre)",
+        "image": MODELS_DIR / "z8_u2_warehouse_wide.jpg",
+        "output": "z8_u2_warehouse_veo.mp4",
+        "prompt": (
+            "Cinematic tracking drone shot moving smoothly past the Z8 U2 Delivery Cargo electric scooter "
+            "inside a modern high-tech e-commerce logistics fulfillment distribution center. Polished epoxy floor reflections, "
+            "towering storage racks filled with shipping packages, automated conveyor belts, and bright industrial LED lighting. "
+            "The safety orange tubular frame and glowing circular halo LED headlight stand out with crisp commercial reflections, 60fps."
+        ),
+        "aspect_ratio": "16:9",
+        "duration_seconds": 5
     }
 }
 
