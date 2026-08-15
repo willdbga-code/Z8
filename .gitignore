@@ -4,5 +4,8 @@ dist
 *.log
 *.zip
 *.obj
+.env
+.env.*
+!.env.example
 
 .vercel
