@@ -97,6 +97,30 @@ const PRESETS = {
       'Rolling green hills of Vale do Paraíba, modern viaducts, wide open road freedom, high-end 8k automotive commercial, 60fps.',
     aspectRatio: '16:9',
     durationSeconds: 5
+  },
+  'q10-madalena': {
+    title: 'Z8 Q10 Vintage na Vila Madalena (Café Bistrô & Paralelepípedos)',
+    image: path.join(MODELS_DIR, 'z8_q10_madalena_wide.jpg'),
+    output: 'z8_q10_madalena_veo.mp4',
+    prompt:
+      'Cinematic low-angle slow push-in shot along the cobblestone street in Vila Madalena, São Paulo, ' +
+      'framing the elegant gunmetal titanium Z8 Q10 Vintage electric scooter outside a charming coffee shop bistro. ' +
+      'Warm golden afternoon sunlight, rich brown leather saddle textures, and glowing circular halo LED headlight ' +
+      'contrasting with lush green terrace plants and ambient string lights. 4k 60fps automotive editorial.',
+    aspectRatio: '16:9',
+    durationSeconds: 5
+  },
+  'n710-farialima': {
+    title: 'Z8 N710 Urban Plus na Av. Faria Lima (Distrito Financeiro)',
+    image: path.join(MODELS_DIR, 'z8_n710_farialima_wide.jpg'),
+    output: 'z8_n710_farialima_veo.mp4',
+    prompt:
+      'Cinematic smooth tracking camera orbiting around the deep emerald green Z8 N710 Urban Plus electric scooter ' +
+      'parked on a sleek pedestrian plaza on Avenida Brigadeiro Faria Lima in São Paulo during twilight blue hour. ' +
+      'Horizontal glowing mecha LED light bar reflecting off modern glass skyscraper facades and polished granite floor. ' +
+      'Futuristic urban mobility aesthetic, pristine 8k commercial quality, 60fps.',
+    aspectRatio: '16:9',
+    durationSeconds: 5
   }
 };
 
