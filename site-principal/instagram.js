@@ -68,7 +68,7 @@ const POST_DATA = {
   12: {
     img: '/assets/instagram_n95c/post_12_battery.jpg',
     likes: '10.150 curtidas',
-    caption: 'Autonomia estendida de 240km com bateria dupla de lítio removível. Carregue onde quiser em tomada comum. 🔋 #BateriaLitio #QuickSwap #240kmAutonomia'
+    caption: 'Autonomia de até 40km com bateria de lítio removível. Carregue onde quiser em tomada comum. 🔋 #BateriaLitio #QuickSwap #40kmAutonomia'
   }
 };
 

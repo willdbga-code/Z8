@@ -112,12 +112,12 @@ const radianFeatureData = [
   {
     headline: 'Troca em 30 segundos',
     image: '/assets/n95c/n95c_hero.jpg',
-    caption: 'Bateria de Lítio removível 60V 120Ah com até 240km de autonomia estendida e carregamento rápido.'
+    caption: 'Bateria de Lítio removível 60V 20Ah com até 40km de autonomia e carregamento rápido.'
   },
   {
     headline: 'Potência instantânea',
     image: '/assets/n95c/n95c_hero.jpg',
-    caption: 'Motor Hub 1200W 27H com torque imediato de saída e aceleração silenciosa.'
+    caption: 'Motor Hub 1000W 27H com velocidade limitada a 32 km/h (CONTRAN 996) e torque silencioso.'
   },
   {
     headline: 'Farol LED DRL Horizontal',

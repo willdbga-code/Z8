@@ -7,10 +7,10 @@ export const z8Models = [
     tag: 'Linha Exclusiva Franquia',
     isExclusiveFranchise: true,
     image: '/assets/models/z8_tank_studio.jpg',
-    motor: '2000W High Torque',
-    speed: '80 km/h',
-    range: 'Até 240 km (Lítio 60V 125Ah) / 70 km (Chumbo 72V 20Ah)',
-    battery: 'Lítio 60V 125Ah / Chumbo 72V 20Ah',
+    motor: '1000W High Torque',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 40 km (Bateria 60V 20Ah)',
+    battery: 'Lítio / Chumbo 60V 20Ah',
     brakes: 'Freios a disco hidráulicos duplos (Diant / Tras)',
     tires: '110/70/12 Pneus Off-Road / Neve Texturizados',
     chassis: 'Aço de Alta Carbono com Estrutura Tubular Dupla',
@@ -18,7 +18,7 @@ export const z8Models = [
     wholesalePrice: 7500,
     retailPrice: 9500,
     marginPct: 21.1,
-    description: 'A topo de linha da Z8 E-motion. Moto elétrica de alta velocidade e estilo super trail/off-road, projetada para quem exige potência máxima, autonomia estendida de 240km e tecnologia NFC.'
+    description: 'A topo de linha da Z8 E-motion. Moto elétrica de estilo super trail/off-road, com motor 1000W, velocidade limitada a 32 km/h conforme CONTRAN, autonomia de até 40km e tecnologia NFC.'
   },
   {
     id: 'z8-fx10',
@@ -28,10 +28,10 @@ export const z8Models = [
     tag: 'Linha Exclusiva Franquia',
     isExclusiveFranchise: true,
     image: '/assets/models/z8_fx10_studio.jpg',
-    motor: '1500W Sem Escova',
-    speed: '68 km/h',
-    range: 'Até 240 km (Lítio 60V 120Ah) / 70 km (Chumbo 72V 20Ah)',
-    battery: 'Lítio 60V 120Ah / Chumbo 72V 20Ah',
+    motor: '1000W Sem Escova',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 40 km (Bateria 60V 20Ah)',
+    battery: 'Lítio / Chumbo 60V 20Ah',
     brakes: 'Freio a disco hidráulico 180mm',
     tires: '130/60/10 Pneu de Vácuo',
     chassis: 'Quadro Aço Carbono Esportivo',
@@ -39,7 +39,7 @@ export const z8Models = [
     wholesalePrice: 7000,
     retailPrice: 9000,
     marginPct: 22.2,
-    description: 'Scooter esportiva de alta performance com velocidade máxima de 68 km/h e visual agressivo. Modelo de alto apelo comercial para o público jovem e urbano.'
+    description: 'Scooter esportiva com motor de 1000W, velocidade limitada a 32 km/h e visual agressivo. Modelo de alto apelo comercial para o público jovem e urbano.'
   },
   {
     id: 'z8-harley-x21',
@@ -49,9 +49,9 @@ export const z8Models = [
     tag: 'Alta Performance',
     isExclusiveFranchise: false,
     image: '/assets/models/z8_harley_studio.jpg',
-    motor: '2000W Sem Escova',
-    speed: '55 km/h',
-    range: '40-45 km (Lítio 60V 20Ah)',
+    motor: '1000W Sem Escova',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 40 km (Lítio 60V 20Ah)',
     battery: 'Lítio 60V 20Ah Removível',
     brakes: 'Freios a disco hidráulicos 180mm',
     tires: '10 polegadas Pneu Largo Chopper',
@@ -60,7 +60,7 @@ export const z8Models = [
     wholesalePrice: 6500,
     retailPrice: 8000,
     marginPct: 18.8,
-    description: 'Estilo chopper/custom inconfundível com potente motor de 2000W, caixa de som Bluetooth nativa e sistema NFC. Sucesso de vendas para uso de lazer e praia.'
+    description: 'Estilo chopper/custom inconfundível com motor de 1000W, velocidade limitada a 32 km/h, caixa de som Bluetooth nativa e sistema NFC.'
   },
   {
     id: 'z8-u2-delivery',
@@ -70,10 +70,10 @@ export const z8Models = [
     tag: 'Especial para Frotas & Delivery',
     isExclusiveFranchise: false,
     image: '/assets/models/z8_u2_studio.jpg',
-    motor: '1200W Sem Escova',
-    speed: '55 km/h',
-    range: 'Até 240 km (Lítio 60V 120Ah) / 70 km (Chumbo 72V 20Ah)',
-    battery: 'Lítio 60V 120Ah / Chumbo 72V 20Ah',
+    motor: '1000W Sem Escova',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 40 km (Bateria 60V 20Ah)',
+    battery: 'Lítio / Chumbo 60V 20Ah',
     brakes: 'Disco Hidráulico Dianteiro e Traseiro 180mm',
     tires: '300-10 Pneu de Vácuo',
     chassis: 'Aço Carbono Reforçado para Carga',
@@ -81,7 +81,7 @@ export const z8Models = [
     wholesalePrice: 6000,
     retailPrice: 7500,
     marginPct: 20.0,
-    description: 'Veículo elétrico utilitário projetado para entregadores e frotas de faturamento corporativo. Assento bipartido e base militarizada para suporte de baú de grande porte.'
+    description: 'Veículo elétrico utilitário para entregadores e frotas. Motor de 1000W, velocidade limitada a 32 km/h, assento bipartido e base reforçada para baú.'
   },
   {
     id: 'z8-n95c',
@@ -91,10 +91,10 @@ export const z8Models = [
     tag: 'Linha Executiva',
     isExclusiveFranchise: false,
     image: '/assets/models/z8_n95c_comfort.jpg',
-    motor: '1200W 27H',
-    speed: '50 km/h',
-    range: 'Até 240 km (Lítio 60V 120Ah) / 70 km (Chumbo 72V 20Ah)',
-    battery: 'Lítio 60V 120Ah / Chumbo 72V 20Ah',
+    motor: '1000W 27H',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 40 km (Bateria 60V 20Ah)',
+    battery: 'Lítio / Chumbo 60V 20Ah',
     brakes: 'Freio a Disco Dianteiro / Tambor Traseiro',
     tires: '130/70/10 Pneus Alargados',
     chassis: 'Aço Carbono Reforçado com Proteção Lateral',
@@ -102,7 +102,7 @@ export const z8Models = [
     wholesalePrice: 6500,
     retailPrice: 8000,
     marginPct: 18.8,
-    description: 'Scooter executiva com assento duplo macio e pneus alargados de 130mm para estabilidade impecável em asfalto urbano e vias irregulares.'
+    description: 'Scooter executiva com assento duplo macio, motor 1000W, velocidade limitada a 32 km/h e pneus alargados de 130mm para estabilidade impecável.'
   },
   {
     id: 'z8-n7',
@@ -112,10 +112,10 @@ export const z8Models = [
     tag: 'Mais Vendido',
     isExclusiveFranchise: false,
     image: '/assets/models/z8_n7_studio.jpg',
-    motor: '1200W Sem Escova',
-    speed: '50 km/h',
-    range: 'Até 240 km (Lítio 60V 120Ah) / 70 km (Chumbo 72V 20Ah)',
-    battery: 'Lítio 60V 120Ah / Chumbo 72V 20Ah',
+    motor: '1000W Sem Escova',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 40 km (Bateria 60V 20Ah)',
+    battery: 'Lítio / Chumbo 60V 20Ah',
     brakes: 'Duplo Disco Hidráulico 180mm',
     tires: '300-10 Pneu Vácuo',
     chassis: 'Estrutura Aço Leve e Resistente',
@@ -123,7 +123,7 @@ export const z8Models = [
     wholesalePrice: 5500,
     retailPrice: 7500,
     marginPct: 26.7,
-    description: 'O modelo coringa da linha Z8 E-motion. Equilíbrio perfeito entre preço de atacado, frenagem a disco dupla e alto volume de giro no varejo.'
+    description: 'O modelo coringa da linha Z8 E-motion. Motor de 1000W, velocidade limitada a 32 km/h, frenagem a disco dupla e alto volume de giro no varejo.'
   },
   {
     id: 'z8-q10',
@@ -133,10 +133,10 @@ export const z8Models = [
     tag: 'Estilo Clássico / Retro',
     isExclusiveFranchise: false,
     image: '/assets/models/z8_q10_studio.jpg',
-    motor: '1200W High Efficiency',
-    speed: '45 km/h',
-    range: 'Até 240 km (Lítio 60V 120Ah) / 50 km (Chumbo 60V 20Ah)',
-    battery: 'Lítio 60V 120Ah / Chumbo 60V 20Ah',
+    motor: '1000W High Efficiency',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 40 km (Bateria 60V 20Ah)',
+    battery: 'Lítio / Chumbo 60V 20Ah',
     brakes: 'Disco Dianteiro / Tambor Traseiro',
     tires: '300-10 Pneu Vácuo',
     chassis: 'Aço Carbono Estilo Italiano',
@@ -144,7 +144,7 @@ export const z8Models = [
     wholesalePrice: 5800,
     retailPrice: 7800,
     marginPct: 25.6,
-    description: 'Scooter clássica inspirada nas lendárias vespas europeias com toque moderno elétrico. Altíssima procura para deslocamentos diários com estilo.'
+    description: 'Scooter clássica inspirada nas lendárias vespas europeias. Motor de 1000W, velocidade limitada a 32 km/h e altíssima procura para o dia a dia.'
   },
   {
     id: 'z8-n710',
@@ -154,10 +154,10 @@ export const z8Models = [
     tag: 'Lançamento 2026',
     isExclusiveFranchise: false,
     image: '/assets/models/z8_n710_studio.jpg',
-    motor: '1200W Sem Escova',
-    speed: '50 km/h',
-    range: 'Até 240 km (Lítio 60V 120Ah) / 70 km (Chumbo 72V 20Ah)',
-    battery: 'Lítio 60V 120Ah / Chumbo 72V 20Ah',
+    motor: '1000W Sem Escova',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 40 km (Bateria 60V 20Ah)',
+    battery: 'Lítio / Chumbo 60V 20Ah',
     brakes: 'Disco Hidráulico Dianteiro / Traseiro',
     tires: '300-10 Pneu de Vácuo',
     chassis: 'Aço Carbono Reforçado Urban',
@@ -165,7 +165,7 @@ export const z8Models = [
     wholesalePrice: 5300,
     retailPrice: 7500,
     marginPct: 29.3,
-    description: 'Nova geração da linha urbana Z8 N710. Scooter com design moderno, ótimo equilíbrio entre potência e consumo, e chassi reforçado para o dia a dia.'
+    description: 'Nova geração da linha urbana Z8 N710. Motor de 1000W, velocidade limitada a 32 km/h, design moderno e chassi reforçado.'
   },
   {
     id: 'z8-q11',
@@ -176,9 +176,9 @@ export const z8Models = [
     isExclusiveFranchise: false,
     image: '/assets/models/z8_q11_studio.jpg',
     motor: '1000W 9G',
-    speed: '45 km/h',
-    range: 'Até 240 km (Lítio 60V 120Ah) / 50 km (Chumbo 60V 20Ah)',
-    battery: 'Lítio 60V 120Ah / Chumbo 72V 20Ah',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 35-40 km (Bateria 60V 20Ah)',
+    battery: 'Lítio / Chumbo 60V 20Ah',
     brakes: 'Disco Dianteiro 180mm / Tambor Traseiro',
     tires: '300-10 Pneu Vácuo',
     chassis: 'Aço Carbono Compacto',
@@ -186,7 +186,7 @@ export const z8Models = [
     wholesalePrice: 5200,
     retailPrice: 7300,
     marginPct: 28.8,
-    description: 'Compacta, leve e graciosa. Ideal para o público que busca facilidade de pilotagem, estacionamento simples e baixo consumo energético.'
+    description: 'Compacta, leve e graciosa. Motor de 1000W, velocidade limitada a 32 km/h, facilidade de pilotagem e baixo consumo energético.'
   },
   {
     id: 'z8-gs005',
@@ -196,9 +196,9 @@ export const z8Models = [
     tag: 'Entrada / E-Bike Utility',
     isExclusiveFranchise: false,
     image: '/assets/models/z8_gs005_studio.jpg',
-    motor: '400W Cobre Puro',
-    speed: '28-35 km/h',
-    range: '50 km (Bateria 48V 20Ah)',
+    motor: '500W Cobre Puro',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 35-40 km (Bateria 48V 20Ah)',
     battery: 'Chumbo-Ácido 48V 20Ah',
     brakes: 'Tambor Dianteiro e Traseiro Reforçado',
     tires: '14x2.5 inch Pneu de Vácuo',
@@ -207,7 +207,7 @@ export const z8Models = [
     wholesalePrice: 3200,
     retailPrice: 4200,
     marginPct: 23.8,
-    description: 'Modelo de entrada multiúso extremamente econômico. Cesta frontal de transporte, baixo custo de manutenção e facilidade de recarga residencial.'
+    description: 'Modelo de entrada multiúso com motor de 500W e velocidade limitada a 32 km/h. Cesta frontal de transporte, baixo custo de manutenção e recarga simples.'
   },
   {
     id: 'z8-diamond',
@@ -217,9 +217,9 @@ export const z8Models = [
     tag: 'Design Premium',
     isExclusiveFranchise: false,
     image: '/assets/models/z8_diamond_studio.jpg',
-    motor: '800W High Efficiency',
-    speed: '40 km/h',
-    range: '50 km (Bateria 48V 20Ah)',
+    motor: '500W High Efficiency',
+    speed: '32 km/h (Limitada CONTRAN)',
+    range: 'Até 35-40 km (Bateria 48V 20Ah)',
     battery: 'Chumbo-Ácido / Lítio 48V 20Ah',
     brakes: 'Freio a Disco Dianteiro / Tambor Traseiro',
     tires: '14x2.5 Pneu Vácuo',
@@ -228,6 +228,6 @@ export const z8Models = [
     wholesalePrice: 3400,
     retailPrice: 4800,
     marginPct: 29.2,
-    description: 'Modelo Z8 Diamond com acabamento refinado e linhas elegantes. Ideal para mobilidade leve, passeios e trajetos urbanos curtos com máximo conforto.'
+    description: 'Modelo Z8 Diamond com motor de 500W, velocidade limitada a 32 km/h e linhas elegantes. Ideal para mobilidade leve com máximo conforto.'
   }
 ];
