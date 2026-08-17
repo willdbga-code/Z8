@@ -4,6 +4,9 @@ dist
 *.log
 *.zip
 *.obj
+*.prproj
+*.prin
+**/Adobe Premiere Pro*
 .env
 .env.*
 !.env.example

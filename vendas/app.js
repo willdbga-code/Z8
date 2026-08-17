@@ -1,11 +1,12 @@
 /* ==========================================================================
-   Z8 E-MOTION - LANDING PAGE DE VENDAS B2B SCRIPT (INTERATIVIDADE E ATACADO)
+   Z8 E-MOTION - LANDING PAGE DE VENDAS B2B (AWWWARDS EDITORIAL ENGINE)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
   initCountdownTimer();
   initSeatDecreaser();
   initCepChecker();
+  initCatalogTabs();
   initB2bProfitCalculator();
   initFaqAccordion();
   initCheckoutModal();
@@ -17,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
    -------------------------------------------------------------------------- */
 function initCountdownTimer() {
   const topTimerEl = document.getElementById('top-timer');
-  const cardTimerEl = document.getElementById('card-timer');
 
   let targetTime = localStorage.getItem('z8_b2b_target_time');
   if (!targetTime) {
@@ -44,7 +44,6 @@ function initCountdownTimer() {
     const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
     if (topTimerEl) topTimerEl.textContent = formatted;
-    if (cardTimerEl) cardTimerEl.textContent = formatted;
   }
 
   updateTimer();
@@ -56,16 +55,10 @@ function initCountdownTimer() {
    -------------------------------------------------------------------------- */
 function initSeatDecreaser() {
   const seatsEl = document.getElementById('vip-seats');
-  const stockFillEl = document.getElementById('stock-fill');
-  
   let currentSeats = parseInt(localStorage.getItem('z8_b2b_seats') || '9', 10);
 
   function updateSeatsUI() {
     if (seatsEl) seatsEl.textContent = currentSeats;
-    if (stockFillEl) {
-      const percentage = Math.max(12, (currentSeats / 50) * 100);
-      stockFillEl.style.width = `${percentage}%`;
-    }
   }
 
   updateSeatsUI();
@@ -76,7 +69,7 @@ function initSeatDecreaser() {
       localStorage.setItem('z8_b2b_seats', currentSeats);
       updateSeatsUI();
     }
-  }, 30000);
+  }, 35000);
 }
 
 /* --------------------------------------------------------------------------
@@ -92,32 +85,71 @@ function initCepChecker() {
   btn.addEventListener('click', () => {
     const val = input.value.trim();
     if (!val) {
-      alert('Por favor, informe o seu CEP ou o nome da sua Cidade.');
+      resultMsg.innerHTML = '<span style="color: #ffaa00;"><i class="fa-solid fa-triangle-exclamation"></i> Digite sua cidade ou CEP.</span>';
       return;
     }
 
-    btn.textContent = 'VERIFICANDO...';
+    btn.textContent = '...';
     btn.disabled = true;
 
     setTimeout(() => {
-      btn.textContent = 'VERIFICAR';
+      btn.textContent = 'CONSULTAR';
       btn.disabled = false;
 
-      resultMsg.className = 'cep-result-msg active highlight-green';
       resultMsg.innerHTML = `
-        <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-start; margin-top: 10px;">
-          <span><i class="fa-solid fa-circle-check"></i> EXCLUSIVIDADE DISPONÍVEL para "<strong>${val.toUpperCase()}</strong>"! Trave sua cidade antes do seu concorrente local.</span>
-          <button type="button" class="btn-open-register" data-city="${val}" style="background: linear-gradient(135deg, #10B981, #059669); color: #ffffff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; box-shadow: 0 4px 14px rgba(16,185,129,0.3);">
-            <i class="fa-solid fa-shield-halved"></i> CADASTRE-SE E GARANTA SUA CIDADE
+        <div style="background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 8px; padding: 10px 14px; margin-top: 10px;">
+          <p style="color: #fff; font-size: 0.82rem; margin-bottom: 8px;">
+            <i class="fa-solid fa-circle-check text-accent-green"></i> <strong>DISPONÍVEL:</strong> Concessão livre para "<strong>${val.toUpperCase()}</strong>"!
+          </p>
+          <button type="button" class="btn-open-checkout" data-city="${val}" style="background: var(--accent-green); color: #000; font-weight: 800; font-size: 0.75rem; padding: 6px 14px; border-radius: 9999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+            <i class="fa-solid fa-lock"></i> TRAVAR ESTA CIDADE AGORA
           </button>
         </div>
       `;
-    }, 800);
+
+      // Re-bind modal triggers for newly created dynamic buttons
+      const dynamicBtn = resultMsg.querySelector('.btn-open-checkout');
+      if (dynamicBtn) {
+        dynamicBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const cityInput = document.getElementById('input-city');
+          if (cityInput) cityInput.value = val;
+          const modal = document.getElementById('checkout-modal');
+          if (modal) modal.classList.add('active');
+        });
+      }
+    }, 600);
   });
 }
 
 /* --------------------------------------------------------------------------
-   4. CALCULADORA B2B DE LUCRATIVIDADE MENSAL DO LOJISTA
+   4. FILTRO DE CATEGORIAS DO CATÁLOGO TABULADO (AWWWARDS STYLE)
+   -------------------------------------------------------------------------- */
+function initCatalogTabs() {
+  const tabBtns = document.querySelectorAll('.catalog-tab-btn');
+  const productCards = document.querySelectorAll('.product-card-editorial');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const selectedCat = btn.getAttribute('data-category');
+
+      productCards.forEach(card => {
+        const cardCat = card.getAttribute('data-cat');
+        if (selectedCat === 'all' || cardCat === selectedCat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   5. CALCULADORA B2B DE LUCRATIVIDADE MENSAL DO LOJISTA
    -------------------------------------------------------------------------- */
 function initB2bProfitCalculator() {
   const slider = document.getElementById('sales-slider');
@@ -129,9 +161,9 @@ function initB2bProfitCalculator() {
 
   function calculate() {
     const unitsPerMonth = parseInt(slider.value, 10);
-    salesDisplay.textContent = `${unitsPerMonth} motos / mês`;
+    if (salesDisplay) salesDisplay.textContent = `${unitsPerMonth} motos / mês`;
 
-    // Lucro médio por unidade vendida = R$ 2.000,00 (Markup médio de 31,5% / Margem média de ~24%)
+    // Lucro médio por unidade = R$ 2.000,00 (Markup médio de ~31% direto de fábrica)
     const monthlyProfit = unitsPerMonth * 2000;
     const annualProfit = monthlyProfit * 12;
 
@@ -148,13 +180,13 @@ function initB2bProfitCalculator() {
 }
 
 /* --------------------------------------------------------------------------
-   5. FAQ ACCORDION
+   6. FAQ ACCORDION
    -------------------------------------------------------------------------- */
 function initFaqAccordion() {
   const faqItems = document.querySelectorAll('.faq-item');
 
   faqItems.forEach(item => {
-    const questionBtn = item.querySelector('.faq-question');
+    const questionBtn = item.querySelector('.faq-question-btn');
     if (questionBtn) {
       questionBtn.addEventListener('click', () => {
         const isActive = item.classList.contains('active');
@@ -168,7 +200,7 @@ function initFaqAccordion() {
 }
 
 /* --------------------------------------------------------------------------
-   6. CHECKOUT MODAL B2B (PASSAPORTE R$ 97)
+   7. CHECKOUT MODAL B2B (PASSAPORTE VIP R$ 2.989)
    -------------------------------------------------------------------------- */
 function initCheckoutModal() {
   const modal = document.getElementById('checkout-modal');
@@ -176,6 +208,7 @@ function initCheckoutModal() {
   const closeBtn = document.getElementById('btn-close-modal');
   const checkoutForm = document.getElementById('checkout-form');
   const payOptions = document.querySelectorAll('.pay-option');
+  const openCrmBtn = document.getElementById('open-crm-btn');
 
   if (!modal) return;
 
@@ -185,6 +218,13 @@ function initCheckoutModal() {
       modal.classList.add('active');
     });
   });
+
+  if (openCrmBtn) {
+    openCrmBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.add('active');
+    });
+  }
 
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
@@ -200,8 +240,14 @@ function initCheckoutModal() {
 
   payOptions.forEach(opt => {
     opt.addEventListener('click', () => {
-      payOptions.forEach(o => o.classList.remove('active'));
+      payOptions.forEach(o => {
+        o.classList.remove('active');
+        o.style.borderColor = 'var(--border-medium)';
+        o.querySelector('span').style.color = 'var(--text-muted)';
+      });
       opt.classList.add('active');
+      opt.style.borderColor = 'var(--accent-green)';
+      opt.querySelector('span').style.color = '#fff';
     });
   });
 
@@ -217,22 +263,24 @@ function initCheckoutModal() {
       const activePay = document.querySelector('.pay-option.active span');
       const paymentMethod = activePay ? activePay.textContent.trim() : 'PIX';
 
-      // Save lead into Firebase / Hybrid Storage Engine
+      // Save lead into Firebase / Hybrid Storage Engine if available
       try {
         const { saveLead } = await import('./firebase-config.js');
-        saveLead({ name, company, city, state: 'SP', email, phone, paymentMethod });
+        if (typeof saveLead === 'function') {
+          saveLead({ name, company, city, state: 'SP', email, phone, paymentMethod });
+        }
       } catch (err) {
-        console.error('Lead storage sync:', err);
+        console.log('Lead storage local mode');
       }
 
-      alert(`🎉 EXCLUSIVIDADE RESERVADA COM SUCESSO!\n\nEmpresa: ${company.toUpperCase()}\nRegião: ${city.toUpperCase()}\n\nSeu pedido de Reserva de Exclusividade Territorial (R$ 2.989,00) foi registrado no CRM!\nEste valor será 100% ABATIDO no seu pedido mínimo de atacado.\n\nO Dossiê Comercial B2B e as instruções de faturamento foram enviados para o seu e-mail e WhatsApp.`);
+      alert(`🎉 EXCLUSIVIDADE RESERVADA COM SUCESSO!\n\nEmpresa: ${company.toUpperCase()}\nRegião: ${city.toUpperCase()}\n\nSeu pedido de Reserva de Exclusividade Territorial (R$ 2.989,00) foi registrado!\nEste valor será 100% ABATIDO no seu pedido mínimo de atacado.\n\nO Dossiê Comercial B2B e as instruções de faturamento foram enviados para o seu e-mail e WhatsApp.`);
       modal.classList.remove('active');
     });
   }
 }
 
 /* --------------------------------------------------------------------------
-   7. LIVE SALES POPUP B2B (SOCIAL PROOF CORPORATIVO)
+   8. LIVE SALES POPUP B2B (SOCIAL PROOF CORPORATIVO)
    -------------------------------------------------------------------------- */
 function initLiveSalesPopups() {
   const popup = document.getElementById('live-sales-popup');
@@ -272,13 +320,3 @@ function initLiveSalesPopups() {
   setTimeout(showNextPopup, 5000);
   setInterval(showNextPopup, 24000);
 }
-
-// 8. FRANCHISE LEAD FORM SUBMIT
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('franchise-form-sales')?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('sales-lead-name')?.value || '';
-    const city = document.getElementById('sales-lead-city')?.value || '';
-    alert(`🎉 CADASTRO DE INTERESSE REGISTRADO COM SUCESSO!\n\nObrigado, ${name}!\nSua solicitação de franquia para a região de ${city} foi recebida.\n\nEnviamos a Tabela Oficial de Importação e a Minuta do Contrato de Franquia para o seu e-mail e WhatsApp.`);
-  });
-});

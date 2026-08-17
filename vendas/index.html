@@ -3,16 +3,16 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Z8 E-Motion | Programa de Revenda, Atacado & Exclusividade Territorial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Z8 E-Motion | Distribuição & Atacado Direct-Factory de Veículos Elétricos</title>
   <meta name="description"
-    content="Seja um Revendedor Oficial Z8 E-Motion na sua cidade. Margens de até 65%, 100% Homologado DENATRAN, Pronta Entrega no Brasil e Exclusividade de Região." />
+    content="Programa de Revenda e Atacado Oficial Z8 E-Motion. Margens de até 41,51%, 100% Homologado CONTRAN, Pronta-Entrega no Brasil e Exclusividade Territorial de Cidade." />
 
-  <!-- Fonts Google -->
+  <!-- Google Fonts: Space Grotesk, Inter, JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;800;900&family=Rajdhani:wght@600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap"
     rel="stylesheet">
 
   <!-- FontAwesome Icons -->
@@ -24,913 +24,843 @@
 
 <body>
 
-  <!-- 1. TOP STICKY URGENCY BAR B2B -->
-  <div class="top-urgency-bar">
-    <div class="urgency-content">
-      <span class="urgency-badge"><i class="fa-solid fa-building-flag"></i> EXPANSÃO NACIONAL BRASIL</span>
-      <span>Lote #01 de Atacado: Restam apenas <strong id="vip-seats" class="highlight-gold">9</strong> Cotas
-        Regionais!</span>
-      <span>Encerra em: <span id="top-timer" class="timer-badge">00:18:45</span></span>
-    </div>
-    <a href="#tripwire-offer" class="urgency-btn btn-open-checkout">
-      <i class="fa-solid fa-lock"></i> TRAVAR CIDADE POR R$ 2.989 (ABATIDO)
-    </a>
+  <!-- 1. TOP ANNOUNCEMENT BAR (COTAS & URGÊNCIA) -->
+  <div class="top-announcement-bar">
+    <span class="announcement-badge"><i class="fa-solid fa-bolt"></i> Expansão Direct-Factory 2026</span>
+    <span class="announcement-text">Lote #01: Restam <strong id="vip-seats" class="text-accent-gold">9</strong> Cotas Regionais</span>
+    <span class="announcement-time-wrap">Encerra: <span id="top-timer" class="announcement-timer">00:18:45</span></span>
+    <a href="#tripwire-offer" class="announcement-link btn-open-checkout">Garantir Região (100% Abatido)</a>
   </div>
 
-  <!-- 2. HEADER NAVBAR B2B -->
-  <header class="vendas-header">
-    <div class="vendas-container">
-      <div class="nav-wrapper">
-        <div class="brand-area">
-          <img src="/assets/logos/ztrasparente.png" alt="Z8 E-Motion Logo" class="brand-logo" />
-          <div class="brand-tag">
-            <span class="brand-title">Z8 E-MOTION</span>
-            <span class="brand-sub">IMPORTAÇÃO DIRETA, ATACADO & FRANQUIAS</span>
+  <!-- 2. FLOATING EDITORIAL HEADER (AWWWARDS STYLE) -->
+  <header class="site-header">
+    <div class="site-container">
+      <div class="header-inner">
+        <a href="/vendas/" class="header-brand">
+          <img src="/assets/logos/ztrasparente.png" alt="Z8 E-Motion" />
+          <div class="header-brand-title">
+            <span>Z8 E-MOTION</span>
+            <span class="header-brand-tag">B2B DIRECT</span>
           </div>
-        </div>
-        <div class="nav-actions-group">
-          <button type="button" id="open-crm-btn" class="nav-cta-btn" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #00F2FE; cursor: pointer;">
-            <i class="fa-solid fa-right-to-bracket"></i> ÁREA DE LOGIN
+        </a>
+
+        <nav class="header-nav">
+          <a href="#bento-overview" class="nav-link">Logística & Estoque</a>
+          <a href="#catalogo" class="nav-link">Catálogo de Fábrica</a>
+          <a href="#calculadora" class="nav-link">Simulador de Lucro</a>
+          <a href="#tripwire-offer" class="nav-link">Exclusividade de Cidade</a>
+          <a href="#faq" class="nav-link">FAQ Atacado</a>
+        </nav>
+
+        <div class="header-actions">
+          <button type="button" id="open-crm-btn" class="btn-header-login" title="Portal do Revendedor">
+            <i class="fa-solid fa-lock"></i>
+            <span class="btn-header-login-text">PORTAL</span>
           </button>
-          <a href="#tripwire-offer" class="nav-cta-btn btn-open-checkout">
-            <i class="fa-solid fa-chart-line"></i> SEJA UM REVENDEDOR AUTORIZADO
+          <a href="#tripwire-offer" class="btn-header-cta btn-open-checkout">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>TRAVAR CIDADE</span>
           </a>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- 3. HERO SECTION B2B -->
-  <section class="hero-sales">
-    <div class="vendas-container">
-      <!-- Top Centered Header B2B -->
-      <div class="hero-top-centered">
-        <div class="hero-tag">
-          <i class="fa-solid fa-store"></i> PROGRAMA DE DISTRIBUIÇÃO NACIONAL
-        </div>
+  <!-- 3. HERO EDITORIAL HYPERSPEED / VIDEO SECTION -->
+  <section class="hero-editorial" id="platform">
+    <!-- Video Stage de Fundo (Google Veo - Z8 Tank na Trilha de Minas) -->
+    <div class="hero-video-stage">
+      <video class="hero-video-bg" autoplay muted loop playsinline poster="/assets/models/z8_tank_minas_wide.jpg">
+        <source src="/assets/videos/z8_tank_minas_hero.mp4" type="video/mp4">
+        <source src="/assets/videos/Hero Loop Background (Z8 Tank na Trilha de Minas).mp4" type="video/mp4">
+      </video>
+      <div class="hero-video-overlay"></div>
+    </div>
 
-        <h1 class="hero-title-sales">
-          Transforme a alta demanda de mobilidade elétrica em até <span class="highlight-green">41,51% de markup sobre o custo</span> (lucro de até R$ 2.200 por moto). Seja nosso parceiro de distribuição no Brasil.
-        </h1>
-
-        <p class="hero-subtitle-sales">
-          Direto da fábrica para a sua loja! Sem burocracia de RADAR ou importação. Receba veículos <strong>100%
-            homologados no DENATRAN</strong> com Nota Fiscal brasileira, peças a pronta entrega e
-          <strong>exclusividade territorial na sua cidade</strong>.
-        </p>
-
-        <!-- WIDGET DE CONSULTA DE EXCLUSIVIDADE POR CEP/CIDADE -->
-        <div class="cep-checker-box">
-          <div class="cep-checker-title">
-            <i class="fa-solid fa-location-dot"></i> Verifique se a sua Cidade tem Exclusividade Disponível:
-          </div>
-          <div class="cep-input-group">
-            <input type="text" id="cep-input" class="cep-input"
-              placeholder="Digite seu CEP ou Cidade (Ex: Campinas - SP)" />
-            <button type="button" id="cep-btn" class="cep-btn">VERIFICAR</button>
-          </div>
-          <div id="cep-result-msg" class="cep-result-msg"></div>
-        </div>
-      </div>
-
-      <div class="hero-grid-sales">
-
-        <!-- Left Side: Tripwire Offer -->
+    <div class="site-container">
+      <div class="hero-content-grid">
         <div class="hero-text-side">
-
-          <!-- PRODUTO DE ENTRADA B2B (TRIPWIRE CARD R$ 2.989) -->
-          <div class="tripwire-box" id="tripwire-offer">
-            <div class="tripwire-ribbon">LOTE #01 DE ATACADO</div>
-
-            <div class="tripwire-header">
-              <h3 class="tripwire-title"><i class="fa-solid fa-handshake"></i> Passaporte do Revendedor VIP + Reserva de
-                Cidade</h3>
-              <p class="tripwire-subtitle">Trave sua região por 30 dias e garanta benefícios exclusivos de atacado</p>
-            </div>
-
-            <div class="price-display">
-              <span class="old-price">R$ 5.990,00</span>
-              <span class="current-price">R$ 2.989,00</span>
-              <span class="price-period">taxa de reserva (100% ABATIDA no pedido de 5 motos)</span>
-            </div>
-
-            <!-- REGRA DE ABATIMENTO DESTACADA -->
-            <div
-              style="background: rgba(0, 255, 136, 0.1); border: 1px solid var(--border-highlight); border-radius: var(--radius-sm); padding: 12px 16px; margin-bottom: 20px; font-size: 0.88rem; color: #fff;">
-              <i class="fa-solid fa-circle-info highlight-green"></i> <strong>COMO FUNCIONA O ABATIMENTO:</strong> O
-              valor de <strong>R$ 2.989,00</strong> garante a Exclusividade Territorial da sua cidade por 30 dias. Este
-              valor é <strong>100% ABATIDO</strong> na compra do seu pedido mínimo de <strong>5 motos de
-                atacado</strong>!
-            </div>
-
-            <ul class="tripwire-benefits">
-              <li>
-                <i class="fa-solid fa-circle-check"></i>
-                <span><strong>Exclusividade Territorial Garantida</strong> por 30 dias na sua cidade</span>
-              </li>
-              <li>
-                <i class="fa-solid fa-circle-check"></i>
-                <span><strong>100% do Valor (R$ 2.989,00) Abatido</strong> no seu primeiro pedido de 5 motos</span>
-              </li>
-              <li>
-                <i class="fa-solid fa-circle-check"></i>
-                <span><strong>Pedido Mínimo Reduzido de Atacado</strong> (Apenas 5 unidades para faturar)</span>
-              </li>
-              <li>
-                <i class="fa-solid fa-circle-check"></i>
-                <span><strong>Tabela Direct-Factory</strong> com até 41,51% de Markup e R$ 2.200 de Lucro por Moto</span>
-              </li>
-              <li>
-                <i class="fa-solid fa-circle-check"></i>
-                <span><strong>Dossiê Comercial Completo</strong> + Material de PDV & Banners</span>
-              </li>
-
-            </ul>
-
-            <button class="cta-btn-main btn-open-checkout">
-              <i class="fa-solid fa-lock"></i> TRAVAR MINHA REGIÃO (R$ 2.989 ABATIDOS NO PEDIDO)
-            </button>
-
-            <div class="guarantee-micro">
-              <i class="fa-solid fa-shield-halved"></i> Garantia Comercial de 7 Dias | Reembolso 100% Garantido
-            </div>
-
-            <!-- Escassez da Barra de Cotas -->
-            <div class="stock-bar-container">
-              <div class="stock-text">
-                <span>COTAS REGIONAIS DISPONÍVEIS NO LOTE #01:</span>
-                <span class="stock-count">Apenas 9 cotas de 50 restantes!</span>
-              </div>
-              <div class="stock-progress-track">
-                <div class="stock-progress-fill" id="stock-fill"></div>
-              </div>
-            </div>
-
+          <div class="hero-tag">
+            <span class="hero-tag-dot"></span>
+            <span class="font-mono-tag">OPERAÇÃO DIRECT-FACTORY BRASIL 2026</span>
           </div>
 
+          <h1 class="hero-title">
+            DISTRIBUIÇÃO & ATACADO DE VEÍCULOS ELÉTRICOS.
+            <span class="hero-title-subline">A MAIOR MARGEM DO MERCADO EM DUAS RODAS.</span>
+          </h1>
+
+          <p class="hero-description">
+            Abasteça sua loja ou comece sua operação com margens diretas de fábrica de até <strong>41,51%</strong> e lucro líquido de até <strong>R$ 2.200 por unidade</strong>. Estoque pronta-entrega em São Paulo e pedido mínimo reduzido de 5 motos.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#tripwire-offer" class="btn-primary-pill btn-open-checkout">
+              <span>TRAVAR MINHA CIDADE (R$ 2.989 ABATIDOS)</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </a>
+            <a href="#catalogo" class="btn-secondary-pill">
+              <i class="fa-solid fa-layer-group"></i>
+              <span>VER CATÁLOGO DIRECT-FACTORY</span>
+            </a>
+          </div>
         </div>
 
-        <!-- Right Side: Visual Image & Floating Badges B2B -->
-        <div class="hero-visual-side">
-          <div class="hero-img-container"
-            style="background: #000; padding: 0; text-align: center; overflow: hidden; border-radius: var(--radius-lg);">
-            <img src="/assets/n95c/hero/hero_01_dark.jpg" alt="Scooter Elétrica Z8 E-Motion Dark Green Hero" class="hero-product-img"
-              style="width: 100%; height: 100%; max-height: 420px; object-fit: cover;" />
+        <!-- Telemetria Lateral do Hero -->
+        <div class="hero-telemetry-card">
+          <div class="telemetry-header">
+            <span class="font-mono-tag text-accent-green">STATUS DA OPERAÇÃO B2B</span>
+            <p style="font-size: 0.82rem; color: #fff; margin-top: 4px; font-weight: 600;">Despacho Logístico Nacional Ativo</p>
           </div>
 
-          <div class="floating-badge">
-            <i class="fa-solid fa-boxes-packing"></i>
+          <div class="telemetry-row">
+            <div class="telemetry-item">
+              <span class="telemetry-value text-accent-green">41,51%</span>
+              <span class="telemetry-label">Markup Máximo</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-value">5 UNID</span>
+              <span class="telemetry-label">Pedido Mínimo</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-value text-accent-gold">48H</span>
+              <span class="telemetry-label">Despacho SP</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-value">100%</span>
+              <span class="telemetry-label">Homologado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. SUPPLY CHAIN & CERTIFICATIONS INFINITE MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <div class="marquee-item"><span class="highlight">BATERIAS LÍTIO CATL</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">MOTORES BRUSHLESS HIGH-TORQUE 2000W</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">FREIOS A DISCO HIDRÁULICOS DUPLOS</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">CHASSI TUBULAR AÇO DE ALTA CARBONO</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">PARTIDA KEYLESS NFC</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">HOMOLOGAÇÃO CONTRAN RESOLUÇÃO 996</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">1 ANO DE GARANTIA DE FÁBRICA</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">ESTOQUE FULFILLMENT SÃO PAULO</span></div>
+      <div class="marquee-divider"></div>
+      <!-- Duplicação para loop contínuo -->
+      <div class="marquee-item"><span class="highlight">BATERIAS LÍTIO CATL</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">MOTORES BRUSHLESS HIGH-TORQUE 2000W</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">FREIOS A DISCO HIDRÁULICOS DUPLOS</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">CHASSI TUBULAR AÇO DE ALTA CARBONO</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">PARTIDA KEYLESS NFC</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">HOMOLOGAÇÃO CONTRAN RESOLUÇÃO 996</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">1 ANO DE GARANTIA DE FÁBRICA</span></div>
+      <div class="marquee-divider"></div>
+      <div class="marquee-item"><span class="highlight">ESTOQUE FULFILLMENT SÃO PAULO</span></div>
+    </div>
+  </div>
+
+  <!-- 5. BENTO GRID SECTION: DA IMPORTAÇÃO AO LUCRO LÍQUIDO -->
+  <section class="section-bento" id="bento-overview">
+    <div class="site-container">
+      <div class="section-header-editorial">
+        <span class="font-mono-tag">ENGENHARIA DE DISTRIBUIÇÃO B2B</span>
+        <h2 class="section-headline">Soluções rápidas de faturamento direto para o lojista moderno.</h2>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Bento Card Grande (Warehouse & Logística Direct-Factory com Vídeo Veo) -->
+        <article class="bento-card-large">
+          <div class="bento-media-stage">
+            <video class="bento-video" autoplay muted loop playsinline poster="/assets/models/z8_u2_warehouse_wide.jpg">
+              <source src="/assets/videos/z8_u2_delivery_fulfillment.mp4" type="video/mp4">
+              <source src="/assets/videos/Logistics & Cargo Fulfillment (Z8 U2 Delivery).mp4" type="video/mp4">
+            </video>
+            <div class="bento-media-badge">
+              <i class="fa-solid fa-warehouse"></i> Centro de Fulfillment SP
+            </div>
+          </div>
+
+          <div class="bento-content">
             <div>
-              <div class="floating-badge-title">ESTOQUE BRASIL A PRONTA ENTREGA</div>
-              <div class="floating-badge-sub">+R$ 15 Milhões em Veículos & Peças Nacionais</div>
+              <span class="font-mono-tag text-accent-green">ESTOQUE NACIONAL</span>
+              <h3 class="bento-title">Disponibilidade Imediata & Despacho em 48h</h3>
+              <p class="bento-text">
+                Eliminamos a barreira da importação própria. Entregamos os veículos montados e revisados na porta da sua loja com garantia e suporte técnico completo de peças.
+              </p>
+
+              <ul class="bento-feature-list">
+                <li class="bento-feature-item">
+                  <span class="bento-feature-dot"></span>
+                  <span>Despacho ágil por transportadora com rastreamento</span>
+                </li>
+                <li class="bento-feature-item">
+                  <span class="bento-feature-dot"></span>
+                  <span>Peças de reposição originais e pós-venda estruturado</span>
+                </li>
+                <li class="bento-feature-item">
+                  <span class="bento-feature-dot"></span>
+                  <span>Veículos 100% elétricos sem necessidade de CNH para linhas urbanas</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bento-stats-footer">
+              <div>
+                <p class="telemetry-value">10+</p>
+                <p class="telemetry-label">Modelos em Linha</p>
+              </div>
+              <div>
+                <p class="telemetry-value text-accent-green">R$ 2.200</p>
+                <p class="telemetry-label">Lucro Médio / Moto</p>
+              </div>
             </div>
           </div>
+        </article>
+
+        <!-- Stack de Cards Laterais (Exclusividade de Cidade & Pedido Mínimo) -->
+        <div class="bento-stack">
+          <!-- Card 1: Verificador de Exclusividade de Cidade -->
+          <article class="bento-card-compact">
+            <div>
+              <span class="font-mono-tag text-accent-gold">PROTEÇÃO TERRITORIAL</span>
+              <h3 class="bento-title" style="font-size: 1.35rem; margin-top: 6px;">Exclusividade Garantida na sua Cidade</h3>
+              <p class="bento-text" style="font-size: 0.82rem;">
+                A Z8 garante 1 revendedor autorizado por raio geográfico. Trave seu município antes que seu concorrente local assuma a concessão.
+              </p>
+            </div>
+
+            <div class="bento-cep-box">
+              <div class="cep-input-group">
+                <input type="text" id="cep-input" class="cep-input-field" placeholder="Digite sua Cidade ou CEP (Ex: Campinas - SP)" />
+                <button type="button" id="cep-btn" class="cep-submit-btn">CONSULTAR</button>
+              </div>
+              <div id="cep-result-msg" class="cep-feedback-status"></div>
+            </div>
+          </article>
+
+          <!-- Card 2: Pedido Mínimo Reduzido -->
+          <article class="bento-card-compact">
+            <div>
+              <span class="font-mono-tag text-accent-cyan">ACESSO DEMOCRATIZADO</span>
+              <h3 class="bento-title" style="font-size: 1.35rem; margin-top: 6px;">Pedido Mínimo de Apenas 5 Motos</h3>
+              <p class="bento-text" style="font-size: 0.82rem;">
+                Sem exigência de investimento de R$ 300.000 de franquias antigas. Você fatura como distribuidor direto com mix personalizado de modelos.
+              </p>
+            </div>
+
+            <div style="margin-top: 14px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-subtle); padding-top: 12px;">
+              <span class="font-mono-tag">Taxa de Reserva</span>
+              <span style="font-family: var(--font-mono); color: var(--accent-green); font-weight: 700; font-size: 0.85rem;">100% ABATIDA NO PEDIDO</span>
+            </div>
+          </article>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. AWWWARDS TABBED CATALOG GRID -->
+  <section class="section-catalog" id="catalogo">
+    <div class="site-container">
+      <div class="catalog-header-wrap">
+        <div>
+          <span class="font-mono-tag">CATÁLOGO DIRECT-FACTORY ATACADO</span>
+          <h2 class="section-headline" style="font-size: clamp(1.8rem, 3.2vw, 2.8rem); margin-top: 6px;">
+            Linha Completa. Alta Demanda. Giro Rápido.
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
+            Tabela de preços de atacado direto da fábrica com margens calculadas para o lojista.
+          </p>
+        </div>
+
+        <!-- Abas de Filtro de Categoria -->
+        <div class="catalog-nav-tabs">
+          <button type="button" class="catalog-tab-btn active" data-category="all">Todos (10)</button>
+          <button type="button" class="catalog-tab-btn" data-category="alta-velocidade">Alta Velocidade</button>
+          <button type="button" class="catalog-tab-btn" data-category="urbana">Urbanas</button>
+          <button type="button" class="catalog-tab-btn" data-category="vintage">Vintage & Retro</button>
+          <button type="button" class="catalog-tab-btn" data-category="utilitaria">Carga & Utility</button>
+        </div>
+      </div>
+
+      <!-- Grid de Cards de Produtos -->
+      <div class="catalog-grid" id="catalog-grid-cards">
+
+        <!-- 1. Z8 TANK HIGH-SPEED -->
+        <article class="product-card-editorial" data-cat="alta-velocidade">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Topo de Linha / Trail</span>
+            <img src="/assets/models/z8_tank_minas_wide.jpg" alt="Z8 Tank High-Speed" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 Tank High-Speed</h3>
+              <p class="product-specs-pill">80 km/h • Até 240km • 2000W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 7.500,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 9.500,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 2.000,00 (26,7%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 2. Z8 FX-10 SPORT -->
+        <article class="product-card-editorial" data-cat="alta-velocidade">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Esportiva</span>
+            <img src="/assets/models/z8_fx10_capivari_wide.jpg" alt="Z8 FX-10 Sport" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 FX-10 Sport</h3>
+              <p class="product-specs-pill">68 km/h • Até 240km • 1500W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 7.000,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 9.000,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 2.000,00 (28,6%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 3. Z8 U2 DELIVERY CARGO -->
+        <article class="product-card-editorial" data-cat="utilitaria">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Frotas & Delivery</span>
+            <img src="/assets/models/z8_u2_warehouse_wide.jpg" alt="Z8 U2 Delivery" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 U2 Delivery Cargo</h3>
+              <p class="product-specs-pill">55 km/h • Suporte Baú • 1200W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 6.000,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 7.500,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 1.500,00 (25,0%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 4. Z8 N710 URBAN PLUS -->
+        <article class="product-card-editorial" data-cat="urbana">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Lançamento 2026</span>
+            <img src="/assets/models/z8_n710_farialima_wide.jpg" alt="Z8 N710 Urban Plus" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 N710 Urban Plus</h3>
+              <p class="product-specs-pill">50 km/h • DRL Mecha • 1200W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 5.300,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 7.500,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 2.200,00 (41,5%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 5. Z8 Q10 VINTAGE -->
+        <article class="product-card-editorial" data-cat="vintage">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Retrô / Clássica</span>
+            <img src="/assets/models/z8_q10_madalena_wide.jpg" alt="Z8 Q10 Vintage" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 Q10 Vintage</h3>
+              <p class="product-specs-pill">45 km/h • Halo Retrô • 1200W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 5.800,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 7.800,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 2.000,00 (34,5%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 6. Z8 N95C MAX COMFORT -->
+        <article class="product-card-editorial" data-cat="urbana">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Executiva</span>
+            <img src="/assets/models/z8_n95c_comfort.jpg" alt="Z8 N95C Comfort" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 N95C Max Comfort</h3>
+              <p class="product-specs-pill">50 km/h • Pneu 130mm • 1200W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 6.500,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 8.000,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 1.500,00 (23,1%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 7. Z8 N7 STANDARD -->
+        <article class="product-card-editorial" data-cat="urbana">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Mais Vendido</span>
+            <img src="/assets/models/z8_n7_studio.jpg" alt="Z8 N7 Standard" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 N7 Standard</h3>
+              <p class="product-specs-pill">50 km/h • Duplo Disco • 1200W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 5.500,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 7.500,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 2.000,00 (36,4%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 8. Z8 Q11 COMPACT -->
+        <article class="product-card-editorial" data-cat="urbana">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Leve & Ágil</span>
+            <img src="/assets/models/z8_q11_studio.jpg" alt="Z8 Q11 Compact" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 Q11 Compact</h3>
+              <p class="product-specs-pill">45 km/h • Baú Traseiro • 1000W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 5.200,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 7.300,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 2.100,00 (40,4%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 9. Z8 DIAMOND LUXE -->
+        <article class="product-card-editorial" data-cat="vintage">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Design Leve</span>
+            <img src="/assets/models/z8_diamond_studio.jpg" alt="Z8 Diamond Luxe" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 Diamond Luxe</h3>
+              <p class="product-specs-pill">40 km/h • Cesta Frontal • 800W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 3.400,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 4.800,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 1.400,00 (41,2%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
+
+        <!-- 10. Z8 GS-005 BASE NORTE -->
+        <article class="product-card-editorial" data-cat="utilitaria">
+          <div class="product-image-wrap">
+            <span class="product-category-tag">Utility / Pedelec</span>
+            <img src="/assets/models/z8_gs005_studio.jpg" alt="Z8 GS-005 Base Norte" class="product-img" />
+          </div>
+          <div class="product-info-head">
+            <div>
+              <h3 class="product-model-name">Z8 GS-005 Base Norte</h3>
+              <p class="product-specs-pill">35 km/h • Assento Duplo • 400W</p>
+            </div>
+          </div>
+          <div class="product-pricing-box">
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Atacado (Fábrica):</span>
+              <span class="price-val-wholesale">R$ 3.200,00</span>
+            </div>
+            <div class="price-row">
+              <span style="color: var(--text-dim);">Varejo Sugerido:</span>
+              <span style="color: var(--text-light); font-family: var(--font-mono);">R$ 4.200,00</span>
+            </div>
+            <div class="price-row profit-highlight">
+              <span>Lucro por Unidade:</span>
+              <span class="price-val-profit">+ R$ 1.000,00 (31,3%)</span>
+            </div>
+          </div>
+          <a href="#tripwire-offer" class="btn-card-reserve btn-open-checkout">Reservar Lote deste Modelo</a>
+        </article>
 
       </div>
     </div>
   </section>
 
+  <!-- 7. INTERACTIVE FINANCIAL CALCULATOR -->
+  <section class="section-calculator" id="calculadora">
+    <div class="site-container">
+      <div class="calculator-card-wrap">
+        <div>
+          <span class="font-mono-tag text-accent-green">SIMULADOR DE RETORNO COMERCIAL</span>
+          <h2 class="section-headline" style="font-size: 2.2rem; margin-top: 8px;">
+            Calcule o Faturamento Líquido da sua Operação
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px; line-height: 1.6;">
+            Ajuste o volume estimado de vendas mensais da sua loja para visualizar a projeção de margem e faturamento com a tabela direta de fábrica.
+          </p>
 
+          <div class="calc-slider-stage">
+            <div class="calc-slider-header">
+              <span class="font-mono-tag">Volume de Vendas / Mês</span>
+              <span id="sales-val" class="calc-slider-value">10 motos / mês</span>
+            </div>
+            <input type="range" id="sales-slider" class="calc-range-slider" min="1" max="50" value="10" />
+          </div>
 
-  <!-- 6. CALCULADORA B2B DE LUCRATIVIDADE MENSAL -->
-  <section class="section-padding calculator-section">
-    <div class="vendas-container">
-      <div class="calc-box">
-
-        <div class="calc-controls">
-          <span class="section-tag"><i class="fa-solid fa-calculator"></i> SIMULADOR DE LUCRO LÍQUIDO</span>
-          <h3>Calcule o faturamento mensal da sua loja</h3>
-          <p class="section-desc">Arraste a barra para simular a quantidade de scooters vendidas por mês:</p>
-
-          <div class="calc-slider-wrapper">
-            <label>
-              <span>Vendas estimadas por mês:</span>
-              <span id="sales-val" class="highlight-green">5 motos / mês</span>
-            </label>
-            <input type="range" min="1" max="30" value="5" class="range-slider" id="sales-slider" />
+          <div style="display: flex; gap: 16px; font-size: 0.8rem; color: var(--text-dim); flex-wrap: wrap;">
+            <span><i class="fa-solid fa-check text-accent-green"></i> Lucro médio: R$ 2.000/unid</span>
+            <span><i class="fa-solid fa-check text-accent-green"></i> Sem royalties sobre vendas</span>
           </div>
         </div>
 
-        <div class="calc-results">
-          <div class="calc-result-title">Seu Lucro Bruto Estimado por Mês (média de 5 motos):</div>
-          <div class="calc-result-number" id="monthly-profit">R$ 10.000</div>
-          <div class="calc-result-sub">Lucro anual estimado no seu bolso: <strong id="annual-profit"
-              class="highlight-gold">R$ 120.000,00</strong>!</div>
-        </div>
+        <div class="calc-results-panel">
+          <div class="result-block-item">
+            <span class="font-mono-tag">LUCRO LÍQUIDO MENSAL ESTIMADO</span>
+            <span id="monthly-profit" class="result-metric-large">R$ 20.000</span>
+          </div>
 
+          <div class="result-block-item" style="border-top: 1px solid var(--border-medium); padding-top: 16px;">
+            <span class="font-mono-tag">PROJEÇÃO ANUALIZADA (12 MESES)</span>
+            <span id="annual-profit" class="result-metric-annual">R$ 240.000</span>
+          </div>
+
+          <a href="#tripwire-offer" class="btn-primary-pill btn-open-checkout" style="justify-content: center; width: 100%;">
+            <span>RESERVAR CIDADE COM ESSA MARGEM</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 7. OPERAÇÃO DESCOMPLICADA (Z8 RESOLVE TUDO) -->
-  <section class="section-padding">
-    <div class="vendas-container">
-      <div class="section-header">
-        <span class="section-tag">FACILIDADE OPERACIONAL</span>
-        <h2 class="section-title">A Z8 cuida de toda a burocracia para você só faturar</h2>
-        <p class="section-desc">Sem necessidade de despachantes, licenças de importação complexas ou risco cambial.</p>
-      </div>
-
-      <div class="objections-grid">
-
-        <div class="objection-card">
-          <div class="objection-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-          <div class="objection-content">
-            <h3>Nota Fiscal Nacional</h3>
-            <p>Você não precisa de registro RADAR. Faturamos direto do nosso centro de distribuição no Brasil com
-              Emissão de NF-e nacional para a sua empresa.</p>
+  <!-- 8. THE TRIPWIRE PASSAPORTE VIP MASTER CARD -->
+  <section class="section-tripwire" id="tripwire-offer">
+    <div class="site-container">
+      <div class="tripwire-master-card">
+        <div class="tripwire-badge-header">
+          <div>
+            <span class="font-mono-tag text-accent-gold"><i class="fa-solid fa-handshake"></i> OFERTA DE ENTRADA B2B</span>
+            <h3 style="font-family: var(--font-heading); font-size: 1.85rem; color: #fff; font-weight: 800; margin-top: 4px;">
+              Passaporte do Revendedor VIP + Reserva de Cidade
+            </h3>
+          </div>
+          <div style="text-align: right;">
+            <span style="display: block; font-size: 0.9rem; text-decoration: line-through; color: var(--text-dim); font-family: var(--font-mono);">R$ 5.990,00</span>
+            <span style="font-family: var(--font-heading); font-size: 2.2rem; font-weight: 900; color: var(--accent-gold); line-height: 1;">R$ 2.989,00</span>
           </div>
         </div>
 
-        <div class="objection-card">
-          <div class="objection-icon"><i class="fa-solid fa-shield-halved"></i></div>
-          <div class="objection-content">
-            <h3>Homologação DENATRAN</h3>
-            <p>Todos os veículos acompanham laudos técnicos oficiais e cadastros na base do SENATRAN para emplacamento
-              ou isenção facilitada.</p>
+        <p style="color: var(--text-light); font-size: 0.95rem; line-height: 1.6;">
+          Trave a exclusividade da sua cidade por 30 dias, receba o Dossiê Técnico de Importação e garanta a tabela Direct-Factory com faturamento imediato no Brasil.
+        </p>
+
+        <div class="tripwire-cashback-callout">
+          <i class="fa-solid fa-circle-check text-accent-green" style="font-size: 1.3rem; margin-top: 2px;"></i>
+          <div>
+            <strong style="color: #fff; text-transform: uppercase; font-family: var(--font-mono); font-size: 0.82rem;">REGRA DE ABATIMENTO INTEGRAL DE 100%:</strong>
+            <p style="color: var(--text-light); font-size: 0.85rem; margin-top: 2px;">
+              O valor de <strong>R$ 2.989,00</strong> é <strong>100% ABATIDO</strong> no momento em que você emitir o seu primeiro pedido de 5 motos de atacado. A reserva sai a custo <strong>R$ 0,00</strong> na prática!
+            </p>
           </div>
         </div>
 
-        <div class="objection-card">
-          <div class="objection-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
-          <div class="objection-content">
-            <h3>Peças de Reposição Garantidas</h3>
-            <p>Garantia de operação sem interrupções: estrutura completa com amplo estoque de baterias de lítio,
-              controladores, pneus e componentes eletrônicos a pronta entrega.</p>
+        <div class="tripwire-benefits-grid">
+          <div class="benefit-row">
+            <i class="fa-solid fa-circle-check benefit-check-icon"></i>
+            <span><strong>Exclusividade Territorial Garantida</strong> por 30 dias no município</span>
+          </div>
+          <div class="benefit-row">
+            <i class="fa-solid fa-circle-check benefit-check-icon"></i>
+            <span><strong>100% do Valor Abatido</strong> no pedido mínimo de 5 unidades</span>
+          </div>
+          <div class="benefit-row">
+            <i class="fa-solid fa-circle-check benefit-check-icon"></i>
+            <span><strong>Tabela Direct-Factory</strong> com até 41,51% de Markup e R$ 2.200 de lucro</span>
+          </div>
+          <div class="benefit-row">
+            <i class="fa-solid fa-circle-check benefit-check-icon"></i>
+            <span><strong>Dossiê Comercial Completo</strong> com manuais, laudos e fotos 8K de PDV</span>
+          </div>
+          <div class="benefit-row">
+            <i class="fa-solid fa-circle-check benefit-check-icon"></i>
+            <span><strong>Canal Direto de Suporte B2B</strong> e peças de reposição rápida</span>
+          </div>
+          <div class="benefit-row">
+            <i class="fa-solid fa-circle-check benefit-check-icon"></i>
+            <span><strong>Garantia Incondicional de 7 Dias</strong> com reembolso integral</span>
           </div>
         </div>
 
-        <div class="objection-card">
-          <div class="objection-icon"><i class="fa-solid fa-bullhorn"></i></div>
-          <div class="objection-content">
-            <h3>Gerador de Clientes na sua Região</h3>
-            <p>Compradores da sua cidade que nos procuram nas redes sociais ou Google são direcionados diretamente para
-              o seu ponto de venda exclusivo.</p>
-          </div>
-        </div>
+        <button type="button" class="btn-tripwire-action btn-open-checkout">
+          <i class="fa-solid fa-lock"></i>
+          <span>TRAVAR MINHA REGIÃO (R$ 2.989 ABATIDOS NO PEDIDO)</span>
+        </button>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- 8. SHOWROOM DOS MODELOS NO ATACADO -->
-  <section class="section-padding" style="background: rgba(0,0,0,0.3);">
-    <div class="vendas-container">
-      <div class="section-header">
-        <span class="section-tag">CATÁLOGO OFICIAL</span>
-        <h2 class="section-title">Modelos de Alto Volume de Giro no Varejo</h2>
-      </div>
-
-      <div class="showroom-grid">
-
-        <!-- Card 1: 1º Lugar - Z8 N710 Urban -->
-        <div class="product-sales-card">
-          <div class="product-badge-discount">1º LUGAR — LUCRO R$ 2.200 / MOTO</div>
-          <div class="product-img-wrapper">
-            <img src="/assets/models/z8_n710_studio.jpg" alt="Z8 N710 Urban" />
-          </div>
-          <div class="product-sales-body">
-            <span class="product-category-tag">1º LUGAR EM RENTABILIDADE (41,51% MARKUP)</span>
-            <h3 class="product-sales-title">Z8 N710 Urban</h3>
-            <div class="product-specs-mini">
-              <span><i class="fa-solid fa-gauge-high"></i> 52 km/h</span>
-              <span><i class="fa-solid fa-battery-full"></i> 240 km</span>
-              <span><i class="fa-solid fa-chart-line"></i> 41,51% Markup</span>
-            </div>
-            <div class="product-price-box">
-              <div class="retail-price-old">Custo Atacado: R$ 5.300,00</div>
-              <div class="vip-final-price">Venda Sugerida: R$ 7.500,00</div>
-            </div>
-            <button class="product-cta-btn btn-open-checkout">RESERVAR CIDADE (R$ 2.989 ABATIDO)</button>
-          </div>
-        </div>
-
-        <!-- Card 2: 2º Lugar - Z8 Q11 Compact -->
-        <div class="product-sales-card">
-          <div class="product-badge-discount">2º LUGAR — LUCRO R$ 2.100 / MOTO</div>
-          <div class="product-img-wrapper">
-            <img src="/assets/models/z8_q11_studio.jpg" alt="Z8 Q11 Compact" />
-          </div>
-          <div class="product-sales-body">
-            <span class="product-category-tag">2º LUGAR EM RENTABILIDADE (40,38% MARKUP)</span>
-            <h3 class="product-sales-title">Z8 Q11 Compact</h3>
-            <div class="product-specs-mini">
-              <span><i class="fa-solid fa-gauge-high"></i> 45 km/h</span>
-              <span><i class="fa-solid fa-battery-full"></i> 240 km</span>
-              <span><i class="fa-solid fa-chart-line"></i> 40,38% Markup</span>
-            </div>
-            <div class="product-price-box">
-              <div class="retail-price-old">Custo Atacado: R$ 5.200,00</div>
-              <div class="vip-final-price">Venda Sugerida: R$ 7.300,00</div>
-            </div>
-            <button class="product-cta-btn btn-open-checkout">RESERVAR CIDADE (R$ 2.989 ABATIDO)</button>
-          </div>
-        </div>
-
-        <!-- Card 3: 3º Lugar - Z8 N7 Standard -->
-        <div class="product-sales-card">
-          <div class="product-badge-discount">3º LUGAR — LUCRO R$ 2.000 / MOTO</div>
-          <div class="product-img-wrapper">
-            <img src="/assets/models/z8_n7_studio.jpg" alt="Z8 N7 Standard" />
-          </div>
-          <div class="product-sales-body">
-            <span class="product-category-tag">MAIS VENDIDA (36,36% MARKUP)</span>
-            <h3 class="product-sales-title">Z8 N7 Standard</h3>
-            <div class="product-specs-mini">
-              <span><i class="fa-solid fa-gauge-high"></i> 50 km/h</span>
-              <span><i class="fa-solid fa-battery-full"></i> 240 km</span>
-              <span><i class="fa-solid fa-chart-line"></i> 36,36% Markup</span>
-            </div>
-            <div class="product-price-box">
-              <div class="retail-price-old">Custo Atacado: R$ 5.500,00</div>
-              <div class="vip-final-price">Venda Sugerida: R$ 7.500,00</div>
-            </div>
-            <button class="product-cta-btn btn-open-checkout">RESERVAR CIDADE (R$ 2.989 ABATIDO)</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 9. PASSO A PASSO DO CREDENCIAMENTO B2B -->
-  <section class="section-padding">
-    <div class="vendas-container">
-      <div class="section-header">
-        <span class="section-tag">COMO FUNCIONA O CREDENCIAMENTO</span>
-        <h2 class="section-title">4 Passos para se Tornar um Revendedor Oficial Z8</h2>
-      </div>
-
-      <div class="steps-grid">
-
-        <div class="step-card">
-          <div class="step-number">01</div>
-          <div class="step-icon"><i class="fa-solid fa-lock"></i></div>
-          <h3 class="step-title">Trave sua Cidade</h3>
-          <p class="step-desc">Adquira a Reserva por R$ 2.989 (100% abatido no pedido de 5 motos) e garanta a
-            exclusividade territorial da sua região por 30 dias.</p>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number">02</div>
-          <div class="step-icon"><i class="fa-solid fa-file-pdf"></i></div>
-          <h3 class="step-title">Receba o Dossiê Comercial</h3>
-          <p class="step-desc">Acesse imediatamente a tabela de atacado com R$ 3.000 de crédito no seu 1º pedido e
-            catálogo técnico.</p>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number">03</div>
-          <div class="step-icon"><i class="fa-solid fa-headset"></i></div>
-          <h3 class="step-title">Reunião com Consultor</h3>
-          <p class="step-desc">Alinhe seu pedido inicial (mínimo de 3 a 5 unidades) com suporte do gestor de contas
-            exclusivo Z8.</p>
-        </div>
-
-        <div class="step-card">
-          <div class="step-number">04</div>
-          <div class="step-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
-          <h3 class="step-title">Faturamento & Entrega</h3>
-          <p class="step-desc">Receba o lote na sua loja com Nota Fiscal e materiais de PDV para acelerar
-            suas vendas.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-
-  <!-- 11. FAQ B2B ACCORDION -->
-  <section class="section-padding">
-    <div class="vendas-container">
-      <div class="section-header">
-        <span class="section-tag">DÚVIDAS FREQUENTES</span>
-        <h2 class="section-title">Perguntas Comerciais sobre o Programa de Revenda</h2>
-      </div>
-
-      <div class="faq-container">
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>Qual o pedido mínimo para compras no atacado?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>O pedido mínimo inicial de credenciamento é de apenas <strong>3 a 5 unidades</strong> (lote fracionado).
-              Para compras de container completo (FCL), oferecemos descontos adicionais de faturamento direto.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>Como funciona a Garantia de Exclusividade Territorial?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>Ao realizar a Reserva por R$ 2.989,00, travamos a sua cidade por 30 dias no sistema. Ao efetuar o seu
-              pedido mínimo de <strong>5 motos de atacado</strong>, o valor integral de R$ 2.989,00 é <strong>100%
-                abatido no faturamento</strong>!</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>Como é faturada a mercadoria para minha empresa?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>O faturamento é realizado via Nota Fiscal de Venda (NF-e) emitida pelo nosso CNPJ importador no Brasil,
-              pronta para revenda legal em todo o território nacional.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>Como funciona a assistência técnica e garantia dos veículos?</span>
-            <i class="fa-solid fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>Todos os modelos possuem 2 anos de garantia nacional. Fornecemos suporte técnico direto para a sua
-              oficina e enviamos peças de reposição em até 48 horas a partir do nosso estoque em SP.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 11.5 FORMULÁRIO DE SEJA UM FRANQUEADO Z8 -->
-  <section class="section-padding" id="franchise-form-section" style="background: rgba(10, 15, 26, 0.7); border-top: 1px solid var(--border-glass); border-bottom: 1px solid var(--border-glass);">
-    <div class="vendas-container">
-      <div class="section-header" style="text-align: center; margin-bottom: 32px;">
-        <span class="section-tag"><i class="fa-solid fa-star"></i> EXPANSÃO Z8 E-MOTION BRASIL</span>
-        <h2 class="section-title" style="font-size: 2.2rem; margin: 12px 0;">Cadastre-se para Garantir sua Cidade</h2>
-        <p class="section-desc" style="max-width: 680px; margin: 0 auto; color: var(--text-muted); font-size: 1rem;">
-          Entraremos em contato com a tabela oficial de importação e minuta do contrato de franquia.
+        <p style="text-align: center; font-size: 0.75rem; color: var(--text-dim); margin-top: 14px;">
+          <i class="fa-solid fa-shield"></i> Compra Segura • Emissão de Nota Fiscal • Reembolso 100% Garantido em até 7 dias
         </p>
       </div>
+    </div>
+  </section>
 
-      <div style="max-width: 780px; margin: 0 auto; background: rgba(15, 23, 42, 0.85); border: 1px solid var(--border-glass); border-radius: var(--radius-lg); padding: 36px 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-        <form id="franchise-form-sales">
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="sales-lead-name"><i class="fa-solid fa-user highlight-green"></i> Nome Completo / Razão Social</label>
-              <input type="text" id="sales-lead-name" class="form-control" required placeholder="Ex: Roberto Silva / Silva Moto Center Ltda" />
-            </div>
+  <!-- 9. FAQ ACCORDION -->
+  <section class="section-faq" id="faq">
+    <div class="site-container">
+      <div class="section-header-editorial" style="text-align: center;">
+        <span class="font-mono-tag">DÚVIDAS FREQUENTES DE LOJISTAS</span>
+        <h2 class="section-headline" style="margin: 6px auto 0;">Perguntas Frequentes sobre a Revenda Direct-Factory</h2>
+      </div>
 
-            <div class="form-group">
-              <label for="sales-lead-email"><i class="fa-solid fa-envelope highlight-green"></i> E-mail Corporativo</label>
-              <input type="email" id="sales-lead-email" class="form-control" required placeholder="contato@suaempresa.com.br" />
-            </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button type="button" class="faq-question-btn">
+            <span>Preciso de CNPJ ou loja física aberta para começar?</span>
+            <i class="fa-solid fa-chevron-down faq-icon-arrow"></i>
+          </button>
+          <div class="faq-answer-content">
+            Você pode reservar a exclusividade da sua cidade como Pessoa Física ou Jurídica. Para o faturamento do lote de 5 motos, é recomendável possuir CNPJ (MEI, ME ou EPP) para emissão de nota fiscal direta de fábrica com os melhores benefícios tributários.
           </div>
+        </div>
 
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="sales-lead-phone"><i class="fa-solid fa-phone highlight-green"></i> WhatsApp / Telefone</label>
-              <input type="tel" id="sales-lead-phone" class="form-control" required placeholder="(11) 99999-8888" />
-            </div>
-
-            <div class="form-group">
-              <label for="sales-lead-city"><i class="fa-solid fa-city highlight-green"></i> Cidade e Estado de Interesse</label>
-              <input type="text" id="sales-lead-city" class="form-control" required placeholder="Ex: Campinas / SP" />
-            </div>
+        <div class="faq-item">
+          <button type="button" class="faq-question-btn">
+            <span>Como funciona o abatimento dos R$ 2.989,00?</span>
+            <i class="fa-solid fa-chevron-down faq-icon-arrow"></i>
+          </button>
+          <div class="faq-answer-content">
+            Ao realizar a reserva, o valor de R$ 2.989,00 fica registrado no seu saldo de faturamento. Quando você fechar o pedido do seu lote mínimo de 5 unidades, esse valor integral é descontado do total da fatura das motos.
           </div>
+        </div>
 
-          <div class="form-row-2">
-            <div class="form-group">
-              <label for="sales-lead-investment"><i class="fa-solid fa-wallet highlight-green"></i> Capacidade Estimada de Investimento</label>
-              <select id="sales-lead-investment" class="form-control" style="appearance: auto;">
-                <option value="16k-30k">A partir de R$ 16.000 (Lote Mínimo de 5 Motos no Atacado)</option>
-                <option value="30k-70k" selected>R$ 30.000 a R$ 70.000 (Franquia Master Z8)</option>
-                <option value="70k+">Acima de R$ 70.000 (Hub Distribuidor Regional)</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="sales-lead-has-store"><i class="fa-solid fa-store highlight-green"></i> Já possui loja física ou oficina?</label>
-              <select id="sales-lead-has-store" class="form-control" style="appearance: auto;">
-                <option value="sim">Sim, já tenho estrutura comercial</option>
-                <option value="nao">Não, vou abrir um ponto exclusivo Z8</option>
-              </select>
-            </div>
+        <div class="faq-item">
+          <button type="button" class="faq-question-btn">
+            <span>As motos elétricas Z8 precisam de CNH ou emplacamento?</span>
+            <i class="fa-solid fa-chevron-down faq-icon-arrow"></i>
+          </button>
+          <div class="faq-answer-content">
+            A linha Z8 E-Motion é 100% homologada de acordo com a Resolução CONTRAN nº 996/2023. Nossos modelos autopropelidos e ciclomotores possuem conformidade para circulação em ciclovias e vias urbanas conforme a categoria do veículo.
           </div>
+        </div>
 
-          <div style="margin-top: 20px;">
-            <button type="submit" class="cta-btn-main" style="width: 100%; text-transform: uppercase; font-weight: 800; font-size: 1.05rem; padding: 16px; border: none; cursor: pointer;">
-              <i class="fa-solid fa-paper-plane"></i> Enviar Cadastro de Interesse na Franquia Z8
-            </button>
+        <div class="faq-item">
+          <button type="button" class="faq-question-btn">
+            <span>Como é feito o envio e qual o prazo de entrega?</span>
+            <i class="fa-solid fa-chevron-down faq-icon-arrow"></i>
+          </button>
+          <div class="faq-answer-content">
+            Nosso centro de distribuição está localizado em São Paulo. O despacho do pedido ocorre em até 48 horas após a confirmação do lote, com transporte especializado para qualquer estado do Brasil com seguro total de carga.
           </div>
-        </form>
+        </div>
+
+        <div class="faq-item">
+          <button type="button" class="faq-question-btn">
+            <span>Como funciona a garantia e o suporte de peças?</span>
+            <i class="fa-solid fa-chevron-down faq-icon-arrow"></i>
+          </button>
+          <div class="faq-answer-content">
+            Todas as motos Z8 contam com 1 ano de garantia direta da fábrica no Brasil. Mantemos estoque contínuo de baterias de lítio, controladores, motores, pneus e peças de acabamento para atendimento imediato aos nossos revendedores.
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 12. CHECKOUT MODAL B2B (RESERVA R$ 2.989) -->
-  <div class="modal-backdrop" id="checkout-modal">
-    <div class="modal-content">
-      <button class="modal-close-btn" id="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+  <!-- 10. MODAL DE CHECKOUT B2B -->
+  <div class="modal-overlay" id="checkout-modal">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" id="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
 
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-building-flag highlight-gold"></i> Reservar Exclusividade Territorial</h3>
-        <p>Taxa de R$ 2.989,00 — 100% Abatida no Pedido Mínimo de 5 Motos</p>
+      <div style="margin-bottom: 20px;">
+        <span class="font-mono-tag text-accent-gold">RESERVA DE EXCLUSIVIDADE</span>
+        <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff; font-weight: 800; margin-top: 4px;">
+          Passaporte do Revendedor VIP
+        </h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted);">
+          Valor da taxa de reserva: <strong style="color: var(--accent-gold);">R$ 2.989,00</strong> (100% Abatido no pedido).
+        </p>
       </div>
 
       <form id="checkout-form">
-        <div class="form-group">
-          <label for="input-company">Razão Social ou Nome da Loja:</label>
-          <input type="text" id="input-company" class="form-control" placeholder="Ex: Moto Center Brasil Ltda"
-            required />
+        <div class="form-group-b2b">
+          <label class="form-label-b2b">Seu Nome Completo</label>
+          <input type="text" id="input-name" class="form-input-b2b" placeholder="Ex: Roberto Silva" required />
         </div>
 
-        <div class="form-row-2">
-          <div class="form-group">
-            <label for="input-cnpj">CNPJ ou CPF:</label>
-            <input type="text" id="input-cnpj" class="form-control" placeholder="Ex: 00.000.000/0001-00" required />
-          </div>
-
-          <div class="form-group">
-            <label for="input-city">Cidade / Estado da Loja:</label>
-            <input type="text" id="input-city" class="form-control" placeholder="Ex: Ribeirão Preto - SP" required />
-          </div>
+        <div class="form-group-b2b">
+          <label class="form-label-b2b">Nome da sua Loja ou Empresa</label>
+          <input type="text" id="input-company" class="form-input-b2b" placeholder="Ex: Silva Motos Elétricas Ltda" required />
         </div>
 
-        <div class="form-row-2">
-          <div class="form-group">
-            <label for="input-email">E-mail Comercial:</label>
-            <input type="email" id="input-email" class="form-control" placeholder="Ex: contato@sualoja.com.br"
-              required />
-          </div>
-
-          <div class="form-group">
-            <label for="input-phone">WhatsApp do Responsável:</label>
-            <input type="tel" id="input-phone" class="form-control" placeholder="Ex: (16) 99999-9999" required />
-          </div>
+        <div class="form-group-b2b">
+          <label class="form-label-b2b">Cidade e Estado para Exclusividade</label>
+          <input type="text" id="input-city" class="form-input-b2b" placeholder="Ex: Ribeirão Preto - SP" required />
         </div>
 
-        <div class="payment-options">
-          <div class="pay-option active">
-            <i class="fa-solid fa-qrcode highlight-green"></i>
-            <span>PIX (Aprovação Instantânea)</span>
-          </div>
-          <div class="pay-option">
-            <i class="fa-solid fa-credit-card"></i>
-            <span>Cartão (Até 12x R$ 298,90)</span>
+        <div class="form-group-b2b">
+          <label class="form-label-b2b">E-mail Corporativo</label>
+          <input type="email" id="input-email" class="form-input-b2b" placeholder="seuemail@empresa.com.br" required />
+        </div>
+
+        <div class="form-group-b2b">
+          <label class="form-label-b2b">WhatsApp / Telefone com DDD</label>
+          <input type="tel" id="input-phone" class="form-input-b2b" placeholder="(11) 99999-9999" required />
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label class="form-label-b2b">Forma de Pagamento</label>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+            <div class="pay-option active" style="background: #141414; border: 1px solid var(--accent-green); padding: 10px; border-radius: var(--radius-sm); cursor: pointer; text-align: center; font-size: 0.8rem; font-weight: 700; color: #fff;">
+              <i class="fa-brands fa-pix text-accent-green"></i> <span>PIX (Aprovação Imediata)</span>
+            </div>
+            <div class="pay-option" style="background: #141414; border: 1px solid var(--border-medium); padding: 10px; border-radius: var(--radius-sm); cursor: pointer; text-align: center; font-size: 0.8rem; color: var(--text-muted);">
+              <i class="fa-regular fa-credit-card"></i> <span>Cartão de Crédito</span>
+            </div>
           </div>
         </div>
 
-        <button type="submit" class="cta-btn-main">
-          CONFIRMAR RESERVA DE CIDADE (R$ 2.989 ABATIDOS)
+        <button type="submit" class="btn-tripwire-action" style="padding: 16px; font-size: 0.9rem;">
+          <i class="fa-solid fa-lock"></i> CONCLUIR RESERVA E TRAVAR CIDADE
         </button>
       </form>
     </div>
   </div>
 
-  <!-- 13. POP-UP DE SOCIAL PROOF DINÂMICO B2B -->
-  <div class="live-sales-popup" id="live-sales-popup">
-    <div class="popup-icon"><i class="fa-solid fa-building"></i></div>
-    <div class="popup-text">
-      <p><strong id="popup-company-name">Motos & Cia Ltda</strong> (<span id="popup-company-city">Ribeirão Preto -
-          SP</span>)</p>
-      <span>Garantiu Exclusividade Territorial <strong id="popup-time" class="highlight-gold">há 4 minutos</strong></span>
+  <!-- 11. TOAST DE PROVA SOCIAL AO VIVO -->
+  <div class="live-toast-b2b" id="live-sales-popup">
+    <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,255,136,0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-green); flex-shrink: 0;">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <div>
+      <p style="font-size: 0.8rem; color: #fff; font-weight: 700; line-height: 1.2;" id="popup-company-name">Auto Center Paulista</p>
+      <p style="font-size: 0.72rem; color: var(--text-muted);" id="popup-company-city">Campinas - SP</p>
+      <span style="font-size: 0.65rem; color: var(--accent-green); font-family: var(--font-mono);" id="popup-time">há 2 minutos</span>
     </div>
   </div>
 
-  <!-- 14. EXPANSÃO Z8 E-MOTION BRASIL (FORMULÁRIO DE INTERESSE NA FRANQUIA) -->
-  <section class="section-padding" id="expansao-franquia" style="background: rgba(10, 13, 20, 0.85); border-top: 1px solid var(--border-glass);">
-    <div class="vendas-container">
-      <div class="section-header" style="text-align: center; margin-bottom: 32px;">
-        <span class="section-tag"><i class="fa-solid fa-earth-americas"></i> EXPANSÃO Z8 E-MOTION BRASIL</span>
-        <h2 class="section-title" style="font-size: 2.2rem; color: #00F2FE;">Cadastre-se para Garantir sua Cidade</h2>
-        <p class="section-desc" style="color: #94a3b8; max-width: 680px; margin: 8px auto 0 auto;">
-          Entraremos em contato com a tabela oficial de importação e minuta do contrato de franquia.
-        </p>
+  <!-- 12. FOOTER CORPORATIVO -->
+  <footer class="site-footer">
+    <div class="site-container">
+      <div class="footer-inner">
+        <div>
+          <p style="color: #fff; font-weight: 700; font-family: var(--font-heading);">Z8 E-MOTION DO BRASIL LTDA</p>
+          <p style="margin-top: 4px;">Importação Direta, Atacado & Expansão de Franquias</p>
+        </div>
+        <div>
+          <p>© 2026 Z8 E-Motion. Todos os direitos reservados.</p>
+          <p style="margin-top: 4px;">Conforme Resolução CONTRAN 996/2023.</p>
+        </div>
       </div>
-
-      <div style="max-width: 640px; margin: 0 auto; background: #111827; border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 16px; padding: 32px; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
-        <form id="franquia-landing-form" class="login-form">
-          <div id="franquia-landing-msg" style="display: none; padding: 12px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 16px;"></div>
-
-          <div class="login-input-group">
-            <label for="f-name"><i class="fa-solid fa-user"></i> Nome Completo / Razão Social:</label>
-            <div class="login-input-wrapper">
-              <input type="text" id="f-name" placeholder="Ex: Carlos Eduardo Silva - Silva Motos Ltda" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="f-email"><i class="fa-solid fa-envelope"></i> E-mail Corporativo:</label>
-            <div class="login-input-wrapper">
-              <input type="email" id="f-email" placeholder="contato@sualoja.com.br" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="f-phone"><i class="fa-solid fa-phone"></i> WhatsApp / Telefone:</label>
-            <div class="login-input-wrapper">
-              <input type="tel" id="f-phone" placeholder="(11) 99999-9999" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="f-city"><i class="fa-solid fa-location-dot"></i> Cidade e Estado de Interesse:</label>
-            <div class="login-input-wrapper">
-              <input type="text" id="f-city" placeholder="Ex: Campinas - SP" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="f-investment"><i class="fa-solid fa-sack-dollar"></i> Capacidade Estimada de Investimento Inicial:</label>
-            <div class="login-input-wrapper">
-              <select id="f-investment" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 12px 16px; color: #fff; font-size: 0.95rem;">
-                <option value="R$ 22.600,00 (Atacado Inicial)">R$ 22.600,00 (Atacado Inicial - 5 Motos de Entrada)</option>
-                <option value="R$ 100.000 a R$ 250.000">R$ 100.000 a R$ 250.000 (Franquia Padrão)</option>
-                <option value="Acima de R$ 250.000">Acima de R$ 250.000 (Master Regional)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="f-has-store"><i class="fa-solid fa-store"></i> Já possui loja física ou oficina?</label>
-            <div class="login-input-wrapper">
-              <select id="f-has-store" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 12px 16px; color: #fff; font-size: 0.95rem;">
-                <option value="Sim">Sim, já tenho estrutura física</option>
-                <option value="Não">Não, pretendo abrir novo ponto</option>
-              </select>
-            </div>
-          </div>
-
-          <button type="submit" class="login-submit-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; margin-top: 10px; padding: 16px;">
-            <i class="fa-solid fa-paper-plane"></i> ENVIAR CADASTRO DE INTERESSE NA FRANQUIA Z8
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- 15. FOOTER B2B -->
-  <footer class="vendas-footer">
-    <div class="vendas-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
-      <p>&copy; 2026 Z8 E-Motion Brasil. Portal Corporativo de Atacado & Franquias.</p>
-      <p style="margin-top: 6px; font-size: 0.75rem; color: #64748b; text-align: center;">
-        Importação Direta, Distribuição de Scooters Elétricas Homologadas no DENATRAN e Rede de Revendedores
-        Autorizados.
-      </p>
     </div>
   </footer>
 
-  <!-- 16. ÁREA DO ADMINISTRADOR Z8 (CRM & GESTÃO DE PARCEIROS) -->
-  <div class="crm-modal-overlay" id="crm-modal" style="display: none;">
-    <div class="crm-modal-container">
-      <div class="crm-modal-header">
-        <div class="crm-modal-title">
-          <i class="fa-solid fa-user-gear"></i> ÁREA DO ADMINISTRADOR Z8
-          <span style="font-size: 0.78rem; background: rgba(0,242,254,0.15); border: 1px solid #00F2FE; color: #00F2FE; padding: 4px 10px; border-radius: 20px; font-weight: 700;">
-            <i class="fa-solid fa-shield-halved"></i> <span id="admin-badge-email">Administrador</span>
-          </span>
-        </div>
-        <div style="display: flex; gap: 12px; align-items: center;">
-          <button type="button" id="crm-back-btn" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #cbd5e1; padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-arrow-left"></i> Voltar
-          </button>
-          <button type="button" id="crm-logout-btn" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #fca5a5; padding: 6px 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.8rem;">
-            <i class="fa-solid fa-right-from-bracket"></i> Sair da Área Admin
-          </button>
-          <button type="button" class="crm-close-btn" id="close-crm-btn">&times;</button>
-        </div>
-      </div>
-
-      <!-- ADMIN SUITE TABS -->
-      <div class="admin-tabs-nav">
-        <button type="button" class="admin-tab-btn active" id="admin-tab-leads">
-          <i class="fa-solid fa-chart-line"></i> Gestão de Leads B2B & CRM
-        </button>
-        <button type="button" class="admin-tab-btn" id="admin-tab-users">
-          <i class="fa-solid fa-users-gear"></i> Usuários & Parceiros Cadastrados
-        </button>
-      </div>
-
-      <div class="crm-modal-body">
-        <!-- VIEW 1: LEADS & CRM -->
-        <div id="admin-view-leads">
-          <!-- KPI METRICS SUMMARY -->
-          <div class="crm-kpi-grid">
-            <div class="crm-kpi-card">
-              <span class="crm-kpi-label"><i class="fa-solid fa-users"></i> Total de Leads Captação</span>
-              <span class="crm-kpi-value" id="crm-kpi-total">0</span>
-            </div>
-            <div class="crm-kpi-card">
-              <span class="crm-kpi-label"><i class="fa-solid fa-city"></i> Cidades Reservadas</span>
-              <span class="crm-kpi-value" id="crm-kpi-cities">0</span>
-            </div>
-            <div class="crm-kpi-card">
-              <span class="crm-kpi-label"><i class="fa-solid fa-sack-dollar"></i> Potencial Bruto Reserva</span>
-              <span class="crm-kpi-value" id="crm-kpi-revenue" style="color: #10B981;">R$ 0,00</span>
-            </div>
-            <div class="crm-kpi-card">
-              <span class="crm-kpi-label"><i class="fa-solid fa-chart-line"></i> Taxa Conversão Fechado</span>
-              <span class="crm-kpi-value" id="crm-kpi-rate" style="color: #00F2FE;">0%</span>
-            </div>
-          </div>
-
-          <!-- TOOLBAR & EXPORT -->
-          <div class="crm-toolbar" style="margin-top: 20px;">
-            <div class="crm-status-filter-group">
-              <label for="crm-status-filter" style="font-size: 0.85rem; color: #94a3b8; margin-right: 8px;">Filtrar por Status:</label>
-              <select id="crm-status-filter">
-                <option value="all">🔍 Todos os Leads</option>
-                <option value="novo">🔵 Novos Leads</option>
-                <option value="em_contato">🟡 Em Contato</option>
-                <option value="proposta">🟠 Proposta Enviada</option>
-                <option value="fechado">🟢 Fechados / Pagos</option>
-                <option value="perdido">🔴 Perdidos</option>
-              </select>
-            </div>
-
-            <button type="button" class="crm-export-btn" id="export-excel-btn">
-              <i class="fa-solid fa-file-excel"></i> EXPORTAR PARA EXCEL (.CSV)
-            </button>
-          </div>
-
-          <!-- TABLE OF LEADS -->
-          <div class="crm-table-wrapper" style="margin-top: 16px;">
-            <table class="crm-table">
-              <thead>
-                <tr>
-                  <th>Nome / Empresa</th>
-                  <th>Cidade / UF</th>
-                  <th>E-mail</th>
-                  <th>WhatsApp</th>
-                  <th>Forma Pag.</th>
-                  <th>Valor Reserva</th>
-                  <th>Status CRM</th>
-                  <th>Data</th>
-                </tr>
-              </thead>
-              <tbody id="crm-table-body">
-                <!-- Loaded via JavaScript -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- VIEW 2: REGISTERED USERS DIRECTORY -->
-        <div id="admin-view-users" style="display: none;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <h3 style="color: #f8fafc; font-size: 1.1rem; font-weight: 700; margin: 0;">
-              <i class="fa-solid fa-address-book" style="color: #00F2FE;"></i> Diretório de Usuários & Parceiros Cadastrados
-            </h3>
-          </div>
-
-          <div class="crm-table-wrapper">
-            <table class="crm-table">
-              <thead>
-                <tr>
-                  <th>Nome / Razão Social</th>
-                  <th>Cidade de Interesse</th>
-                  <th>E-mail Corporativo</th>
-                  <th>WhatsApp</th>
-                  <th>Capacidade Investimento</th>
-                  <th>Loja Física / Oficina</th>
-                  <th>Nível de Acesso</th>
-                  <th>Data de Cadastro</th>
-                </tr>
-              </thead>
-              <tbody id="users-table-body">
-                <!-- Loaded via JavaScript -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 16. MODAL DE LOGIN & CADASTRO DE PARCEIROS Z8 -->
-  <div class="login-modal-overlay" id="login-modal" style="display: none;">
-    <div class="login-card">
-      <button type="button" class="crm-close-btn" id="close-login-btn" style="position: absolute; top: 16px; right: 20px;">&times;</button>
-      <div class="login-header">
-        <img src="/assets/logos/ztrasparente.png" alt="Z8 Logo" class="login-logo" />
-        <h2 class="login-title">ACESSO Z8 E-MOTION</h2>
-        <p class="login-subtitle">Portal do Administrador & Cadastro de Parceiros Comerciais</p>
-      </div>
-
-      <!-- AUTH SWITCHER TABS -->
-      <div class="auth-tabs">
-        <button type="button" class="auth-tab-btn active" id="tab-btn-login">
-          <i class="fa-solid fa-key"></i> Entrar (Login)
-        </button>
-        <button type="button" class="auth-tab-btn" id="tab-btn-register">
-          <i class="fa-solid fa-user-plus"></i> Cadastrar-se
-        </button>
-      </div>
-
-      <!-- BOX LOGIN -->
-      <div id="auth-box-login">
-        <form id="login-form" class="login-form">
-          <div id="login-error" class="login-error-msg"></div>
-
-          <div class="login-input-group">
-            <label for="login-user"><i class="fa-solid fa-user-shield"></i> E-mail ou Usuário Master:</label>
-            <div class="login-input-wrapper">
-              <input type="text" id="login-user" placeholder="Digite seu e-mail ou usuário" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="login-pass"><i class="fa-solid fa-lock"></i> Senha de Acesso:</label>
-            <div class="login-input-wrapper">
-              <input type="password" id="login-pass" placeholder="••••••••••••" required />
-              <button type="button" id="toggle-pass-btn" class="login-eye-btn"><i class="fa-solid fa-eye"></i></button>
-            </div>
-          </div>
-
-          <button type="submit" class="login-submit-btn">
-            <i class="fa-solid fa-right-to-bracket"></i> ENTRAR NA ÁREA EXCLUSIVA
-          </button>
-        </form>
-      </div>
-
-      <!-- BOX CADASTRO (REGISTRO) -->
-      <div id="auth-box-register" style="display: none;">
-        <h3 style="color: #00F2FE; font-size: 1.05rem; font-weight: 800; text-align: center; margin: 0 0 16px 0; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.5px;">
-          <i class="fa-solid fa-city"></i> CADASTRE-SE PARA GARANTIR SUA CIDADE
-        </h3>
-
-        <form id="register-form" class="login-form">
-          <div id="register-error" class="login-error-msg"></div>
-          <div id="register-success" style="display: none; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; font-size: 0.82rem; padding: 10px 14px; border-radius: 8px;"></div>
-
-          <div class="login-input-group">
-            <label for="reg-name"><i class="fa-solid fa-user"></i> Nome Completo:</label>
-            <div class="login-input-wrapper">
-              <input type="text" id="reg-name" placeholder="Ex: Carlos Silva" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="reg-company"><i class="fa-solid fa-building"></i> Nome da Empresa / Loja:</label>
-            <div class="login-input-wrapper">
-              <input type="text" id="reg-company" placeholder="Ex: Silva Motos Ltda" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="reg-city"><i class="fa-solid fa-location-dot"></i> Cidade / Estado para Exclusividade:</label>
-            <div class="login-input-wrapper">
-              <input type="text" id="reg-city" placeholder="Ex: Ribeirão Preto - SP" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="reg-email"><i class="fa-solid fa-envelope"></i> E-mail Comercial:</label>
-            <div class="login-input-wrapper">
-              <input type="email" id="reg-email" placeholder="contato@empresa.com.br" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="reg-phone"><i class="fa-solid fa-phone"></i> WhatsApp do Responsável:</label>
-            <div class="login-input-wrapper">
-              <input type="tel" id="reg-phone" placeholder="(11) 99999-9999" required />
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="reg-investment"><i class="fa-solid fa-sack-dollar"></i> Capacidade Estimada de Investimento Inicial:</label>
-            <div class="login-input-wrapper">
-              <select id="reg-investment" style="width: 100%; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 12px 16px; color: #fff; font-size: 0.95rem;">
-                <option value="R$ 22.600,00 (Atacado Inicial)">R$ 22.600,00 (Atacado Inicial - 5 Motos de Entrada)</option>
-                <option value="R$ 100.000 a R$ 250.000">R$ 100.000 a R$ 250.000 (Franquia Padrão)</option>
-                <option value="Acima de R$ 250.000">Acima de R$ 250.000 (Master Regional)</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="login-input-group">
-            <label for="reg-pass"><i class="fa-solid fa-lock"></i> Criar Senha de Acesso:</label>
-            <div class="login-input-wrapper">
-              <input type="password" id="reg-pass" placeholder="Crie sua senha segura" required />
-            </div>
-          </div>
-
-          <button type="submit" class="login-submit-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff;">
-            <i class="fa-solid fa-shield-halved"></i> CADASTRE-SE E GARANTA SUA CIDADE
-          </button>
-        </form>
-      </div>
-
-      <!-- BOTÃO VOLTAR À PÁGINA -->
-      <button type="button" id="back-to-page-btn" style="background: transparent; border: none; color: #94a3b8; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; margin-top: 12px; transition: color 0.2s;">
-        <i class="fa-solid fa-arrow-left"></i> Voltar para a página de vendas
-      </button>
-    </div>
-  </div>
-
-  <!-- App Script & CRM Modules -->
   <script type="module" src="./app.js"></script>
-  <script type="module" src="./crm.js"></script>
 </body>
-
 </html>

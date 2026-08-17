@@ -121,6 +121,18 @@ const PRESETS = {
       'Futuristic urban mobility aesthetic, pristine 8k commercial quality, 60fps.',
     aspectRatio: '16:9',
     durationSeconds: 5
+  },
+  'tank-minas': {
+    title: 'Z8 Tank High-Speed em Trilha Off-Road no Interior de Minas Gerais',
+    image: path.join(MODELS_DIR, 'z8_tank_minas_wide.jpg'),
+    output: 'z8_tank_minas_veo.mp4',
+    prompt:
+      'Cinematic slow tracking drone shot rising smoothly above the Z8 Tank High-Speed electric adventure motorcycle ' +
+      'parked on a rugged, muddy red clay dirt trail in the rural rolling green mountains of Minas Gerais, Brazil. ' +
+      'Morning golden mist swirling through the valleys, rustic wooden fences, and wet red clay mud reflecting the sunrise light. ' +
+      'The glowing dual circular halo LED headlights shine brightly with pristine high-torque off-road commercial quality, 60fps.',
+    aspectRatio: '16:9',
+    durationSeconds: 5
   }
 };
 
