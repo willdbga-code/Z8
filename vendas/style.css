@@ -1085,43 +1085,54 @@ button {
   flex-wrap: wrap;
 }
 
-/* Bloco de Preço & Margem Direct-Factory */
+/* Bloco de Lucro do Revendedor por Unidade */
 .product-pricing-box {
-  background: #080808;
-  border: 1px solid var(--border-subtle);
+  background: rgba(0, 255, 136, 0.04);
+  border: 1px solid rgba(0, 255, 136, 0.22);
   border-radius: var(--radius-sm);
-  padding: 10px;
+  padding: 10px 14px;
   margin-top: auto;
   margin-bottom: 12px;
   width: 100%;
-}
-
-.price-row {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 0.72rem;
-  margin-bottom: 4px;
+  justify-content: space-between;
+  gap: 8px;
 }
 
-.price-row.profit-highlight {
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 6px;
-  margin-top: 6px;
-  margin-bottom: 0;
-}
-
-.price-val-wholesale {
+.profit-label {
   font-family: var(--font-mono);
-  color: #fff;
-  font-weight: 700;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.profit-figure {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .price-val-profit {
-  font-family: var(--font-mono);
+  font-family: var(--font-heading);
   color: var(--accent-green);
   font-weight: 800;
-  font-size: 0.8rem;
+  font-size: 1.05rem;
+  line-height: 1;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.profit-margin-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: rgba(0, 255, 136, 0.85);
+  font-weight: 600;
+  margin-top: 3px;
 }
 
 .btn-card-reserve {
