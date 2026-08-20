@@ -98,7 +98,7 @@ export const z8Models = [
     category: 'urbana',
     tag: 'Linha Executiva',
     isExclusiveFranchise: false,
-    image: '/assets/models/z8_n95c_comfort.jpg',
+    image: '/assets/n95c/n95c_hero.jpg',
     motor: '1000W 27H',
     speed: '32 km/h (Limitada CONTRAN)',
     range: 'Até 40 km (Bateria 60V 20Ah)',
