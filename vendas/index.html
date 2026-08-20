@@ -1007,6 +1007,109 @@
     </div>
   </div>
 
+  <!-- 10.1 MODAL DE LOGIN / PORTAL DO REVENDEDOR B2B -->
+  <div class="modal-overlay" id="portal-login-modal">
+    <div class="modal-card" style="max-width: 460px; border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 0 40px rgba(0, 229, 255, 0.15), 0 25px 60px rgba(0,0,0,0.95);">
+      <button type="button" class="modal-close-btn" id="btn-close-portal-modal"><i class="fa-solid fa-xmark"></i></button>
+
+      <div style="margin-bottom: 18px; text-align: center;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.4); color: var(--accent-cyan); font-size: 1.3rem; margin-bottom: 12px;">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <span class="font-mono-tag text-accent-cyan" style="display: block; font-size: 0.72rem; letter-spacing: 0.08em;">ÁREA RESTRITA DO REVENDEDOR</span>
+        <h3 style="font-family: var(--font-heading); font-size: 1.45rem; color: #fff; font-weight: 800; margin-top: 4px;">
+          Portal B2B Direct-Factory
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+          Acesso exclusivo para lojistas credenciados e distribuidores Z8.
+        </p>
+      </div>
+
+      <!-- Abas do Modal: Entrar / Solicitar Acesso -->
+      <div style="display: flex; gap: 8px; background: #000; padding: 4px; border-radius: 8px; border: 1px solid var(--border-medium); margin-bottom: 18px;">
+        <button type="button" id="tab-portal-login" class="portal-tab-btn active" style="flex: 1; padding: 10px; border: none; background: var(--accent-cyan); color: #000; border-radius: 6px; font-weight: 800; font-family: var(--font-heading); font-size: 0.82rem; cursor: pointer; transition: all 0.2s;">
+          <i class="fa-solid fa-right-to-bracket"></i> ENTRAR
+        </button>
+        <button type="button" id="tab-portal-register" class="portal-tab-btn" style="flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); border-radius: 6px; font-weight: 800; font-family: var(--font-heading); font-size: 0.82rem; cursor: pointer; transition: all 0.2s;">
+          <i class="fa-solid fa-user-plus"></i> SOLICITAR ACESSO
+        </button>
+      </div>
+
+      <!-- Feedback / Alert Box -->
+      <div id="portal-msg-box" style="display: none; padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px; line-height: 1.4;"></div>
+
+      <!-- ABA 1: FORMULÁRIO DE LOGIN -->
+      <div id="portal-view-login">
+        <form id="portal-login-form">
+          <div class="form-group-b2b">
+            <label class="form-label-b2b">E-mail ou Usuário Credenciado</label>
+            <input type="text" id="portal-input-user" class="form-input-b2b" placeholder="seuemail@empresa.com.br" required />
+          </div>
+
+          <div class="form-group-b2b">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <label class="form-label-b2b" style="margin-bottom: 0;">Senha de Acesso</label>
+              <a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C+preciso+de+ajuda+para+recuperar+minha+senha+do+Portal+Z8" target="_blank" rel="noopener" style="font-size: 0.72rem; color: var(--accent-cyan); text-decoration: none;">Esqueci a senha</a>
+            </div>
+            <input type="password" id="portal-input-pass" class="form-input-b2b" placeholder="••••••••••••" required />
+          </div>
+
+          <button type="submit" class="btn-tripwire-action" style="background: linear-gradient(135deg, #00e5ff, #0099ff); color: #000; padding: 14px; font-size: 0.88rem; margin-top: 12px; box-shadow: 0 8px 25px rgba(0, 229, 255, 0.25);">
+            <i class="fa-solid fa-lock-open"></i>
+            <span>ACESSAR MEU PORTAL</span>
+          </button>
+        </form>
+
+        <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-subtle); text-align: center;">
+          <p style="font-size: 0.75rem; color: var(--text-dim);">
+            Primeiro acesso? Clique em <strong>"Solicitar Acesso"</strong> ou fale com seu executivo de contas.
+          </p>
+        </div>
+      </div>
+
+      <!-- ABA 2: FORMULÁRIO DE SOLICITAÇÃO DE ACESSO / CADASTRO -->
+      <div id="portal-view-register" style="display: none;">
+        <form id="portal-register-form">
+          <div class="form-group-b2b">
+            <label class="form-label-b2b">Nome Completo do Responsável</label>
+            <input type="text" id="portal-reg-name" class="form-input-b2b" placeholder="Ex: Roberto Silva" required />
+          </div>
+
+          <div class="form-group-b2b">
+            <label class="form-label-b2b">Razão Social ou Nome Fantasia da Loja</label>
+            <input type="text" id="portal-reg-company" class="form-input-b2b" placeholder="Ex: Silva Veículos & E-Bikes Ltda" required />
+          </div>
+
+          <div class="form-group-b2b">
+            <label class="form-label-b2b">Cidade e Estado de Atuação</label>
+            <input type="text" id="portal-reg-city" class="form-input-b2b" placeholder="Ex: Campinas - SP" required />
+          </div>
+
+          <div class="form-group-b2b">
+            <label class="form-label-b2b">E-mail Corporativo</label>
+            <input type="email" id="portal-reg-email" class="form-input-b2b" placeholder="contato@silvamotos.com.br" required />
+          </div>
+
+          <div class="form-group-b2b">
+            <label class="form-label-b2b">WhatsApp com DDD</label>
+            <input type="tel" id="portal-reg-phone" class="form-input-b2b" placeholder="(19) 99999-8888" required />
+          </div>
+
+          <div class="form-group-b2b">
+            <label class="form-label-b2b">Crie sua Senha Provisória</label>
+            <input type="password" id="portal-reg-pass" class="form-input-b2b" placeholder="Mínimo 6 caracteres" minlength="6" required />
+          </div>
+
+          <button type="submit" class="btn-tripwire-action" style="background: linear-gradient(135deg, #00ff88, #00cc66); color: #000; padding: 14px; font-size: 0.88rem; margin-top: 12px; box-shadow: 0 8px 25px rgba(0, 255, 136, 0.25);">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>SOLICITAR CADASTRO DE REVENDEDOR</span>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
   <!-- 11. TOAST DE PROVA SOCIAL AO VIVO -->
   <div class="live-toast-b2b" id="live-sales-popup">
     <div style="width: 38px; height: 38px; border-radius: 50%; background: rgba(0,255,136,0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-green); flex-shrink: 0;">
