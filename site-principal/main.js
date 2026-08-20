@@ -5,6 +5,7 @@ import {
   registerCatalogUser,
   loginCatalogUser,
   updateUserStatus,
+  deleteCatalogUser,
   getCurrentCatalogUser,
   isCatalogApproved,
   logoutCatalogUser
@@ -302,6 +303,32 @@ function openModelModal(modelId) {
 
   const modal = document.getElementById('modal-model-detail');
   const body = document.getElementById('modal-body-content');
+  const approved = isCatalogApproved();
+  const currentUser = getCurrentCatalogUser();
+
+  const priceFooterHtml = approved
+    ? `
+      <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-inset); padding: 14px; border-radius: 10px; border: 1px solid var(--border-metal); flex-wrap: wrap; gap: 12px;">
+        <div>
+          <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">PREÇO DE ATACADO PARCEIRO</span>
+          <strong style="font-size: 1.4rem; color: var(--accent-neon);">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</strong>
+        </div>
+        <button class="skeuo-button primary-metal-btn" onclick="document.getElementById('modal-model-detail').classList.add('hidden'); window.location.href='/vendas/index.html#franchise-form-section';">
+          <i class="fa-solid fa-file-invoice"></i> Solicitar Lote
+        </button>
+      </div>
+    `
+    : `
+      <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(251, 191, 36, 0.08); padding: 14px; border-radius: 10px; border: 1px solid rgba(251, 191, 36, 0.35); flex-wrap: wrap; gap: 12px;">
+        <div>
+          <span style="font-size: 0.75rem; color: #fcd34d; display: block; font-weight: 700;"><i class="fa-solid fa-lock"></i> TABELA DE ATACADO RESTRITA</span>
+          <span style="font-size: 0.85rem; color: #94a3b8;">Preços e margens liberados após aprovação comercial.</span>
+        </div>
+        <a href="https://wa.me/5511999999999?text=${encodeURIComponent(`Olá! Me interessei pelo modelo ${model.name} (${model.code}) no catálogo Z8 e gostaria de solicitar a liberação de preços de atacado.`)}" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
+          <i class="fa-brands fa-whatsapp"></i> Solicitar Acesso no WhatsApp
+        </a>
+      </div>
+    `;
 
   body.innerHTML = `
     <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 24px; align-items: center;">
@@ -334,15 +361,7 @@ function openModelModal(modelId) {
           </ul>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-inset); padding: 14px; border-radius: 10px; border: 1px solid var(--border-metal);">
-          <div>
-            <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">PREÇO DE ATACADO PARCEIRO</span>
-            <strong style="font-size: 1.4rem; color: var(--accent-neon);">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</strong>
-          </div>
-          <button class="skeuo-button primary-metal-btn" onclick="document.getElementById('modal-model-detail').classList.add('hidden'); window.location.href='/vendas/index.html#franchise-form-section';">
-            <i class="fa-solid fa-file-invoice"></i> Solicitar Lote
-          </button>
-        </div>
+        ${priceFooterHtml}
       </div>
     </div>
   `;
@@ -539,10 +558,10 @@ function initCatalogAuth() {
       } else if (u.status === 'approved') {
         actionButtons = `
           <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <button type="button" class="btn-revoke-user" data-id="${u.id}" style="background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; color: #fcd34d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.72rem; font-weight: 700;">
-              <i class="fa-solid fa-lock"></i> Revogar Acesso
+            <button type="button" class="btn-revoke-user" data-id="${u.id}" style="background: rgba(245,158,11,0.25); border: 1px solid #f59e0b; color: #fcd34d; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="fa-solid fa-lock"></i> Bloquear Acesso
             </button>
-            <button type="button" class="btn-del-user" data-id="${u.id}" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.72rem;">
+            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -550,10 +569,10 @@ function initCatalogAuth() {
       } else {
         actionButtons = `
           <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <button type="button" class="btn-approve-user" data-id="${u.id}" style="background: rgba(16,185,129,0.25); border: 1px solid #10B981; color: #6ee7b7; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.72rem; font-weight: 700;">
-              <i class="fa-solid fa-check"></i> Liberar Acesso
+            <button type="button" class="btn-approve-user" data-id="${u.id}" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+              <i class="fa-solid fa-check"></i> Liberar Acesso ao Catálogo
             </button>
-            <button type="button" class="btn-del-user" data-id="${u.id}" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.72rem;">
+            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -562,36 +581,46 @@ function initCatalogAuth() {
 
       return `
         <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <td style="padding: 10px;"><strong>${u.name}</strong><br><span style="font-size: 0.75rem; color: #64748b;">${u.company} (${u.city || 'SP'})</span></td>
-          <td style="padding: 10px;"><a href="mailto:${u.email}" style="color: #38bdf8; text-decoration: none;">${u.email}</a></td>
-          <td style="padding: 10px;"><a href="https://wa.me/55${(u.phone || '').replace(/\D/g, '')}" target="_blank" style="color: #10B981; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-whatsapp"></i> ${u.phone || 'N/A'}</a></td>
-          <td style="padding: 10px;">${statusBadge}</td>
-          <td style="padding: 10px;">${actionButtons}</td>
+          <td style="padding: 12px 10px;"><strong>${u.name}</strong><br><span style="font-size: 0.75rem; color: #94a3b8;">${u.company} (${u.city || 'SP'})</span></td>
+          <td style="padding: 12px 10px;"><a href="mailto:${u.email}" style="color: #38bdf8; text-decoration: none;">${u.email}</a></td>
+          <td style="padding: 12px 10px;"><a href="https://wa.me/55${(u.phone || '').replace(/\D/g, '')}" target="_blank" rel="noopener" style="color: #10B981; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-whatsapp"></i> ${u.phone || 'N/A'}</a></td>
+          <td style="padding: 12px 10px;">${statusBadge}</td>
+          <td style="padding: 12px 10px;">${actionButtons}</td>
         </tr>
       `;
     }).join('');
+  }
 
-    adminUsersList.querySelectorAll('.btn-approve-user').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
-        import('./catalog-auth.js').then(m => m.updateUserStatus(id, 'approved'));
-      });
-    });
+  if (adminUsersList) {
+    adminUsersList.addEventListener('click', (e) => {
+      const approveBtn = e.target.closest('.btn-approve-user');
+      if (approveBtn) {
+        const id = approveBtn.getAttribute('data-id');
+        updateUserStatus(id, 'approved');
+        renderAdminUsersList();
+        renderShowroom();
+        return;
+      }
 
-    adminUsersList.querySelectorAll('.btn-revoke-user').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
-        import('./catalog-auth.js').then(m => m.updateUserStatus(id, 'pending'));
-      });
-    });
+      const revokeBtn = e.target.closest('.btn-revoke-user');
+      if (revokeBtn) {
+        const id = revokeBtn.getAttribute('data-id');
+        updateUserStatus(id, 'pending');
+        renderAdminUsersList();
+        renderShowroom();
+        return;
+      }
 
-    adminUsersList.querySelectorAll('.btn-del-user').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const id = btn.getAttribute('data-id');
+      const delBtn = e.target.closest('.btn-del-user');
+      if (delBtn) {
+        const id = delBtn.getAttribute('data-id');
         if (confirm('Tem certeza que deseja excluir o cadastro deste cliente?')) {
-          import('./catalog-auth.js').then(m => m.deleteCatalogUser(id));
+          deleteCatalogUser(id);
+          renderAdminUsersList();
+          renderShowroom();
         }
-      });
+        return;
+      }
     });
   }
 }
