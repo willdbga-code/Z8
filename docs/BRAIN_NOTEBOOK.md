@@ -15,21 +15,21 @@
 
 ---
 
-## 2. 📊 Tabela Oficial de Modelos, Preços e Margens (Memória Atualizada)
+## 2. 📊 Tabela Oficial de Modelos, Preços e Margens (Memória Atualizada 2026)
 
 | Rank | Modelo | Código | Categoria | Preço Atacado | Preço Varejo | Lucro Bruto | Markup % | Margem % |
 | :---: | :--- | :---: | :--- | :---: | :---: | :---: | :---: | :---: |
-| 1º | **Z8 N710 Urban** | DB002 | Urbana | R$ 5.300,00 | R$ 7.500,00 | R$ 2.200,00 | 41.51% | 29.33% |
-| 2º | **Z8 Q11 Compact** | DB043-Q11 | Urbana | R$ 5.200,00 | R$ 7.300,00 | R$ 2.100,00 | 40.38% | 28.77% |
-| 3º | **Z8 N7 Standard** | DB001 | Urbana | R$ 5.500,00 | R$ 7.500,00 | R$ 2.000,00 | 36.36% | 26.67% |
-| 4º | **Z8 Q10 Vintage** | DB038 | Vintage | R$ 5.800,00 | R$ 7.800,00 | R$ 2.000,00 | 34.48% | 25.64% |
-| 5º | **Z8 FX-10 Sport** | DB043 | Esportiva | R$ 7.000,00 | R$ 9.000,00 | R$ 2.000,00 | 28.57% | 22.22% |
-| 6º | **Z8 Tank High-Speed** | DB018 | Performance | R$ 7.500,00 | R$ 9.500,00 | R$ 2.000,00 | 26.67% | 21.05% |
-| 7º | **Z8 U2 Delivery Cargo** | XB-026 | Utilitária | R$ 6.000,00 | R$ 7.500,00 | R$ 1.500,00 | 25.00% | 20.00% |
-| 8º | **Z8 Harley X21 Custom** | XB-024 | Custom | R$ 6.500,00 | R$ 8.000,00 | R$ 1.500,00 | 23.08% | 18.75% |
-| 9º | **Z8 N95C Max Comfort** | DB039 | Urbana | R$ 6.500,00 | R$ 8.000,00 | R$ 1.500,00 | 23.08% | 18.75% |
-| 10º | **Z8 Diamond Luxury** | DM-001 | Urbana | R$ 3.400,00 | R$ 4.800,00 | R$ 1.400,00 | 41.18% | 29.17% |
-| 11º | **Z8 Base Norte GS-005** | GS-005 | Utilitária | R$ 3.200,00 | R$ 4.200,00 | R$ 1.000,00 | 31.25% | 23.81% |
+| 1º | **Z8 Diamond Luxe** | DB050-DM | Vintage | R$ 3.400,00 | R$ 6.800,00 | R$ 3.400,00 | 100.0% | 50.00% |
+| 2º | **Z8 GS-005 Base Norte** | GS-005 | Utilitária | R$ 3.200,00 | R$ 6.200,00 | R$ 3.000,00 | 93.75% | 48.39% |
+| 3º | **Z8 N710 Urban Plus** | DB045-N710 | Urbana | R$ 5.300,00 | R$ 9.500,00 | R$ 4.200,00 | 79.25% | 44.21% |
+| 4º | **Z8 Q11 Compact** | DB043-Q11 | Urbana | R$ 5.200,00 | R$ 9.300,00 | R$ 4.100,00 | 78.85% | 44.09% |
+| 5º | **Z8 N7 Standard** | DB001 | Urbana | R$ 5.500,00 | R$ 9.500,00 | R$ 4.000,00 | 72.73% | 42.11% |
+| 6º | **Z8 Q10 Vintage** | DB038 | Vintage | R$ 5.800,00 | R$ 9.800,00 | R$ 4.000,00 | 68.97% | 40.82% |
+| 7º | **Z8 U2 Delivery Cargo** | XB-026 | Utilitária | R$ 6.000,00 | R$ 9.500,00 | R$ 3.500,00 | 58.33% | 36.84% |
+| 8º | **Z8 FX-10 Sport** | DB043 | Esportiva | R$ 7.000,00 | R$ 11.000,00 | R$ 4.000,00 | 57.14% | 36.36% |
+| 9º | **Z8 Harley X21 Custom** | XB-024 | Custom | R$ 6.500,00 | R$ 10.000,00 | R$ 3.500,00 | 53.85% | 35.00% |
+| 10º | **Z8 N95C Max Comfort** | DB039 | Urbana | R$ 6.500,00 | R$ 10.000,00 | R$ 3.500,00 | 53.85% | 35.00% |
+| 11º | **Z8 Tank High-Speed** | DB018 | Performance | R$ 7.500,00 | R$ 11.500,00 | R$ 4.000,00 | 53.33% | 34.78% |
 
 ---
 
