@@ -16,8 +16,10 @@ export const z8Models = [
     chassis: 'Aço de Alta Carbono com Estrutura Tubular Dupla',
     features: ['Partida sem chave NFC', 'Controle Remoto Anti-Furto', 'Painel LCD Digital', 'Faróis Duplos LED Halo'],
     wholesalePrice: 7500,
-    retailPrice: 9500,
-    marginPct: 21.1,
+    retailPrice: 11500,
+    profit: 4000,
+    markupPct: 53.3,
+    marginPct: 34.8,
     description: 'A topo de linha da Z8 E-motion. Moto elétrica de estilo super trail/off-road, com motor 1000W, velocidade limitada a 32 km/h conforme CONTRAN, autonomia de até 40km e tecnologia NFC.'
   },
   {
@@ -37,8 +39,10 @@ export const z8Models = [
     chassis: 'Quadro Aço Carbono Esportivo',
     features: ['Carenagem Aerodinâmica', 'Suspensão Amortecedora Hidráulica', 'Painel Digital Futurista', 'Entrada USB Fast Charge'],
     wholesalePrice: 7000,
-    retailPrice: 9000,
-    marginPct: 22.2,
+    retailPrice: 11000,
+    profit: 4000,
+    markupPct: 57.1,
+    marginPct: 36.4,
     description: 'Scooter esportiva com motor de 1000W, velocidade limitada a 32 km/h e visual agressivo. Modelo de alto apelo comercial para o público jovem e urbano.'
   },
   {
@@ -58,8 +62,10 @@ export const z8Models = [
     chassis: 'Estrutura Custom Aço Reforçado',
     features: ['Caixa de Som Bluetooth Integrada', 'Keyless NFC + Alarme Anti-Furto', 'Banco Duplo Confort', 'Guidão Alto Chopper'],
     wholesalePrice: 6500,
-    retailPrice: 8000,
-    marginPct: 18.8,
+    retailPrice: 10000,
+    profit: 3500,
+    markupPct: 53.8,
+    marginPct: 35.0,
     description: 'Estilo chopper/custom inconfundível com motor de 1000W, velocidade limitada a 32 km/h, caixa de som Bluetooth nativa e sistema NFC.'
   },
   {
@@ -79,8 +85,10 @@ export const z8Models = [
     chassis: 'Aço Carbono Reforçado para Carga',
     features: ['Compartimento Ampliado de Bateria', 'Grade / Suporte de Baú Carga Integrado', 'Painel Lâmina LCD', 'Rodas Liga Leve Aluminium'],
     wholesalePrice: 6000,
-    retailPrice: 7500,
-    marginPct: 20.0,
+    retailPrice: 9500,
+    profit: 3500,
+    markupPct: 58.3,
+    marginPct: 36.8,
     description: 'Veículo elétrico utilitário para entregadores e frotas. Motor de 1000W, velocidade limitada a 32 km/h, assento bipartido e base reforçada para baú.'
   },
   {
@@ -100,8 +108,10 @@ export const z8Models = [
     chassis: 'Aço Carbono Reforçado com Proteção Lateral',
     features: ['Pneus Ultra Largos de Maior Estabilidade', 'Assento Duplo Acolchoado VIP', 'Farol LED DRL Horizontal', 'Amortecimento Duplo Traseiro'],
     wholesalePrice: 6500,
-    retailPrice: 8000,
-    marginPct: 18.8,
+    retailPrice: 10000,
+    profit: 3500,
+    markupPct: 53.8,
+    marginPct: 35.0,
     description: 'Scooter executiva com assento duplo macio, motor 1000W, velocidade limitada a 32 km/h e pneus alargados de 130mm para estabilidade impecável.'
   },
   {
@@ -121,8 +131,10 @@ export const z8Models = [
     chassis: 'Estrutura Aço Leve e Resistente',
     features: ['Sistema Anti-Furto com Alarme Sonoro', 'Controle Remoto Keyless', 'Faróis LED Mecha Automáticos', 'Porta-Objetos sob o Banco'],
     wholesalePrice: 5500,
-    retailPrice: 7500,
-    marginPct: 26.7,
+    retailPrice: 9500,
+    profit: 4000,
+    markupPct: 72.7,
+    marginPct: 42.1,
     description: 'O modelo coringa da linha Z8 E-motion. Motor de 1000W, velocidade limitada a 32 km/h, frenagem a disco dupla e alto volume de giro no varejo.'
   },
   {
@@ -142,8 +154,10 @@ export const z8Models = [
     chassis: 'Aço Carbono Estilo Italiano',
     features: ['Farol Circular LED Halo Vintage', 'Manoplas em Couro Sintético', 'Painel Analógico-Digital Retrô', 'Opções de Cores Pastel Vibrantes'],
     wholesalePrice: 5800,
-    retailPrice: 7800,
-    marginPct: 25.6,
+    retailPrice: 9800,
+    profit: 4000,
+    markupPct: 69.0,
+    marginPct: 40.8,
     description: 'Scooter clássica inspirada nas lendárias vespas europeias. Motor de 1000W, velocidade limitada a 32 km/h e altíssima procura para o dia a dia.'
   },
   {
@@ -163,8 +177,10 @@ export const z8Models = [
     chassis: 'Aço Carbono Reforçado Urban',
     features: ['Painel Digital LCD Integrado', 'Sistema Anti-Furto Keyless', 'Farol LED DRL High Output', 'Suspensão Hidráulica'],
     wholesalePrice: 5300,
-    retailPrice: 7500,
-    marginPct: 29.3,
+    retailPrice: 9500,
+    profit: 4200,
+    markupPct: 79.2,
+    marginPct: 44.2,
     description: 'Nova geração da linha urbana Z8 N710. Motor de 1000W, velocidade limitada a 32 km/h, design moderno e chassi reforçado.'
   },
   {
@@ -184,8 +200,10 @@ export const z8Models = [
     chassis: 'Aço Carbono Compacto',
     features: ['Amortecedor Hidráulico Dianteiro 27 Núcleos', 'Baú Traseiro Integrado na Cor da Moto', 'Rodagem Silenciosa', 'Cores Pastel Candy Style'],
     wholesalePrice: 5200,
-    retailPrice: 7300,
-    marginPct: 28.8,
+    retailPrice: 9300,
+    profit: 4100,
+    markupPct: 78.8,
+    marginPct: 44.1,
     description: 'Compacta, leve e graciosa. Motor de 1000W, velocidade limitada a 32 km/h, facilidade de pilotagem e baixo consumo energético.'
   },
   {
@@ -205,8 +223,10 @@ export const z8Models = [
     chassis: 'Aço de Alta Carbono de Trabalho',
     features: ['Cesta Frontal Reforçada', 'Assento Duplo com Encosto Traseiro', 'Farol LED com Capô Mecha', 'Pedais Auxiliares (Pedelec)'],
     wholesalePrice: 3200,
-    retailPrice: 4200,
-    marginPct: 23.8,
+    retailPrice: 6200,
+    profit: 3000,
+    markupPct: 93.8,
+    marginPct: 48.4,
     description: 'Modelo de entrada multiúso com motor de 500W e velocidade limitada a 32 km/h. Cesta frontal de transporte, baixo custo de manutenção e recarga simples.'
   },
   {
@@ -226,8 +246,10 @@ export const z8Models = [
     chassis: 'Quadro Leve em Liga Reforçada',
     features: ['Acabamento Diamond Premium', 'Cesta Frontal Elegante', 'Partida Keyless NFC', 'Banco Ergonômico Acolchoado'],
     wholesalePrice: 3400,
-    retailPrice: 4800,
-    marginPct: 29.2,
+    retailPrice: 6800,
+    profit: 3400,
+    markupPct: 100.0,
+    marginPct: 50.0,
     description: 'Modelo Z8 Diamond com motor de 500W, velocidade limitada a 32 km/h e linhas elegantes. Ideal para mobilidade leve com máximo conforto.'
   }
 ];

@@ -116,8 +116,15 @@ function initCepChecker() {
           if (cityInput) cityInput.value = val;
           const modal = document.getElementById('checkout-modal');
           if (modal) modal.classList.add('active');
+          trackConversionEvent('begin_checkout', {
+            content_name: `Travar Cidade (${val})`,
+            value: 2989.00,
+            currency: 'BRL'
+          });
         });
       }
+
+      trackConversionEvent('search', { search_term: val });
     }, 600);
   });
 }
@@ -135,6 +142,11 @@ function initCatalogTabs() {
       btn.classList.add('active');
 
       const selectedCat = btn.getAttribute('data-category');
+
+      trackConversionEvent('select_content', {
+        content_type: 'catalog_category',
+        item_id: selectedCat
+      });
 
       productCards.forEach(card => {
         const cardCat = card.getAttribute('data-cat');
@@ -163,8 +175,8 @@ function initB2bProfitCalculator() {
     const unitsPerMonth = parseInt(slider.value, 10);
     if (salesDisplay) salesDisplay.textContent = `${unitsPerMonth} motos / mês`;
 
-    // Lucro médio por unidade = R$ 2.000,00 (Markup médio de ~31% direto de fábrica)
-    const monthlyProfit = unitsPerMonth * 2000;
+    // Lucro médio por unidade = R$ 4.000,00 (Markup médio de ~68% direto de fábrica)
+    const monthlyProfit = unitsPerMonth * 4000;
     const annualProfit = monthlyProfit * 12;
 
     if (monthlyProfitDisplay) {
@@ -200,14 +212,43 @@ function initFaqAccordion() {
 }
 
 /* --------------------------------------------------------------------------
-   7. CHECKOUT MODAL B2B (PASSAPORTE VIP R$ 2.989)
+   7. CHECKOUT MODAL B2B (PASSAPORTE VIP R$ 2.989) & CONVERSÕES GOOGLE / META
    -------------------------------------------------------------------------- */
+function trackConversionEvent(eventName, data = {}) {
+  // 1. Google Analytics 4 & Google Ads gtag
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, data);
+  }
+  
+  // 2. Google Tag Manager (DataLayer)
+  if (Array.isArray(window.dataLayer)) {
+    window.dataLayer.push({
+      event: eventName,
+      ...data,
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  // 3. Meta Pixel
+  if (typeof window.fbq === 'function') {
+    if (eventName === 'begin_checkout') {
+      window.fbq('track', 'InitiateCheckout', { content_name: data.content_name || 'Cota B2B' });
+    } else if (eventName === 'generate_lead') {
+      window.fbq('track', 'Lead', {
+        content_name: 'Cadastro Parceiro B2B',
+        content_category: 'Atacado Direct-Factory',
+        company: data.company,
+        city: data.city
+      });
+    }
+  }
+}
+
 function initCheckoutModal() {
   const modal = document.getElementById('checkout-modal');
   const openBtns = document.querySelectorAll('.btn-open-checkout');
   const closeBtn = document.getElementById('btn-close-modal');
   const checkoutForm = document.getElementById('checkout-form');
-  const payOptions = document.querySelectorAll('.pay-option');
   const openCrmBtn = document.getElementById('open-crm-btn');
 
   if (!modal) return;
@@ -216,6 +257,11 @@ function initCheckoutModal() {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       modal.classList.add('active');
+      trackConversionEvent('begin_checkout', {
+        content_name: 'Cota B2B Vendas',
+        value: 2989.00,
+        currency: 'BRL'
+      });
     });
   });
 
@@ -223,6 +269,11 @@ function initCheckoutModal() {
     openCrmBtn.addEventListener('click', (e) => {
       e.preventDefault();
       modal.classList.add('active');
+      trackConversionEvent('begin_checkout', {
+        content_name: 'Portal Revendedor',
+        value: 2989.00,
+        currency: 'BRL'
+      });
     });
   }
 
@@ -238,19 +289,6 @@ function initCheckoutModal() {
     }
   });
 
-  payOptions.forEach(opt => {
-    opt.addEventListener('click', () => {
-      payOptions.forEach(o => {
-        o.classList.remove('active');
-        o.style.borderColor = 'var(--border-medium)';
-        o.querySelector('span').style.color = 'var(--text-muted)';
-      });
-      opt.classList.add('active');
-      opt.style.borderColor = 'var(--accent-green)';
-      opt.querySelector('span').style.color = '#fff';
-    });
-  });
-
   if (checkoutForm) {
     checkoutForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -259,9 +297,16 @@ function initCheckoutModal() {
       const city = document.getElementById('input-city') ? document.getElementById('input-city').value : 'Sua Cidade';
       const email = document.getElementById('input-email') ? document.getElementById('input-email').value : '';
       const phone = document.getElementById('input-phone') ? document.getElementById('input-phone').value : '';
-      
-      const activePay = document.querySelector('.pay-option.active span');
-      const paymentMethod = activePay ? activePay.textContent.trim() : 'PIX';
+      const paymentMethod = 'Cadastro Direto';
+
+      // Dispara conversão unificada de Lead para Google Ads, GA4 e Meta Pixel
+      trackConversionEvent('generate_lead', {
+        lead_type: 'Revendedor B2B',
+        company: company,
+        city: city,
+        value: 2989.00,
+        currency: 'BRL'
+      });
 
       // Save lead into Firebase / Hybrid Storage Engine if available
       try {
@@ -273,7 +318,7 @@ function initCheckoutModal() {
         console.log('Lead storage local mode');
       }
 
-      alert(`🎉 EXCLUSIVIDADE RESERVADA COM SUCESSO!\n\nEmpresa: ${company.toUpperCase()}\nRegião: ${city.toUpperCase()}\n\nSeu pedido de Reserva de Exclusividade Territorial (R$ 2.989,00) foi registrado!\nEste valor será 100% ABATIDO no seu pedido mínimo de atacado.\n\nO Dossiê Comercial B2B e as instruções de faturamento foram enviados para o seu e-mail e WhatsApp.`);
+      alert(`🎉 CADASTRO CONCLUÍDO COM SUCESSO!\n\nEmpresa: ${company.toUpperCase()}\nRegião: ${city.toUpperCase()}\n\nSeu cadastro de parceiro foi realizado com sucesso!\nO Dossiê Comercial B2B e o catálogo oficial de atacado foram enviados para o seu e-mail e WhatsApp.`);
       modal.classList.remove('active');
     });
   }
