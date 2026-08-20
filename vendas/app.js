@@ -173,7 +173,7 @@ function initB2bProfitCalculator() {
   if (!slider) return;
 
   function calculate() {
-    const unitsPerMonth = parseInt(slider.value, 10);
+    const unitsPerMonth = Math.max(5, parseInt(slider.value, 10) || 5);
     if (salesDisplay) salesDisplay.textContent = `${unitsPerMonth} motos / mês`;
 
     // Lucro médio por unidade = R$ 4.000,00 (Markup médio de ~68% direto de fábrica)
