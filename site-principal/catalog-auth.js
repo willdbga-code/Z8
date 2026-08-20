@@ -65,7 +65,7 @@ export function registerCatalogUser(userData) {
 
   const existing = users.find(u => u.email.toLowerCase() === cleanEmail);
   if (existing) {
-    return { success: false, error: 'Este e-mail já possui um cadastro. Digite sua senha para entrar.' };
+    return { success: false, error: 'Este e-mail já possui um cadastro. Digite sua senha na aba de Entrar.' };
   }
 
   const isMaster = cleanEmail === MASTER_ADMIN_EMAIL.toLowerCase();
@@ -79,12 +79,22 @@ export function registerCatalogUser(userData) {
     phone: userData.phone || '',
     password: userData.password || '',
     role: isMaster ? 'admin' : 'partner',
-    status: isMaster ? 'approved' : 'pending', // Pending admin approval requirement!
+    status: isMaster ? 'approved' : 'pending', // Novo cadastro entra como pending até aprovação comercial
     createdAt: new Date().toISOString()
   };
 
   users.unshift(newUser);
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+
+  // Autentica o usuário imediatamente na sessão
+  sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
+  sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(newUser));
+  localStorage.setItem('z8_catalog_auth_user', JSON.stringify(newUser));
+  localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
+
+  window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+  window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
   return { success: true, user: newUser };
 }
 
@@ -97,64 +107,88 @@ export function loginCatalogUser(userOrEmail, password) {
     const adminUser = {
       id: 'user_admin_master',
       name: 'Administrador Master',
-      company: 'Z8 Matriz',
+      company: 'Z8 E-Motion (Matriz)',
       email: MASTER_ADMIN_EMAIL,
       role: 'admin',
       status: 'approved'
     };
     sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
     sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(adminUser));
+    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
+    localStorage.setItem('z8_catalog_auth_token', 'token_master_' + Date.now());
     window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-    return { success: true, user: adminUser };
+    return { success: true, user: adminUser, isPending: false };
   }
 
   // 2. Check Registered Users Directory
   const found = users.find(u => u.email.toLowerCase() === clean || u.name.toLowerCase() === clean);
   if (!found) {
-    return { success: false, error: 'Usuário ou e-mail não encontrado no banco de dados. Cadastre-se primeiro.' };
+    return { success: false, error: 'Usuário ou e-mail não encontrado. Cadastre-se na aba ao lado.' };
   }
 
   if (found.password && found.password !== password) {
-    return { success: false, error: 'Senha incorreta. Tente novamente.' };
-  }
-
-  // 3. Check Admin Approval Status
-  if (found.status === 'pending') {
-    return {
-      success: false,
-      isPending: true,
-      error: `⚠️ Sua conta (${found.email}) está AGUARDANDO APROVAÇÃO do Administrador Master (christian.tkh@gmail.com). Entre em contato ou aguarde a liberação do seu acesso.`
-    };
+    return { success: false, error: 'Senha incorreta. Tente novamente ou recupere pelo WhatsApp.' };
   }
 
   if (found.status === 'blocked') {
-    return { success: false, error: '🔴 Seu acesso foi temporariamente suspenso pelo Administrador.' };
+    return { success: false, error: '🔴 Seu acesso foi temporariamente suspenso pela administração.' };
   }
 
-  // Approved User
+  // Realiza o login (mesmo que pending, o usuário entra na conta, com restrição visual do catálogo)
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
   sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(found));
+  localStorage.setItem('z8_catalog_auth_user', JSON.stringify(found));
+  localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-  return { success: true, user: found };
+
+  return {
+    success: true,
+    user: found,
+    isPending: found.status === 'pending'
+  };
 }
 
 export function updateUserStatus(userId, newStatus) {
   const users = getRegisteredUsers();
+  let updatedUser = null;
   const updated = users.map(u => {
     if (u.id === userId && u.email.toLowerCase() !== MASTER_ADMIN_EMAIL.toLowerCase()) {
       u.status = newStatus;
+      updatedUser = u;
     }
     return u;
   });
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updated));
+
+  // Se o usuário atual for o mesmo modificado, atualiza a sessão local
+  const currentUser = getCurrentCatalogUser();
+  if (currentUser && currentUser.id === userId && updatedUser) {
+    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(updatedUser));
+    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(updatedUser));
+  }
+
+  window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+  window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+  return true;
+}
+
+export function deleteCatalogUser(userId) {
+  const users = getRegisteredUsers();
+  const filtered = users.filter(u => u.id !== userId || u.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase());
+  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(filtered));
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
   return true;
 }
 
 export function getCurrentCatalogUser() {
   try {
-    const raw = sessionStorage.getItem(SESSION_USER_KEY);
-    return raw ? JSON.parse(raw) : null;
+    const raw = sessionStorage.getItem(SESSION_USER_KEY) || localStorage.getItem('z8_catalog_auth_user');
+    if (!raw) return null;
+    const user = JSON.parse(raw);
+    // Atualiza status se houver alteração no banco de usuários
+    const users = getRegisteredUsers();
+    const fresh = users.find(u => u.email.toLowerCase() === user.email.toLowerCase());
+    return fresh || user;
   } catch (err) {
     return null;
   }
@@ -163,11 +197,13 @@ export function getCurrentCatalogUser() {
 export function isCatalogApproved() {
   const user = getCurrentCatalogUser();
   if (!user) return false;
-  return user.status === 'approved' || user.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase();
+  return user.status === 'approved' || user.role === 'admin' || user.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase();
 }
 
 export function logoutCatalogUser() {
   sessionStorage.removeItem(SESSION_KEY);
   sessionStorage.removeItem(SESSION_USER_KEY);
+  localStorage.removeItem('z8_catalog_auth_user');
+  localStorage.removeItem('z8_catalog_auth_token');
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
 }

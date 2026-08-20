@@ -478,12 +478,15 @@ function initPortalLoginModal() {
           return;
         }
       } catch(err) {
-        console.log('Catalog auth local register');
+        // Fallback local
+        const userObj = { ...userData, role: 'partner', status: 'pending' };
+        localStorage.setItem('z8_catalog_auth_user', JSON.stringify(userObj));
+        localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
       }
 
       // Dispara conversão de Lead
       trackConversionEvent('generate_lead', {
-        lead_type: 'Solicitacao Acesso Portal',
+        lead_type: 'Cadastro Portal B2B',
         company: company,
         city: city
       });
@@ -492,12 +495,17 @@ function initPortalLoginModal() {
       try {
         const { saveLead } = await import('./firebase-config.js');
         if (typeof saveLead === 'function') {
-          saveLead({ name, company, city, email, phone, paymentMethod: 'Acesso Portal B2B' });
+          saveLead({ name, company, city, email, phone, paymentMethod: 'Cadastro Direto Portal' });
         }
       } catch(e) {}
 
-      showPortalMessage(`✅ Solicitação enviada com sucesso!<br/>Nossa equipe comercial analisará suas credenciais para liberação das tabelas de fábrica. Você receberá a confirmação no WhatsApp e E-mail.`, 'success');
+      showPortalMessage(`🎉 <strong>Conta criada com sucesso!</strong><br/>Entrando no seu Portal Z8...`, 'success');
       registerForm.reset();
+
+      setTimeout(() => {
+        portalModal.classList.remove('active');
+        window.location.href = '/site-principal/';
+      }, 1200);
     });
   }
 }

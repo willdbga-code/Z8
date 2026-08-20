@@ -77,6 +77,9 @@ function renderShowroom(filterCategory = 'todos') {
   const grid = document.getElementById('models-grid-container');
   if (!grid) return;
 
+  const approved = isCatalogApproved();
+  const currentUser = getCurrentCatalogUser();
+
   const filtered = filterCategory === 'todos'
     ? z8Models
     : z8Models.filter(m => m.category === filterCategory);
@@ -85,6 +88,34 @@ function renderShowroom(filterCategory = 'todos') {
     const profit = model.profit ?? (model.retailPrice - model.wholesalePrice);
     const markupPct = model.markupPct ?? (((model.retailPrice - model.wholesalePrice) / model.wholesalePrice) * 100).toFixed(1);
     const rankText = model.rank ? `#${model.rank} Ranking` : '';
+
+    const priceBoxHtml = approved
+      ? `
+        <div class="model-price-box">
+          <div class="price-wholesale">
+            <span class="price-label">Preço Atacado Parceiro</span>
+            <span class="price-val">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</span>
+          </div>
+          <div class="price-margin">
+            Lucro R$ ${profit.toLocaleString('pt-BR')}
+          </div>
+        </div>
+      `
+      : `
+        <div class="model-price-box" style="border-color: rgba(251,191,36,0.3); background: rgba(251,191,36,0.05);">
+          <div class="price-wholesale">
+            <span class="price-label">Preço Atacado Fábrica</span>
+            <span class="price-val" style="color: #fbbf24; font-size: 0.85rem;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>
+          </div>
+          <div class="price-margin" style="background: rgba(251,191,36,0.15); color: #fbbf24; border-color: rgba(251,191,36,0.3);">
+            <i class="fa-brands fa-whatsapp"></i> Liberar Acesso
+          </div>
+        </div>
+      `;
+
+    const specMarkup = approved
+      ? `<div class="spec-item"><i class="fa-solid fa-chart-line"></i> ${markupPct}% Markup</div>`
+      : `<div class="spec-item" style="color: #fbbf24;"><i class="fa-solid fa-lock"></i> Tabela Restrita</div>`;
 
     return `
     <div class="skeuo-card model-card animate-on-scroll">
@@ -107,18 +138,10 @@ function renderShowroom(filterCategory = 'todos') {
           <div class="spec-item"><i class="fa-solid fa-bolt"></i> ${model.motor}</div>
           <div class="spec-item"><i class="fa-solid fa-gauge-high"></i> ${model.speed}</div>
           <div class="spec-item"><i class="fa-solid fa-battery-full"></i> ${model.range}</div>
-          <div class="spec-item"><i class="fa-solid fa-chart-line"></i> ${markupPct}% Markup</div>
+          ${specMarkup}
         </div>
 
-        <div class="model-price-box">
-          <div class="price-wholesale">
-            <span class="price-label">Preço Atacado Parceiro</span>
-            <span class="price-val">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</span>
-          </div>
-          <div class="price-margin">
-            Lucro R$ ${profit.toLocaleString('pt-BR')}
-          </div>
-        </div>
+        ${priceBoxHtml}
 
         <button class="skeuo-button secondary-metal-btn full-width btn-detail" data-id="${model.id}">
           <i class="fa-solid fa-circle-info"></i> Detalhes do Modelo
@@ -134,8 +157,6 @@ function renderShowroom(filterCategory = 'todos') {
       openModelModal(modelId);
     });
   });
-
-  initFilterBar();
 }
 
 function initFilterBar() {
@@ -355,19 +376,34 @@ function initCatalogAuth() {
   function updateHeaderAuth() {
     const user = getCurrentCatalogUser();
     const approved = isCatalogApproved();
+    const pendingBanner = document.getElementById('pending-approval-banner');
+    const pendingName = document.getElementById('pending-user-name');
+    const pendingCta = document.getElementById('pending-whatsapp-cta');
 
-    if (user && approved) {
+    if (user) {
       if (loginGate) loginGate.style.display = 'none';
       if (mainContent) mainContent.style.display = 'block';
-      if (badgeText) badgeText.textContent = `Sair (${user.email})`;
+      if (badgeText) badgeText.textContent = `Sair (${(user.name || user.email).split(' ')[0]})`;
       if (openAdminBtn) {
         openAdminBtn.style.display = (user.email.toLowerCase() === 'christian.tkh@gmail.com') ? 'inline-flex' : 'none';
+      }
+
+      if (approved) {
+        if (pendingBanner) pendingBanner.style.display = 'none';
+      } else {
+        if (pendingBanner) pendingBanner.style.display = 'block';
+        if (pendingName) pendingName.textContent = user.name || user.email;
+        if (pendingCta) {
+          const msg = encodeURIComponent(`Olá, criei meu cadastro no Portal Z8 (Nome: ${user.name || 'Parceiro'}, Empresa: ${user.company || 'Minha Loja'}, Cidade: ${user.city || 'SP'}, E-mail: ${user.email}) e gostaria de solicitar a liberação de acesso às tabelas de atacado.`);
+          pendingCta.href = `https://wa.me/5511999999999?text=${msg}`;
+        }
       }
     } else {
       if (loginGate) loginGate.style.display = 'flex';
       if (mainContent) mainContent.style.display = 'none';
       if (badgeText) badgeText.textContent = 'Área de Login';
       if (openAdminBtn) openAdminBtn.style.display = 'none';
+      if (pendingBanner) pendingBanner.style.display = 'none';
     }
   }
 
@@ -375,6 +411,7 @@ function initCatalogAuth() {
 
   window.addEventListener('z8-catalog-auth-changed', () => {
     updateHeaderAuth();
+    renderShowroom();
   });
 
   window.addEventListener('z8-catalog-users-updated', () => {
@@ -385,8 +422,8 @@ function initCatalogAuth() {
   document.addEventListener('click', (e) => {
     if (e.target.closest('#open-catalog-login-btn') || e.target.closest('.open-catalog-login-trigger')) {
       const user = getCurrentCatalogUser();
-      if (user && isCatalogApproved()) {
-        if (confirm(`Você está conectado como ${user.email}. Deseja sair?`)) {
+      if (user) {
+        if (confirm(`Você está conectado como ${user.name || user.email}. Deseja sair da conta?`)) {
           logoutCatalogUser();
         }
       } else {
@@ -433,15 +470,14 @@ function initCatalogAuth() {
       const res = loginCatalogUser(userVal, passVal);
       if (res.success) {
         if (loginMsg) loginMsg.style.display = 'none';
-        if (loginGate) loginGate.style.display = 'none';
-        if (mainContent) mainContent.style.display = 'block';
+        updateHeaderAuth();
         renderShowroom();
       } else {
         if (loginMsg) {
           loginMsg.style.display = 'block';
-          loginMsg.style.background = res.isPending ? 'rgba(251,191,36,0.15)' : 'rgba(239,68,68,0.15)';
-          loginMsg.style.border = res.isPending ? '1px solid rgba(251,191,36,0.3)' : '1px solid rgba(239,68,68,0.3)';
-          loginMsg.style.color = res.isPending ? '#fcd34d' : '#fca5a5';
+          loginMsg.style.background = 'rgba(239,68,68,0.15)';
+          loginMsg.style.border = '1px solid rgba(239,68,68,0.3)';
+          loginMsg.style.color = '#fca5a5';
           loginMsg.textContent = res.error;
         }
       }
@@ -465,11 +501,12 @@ function initCatalogAuth() {
           regMsg.style.background = 'rgba(16,185,129,0.15)';
           regMsg.style.border = '1px solid rgba(16,185,129,0.3)';
           regMsg.style.color = '#6ee7b7';
-          regMsg.innerHTML = `🎉 <strong>Cadastro registrado com sucesso!</strong><br>Sua conta (${email}) foi enviada. <strong>Aguarde a aprovação do Administrador Master (christian.tkh@gmail.com)</strong> para seu primeiro acesso!`;
+          regMsg.innerHTML = `🎉 <strong>Conta criada com sucesso!</strong> Acessando o Portal Z8...`;
         }
         setTimeout(() => {
-          if (tabLoginBtn) tabLoginBtn.click();
-        }, 3000);
+          updateHeaderAuth();
+          renderShowroom();
+        }, 800);
       } else {
         if (regMsg) {
           regMsg.style.display = 'block';
@@ -489,31 +526,45 @@ function initCatalogAuth() {
     adminUsersList.innerHTML = users.map(u => {
       const isMaster = u.email.toLowerCase() === 'christian.tkh@gmail.com';
       const statusBadge = isMaster
-        ? '<span style="color: #00F2FE; font-weight: 700;">👑 Admin Master (Ativo)</span>'
+        ? '<span style="color: #00F2FE; font-weight: 700;">👑 Admin Master</span>'
         : u.status === 'approved'
-          ? '<span style="color: #10B981; font-weight: 700;">🟢 Acesso Aprovado</span>'
+          ? '<span style="color: #10B981; font-weight: 700;">🟢 Acesso Liberado</span>'
           : u.status === 'blocked'
-            ? '<span style="color: #EF4444; font-weight: 700;">🔴 Acesso Bloqueado</span>'
-            : '<span style="color: #F59E0B; font-weight: 700;">🟡 Aguardando Aprovação</span>';
+            ? '<span style="color: #EF4444; font-weight: 700;">🔴 Bloqueado</span>'
+            : '<span style="color: #F59E0B; font-weight: 700;">🟡 Aguardando Liberação</span>';
 
-      const actionButtons = isMaster
-        ? '<span style="font-size: 0.75rem; color: #64748b;">Proprietário Master</span>'
-        : `
-          <div style="display: flex; gap: 6px;">
-            <button type="button" class="btn-approve-user" data-id="${u.id}" style="background: rgba(16,185,129,0.2); border: 1px solid #10B981; color: #6ee7b7; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700;">
-              <i class="fa-solid fa-check"></i> Aprovar Acesso
+      let actionButtons = '';
+      if (isMaster) {
+        actionButtons = '<span style="font-size: 0.75rem; color: #64748b;">Proprietário Master</span>';
+      } else if (u.status === 'approved') {
+        actionButtons = `
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button type="button" class="btn-revoke-user" data-id="${u.id}" style="background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; color: #fcd34d; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.72rem; font-weight: 700;">
+              <i class="fa-solid fa-lock"></i> Revogar Acesso
             </button>
-            <button type="button" class="btn-block-user" data-id="${u.id}" style="background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #fca5a5; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700;">
-              <i class="fa-solid fa-ban"></i> Bloquear
+            <button type="button" class="btn-del-user" data-id="${u.id}" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.72rem;">
+              <i class="fa-solid fa-trash"></i>
             </button>
           </div>
         `;
+      } else {
+        actionButtons = `
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button type="button" class="btn-approve-user" data-id="${u.id}" style="background: rgba(16,185,129,0.25); border: 1px solid #10B981; color: #6ee7b7; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.72rem; font-weight: 700;">
+              <i class="fa-solid fa-check"></i> Liberar Acesso
+            </button>
+            <button type="button" class="btn-del-user" data-id="${u.id}" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 0.72rem;">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        `;
+      }
 
       return `
         <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <td style="padding: 10px;"><strong>${u.name}</strong><br><span style="font-size: 0.75rem; color: #64748b;">${u.company}</span></td>
+          <td style="padding: 10px;"><strong>${u.name}</strong><br><span style="font-size: 0.75rem; color: #64748b;">${u.company} (${u.city || 'SP'})</span></td>
           <td style="padding: 10px;"><a href="mailto:${u.email}" style="color: #38bdf8; text-decoration: none;">${u.email}</a></td>
-          <td style="padding: 10px;">${u.phone || 'N/A'}</td>
+          <td style="padding: 10px;"><a href="https://wa.me/55${(u.phone || '').replace(/\D/g, '')}" target="_blank" style="color: #10B981; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-whatsapp"></i> ${u.phone || 'N/A'}</a></td>
           <td style="padding: 10px;">${statusBadge}</td>
           <td style="padding: 10px;">${actionButtons}</td>
         </tr>
@@ -523,14 +574,23 @@ function initCatalogAuth() {
     adminUsersList.querySelectorAll('.btn-approve-user').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
-        updateUserStatus(id, 'approved');
+        import('./catalog-auth.js').then(m => m.updateUserStatus(id, 'approved'));
       });
     });
 
-    adminUsersList.querySelectorAll('.btn-block-user').forEach(btn => {
+    adminUsersList.querySelectorAll('.btn-revoke-user').forEach(btn => {
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-id');
-        updateUserStatus(id, 'blocked');
+        import('./catalog-auth.js').then(m => m.updateUserStatus(id, 'pending'));
+      });
+    });
+
+    adminUsersList.querySelectorAll('.btn-del-user').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        if (confirm('Tem certeza que deseja excluir o cadastro deste cliente?')) {
+          import('./catalog-auth.js').then(m => m.deleteCatalogUser(id));
+        }
       });
     });
   }

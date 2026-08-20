@@ -83,7 +83,7 @@
           <i class="fa-solid fa-key"></i> Entrar (Login)
         </button>
         <button type="button" id="tab-cat-register" style="flex: 1; padding: 12px; border: none; background: transparent; color: #94a3b8; border-radius: 8px; font-weight: 800; font-family: 'Orbitron', sans-serif; cursor: pointer; font-size: 0.88rem;">
-          <i class="fa-solid fa-user-plus"></i> Cadastrar-se
+          <i class="fa-solid fa-user-plus"></i> Criar Conta
         </button>
       </div>
 
@@ -103,22 +103,18 @@
           </div>
 
           <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 16px; font-size: 0.95rem;">
-            <i class="fa-solid fa-right-to-bracket"></i> ENTRAR NO CATÁLOGO
+            <i class="fa-solid fa-right-to-bracket"></i> ENTRAR NO PORTAL
           </button>
         </form>
       </div>
 
       <!-- FORM REGISTER -->
       <div id="cat-box-register" style="display: none;">
-        <div style="background: rgba(0,242,254,0.08); border: 1px solid rgba(0,242,254,0.25); padding: 12px 14px; border-radius: 10px; font-size: 0.8rem; color: #38bdf8; margin-bottom: 16px; line-height: 1.4;">
-          <i class="fa-solid fa-shield-halved"></i> <strong>Aprovação Necessária para 1º Acesso:</strong> Seu cadastro será submetido à aprovação do Administrador Master (<code>christian.tkh@gmail.com</code>).
-        </div>
-
         <form id="cat-register-form">
           <div id="cat-reg-msg" style="display: none; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px;"></div>
 
           <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-user"></i> Nome Completo / Razão Social:</label>
+            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-user"></i> Nome Completo / Responsável:</label>
             <input type="text" id="cat-reg-name" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="Ex: Carlos Eduardo Silva" required />
           </div>
 
@@ -128,7 +124,7 @@
           </div>
 
           <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-envelope"></i> E-mail Comercial:</label>
+            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-envelope"></i> E-mail Corporativo:</label>
             <input type="email" id="cat-reg-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="contato@empresa.com.br" required />
           </div>
 
@@ -138,12 +134,12 @@
           </div>
 
           <div style="margin-bottom: 18px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-lock"></i> Criar Senha de Acesso:</label>
+            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-lock"></i> Crie sua Senha de Acesso:</label>
             <input type="password" id="cat-reg-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="Crie sua senha segura" required />
           </div>
 
           <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 16px; background: linear-gradient(135deg, #10B981, #059669); font-size: 0.95rem;">
-            <i class="fa-solid fa-user-clock"></i> CADASTRAR E SOLICITAR PERMISSÃO
+            <i class="fa-solid fa-user-check"></i> CRIAR CONTA E ENTRAR NO PORTAL
           </button>
         </form>
       </div>
@@ -229,6 +225,22 @@
           <button class="filter-btn" data-filter="vintage">Linha Vintage Retrô</button>
           <button class="filter-btn" data-filter="utilitaria">E-Bikes & Utilitárias</button>
         </div>
+      </div>
+
+      <!-- BANNER DE ACESSO PENDENTE COM CTA WHATSAPP -->
+      <div id="pending-approval-banner" class="skeuo-panel" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(251, 191, 36, 0.45); border-radius: 16px; padding: 28px 24px; margin-bottom: 24px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.6);">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: rgba(251, 191, 36, 0.15); border: 2px solid #fbbf24; color: #fbbf24; font-size: 1.3rem; margin-bottom: 12px;">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; color: #ffffff; margin-bottom: 8px;">
+          CONTA ATIVA • AGUARDANDO LIBERAÇÃO DO CATÁLOGO
+        </h3>
+        <p style="color: #94a3b8; font-size: 0.92rem; max-width: 620px; margin: 0 auto 20px; line-height: 1.6;">
+          Olá, <strong id="pending-user-name" style="color: #00F2FE;">Parceiro</strong>! Sua conta está conectada. Para desbloquear a visualização das tabelas de preços de atacado, markups diretos de fábrica e faturamento FOB/CIF, solicite a liberação com o vendedor da sua região pelo WhatsApp.
+        </p>
+        <a id="pending-whatsapp-cta" href="https://wa.me/5511999999999" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 14px 28px; display: inline-flex; align-items: center; gap: 10px; font-size: 0.95rem; text-decoration: none; border-radius: 10px; box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);">
+          <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i> SOLICITAR LIBERAÇÃO NO WHATSAPP DO VENDEDOR
+        </a>
       </div>
 
       <!-- Grid de Cards Preenchido Dinamicamente via JS -->
