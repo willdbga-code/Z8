@@ -293,7 +293,16 @@ async function convertMarkdownToPdf(relativePath) {
   
   try {
     execSync(cmd, { stdio: 'ignore' });
-    console.log(`✅ PDF Gerado com Sucesso: ${pdfRelative} (${(fs.statSync(pdfPath).size / 1024).toFixed(1)} KB)`);
+
+    // Also mirror to public/docs for Vite & Vercel production hosting
+    const publicPdfPath = path.join(rootDir, 'public', 'docs', pdfRelative);
+    const publicPdfDir = path.dirname(publicPdfPath);
+    if (!fs.existsSync(publicPdfDir)) {
+      fs.mkdirSync(publicPdfDir, { recursive: true });
+    }
+    fs.copyFileSync(pdfPath, publicPdfPath);
+
+    console.log(`✅ PDF Gerado com Sucesso: ${pdfRelative} (${(fs.statSync(pdfPath).size / 1024).toFixed(1)} KB) -> [docs/ & public/docs/]`);
   } catch (err) {
     console.error(`❌ Erro ao gerar PDF para ${relativePath}:`, err.message);
   } finally {
