@@ -262,20 +262,26 @@ const HTML_TEMPLATE = (title, contentHtml) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-async function convertMarkdownToPdf(mdFileName) {
-  const mdPath = path.join(docsDir, mdFileName);
-  const pdfName = mdFileName.replace(/\.md$/i, '.pdf');
-  const pdfPath = path.join(docsDir, pdfName);
-  const tempHtmlPath = path.join(docsDir, `_temp_${mdFileName}.html`);
+async function convertMarkdownToPdf(relativePath) {
+  const mdPath = path.join(docsDir, relativePath);
+  const pdfRelative = relativePath.replace(/\.md$/i, '.pdf');
+  const pdfPath = path.join(docsDir, pdfRelative);
+  const tempHtmlPath = path.join(docsDir, `_temp_${path.basename(relativePath)}.html`);
 
   if (!fs.existsSync(mdPath)) {
     console.error(`❌ Arquivo não encontrado: ${mdPath}`);
     return;
   }
 
+  // Ensure destination directory exists
+  const pdfDir = path.dirname(pdfPath);
+  if (!fs.existsSync(pdfDir)) {
+    fs.mkdirSync(pdfDir, { recursive: true });
+  }
+
   const markdownContent = fs.readFileSync(mdPath, 'utf8');
   const parsedHtml = marked.parse(markdownContent);
-  const title = mdFileName.replace('.md', '').replace(/_/g, ' ');
+  const title = path.basename(relativePath).replace('.md', '').replace(/_/g, ' ');
   const fullHtml = HTML_TEMPLATE(title, parsedHtml);
 
   fs.writeFileSync(tempHtmlPath, fullHtml, 'utf8');
@@ -287,9 +293,9 @@ async function convertMarkdownToPdf(mdFileName) {
   
   try {
     execSync(cmd, { stdio: 'ignore' });
-    console.log(`✅ PDF Gerado com Sucesso: ${pdfName} (${(fs.statSync(pdfPath).size / 1024).toFixed(1)} KB)`);
+    console.log(`✅ PDF Gerado com Sucesso: ${pdfRelative} (${(fs.statSync(pdfPath).size / 1024).toFixed(1)} KB)`);
   } catch (err) {
-    console.error(`❌ Erro ao gerar PDF para ${mdFileName}:`, err.message);
+    console.error(`❌ Erro ao gerar PDF para ${relativePath}:`, err.message);
   } finally {
     if (fs.existsSync(tempHtmlPath)) {
       fs.unlinkSync(tempHtmlPath);
@@ -299,16 +305,25 @@ async function convertMarkdownToPdf(mdFileName) {
 
 async function main() {
   const targetFiles = [
+    // Documentos Centrais
     'BRAIN_NOTEBOOK.md',
     'GUIA_AUTOMACAO_VEO.md',
-    'KEEP_FORNECEDORES_CAPACETES.md'
+    'KEEP_FORNECEDORES_CAPACETES.md',
+    // Dossiê Jurídico & Franquias
+    'juridico/CIRCULAR_DE_OFERTA_DE_FRANQUIA_COF.md',
+    'juridico/CONTRATO_PADRAO_DE_FRANQUIA.md',
+    'juridico/TERMO_DE_GARANTIA_NACIONAL_Z8.md',
+    'juridico/TERMO_DE_ENTREGA_TECNICA_E_PDI.md',
+    'juridico/TERMOS_DE_USO.md',
+    'juridico/POLITICA_DE_PRIVACIDADE_LGPD.md',
+    'juridico/PARECER_REGULATORIO_CONTRAN_996.md'
   ];
 
-  console.log('🚀 Iniciando geração de PDFs para os documentos executivos...');
+  console.log('🚀 Iniciando geração de PDFs para todos os documentos corporativos e jurídicos da Z8 E-Motion...');
   for (const file of targetFiles) {
     await convertMarkdownToPdf(file);
   }
-  console.log('🎉 Todos os PDFs foram gerados na pasta docs/ com sucesso!');
+  console.log('🎉 Todos os PDFs foram gerados e salvos com sucesso!');
 }
 
 main().catch(err => {
