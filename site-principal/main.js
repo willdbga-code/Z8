@@ -14,6 +14,7 @@ import {
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
   initNavigation();
+  initFilterBar();
   renderShowroom();
   renderOrderDesk();
   renderCompliance();
@@ -83,7 +84,21 @@ function renderShowroom(filterCategory = 'todos') {
 
   const filtered = filterCategory === 'todos'
     ? z8Models
-    : z8Models.filter(m => m.category === filterCategory);
+    : z8Models.filter(m => {
+        if (filterCategory === 'alta-velocidade' || filterCategory === 'performance' || filterCategory === 'esportiva') {
+          return m.category === 'alta-velocidade' || m.category === 'custom' || m.category === 'performance';
+        }
+        if (filterCategory === 'urbana' || filterCategory === 'urbanas') {
+          return m.category === 'urbana';
+        }
+        if (filterCategory === 'vintage') {
+          return m.category === 'vintage';
+        }
+        if (filterCategory === 'utilitaria' || filterCategory === 'utilitarias') {
+          return m.category === 'utilitaria';
+        }
+        return m.category === filterCategory;
+      });
 
   grid.innerHTML = filtered.map(model => {
     const profit = model.profit ?? (model.retailPrice - model.wholesalePrice);
