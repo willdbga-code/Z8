@@ -455,6 +455,20 @@ input:checked + .rocker-slider:before {
   margin-top: 8px;
 }
 
+#hero-section {
+  margin-bottom: 28px;
+}
+
+#showroom-section {
+  margin-top: 36px;
+  margin-bottom: 28px;
+}
+
+#showroom-section .section-header {
+  padding-top: 24px;
+  margin-bottom: 36px;
+}
+
 .section-container {
   display: flex;
   flex-direction: column;
@@ -463,7 +477,8 @@ input:checked + .rocker-slider:before {
 
 .section-header {
   text-align: center;
-  margin-bottom: 32px;
+  padding-top: 16px;
+  margin-bottom: 36px;
   display: flex;
   flex-direction: column;
   align-items: center;
