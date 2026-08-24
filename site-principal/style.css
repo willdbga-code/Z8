@@ -293,11 +293,11 @@ input:checked + .rocker-slider:before {
 
 .main-content {
   max-width: 1350px;
-  margin: 32px auto;
-  padding: 0 20px;
+  margin: 44px auto;
+  padding: 0 24px;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 72px;
 }
 
 .hero-grid {
@@ -458,17 +458,18 @@ input:checked + .rocker-slider:before {
 .section-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
 }
 
 .section-header {
   text-align: center;
+  margin-bottom: 8px;
 }
 
 .section-title {
-  font-size: 1.8rem;
+  font-size: 1.85rem;
   color: var(--text-heading);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .section-sub {
@@ -506,7 +507,8 @@ input:checked + .rocker-slider:before {
 .models-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 24px;
+  gap: 28px;
+  margin-bottom: 16px;
 }
 
 .model-card {
@@ -631,42 +633,49 @@ input:checked + .rocker-slider:before {
   border-radius: 6px;
 }
 
+#franchise-section {
+  padding: 48px 36px;
+  margin: 16px 0;
+}
+
 .franchise-pillars-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  margin-bottom: 32px;
+  gap: 24px;
+  margin-top: 32px;
+  margin-bottom: 12px;
 }
 
 .pillar-card {
-  padding: 24px;
+  padding: 32px 24px;
   text-align: center;
 }
 
 .pillar-icon {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background: var(--bg-inset);
   box-shadow: var(--shadow-inset);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px auto;
-  font-size: 1.5rem;
+  margin: 0 auto 20px auto;
+  font-size: 1.55rem;
   color: var(--accent-cyan);
   border: 1px solid var(--border-metal);
 }
 
 .pillar-card h3 {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--text-heading);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .pillar-card p {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
+  line-height: 1.55;
 }
 
 .tiers-title {
