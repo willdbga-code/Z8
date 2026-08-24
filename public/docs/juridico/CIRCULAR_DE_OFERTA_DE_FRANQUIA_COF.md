@@ -11,7 +11,7 @@
 - **Nome Fantasia**: Z8 E-MOTION
 - **CNPJ**: 00.000.000/0001-00 (Matriz Nacional)
 - **Sede Administrativa**: São Paulo - SP / Polo Industrial
-- **Contato Oficial**: franquias@z8emotion.com.br | (11) 99999-9999
+- **Contato Oficial**: franquias@z8emotion.com.br | +55 (12) 99800-8818
 - **Histórico e Atuação**: A Z8 E-Motion é uma empresa pioneira e especializada na importação, homologação, distribuição e comercialização de veículos elétricos leves (scooters elétricas, e-bikes utilitárias e motocicletas elétricas de alta performance), operando sob rígido compliance com as normas do SENATRAN e Resolução CONTRAN nº 996/2023.
 
 ---

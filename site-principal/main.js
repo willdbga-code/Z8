@@ -324,7 +324,7 @@ function openModelModal(modelId) {
           <span style="font-size: 0.75rem; color: #fcd34d; display: block; font-weight: 700;"><i class="fa-solid fa-lock"></i> TABELA DE ATACADO RESTRITA</span>
           <span style="font-size: 0.85rem; color: #94a3b8;">Preços e margens liberados após aprovação comercial.</span>
         </div>
-        <a href="https://wa.me/5511999999999?text=${encodeURIComponent(`Olá! Me interessei pelo modelo ${model.name} (${model.code}) no catálogo Z8 e gostaria de solicitar a liberação de preços de atacado.`)}" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
+        <a href="https://wa.me/5512998008818?text=${encodeURIComponent(`Olá! Me interessei pelo modelo ${model.name} (${model.code}) no catálogo Z8 e gostaria de solicitar a liberação de preços de atacado.`)}" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
           <i class="fa-brands fa-whatsapp"></i> Solicitar Acesso no WhatsApp
         </a>
       </div>
@@ -414,7 +414,7 @@ function initCatalogAuth() {
         if (pendingName) pendingName.textContent = user.name || user.email;
         if (pendingCta) {
           const msg = encodeURIComponent(`Olá, criei meu cadastro no Portal Z8 (Nome: ${user.name || 'Parceiro'}, Empresa: ${user.company || 'Minha Loja'}, Cidade: ${user.city || 'SP'}, E-mail: ${user.email}) e gostaria de solicitar a liberação de acesso às tabelas de atacado.`);
-          pendingCta.href = `https://wa.me/5511999999999?text=${msg}`;
+          pendingCta.href = `https://wa.me/5512998008818?text=${msg}`;
         }
       }
     } else {
