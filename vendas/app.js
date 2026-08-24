@@ -1,6 +1,4 @@
-/* ==========================================================================
-   Z8 E-MOTION - LANDING PAGE DE VENDAS B2B (AWWWARDS EDITORIAL ENGINE)
-   ========================================================================== */
+import { checkCityAvailability } from './cities-cluster.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCountdownTimer();
@@ -38,13 +36,12 @@ function initCountdownTimer() {
       diff = 720;
     }
 
-    const hours = Math.floor(diff / 3600);
-    const minutes = Math.floor((diff % 3600) / 60);
-    const seconds = diff % 60;
+    const m = String(Math.floor(diff / 60)).padStart(2, '0');
+    const s = String(diff % 60).padStart(2, '0');
 
-    const formatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-
-    if (topTimerEl) topTimerEl.textContent = formatted;
+    if (topTimerEl) {
+      topTimerEl.textContent = `${m}:${s}`;
+    }
   }
 
   updateTimer();
@@ -52,21 +49,31 @@ function initCountdownTimer() {
 }
 
 /* --------------------------------------------------------------------------
-   2. CONTADOR DE COTAS B2B RESTANTES
+   2. CONTADOR DE VAGAS RESTANTES NO ESTADO
    -------------------------------------------------------------------------- */
 function initSeatDecreaser() {
-  const seatsEl = document.getElementById('vip-seats');
-  let currentSeats = parseInt(localStorage.getItem('z8_b2b_seats') || '9', 10);
+  const seatsEl = document.getElementById('seats-left');
+  let currentSeats = localStorage.getItem('z8_b2b_seats');
+
+  if (!currentSeats) {
+    currentSeats = 4;
+    localStorage.setItem('z8_b2b_seats', currentSeats);
+  } else {
+    currentSeats = parseInt(currentSeats, 10);
+  }
 
   function updateSeatsUI() {
-    if (seatsEl) seatsEl.textContent = currentSeats;
+    if (seatsEl) {
+      seatsEl.textContent = currentSeats;
+    }
   }
 
   updateSeatsUI();
 
+  // Diminui 1 vaga a cada intervalo para criar urgência B2B controlada
   setInterval(() => {
-    if (currentSeats > 3 && Math.random() > 0.65) {
-      currentSeats--;
+    if (currentSeats > 2) {
+      currentSeats -= 1;
       localStorage.setItem('z8_b2b_seats', currentSeats);
       updateSeatsUI();
     }
@@ -97,36 +104,81 @@ function initCepChecker() {
       btn.textContent = 'CONSULTAR';
       btn.disabled = false;
 
-      resultMsg.innerHTML = `
-        <div style="background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 8px; padding: 10px 14px; margin-top: 10px;">
-          <p style="color: #fff; font-size: 0.82rem; margin-bottom: 8px;">
-            <i class="fa-solid fa-circle-check text-accent-green"></i> <strong>DISPONÍVEL:</strong> Concessão livre para "<strong>${val.toUpperCase()}</strong>"!
-          </p>
-          <button type="button" class="btn-open-checkout" data-city="${val}" style="background: var(--accent-green); color: #000; font-weight: 800; font-size: 0.75rem; padding: 6px 14px; border-radius: 9999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-lock"></i> TRAVAR ESTA CIDADE AGORA
-          </button>
-        </div>
-      `;
+      const availability = checkCityAvailability(val);
 
-      // Re-bind modal triggers for newly created dynamic buttons
-      const dynamicBtn = resultMsg.querySelector('.btn-open-checkout');
-      if (dynamicBtn) {
-        dynamicBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const cityInput = document.getElementById('input-city');
-          if (cityInput) cityInput.value = val;
-          const modal = document.getElementById('checkout-modal');
-          if (modal) modal.classList.add('active');
-          trackConversionEvent('begin_checkout', {
-            content_name: `Travar Cidade (${val})`,
-            value: 2989.00,
-            currency: 'BRL'
+      if (availability.status === 'occupied') {
+        let neighborBtns = '';
+        if (availability.neighbors && availability.neighbors.length > 0) {
+          neighborBtns = `
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(239,68,68,0.3);">
+              <span style="font-size: 0.72rem; color: #fecaca; display: block; margin-bottom: 6px; font-weight: 600;">
+                💡 CIDADES VIZINHAS DISPONÍVEIS NO MESMO RAIO DE 50KM:
+              </span>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                ${availability.neighbors.map(n => `
+                  <button type="button" class="btn-neighbor-cep" data-city="${n}" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; font-family: inherit;">
+                    <i class="fa-solid fa-plus text-accent-green"></i> ${n}
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        resultMsg.innerHTML = `
+          <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 8px; padding: 12px 14px; margin-top: 10px; text-align: left;">
+            <p style="color: #fca5a5; font-size: 0.82rem; margin-bottom: 6px;">
+              <i class="fa-solid fa-circle-xmark" style="color: #ef4444;"></i> <strong>REGIÃO OCUPADA:</strong> ${availability.city} já possui revendedor exclusivo registrado (${availability.company}).
+            </p>
+            ${neighborBtns}
+          </div>
+        `;
+
+        resultMsg.querySelectorAll('.btn-neighbor-cep').forEach(btnN => {
+          btnN.addEventListener('click', () => {
+            const chosenCity = btnN.getAttribute('data-city');
+            input.value = chosenCity;
+            openModalWithCity(chosenCity);
           });
         });
+      } else {
+        resultMsg.innerHTML = `
+          <div style="background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 8px; padding: 10px 14px; margin-top: 10px;">
+            <p style="color: #fff; font-size: 0.82rem; margin-bottom: 8px;">
+              <i class="fa-solid fa-circle-check text-accent-green"></i> <strong>DISPONÍVEL:</strong> Concessão livre para "<strong>${val.toUpperCase()}</strong>" (50km de exclusividade)!
+            </p>
+            <button type="button" class="btn-open-checkout" data-city="${val}" style="background: var(--accent-green); color: #000; font-weight: 800; font-size: 0.75rem; padding: 6px 14px; border-radius: 9999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-lock"></i> TRAVAR ESTA CIDADE AGORA
+            </button>
+          </div>
+        `;
+
+        const dynamicBtn = resultMsg.querySelector('.btn-open-checkout');
+        if (dynamicBtn) {
+          dynamicBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModalWithCity(val);
+          });
+        }
       }
 
       trackConversionEvent('search', { search_term: val });
-    }, 600);
+    }, 400);
+  });
+}
+
+function openModalWithCity(cityName) {
+  const cityInput = document.getElementById('input-city');
+  if (cityInput) {
+    cityInput.value = cityName;
+    cityInput.dispatchEvent(new Event('input'));
+  }
+  const modal = document.getElementById('checkout-modal');
+  if (modal) modal.classList.add('active');
+  trackConversionEvent('begin_checkout', {
+    content_name: `Travar Cidade (${cityName})`,
+    value: 2989.00,
+    currency: 'BRL'
   });
 }
 
@@ -134,25 +186,23 @@ function initCepChecker() {
    4. FILTRO DE CATEGORIAS DO CATÁLOGO TABULADO (AWWWARDS STYLE)
    -------------------------------------------------------------------------- */
 function initCatalogTabs() {
-  const tabBtns = document.querySelectorAll('.catalog-tab-btn');
-  const productCards = document.querySelectorAll('.product-card-editorial');
+  const tabs = document.querySelectorAll('.cat-pill-tab');
+  const cards = document.querySelectorAll('.product-showcase-card');
 
-  tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  if (!tabs.length || !cards.length) return;
 
-      const selectedCat = btn.getAttribute('data-category');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
 
-      trackConversionEvent('select_content', {
-        content_type: 'catalog_category',
-        item_id: selectedCat
-      });
+      const filter = tab.getAttribute('data-filter');
 
-      productCards.forEach(card => {
-        const cardCat = card.getAttribute('data-cat');
-        if (selectedCat === 'all' || cardCat === selectedCat) {
-          card.style.display = 'flex';
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
+          card.style.display = 'block';
+          card.style.animation = 'fadeIn 0.35s ease';
         } else {
           card.style.display = 'none';
         }
@@ -213,7 +263,7 @@ function initFaqAccordion() {
 }
 
 /* --------------------------------------------------------------------------
-   7. CHECKOUT MODAL B2B (PASSAPORTE VIP R$ 2.989) & CONVERSÕES GOOGLE / META
+   7. MODAL DE CHECKOUT, VALIDAÇÃO DE CIDADES E ENVIO REAL PARA WHATSAPP
    -------------------------------------------------------------------------- */
 function trackConversionEvent(eventName, data = {}) {
   // 1. Google Analytics 4 & Google Ads gtag
@@ -250,12 +300,26 @@ function initCheckoutModal() {
   const openBtns = document.querySelectorAll('.btn-open-checkout');
   const closeBtn = document.getElementById('btn-close-modal');
   const checkoutForm = document.getElementById('checkout-form');
+  const successView = document.getElementById('checkout-success-view');
+  const cityInput = document.getElementById('input-city');
+  const cityStatusBox = document.getElementById('city-status-box');
 
   if (!modal) return;
+
+  function resetModalState() {
+    if (checkoutForm) checkoutForm.style.display = 'block';
+    if (successView) successView.style.display = 'none';
+  }
 
   openBtns.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
+      resetModalState();
+      const cityAttr = btn.getAttribute('data-city');
+      if (cityAttr && cityInput) {
+        cityInput.value = cityAttr;
+        validateCityInput();
+      }
       modal.classList.add('active');
       trackConversionEvent('begin_checkout', {
         content_name: 'Cota B2B Vendas',
@@ -277,37 +341,145 @@ function initCheckoutModal() {
     }
   });
 
+  // Validação em tempo real da cidade digitada e sugestão de cidades vizinhas
+  function validateCityInput() {
+    if (!cityInput || !cityStatusBox) return;
+    const cityVal = cityInput.value.trim();
+
+    if (cityVal.length < 3) {
+      cityStatusBox.style.display = 'none';
+      cityStatusBox.innerHTML = '';
+      return;
+    }
+
+    const check = checkCityAvailability(cityVal);
+    cityStatusBox.style.display = 'block';
+
+    if (check.status === 'occupied') {
+      cityStatusBox.style.background = 'rgba(239, 68, 68, 0.12)';
+      cityStatusBox.style.border = '1px solid rgba(239, 68, 68, 0.45)';
+      cityStatusBox.style.color = '#fca5a5';
+
+      let neighborsHtml = '';
+      if (check.neighbors && check.neighbors.length > 0) {
+        neighborsHtml = `
+          <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(239,68,68,0.35);">
+            <span style="font-size: 0.72rem; color: #fecaca; display: block; margin-bottom: 6px; font-weight: 700; letter-spacing: 0.04em;">
+              💡 CIDADES VIZINHAS DISPONÍVEIS NO MESMO RAIO DE 50KM:
+            </span>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              ${check.neighbors.map(n => `
+                <button type="button" class="btn-neighbor-chip" data-city="${n}" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 5px 12px; border-radius: 20px; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;">
+                  <i class="fa-solid fa-plus text-accent-green"></i> ${n}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      cityStatusBox.innerHTML = `
+        <div style="display: flex; align-items: flex-start; gap: 8px;">
+          <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 1.15rem; margin-top: 2px; flex-shrink: 0;"></i>
+          <div>
+            <strong style="color: #ffffff;">${check.city}</strong> já possui revendedor exclusivo ativo registrado (${check.company}).
+          </div>
+        </div>
+        ${neighborsHtml}
+      `;
+
+      cityStatusBox.querySelectorAll('.btn-neighbor-chip').forEach(chip => {
+        chip.addEventListener('click', (e) => {
+          e.preventDefault();
+          cityInput.value = chip.getAttribute('data-city') + ' - SP';
+          validateCityInput();
+        });
+      });
+    } else if (check.status === 'available') {
+      cityStatusBox.style.background = 'rgba(0, 255, 136, 0.08)';
+      cityStatusBox.style.border = '1px solid rgba(0, 255, 136, 0.4)';
+      cityStatusBox.style.color = '#86efac';
+      cityStatusBox.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-circle-check text-accent-green" style="font-size: 1.15rem; flex-shrink: 0;"></i>
+          <div>
+            <strong style="color: #ffffff;">${check.city}</strong> está <strong>DISPONÍVEL</strong> para exclusividade territorial (raio de 50km)!
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  if (cityInput) {
+    cityInput.addEventListener('input', validateCityInput);
+    cityInput.addEventListener('change', validateCityInput);
+  }
+
+  // SUBMISSÃO DO FORMULÁRIO COM GRAVAÇÃO NO BANCO E TRANSMISSÃO REAL PARA O WHATSAPP
   if (checkoutForm) {
     checkoutForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById('input-name') ? document.getElementById('input-name').value : 'Parceiro Z8';
-      const company = document.getElementById('input-company') ? document.getElementById('input-company').value : 'Sua Empresa';
-      const city = document.getElementById('input-city') ? document.getElementById('input-city').value : 'Sua Cidade';
-      const email = document.getElementById('input-email') ? document.getElementById('input-email').value : '';
-      const phone = document.getElementById('input-phone') ? document.getElementById('input-phone').value : '';
-      const paymentMethod = 'Cadastro Direto';
+      const name = document.getElementById('input-name') ? document.getElementById('input-name').value.trim() : 'Parceiro Z8';
+      const company = document.getElementById('input-company') ? document.getElementById('input-company').value.trim() : 'Sua Empresa';
+      const city = document.getElementById('input-city') ? document.getElementById('input-city').value.trim() : 'Sua Cidade';
+      const email = document.getElementById('input-email') ? document.getElementById('input-email').value.trim() : '';
+      const phone = document.getElementById('input-phone') ? document.getElementById('input-phone').value.trim() : '';
+      const paymentMethod = 'Reserva de Exclusividade';
 
-      // Dispara conversão unificada de Lead para Google Ads, GA4 e Meta Pixel
+      // 1. Dispara conversão unificada de Lead para Google Ads, GA4 e Meta Pixel
       trackConversionEvent('generate_lead', {
-        lead_type: 'Revendedor B2B',
+        lead_type: 'Revendedor B2B Exclusivo',
         company: company,
         city: city,
         value: 2989.00,
         currency: 'BRL'
       });
 
-      // Save lead into Firebase / Hybrid Storage Engine if available
+      // 2. Salva lead no banco de dados persistente (localStorage + Firestore)
       try {
         const { saveLead } = await import('./firebase-config.js');
         if (typeof saveLead === 'function') {
           saveLead({ name, company, city, state: 'SP', email, phone, paymentMethod });
         }
       } catch (err) {
-        console.log('Lead storage local mode');
+        console.warn('Lead storage fallback:', err);
       }
 
-      alert(`🎉 CADASTRO CONCLUÍDO COM SUCESSO!\n\nEmpresa: ${company.toUpperCase()}\nRegião: ${city.toUpperCase()}\n\nSeu cadastro de parceiro foi realizado com sucesso!\nO Dossiê Comercial B2B e o catálogo oficial de atacado foram enviados para o seu e-mail e WhatsApp.`);
-      modal.classList.remove('active');
+      // 3. Monta a mensagem estruturada oficial com os dados e links para envio ao WhatsApp
+      const whatsappMsg = 
+        `🚀 *NOVO CADASTRO DE PARCEIRO / EXCLUSIVIDADE Z8 E-MOTION*\n\n` +
+        `👤 *Nome:* ${name}\n` +
+        `🏢 *Empresa / Loja:* ${company}\n` +
+        `📍 *Cidade Solicitada:* ${city}\n` +
+        `📧 *E-mail:* ${email}\n` +
+        `📱 *WhatsApp:* ${phone}\n\n` +
+        `📁 *Dossiê Técnico & Catálogo Solicitado:*\n` +
+        `• Dossiê B2B Executivo: https://z8emotion.com.br/docs/BRAIN_NOTEBOOK.pdf\n` +
+        `• Catálogo e Margens: https://z8emotion.com.br/docs/Brandbook_Z8_Emotion/BRANDBOOK_OFICIAL_Z8.pdf\n` +
+        `• Parecer CONTRAN 996: https://z8emotion.com.br/docs/juridico/PARECER_REGULATORIO_CONTRAN_996.pdf\n\n` +
+        `_Solicitação registrada no banco de dados da Z8 E-Motion._`;
+
+      const whatsappUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(whatsappMsg)}`;
+
+      // 4. Exibe a tela de sucesso profissional com confirmação de reserva
+      checkoutForm.style.display = 'none';
+      if (successView) {
+        successView.style.display = 'block';
+        const successComp = document.getElementById('success-company-name');
+        const successCity = document.getElementById('success-city-name');
+        const successWaBtn = document.getElementById('btn-open-whatsapp-success');
+
+        if (successComp) successComp.textContent = company.toUpperCase();
+        if (successCity) successCity.textContent = city.toUpperCase();
+        if (successWaBtn) successWaBtn.href = whatsappUrl;
+      }
+
+      // 5. Abre automaticamente o WhatsApp com todos os dados preenchidos
+      try {
+        window.open(whatsappUrl, '_blank');
+      } catch (err) {
+        console.log('Popup blocked, fallback button available');
+      }
     });
   }
 }

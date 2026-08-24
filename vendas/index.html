@@ -1009,8 +1009,11 @@
         </div>
 
         <div class="form-group-b2b">
-          <label class="form-label-b2b">Cidade e Estado para Exclusividade</label>
-          <input type="text" id="input-city" class="form-input-b2b" placeholder="Ex: Ribeirão Preto - SP" required />
+          <label class="form-label-b2b">Cidade e Estado para Exclusividade Territorial</label>
+          <input type="text" id="input-city" class="form-input-b2b" placeholder="Digite sua cidade (Ex: Pindamonhangaba - SP)" autocomplete="off" required />
+          
+          <!-- Box Dinâmico de Validação de Disponibilidade e Cidades Vizinhas -->
+          <div id="city-status-box" style="display: none; margin-top: 10px; padding: 12px; border-radius: 8px; font-size: 0.8rem; line-height: 1.5;"></div>
         </div>
 
         <div class="form-group-b2b">
@@ -1020,13 +1023,51 @@
 
         <div class="form-group-b2b">
           <label class="form-label-b2b">WhatsApp / Telefone com DDD</label>
-          <input type="tel" id="input-phone" class="form-input-b2b" placeholder="(11) 99999-9999" required />
+          <input type="tel" id="input-phone" class="form-input-b2b" placeholder="(12) 99800-8818" required />
         </div>
 
-        <button type="submit" class="btn-tripwire-action" style="padding: 16px; font-size: 0.9rem; margin-top: 10px;">
-          CONCLUIR CADASTRO
+        <button type="submit" id="btn-submit-checkout" class="btn-tripwire-action" style="padding: 16px; font-size: 0.9rem; margin-top: 10px;">
+          <i class="fa-solid fa-lock"></i>
+          <span>GARANTIR EXCLUSIVIDADE & ENVIAR WHATSAPP</span>
         </button>
       </form>
+
+      <!-- TELA DE SUCESSO PÓS-CADASTRO (TRANSMISSÃO REAL PARA O WHATSAPP E DOWNLOAD) -->
+      <div id="checkout-success-view" style="display: none; text-align: center; padding: 10px 0;">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(0, 255, 136, 0.15); border: 2px solid var(--accent-green); color: var(--accent-green); font-size: 1.8rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+          <i class="fa-solid fa-check"></i>
+        </div>
+
+        <span class="font-mono-tag text-accent-green" style="display: block; font-size: 0.75rem; letter-spacing: 0.08em;">REGISTRO EFETUADO COM SUCESSO</span>
+        
+        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: #fff; font-weight: 800; margin: 6px 0 10px;">
+          Exclusividade Registrada!
+        </h3>
+
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-medium); border-radius: 10px; padding: 14px; margin-bottom: 20px; text-align: left; font-size: 0.84rem;">
+          <div style="margin-bottom: 6px;"><strong style="color: var(--text-muted);">Empresa:</strong> <span id="success-company-name" style="color: #fff; font-weight: 700;">Z8</span></div>
+          <div style="margin-bottom: 6px;"><strong style="color: var(--text-muted);">Cidade Bloqueada:</strong> <span id="success-city-name" style="color: var(--accent-gold); font-weight: 700;">Pindamonhangaba - SP</span></div>
+          <div><strong style="color: var(--text-muted);">Status da Reserva:</strong> <span style="color: var(--accent-green); font-weight: 700;"><i class="fa-solid fa-shield"></i> Exclusividade de 50km Gravada no Banco de Dados</span></div>
+        </div>
+
+        <p style="font-size: 0.82rem; color: var(--text-light); margin-bottom: 18px; line-height: 1.5;">
+          Os dados do seu cadastro e os links do <strong>Dossiê B2B e Catálogo de Importação</strong> estão prontos para envio ao WhatsApp oficial da Z8:
+        </p>
+
+        <a id="btn-open-whatsapp-success" href="https://wa.me/5512998008818" target="_blank" rel="noopener" class="btn-tripwire-action" style="background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; padding: 16px; font-size: 0.95rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 10px; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); margin-bottom: 12px;">
+          <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i>
+          <span>ABRIR WHATSAPP E ENVIAR AGORA</span>
+        </a>
+
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <a href="/docs/BRAIN_NOTEBOOK.pdf" target="_blank" rel="noopener" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-medium); color: #fff; text-decoration: none;">
+            <i class="fa-solid fa-file-pdf text-accent-gold"></i> Baixar Dossiê B2B (PDF)
+          </a>
+          <a href="/site-principal/" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--accent-cyan); text-decoration: none;">
+            <i class="fa-solid fa-motorcycle"></i> Ver Catálogo de Atacado
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 
