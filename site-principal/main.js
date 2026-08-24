@@ -277,7 +277,32 @@ function initCalculator() {
   calculate();
 
   document.getElementById('btn-request-proposal')?.addEventListener('click', () => {
-    window.location.href = '/vendas/index.html#franchise-form-section';
+    const moq = parseInt(inputMoq.value, 10);
+    const modelObj = z8Models.find(m => m.id === selectModel.value) || z8Models[0];
+    const totalCost = modelObj.wholesalePrice * moq;
+    const totalProfit = (modelObj.retailPrice - modelObj.wholesalePrice) * moq;
+    const currentUser = getCurrentCatalogUser();
+
+    const clientName = currentUser?.name || 'Parceiro Z8';
+    const clientCompany = currentUser?.company || 'Minha Loja';
+    const clientCity = currentUser?.city || 'SP';
+    const clientPhone = currentUser?.phone || 'Não informado';
+
+    const propMsg = 
+      `📋 *SOLICITAÇÃO DE PROPOSTA OFICIAL DE LOTE (SIMULADOR)*\n\n` +
+      `🏍️ *Modelo Principal:* ${modelObj.name} (${modelObj.code})\n` +
+      `🔢 *Quantidade Solicitada:* ${moq} Motos\n` +
+      `💰 *Custo Total Estimado:* R$ ${Math.round(totalCost).toLocaleString('pt-BR')},00\n` +
+      `📈 *Projeção de Lucro Bruto:* R$ ${Math.round(totalProfit).toLocaleString('pt-BR')},00\n\n` +
+      `👤 *DADOS DO COMPRADOR:*\n` +
+      `• *Nome:* ${clientName}\n` +
+      `• *Empresa / Loja:* ${clientCompany}\n` +
+      `• *Cidade / UF:* ${clientCity}\n` +
+      `• *WhatsApp:* ${clientPhone}\n\n` +
+      `_Olá! Gostaria de receber a formalização comercial deste lote com as opções de frete e prazos de entrega._`;
+
+    const propUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(propMsg)}`;
+    window.open(propUrl, '_blank');
   });
 }
 
@@ -306,6 +331,28 @@ function openModelModal(modelId) {
   const approved = isCatalogApproved();
   const currentUser = getCurrentCatalogUser();
 
+  const clientName = currentUser?.name || 'Parceiro Z8';
+  const clientCompany = currentUser?.company || 'Não informada';
+  const clientCity = currentUser?.city || 'SP';
+  const clientPhone = currentUser?.phone || 'Não informado';
+  const clientEmail = currentUser?.email || '';
+
+  const whatsappLoteMsg = 
+    `📦 *SOLICITAÇÃO DE LOTE DE ATACADO - Z8 E-MOTION*\n\n` +
+    `🏍️ *Modelo Escolhido:* ${model.name} (${model.code})\n` +
+    `💰 *Preço Unitário Atacado:* R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00\n` +
+    `⚡ *Configuração:* ${model.motor} • ${model.speed} • Autonomia ${model.range}\n` +
+    `🔋 *Bateria:* ${model.battery}\n\n` +
+    `👤 *DADOS DO CLIENTE / COMPRADOR:*\n` +
+    `• *Nome:* ${clientName}\n` +
+    `• *Empresa / Loja:* ${clientCompany}\n` +
+    `• *Cidade / UF:* ${clientCity}\n` +
+    `• *WhatsApp:* ${clientPhone}\n` +
+    (clientEmail ? `• *E-mail:* ${clientEmail}\n` : '') +
+    `\n_Olá! Gostaria de cotar o faturamento e prazo de envio de um lote deste modelo para minha loja._`;
+
+  const whatsappLoteUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(whatsappLoteMsg)}`;
+
   const priceFooterHtml = approved
     ? `
       <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-inset); padding: 14px; border-radius: 10px; border: 1px solid var(--border-metal); flex-wrap: wrap; gap: 12px;">
@@ -313,9 +360,9 @@ function openModelModal(modelId) {
           <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">PREÇO DE ATACADO PARCEIRO</span>
           <strong style="font-size: 1.4rem; color: var(--accent-neon);">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</strong>
         </div>
-        <button class="skeuo-button primary-metal-btn" onclick="document.getElementById('modal-model-detail').classList.add('hidden'); window.location.href='/vendas/index.html#franchise-form-section';">
-          <i class="fa-solid fa-file-invoice"></i> Solicitar Lote
-        </button>
+        <a href="${whatsappLoteUrl}" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 12px 22px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+          <i class="fa-brands fa-whatsapp" style="font-size: 1.15rem;"></i> Solicitar Lote
+        </a>
       </div>
     `
     : `
@@ -324,7 +371,7 @@ function openModelModal(modelId) {
           <span style="font-size: 0.75rem; color: #fcd34d; display: block; font-weight: 700;"><i class="fa-solid fa-lock"></i> TABELA DE ATACADO RESTRITA</span>
           <span style="font-size: 0.85rem; color: #94a3b8;">Preços e margens liberados após aprovação comercial.</span>
         </div>
-        <a href="https://wa.me/5512998008818?text=${encodeURIComponent(`Olá! Me interessei pelo modelo ${model.name} (${model.code}) no catálogo Z8 e gostaria de solicitar a liberação de preços de atacado.`)}" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
+        <a href="${whatsappLoteUrl}" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
           <i class="fa-brands fa-whatsapp"></i> Solicitar Acesso no WhatsApp
         </a>
       </div>
