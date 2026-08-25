@@ -424,46 +424,73 @@ function initCheckoutModal() {
       const name = document.getElementById('input-name') ? document.getElementById('input-name').value.trim() : 'Parceiro Z8';
       const company = document.getElementById('input-company') ? document.getElementById('input-company').value.trim() : 'Sua Empresa';
       const city = document.getElementById('input-city') ? document.getElementById('input-city').value.trim() : 'Sua Cidade';
-      const email = document.getElementById('input-email') ? document.getElementById('input-email').value.trim() : '';
+      const email = document.getElementById('input-email') ? document.getElementById('input-email').value.trim().toLowerCase() : '';
       const phone = document.getElementById('input-phone') ? document.getElementById('input-phone').value.trim() : '';
-      const paymentMethod = 'Reserva de Exclusividade';
+      const paymentMethod = 'Passaporte VIP Exclusividade';
 
-      // 1. Dispara conversão unificada de Lead para Google Ads, GA4 e Meta Pixel
+      // 1. Grava no banco de dados central de Usuários e Firestore (catalog_users)
+      const userData = {
+        name,
+        company,
+        city,
+        email,
+        phone,
+        password: 'Z8@' + Math.floor(1000 + Math.random() * 9000),
+        role: 'partner',
+        status: 'pending'
+      };
+
+      try {
+        await registerCatalogUser(userData);
+      } catch (err) {
+        console.warn('Catalog user registration warning:', err);
+      }
+
+      // 2. Salva lead no banco de leads do Firebase (leads)
+      try {
+        saveLead({
+          name,
+          company,
+          city,
+          state: city.includes('-') ? city.split('-').pop().trim() : 'SP',
+          email,
+          phone,
+          paymentMethod
+        });
+      } catch (err) {
+        console.warn('Lead storage fallback:', err);
+      }
+
+      // 3. Dispara conversão unificada de Lead para Google Ads, GA4 e Meta Pixel
       trackConversionEvent('generate_lead', {
-        lead_type: 'Revendedor B2B Exclusivo',
+        lead_type: 'Revendedor B2B Exclusivo VIP',
         company: company,
         city: city,
         value: 2989.00,
         currency: 'BRL'
       });
 
-      // 2. Salva lead no banco de dados persistente (localStorage + Firestore)
-      try {
-        const { saveLead } = await import('./firebase-config.js');
-        if (typeof saveLead === 'function') {
-          saveLead({ name, company, city, state: 'SP', email, phone, paymentMethod });
-        }
-      } catch (err) {
-        console.warn('Lead storage fallback:', err);
-      }
+      // 4. Link de Liberação Imediata em 1 clique para o Christian
+      const approvalLink = `${window.location.origin}/site-principal/?approve_user=${encodeURIComponent(email)}`;
 
-      // 3. Monta a mensagem estruturada oficial com os dados e links para envio ao WhatsApp
+      // 5. Monta a mensagem estruturada oficial com os dados e links para envio ao WhatsApp
       const whatsappMsg = 
-        `🚀 *NOVO CADASTRO DE PARCEIRO / EXCLUSIVIDADE Z8 E-MOTION*\n\n` +
-        `👤 *Nome:* ${name}\n` +
+        `🚀 *NOVO CADASTRO DE PARCEIRO VIP / EXCLUSIVIDADE Z8 E-MOTION*\n\n` +
+        `👤 *Responsável:* ${name}\n` +
         `🏢 *Empresa / Loja:* ${company}\n` +
-        `📍 *Cidade Solicitada:* ${city}\n` +
+        `📍 *Cidade da Concessão:* ${city}\n` +
         `📧 *E-mail:* ${email}\n` +
         `📱 *WhatsApp:* ${phone}\n\n` +
+        `👉 *Liberar Acesso do Lojista em 1 Clique:*\n${approvalLink}\n\n` +
         `📁 *Dossiê Técnico & Catálogo Solicitado:*\n` +
         `• Dossiê B2B Executivo: https://z8emotion.com.br/docs/BRAIN_NOTEBOOK.pdf\n` +
         `• Catálogo e Margens: https://z8emotion.com.br/docs/Brandbook_Z8_Emotion/BRANDBOOK_OFICIAL_Z8.pdf\n` +
         `• Parecer CONTRAN 996: https://z8emotion.com.br/docs/juridico/PARECER_REGULATORIO_CONTRAN_996.pdf\n\n` +
-        `_Solicitação registrada no banco de dados da Z8 E-Motion._`;
+        `_Cadastro gravado no banco de dados central do Google Firebase (Z8 E-Motion)._`;
 
       const whatsappUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(whatsappMsg)}`;
 
-      // 4. Exibe a tela de sucesso profissional com confirmação de reserva
+      // 6. Exibe a tela de sucesso profissional com confirmação de reserva
       checkoutForm.style.display = 'none';
       if (successView) {
         successView.style.display = 'block';
@@ -476,7 +503,7 @@ function initCheckoutModal() {
         if (successWaBtn) successWaBtn.href = whatsappUrl;
       }
 
-      // 5. Abre automaticamente o WhatsApp com todos os dados preenchidos
+      // 7. Abre automaticamente o WhatsApp com todos os dados preenchidos
       try {
         window.open(whatsappUrl, '_blank');
       } catch (err) {
