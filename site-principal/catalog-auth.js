@@ -26,98 +26,17 @@ const DEFAULT_USERS = [
     status: 'approved',
     updatedAt: 1000,
     createdAt: new Date().toISOString()
-  },
-  {
-    id: 'user_demo_01',
-    name: 'Ricardo Oliveira',
-    company: 'Mega Motos SP',
-    city: 'Campinas - SP',
-    email: 'ricardo@megamotos.com.br',
-    phone: '(11) 98765-4321',
-    password: 'z8partner123',
-    role: 'partner',
-    status: 'approved',
-    updatedAt: 1000,
-    createdAt: new Date(Date.now() - 86400000 * 2).toISOString()
-  },
-  {
-    id: 'user_ze_01',
-    name: 'Zé da Silva',
-    company: 'Silva Motos E-Motion',
-    city: 'São Paulo - SP',
-    email: 'zedasilva@loja.com.br',
-    phone: '(11) 98765-4321',
-    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
-    role: 'partner',
-    status: 'pending',
-    updatedAt: 1000,
-    createdAt: new Date().toISOString()
-  },
-  {
-    id: 'user_demo_03',
-    name: 'Marcio Silva',
-    company: 'E-Motion Sul Distribuidora',
-    city: 'Curitiba - PR',
-    email: 'marcio@emotionsul.com.br',
-    phone: '(41) 99111-2233',
-    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
-    role: 'partner',
-    status: 'pending',
-    updatedAt: 1000,
-    createdAt: new Date(Date.now() - 86400000 * 4).toISOString()
-  },
-  {
-    id: 'user_demo_04',
-    name: 'Lucas Santos',
-    company: 'Litoral Elétrico Santos',
-    city: 'Santos - SP',
-    email: 'lucas@litoraleletrico.com.br',
-    phone: '(13) 99222-3344',
-    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
-    role: 'partner',
-    status: 'pending',
-    updatedAt: 1000,
-    createdAt: new Date(Date.now() - 86400000 * 5).toISOString()
-  },
-  {
-    id: 'user_demo_05',
-    name: 'Juliana Ferreira',
-    company: 'BH Scooters & Bikes Elétricas',
-    city: 'Belo Horizonte - MG',
-    email: 'juliana@bhscooters.com.br',
-    phone: '(31) 99333-4455',
-    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
-    role: 'partner',
-    status: 'pending',
-    updatedAt: 1000,
-    createdAt: new Date(Date.now() - 86400000 * 6).toISOString()
-  },
-  {
-    id: 'user_demo_06',
-    name: 'Roberto Albuquerque',
-    company: 'Nordeste Mobilidade E-Motion',
-    city: 'Recife - PE',
-    email: 'roberto@nordestemobilidade.com.br',
-    phone: '(81) 99444-5566',
-    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
-    role: 'partner',
-    status: 'pending',
-    updatedAt: 1000,
-    createdAt: new Date(Date.now() - 86400000 * 7).toISOString()
-  },
-  {
-    id: 'user_demo_07',
-    name: 'Fernando Guedes',
-    company: 'Guedes E-Motors',
-    city: 'Ribeirão Preto - SP',
-    email: 'fernando@guedesmotos.com.br',
-    phone: '(16) 99555-6677',
-    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
-    role: 'partner',
-    status: 'pending',
-    updatedAt: 1000,
-    createdAt: new Date(Date.now() - 86400000 * 8).toISOString()
   }
+];
+
+const TEST_DEMO_EMAILS = [
+  'zedasilva@loja.com.br',
+  'ricardo@megamotos.com.br',
+  'marcio@emotionsul.com.br',
+  'lucas@litoraleletrico.com.br',
+  'juliana@bhscooters.com.br',
+  'roberto@nordestemobilidade.com.br',
+  'fernando@guedesmotos.com.br'
 ];
 
 // Salva um usuário específico no Firebase Firestore Real
@@ -275,73 +194,22 @@ export function getRegisteredUsers() {
       users = JSON.parse(raw);
     }
 
-    // 1. Ensure default network homologated users exist
+    // Filtra e remove completamente e-mails de teste antigos
+    users = users.filter(u => !TEST_DEMO_EMAILS.includes((u.email || '').toLowerCase().trim()));
+
+    // 1. Garante a presenca do Administrador Master
     DEFAULT_USERS.forEach(du => {
       if (!users.find(u => u.email.toLowerCase() === du.email.toLowerCase())) {
         users.push(du);
       }
     });
 
-    // 2. Auto-sync leads from CRM Database (z8_crm_leads_data)
-    try {
-      const crmRaw = localStorage.getItem('z8_crm_leads_data');
-      if (crmRaw) {
-        const leads = JSON.parse(crmRaw);
-        leads.forEach(l => {
-          if (l.email && !users.find(u => u.email.toLowerCase() === l.email.toLowerCase())) {
-            users.push({
-              id: 'user_lead_' + (l.id || Date.now()),
-              name: l.name || 'Lead Comercial',
-              company: l.company || l.name || 'Empresa Interessada',
-              city: l.city || 'São Paulo - SP',
-              email: l.email.toLowerCase(),
-              phone: l.phone || '',
-              password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
-              role: 'partner',
-              status: l.status || 'pending',
-              updatedAt: 1000,
-              createdAt: l.createdAt || new Date().toISOString()
-            });
-          }
-        });
-      }
-    } catch (e) {
-      console.warn('CRM sync info:', e);
-    }
-
-    // 3. Auto-sync users from Warranty OS Database (z8_warranty_service_orders_db)
-    try {
-      const osRaw = localStorage.getItem('z8_warranty_service_orders_db');
-      if (osRaw) {
-        const orders = JSON.parse(osRaw);
-        orders.forEach(o => {
-          if (o.userEmail && !users.find(u => u.email.toLowerCase() === o.userEmail.toLowerCase())) {
-            users.push({
-              id: o.userId || ('user_os_' + Date.now()),
-              name: o.techName || o.company || 'Oficina Credenciada',
-              company: o.company || 'Oficina Credenciada Z8',
-              city: o.city || 'São Paulo - SP',
-              email: o.userEmail.toLowerCase(),
-              phone: o.techPhone || '',
-              password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
-              role: 'partner',
-              status: 'pending',
-              updatedAt: 1000,
-              createdAt: o.createdAt || new Date().toISOString()
-            });
-          }
-        });
-      }
-    } catch (e) {
-      console.warn('OS sync info:', e);
-    }
-
-    // 4. Auto-sync active session user if stored
+    // 2. Auto-sync active session user if stored (apenas se nao for conta de teste)
     try {
       const sessionUserRaw = localStorage.getItem('z8_catalog_auth_user') || sessionStorage.getItem('z8_catalog_auth_user');
       if (sessionUserRaw) {
         const su = JSON.parse(sessionUserRaw);
-        if (su.email && !users.find(u => u.email.toLowerCase() === su.email.toLowerCase())) {
+        if (su.email && !TEST_DEMO_EMAILS.includes(su.email.toLowerCase()) && !users.find(u => u.email.toLowerCase() === su.email.toLowerCase())) {
           users.push({
             id: su.id || ('user_sess_' + Date.now()),
             name: su.name || 'Parceiro Z8',
@@ -361,7 +229,7 @@ export function getRegisteredUsers() {
       console.warn('Session user sync info:', e);
     }
 
-    // 5. Ensure admin is always master approved
+    // 3. Ensure admin is always master approved
     const normalized = users.map(u => {
       if (u.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
         u.status = 'approved';

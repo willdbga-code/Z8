@@ -15,35 +15,7 @@ export const firebaseConfig = {
 
 const STORAGE_KEY = 'z8_crm_leads_data';
 
-// Initial default demo lead to ensure CRM displays stats out of the box
-const DEFAULT_LEADS = [
-  {
-    id: 'lead_demo_01',
-    name: 'Roberto Andrade',
-    company: 'Motos & Cia Ltda',
-    city: 'Ribeirão Preto',
-    state: 'SP',
-    email: 'roberto@motosecia.com.br',
-    phone: '(16) 99876-5432',
-    paymentMethod: 'PIX',
-    status: 'fechado',
-    estimatedRevenue: 2989.00,
-    createdAt: new Date(Date.now() - 3600000 * 24).toISOString()
-  },
-  {
-    id: 'lead_demo_02',
-    name: 'Juliana Mendes',
-    company: 'E-Scooter Brasil',
-    city: 'Campinas',
-    state: 'SP',
-    email: 'contato@escooterbrasil.com',
-    phone: '(19) 99123-4567',
-    paymentMethod: 'Cartão 12x',
-    status: 'proposta',
-    estimatedRevenue: 2989.00,
-    createdAt: new Date(Date.now() - 3600000 * 4).toISOString()
-  }
-];
+const DEFAULT_LEADS = [];
 
 export function getLocalLeads() {
   try {

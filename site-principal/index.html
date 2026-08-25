@@ -73,86 +73,6 @@
         <span class="switch-label"><i class="fa-solid fa-sun"></i></span>
       </div>
     </div>
-  <!-- TELA DE LOGIN & CADASTRO (PORTAL DE ACESSO EXCLUSIVO ESTILO FACEBOOK / INSTAGRAM) -->
-  <div id="catalog-login-gate" class="skeuo-panel" style="min-height: calc(100vh - 100px); display: flex; align-items: center; justify-content: center; padding: 40px 20px; background: radial-gradient(circle at center, #1a233a 0%, #0b0e14 100%);">
-    <div class="skeuo-modal-box skeuo-panel" style="max-width: 480px; width: 100%; border: 1px solid rgba(0, 242, 254, 0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.8); border-radius: 20px; padding: 32px;">
-      
-      <div style="text-align: center; margin-bottom: 24px;">
-        <img src="/assets/logos/ztrasparente.png" alt="Z8 Logo" style="height: 54px; margin-bottom: 12px;" />
-        <h2 style="font-family: 'Orbitron', sans-serif; color: #00F2FE; font-size: 1.35rem; letter-spacing: 1px;">PORTAL DO CATÁLOGO Z8</h2>
-        <p style="font-size: 0.88rem; color: #94a3b8; margin-top: 6px;">Faça login ou cadastre-se para acessar as tabelas exclusivas de importação e atacado.</p>
-      </div>
-
-      <!-- TABS SWITCHER -->
-      <div style="display: flex; gap: 8px; margin-bottom: 24px; background: rgba(0,0,0,0.4); padding: 4px; border-radius: 12px;">
-        <button type="button" id="tab-cat-login" style="flex: 1; padding: 12px; border: none; background: #00F2FE; color: #0b0e14; border-radius: 8px; font-weight: 800; font-family: 'Orbitron', sans-serif; cursor: pointer; font-size: 0.88rem;">
-          <i class="fa-solid fa-key"></i> Entrar (Login)
-        </button>
-        <button type="button" id="tab-cat-register" style="flex: 1; padding: 12px; border: none; background: transparent; color: #94a3b8; border-radius: 8px; font-weight: 800; font-family: 'Orbitron', sans-serif; cursor: pointer; font-size: 0.88rem;">
-          <i class="fa-solid fa-user-plus"></i> Criar Conta
-        </button>
-      </div>
-
-      <!-- FORM LOGIN -->
-      <div id="cat-box-login">
-        <form id="cat-login-form">
-          <div id="cat-login-msg" style="display: none; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px;"></div>
-
-          <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-envelope"></i> E-mail ou Usuário Master:</label>
-            <input type="text" id="cat-login-user" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; color: #fff; font-size: 0.95rem;" placeholder="Digite seu e-mail" required />
-          </div>
-
-          <div style="margin-bottom: 20px;">
-            <label style="display: block; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-lock"></i> Senha de Acesso:</label>
-            <input type="password" id="cat-login-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; color: #fff; font-size: 0.95rem;" placeholder="••••••••••••" required />
-          </div>
-
-          <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 16px; font-size: 0.95rem;">
-            <i class="fa-solid fa-right-to-bracket"></i> ENTRAR NO PORTAL
-          </button>
-        </form>
-      </div>
-
-      <!-- FORM REGISTER -->
-      <div id="cat-box-register" style="display: none;">
-        <form id="cat-register-form">
-          <div id="cat-reg-msg" style="display: none; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px;"></div>
-
-          <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-user"></i> Nome Completo / Responsável:</label>
-            <input type="text" id="cat-reg-name" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="Ex: Carlos Eduardo Silva" required />
-          </div>
-
-          <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-building"></i> Nome da Empresa / Loja / Cidade:</label>
-            <input type="text" id="cat-reg-company" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="Ex: Silva Motos - Campinas SP" required />
-          </div>
-
-          <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-envelope"></i> E-mail Corporativo:</label>
-            <input type="email" id="cat-reg-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="contato@empresa.com.br" required />
-          </div>
-
-          <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-phone"></i> WhatsApp do Responsável:</label>
-            <input type="tel" id="cat-reg-phone" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="(11) 99999-9999" required />
-          </div>
-
-          <div style="margin-bottom: 18px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-lock"></i> Crie sua Senha de Acesso:</label>
-            <input type="password" id="cat-reg-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="Crie sua senha segura" required />
-          </div>
-
-          <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 16px; background: linear-gradient(135deg, #10B981, #059669); font-size: 0.95rem;">
-            <i class="fa-solid fa-user-check"></i> CRIAR CONTA E ENTRAR NO PORTAL
-          </button>
-        </form>
-      </div>
-
-    </div>
-  </div>
-
   <!-- Conteúdo Principal -->
   <main class="main-content" id="catalog-main-content">
     
@@ -764,28 +684,73 @@
           <div id="cat-reg-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
           <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-user"></i> Nome Completo:</label>
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-user"></i> Nome Completo / Responsável:</label>
             <input type="text" id="cat-reg-name" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: João da Silva" required />
           </div>
 
           <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-building"></i> Nome da Empresa / Cidade:</label>
-            <input type="text" id="cat-reg-company" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: Silva Motos - Campinas SP" required />
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-building"></i> Nome da Empresa / Razão Social / Loja:</label>
+            <input type="text" id="cat-reg-company" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: Silva Motos Elétricas Ltda" required />
+          </div>
+
+          <!-- LOCALIZAÇÃO / PRAÇA DE CONCESSÃO EXCLUSIVA -->
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div>
+              <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-location-dot"></i> Cidade / Praça Local:</label>
+              <input type="text" id="cat-reg-city" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: Ribeirão Preto" required />
+            </div>
+            <div>
+              <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-map-pin"></i> UF (Estado):</label>
+              <select id="cat-reg-state" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem; cursor: pointer;" required>
+                <option value="SP" selected>SP</option>
+                <option value="RJ">RJ</option>
+                <option value="MG">MG</option>
+                <option value="PR">PR</option>
+                <option value="SC">SC</option>
+                <option value="RS">RS</option>
+                <option value="BA">BA</option>
+                <option value="GO">GO</option>
+                <option value="DF">DF</option>
+                <option value="ES">ES</option>
+                <option value="PE">PE</option>
+                <option value="CE">CE</option>
+                <option value="MT">MT</option>
+                <option value="MS">MS</option>
+                <option value="PA">PA</option>
+                <option value="AM">AM</option>
+                <option value="MA">MA</option>
+                <option value="PB">PB</option>
+                <option value="RN">RN</option>
+                <option value="AL">AL</option>
+                <option value="SE">SE</option>
+                <option value="PI">PI</option>
+                <option value="TO">TO</option>
+                <option value="RO">RO</option>
+                <option value="AC">AC</option>
+                <option value="AP">AP</option>
+                <option value="RR">RR</option>
+              </select>
+            </div>
           </div>
 
           <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Comercial:</label>
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Corporativo:</label>
             <input type="email" id="cat-reg-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="contato@empresa.com.br" required />
           </div>
 
           <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-phone"></i> WhatsApp:</label>
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-phone"></i> WhatsApp do Responsável:</label>
             <input type="tel" id="cat-reg-phone" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="(11) 99999-9999" required />
           </div>
 
           <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-lock"></i> Criar Senha:</label>
-            <input type="password" id="cat-reg-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Crie sua senha segura" required />
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-lock"></i> Criar Senha de Acesso:</label>
+            <div style="position: relative;">
+              <input type="password" id="cat-reg-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 40px 10px 10px; color: #fff; font-size: 0.85rem;" placeholder="Crie sua senha segura" required />
+              <button type="button" class="btn-toggle-pass-view" data-target="cat-reg-pass" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
           </div>
 
           <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 14px; background: linear-gradient(135deg, #10B981, #059669);">

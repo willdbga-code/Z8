@@ -949,13 +949,24 @@ function initCatalogAuth() {
   if (regForm) {
     regForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById('cat-reg-name').value;
-      const company = document.getElementById('cat-reg-company').value;
-      const email = document.getElementById('cat-reg-email').value;
-      const phone = document.getElementById('cat-reg-phone').value;
-      const password = document.getElementById('cat-reg-pass').value;
+      const name = document.getElementById('cat-reg-name')?.value || '';
+      const company = document.getElementById('cat-reg-company')?.value || '';
+      const city = document.getElementById('cat-reg-city')?.value || '';
+      const state = document.getElementById('cat-reg-state')?.value || 'SP';
+      const email = document.getElementById('cat-reg-email')?.value || '';
+      const phone = document.getElementById('cat-reg-phone')?.value || '';
+      const password = document.getElementById('cat-reg-pass')?.value || '';
 
-      const res = await registerCatalogUser({ name, company, email, phone, password });
+      const locationStr = city ? `${city} - ${state}` : (company.includes('-') ? company.split('-').pop().trim() : 'São Paulo - SP');
+
+      const res = await registerCatalogUser({
+        name,
+        company,
+        city: locationStr,
+        email,
+        phone,
+        password
+      });
       if (res.success) {
         regForm.reset();
         if (regMsg) {
