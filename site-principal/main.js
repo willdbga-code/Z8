@@ -19,7 +19,8 @@ import {
   isCatalogApproved,
   logoutCatalogUser,
   checkUrlApproval,
-  fetchUsersFromCloud
+  fetchUsersFromCloud,
+  resetCatalogUserPassword
 } from './catalog-auth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -783,8 +784,9 @@ function initCatalogAuth() {
       tabLoginBtn.style.color = '#0b0e14';
       tabRegBtn.style.background = 'transparent';
       tabRegBtn.style.color = '#94a3b8';
-      boxLogin.style.display = 'block';
-      boxReg.style.display = 'none';
+      if (boxLogin) boxLogin.style.display = 'block';
+      if (boxReg) boxReg.style.display = 'none';
+      if (boxForgot) boxForgot.style.display = 'none';
     });
 
     tabRegBtn.addEventListener('click', () => {
@@ -792,10 +794,114 @@ function initCatalogAuth() {
       tabRegBtn.style.color = '#ffffff';
       tabLoginBtn.style.background = 'transparent';
       tabLoginBtn.style.color = '#94a3b8';
-      boxReg.style.display = 'block';
-      boxLogin.style.display = 'none';
+      if (boxReg) boxReg.style.display = 'block';
+      if (boxLogin) boxLogin.style.display = 'none';
+      if (boxForgot) boxForgot.style.display = 'none';
     });
   }
+
+  const boxForgot = document.getElementById('cat-box-forgot');
+  const forgotForm = document.getElementById('cat-forgot-form');
+  const forgotMsg = document.getElementById('cat-forgot-msg');
+  const btnForgotTrigger = document.getElementById('btn-forgot-password-trigger');
+  const btnForgotBack = document.getElementById('btn-forgot-back-to-login');
+
+  if (btnForgotTrigger) {
+    btnForgotTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (boxLogin) boxLogin.style.display = 'none';
+      if (boxReg) boxReg.style.display = 'none';
+      if (boxForgot) boxForgot.style.display = 'block';
+      if (tabLoginBtn) {
+        tabLoginBtn.style.background = 'transparent';
+        tabLoginBtn.style.color = '#94a3b8';
+      }
+      if (tabRegBtn) {
+        tabRegBtn.style.background = 'transparent';
+        tabRegBtn.style.color = '#94a3b8';
+      }
+      const forgotEmailInput = document.getElementById('cat-forgot-email');
+      const loginUserInput = document.getElementById('cat-login-user');
+      if (forgotEmailInput && loginUserInput && loginUserInput.value) {
+        forgotEmailInput.value = loginUserInput.value;
+      }
+    });
+  }
+
+  if (btnForgotBack) {
+    btnForgotBack.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (boxForgot) boxForgot.style.display = 'none';
+      if (boxLogin) boxLogin.style.display = 'block';
+      if (tabLoginBtn) {
+        tabLoginBtn.style.background = '#00F2FE';
+        tabLoginBtn.style.color = '#0b0e14';
+      }
+      if (tabRegBtn) {
+        tabRegBtn.style.background = 'transparent';
+        tabRegBtn.style.color = '#94a3b8';
+      }
+    });
+  }
+
+  if (forgotForm) {
+    forgotForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('cat-forgot-email')?.value || '';
+      const phone = document.getElementById('cat-forgot-phone')?.value || '';
+      const newPass = document.getElementById('cat-forgot-pass')?.value || '';
+
+      const res = resetCatalogUserPassword(email, phone, newPass);
+      if (res.success) {
+        if (forgotMsg) {
+          forgotMsg.style.display = 'block';
+          forgotMsg.style.background = 'rgba(16,185,129,0.15)';
+          forgotMsg.style.border = '1px solid rgba(16,185,129,0.3)';
+          forgotMsg.style.color = '#6ee7b7';
+          forgotMsg.innerHTML = `🎉 <strong>${res.message}</strong>`;
+        }
+        setTimeout(() => {
+          updateHeaderAuth();
+          renderShowroom();
+          const loginModal = document.getElementById('catalog-login-modal');
+          if (loginModal) loginModal.classList.add('hidden');
+        }, 1000);
+      } else {
+        if (forgotMsg) {
+          forgotMsg.style.display = 'block';
+          forgotMsg.style.background = 'rgba(239,68,68,0.15)';
+          forgotMsg.style.border = '1px solid rgba(239,68,68,0.3)';
+          forgotMsg.style.color = '#fca5a5';
+          forgotMsg.textContent = res.error;
+        }
+      }
+    });
+  }
+
+  // Password visibility eye toggle
+  document.addEventListener('click', (e) => {
+    const toggleBtn = e.target.closest('.btn-toggle-pass-view');
+    if (toggleBtn) {
+      const targetId = toggleBtn.getAttribute('data-target');
+      const input = document.getElementById(targetId);
+      const icon = toggleBtn.querySelector('i');
+      if (input) {
+        if (input.type === 'password') {
+          input.type = 'text';
+          if (icon) {
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+          }
+        } else {
+          input.type = 'password';
+          if (icon) {
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+          }
+        }
+      }
+    }
+  });
 
   if (loginForm) {
     loginForm.addEventListener('submit', (e) => {

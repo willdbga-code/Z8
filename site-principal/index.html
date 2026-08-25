@@ -681,14 +681,76 @@
             <input type="text" id="cat-login-user" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="Digite seu e-mail" required />
           </div>
 
-          <div style="margin-bottom: 18px;">
+          <div style="margin-bottom: 8px; position: relative;">
             <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-lock"></i> Senha de Acesso:</label>
-            <input type="password" id="cat-login-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="••••••••••••" required />
+            <div style="position: relative;">
+              <input type="password" id="cat-login-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 42px 12px 12px; color: #fff; font-size: 0.9rem;" placeholder="••••••••••••" required />
+              <button type="button" class="btn-toggle-pass-view" data-target="cat-login-pass" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+            <a href="#" id="btn-forgot-password-trigger" style="font-size: 0.78rem; color: #00F2FE; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="fa-solid fa-key"></i> Esqueceu a senha?
+            </a>
           </div>
 
           <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 14px;">
             <i class="fa-solid fa-right-to-bracket"></i> ENTRAR NO CATÁLOGO
           </button>
+        </form>
+      </div>
+
+      <!-- FORGOT PASSWORD FORM -->
+      <div id="cat-box-forgot" style="display: none;">
+        <div style="background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 8px; padding: 12px; margin-bottom: 14px;">
+          <h4 style="color: #00F2FE; font-size: 0.9rem; margin: 0 0 4px 0;"><i class="fa-solid fa-unlock-keyhole"></i> Recuperação de Senha</h4>
+          <p style="font-size: 0.76rem; color: #cbd5e1; margin: 0; line-height: 1.4;">
+            Informe seu e-mail e os 4 últimos dígitos do seu WhatsApp para cadastrar uma nova senha imediatamente.
+          </p>
+        </div>
+
+        <form id="cat-forgot-form">
+          <div id="cat-forgot-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Cadastrado:</label>
+            <input type="email" id="cat-forgot-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: contato@empresa.com.br" required />
+          </div>
+
+          <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-phone"></i> WhatsApp (ou 4 últimos dígitos):</label>
+            <input type="text" id="cat-forgot-phone" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: (11) 98765-4321 ou 4321" required />
+          </div>
+
+          <div style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-lock"></i> Nova Senha Desejada:</label>
+            <div style="position: relative;">
+              <input type="password" id="cat-forgot-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 40px 10px 10px; color: #fff; font-size: 0.85rem;" placeholder="Mínimo 4 caracteres" required />
+              <button type="button" class="btn-toggle-pass-view" data-target="cat-forgot-pass" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 12px; background: linear-gradient(135deg, #00F2FE, #4FACFE); color: #0b0e14; font-weight: 800;">
+            <i class="fa-solid fa-shield-check"></i> REDEFINIR SENHA E ENTRAR
+          </button>
+
+          <div style="text-align: center; margin-top: 14px;">
+            <a href="#" id="btn-forgot-back-to-login" style="font-size: 0.8rem; color: #94a3b8; text-decoration: underline;">
+              <i class="fa-solid fa-arrow-left"></i> Voltar para a tela de Login
+            </a>
+          </div>
+
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1); text-align: center;">
+            <span style="font-size: 0.74rem; color: #64748b; display: block; margin-bottom: 6px;">Ou se preferir suporte direto:</span>
+            <a href="https://wa.me/5512998008818?text=Ol%C3%A1%20Christian%2C%20esqueci%20minha%20senha%20de%20acesso%20ao%20Cat%C3%A1logo%20Z8%20e%20gostaria%20de%20solicitar%20uma%20redefini%C3%A7%C3%A3o." target="_blank" rel="noopener" style="font-size: 0.78rem; color: #10B981; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+              <i class="fa-brands fa-whatsapp"></i> Falar com Suporte Master via WhatsApp
+            </a>
+          </div>
         </form>
       </div>
 

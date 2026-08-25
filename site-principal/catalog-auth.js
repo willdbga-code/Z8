@@ -322,6 +322,59 @@ export function loginCatalogUser(userOrEmail, password) {
   };
 }
 
+export function resetCatalogUserPassword(email, phone, newPassword) {
+  const cleanEmail = (email || '').trim().toLowerCase();
+  const cleanPhone = (phone || '').replace(/\D/g, '');
+  const cleanPass = (newPassword || '').trim();
+
+  if (!cleanEmail) {
+    return { success: false, error: 'Por favor, informe seu e-mail cadastrado.' };
+  }
+
+  if (cleanEmail === MASTER_ADMIN_EMAIL.toLowerCase()) {
+    return { success: false, error: 'A senha do Administrador Master só pode ser alterada diretamente no código do sistema.' };
+  }
+
+  if (!cleanPass || cleanPass.length < 4) {
+    return { success: false, error: 'A nova senha deve ter no mínimo 4 caracteres.' };
+  }
+
+  const users = getRegisteredUsers();
+  const found = users.find(u => u.email.toLowerCase() === cleanEmail);
+
+  if (!found) {
+    return { success: false, error: 'E-mail não encontrado no sistema. Verifique a digitação ou crie uma conta na aba de cadastro.' };
+  }
+
+  // Security check: if phone was provided, verify matching digits
+  if (cleanPhone) {
+    const userPhoneDigits = (found.phone || '').replace(/\D/g, '');
+    if (userPhoneDigits && userPhoneDigits.length >= 8 && cleanPhone.length >= 8) {
+      const matchEnd = userPhoneDigits.slice(-4) === cleanPhone.slice(-4);
+      if (!matchEnd) {
+        return { success: false, error: 'O WhatsApp informado não confere com os últimos dígitos cadastrados nesta conta.' };
+      }
+    }
+  }
+
+  found.password = cleanPass;
+  found.updatedAt = Date.now();
+
+  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  pushUsersToCloud(users);
+
+  // Auto-login with new password
+  sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
+  sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(found));
+  localStorage.setItem('z8_catalog_auth_user', JSON.stringify(found));
+  localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
+
+  window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+  window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+
+  return { success: true, user: found, message: 'Senha redefinida com sucesso! Você já está conectado.' };
+}
+
 export function updateUserStatus(userId, newStatus) {
   const users = getRegisteredUsers();
   let updatedUser = null;
