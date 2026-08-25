@@ -22,6 +22,7 @@ const DEFAULT_USERS = [
     password: '@12345678@',
     role: 'admin',
     status: 'approved',
+    updatedAt: 1000,
     createdAt: new Date().toISOString()
   },
   {
@@ -34,6 +35,7 @@ const DEFAULT_USERS = [
     password: 'z8partner123',
     role: 'partner',
     status: 'approved',
+    updatedAt: 1000,
     createdAt: new Date(Date.now() - 86400000 * 2).toISOString()
   },
   {
@@ -46,6 +48,7 @@ const DEFAULT_USERS = [
     password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
     role: 'partner',
     status: 'pending',
+    updatedAt: 1000,
     createdAt: new Date().toISOString()
   }
 ];
@@ -66,7 +69,7 @@ export async function pushUsersToCloud(usersList) {
   }
 }
 
-// Fetch all registered users from cloud hub and merge with local storage
+// Fetch all registered users from cloud hub and merge safely with local storage
 export async function fetchUsersFromCloud() {
   try {
     const res = await fetch(CLOUD_SYNC_ENDPOINT);
@@ -88,17 +91,26 @@ export async function fetchUsersFromCloud() {
           hasChanges = true;
         } else {
           const localU = mergedMap.get(key);
-          // If cloud has newer status or info, sync it
-          if (cu.status && cu.status !== localU.status && key !== MASTER_ADMIN_EMAIL.toLowerCase()) {
+          const cloudTime = cu.updatedAt || 0;
+          const localTime = localU.updatedAt || 0;
+
+          // Se a nuvem tem timestamp estritamente mais recente, atualiza status
+          if (cloudTime > localTime && cu.status && cu.status !== localU.status && key !== MASTER_ADMIN_EMAIL.toLowerCase()) {
             localU.status = cu.status;
+            localU.updatedAt = cloudTime;
             hasChanges = true;
           }
+
           if (cu.name && !localU.name) {
             localU.name = cu.name;
             hasChanges = true;
           }
           if (cu.company && !localU.company) {
             localU.company = cu.company;
+            hasChanges = true;
+          }
+          if (cu.phone && !localU.phone) {
+            localU.phone = cu.phone;
             hasChanges = true;
           }
         }
@@ -131,6 +143,7 @@ export function getRegisteredUsers() {
     const raw = localStorage.getItem(USERS_STORAGE_KEY);
     if (!raw) {
       users = [...DEFAULT_USERS];
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
     } else {
       users = JSON.parse(raw);
     }
@@ -312,9 +325,11 @@ export function loginCatalogUser(userOrEmail, password) {
 export function updateUserStatus(userId, newStatus) {
   const users = getRegisteredUsers();
   let updatedUser = null;
+  const now = Date.now();
   const updated = users.map(u => {
     if (u.id === userId && u.email.toLowerCase() !== MASTER_ADMIN_EMAIL.toLowerCase()) {
       u.status = newStatus;
+      u.updatedAt = now;
       updatedUser = u;
     }
     return u;

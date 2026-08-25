@@ -30,9 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   }
 
-  // Cloud sync on startup & recurring interval
+  // Cloud sync on startup
   fetchUsersFromCloud();
-  setInterval(fetchUsersFromCloud, 10000);
 
   initThemeToggle();
   initNavigation();
