@@ -1,6 +1,6 @@
 // ==========================================================================
 // Z8 E-Motion - Warranty & Service Order (OS) Database Engine
-// Firestore Real-Time Ready with LocalStorage Persistence & Event Dispatcher
+// Multi-Tenant / Account Session Isolation with Master Admin Central Hub
 // ==========================================================================
 
 const OS_STORAGE_KEY = 'z8_warranty_service_orders_db';
@@ -8,6 +8,8 @@ const OS_STORAGE_KEY = 'z8_warranty_service_orders_db';
 const DEFAULT_ORDERS = [
   {
     id: 'OS-2026-0101',
+    userId: 'user_demo_01',
+    userEmail: 'ricardo@megamotos.com.br',
     techName: 'Carlos Silveira',
     company: 'Mega Motos SP',
     city: 'Campinas - SP',
@@ -27,8 +29,10 @@ const DEFAULT_ORDERS = [
   },
   {
     id: 'OS-2026-0102',
+    userId: 'user_admin_01',
+    userEmail: 'christian.tkh@gmail.com',
     techName: 'Roberto Mecânico Z8',
-    company: 'Z8 Vale do Paraíba',
+    company: 'Z8 Vale do Paraíba (Matriz)',
     city: 'São José dos Campos - SP',
     techPhone: '(12) 99800-8818',
     model: 'Z8 FX-10 Sport (DB043)',
@@ -46,6 +50,8 @@ const DEFAULT_ORDERS = [
   },
   {
     id: 'OS-2026-0103',
+    userId: 'user_demo_03',
+    userEmail: 'marcio@emotionsul.com.br',
     techName: 'Marcio Silva',
     company: 'E-Motion Sul Distribuidora',
     city: 'Curitiba - PR',
@@ -79,19 +85,55 @@ export function getStoredWarrantyOrders() {
   }
 }
 
-export function saveWarrantyOrder(orderData) {
+/**
+ * Retorna as Ordens de Serviço filtradas pela conta ativa do usuário.
+ * Se for Admin Master, pode ver todas ou filtrar por unidade.
+ * Se for parceiro/técnico, vê EXCLUSIVAMENTE as OS vinculadas à sua conta/e-mail.
+ */
+export function getWarrantyOrdersForUser(currentUser, adminUnitFilter = 'all') {
+  const allOrders = getStoredWarrantyOrders();
+  if (!currentUser) return [];
+
+  const isMaster = currentUser.role === 'admin' || currentUser.email?.toLowerCase() === 'christian.tkh@gmail.com';
+
+  if (isMaster) {
+    if (adminUnitFilter && adminUnitFilter !== 'all') {
+      return allOrders.filter(o => 
+        (o.userEmail && o.userEmail.toLowerCase() === adminUnitFilter.toLowerCase()) ||
+        (o.company && o.company.toLowerCase() === adminUnitFilter.toLowerCase())
+      );
+    }
+    return allOrders;
+  }
+
+  const cleanEmail = (currentUser.email || '').toLowerCase().trim();
+  const userId = currentUser.id;
+
+  return allOrders.filter(o => {
+    const orderEmail = (o.userEmail || '').toLowerCase().trim();
+    return (orderEmail && orderEmail === cleanEmail) || (o.userId && o.userId === userId);
+  });
+}
+
+export function saveWarrantyOrder(orderData, currentUser) {
   const orders = getStoredWarrantyOrders();
   
   // Gera ID sequencial único baseado no ano corrente
   const nextNum = (orders.length + 104).toString().padStart(4, '0');
   const osId = orderData.id || `OS-2026-${nextNum}`;
 
+  const userEmail = currentUser?.email || orderData.userEmail || '';
+  const userId = currentUser?.id || orderData.userId || 'guest_' + Date.now();
+  const company = currentUser?.company || orderData.company || 'Concessionária Autorizada Z8';
+
   const newOrder = {
     id: osId,
-    techName: orderData.techName || 'Técnico Homologado',
-    company: orderData.company || 'Concessionária Autorizada Z8',
-    city: orderData.city || 'São Paulo - SP',
-    techPhone: orderData.techPhone || '',
+    userId: userId,
+    userEmail: userEmail,
+    company: company,
+    city: currentUser?.city || orderData.city || 'São Paulo - SP',
+    techName: orderData.techName || currentUser?.name || 'Técnico Homologado',
+    techPhone: orderData.techPhone || currentUser?.phone || '',
     model: orderData.model || 'Z8 E-Motion',
     chassi: (orderData.chassi || '').toUpperCase().trim(),
     odometer: Number(orderData.odometer) || 0,

@@ -2,6 +2,7 @@ import { z8Models } from './data/models.js';
 import { franchiseTiers, complianceInfo } from './data/franchiseInfo.js';
 import {
   getStoredWarrantyOrders,
+  getWarrantyOrdersForUser,
   saveWarrantyOrder,
   updateWarrantyOrderStatus,
   deleteWarrantyOrder,
@@ -696,10 +697,11 @@ function initCatalogAuth() {
 }
 
 /* --------------------------------------------------------------------------
-   8. WARRANTY & OS DATABASE ENGINE & REAL-TIME DASHBOARD
+   8. WARRANTY & OS DATABASE ENGINE & REAL-TIME DASHBOARD (ACCOUNT ISOLATION)
    -------------------------------------------------------------------------- */
 let currentOSFilter = 'all';
 let currentOSSearch = '';
+let currentAdminUnitFilter = 'all';
 
 function initWarrantyPortal() {
   const form = document.getElementById('warranty-os-form');
@@ -711,6 +713,7 @@ function initWarrantyPortal() {
   const techPhoneInput = document.getElementById('os-tech-phone');
   const searchInput = document.getElementById('os-search-input');
   const filterPills = document.querySelectorAll('.os-filter-pill');
+  const sessionBar = document.getElementById('os-account-session-bar');
 
   // Pre-fill user data if logged in
   function prefillUser() {
@@ -721,10 +724,113 @@ function initWarrantyPortal() {
     }
   }
   prefillUser();
-  window.addEventListener('z8-catalog-auth-changed', prefillUser);
+  window.addEventListener('z8-catalog-auth-changed', () => {
+    prefillUser();
+    renderOSDashboard();
+  });
 
-  function updateCounters() {
-    const orders = getStoredWarrantyOrders();
+  function renderOSSessionBar() {
+    if (!sessionBar) return;
+    const user = getCurrentCatalogUser();
+    const isMaster = user && (user.role === 'admin' || user.email?.toLowerCase() === 'christian.tkh@gmail.com');
+    const allOrders = getStoredWarrantyOrders();
+
+    if (!user) {
+      sessionBar.className = 'os-account-bar anonymous';
+      sessionBar.innerHTML = `
+        <div class="os-account-info-left">
+          <div class="os-account-avatar" style="border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.12);">
+            <i class="fa-solid fa-user-lock"></i>
+          </div>
+          <div>
+            <div style="font-size: 0.88rem; color: #f59e0b; font-weight: 700;">Sessão Não Identificada</div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">Faça login na sua conta de Franqueado para visualizar e gerenciar as Ordens de Serviço da sua unidade.</div>
+          </div>
+        </div>
+        <div>
+          <button type="button" class="skeuo-button primary-metal-btn trigger-catalog-login-action" style="padding: 8px 16px; font-size: 0.78rem;">
+            <i class="fa-solid fa-right-to-bracket"></i> Identificar Minha Conta
+          </button>
+        </div>
+      `;
+    } else if (isMaster) {
+      // Extrai unidades únicas para o filtro do Administrador Master
+      const unitsMap = {};
+      allOrders.forEach(o => {
+        const key = o.company || o.userEmail;
+        if (key) unitsMap[key] = (unitsMap[key] || 0) + 1;
+      });
+
+      const unitOptions = Object.keys(unitsMap).map(u => {
+        const sel = currentAdminUnitFilter === u ? 'selected' : '';
+        return `<option value="${u}" ${sel}>🏢 ${u} (${unitsMap[u]} OS)</option>`;
+      }).join('');
+
+      sessionBar.className = 'os-account-bar master-admin';
+      sessionBar.innerHTML = `
+        <div class="os-account-info-left">
+          <div class="os-account-avatar gold">
+            <i class="fa-solid fa-crown"></i>
+          </div>
+          <div>
+            <div style="font-size: 0.88rem; color: #fbbf24; font-weight: 700;">
+              Sessão Master • Central Nacional de Garantia & Engenharia Z8
+            </div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">
+              Acesso irrestrito a todas as concessionárias do Brasil • Matriz Z8 (${user.email})
+            </div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <label style="font-size: 0.78rem; color: #cbd5e1; white-space: nowrap;"><i class="fa-solid fa-filter text-gold"></i> Unidade:</label>
+          <select id="os-admin-unit-filter-select" class="os-input" style="padding: 6px 12px; font-size: 0.78rem; width: auto; background: #0b0e14; border-color: rgba(251,191,36,0.4); color: #fff;">
+            <option value="all" ${currentAdminUnitFilter === 'all' ? 'selected' : ''}>🏢 Todas as Concessionárias (${allOrders.length} Total)</option>
+            ${unitOptions}
+          </select>
+        </div>
+      `;
+
+      const unitSelect = document.getElementById('os-admin-unit-filter-select');
+      if (unitSelect) {
+        unitSelect.addEventListener('change', (e) => {
+          currentAdminUnitFilter = e.target.value;
+          renderOSDashboard();
+        });
+      }
+    } else {
+      sessionBar.className = 'os-account-bar logged-in';
+      sessionBar.innerHTML = `
+        <div class="os-account-info-left">
+          <div class="os-account-avatar">
+            <i class="fa-solid fa-user-check"></i>
+          </div>
+          <div>
+            <div style="font-size: 0.88rem; color: var(--accent-cyan); font-weight: 700;">
+              Sessão Ativa: ${user.name || user.company} (${user.company || 'Concessionária Autorizada'})
+            </div>
+            <div style="font-size: 0.74rem; color: var(--text-muted);">
+              ${user.email} • Exibindo exclusivamente os chamados e garantias da sua unidade
+            </div>
+          </div>
+        </div>
+        <div>
+          <span class="skeuo-badge" style="font-size: 0.76rem; border-color: #10B981; color: #10B981; background: rgba(16,185,129,0.1);">
+            <i class="fa-solid fa-lock"></i> Seus Pedidos Isolados
+          </span>
+        </div>
+      `;
+    }
+
+    // Bind login buttons inside session bar
+    sessionBar.querySelectorAll('.trigger-catalog-login-action').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const loginModal = document.getElementById('catalog-auth-modal');
+        if (loginModal) loginModal.classList.remove('hidden');
+      });
+    });
+  }
+
+  function updateCounters(orders) {
     const total = orders.length;
     const analyzing = orders.filter(o => o.status === 'analyzing').length;
     const approved = orders.filter(o => o.status === 'approved').length;
@@ -740,17 +846,22 @@ function initWarrantyPortal() {
     if (elApproved) elApproved.textContent = approved;
     if (elCompleted) elCompleted.textContent = completed;
 
-    const nextIdNum = (total + 104).toString().padStart(4, '0');
+    const allStored = getStoredWarrantyOrders();
+    const nextIdNum = (allStored.length + 104).toString().padStart(4, '0');
     if (autoCodeBadge) autoCodeBadge.textContent = `OS-2026-${nextIdNum}`;
   }
 
   function renderOSDashboard() {
-    updateCounters();
-    const allOrders = getStoredWarrantyOrders();
+    renderOSSessionBar();
+
     const user = getCurrentCatalogUser();
     const isMaster = user && (user.role === 'admin' || user.email?.toLowerCase() === 'christian.tkh@gmail.com');
 
-    let filtered = allOrders;
+    // Recupera somente as OS permitidas para este usuário
+    const userOrders = getWarrantyOrdersForUser(user, currentAdminUnitFilter);
+    updateCounters(userOrders);
+
+    let filtered = userOrders;
 
     if (currentOSFilter !== 'all') {
       filtered = filtered.filter(o => o.status === currentOSFilter);
@@ -763,21 +874,49 @@ function initWarrantyPortal() {
         (o.chassi && o.chassi.toLowerCase().includes(q)) ||
         (o.model && o.model.toLowerCase().includes(q)) ||
         (o.techName && o.techName.toLowerCase().includes(q)) ||
+        (o.company && o.company.toLowerCase().includes(q)) ||
         (o.component && o.component.toLowerCase().includes(q))
       );
     }
 
     if (badgeCount) {
-      badgeCount.textContent = `${filtered.length} chamado(s) encontrado(s)`;
+      if (!user) {
+        badgeCount.textContent = `0 chamados (faça login)`;
+      } else if (isMaster) {
+        badgeCount.textContent = `${filtered.length} chamado(s) na Matriz`;
+      } else {
+        badgeCount.textContent = `${filtered.length} chamado(s) da sua conta`;
+      }
     }
 
     if (!osListContainer) return;
+
+    if (!user) {
+      osListContainer.innerHTML = `
+        <div style="text-align: center; padding: 32px 18px; background: rgba(0,0,0,0.25); border: 1px dashed rgba(0,240,255,0.2); border-radius: 10px;">
+          <i class="fa-solid fa-shield-halved" style="font-size: 2.2rem; color: var(--accent-cyan); margin-bottom: 10px; display: block;"></i>
+          <h4 style="font-family: 'Orbitron', sans-serif; font-size: 0.98rem; color: #fff; margin-bottom: 6px;">
+            Sessão Exclusiva de Garantia
+          </h4>
+          <p style="font-size: 0.8rem; color: var(--text-muted); max-width: 360px; margin: 0 auto 16px auto; line-height: 1.45;">
+            Cada conta tem acesso exclusivo aos seus próprios chamados, prazos de 48h e rastreio de peças.
+          </p>
+          <button type="button" class="skeuo-button primary-metal-btn trigger-login-direct" style="padding: 10px 18px; font-size: 0.8rem;">
+            <i class="fa-solid fa-lock-open"></i> Entrar na Minha Conta de Franqueado
+          </button>
+        </div>
+      `;
+      osListContainer.querySelectorAll('.trigger-login-direct').forEach(b => {
+        b.onclick = () => document.getElementById('catalog-auth-modal')?.classList.remove('hidden');
+      });
+      return;
+    }
 
     if (filtered.length === 0) {
       osListContainer.innerHTML = `
         <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 28px; background: rgba(0,0,0,0.2); border-radius: 8px;">
           <i class="fa-solid fa-folder-open" style="font-size: 1.8rem; margin-bottom: 8px; color: var(--text-muted); display: block;"></i>
-          Nenhuma Ordem de Serviço encontrada com os filtros atuais.
+          Nenhuma Ordem de Serviço encontrada para esta sessão.
         </div>
       `;
       return;
@@ -804,6 +943,7 @@ function initWarrantyPortal() {
       const waText = encodeURIComponent(
         `🛠️ *CONSULTA DE ORDEM DE SERVIÇO (GARANTIA Z8)*\n\n` +
         `📋 *OS*: ${os.id}\n` +
+        `🏢 *Unidade*: ${os.company || 'Concessionária'}\n` +
         `🏍️ *Modelo*: ${os.model}\n` +
         `🔢 *Chassi*: ${os.chassi}\n` +
         `⚡ *Componente*: ${os.component}\n` +
@@ -830,6 +970,12 @@ function initWarrantyPortal() {
             <span>Chassi: <code style="background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px; color: var(--accent-cyan);">${os.chassi}</code></span>
             <span>Avaria: <strong style="color: #cbd5e1;">${os.component}</strong></span>
           </div>
+
+          ${isMaster ? `
+            <div style="font-size: 0.73rem; color: #fbbf24; background: rgba(251,191,36,0.06); padding: 3px 6px; border-radius: 4px; display: inline-block;">
+              <i class="fa-solid fa-building"></i> ${os.company || 'Unidade'} (${os.userEmail || 'E-mail não informado'})
+            </div>
+          ` : ''}
 
           <div style="font-size: 0.74rem; color: #64748b; line-height: 1.35; margin-top: 2px;">
             <i class="fa-solid fa-stethoscope"></i> ${os.diagnosis.substring(0, 85)}${os.diagnosis.length > 85 ? '...' : ''}
@@ -901,16 +1047,21 @@ function initWarrantyPortal() {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const techName = techNameInput?.value || 'Técnico Homologado';
-      const techPhone = techPhoneInput?.value || '';
+      const user = getCurrentCatalogUser();
+      if (!user) {
+        alert('Por favor, faça login ou cadastre sua unidade para registrar uma Ordem de Serviço vinculada à sua conta.');
+        document.getElementById('catalog-auth-modal')?.classList.remove('hidden');
+        return;
+      }
+
+      const techName = techNameInput?.value || user.name || 'Técnico Homologado';
+      const techPhone = techPhoneInput?.value || user.phone || '';
       const model = document.getElementById('os-model-select')?.value || '';
       const chassi = document.getElementById('os-chassi')?.value || '';
       const odometer = document.getElementById('os-odometer')?.value || '';
       const component = document.getElementById('os-component')?.value || '';
       const diagnosis = document.getElementById('os-diagnosis')?.value || '';
       const evidenceLink = document.getElementById('os-evidence-link')?.value || 'WhatsApp';
-
-      const user = getCurrentCatalogUser();
 
       const newOrder = saveWarrantyOrder({
         techName,
@@ -923,7 +1074,7 @@ function initWarrantyPortal() {
         component,
         diagnosis,
         evidenceLink
-      });
+      }, user);
 
       // Build structured WhatsApp notification
       const cleanPhone = '5512998008818';
@@ -931,7 +1082,8 @@ function initWarrantyPortal() {
         `🚨 *NOVA ORDEM DE SERVIÇO (GARANTIA DE FÁBRICA) - Z8 E-MOTION*\n\n` +
         `📋 *Número da OS*: ${newOrder.id}\n` +
         `📅 *Data de Abertura*: ${new Date(newOrder.createdAt).toLocaleDateString('pt-BR')}\n\n` +
-        `👤 *Técnico/Franqueado*: ${techName} (${user?.company || 'Unidade Autorizada'})\n` +
+        `🏢 *Unidade*: ${user.company || 'Concessionária Autorizada'} (${user.email})\n` +
+        `👤 *Técnico/Franqueado*: ${techName}\n` +
         `📱 *WhatsApp do Responsável*: ${techPhone}\n\n` +
         `🏍️ *Modelo do Veículo*: ${model}\n` +
         `🔢 *Número do Chassi (VIN)*: ${chassi.toUpperCase()}\n` +
@@ -950,8 +1102,8 @@ function initWarrantyPortal() {
         msgBox.style.border = '1px solid rgba(16,185,129,0.3)';
         msgBox.style.color = '#6ee7b7';
         msgBox.innerHTML = `
-          ✅ <strong>Ordem de Serviço ${newOrder.id} gravada no Banco de Dados com sucesso!</strong><br>
-          A equipe de engenharia e suporte técnico da Z8 foi acionada. <br>
+          ✅ <strong>Ordem de Serviço ${newOrder.id} gravada na sua conta (${user.company}) com sucesso!</strong><br>
+          A equipe de suporte técnico da Z8 Matriz foi acionada. <br>
           <a href="${waUrl}" target="_blank" rel="noopener" style="color: #38bdf8; font-weight: 700; text-decoration: underline; display: inline-block; margin-top: 6px;">
             <i class="fa-brands fa-whatsapp"></i> Clique aqui para notificar no WhatsApp Oficial
           </a>

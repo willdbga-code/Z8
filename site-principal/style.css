@@ -1202,6 +1202,59 @@ input:checked + .rocker-slider:before {
   line-height: 1.45;
 }
 
+.os-account-bar {
+  background: var(--bg-inset);
+  border: 1px solid var(--border-metal);
+  border-radius: 12px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.os-account-bar.logged-in {
+  border-color: rgba(0, 240, 255, 0.3);
+  background: linear-gradient(135deg, var(--bg-inset) 0%, rgba(0, 240, 255, 0.04) 100%);
+}
+
+.os-account-bar.master-admin {
+  border-color: rgba(251, 191, 36, 0.35);
+  background: linear-gradient(135deg, var(--bg-inset) 0%, rgba(251, 191, 36, 0.05) 100%);
+}
+
+.os-account-bar.anonymous {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: linear-gradient(135deg, var(--bg-inset) 0%, rgba(245, 158, 11, 0.05) 100%);
+}
+
+.os-account-info-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.os-account-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-cyan);
+  font-size: 1rem;
+}
+
+.os-account-avatar.gold {
+  background: rgba(251, 191, 36, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
 .os-stats-bar {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
