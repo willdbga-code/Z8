@@ -55,9 +55,10 @@
 
 ---
 
-### **7. TAXAS PERIÓDICAS (ROYALTIES E MARKETING)**
-- **Royalties Mensais**: Isento nos primeiros 6 meses; após, 2% sobre as compras de reposição de peças e acessórios (não incide sobre faturamento bruto do balcão).
-- **Fundo de Propaganda e Marketing Nacional**: 1,5% sobre o valor das compras de lotes, revertido integralmente em campanhas institucionais no Google Ads, Meta Ads e branding de expansão da marca Z8.
+### **7. TAXAS PERIÓDICAS (ROYALTIES, ASSESSORIA DE MARKETING E TRÁFEGO PAGO)**
+- **Royalties Mensais**: Isento nos primeiros 6 meses; após, 2% sobre as compras de reposição de peças e acessórios (não incide sobre o faturamento bruto do balcão).
+- **Taxa de Assessoria e Criação de Marketing Z8**: **R$ 3.000,00 (três mil reais) fixos mensais por unidade**, destinados exclusivamente à remuneração da equipe interna de marketing, design, produção de criativos audiovisuais de alta conversão, catálogos, materiais de PDV e gestão estratégica e técnica das contas de anúncios da rede.
+- **Verba Mínima de Tráfego Pago Local (Investimento Direto)**: Investimento mínimo obrigatório de **R$ 1.000,00 (um mil reais) mensais**, custeados diretamente pela Franqueada através de seu próprio meio de pagamento (cartão ou boleto em nome de seu CNPJ) nas plataformas de anúncios (Meta Ads / Google Ads), sob administração e otimização diária da equipe técnica de tráfego da Z8 E-Motion para direcionamento de leads locais qualificados para o WhatsApp da unidade.
 
 ---
 
