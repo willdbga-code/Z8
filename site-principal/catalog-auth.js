@@ -50,6 +50,71 @@ const DEFAULT_USERS = [
     status: 'pending',
     updatedAt: 1000,
     createdAt: new Date().toISOString()
+  },
+  {
+    id: 'user_demo_03',
+    name: 'Marcio Silva',
+    company: 'E-Motion Sul Distribuidora',
+    city: 'Curitiba - PR',
+    email: 'marcio@emotionsul.com.br',
+    phone: '(41) 99111-2233',
+    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
+    role: 'partner',
+    status: 'pending',
+    updatedAt: 1000,
+    createdAt: new Date(Date.now() - 86400000 * 4).toISOString()
+  },
+  {
+    id: 'user_demo_04',
+    name: 'Lucas Santos',
+    company: 'Litoral Elétrico Santos',
+    city: 'Santos - SP',
+    email: 'lucas@litoraleletrico.com.br',
+    phone: '(13) 99222-3344',
+    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
+    role: 'partner',
+    status: 'pending',
+    updatedAt: 1000,
+    createdAt: new Date(Date.now() - 86400000 * 5).toISOString()
+  },
+  {
+    id: 'user_demo_05',
+    name: 'Juliana Ferreira',
+    company: 'BH Scooters & Bikes Elétricas',
+    city: 'Belo Horizonte - MG',
+    email: 'juliana@bhscooters.com.br',
+    phone: '(31) 99333-4455',
+    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
+    role: 'partner',
+    status: 'pending',
+    updatedAt: 1000,
+    createdAt: new Date(Date.now() - 86400000 * 6).toISOString()
+  },
+  {
+    id: 'user_demo_06',
+    name: 'Roberto Albuquerque',
+    company: 'Nordeste Mobilidade E-Motion',
+    city: 'Recife - PE',
+    email: 'roberto@nordestemobilidade.com.br',
+    phone: '(81) 99444-5566',
+    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
+    role: 'partner',
+    status: 'pending',
+    updatedAt: 1000,
+    createdAt: new Date(Date.now() - 86400000 * 7).toISOString()
+  },
+  {
+    id: 'user_demo_07',
+    name: 'Fernando Guedes',
+    company: 'Guedes E-Motors',
+    city: 'Ribeirão Preto - SP',
+    email: 'fernando@guedesmotos.com.br',
+    phone: '(16) 99555-6677',
+    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
+    role: 'partner',
+    status: 'pending',
+    updatedAt: 1000,
+    createdAt: new Date(Date.now() - 86400000 * 8).toISOString()
   }
 ];
 
@@ -148,14 +213,14 @@ export function getRegisteredUsers() {
       users = JSON.parse(raw);
     }
 
-    // Ensure default demo users exist
+    // 1. Ensure default network homologated users exist
     DEFAULT_USERS.forEach(du => {
       if (!users.find(u => u.email.toLowerCase() === du.email.toLowerCase())) {
         users.push(du);
       }
     });
 
-    // Auto-sync leads from CRM if any exists
+    // 2. Auto-sync leads from CRM Database (z8_crm_leads_data)
     try {
       const crmRaw = localStorage.getItem('z8_crm_leads_data');
       if (crmRaw) {
@@ -164,14 +229,15 @@ export function getRegisteredUsers() {
           if (l.email && !users.find(u => u.email.toLowerCase() === l.email.toLowerCase())) {
             users.push({
               id: 'user_lead_' + (l.id || Date.now()),
-              name: l.name || 'Parceiro Z8',
-              company: l.company || 'Empresa Parceira',
+              name: l.name || 'Lead Comercial',
+              company: l.company || l.name || 'Empresa Interessada',
               city: l.city || 'São Paulo - SP',
               email: l.email.toLowerCase(),
               phone: l.phone || '',
               password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
               role: 'partner',
-              status: 'pending',
+              status: l.status || 'pending',
+              updatedAt: 1000,
               createdAt: l.createdAt || new Date().toISOString()
             });
           }
@@ -181,13 +247,65 @@ export function getRegisteredUsers() {
       console.warn('CRM sync info:', e);
     }
 
-    // Ensure admin is always approved
+    // 3. Auto-sync users from Warranty OS Database (z8_warranty_service_orders_db)
+    try {
+      const osRaw = localStorage.getItem('z8_warranty_service_orders_db');
+      if (osRaw) {
+        const orders = JSON.parse(osRaw);
+        orders.forEach(o => {
+          if (o.userEmail && !users.find(u => u.email.toLowerCase() === o.userEmail.toLowerCase())) {
+            users.push({
+              id: o.userId || ('user_os_' + Date.now()),
+              name: o.techName || o.company || 'Oficina Credenciada',
+              company: o.company || 'Oficina Credenciada Z8',
+              city: o.city || 'São Paulo - SP',
+              email: o.userEmail.toLowerCase(),
+              phone: o.techPhone || '',
+              password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
+              role: 'partner',
+              status: 'pending',
+              updatedAt: 1000,
+              createdAt: o.createdAt || new Date().toISOString()
+            });
+          }
+        });
+      }
+    } catch (e) {
+      console.warn('OS sync info:', e);
+    }
+
+    // 4. Auto-sync active session user if stored
+    try {
+      const sessionUserRaw = localStorage.getItem('z8_catalog_auth_user') || sessionStorage.getItem('z8_catalog_auth_user');
+      if (sessionUserRaw) {
+        const su = JSON.parse(sessionUserRaw);
+        if (su.email && !users.find(u => u.email.toLowerCase() === su.email.toLowerCase())) {
+          users.push({
+            id: su.id || ('user_sess_' + Date.now()),
+            name: su.name || 'Parceiro Z8',
+            company: su.company || 'Loja Parceira',
+            city: su.city || 'São Paulo - SP',
+            email: su.email.toLowerCase(),
+            phone: su.phone || '',
+            password: su.password || 'z8@2026',
+            role: su.role || 'partner',
+            status: su.status || 'pending',
+            updatedAt: 1000,
+            createdAt: su.createdAt || new Date().toISOString()
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('Session user sync info:', e);
+    }
+
+    // 5. Ensure admin is always master approved
     const normalized = users.map(u => {
       if (u.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
         u.status = 'approved';
         u.role = 'admin';
       } else if (!u.status) {
-        u.status = 'approved'; // default legacy users
+        u.status = 'pending';
       }
       return u;
     });
@@ -379,22 +497,47 @@ export function updateUserStatus(userId, newStatus) {
   const users = getRegisteredUsers();
   let updatedUser = null;
   const now = Date.now();
+  const searchKey = String(userId).trim().toLowerCase();
+
   const updated = users.map(u => {
-    if (u.id === userId && u.email.toLowerCase() !== MASTER_ADMIN_EMAIL.toLowerCase()) {
+    const isTarget = (
+      String(u.id).toLowerCase() === searchKey ||
+      (u.email && u.email.toLowerCase() === searchKey)
+    );
+    if (isTarget && u.email.toLowerCase() !== MASTER_ADMIN_EMAIL.toLowerCase()) {
       u.status = newStatus;
       u.updatedAt = now;
       updatedUser = u;
     }
     return u;
   });
+
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updated));
   pushUsersToCloud(updated);
 
+  // Sincroniza status no banco de Leads do CRM se existir
+  try {
+    const crmRaw = localStorage.getItem('z8_crm_leads_data');
+    if (crmRaw && updatedUser) {
+      const leads = JSON.parse(crmRaw);
+      const crmUpdated = leads.map(l => {
+        if (l.email && l.email.toLowerCase() === updatedUser.email.toLowerCase()) {
+          l.status = newStatus;
+        }
+        return l;
+      });
+      localStorage.setItem('z8_crm_leads_data', JSON.stringify(crmUpdated));
+    }
+  } catch (e) {
+    console.warn('CRM leads status sync error:', e);
+  }
+
   // Se o usuário atual for o mesmo modificado, atualiza a sessão local
   const currentUser = getCurrentCatalogUser();
-  if (currentUser && currentUser.id === userId && updatedUser) {
-    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(updatedUser));
-    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(updatedUser));
+  if (currentUser && updatedUser && (String(currentUser.id).toLowerCase() === String(updatedUser.id).toLowerCase() || currentUser.email.toLowerCase() === updatedUser.email.toLowerCase())) {
+    const sessionObj = { ...currentUser, status: newStatus, updatedAt: now };
+    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(sessionObj));
+    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(sessionObj));
   }
 
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));

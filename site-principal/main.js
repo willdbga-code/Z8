@@ -1214,6 +1214,10 @@ function initCatalogAuth() {
         updateUserStatus(id, 'approved');
         renderAdminUsersList();
         renderShowroom();
+        renderOrderDesk();
+        initCalculator();
+        renderDownloads();
+        renderOSDashboard();
         return;
       }
 
@@ -1223,6 +1227,10 @@ function initCatalogAuth() {
         updateUserStatus(id, 'blocked');
         renderAdminUsersList();
         renderShowroom();
+        renderOrderDesk();
+        initCalculator();
+        renderDownloads();
+        renderOSDashboard();
         return;
       }
 
@@ -1233,6 +1241,10 @@ function initCatalogAuth() {
           deleteCatalogUser(id);
           renderAdminUsersList();
           renderShowroom();
+          renderOrderDesk();
+          initCalculator();
+          renderDownloads();
+          renderOSDashboard();
         }
         return;
       }
