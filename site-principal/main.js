@@ -132,15 +132,15 @@ function renderShowroom(filterCategory = 'todos') {
             <span class="price-label">Preço Atacado Fábrica</span>
             <span class="price-val" style="color: #fbbf24; font-size: 0.85rem;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>
           </div>
-          <div class="price-margin" style="background: rgba(251,191,36,0.15); color: #fbbf24; border-color: rgba(251,191,36,0.3);">
+          <button type="button" class="price-margin btn-unlock-price" data-model="${model.name}" data-code="${model.code}" style="background: rgba(251,191,36,0.18); color: #fbbf24; border: 1px solid rgba(251,191,36,0.4); cursor: pointer; border-radius: 6px; padding: 5px 12px; font-weight: 700; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
             <i class="fa-brands fa-whatsapp"></i> Liberar Acesso
-          </div>
+          </button>
         </div>
       `;
 
     const specMarkup = approved
       ? `<div class="spec-item"><i class="fa-solid fa-chart-line"></i> ${markupPct}% Markup</div>`
-      : `<div class="spec-item" style="color: #fbbf24;"><i class="fa-solid fa-lock"></i> Tabela Restrita</div>`;
+      : `<div class="spec-item btn-unlock-price" data-model="${model.name}" data-code="${model.code}" style="color: #fbbf24; cursor: pointer;"><i class="fa-solid fa-lock"></i> Tabela Restrita</div>`;
 
     return `
     <div class="skeuo-card model-card animate-on-scroll">
@@ -180,6 +180,26 @@ function renderShowroom(filterCategory = 'todos') {
     btn.addEventListener('click', () => {
       const modelId = btn.getAttribute('data-id');
       openModelModal(modelId);
+    });
+  });
+
+  // Wire up 'Liberar Acesso' and 'Tabela Restrita' unlock buttons
+  grid.querySelectorAll('.btn-unlock-price').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const modelName = btn.getAttribute('data-model') || 'Z8 E-Motion';
+      const user = getCurrentCatalogUser();
+      const cleanPhone = '5512998008818';
+
+      let msg = '';
+      if (user) {
+        msg = `Olá Christian! Sou ${user.name || user.company} da empresa ${user.company || 'Parceira'} (e-mail: ${user.email}). Solicitei cadastro no catálogo Z8 e gostaria de liberar meu acesso para visualizar os preços de atacado e margens do modelo ${modelName}.`;
+      } else {
+        msg = `Olá Christian! Estou visualizando o catálogo da Z8 E-Motion e gostaria de liberar meu acesso para consultar os preços e condições de atacado do modelo ${modelName}.`;
+      }
+
+      const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`;
+      window.open(waUrl, '_blank');
     });
   });
 }
