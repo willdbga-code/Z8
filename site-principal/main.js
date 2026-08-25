@@ -6,7 +6,8 @@ import {
   saveWarrantyOrder,
   updateWarrantyOrderStatus,
   deleteWarrantyOrder,
-  getWarrantyOrderById
+  getWarrantyOrderById,
+  fetchWarrantyOrdersFromFirestore
 } from './data/warranty-db.js';
 import {
   getRegisteredUsers,
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Cloud sync on startup
   fetchUsersFromCloud();
+  fetchWarrantyOrdersFromFirestore();
 
   initThemeToggle();
   initNavigation();
