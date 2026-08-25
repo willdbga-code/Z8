@@ -673,12 +673,14 @@ function openModelModal(modelId) {
    8. CATALOG ACCESS CONTROL & ADMIN APPROVAL MANAGEMENT
    -------------------------------------------------------------------------- */
 function initCatalogAuth() {
-  const loginGate = document.getElementById('catalog-login-gate');
+  const loginModal = document.getElementById('catalog-login-modal');
   const mainContent = document.getElementById('catalog-main-content');
   const adminModal = document.getElementById('catalog-admin-modal');
   const openLoginBtn = document.getElementById('open-catalog-login-btn');
   const openAdminBtn = document.getElementById('open-catalog-admin-btn');
   const closeAdminBtn = document.getElementById('close-catalog-admin-btn');
+  const closeLoginModalBtn = document.getElementById('close-cat-login-modal');
+  const closeLoginBottomBtn = document.getElementById('close-cat-modal-bottom-btn');
   const badgeText = document.getElementById('catalog-user-badge');
 
   const tabLoginBtn = document.getElementById('tab-cat-login');
@@ -699,9 +701,9 @@ function initCatalogAuth() {
     const pendingName = document.getElementById('pending-user-name');
     const pendingCta = document.getElementById('pending-whatsapp-cta');
 
+    if (mainContent) mainContent.style.display = 'block';
+
     if (user) {
-      if (loginGate) loginGate.style.display = 'none';
-      if (mainContent) mainContent.style.display = 'block';
       if (badgeText) badgeText.textContent = `Sair (${(user.name || user.email).split(' ')[0]})`;
       if (openAdminBtn) {
         openAdminBtn.style.display = (user.email.toLowerCase() === 'christian.tkh@gmail.com') ? 'inline-flex' : 'none';
@@ -728,8 +730,6 @@ function initCatalogAuth() {
         }
       }
     } else {
-      if (loginGate) loginGate.style.display = 'flex';
-      if (mainContent) mainContent.style.display = 'none';
       if (badgeText) badgeText.textContent = 'Área de Login';
       if (openAdminBtn) openAdminBtn.style.display = 'none';
       if (pendingBanner) pendingBanner.style.display = 'none';
@@ -758,16 +758,38 @@ function initCatalogAuth() {
 
   document.addEventListener('click', (e) => {
     if (e.target.closest('#open-catalog-login-btn') || e.target.closest('.open-catalog-login-trigger')) {
+      e.preventDefault();
       const user = getCurrentCatalogUser();
       if (user) {
         if (confirm(`Você está conectado como ${user.name || user.email}. Deseja sair da conta?`)) {
           logoutCatalogUser();
+          if (loginModal) loginModal.classList.remove('hidden');
         }
       } else {
-        if (loginGate) loginGate.style.display = 'flex';
+        if (loginModal) loginModal.classList.remove('hidden');
       }
     }
   });
+
+  if (closeLoginModalBtn) {
+    closeLoginModalBtn.addEventListener('click', () => {
+      loginModal?.classList.add('hidden');
+    });
+  }
+
+  if (closeLoginBottomBtn) {
+    closeLoginBottomBtn.addEventListener('click', () => {
+      loginModal?.classList.add('hidden');
+    });
+  }
+
+  if (loginModal) {
+    loginModal.addEventListener('click', (e) => {
+      if (e.target === loginModal) {
+        loginModal.classList.add('hidden');
+      }
+    });
+  }
 
   let adminSyncInterval = null;
   if (openAdminBtn) {
@@ -932,6 +954,8 @@ function initCatalogAuth() {
       const res = loginCatalogUser(userVal, passVal);
       if (res.success) {
         if (loginMsg) loginMsg.style.display = 'none';
+        loginForm.reset();
+        if (loginModal) loginModal.classList.add('hidden');
         updateHeaderAuth();
         renderShowroom();
       } else {
@@ -977,6 +1001,7 @@ function initCatalogAuth() {
           regMsg.innerHTML = `🎉 <strong>Conta criada com sucesso!</strong> Acessando o Portal Z8...`;
         }
         setTimeout(() => {
+          if (loginModal) loginModal.classList.add('hidden');
           updateHeaderAuth();
           renderShowroom();
         }, 800);
