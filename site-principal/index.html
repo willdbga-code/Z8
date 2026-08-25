@@ -50,7 +50,10 @@
           <i class="fa-solid fa-boxes-packing"></i> Portal do Franqueado
         </button>
         <button class="skeuo-nav-btn" data-target="warranty">
-          <i class="fa-solid fa-shield-halved"></i> Garantia & Suporte
+          <i class="fa-solid fa-shield-halved"></i> Garantia & O.S
+        </button>
+        <button class="skeuo-nav-btn" data-target="downloads">
+          <i class="fa-solid fa-file-pdf"></i> Central de Manuais
         </button>
         <button class="skeuo-nav-btn" id="open-catalog-login-btn" style="color: #00F2FE; border: 1px solid rgba(0,242,254,0.3);">
           <i class="fa-solid fa-right-to-bracket"></i> <span id="catalog-user-badge">Área de Login</span>
@@ -412,11 +415,11 @@
       </div>
     </section>
 
-    <!-- SECTION: GARANTIA DE FÁBRICA, ORDEM DE SERVIÇO (OS) & MANUAIS TÉCNICOS -->
+    <!-- SECTION: GARANTIA DE FÁBRICA & GESTÃO DE ORDENS DE SERVIÇO (OS) -->
     <section id="warranty-section" class="section-container skeuo-panel">
       <div class="section-header">
-        <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> 6. Fluxo Oficial de Acionamento de Garantia & Assistência Técnica</h2>
-        <p class="section-sub">Procedimento homologado de pós-venda, abertura de Ordem de Serviço (OS) com SLA de 48h e reposição prioritária de peças genuínas.</p>
+        <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> 6. Fluxo Oficial de Garantia & Gestão de Ordens de Serviço (OS)</h2>
+        <p class="section-sub">Procedimento homologado de pós-venda, abertura de O.S com SLA de 48h, banco de dados em tempo real e reposição prioritária de peças.</p>
       </div>
 
       <!-- 4-STEP VISUAL FLOW CARD -->
@@ -450,15 +453,35 @@
         </div>
       </div>
 
-      <!-- INTERACTIVE OS FORM & TICKETS DASHBOARD -->
-      <div class="warranty-split-grid" style="margin-top: 36px;">
-        <!-- FORMULARIO DE ABERTURA DE OS -->
+      <!-- LIVE DATABASE STATS COUNTERS -->
+      <div class="os-stats-bar">
+        <div class="os-stat-card">
+          <span class="os-stat-label"><i class="fa-solid fa-clipboard-list"></i> Total de O.S</span>
+          <span class="os-stat-val text-cyan" id="stat-total-os">0</span>
+        </div>
+        <div class="os-stat-card">
+          <span class="os-stat-label"><i class="fa-solid fa-hourglass-half"></i> Em Análise (SLA 48h)</span>
+          <span class="os-stat-val text-gold" id="stat-analyzing-os">0</span>
+        </div>
+        <div class="os-stat-card">
+          <span class="os-stat-label"><i class="fa-solid fa-truck-ramp-box"></i> Aprovadas / Em Trânsito</span>
+          <span class="os-stat-val text-emerald" id="stat-approved-os">0</span>
+        </div>
+        <div class="os-stat-card">
+          <span class="os-stat-label"><i class="fa-solid fa-circle-check"></i> Concluídas</span>
+          <span class="os-stat-val" style="color: #a855f7;" id="stat-completed-os">0</span>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE OS SPLIT GRID -->
+      <div class="warranty-split-grid" style="margin-top: 28px;">
+        <!-- COLUNA 1: FORMULÁRIO DE ABERTURA DE OS -->
         <div class="skeuo-card warranty-form-panel">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.05rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px;">
               <i class="fa-solid fa-wrench"></i> Abrir Nova Ordem de Serviço (OS)
             </h3>
-            <span class="skeuo-badge" id="auto-os-code">OS-2026-0001</span>
+            <span class="skeuo-badge" id="auto-os-code">OS-2026-0104</span>
           </div>
 
           <form id="warranty-os-form">
@@ -470,8 +493,8 @@
                 <input type="text" id="os-tech-name" class="os-input" placeholder="Nome do Responsável Técnico" required />
               </div>
               <div class="form-group">
-                <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp / Celular:</label>
-                <input type="text" id="os-tech-phone" class="os-input" placeholder="(12) 99999-9999" required />
+                <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp / Contato:</label>
+                <input type="text" id="os-tech-phone" class="os-input" placeholder="(12) 99800-8818" required />
               </div>
             </div>
 
@@ -495,7 +518,7 @@
               </div>
               <div class="form-group">
                 <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-barcode"></i> Número do Chassi (VIN):</label>
-                <input type="text" id="os-chassi" class="os-input" placeholder="Ex: 9Z8...0451" required />
+                <input type="text" id="os-chassi" class="os-input" placeholder="Ex: 9Z8DB018K99042" required />
               </div>
             </div>
 
@@ -532,81 +555,131 @@
             </div>
 
             <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 14px;">
-              <i class="fa-solid fa-paper-plane"></i> Submeter Ordem de Serviço & Notificar Suporte Z8
+              <i class="fa-solid fa-paper-plane"></i> Gravar O.S no Banco de Dados & Notificar Suporte Z8
             </button>
           </form>
         </div>
 
-        <!-- PAINEL LATERAL: HISTORICO DE OS & CENTRAL DE MANUAIS -->
-        <div style="display: flex; flex-direction: column; gap: 24px;">
-          <!-- LISTA DE ORDENS DE SERVICO -->
-          <div class="skeuo-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-              <h3 style="font-family: 'Orbitron', sans-serif; font-size: 0.95rem; color: #fff; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-list-check"></i> Chamados de Garantia (OS da Unidade)
-              </h3>
-              <span style="font-size: 0.75rem; color: var(--text-muted);" id="os-count-badge">0 chamados</span>
-            </div>
-            <div id="warranty-os-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto;">
-              <!-- Preenchido via JS -->
-            </div>
-          </div>
-
-          <!-- CENTRAL DE MANUAIS E DOWNLOADS -->
-          <div class="skeuo-card">
-            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 0.95rem; color: var(--accent-gold); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-book-bookmark"></i> Manuais Oficiais da Franquia (Downloads)
+        <!-- COLUNA 2: PAINEL DE GESTÃO DE OS (BANCO DE DADOS EM TEMPO REAL) -->
+        <div class="skeuo-card warranty-orders-dashboard">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1rem; color: #fff; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-database"></i> Painel de O.S (Banco de Dados)
             </h3>
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
-              Documentação técnica, operacional e jurídica para consulta da equipe e oficina.
-            </p>
-            <div class="manuals-download-grid">
-              <a href="/docs/manuais/MANUAL_DE_IDENTIDADE_VISUAL_E_ARQUITETURA_Z8.pdf" target="_blank" rel="noopener" class="manual-download-item">
-                <i class="fa-solid fa-palette text-cyan"></i>
-                <div class="manual-info">
-                  <strong>Brandbook & Arquitetura Z8</strong>
-                  <span>PDF • Identidade Visual & Showroom</span>
-                </div>
-                <i class="fa-solid fa-download download-icon"></i>
-              </a>
+            <span style="font-size: 0.78rem; color: var(--accent-cyan); font-weight: 700;" id="os-count-badge">Carregando chamados...</span>
+          </div>
 
-              <a href="/docs/manuais/MANUAL_DE_OPERACOES_E_VENDAS_CONSULTIVAS.pdf" target="_blank" rel="noopener" class="manual-download-item">
-                <i class="fa-solid fa-briefcase text-gold"></i>
-                <div class="manual-info">
-                  <strong>Manual de Operações & Vendas</strong>
-                  <span>PDF • Vendas Consultivas B2B/B2C</span>
-                </div>
-                <i class="fa-solid fa-download download-icon"></i>
-              </a>
-
-              <a href="/docs/manuais/MANUAL_DE_ASSISTENCIA_TECNICA_E_MANUTENCAO_PREVENTIVA.pdf" target="_blank" rel="noopener" class="manual-download-item">
-                <i class="fa-solid fa-wrench text-emerald"></i>
-                <div class="manual-info">
-                  <strong>Manual de Assistência Técnica & PDI</strong>
-                  <span>PDF • Oficina, Torques & Manutenção</span>
-                </div>
-                <i class="fa-solid fa-download download-icon"></i>
-              </a>
-
-              <a href="/docs/manuais/TREINAMENTO_TECNICO_INICIAL_16H.pdf" target="_blank" rel="noopener" class="manual-download-item">
-                <i class="fa-solid fa-bolt text-cyan"></i>
-                <div class="manual-info">
-                  <strong>Treinamento Técnico Inicial (16H)</strong>
-                  <span>PDF • Baterias Lítio, BMS, FOC & BLDC</span>
-                </div>
-                <i class="fa-solid fa-download download-icon"></i>
-              </a>
-
-              <a href="/docs/juridico/TERMO_DE_ENTREGA_TECNICA_E_PDI.pdf" target="_blank" rel="noopener" class="manual-download-item">
-                <i class="fa-solid fa-clipboard-check text-emerald"></i>
-                <div class="manual-info">
-                  <strong>Termo de Entrega Técnica & PDI</strong>
-                  <span>PDF • Checklist Oficial 32 Pontos</span>
-                </div>
-                <i class="fa-solid fa-download download-icon"></i>
-              </a>
+          <!-- FILTROS DE STATUS E BUSCA -->
+          <div class="os-filter-controls">
+            <div class="os-status-pills">
+              <button class="os-filter-pill active" data-status="all">Todas</button>
+              <button class="os-filter-pill" data-status="analyzing">⏳ Em Análise</button>
+              <button class="os-filter-pill" data-status="approved">🚚 Aprovadas</button>
+              <button class="os-filter-pill" data-status="completed">✅ Concluídas</button>
+            </div>
+            <div style="margin-top: 10px;">
+              <input type="text" id="os-search-input" class="os-input" placeholder="🔍 Buscar por Nº OS, Chassi, Modelo ou Técnico..." style="padding: 8px 12px; font-size: 0.8rem;" />
             </div>
           </div>
+
+          <!-- LISTA DINÂMICA DE ORDENS DE SERVIÇO DO BANCO -->
+          <div id="warranty-os-list" class="os-cards-scroll-container">
+            <!-- Preenchido via JS diretamente do banco de dados -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION: CENTRAL OFICIAL DE MANUAIS E DOWNLOADS (SEPARADA & DEDICADA) -->
+    <section id="downloads-section" class="section-container skeuo-panel">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fa-solid fa-book-bookmark"></i> 7. Central Oficial de Manuais & Documentos Técnicos da Franquia</h2>
+        <p class="section-sub">Acesse e faça o download dos manuais homologados, diretrizes de arquitetura, apostilas técnicas e pareceres regulatórios da rede Z8 E-Motion.</p>
+      </div>
+
+      <div class="official-manuals-showcase-grid">
+        <!-- Manual 1: Brandbook & Arquitetura -->
+        <div class="skeuo-card manual-showcase-card">
+          <div class="manual-badge-header">
+            <span class="skeuo-badge">Brandbook Oficial</span>
+            <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-file-pdf text-cyan"></i> PDF</span>
+          </div>
+          <div class="manual-showcase-icon text-cyan"><i class="fa-solid fa-palette"></i></div>
+          <h3 class="manual-showcase-title">Manual de Identidade Visual & Arquitetura Z8</h3>
+          <p class="manual-showcase-desc">Padrões de letreiro em ACM, iluminação Backlight LED 6500K, planta baixa do showroom em 4 zonas, paleta de cores e uniformes oficiais.</p>
+          <a href="/docs/manuais/MANUAL_DE_IDENTIDADE_VISUAL_E_ARQUITETURA_Z8.pdf" target="_blank" rel="noopener" class="skeuo-button secondary-metal-btn full-width manual-btn">
+            <i class="fa-solid fa-download"></i> Baixar Manual em PDF
+          </a>
+        </div>
+
+        <!-- Manual 2: Operações & Vendas -->
+        <div class="skeuo-card manual-showcase-card">
+          <div class="manual-badge-header">
+            <span class="skeuo-badge gold">Gestão Comercial</span>
+            <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-file-pdf text-gold"></i> PDF</span>
+          </div>
+          <div class="manual-showcase-icon text-gold"><i class="fa-solid fa-briefcase"></i></div>
+          <h3 class="manual-showcase-title">Manual de Operações & Vendas Consultivas</h3>
+          <p class="manual-showcase-desc">Procedimentos Operacionais Padrão (POP), protocolo obrigatório de Test-Ride, cálculo de economia de combustível (R$ 0,025/km) e quebra de objeções.</p>
+          <a href="/docs/manuais/MANUAL_DE_OPERACOES_E_VENDAS_CONSULTIVAS.pdf" target="_blank" rel="noopener" class="skeuo-button secondary-metal-btn full-width manual-btn">
+            <i class="fa-solid fa-download"></i> Baixar Manual em PDF
+          </a>
+        </div>
+
+        <!-- Manual 3: Assistência Técnica & PDI -->
+        <div class="skeuo-card manual-showcase-card">
+          <div class="manual-badge-header">
+            <span class="skeuo-badge" style="border-color: #10B981; color: #10B981; background: rgba(16,185,129,0.1);">Oficina & Pós-Venda</span>
+            <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-file-pdf text-emerald"></i> PDF</span>
+          </div>
+          <div class="manual-showcase-icon text-emerald"><i class="fa-solid fa-wrench"></i></div>
+          <h3 class="manual-showcase-title">Manual de Assistência Técnica, PDI & Manutenção</h3>
+          <p class="manual-showcase-desc">Ferramental mínimo obrigatório da oficina, Checklist de PDI em 32 pontos, plano de revisões programadas (300km a 5.000km) e tabela de torques em Nm.</p>
+          <a href="/docs/manuais/MANUAL_DE_ASSISTENCIA_TECNICA_E_MANUTENCAO_PREVENTIVA.pdf" target="_blank" rel="noopener" class="skeuo-button secondary-metal-btn full-width manual-btn">
+            <i class="fa-solid fa-download"></i> Baixar Manual em PDF
+          </a>
+        </div>
+
+        <!-- Manual 4: Treinamento Técnico 16H -->
+        <div class="skeuo-card manual-showcase-card">
+          <div class="manual-badge-header">
+            <span class="skeuo-badge" style="border-color: #a855f7; color: #c084fc; background: rgba(168,85,247,0.1);">Capacitação Técnica</span>
+            <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-file-pdf text-cyan"></i> PDF</span>
+          </div>
+          <div class="manual-showcase-icon" style="color: #c084fc;"><i class="fa-solid fa-bolt"></i></div>
+          <h3 class="manual-showcase-title">Treinamento Técnico Inicial Homologado (16H)</h3>
+          <p class="manual-showcase-desc">Apostila completa dos 4 módulos técnicos: Baterias Lítio/LiFePO4 & BMS, Controladores FOC, Motores BLDC de Cubo e Diagnóstico de Falhas com Osciloscópio.</p>
+          <a href="/docs/manuais/TREINAMENTO_TECNICO_INICIAL_16H.pdf" target="_blank" rel="noopener" class="skeuo-button secondary-metal-btn full-width manual-btn">
+            <i class="fa-solid fa-download"></i> Baixar Apostila em PDF
+          </a>
+        </div>
+
+        <!-- Manual 5: Checklist PDI Oficial -->
+        <div class="skeuo-card manual-showcase-card">
+          <div class="manual-badge-header">
+            <span class="skeuo-badge">Termo & Checklist</span>
+            <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-file-pdf text-emerald"></i> PDF</span>
+          </div>
+          <div class="manual-showcase-icon text-emerald"><i class="fa-solid fa-clipboard-check"></i></div>
+          <h3 class="manual-showcase-title">Termo de Entrega Técnica & Checklist de PDI</h3>
+          <p class="manual-showcase-desc">Instrumento formal de entrega ao consumidor final com checklist de 32 itens de segurança para assinatura e validação da garantia de fábrica.</p>
+          <a href="/docs/juridico/TERMO_DE_ENTREGA_TECNICA_E_PDI.pdf" target="_blank" rel="noopener" class="skeuo-button secondary-metal-btn full-width manual-btn">
+            <i class="fa-solid fa-download"></i> Baixar Documento em PDF
+          </a>
+        </div>
+
+        <!-- Manual 6: Parecer CONTRAN 996 -->
+        <div class="skeuo-card manual-showcase-card">
+          <div class="manual-badge-header">
+            <span class="skeuo-badge gold">Segurança Jurídica</span>
+            <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-file-pdf text-gold"></i> PDF</span>
+          </div>
+          <div class="manual-showcase-icon text-gold"><i class="fa-solid fa-scale-balanced"></i></div>
+          <h3 class="manual-showcase-title">Parecer Regulatório Resolução CONTRAN 996/2023</h3>
+          <p class="manual-showcase-desc">Dossiê jurídico detalhado atestando a legalidade da circulação dos veículos elétricos leves autopropelidos em ciclovias e vias públicas no território nacional.</p>
+          <a href="/docs/juridico/PARECER_REGULATORIO_CONTRAN_996.pdf" target="_blank" rel="noopener" class="skeuo-button secondary-metal-btn full-width manual-btn">
+            <i class="fa-solid fa-download"></i> Baixar Parecer em PDF
+          </a>
         </div>
       </div>
     </section>
@@ -774,6 +847,16 @@
             <!-- Renderizado via JS -->
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: FICHA TÉCNICA E GESTÃO DA ORDEM DE SERVIÇO (OS) -->
+  <div id="modal-os-detail" class="skeuo-modal-backdrop hidden">
+    <div class="skeuo-modal-box skeuo-panel" style="max-width: 680px; position: relative;">
+      <button class="modal-close-btn" id="close-os-modal-btn"><i class="fa-solid fa-xmark"></i></button>
+      <div id="modal-os-detail-body">
+        <!-- Preenchido via JS -->
       </div>
     </div>
   </div>

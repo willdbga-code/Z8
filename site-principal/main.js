@@ -1,6 +1,13 @@
 import { z8Models } from './data/models.js';
 import { franchiseTiers, complianceInfo } from './data/franchiseInfo.js';
 import {
+  getStoredWarrantyOrders,
+  saveWarrantyOrder,
+  updateWarrantyOrderStatus,
+  deleteWarrantyOrder,
+  getWarrantyOrderById
+} from './data/warranty-db.js';
+import {
   getRegisteredUsers,
   registerCatalogUser,
   loginCatalogUser,
@@ -689,53 +696,10 @@ function initCatalogAuth() {
 }
 
 /* --------------------------------------------------------------------------
-   8. WARRANTY & OS TECHNICAL PORTAL
+   8. WARRANTY & OS DATABASE ENGINE & REAL-TIME DASHBOARD
    -------------------------------------------------------------------------- */
-const WARRANTY_OS_STORAGE_KEY = 'z8_warranty_orders_list';
-
-const DEFAULT_OS_ORDERS = [
-  {
-    id: 'OS-2026-0104',
-    techName: 'Carlos Silveira',
-    techPhone: '(11) 98888-7777',
-    model: 'Z8 Tank High-Speed (DB018)',
-    chassi: '9Z8DB018K99042',
-    odometer: '1240',
-    component: 'Módulo Controlador FOC',
-    diagnosis: 'Controlador apresentou aquecimento acima de 85°C e corte intermitente de aceleração.',
-    evidenceLink: 'https://drive.google.com/drive/u/0/folders/z8-evidence-0104',
-    status: 'approved',
-    statusText: 'Aprovado - Peça Despachada',
-    createdAt: new Date(Date.now() - 86400000).toLocaleDateString('pt-BR')
-  },
-  {
-    id: 'OS-2026-0105',
-    techName: 'Roberto Mecânico Z8',
-    techPhone: '(12) 97777-6666',
-    model: 'Z8 FX-10 Sport (DB043)',
-    chassi: '9Z8DB043L11093',
-    odometer: '380',
-    component: 'Bateria de Lítio / BMS',
-    diagnosis: 'Desbalanceamento celular detectado (bloco 4 com 3.1V vs 3.8V nos demais).',
-    evidenceLink: 'Envio via WhatsApp',
-    status: 'analyzing',
-    statusText: 'Em Análise (SLA 48h)',
-    createdAt: new Date().toLocaleDateString('pt-BR')
-  }
-];
-
-function getWarrantyOrders() {
-  try {
-    const raw = localStorage.getItem(WARRANTY_OS_STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(WARRANTY_OS_STORAGE_KEY, JSON.stringify(DEFAULT_OS_ORDERS));
-      return DEFAULT_OS_ORDERS;
-    }
-    return JSON.parse(raw);
-  } catch (e) {
-    return DEFAULT_OS_ORDERS;
-  }
-}
+let currentOSFilter = 'all';
+let currentOSSearch = '';
 
 function initWarrantyPortal() {
   const form = document.getElementById('warranty-os-form');
@@ -745,8 +709,10 @@ function initWarrantyPortal() {
   const msgBox = document.getElementById('warranty-form-msg');
   const techNameInput = document.getElementById('os-tech-name');
   const techPhoneInput = document.getElementById('os-tech-phone');
+  const searchInput = document.getElementById('os-search-input');
+  const filterPills = document.querySelectorAll('.os-filter-pill');
 
-  // Pre-fill user data if available
+  // Pre-fill user data if logged in
   function prefillUser() {
     const currentUser = getCurrentCatalogUser();
     if (currentUser) {
@@ -757,35 +723,94 @@ function initWarrantyPortal() {
   prefillUser();
   window.addEventListener('z8-catalog-auth-changed', prefillUser);
 
-  function renderOSList() {
-    const orders = getWarrantyOrders();
-    if (badgeCount) badgeCount.textContent = `${orders.length} chamado(s)`;
+  function updateCounters() {
+    const orders = getStoredWarrantyOrders();
+    const total = orders.length;
+    const analyzing = orders.filter(o => o.status === 'analyzing').length;
+    const approved = orders.filter(o => o.status === 'approved').length;
+    const completed = orders.filter(o => o.status === 'completed').length;
 
-    const nextIdNum = orders.length + 106;
-    if (autoCodeBadge) autoCodeBadge.textContent = `OS-2026-0${nextIdNum}`;
+    const elTotal = document.getElementById('stat-total-os');
+    const elAnalyzing = document.getElementById('stat-analyzing-os');
+    const elApproved = document.getElementById('stat-approved-os');
+    const elCompleted = document.getElementById('stat-completed-os');
+
+    if (elTotal) elTotal.textContent = total;
+    if (elAnalyzing) elAnalyzing.textContent = analyzing;
+    if (elApproved) elApproved.textContent = approved;
+    if (elCompleted) elCompleted.textContent = completed;
+
+    const nextIdNum = (total + 104).toString().padStart(4, '0');
+    if (autoCodeBadge) autoCodeBadge.textContent = `OS-2026-${nextIdNum}`;
+  }
+
+  function renderOSDashboard() {
+    updateCounters();
+    const allOrders = getStoredWarrantyOrders();
+    const user = getCurrentCatalogUser();
+    const isMaster = user && (user.role === 'admin' || user.email?.toLowerCase() === 'christian.tkh@gmail.com');
+
+    let filtered = allOrders;
+
+    if (currentOSFilter !== 'all') {
+      filtered = filtered.filter(o => o.status === currentOSFilter);
+    }
+
+    if (currentOSSearch) {
+      const q = currentOSSearch.toLowerCase().trim();
+      filtered = filtered.filter(o => 
+        (o.id && o.id.toLowerCase().includes(q)) ||
+        (o.chassi && o.chassi.toLowerCase().includes(q)) ||
+        (o.model && o.model.toLowerCase().includes(q)) ||
+        (o.techName && o.techName.toLowerCase().includes(q)) ||
+        (o.component && o.component.toLowerCase().includes(q))
+      );
+    }
+
+    if (badgeCount) {
+      badgeCount.textContent = `${filtered.length} chamado(s) encontrado(s)`;
+    }
 
     if (!osListContainer) return;
 
-    if (orders.length === 0) {
-      osListContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 20px;">Nenhuma Ordem de Serviço aberta no momento.</div>`;
+    if (filtered.length === 0) {
+      osListContainer.innerHTML = `
+        <div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 28px; background: rgba(0,0,0,0.2); border-radius: 8px;">
+          <i class="fa-solid fa-folder-open" style="font-size: 1.8rem; margin-bottom: 8px; color: var(--text-muted); display: block;"></i>
+          Nenhuma Ordem de Serviço encontrada com os filtros atuais.
+        </div>
+      `;
       return;
     }
 
-    osListContainer.innerHTML = orders.map(os => {
-      const statusClass = os.status === 'approved' ? 'approved' : 'analyzing';
-      const statusIcon = os.status === 'approved' ? '<i class="fa-solid fa-truck-ramp-box"></i>' : '<i class="fa-solid fa-hourglass-half"></i>';
-      
+    osListContainer.innerHTML = filtered.map(os => {
+      let statusClass = 'analyzing';
+      let statusIcon = '<i class="fa-solid fa-hourglass-half"></i>';
+
+      if (os.status === 'approved') {
+        statusClass = 'approved';
+        statusIcon = '<i class="fa-solid fa-truck-ramp-box"></i>';
+      } else if (os.status === 'completed') {
+        statusClass = 'completed';
+        statusIcon = '<i class="fa-solid fa-circle-check"></i>';
+      } else if (os.status === 'rejected') {
+        statusClass = 'rejected';
+        statusIcon = '<i class="fa-solid fa-triangle-exclamation"></i>';
+      }
+
+      const dateStr = os.createdAt ? new Date(os.createdAt).toLocaleDateString('pt-BR') : 'Hoje';
+
       const cleanPhone = '5512998008818';
       const waText = encodeURIComponent(
-        `🛠️ *CONSULTA DE STATUS DE GARANTIA - Z8 E-MOTION*\n\n` +
+        `🛠️ *CONSULTA DE ORDEM DE SERVIÇO (GARANTIA Z8)*\n\n` +
         `📋 *OS*: ${os.id}\n` +
         `🏍️ *Modelo*: ${os.model}\n` +
         `🔢 *Chassi*: ${os.chassi}\n` +
         `⚡ *Componente*: ${os.component}\n` +
         `👨‍🔧 *Técnico*: ${os.techName} (${os.techPhone})\n` +
-        `📅 *Data*: ${os.createdAt}\n` +
-        `📊 *Status*: ${os.statusText}\n\n` +
-        `Gostaria de verificar a previsão de envio da peça para esta OS.`
+        `📊 *Status Atual*: ${os.statusText}\n` +
+        (os.trackingCode ? `🚚 *Rastreio*: ${os.trackingCode}\n` : '') +
+        `\nOlá suporte técnico Z8, gostaria de obter atualização sobre esta OS.`
       );
       const waLink = `https://wa.me/${cleanPhone}?text=${waText}`;
 
@@ -795,31 +820,88 @@ function initWarrantyPortal() {
             <span class="os-ticket-title">${os.id}</span>
             <span class="os-ticket-status ${statusClass}">${statusIcon} ${os.statusText}</span>
           </div>
-          <div style="font-size: 0.78rem; color: #f1f5f9; font-weight: 600;">${os.model}</div>
-          <div style="font-size: 0.74rem; color: #94a3b8; display: flex; justify-content: space-between;">
-            <span>Chassi: <code>${os.chassi}</code></span>
-            <span>${os.component}</span>
+
+          <div style="font-size: 0.85rem; color: #f8fafc; font-weight: 700; display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fa-solid fa-motorcycle text-cyan"></i> ${os.model}</span>
+            <span style="font-size: 0.72rem; color: var(--text-muted);">${dateStr}</span>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 0.72rem;">
-            <span style="color: #64748b;">${os.createdAt} • ${os.odometer} km</span>
-            <a href="${waLink}" target="_blank" rel="noopener" style="color: #00F2FE; text-decoration: none; font-weight: 600;">
-              <i class="fa-brands fa-whatsapp"></i> Acompanhar
+
+          <div style="font-size: 0.76rem; color: #94a3b8; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
+            <span>Chassi: <code style="background: rgba(0,0,0,0.4); padding: 1px 4px; border-radius: 3px; color: var(--accent-cyan);">${os.chassi}</code></span>
+            <span>Avaria: <strong style="color: #cbd5e1;">${os.component}</strong></span>
+          </div>
+
+          <div style="font-size: 0.74rem; color: #64748b; line-height: 1.35; margin-top: 2px;">
+            <i class="fa-solid fa-stethoscope"></i> ${os.diagnosis.substring(0, 85)}${os.diagnosis.length > 85 ? '...' : ''}
+          </div>
+
+          ${os.trackingCode ? `<div style="font-size: 0.73rem; color: #10B981; font-weight: 600;"><i class="fa-solid fa-truck"></i> Rastreio Peça: <code>${os.trackingCode}</code></div>` : ''}
+
+          <div class="os-actions-row">
+            <button class="os-action-btn btn-view-os-detail" data-id="${os.id}">
+              <i class="fa-solid fa-eye text-cyan"></i> Ficha Técnica
+            </button>
+            <a href="${waLink}" target="_blank" rel="noopener" class="os-action-btn" style="color: #10B981;">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp
             </a>
+            ${isMaster ? `
+              <button class="os-action-btn btn-admin-status-os" data-id="${os.id}" style="color: #fbbf24; border-color: rgba(251,191,36,0.3);">
+                <i class="fa-solid fa-pen-to-square"></i> Gerenciar Status
+              </button>
+            ` : ''}
           </div>
         </div>
       `;
     }).join('');
+
+    // Wire up detail buttons
+    osListContainer.querySelectorAll('.btn-view-os-detail').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        openOSDetailModal(id);
+      });
+    });
+
+    // Wire up admin status buttons
+    osListContainer.querySelectorAll('.btn-admin-status-os').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        openOSDetailModal(id, true);
+      });
+    });
   }
 
-  renderOSList();
+  // Filter Pills listener
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      currentOSFilter = pill.getAttribute('data-status') || 'all';
+      renderOSDashboard();
+    });
+  });
 
+  // Search input listener
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentOSSearch = e.target.value;
+      renderOSDashboard();
+    });
+  }
+
+  // Live real-time event listener
+  window.addEventListener('z8-warranty-os-updated', () => {
+    renderOSDashboard();
+  });
+
+  renderOSDashboard();
+
+  // Form submission logic
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const orders = getWarrantyOrders();
-      const osId = autoCodeBadge?.textContent || `OS-2026-0${orders.length + 106}`;
-      const techName = techNameInput?.value || 'Técnico Autorizado';
+      const techName = techNameInput?.value || 'Técnico Homologado';
       const techPhone = techPhoneInput?.value || '';
       const model = document.getElementById('os-model-select')?.value || '';
       const chassi = document.getElementById('os-chassi')?.value || '';
@@ -828,34 +910,31 @@ function initWarrantyPortal() {
       const diagnosis = document.getElementById('os-diagnosis')?.value || '';
       const evidenceLink = document.getElementById('os-evidence-link')?.value || 'WhatsApp';
 
-      const newOrder = {
-        id: osId,
+      const user = getCurrentCatalogUser();
+
+      const newOrder = saveWarrantyOrder({
         techName,
+        company: user?.company || 'Concessionária Autorizada',
+        city: user?.city || 'Brasil',
         techPhone,
         model,
         chassi,
         odometer,
         component,
         diagnosis,
-        evidenceLink,
-        status: 'analyzing',
-        statusText: 'Em Análise (SLA 48h)',
-        createdAt: new Date().toLocaleDateString('pt-BR')
-      };
-
-      orders.unshift(newOrder);
-      localStorage.setItem(WARRANTY_OS_STORAGE_KEY, JSON.stringify(orders));
+        evidenceLink
+      });
 
       // Build structured WhatsApp notification
       const cleanPhone = '5512998008818';
       const waMsg = encodeURIComponent(
         `🚨 *NOVA ORDEM DE SERVIÇO (GARANTIA DE FÁBRICA) - Z8 E-MOTION*\n\n` +
-        `📋 *Número da OS*: ${osId}\n` +
-        `📅 *Data de Abertura*: ${newOrder.createdAt}\n\n` +
-        `👤 *Técnico/Franqueado*: ${techName}\n` +
+        `📋 *Número da OS*: ${newOrder.id}\n` +
+        `📅 *Data de Abertura*: ${new Date(newOrder.createdAt).toLocaleDateString('pt-BR')}\n\n` +
+        `👤 *Técnico/Franqueado*: ${techName} (${user?.company || 'Unidade Autorizada'})\n` +
         `📱 *WhatsApp do Responsável*: ${techPhone}\n\n` +
         `🏍️ *Modelo do Veículo*: ${model}\n` +
-        `🔢 *Número do Chassi (VIN)*: ${chassi}\n` +
+        `🔢 *Número do Chassi (VIN)*: ${chassi.toUpperCase()}\n` +
         `⏱️ *Quilometragem (Hodômetro)*: ${odometer} km\n` +
         `⚡ *Componente Avariado*: ${component}\n\n` +
         `🔍 *Diagnóstico & Medições Elétricas*:\n${diagnosis}\n\n` +
@@ -871,21 +950,180 @@ function initWarrantyPortal() {
         msgBox.style.border = '1px solid rgba(16,185,129,0.3)';
         msgBox.style.color = '#6ee7b7';
         msgBox.innerHTML = `
-          ✅ <strong>Ordem de Serviço ${osId} cadastrada com sucesso!</strong><br>
-          O suporte técnico Z8 foi notificado. <br>
+          ✅ <strong>Ordem de Serviço ${newOrder.id} gravada no Banco de Dados com sucesso!</strong><br>
+          A equipe de engenharia e suporte técnico da Z8 foi acionada. <br>
           <a href="${waUrl}" target="_blank" rel="noopener" style="color: #38bdf8; font-weight: 700; text-decoration: underline; display: inline-block; margin-top: 6px;">
-            <i class="fa-brands fa-whatsapp"></i> Clique aqui para abrir a OS no WhatsApp Oficial
+            <i class="fa-brands fa-whatsapp"></i> Clique aqui para notificar no WhatsApp Oficial
           </a>
         `;
       }
 
       form.reset();
       prefillUser();
-      renderOSList();
+      renderOSDashboard();
 
       // Open WhatsApp automatically
       window.open(waUrl, '_blank');
     });
   }
 }
+
+/* --------------------------------------------------------------------------
+   9. OS DETAIL & STATUS MANAGEMENT MODAL
+   -------------------------------------------------------------------------- */
+function openOSDetailModal(osId, focusAdmin = false) {
+  const modal = document.getElementById('modal-os-detail');
+  const body = document.getElementById('modal-os-detail-body');
+  const closeBtn = document.getElementById('close-os-modal-btn');
+
+  if (!modal || !body) return;
+
+  const os = getWarrantyOrderById(osId);
+  if (!os) {
+    alert('Ordem de Serviço não encontrada.');
+    return;
+  }
+
+  const user = getCurrentCatalogUser();
+  const isMaster = user && (user.role === 'admin' || user.email?.toLowerCase() === 'christian.tkh@gmail.com');
+
+  const createdStr = os.createdAt ? new Date(os.createdAt).toLocaleString('pt-BR') : 'N/A';
+  const slaStr = os.slaDeadline ? new Date(os.slaDeadline).toLocaleString('pt-BR') : '48 horas';
+
+  let statusBadgeHtml = `<span class="os-ticket-status analyzing"><i class="fa-solid fa-hourglass-half"></i> ${os.statusText}</span>`;
+  if (os.status === 'approved') {
+    statusBadgeHtml = `<span class="os-ticket-status approved"><i class="fa-solid fa-truck-ramp-box"></i> ${os.statusText}</span>`;
+  } else if (os.status === 'completed') {
+    statusBadgeHtml = `<span class="os-ticket-status completed"><i class="fa-solid fa-circle-check"></i> ${os.statusText}</span>`;
+  } else if (os.status === 'rejected') {
+    statusBadgeHtml = `<span class="os-ticket-status rejected"><i class="fa-solid fa-triangle-exclamation"></i> ${os.statusText}</span>`;
+  }
+
+  body.innerHTML = `
+    <div style="border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px; margin-bottom: 20px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <span class="skeuo-badge" style="font-size: 0.85rem; padding: 4px 12px;">${os.id}</span>
+        ${statusBadgeHtml}
+      </div>
+      <h2 style="font-family: 'Orbitron', sans-serif; color: #00F2FE; font-size: 1.3rem; margin-top: 10px;">
+        ${os.model}
+      </h2>
+      <p style="font-size: 0.82rem; color: #94a3b8;">
+        Abertura: <strong>${createdStr}</strong> • Prazo SLA: <strong>${slaStr}</strong>
+      </p>
+    </div>
+
+    <!-- GRID DE INFORMAÇÕES TÉCNICAS -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; font-size: 0.84rem;">
+      <div style="background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+        <strong style="color: #94a3b8; display: block; font-size: 0.75rem; margin-bottom: 2px;">CHASSI (VIN):</strong>
+        <span style="color: #f8fafc; font-family: monospace; font-size: 0.95rem; font-weight: 700;">${os.chassi}</span>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+        <strong style="color: #94a3b8; display: block; font-size: 0.75rem; margin-bottom: 2px;">HODÔMETRO:</strong>
+        <span style="color: #f8fafc; font-weight: 700;">${os.odometer} km rodados</span>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+        <strong style="color: #94a3b8; display: block; font-size: 0.75rem; margin-bottom: 2px;">COMPONENTE AVARIADO:</strong>
+        <span style="color: var(--accent-gold); font-weight: 700;">${os.component}</span>
+      </div>
+
+      <div style="background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+        <strong style="color: #94a3b8; display: block; font-size: 0.75rem; margin-bottom: 2px;">TÉCNICO / FRANQUEADO:</strong>
+        <span style="color: #f8fafc; font-weight: 600;">${os.techName} (${os.techPhone})</span>
+      </div>
+    </div>
+
+    <!-- LAUDO & DIAGNÓSTICO -->
+    <div style="background: var(--bg-inset); padding: 14px; border-radius: 8px; border: 1px solid var(--border-metal); margin-bottom: 16px;">
+      <strong style="color: var(--accent-cyan); display: flex; align-items: center; gap: 6px; font-size: 0.85rem; margin-bottom: 6px;">
+        <i class="fa-solid fa-stethoscope"></i> Diagnóstico Técnico & Medições Elétricas:
+      </strong>
+      <p style="font-size: 0.85rem; color: #e2e8f0; line-height: 1.5; white-space: pre-wrap;">${os.diagnosis}</p>
+    </div>
+
+    <!-- EVIDÊNCIA EM VÍDEO & RASTREAMENTO -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; font-size: 0.82rem;">
+      <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+        <strong style="color: #94a3b8; display: block; margin-bottom: 4px;"><i class="fa-solid fa-video"></i> Evidência de Teste:</strong>
+        ${os.evidenceLink && os.evidenceLink.startsWith('http') 
+          ? `<a href="${os.evidenceLink}" target="_blank" rel="noopener" style="color: #00F2FE; text-decoration: underline; word-break: break-all;">Abrir Link do Vídeo <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
+          : `<span style="color: #cbd5e1;">${os.evidenceLink || 'Anexo via WhatsApp'}</span>`}
+      </div>
+
+      <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+        <strong style="color: #94a3b8; display: block; margin-bottom: 4px;"><i class="fa-solid fa-truck-fast"></i> Código de Rastreamento:</strong>
+        <span style="color: #10B981; font-weight: 700;">${os.trackingCode || 'Aguardando despacho de peça'}</span>
+      </div>
+    </div>
+
+    ${os.adminNotes ? `
+      <div style="background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.25); padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 20px;">
+        <strong style="color: #fbbf24; display: block; margin-bottom: 4px;"><i class="fa-solid fa-clipboard-user"></i> Parecer do Suporte Técnico Z8 Matriz:</strong>
+        <span style="color: #fef08a;">${os.adminNotes}</span>
+      </div>
+    ` : ''}
+
+    <!-- PAINEL DE GESTÃO DO ADMINISTRADOR MASTER / SUPORTE -->
+    ${isMaster ? `
+      <div style="background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.25); padding: 16px; border-radius: 10px; margin-top: 14px;">
+        <h4 style="font-family: 'Orbitron', sans-serif; font-size: 0.88rem; color: #fbbf24; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-user-shield"></i> Gestão de Status da O.S (Administrador)
+        </h4>
+
+        <div style="margin-bottom: 10px;">
+          <label style="display: block; font-size: 0.78rem; color: #cbd5e1; margin-bottom: 4px;">Código de Rastreio (Transportadora / Correios):</label>
+          <input type="text" id="modal-edit-tracking" class="os-input" value="${os.trackingCode || ''}" placeholder="Ex: BR894201948SP ou Jadlog 00921" style="padding: 8px 10px; font-size: 0.82rem;" />
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-size: 0.78rem; color: #cbd5e1; margin-bottom: 4px;">Parecer / Laudo Técnico da Fábrica:</label>
+          <input type="text" id="modal-edit-notes" class="os-input" value="${os.adminNotes || ''}" placeholder="Ex: Peça testada e despachada via Sedex prioritário." style="padding: 8px 10px; font-size: 0.82rem;" />
+        </div>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button type="button" class="skeuo-button primary-metal-btn btn-set-status" data-status="approved" style="flex: 1; padding: 8px; font-size: 0.78rem; background: linear-gradient(135deg, #10B981, #059669);">
+            <i class="fa-solid fa-check"></i> Aprovar & Despachar
+          </button>
+          <button type="button" class="skeuo-button secondary-metal-btn btn-set-status" data-status="completed" style="flex: 1; padding: 8px; font-size: 0.78rem;">
+            <i class="fa-solid fa-circle-check"></i> Concluir OS
+          </button>
+          <button type="button" class="skeuo-button secondary-metal-btn btn-set-status" data-status="rejected" style="flex: 1; padding: 8px; font-size: 0.78rem; color: #f87171;">
+            <i class="fa-solid fa-xmark"></i> Recusar
+          </button>
+        </div>
+      </div>
+    ` : ''}
+
+    <div style="display: flex; justify-content: flex-end; margin-top: 20px;">
+      <button type="button" id="btn-close-os-modal-bottom" class="skeuo-button secondary-metal-btn" style="padding: 10px 24px; font-size: 0.85rem;">
+        Fechar
+      </button>
+    </div>
+  `;
+
+  modal.classList.remove('hidden');
+
+  // Close handlers
+  if (closeBtn) closeBtn.onclick = () => modal.classList.add('hidden');
+  const bottomClose = document.getElementById('btn-close-os-modal-bottom');
+  if (bottomClose) bottomClose.onclick = () => modal.classList.add('hidden');
+
+  // Admin status updater buttons
+  if (isMaster) {
+    body.querySelectorAll('.btn-set-status').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const newSt = btn.getAttribute('data-status');
+        const tracking = document.getElementById('modal-edit-tracking')?.value || '';
+        const notes = document.getElementById('modal-edit-notes')?.value || '';
+
+        updateWarrantyOrderStatus(osId, newSt, tracking, notes);
+        openOSDetailModal(osId);
+      });
+    });
+  }
+}
+
 
