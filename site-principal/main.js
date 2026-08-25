@@ -89,8 +89,13 @@ function initNavigation() {
     });
   });
 
-  document.getElementById('btn-open-franchise')?.addEventListener('click', () => {
-    window.location.href = '/vendas/index.html#franchise-form-section';
+  document.getElementById('btn-open-franchise')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const cleanPhone = '5512998008818';
+    const msg = encodeURIComponent(
+      'Olá Christian! Estou no site da Z8 E-Motion e tenho interesse em me tornar um Lojista / Franqueado Parceiro na minha cidade. Gostaria de receber mais detalhes sobre a concessão.'
+    );
+    window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank');
   });
 
   document.getElementById('btn-explore-models')?.addEventListener('click', () => {
