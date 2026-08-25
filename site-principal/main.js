@@ -18,7 +18,8 @@ import {
   getCurrentCatalogUser,
   isCatalogApproved,
   logoutCatalogUser,
-  checkUrlApproval
+  checkUrlApproval,
+  fetchUsersFromCloud
 } from './catalog-auth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -28,6 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(`🎉 Acesso comercial liberado com sucesso para o parceiro: ${approvedViaUrl}`);
     }, 500);
   }
+
+  // Cloud sync on startup & recurring interval
+  fetchUsersFromCloud();
+  setInterval(fetchUsersFromCloud, 10000);
 
   initThemeToggle();
   initNavigation();
@@ -763,9 +768,11 @@ function initCatalogAuth() {
   });
 
   if (openAdminBtn) {
-    openAdminBtn.addEventListener('click', () => {
+    openAdminBtn.addEventListener('click', async () => {
       renderAdminUsersList();
       if (adminModal) adminModal.classList.remove('hidden');
+      await fetchUsersFromCloud();
+      renderAdminUsersList();
     });
   }
 
@@ -870,8 +877,26 @@ function initCatalogAuth() {
 
   const btnToggleAdd = document.getElementById('btn-toggle-add-partner');
   const btnCancelAdd = document.getElementById('btn-cancel-add-partner');
+  const btnSyncCloud = document.getElementById('btn-sync-cloud-users');
   const addPartnerBox = document.getElementById('admin-add-partner-box');
   const manualPartnerForm = document.getElementById('admin-manual-partner-form');
+
+  if (btnSyncCloud) {
+    btnSyncCloud.addEventListener('click', async () => {
+      const icon = btnSyncCloud.querySelector('i');
+      if (icon) icon.classList.add('fa-spin');
+      btnSyncCloud.disabled = true;
+      try {
+        await fetchUsersFromCloud();
+        renderAdminUsersList();
+      } finally {
+        setTimeout(() => {
+          if (icon) icon.classList.remove('fa-spin');
+          btnSyncCloud.disabled = false;
+        }, 600);
+      }
+    });
+  }
 
   if (btnToggleAdd && addPartnerBox) {
     btnToggleAdd.addEventListener('click', () => {

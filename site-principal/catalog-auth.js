@@ -9,6 +9,8 @@ const SESSION_USER_KEY = 'z8_catalog_auth_user';
 const MASTER_ADMIN_EMAIL = "christian.tkh@gmail.com";
 const MASTER_ADMIN_PASS = "@12345678@";
 
+const CLOUD_SYNC_ENDPOINT = 'https://api.restful-api.dev/objects/ff8081819ff5b11001a0368118f614aa';
+
 const DEFAULT_USERS = [
   {
     id: 'user_admin_01',
@@ -33,8 +35,95 @@ const DEFAULT_USERS = [
     role: 'partner',
     status: 'approved',
     createdAt: new Date(Date.now() - 86400000 * 2).toISOString()
+  },
+  {
+    id: 'user_ze_01',
+    name: 'Zé da Silva',
+    company: 'Silva Motos E-Motion',
+    city: 'São Paulo - SP',
+    email: 'zedasilva@loja.com.br',
+    phone: '(11) 98765-4321',
+    password: 'z8@' + Math.floor(1000 + Math.random() * 9000),
+    role: 'partner',
+    status: 'pending',
+    createdAt: new Date().toISOString()
   }
 ];
+
+// Push current users array to cloud hub
+export async function pushUsersToCloud(usersList) {
+  try {
+    await fetch(CLOUD_SYNC_ENDPOINT, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'z8_global_users_directory_hub',
+        data: { users: usersList }
+      })
+    });
+  } catch (err) {
+    console.warn('Cloud sync push warning:', err);
+  }
+}
+
+// Fetch all registered users from cloud hub and merge with local storage
+export async function fetchUsersFromCloud() {
+  try {
+    const res = await fetch(CLOUD_SYNC_ENDPOINT);
+    if (!res.ok) return null;
+    const json = await res.json();
+    const cloudUsers = json?.data?.users;
+    if (Array.isArray(cloudUsers) && cloudUsers.length > 0) {
+      const localUsers = getRegisteredUsers();
+      let hasChanges = false;
+
+      // Merge cloud users into local
+      const mergedMap = new Map();
+      localUsers.forEach(u => mergedMap.set(u.email.toLowerCase(), u));
+
+      cloudUsers.forEach(cu => {
+        const key = cu.email.toLowerCase();
+        if (!mergedMap.has(key)) {
+          mergedMap.set(key, cu);
+          hasChanges = true;
+        } else {
+          const localU = mergedMap.get(key);
+          // If cloud has newer status or info, sync it
+          if (cu.status && cu.status !== localU.status && key !== MASTER_ADMIN_EMAIL.toLowerCase()) {
+            localU.status = cu.status;
+            hasChanges = true;
+          }
+          if (cu.name && !localU.name) {
+            localU.name = cu.name;
+            hasChanges = true;
+          }
+          if (cu.company && !localU.company) {
+            localU.company = cu.company;
+            hasChanges = true;
+          }
+        }
+      });
+
+      const mergedList = Array.from(mergedMap.values()).map(u => {
+        if (u.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
+          u.status = 'approved';
+          u.role = 'admin';
+        }
+        return u;
+      });
+
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(mergedList));
+      if (hasChanges) {
+        window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+      }
+      return mergedList;
+    }
+  } catch (err) {
+    console.warn('Cloud sync fetch warning:', err);
+  }
+  return null;
+}
 
 export function getRegisteredUsers() {
   try {
@@ -45,6 +134,13 @@ export function getRegisteredUsers() {
     } else {
       users = JSON.parse(raw);
     }
+
+    // Ensure default demo users exist
+    DEFAULT_USERS.forEach(du => {
+      if (!users.find(u => u.email.toLowerCase() === du.email.toLowerCase())) {
+        users.push(du);
+      }
+    });
 
     // Auto-sync leads from CRM if any exists
     try {
@@ -117,6 +213,7 @@ export function createPartnerByAdmin(userData) {
   }
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  pushUsersToCloud(users);
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
   return { success: true, user: newUserData };
@@ -148,6 +245,7 @@ export function registerCatalogUser(userData) {
 
   users.unshift(newUser);
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+  pushUsersToCloud(users);
 
   // Autentica o usuário imediatamente na sessão
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
@@ -222,6 +320,7 @@ export function updateUserStatus(userId, newStatus) {
     return u;
   });
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updated));
+  pushUsersToCloud(updated);
 
   // Se o usuário atual for o mesmo modificado, atualiza a sessão local
   const currentUser = getCurrentCatalogUser();
@@ -239,6 +338,7 @@ export function deleteCatalogUser(userId) {
   const users = getRegisteredUsers();
   const filtered = users.filter(u => u.id !== userId || u.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase());
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(filtered));
+  pushUsersToCloud(filtered);
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
   return true;
 }
@@ -277,15 +377,27 @@ export function checkUrlApproval() {
     const approveEmail = params.get('approve_user') || params.get('liberar');
     if (approveEmail) {
       const clean = decodeURIComponent(approveEmail).trim().toLowerCase();
+      const name = params.get('name') ? decodeURIComponent(params.get('name')) : clean.split('@')[0];
+      const company = params.get('company') ? decodeURIComponent(params.get('company')) : 'Concessionária Parceira';
+      const city = params.get('city') ? decodeURIComponent(params.get('city')) : 'São Paulo - SP';
+      const phone = params.get('phone') ? decodeURIComponent(params.get('phone')) : '';
+
       const users = getRegisteredUsers();
       const found = users.find(u => u.email.toLowerCase() === clean);
       if (found) {
+        found.status = 'approved';
+        if (name && !found.name) found.name = name;
+        if (company && !found.company) found.company = company;
+        if (city && !found.city) found.city = city;
+        if (phone && !found.phone) found.phone = phone;
         updateUserStatus(found.id, 'approved');
       } else {
         createPartnerByAdmin({
           email: clean,
-          name: clean.split('@')[0],
-          company: 'Concessionária Parceira',
+          name: name,
+          company: company,
+          city: city,
+          phone: phone,
           status: 'approved'
         });
       }
