@@ -158,14 +158,32 @@ export async function pushUsersToCloud(usersList) {
   }
 }
 
-// Busca todos os usuários reais cadastrados no Firebase Firestore
+// Busca todos os usuários reais cadastrados no Firebase Firestore (catalog_users + leads)
 export async function fetchUsersFromCloud() {
   try {
     const res = await fetch(`${FIRESTORE_USERS_URL}?key=${FIREBASE_API_KEY}`);
     if (!res.ok) return null;
     const json = await res.json();
-    const documents = json?.documents;
-    if (Array.isArray(documents) && documents.length > 0) {
+    const documents = json?.documents || [];
+
+    // Busca também leads cadastrados no CRM do Firestore
+    try {
+      const leadsRes = await fetch(`https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/leads?key=${FIREBASE_API_KEY}`);
+      if (leadsRes.ok) {
+        const leadsJson = await leadsRes.json();
+        if (Array.isArray(leadsJson?.documents)) {
+          leadsJson.documents.forEach(ld => {
+            if (ld.fields && !documents.find(d => (d.fields?.email?.stringValue || '').toLowerCase() === (ld.fields?.email?.stringValue || '').toLowerCase())) {
+              documents.push(ld);
+            }
+          });
+        }
+      }
+    } catch (le) {
+      console.warn('Leads fetch info:', le);
+    }
+
+    if (documents.length > 0) {
       const localUsers = getRegisteredUsers();
       let hasChanges = false;
 
@@ -206,12 +224,16 @@ export async function fetchUsersFromCloud() {
             hasChanges = true;
           }
 
-          if (cu.name && !localU.name) {
+          if (cu.name && (!localU.name || localU.name === 'Parceiro Z8' || localU.name === 'Lead Comercial')) {
             localU.name = cu.name;
             hasChanges = true;
           }
-          if (cu.company && !localU.company) {
+          if (cu.company && (!localU.company || localU.company === 'Empresa Parceira' || localU.company === 'Empresa Interessada')) {
             localU.company = cu.company;
+            hasChanges = true;
+          }
+          if (cu.city && (!localU.city || localU.city === 'Não informada')) {
+            localU.city = cu.city;
             hasChanges = true;
           }
           if (cu.phone && !localU.phone) {
@@ -374,6 +396,7 @@ export function createPartnerByAdmin(userData) {
     password: userData.password || 'Z8@2026',
     role: isMaster ? 'admin' : 'partner',
     status: userData.status || 'approved',
+    updatedAt: Date.now(),
     createdAt: new Date().toISOString()
   };
 
@@ -384,13 +407,13 @@ export function createPartnerByAdmin(userData) {
   }
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-  pushUsersToCloud(users);
+  pushUserToFirestore(newUserData);
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
   return { success: true, user: newUserData };
 }
 
-export function registerCatalogUser(userData) {
+export async function registerCatalogUser(userData) {
   const users = getRegisteredUsers();
   const cleanEmail = (userData.email || '').trim().toLowerCase();
 
@@ -405,18 +428,21 @@ export function registerCatalogUser(userData) {
     id: 'user_' + Date.now(),
     name: userData.name || 'Parceiro Z8',
     company: userData.company || userData.name || 'Empresa Parceira',
-    city: userData.city || 'Não informada',
+    city: userData.city || 'São Paulo - SP',
     email: cleanEmail,
     phone: userData.phone || '',
     password: userData.password || '',
     role: isMaster ? 'admin' : 'partner',
     status: isMaster ? 'approved' : 'pending', // Novo cadastro entra como pending até aprovação comercial
+    updatedAt: Date.now(),
     createdAt: new Date().toISOString()
   };
 
   users.unshift(newUser);
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-  pushUsersToCloud(users);
+
+  // Grava imediatamente no Google Cloud Firebase Firestore Real
+  await pushUserToFirestore(newUser);
 
   // Autentica o usuário imediatamente na sessão
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');

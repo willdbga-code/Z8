@@ -767,16 +767,34 @@ function initCatalogAuth() {
     }
   });
 
+  let adminSyncInterval = null;
   if (openAdminBtn) {
     openAdminBtn.addEventListener('click', async () => {
       renderAdminUsersList();
       if (adminModal) adminModal.classList.remove('hidden');
       await fetchUsersFromCloud();
       renderAdminUsersList();
+
+      if (!adminSyncInterval) {
+        adminSyncInterval = setInterval(async () => {
+          if (adminModal && !adminModal.classList.contains('hidden')) {
+            await fetchUsersFromCloud();
+            renderAdminUsersList();
+          }
+        }, 6000);
+      }
     });
   }
 
-  if (closeAdminBtn) closeAdminBtn.addEventListener('click', () => adminModal?.classList.add('hidden'));
+  if (closeAdminBtn) {
+    closeAdminBtn.addEventListener('click', () => {
+      adminModal?.classList.add('hidden');
+      if (adminSyncInterval) {
+        clearInterval(adminSyncInterval);
+        adminSyncInterval = null;
+      }
+    });
+  }
 
   if (tabLoginBtn && tabRegBtn) {
     tabLoginBtn.addEventListener('click', () => {
@@ -927,7 +945,7 @@ function initCatalogAuth() {
   }
 
   if (regForm) {
-    regForm.addEventListener('submit', (e) => {
+    regForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('cat-reg-name').value;
       const company = document.getElementById('cat-reg-company').value;
@@ -935,7 +953,7 @@ function initCatalogAuth() {
       const phone = document.getElementById('cat-reg-phone').value;
       const password = document.getElementById('cat-reg-pass').value;
 
-      const res = registerCatalogUser({ name, company, email, phone, password });
+      const res = await registerCatalogUser({ name, company, email, phone, password });
       if (res.success) {
         regForm.reset();
         if (regMsg) {
