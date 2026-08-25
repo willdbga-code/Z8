@@ -325,7 +325,12 @@ async function main() {
     'juridico/TERMO_DE_ENTREGA_TECNICA_E_PDI.md',
     'juridico/TERMOS_DE_USO.md',
     'juridico/POLITICA_DE_PRIVACIDADE_LGPD.md',
-    'juridico/PARECER_REGULATORIO_CONTRAN_996.md'
+    'juridico/PARECER_REGULATORIO_CONTRAN_996.md',
+    // Manuais Oficiais da Rede de Franquias
+    'manuais/MANUAL_DE_IDENTIDADE_VISUAL_E_ARQUITETURA_Z8.md',
+    'manuais/MANUAL_DE_OPERACOES_E_VENDAS_CONSULTIVAS.md',
+    'manuais/MANUAL_DE_ASSISTENCIA_TECNICA_E_MANUTENCAO_PREVENTIVA.md',
+    'manuais/TREINAMENTO_TECNICO_INICIAL_16H.md'
   ];
 
   console.log('🚀 Iniciando geração de PDFs para todos os documentos corporativos e jurídicos da Z8 E-Motion...');
