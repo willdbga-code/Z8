@@ -49,6 +49,9 @@
         <button class="skeuo-nav-btn" data-target="orderdesk">
           <i class="fa-solid fa-boxes-packing"></i> Portal do Franqueado
         </button>
+        <button class="skeuo-nav-btn" data-target="warranty">
+          <i class="fa-solid fa-shield-halved"></i> Garantia & Suporte
+        </button>
         <button class="skeuo-nav-btn" id="open-catalog-login-btn" style="color: #00F2FE; border: 1px solid rgba(0,242,254,0.3);">
           <i class="fa-solid fa-right-to-bracket"></i> <span id="catalog-user-badge">Área de Login</span>
         </button>
@@ -406,6 +409,205 @@
             <!-- Preenchido via JS -->
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- SECTION: GARANTIA DE FÁBRICA, ORDEM DE SERVIÇO (OS) & MANUAIS TÉCNICOS -->
+    <section id="warranty-section" class="section-container skeuo-panel">
+      <div class="section-header">
+        <h2 class="section-title"><i class="fa-solid fa-shield-halved"></i> 6. Fluxo Oficial de Acionamento de Garantia & Assistência Técnica</h2>
+        <p class="section-sub">Procedimento homologado de pós-venda, abertura de Ordem de Serviço (OS) com SLA de 48h e reposição prioritária de peças genuínas.</p>
+      </div>
+
+      <!-- 4-STEP VISUAL FLOW CARD -->
+      <div class="warranty-steps-grid">
+        <div class="warranty-step-card">
+          <div class="step-badge">Etapa 1</div>
+          <div class="step-icon"><i class="fa-solid fa-file-signature"></i></div>
+          <h4 class="step-title">1. Abertura da OS</h4>
+          <p class="step-desc">O técnico abre a Ordem de Serviço (OS) com foto do hodômetro e número de chassi do veículo.</p>
+        </div>
+
+        <div class="warranty-step-card">
+          <div class="step-badge">Etapa 2</div>
+          <div class="step-icon"><i class="fa-solid fa-video"></i></div>
+          <h4 class="step-title">2. Teste Técnico</h4>
+          <p class="step-desc">Realiza o teste técnico com vídeo comprobatório da peça avariada (ex: leitura do multímetro no controlador ou bateria).</p>
+        </div>
+
+        <div class="warranty-step-card">
+          <div class="step-badge">Etapa 3</div>
+          <div class="step-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+          <h4 class="step-title">3. Submissão B2B</h4>
+          <p class="step-desc">Submete o relatório completo com fotos, leituras elétricas e dados do cliente via Portal B2B da Z8.</p>
+        </div>
+
+        <div class="warranty-step-card highlight-step">
+          <div class="step-badge gold">Etapa 4</div>
+          <div class="step-icon text-gold"><i class="fa-solid fa-truck-fast"></i></div>
+          <h4 class="step-title">4. Aprovação em 48h</h4>
+          <p class="step-desc">A Franqueadora aprova o laudo em até <strong>48 horas</strong> e despacha a peça de reposição genuína em regime prioritário.</p>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE OS FORM & TICKETS DASHBOARD -->
+      <div class="warranty-split-grid" style="margin-top: 36px;">
+        <!-- FORMULARIO DE ABERTURA DE OS -->
+        <div class="skeuo-card warranty-form-panel">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.05rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-wrench"></i> Abrir Nova Ordem de Serviço (OS)
+            </h3>
+            <span class="skeuo-badge" id="auto-os-code">OS-2026-0001</span>
+          </div>
+
+          <form id="warranty-os-form">
+            <div id="warranty-form-msg" style="display: none; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px;"></div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-user-gear"></i> Técnico / Franqueado:</label>
+                <input type="text" id="os-tech-name" class="os-input" placeholder="Nome do Responsável Técnico" required />
+              </div>
+              <div class="form-group">
+                <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-brands fa-whatsapp"></i> WhatsApp / Celular:</label>
+                <input type="text" id="os-tech-phone" class="os-input" placeholder="(12) 99999-9999" required />
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-motorcycle"></i> Modelo do Veículo:</label>
+                <select id="os-model-select" class="os-input" required>
+                  <option value="">Selecione o Modelo Z8...</option>
+                  <option value="Z8 Tank High-Speed (DB018)">Z8 Tank High-Speed (DB018)</option>
+                  <option value="Z8 FX-10 Sport (DB043)">Z8 FX-10 Sport (DB043)</option>
+                  <option value="Z8 Harley X21 Custom (XB-024)">Z8 Harley X21 Custom (XB-024)</option>
+                  <option value="Z8 U2 Delivery Cargo (XB-026)">Z8 U2 Delivery Cargo (XB-026)</option>
+                  <option value="Z8 N95C Max Comfort (DB039)">Z8 N95C Max Comfort (DB039)</option>
+                  <option value="Z8 N7 Standard (DB001)">Z8 N7 Standard (DB001)</option>
+                  <option value="Z8 Q10 Vintage (DB038)">Z8 Q10 Vintage (DB038)</option>
+                  <option value="Z8 N710 Urban Plus (DB045-N710)">Z8 N710 Urban Plus (DB045-N710)</option>
+                  <option value="Z8 Q11 Compact (DB043-Q11)">Z8 Q11 Compact (DB043-Q11)</option>
+                  <option value="Z8 GS-005 Base Norte (GS-005)">Z8 GS-005 Base Norte (GS-005)</option>
+                  <option value="Z8 Diamond Luxe (DB050-DM)">Z8 Diamond Luxe (DB050-DM)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-barcode"></i> Número do Chassi (VIN):</label>
+                <input type="text" id="os-chassi" class="os-input" placeholder="Ex: 9Z8...0451" required />
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-gauge"></i> Km no Hodômetro:</label>
+                <input type="number" id="os-odometer" class="os-input" placeholder="Ex: 450 km" required />
+              </div>
+              <div class="form-group">
+                <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-microchip"></i> Componente Avariado:</label>
+                <select id="os-component" class="os-input" required>
+                  <option value="">Selecione o Componente...</option>
+                  <option value="Bateria de Lítio / BMS">Bateria de Lítio / BMS</option>
+                  <option value="Módulo Controlador FOC">Módulo Controlador FOC</option>
+                  <option value="Motor BLDC no Cubo / Sensor Hall">Motor BLDC no Cubo / Sensor Hall</option>
+                  <option value="Chicote Principal / Conectores">Chicote Principal / Conectores</option>
+                  <option value="Acelerador Eletrônico Hall">Acelerador Eletrônico Hall</option>
+                  <option value="Painel / Display LCD">Painel / Display LCD</option>
+                  <option value="Carregador Inteligente">Carregador Inteligente</option>
+                  <option value="Sistema de Freios Hidráulicos">Sistema de Freios Hidráulicos</option>
+                  <option value="Outro Componente">Outro Componente</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-stethoscope"></i> Diagnóstico Técnico & Medições com Multímetro:</label>
+              <textarea id="os-diagnosis" class="os-input" rows="3" placeholder="Ex: Tensão da bateria em 58.2V, acelerador com sinal de 0.8V a 4.1V, erro 03 no display, motor apresenta ruído no sensor Hall da fase amarela." required></textarea>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 18px;">
+              <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-link"></i> Link do Vídeo de Teste / Fotos (Google Drive / iCloud / WhatsApp):</label>
+              <input type="text" id="os-evidence-link" class="os-input" placeholder="Cole o link do vídeo ou digite 'Envio via WhatsApp anexo'" required />
+            </div>
+
+            <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 14px;">
+              <i class="fa-solid fa-paper-plane"></i> Submeter Ordem de Serviço & Notificar Suporte Z8
+            </button>
+          </form>
+        </div>
+
+        <!-- PAINEL LATERAL: HISTORICO DE OS & CENTRAL DE MANUAIS -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          <!-- LISTA DE ORDENS DE SERVICO -->
+          <div class="skeuo-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+              <h3 style="font-family: 'Orbitron', sans-serif; font-size: 0.95rem; color: #fff; display: flex; align-items: center; gap: 8px;">
+                <i class="fa-solid fa-list-check"></i> Chamados de Garantia (OS da Unidade)
+              </h3>
+              <span style="font-size: 0.75rem; color: var(--text-muted);" id="os-count-badge">0 chamados</span>
+            </div>
+            <div id="warranty-os-list" style="display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto;">
+              <!-- Preenchido via JS -->
+            </div>
+          </div>
+
+          <!-- CENTRAL DE MANUAIS E DOWNLOADS -->
+          <div class="skeuo-card">
+            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 0.95rem; color: var(--accent-gold); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-book-bookmark"></i> Manuais Oficiais da Franquia (Downloads)
+            </h3>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">
+              Documentação técnica, operacional e jurídica para consulta da equipe e oficina.
+            </p>
+            <div class="manuals-download-grid">
+              <a href="/docs/manuais/MANUAL_DE_IDENTIDADE_VISUAL_E_ARQUITETURA_Z8.pdf" target="_blank" rel="noopener" class="manual-download-item">
+                <i class="fa-solid fa-palette text-cyan"></i>
+                <div class="manual-info">
+                  <strong>Brandbook & Arquitetura Z8</strong>
+                  <span>PDF • Identidade Visual & Showroom</span>
+                </div>
+                <i class="fa-solid fa-download download-icon"></i>
+              </a>
+
+              <a href="/docs/manuais/MANUAL_DE_OPERACOES_E_VENDAS_CONSULTIVAS.pdf" target="_blank" rel="noopener" class="manual-download-item">
+                <i class="fa-solid fa-briefcase text-gold"></i>
+                <div class="manual-info">
+                  <strong>Manual de Operações & Vendas</strong>
+                  <span>PDF • Vendas Consultivas B2B/B2C</span>
+                </div>
+                <i class="fa-solid fa-download download-icon"></i>
+              </a>
+
+              <a href="/docs/manuais/MANUAL_DE_ASSISTENCIA_TECNICA_E_MANUTENCAO_PREVENTIVA.pdf" target="_blank" rel="noopener" class="manual-download-item">
+                <i class="fa-solid fa-wrench text-emerald"></i>
+                <div class="manual-info">
+                  <strong>Manual de Assistência Técnica & PDI</strong>
+                  <span>PDF • Oficina, Torques & Manutenção</span>
+                </div>
+                <i class="fa-solid fa-download download-icon"></i>
+              </a>
+
+              <a href="/docs/manuais/TREINAMENTO_TECNICO_INICIAL_16H.pdf" target="_blank" rel="noopener" class="manual-download-item">
+                <i class="fa-solid fa-bolt text-cyan"></i>
+                <div class="manual-info">
+                  <strong>Treinamento Técnico Inicial (16H)</strong>
+                  <span>PDF • Baterias Lítio, BMS, FOC & BLDC</span>
+                </div>
+                <i class="fa-solid fa-download download-icon"></i>
+              </a>
+
+              <a href="/docs/juridico/TERMO_DE_ENTREGA_TECNICA_E_PDI.pdf" target="_blank" rel="noopener" class="manual-download-item">
+                <i class="fa-solid fa-clipboard-check text-emerald"></i>
+                <div class="manual-info">
+                  <strong>Termo de Entrega Técnica & PDI</strong>
+                  <span>PDF • Checklist Oficial 32 Pontos</span>
+                </div>
+                <i class="fa-solid fa-download download-icon"></i>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 

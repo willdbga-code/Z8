@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCalculator();
   initModals();
   initCatalogAuth();
+  initWarrantyPortal();
 });
 
 /* --------------------------------------------------------------------------
@@ -686,3 +687,205 @@ function initCatalogAuth() {
     });
   }
 }
+
+/* --------------------------------------------------------------------------
+   8. WARRANTY & OS TECHNICAL PORTAL
+   -------------------------------------------------------------------------- */
+const WARRANTY_OS_STORAGE_KEY = 'z8_warranty_orders_list';
+
+const DEFAULT_OS_ORDERS = [
+  {
+    id: 'OS-2026-0104',
+    techName: 'Carlos Silveira',
+    techPhone: '(11) 98888-7777',
+    model: 'Z8 Tank High-Speed (DB018)',
+    chassi: '9Z8DB018K99042',
+    odometer: '1240',
+    component: 'Módulo Controlador FOC',
+    diagnosis: 'Controlador apresentou aquecimento acima de 85°C e corte intermitente de aceleração.',
+    evidenceLink: 'https://drive.google.com/drive/u/0/folders/z8-evidence-0104',
+    status: 'approved',
+    statusText: 'Aprovado - Peça Despachada',
+    createdAt: new Date(Date.now() - 86400000).toLocaleDateString('pt-BR')
+  },
+  {
+    id: 'OS-2026-0105',
+    techName: 'Roberto Mecânico Z8',
+    techPhone: '(12) 97777-6666',
+    model: 'Z8 FX-10 Sport (DB043)',
+    chassi: '9Z8DB043L11093',
+    odometer: '380',
+    component: 'Bateria de Lítio / BMS',
+    diagnosis: 'Desbalanceamento celular detectado (bloco 4 com 3.1V vs 3.8V nos demais).',
+    evidenceLink: 'Envio via WhatsApp',
+    status: 'analyzing',
+    statusText: 'Em Análise (SLA 48h)',
+    createdAt: new Date().toLocaleDateString('pt-BR')
+  }
+];
+
+function getWarrantyOrders() {
+  try {
+    const raw = localStorage.getItem(WARRANTY_OS_STORAGE_KEY);
+    if (!raw) {
+      localStorage.setItem(WARRANTY_OS_STORAGE_KEY, JSON.stringify(DEFAULT_OS_ORDERS));
+      return DEFAULT_OS_ORDERS;
+    }
+    return JSON.parse(raw);
+  } catch (e) {
+    return DEFAULT_OS_ORDERS;
+  }
+}
+
+function initWarrantyPortal() {
+  const form = document.getElementById('warranty-os-form');
+  const osListContainer = document.getElementById('warranty-os-list');
+  const badgeCount = document.getElementById('os-count-badge');
+  const autoCodeBadge = document.getElementById('auto-os-code');
+  const msgBox = document.getElementById('warranty-form-msg');
+  const techNameInput = document.getElementById('os-tech-name');
+  const techPhoneInput = document.getElementById('os-tech-phone');
+
+  // Pre-fill user data if available
+  function prefillUser() {
+    const currentUser = getCurrentCatalogUser();
+    if (currentUser) {
+      if (techNameInput && !techNameInput.value) techNameInput.value = currentUser.name || currentUser.company || '';
+      if (techPhoneInput && !techPhoneInput.value) techPhoneInput.value = currentUser.phone || '';
+    }
+  }
+  prefillUser();
+  window.addEventListener('z8-catalog-auth-changed', prefillUser);
+
+  function renderOSList() {
+    const orders = getWarrantyOrders();
+    if (badgeCount) badgeCount.textContent = `${orders.length} chamado(s)`;
+
+    const nextIdNum = orders.length + 106;
+    if (autoCodeBadge) autoCodeBadge.textContent = `OS-2026-0${nextIdNum}`;
+
+    if (!osListContainer) return;
+
+    if (orders.length === 0) {
+      osListContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 20px;">Nenhuma Ordem de Serviço aberta no momento.</div>`;
+      return;
+    }
+
+    osListContainer.innerHTML = orders.map(os => {
+      const statusClass = os.status === 'approved' ? 'approved' : 'analyzing';
+      const statusIcon = os.status === 'approved' ? '<i class="fa-solid fa-truck-ramp-box"></i>' : '<i class="fa-solid fa-hourglass-half"></i>';
+      
+      const cleanPhone = '5512998008818';
+      const waText = encodeURIComponent(
+        `🛠️ *CONSULTA DE STATUS DE GARANTIA - Z8 E-MOTION*\n\n` +
+        `📋 *OS*: ${os.id}\n` +
+        `🏍️ *Modelo*: ${os.model}\n` +
+        `🔢 *Chassi*: ${os.chassi}\n` +
+        `⚡ *Componente*: ${os.component}\n` +
+        `👨‍🔧 *Técnico*: ${os.techName} (${os.techPhone})\n` +
+        `📅 *Data*: ${os.createdAt}\n` +
+        `📊 *Status*: ${os.statusText}\n\n` +
+        `Gostaria de verificar a previsão de envio da peça para esta OS.`
+      );
+      const waLink = `https://wa.me/${cleanPhone}?text=${waText}`;
+
+      return `
+        <div class="os-ticket-item">
+          <div class="os-ticket-header">
+            <span class="os-ticket-title">${os.id}</span>
+            <span class="os-ticket-status ${statusClass}">${statusIcon} ${os.statusText}</span>
+          </div>
+          <div style="font-size: 0.78rem; color: #f1f5f9; font-weight: 600;">${os.model}</div>
+          <div style="font-size: 0.74rem; color: #94a3b8; display: flex; justify-content: space-between;">
+            <span>Chassi: <code>${os.chassi}</code></span>
+            <span>${os.component}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px; font-size: 0.72rem;">
+            <span style="color: #64748b;">${os.createdAt} • ${os.odometer} km</span>
+            <a href="${waLink}" target="_blank" rel="noopener" style="color: #00F2FE; text-decoration: none; font-weight: 600;">
+              <i class="fa-brands fa-whatsapp"></i> Acompanhar
+            </a>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  renderOSList();
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const orders = getWarrantyOrders();
+      const osId = autoCodeBadge?.textContent || `OS-2026-0${orders.length + 106}`;
+      const techName = techNameInput?.value || 'Técnico Autorizado';
+      const techPhone = techPhoneInput?.value || '';
+      const model = document.getElementById('os-model-select')?.value || '';
+      const chassi = document.getElementById('os-chassi')?.value || '';
+      const odometer = document.getElementById('os-odometer')?.value || '';
+      const component = document.getElementById('os-component')?.value || '';
+      const diagnosis = document.getElementById('os-diagnosis')?.value || '';
+      const evidenceLink = document.getElementById('os-evidence-link')?.value || 'WhatsApp';
+
+      const newOrder = {
+        id: osId,
+        techName,
+        techPhone,
+        model,
+        chassi,
+        odometer,
+        component,
+        diagnosis,
+        evidenceLink,
+        status: 'analyzing',
+        statusText: 'Em Análise (SLA 48h)',
+        createdAt: new Date().toLocaleDateString('pt-BR')
+      };
+
+      orders.unshift(newOrder);
+      localStorage.setItem(WARRANTY_OS_STORAGE_KEY, JSON.stringify(orders));
+
+      // Build structured WhatsApp notification
+      const cleanPhone = '5512998008818';
+      const waMsg = encodeURIComponent(
+        `🚨 *NOVA ORDEM DE SERVIÇO (GARANTIA DE FÁBRICA) - Z8 E-MOTION*\n\n` +
+        `📋 *Número da OS*: ${osId}\n` +
+        `📅 *Data de Abertura*: ${newOrder.createdAt}\n\n` +
+        `👤 *Técnico/Franqueado*: ${techName}\n` +
+        `📱 *WhatsApp do Responsável*: ${techPhone}\n\n` +
+        `🏍️ *Modelo do Veículo*: ${model}\n` +
+        `🔢 *Número do Chassi (VIN)*: ${chassi}\n` +
+        `⏱️ *Quilometragem (Hodômetro)*: ${odometer} km\n` +
+        `⚡ *Componente Avariado*: ${component}\n\n` +
+        `🔍 *Diagnóstico & Medições Elétricas*:\n${diagnosis}\n\n` +
+        `📎 *Vídeo de Teste / Evidência*:\n${evidenceLink}\n\n` +
+        `⏱️ *SLA de Análise*: 48 horas úteis para aprovação e despacho da peça genuína.`
+      );
+
+      const waUrl = `https://wa.me/${cleanPhone}?text=${waMsg}`;
+
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(16,185,129,0.15)';
+        msgBox.style.border = '1px solid rgba(16,185,129,0.3)';
+        msgBox.style.color = '#6ee7b7';
+        msgBox.innerHTML = `
+          ✅ <strong>Ordem de Serviço ${osId} cadastrada com sucesso!</strong><br>
+          O suporte técnico Z8 foi notificado. <br>
+          <a href="${waUrl}" target="_blank" rel="noopener" style="color: #38bdf8; font-weight: 700; text-decoration: underline; display: inline-block; margin-top: 6px;">
+            <i class="fa-brands fa-whatsapp"></i> Clique aqui para abrir a OS no WhatsApp Oficial
+          </a>
+        `;
+      }
+
+      form.reset();
+      prefillUser();
+      renderOSList();
+
+      // Open WhatsApp automatically
+      window.open(waUrl, '_blank');
+    });
+  }
+}
+
