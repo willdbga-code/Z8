@@ -10,16 +10,25 @@ import {
 } from './data/warranty-db.js';
 import {
   getRegisteredUsers,
+  createPartnerByAdmin,
   registerCatalogUser,
   loginCatalogUser,
   updateUserStatus,
   deleteCatalogUser,
   getCurrentCatalogUser,
   isCatalogApproved,
-  logoutCatalogUser
+  logoutCatalogUser,
+  checkUrlApproval
 } from './catalog-auth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const approvedViaUrl = checkUrlApproval();
+  if (approvedViaUrl) {
+    setTimeout(() => {
+      alert(`🎉 Acesso comercial liberado com sucesso para o parceiro: ${approvedViaUrl}`);
+    }, 500);
+  }
+
   initThemeToggle();
   initNavigation();
   initFilterBar();
@@ -697,7 +706,17 @@ function initCatalogAuth() {
         if (pendingBanner) pendingBanner.style.display = 'block';
         if (pendingName) pendingName.textContent = user.name || user.email;
         if (pendingCta) {
-          const msg = encodeURIComponent(`Olá, criei meu cadastro no Portal Z8 (Nome: ${user.name || 'Parceiro'}, Empresa: ${user.company || 'Minha Loja'}, Cidade: ${user.city || 'SP'}, E-mail: ${user.email}) e gostaria de solicitar a liberação de acesso às tabelas de atacado.`);
+          const approvalLink = `${window.location.origin}${window.location.pathname}?approve_user=${encodeURIComponent(user.email)}`;
+          const msg = encodeURIComponent(
+            `🔐 *SOLICITAÇÃO DE LIBERAÇÃO DE ACESSO AO CATÁLOGO Z8*\n\n` +
+            `Olá Christian! Solicitei cadastro no Portal Z8 e gostaria de liberar meu acesso para visualizar as tabelas de atacado:\n\n` +
+            `👤 *Nome*: ${user.name || 'Parceiro'}\n` +
+            `🏢 *Empresa*: ${user.company || 'Minha Loja'}\n` +
+            `📍 *Cidade/UF*: ${user.city || 'SP'}\n` +
+            `📧 *E-mail*: ${user.email}\n` +
+            `📱 *WhatsApp*: ${user.phone || 'Não informado'}\n\n` +
+            `👉 *Clique no link abaixo para liberar meu acesso em 1 clique*:\n${approvalLink}`
+          );
           pendingCta.href = `https://wa.me/5512998008818?text=${msg}`;
         }
       }
@@ -830,41 +849,206 @@ function initCatalogAuth() {
     });
   }
 
+  /* --------------------------------------------------------------------------
+     MASTER ADMIN APPROVAL PANEL CONTROLLER
+     -------------------------------------------------------------------------- */
+  let currentAdminFilter = 'all';
+  let currentAdminSearch = '';
+
+  const statTotal = document.getElementById('adm-stat-total');
+  const statPending = document.getElementById('adm-stat-pending');
+  const statApproved = document.getElementById('adm-stat-approved');
+  const statBlocked = document.getElementById('adm-stat-blocked');
+
+  const pillAll = document.getElementById('adm-pill-all');
+  const pillPending = document.getElementById('adm-pill-pending');
+  const pillApproved = document.getElementById('adm-pill-approved');
+  const pillBlocked = document.getElementById('adm-pill-blocked');
+
+  const searchInput = document.getElementById('adm-user-search');
+  const filterPills = document.querySelectorAll('.admin-filter-pill');
+
+  const btnToggleAdd = document.getElementById('btn-toggle-add-partner');
+  const btnCancelAdd = document.getElementById('btn-cancel-add-partner');
+  const addPartnerBox = document.getElementById('admin-add-partner-box');
+  const manualPartnerForm = document.getElementById('admin-manual-partner-form');
+
+  if (btnToggleAdd && addPartnerBox) {
+    btnToggleAdd.addEventListener('click', () => {
+      addPartnerBox.style.display = addPartnerBox.style.display === 'none' ? 'block' : 'none';
+      if (addPartnerBox.style.display === 'block') {
+        document.getElementById('adm-field-name')?.focus();
+      }
+    });
+  }
+
+  if (btnCancelAdd && addPartnerBox) {
+    btnCancelAdd.addEventListener('click', () => {
+      addPartnerBox.style.display = 'none';
+    });
+  }
+
+  if (manualPartnerForm) {
+    manualPartnerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('adm-field-name')?.value || '';
+      const company = document.getElementById('adm-field-company')?.value || '';
+      const city = document.getElementById('adm-field-city')?.value || '';
+      const email = document.getElementById('adm-field-email')?.value || '';
+      const phone = document.getElementById('adm-field-phone')?.value || '';
+      const status = document.getElementById('adm-field-status')?.value || 'approved';
+
+      createPartnerByAdmin({
+        name,
+        company,
+        city,
+        email,
+        phone,
+        status
+      });
+
+      manualPartnerForm.reset();
+      addPartnerBox.style.display = 'none';
+      renderAdminUsersList();
+      alert(`✅ Parceiro ${name} (${company}) cadastrado com status ${status === 'approved' ? 'LIBERADO' : 'PENDENTE'} com sucesso!`);
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      currentAdminSearch = e.target.value.toLowerCase().trim();
+      renderAdminUsersList();
+    });
+  }
+
+  filterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      filterPills.forEach(p => {
+        p.classList.remove('active');
+        p.style.background = 'rgba(255,255,255,0.05)';
+        p.style.borderColor = 'rgba(255,255,255,0.15)';
+        p.style.color = '#94a3b8';
+      });
+      pill.classList.add('active');
+      pill.style.background = 'rgba(0, 242, 254, 0.15)';
+      pill.style.borderColor = '#00F2FE';
+      pill.style.color = '#00F2FE';
+      currentAdminFilter = pill.getAttribute('data-status') || 'all';
+      renderAdminUsersList();
+    });
+  });
+
   function renderAdminUsersList() {
     if (!adminUsersList) return;
     const users = getRegisteredUsers();
 
-    adminUsersList.innerHTML = users.map(u => {
+    // Stats calculations
+    const totalCount = users.length;
+    const pendingCount = users.filter(u => u.status === 'pending' && u.email.toLowerCase() !== 'christian.tkh@gmail.com').length;
+    const approvedCount = users.filter(u => (u.status === 'approved' || !u.status) || u.email.toLowerCase() === 'christian.tkh@gmail.com').length;
+    const blockedCount = users.filter(u => u.status === 'blocked').length;
+
+    if (statTotal) statTotal.textContent = totalCount;
+    if (statPending) statPending.textContent = pendingCount;
+    if (statApproved) statApproved.textContent = approvedCount;
+    if (statBlocked) statBlocked.textContent = blockedCount;
+
+    if (pillAll) pillAll.textContent = totalCount;
+    if (pillPending) pillPending.textContent = pendingCount;
+    if (pillApproved) pillApproved.textContent = approvedCount;
+    if (pillBlocked) pillBlocked.textContent = blockedCount;
+
+    // Filter by search & status
+    const filtered = users.filter(u => {
+      const isMaster = u.email.toLowerCase() === 'christian.tkh@gmail.com';
+      let matchStatus = true;
+      if (currentAdminFilter === 'pending') matchStatus = (u.status === 'pending' && !isMaster);
+      else if (currentAdminFilter === 'approved') matchStatus = (u.status === 'approved' || isMaster || !u.status);
+      else if (currentAdminFilter === 'blocked') matchStatus = (u.status === 'blocked');
+
+      let matchSearch = true;
+      if (currentAdminSearch) {
+        const query = currentAdminSearch;
+        matchSearch = (
+          (u.name || '').toLowerCase().includes(query) ||
+          (u.company || '').toLowerCase().includes(query) ||
+          (u.city || '').toLowerCase().includes(query) ||
+          (u.email || '').toLowerCase().includes(query) ||
+          (u.phone || '').toLowerCase().includes(query)
+        );
+      }
+
+      return matchStatus && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      adminUsersList.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 24px; color: #64748b; font-style: italic;">
+            <i class="fa-solid fa-users-slash" style="font-size: 1.5rem; display: block; margin-bottom: 6px; color: #475569;"></i>
+            Nenhuma conta encontrada com os filtros selecionados.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    adminUsersList.innerHTML = filtered.map(u => {
       const isMaster = u.email.toLowerCase() === 'christian.tkh@gmail.com';
       const statusBadge = isMaster
-        ? '<span style="color: #00F2FE; font-weight: 700;">👑 Admin Master</span>'
+        ? '<span style="color: #00F2FE; font-weight: 700;"><i class="fa-solid fa-crown"></i> Admin Master</span>'
         : u.status === 'approved'
-          ? '<span style="color: #10B981; font-weight: 700;">🟢 Acesso Liberado</span>'
+          ? '<span style="color: #10B981; font-weight: 700;"><i class="fa-solid fa-circle-check"></i> Liberado</span>'
           : u.status === 'blocked'
-            ? '<span style="color: #EF4444; font-weight: 700;">🔴 Bloqueado</span>'
-            : '<span style="color: #F59E0B; font-weight: 700;">🟡 Aguardando Liberação</span>';
+            ? '<span style="color: #EF4444; font-weight: 700;"><i class="fa-solid fa-ban"></i> Bloqueado</span>'
+            : '<span style="color: #F59E0B; font-weight: 700; background: rgba(245,158,11,0.15); padding: 2px 6px; border-radius: 4px;"><i class="fa-solid fa-clock"></i> Aguardando Liberação</span>';
+
+      const cleanPhone = (u.phone || '').replace(/\D/g, '');
+      const waLink = cleanPhone ? `https://wa.me/55${cleanPhone}?text=${encodeURIComponent(`Olá ${u.name}! Sou Christian da Z8 E-Motion. Vi seu cadastro no portal como representante da loja ${u.company}...`)}` : '#';
 
       let actionButtons = '';
       if (isMaster) {
         actionButtons = '<span style="font-size: 0.75rem; color: #64748b;">Proprietário Master</span>';
       } else if (u.status === 'approved') {
         actionButtons = `
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <button type="button" class="btn-revoke-user" data-id="${u.id}" style="background: rgba(245,158,11,0.25); border: 1px solid #f59e0b; color: #fcd34d; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-              <i class="fa-solid fa-lock"></i> Bloquear Acesso
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+            <button type="button" class="btn-revoke-user" data-id="${u.id}" title="Bloquear visualização de atacado" style="background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; color: #fcd34d; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+              <i class="fa-solid fa-lock"></i> Bloquear
             </button>
-            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
+            ${cleanPhone ? `
+              <a href="${waLink}" target="_blank" rel="noopener" title="Chamar no WhatsApp" style="background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #34d399; padding: 5px 8px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-brands fa-whatsapp"></i>
+              </a>
+            ` : ''}
+            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        `;
+      } else if (u.status === 'blocked') {
+        actionButtons = `
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+            <button type="button" class="btn-approve-user" data-id="${u.id}" title="Desbloquear acesso" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+              <i class="fa-solid fa-lock-open"></i> Desbloquear
+            </button>
+            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
         `;
       } else {
+        // Pending
         actionButtons = `
-          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-            <button type="button" class="btn-approve-user" data-id="${u.id}" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
-              <i class="fa-solid fa-check"></i> Liberar Acesso ao Catálogo
+          <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+            <button type="button" class="btn-approve-user" data-id="${u.id}" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16,185,129,0.4);">
+              <i class="fa-solid fa-check"></i> Liberar Acesso
             </button>
-            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
+            ${cleanPhone ? `
+              <a href="${waLink}" target="_blank" rel="noopener" title="Chamar no WhatsApp" style="background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #34d399; padding: 5px 8px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-brands fa-whatsapp"></i>
+              </a>
+            ` : ''}
+            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -873,9 +1057,18 @@ function initCatalogAuth() {
 
       return `
         <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <td style="padding: 12px 10px;"><strong>${u.name}</strong><br><span style="font-size: 0.75rem; color: #94a3b8;">${u.company} (${u.city || 'SP'})</span></td>
+          <td style="padding: 12px 10px;">
+            <strong style="color: #f8fafc;">${u.name}</strong><br>
+            <span style="font-size: 0.75rem; color: #94a3b8;"><i class="fa-solid fa-building"></i> ${u.company} (${u.city || 'SP'})</span>
+          </td>
           <td style="padding: 12px 10px;"><a href="mailto:${u.email}" style="color: #38bdf8; text-decoration: none;">${u.email}</a></td>
-          <td style="padding: 12px 10px;"><a href="https://wa.me/55${(u.phone || '').replace(/\D/g, '')}" target="_blank" rel="noopener" style="color: #10B981; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-whatsapp"></i> ${u.phone || 'N/A'}</a></td>
+          <td style="padding: 12px 10px;">
+            ${cleanPhone ? `
+              <a href="https://wa.me/55${cleanPhone}" target="_blank" rel="noopener" style="color: #10B981; text-decoration: none; font-weight: 600;">
+                <i class="fa-brands fa-whatsapp"></i> ${u.phone}
+              </a>
+            ` : '<span style="color: #64748b;">N/A</span>'}
+          </td>
           <td style="padding: 12px 10px;">${statusBadge}</td>
           <td style="padding: 12px 10px;">${actionButtons}</td>
         </tr>
@@ -897,7 +1090,7 @@ function initCatalogAuth() {
       const revokeBtn = e.target.closest('.btn-revoke-user');
       if (revokeBtn) {
         const id = revokeBtn.getAttribute('data-id');
-        updateUserStatus(id, 'pending');
+        updateUserStatus(id, 'blocked');
         renderAdminUsersList();
         renderShowroom();
         return;

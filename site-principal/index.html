@@ -740,26 +740,114 @@
 
   <!-- MODAL 2: GESTÃO DE APROVAÇÕES DO ADMINISTRADOR MASTER -->
   <div id="catalog-admin-modal" class="skeuo-modal-backdrop hidden">
-    <div class="skeuo-modal-box skeuo-panel" style="max-width: 900px; position: relative;">
+    <div class="skeuo-modal-box skeuo-panel" style="max-width: 950px; position: relative; max-height: 90vh; overflow-y: auto;">
       <button class="modal-close-btn" id="close-catalog-admin-btn"><i class="fa-solid fa-xmark"></i></button>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px; flex-wrap: wrap; gap: 10px;">
         <div>
           <h2 style="font-family: 'Orbitron', sans-serif; color: #fbbf24; font-size: 1.2rem; margin: 0;">
             <i class="fa-solid fa-user-shield"></i> PAINEL DE APROVAÇÃO DE ACESSOS (ADMINISTRADOR MASTER)
           </h2>
-          <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">Gerencie e aprove o 1º acesso dos parceiros para visualização das tabelas de atacado.</p>
+          <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">Gerencie, aprove solicitações de novos lojistas e cadastre parceiros homologados da rede Z8.</p>
         </div>
         <span style="font-size: 0.78rem; background: rgba(251,191,36,0.15); border: 1px solid #fbbf24; color: #fbbf24; padding: 4px 12px; border-radius: 20px; font-weight: 700;">
-          christian.tkh@gmail.com
+          <i class="fa-solid fa-crown"></i> christian.tkh@gmail.com
         </span>
       </div>
 
+      <!-- CARDS DE ESTATÍSTICAS DO ADMINISTRADOR -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 16px;">
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: 8px;">
+          <span style="font-size: 0.72rem; color: #94a3b8; display: block;">Total de Cadastros</span>
+          <strong id="adm-stat-total" style="font-size: 1.3rem; color: #f8fafc;">0</strong>
+        </div>
+        <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.35); padding: 10px 14px; border-radius: 8px;">
+          <span style="font-size: 0.72rem; color: #fcd34d; display: block; font-weight: 700;"><i class="fa-solid fa-clock"></i> Aguardando Liberação</span>
+          <strong id="adm-stat-pending" style="font-size: 1.3rem; color: #fbbf24;">0</strong>
+        </div>
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); padding: 10px 14px; border-radius: 8px;">
+          <span style="font-size: 0.72rem; color: #6ee7b7; display: block; font-weight: 700;"><i class="fa-solid fa-check-circle"></i> Acessos Liberados</span>
+          <strong id="adm-stat-approved" style="font-size: 1.3rem; color: #10B981;">0</strong>
+        </div>
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.35); padding: 10px 14px; border-radius: 8px;">
+          <span style="font-size: 0.72rem; color: #fca5a5; display: block; font-weight: 700;"><i class="fa-solid fa-ban"></i> Bloqueados</span>
+          <strong id="adm-stat-blocked" style="font-size: 1.3rem; color: #ef4444;">0</strong>
+        </div>
+      </div>
+
+      <!-- BARRA DE AÇÕES: BUSCA, FILTROS E BOTÃO ADICIONAR -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+          <button type="button" class="admin-filter-pill active" data-status="all" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; font-weight: 700; cursor: pointer;">
+            Todos (<span id="adm-pill-all">0</span>)
+          </button>
+          <button type="button" class="admin-filter-pill" data-status="pending" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
+            ⏳ Aguardando (<span id="adm-pill-pending">0</span>)
+          </button>
+          <button type="button" class="admin-filter-pill" data-status="approved" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
+            🟢 Liberados (<span id="adm-pill-approved">0</span>)
+          </button>
+          <button type="button" class="admin-filter-pill" data-status="blocked" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
+            🔴 Bloqueados (<span id="adm-pill-blocked">0</span>)
+          </button>
+        </div>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-grow: 1; justify-content: flex-end;">
+          <input type="text" id="adm-user-search" placeholder="🔍 Buscar por Nome, Loja, E-mail ou WhatsApp..." style="padding: 6px 12px; font-size: 0.78rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff; min-width: 220px; outline: none;" />
+          <button type="button" id="btn-toggle-add-partner" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+            <i class="fa-solid fa-user-plus"></i> Cadastrar & Liberar Parceiro
+          </button>
+        </div>
+      </div>
+
+      <!-- FORMULÁRIO RETRÁTIL DE NOVO PARCEIRO -->
+      <div id="admin-add-partner-box" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 10px; padding: 16px; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h4 style="color: #6ee7b7; font-size: 0.92rem; margin: 0;"><i class="fa-solid fa-id-card"></i> Cadastrar e Liberar Novo Parceiro no Sistema</h4>
+          <button type="button" id="btn-cancel-add-partner" style="background: transparent; border: none; color: #94a3b8; font-size: 0.75rem; cursor: pointer;">Fechar ✕</button>
+        </div>
+        <form id="admin-manual-partner-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+          <div>
+            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Nome do Responsável *</label>
+            <input type="text" id="adm-field-name" required placeholder="Ex: Zé da Silva" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Empresa / Concessionária *</label>
+            <input type="text" id="adm-field-company" required placeholder="Ex: Silva Motos E-Motion" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Cidade / UF *</label>
+            <input type="text" id="adm-field-city" required placeholder="Ex: São Paulo - SP" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">E-mail do Lojista *</label>
+            <input type="email" id="adm-field-email" required placeholder="zedasilva@loja.com.br" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">WhatsApp *</label>
+            <input type="text" id="adm-field-phone" required placeholder="(11) 98765-4321" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+          </div>
+          <div>
+            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Status Inicial</label>
+            <select id="adm-field-status" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;">
+              <option value="approved" selected>🟢 Liberar Acesso Imediatamente (Aprovado)</option>
+              <option value="pending">⏳ Manter Aguardando (Pendente)</option>
+            </select>
+          </div>
+          <div style="grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
+            <button type="submit" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 8px 18px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-check"></i> Salvar e Liberar Acesso
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- TABELA DE USUÁRIOS REGISTRADOS -->
       <div style="overflow-x: auto;">
         <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
           <thead>
             <tr style="border-bottom: 1px solid rgba(255,255,255,0.2); color: #00F2FE;">
-              <th style="padding: 10px;">Nome / Empresa</th>
+              <th style="padding: 10px;">Nome / Empresa / Cidade</th>
               <th style="padding: 10px;">E-mail</th>
               <th style="padding: 10px;">WhatsApp</th>
               <th style="padding: 10px;">Status Atual</th>
