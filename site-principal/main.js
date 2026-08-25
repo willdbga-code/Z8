@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderOrderDesk();
   renderCompliance();
   initCalculator();
+  renderDownloads();
   initModals();
   initCatalogAuth();
   initWarrantyPortal();
@@ -219,11 +220,13 @@ function initFilterBar() {
 
 
 /* --------------------------------------------------------------------------
-   5. ORDER DESK TABLE RENDER
+   5. ORDER DESK TABLE RENDER (RESTRICTED TO APPROVED USERS)
    -------------------------------------------------------------------------- */
 function renderOrderDesk() {
   const tbody = document.getElementById('orderdesk-table-body');
   if (!tbody) return;
+
+  const approved = isCatalogApproved();
 
   tbody.innerHTML = z8Models.map((model, idx) => {
     const profit = model.profit ?? (model.retailPrice - model.wholesalePrice);
@@ -231,21 +234,41 @@ function renderOrderDesk() {
     const marginPct = model.marginPct ?? (((model.retailPrice - model.wholesalePrice) / model.retailPrice) * 100).toFixed(1);
     const rank = model.rank ?? (idx + 1);
 
+    const wholesaleCol = approved
+      ? `<span style="color: var(--accent-neon); font-weight: 700;">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</span>`
+      : `<span style="color: #fbbf24; font-size: 0.82rem;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>`;
+
+    const profitCol = approved
+      ? `<strong style="color: var(--accent-emerald);">R$ ${profit.toLocaleString('pt-BR')},00</strong>`
+      : `<span style="color: #fbbf24; font-size: 0.82rem;"><i class="fa-solid fa-lock"></i> Restrito</span>`;
+
+    const markupCol = approved
+      ? `<span style="color: var(--accent-gold); font-weight: 700;">${markupPct}%</span>`
+      : `<span style="color: #fbbf24; font-size: 0.82rem;"><i class="fa-solid fa-lock"></i> Restrito</span>`;
+
+    const marginCol = approved
+      ? `${marginPct}%`
+      : `<span style="color: #fbbf24; font-size: 0.82rem;"><i class="fa-solid fa-lock"></i> Restrito</span>`;
+
+    const actionCol = approved
+      ? `<button class="skeuo-button secondary-metal-btn btn-table-order" data-id="${model.id}" style="padding: 6px 12px; font-size: 0.8rem;">
+           <i class="fa-solid fa-cart-plus"></i> Pedir Lote
+         </button>`
+      : `<button class="skeuo-button secondary-metal-btn btn-unlock-table-order" data-model="${model.name}" style="padding: 6px 12px; font-size: 0.78rem; background: rgba(251,191,36,0.16); color: #fbbf24; border: 1px solid rgba(251,191,36,0.35); font-weight: 700; cursor: pointer;">
+           <i class="fa-brands fa-whatsapp"></i> Liberar Acesso
+         </button>`;
+
     return `
     <tr>
       <td><strong>${rank}º</strong></td>
       <td><strong>${model.name}</strong></td>
       <td><code style="background: var(--bg-inset); padding: 2px 6px; border-radius: 4px;">${model.code}</code></td>
-      <td><span style="color: var(--accent-neon); font-weight: 700;">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</span></td>
+      <td>${wholesaleCol}</td>
       <td>R$ ${model.retailPrice.toLocaleString('pt-BR')},00</td>
-      <td><strong style="color: var(--accent-emerald);">R$ ${profit.toLocaleString('pt-BR')},00</strong></td>
-      <td><span style="color: var(--accent-gold); font-weight: 700;">${markupPct}%</span></td>
-      <td>${marginPct}%</td>
-      <td>
-        <button class="skeuo-button secondary-metal-btn btn-table-order" data-id="${model.id}" style="padding: 6px 12px; font-size: 0.8rem;">
-          <i class="fa-solid fa-cart-plus"></i> Pedir Lote
-        </button>
-      </td>
+      <td>${profitCol}</td>
+      <td>${markupCol}</td>
+      <td>${marginCol}</td>
+      <td>${actionCol}</td>
     </tr>
   `;
   }).join('');
@@ -259,6 +282,21 @@ function renderOrderDesk() {
         selectModel.dispatchEvent(new Event('change'));
         document.getElementById('calculator-section')?.scrollIntoView({ behavior: 'smooth' });
       }
+    });
+  });
+
+  tbody.querySelectorAll('.btn-unlock-table-order').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const modelName = btn.getAttribute('data-model');
+      const user = getCurrentCatalogUser();
+      const cleanPhone = '5512998008818';
+      let msg = '';
+      if (user) {
+        msg = `Olá Christian! Sou ${user.name || user.company} (${user.email}). Solicitei cadastro no catálogo Z8 e gostaria de liberar o acesso para visualizar a tabela de atacado do modelo ${modelName}.`;
+      } else {
+        msg = `Olá Christian! Gostaria de solicitar a liberação da tabela de atacado e margens do modelo ${modelName} no portal Z8.`;
+      }
+      window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
     });
   });
 }
@@ -279,7 +317,7 @@ function renderCompliance() {
 }
 
 /* --------------------------------------------------------------------------
-   6. CALCULATOR SKEUOMORPHIC LOGIC
+   6. CALCULATOR SKEUOMORPHIC LOGIC (RESTRICTED TO APPROVED USERS)
    -------------------------------------------------------------------------- */
 function initCalculator() {
   const inputMoq = document.getElementById('calc-moq-slider');
@@ -291,10 +329,26 @@ function initCalculator() {
   const resRevenue = document.getElementById('res-revenue-total');
   const resProfit = document.getElementById('res-profit-total');
   const resMargin = document.getElementById('res-margin-pct');
+  const btnProposal = document.getElementById('btn-request-proposal');
+
+  function populateSelect() {
+    if (!selectModel) return;
+    const approved = isCatalogApproved();
+    const currentVal = selectModel.value || z8Models[0].id;
+
+    selectModel.innerHTML = z8Models.map((m, idx) => {
+      const label = approved
+        ? `${idx + 1}º ${m.name} (R$ ${m.wholesalePrice.toLocaleString('pt-BR')} / R$ ${m.retailPrice.toLocaleString('pt-BR')})`
+        : `${idx + 1}º ${m.name} (R$ ${m.retailPrice.toLocaleString('pt-BR')} Varejo - Atacado Sob Consulta)`;
+      return `<option value="${m.id}" ${m.id === currentVal ? 'selected' : ''}>${label}</option>`;
+    }).join('');
+  }
 
   function calculate() {
+    if (!inputMoq || !selectModel) return;
+    const approved = isCatalogApproved();
     const moq = parseInt(inputMoq.value, 10);
-    displayMoq.innerText = `${moq} Motos`;
+    if (displayMoq) displayMoq.innerText = `${moq} Motos`;
 
     const modelObj = z8Models.find(m => m.id === selectModel.value) || z8Models[0];
     
@@ -305,22 +359,38 @@ function initCalculator() {
     const totalRevenue = unitRetail * moq;
     const totalProfit = totalRevenue - totalCost;
     const markupPct = ((totalProfit / totalCost) * 100).toFixed(2).replace('.', ',');
-    
-    if (displayTierDiscount) {
-      displayTierDiscount.innerText = `${markupPct}% MARKUP`;
-    }
 
-    resCost.innerText = `R$ ${Math.round(totalCost).toLocaleString('pt-BR')},00`;
-    resRevenue.innerText = `R$ ${Math.round(totalRevenue).toLocaleString('pt-BR')},00`;
-    resProfit.innerText = `R$ ${Math.round(totalProfit).toLocaleString('pt-BR')},00`;
-    resMargin.innerText = `${markupPct}% Markup`;
+    if (approved) {
+      if (displayTierDiscount) displayTierDiscount.innerHTML = `${markupPct}% MARKUP`;
+      if (resCost) resCost.innerHTML = `R$ ${Math.round(totalCost).toLocaleString('pt-BR')},00`;
+      if (resRevenue) resRevenue.innerHTML = `R$ ${Math.round(totalRevenue).toLocaleString('pt-BR')},00`;
+      if (resProfit) resProfit.innerHTML = `R$ ${Math.round(totalProfit).toLocaleString('pt-BR')},00`;
+      if (resMargin) resMargin.innerHTML = `${markupPct}% Markup`;
+      if (btnProposal) {
+        btnProposal.style.background = '';
+        btnProposal.innerHTML = `<i class="fa-solid fa-file-invoice-dollar"></i> Solicitar Proposta Oficial para meu Lote`;
+      }
+    } else {
+      if (displayTierDiscount) displayTierDiscount.innerHTML = `<i class="fa-solid fa-lock"></i> RESTRITO`;
+      if (resCost) resCost.innerHTML = `<span style="color: #fbbf24; font-size: 1.05rem;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>`;
+      if (resRevenue) resRevenue.innerHTML = `R$ ${Math.round(totalRevenue).toLocaleString('pt-BR')},00`;
+      if (resProfit) resProfit.innerHTML = `<span style="color: #fbbf24; font-size: 1.05rem;"><i class="fa-solid fa-lock"></i> Restrito</span>`;
+      if (resMargin) resMargin.innerHTML = `<span style="color: #fbbf24; font-size: 0.9rem;"><i class="fa-solid fa-lock"></i> Restrito aos Franqueados</span>`;
+      if (btnProposal) {
+        btnProposal.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+        btnProposal.innerHTML = `<i class="fa-brands fa-whatsapp"></i> Solicitar Liberação dos Custos de Atacado`;
+      }
+    }
   }
+
+  populateSelect();
+  calculate();
 
   inputMoq?.addEventListener('input', calculate);
   selectModel?.addEventListener('change', calculate);
-  calculate();
 
-  document.getElementById('btn-request-proposal')?.addEventListener('click', () => {
+  btnProposal?.addEventListener('click', () => {
+    const approved = isCatalogApproved();
     const moq = parseInt(inputMoq.value, 10);
     const modelObj = z8Models.find(m => m.id === selectModel.value) || z8Models[0];
     const totalCost = modelObj.wholesalePrice * moq;
@@ -332,21 +402,144 @@ function initCalculator() {
     const clientCity = currentUser?.city || 'SP';
     const clientPhone = currentUser?.phone || 'Não informado';
 
-    const propMsg = 
-      `📋 *SOLICITAÇÃO DE PROPOSTA OFICIAL DE LOTE (SIMULADOR)*\n\n` +
-      `🏍️ *Modelo Principal:* ${modelObj.name} (${modelObj.code})\n` +
-      `🔢 *Quantidade Solicitada:* ${moq} Motos\n` +
-      `💰 *Custo Total Estimado:* R$ ${Math.round(totalCost).toLocaleString('pt-BR')},00\n` +
-      `📈 *Projeção de Lucro Bruto:* R$ ${Math.round(totalProfit).toLocaleString('pt-BR')},00\n\n` +
-      `👤 *DADOS DO COMPRADOR:*\n` +
-      `• *Nome:* ${clientName}\n` +
-      `• *Empresa / Loja:* ${clientCompany}\n` +
-      `• *Cidade / UF:* ${clientCity}\n` +
-      `• *WhatsApp:* ${clientPhone}\n\n` +
-      `_Olá! Gostaria de receber a formalização comercial deste lote com as opções de frete e prazos de entrega._`;
+    if (approved) {
+      const propMsg = 
+        `📋 *SOLICITAÇÃO DE PROPOSTA OFICIAL DE LOTE (SIMULADOR)*\n\n` +
+        `🏍️ *Modelo Principal:* ${modelObj.name} (${modelObj.code})\n` +
+        `🔢 *Quantidade Solicitada:* ${moq} Motos\n` +
+        `💰 *Custo Total Estimado:* R$ ${Math.round(totalCost).toLocaleString('pt-BR')},00\n` +
+        `📈 *Projeção de Lucro Bruto:* R$ ${Math.round(totalProfit).toLocaleString('pt-BR')},00\n\n` +
+        `👤 *DADOS DO COMPRADOR:*\n` +
+        `• *Nome:* ${clientName}\n` +
+        `• *Empresa / Loja:* ${clientCompany}\n` +
+        `• *Cidade / UF:* ${clientCity}\n` +
+        `• *WhatsApp:* ${clientPhone}\n\n` +
+        `_Olá! Gostaria de receber a formalização comercial deste lote com as opções de frete e prazos de entrega._`;
 
-    const propUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(propMsg)}`;
-    window.open(propUrl, '_blank');
+      const propUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(propMsg)}`;
+      window.open(propUrl, '_blank');
+    } else {
+      let unlockMsg = '';
+      if (currentUser) {
+        unlockMsg = `Olá Christian! Sou ${currentUser.name || currentUser.company} (${currentUser.email}). Gostaria de liberar meu acesso para visualizar a simulação e custos de atacado do lote de ${moq} unidades do modelo ${modelObj.name}.`;
+      } else {
+        unlockMsg = `Olá Christian! Gostaria de liberar o acesso para visualizar a simulação de rentabilidade e custos de atacado para um lote de ${moq} unidades do modelo ${modelObj.name}.`;
+      }
+      window.open(`https://wa.me/5512998008818?text=${encodeURIComponent(unlockMsg)}`, '_blank');
+    }
+  });
+}
+
+/* --------------------------------------------------------------------------
+   6.1 OFFICIAL MANUALS & DOWNLOADS (RESTRICTED TO APPROVED USERS)
+   -------------------------------------------------------------------------- */
+const OFFICIAL_MANUALS = [
+  {
+    badge: 'Brandbook Oficial',
+    badgeClass: '',
+    icon: 'fa-palette',
+    iconColor: 'text-cyan',
+    title: 'Manual de Identidade Visual & Arquitetura Z8',
+    desc: 'Padrões de letreiro em ACM, iluminação Backlight LED 6500K, planta baixa do showroom em 4 zonas, paleta de cores e uniformes oficiais.',
+    pdfUrl: '/docs/manuais/MANUAL_DE_IDENTIDADE_VISUAL_E_ARQUITETURA_Z8.pdf'
+  },
+  {
+    badge: 'Gestão Comercial',
+    badgeClass: 'gold',
+    icon: 'fa-briefcase',
+    iconColor: 'text-gold',
+    title: 'Manual de Operações & Vendas Consultivas',
+    desc: 'Procedimentos Operacionais Padrão (POP), protocolo obrigatório de Test-Ride, cálculo de economia de combustível (R$ 0,025/km) e quebra de objeções.',
+    pdfUrl: '/docs/manuais/MANUAL_DE_OPERACOES_E_VENDAS_CONSULTIVAS.pdf'
+  },
+  {
+    badge: 'Oficina & Pós-Venda',
+    badgeStyle: 'border-color: #10B981; color: #10B981; background: rgba(16,185,129,0.1);',
+    icon: 'fa-wrench',
+    iconColor: 'text-emerald',
+    title: 'Manual de Assistência Técnica, PDI & Manutenção',
+    desc: 'Ferramental mínimo obrigatório da oficina, Checklist de PDI em 32 pontos, plano de revisões programadas (300km a 5.000km) e tabela de torques em Nm.',
+    pdfUrl: '/docs/manuais/MANUAL_DE_ASSISTENCIA_TECNICA_E_MANUTENCAO_PREVENTIVA.pdf'
+  },
+  {
+    badge: 'Capacitação Técnica',
+    badgeStyle: 'border-color: #a855f7; color: #c084fc; background: rgba(168,85,247,0.1);',
+    icon: 'fa-bolt',
+    iconCustomStyle: 'color: #c084fc;',
+    title: 'Treinamento Técnico Inicial Homologado (16H)',
+    desc: 'Apostila completa dos 4 módulos técnicos: Baterias Lítio/LiFePO4 & BMS, Controladores FOC, Motores BLDC de Cubo e Diagnóstico de Falhas com Osciloscópio.',
+    pdfUrl: '/docs/manuais/TREINAMENTO_TECNICO_INICIAL_16H.pdf'
+  },
+  {
+    badge: 'Termo & Checklist',
+    badgeClass: '',
+    icon: 'fa-clipboard-check',
+    iconColor: 'text-emerald',
+    title: 'Termo de Entrega Técnica & Checklist de PDI',
+    desc: 'Instrumento formal de entrega ao consumidor final com checklist de 32 itens de segurança para assinatura e validação da garantia de fábrica.',
+    pdfUrl: '/docs/juridico/TERMO_DE_ENTREGA_TECNICA_E_PDI.pdf'
+  },
+  {
+    badge: 'Segurança Jurídica',
+    badgeClass: 'gold',
+    icon: 'fa-scale-balanced',
+    iconColor: 'text-gold',
+    title: 'Parecer Regulatório Resolução CONTRAN 996/2023',
+    desc: 'Dossiê jurídico detalhado atestando a legalidade da circulação dos veículos elétricos leves autopropelidos em ciclovias e vias públicas no território nacional.',
+    pdfUrl: '/docs/juridico/PARECER_REGULATORIO_CONTRAN_996.pdf'
+  }
+];
+
+function renderDownloads() {
+  const container = document.getElementById('official-manuals-grid');
+  if (!container) return;
+
+  const approved = isCatalogApproved();
+
+  container.innerHTML = OFFICIAL_MANUALS.map(m => {
+    const badgeStyleAttr = m.badgeStyle ? `style="${m.badgeStyle}"` : '';
+    const iconStyleAttr = m.iconCustomStyle ? `style="${m.iconCustomStyle}"` : '';
+    const iconClass = m.iconColor || '';
+
+    const btnHtml = approved
+      ? `
+        <a href="${m.pdfUrl}" target="_blank" rel="noopener" class="skeuo-button secondary-metal-btn full-width manual-btn">
+          <i class="fa-solid fa-download"></i> Baixar Manual em PDF
+        </a>
+      `
+      : `
+        <button type="button" class="skeuo-button secondary-metal-btn full-width manual-btn btn-unlock-manual" data-title="${m.title}" style="background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.35); font-weight: 700; cursor: pointer;">
+          <i class="fa-brands fa-whatsapp"></i> Liberar Acesso ao Material
+        </button>
+      `;
+
+    return `
+      <div class="skeuo-card manual-showcase-card">
+        <div class="manual-badge-header">
+          <span class="skeuo-badge ${m.badgeClass || ''}" ${badgeStyleAttr}>${m.badge}</span>
+          <span style="font-size: 0.75rem; color: var(--text-muted);"><i class="fa-solid fa-file-pdf text-cyan"></i> PDF</span>
+        </div>
+        <div class="manual-showcase-icon ${iconClass}" ${iconStyleAttr}><i class="fa-solid ${m.icon}"></i></div>
+        <h3 class="manual-showcase-title">${m.title}</h3>
+        <p class="manual-showcase-desc">${m.desc}</p>
+        ${btnHtml}
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.btn-unlock-manual').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const title = btn.getAttribute('data-title');
+      const user = getCurrentCatalogUser();
+      const cleanPhone = '5512998008818';
+      let msg = '';
+      if (user) {
+        msg = `Olá Christian! Sou ${user.name || user.company} (${user.email}). Solicitei cadastro no catálogo Z8 e gostaria de liberar o download do material oficial: ${title}.`;
+      } else {
+        msg = `Olá Christian! Gostaria de solicitar a liberação para download do material oficial da Franquia Z8: ${title}.`;
+      }
+      window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+    });
   });
 }
 
@@ -522,11 +715,19 @@ function initCatalogAuth() {
   window.addEventListener('z8-catalog-auth-changed', () => {
     updateHeaderAuth();
     renderShowroom();
+    renderOrderDesk();
+    initCalculator();
+    renderDownloads();
+    renderOSDashboard();
   });
 
   window.addEventListener('z8-catalog-users-updated', () => {
     renderAdminUsersList();
     renderShowroom();
+    renderOrderDesk();
+    initCalculator();
+    renderDownloads();
+    renderOSDashboard();
   });
 
   document.addEventListener('click', (e) => {
@@ -1068,9 +1269,19 @@ function initWarrantyPortal() {
       e.preventDefault();
 
       const user = getCurrentCatalogUser();
+      const approved = isCatalogApproved();
+
       if (!user) {
         alert('Por favor, faça login ou cadastre sua unidade para registrar uma Ordem de Serviço vinculada à sua conta.');
         document.getElementById('catalog-auth-modal')?.classList.remove('hidden');
+        return;
+      }
+
+      if (!approved) {
+        alert('Seu cadastro está aguardando aprovação do Administrador Master (christian.tkh@gmail.com). A abertura de O.S e requisição de garantia é liberada mediante autorização comercial.');
+        const cleanPhone = '5512998008818';
+        const msg = `Olá Christian! Sou ${user.name || user.company} (${user.email}). Gostaria de solicitar a aprovação do meu cadastro para abrir uma Ordem de Serviço (Garantia) no Portal Z8.`;
+        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
         return;
       }
 
