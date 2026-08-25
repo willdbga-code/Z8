@@ -2,23 +2,23 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Regras de Segurança do Firebase Firestore - Z8 E-Motion CRM
-    match /leads/{leadId} {
-
-      // Permitir gravação pública de novos leads vindos da página de vendas (com validação estrita de campos)
-      allow create: if request.resource.data.keys().hasAll(['name', 'email', 'phone', 'city'])
-                    && request.resource.data.name is string
-                    && request.resource.data.email is string
-                    && request.resource.data.phone is string
-                    && request.resource.data.city is string;
-
-      // Permitir leitura e atualização apenas para usuários administradores/CRM autorizados
-      allow read, update, delete: if request.auth != null || request.headers.origin.matches('.*localhost.*|.*z8.*');
+    // Regras de Acesso para Usuários e Parceiros do Catálogo Z8
+    match /catalog_users/{userId} {
+      allow read, write: if true;
     }
 
-    // Bloquear qualquer outro acesso não especificado por padrão
+    // Regras de Acesso para Leads do CRM
+    match /leads/{leadId} {
+      allow read, write: if true;
+    }
+
+    // Regras de Acesso para Ordens de Serviço (Garantia)
+    match /service_orders/{orderId} {
+      allow read, write: if true;
+    }
+
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if true;
     }
   }
 }

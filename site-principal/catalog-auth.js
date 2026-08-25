@@ -9,7 +9,9 @@ const SESSION_USER_KEY = 'z8_catalog_auth_user';
 const MASTER_ADMIN_EMAIL = "christian.tkh@gmail.com";
 const MASTER_ADMIN_PASS = "@12345678@";
 
-const CLOUD_SYNC_ENDPOINT = 'https://api.restful-api.dev/objects/ff8081819ff5b11001a0368118f614aa';
+const FIREBASE_API_KEY = "AIzaSyDxBfXwvrBt19dQbxqGYkVmFIl_S87VOdU";
+const FIREBASE_PROJECT_ID = "william-site-43963";
+const FIRESTORE_USERS_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/catalog_users`;
 
 const DEFAULT_USERS = [
   {
@@ -118,49 +120,87 @@ const DEFAULT_USERS = [
   }
 ];
 
-// Push current users array to cloud hub
-export async function pushUsersToCloud(usersList) {
+// Salva um usuário específico no Firebase Firestore Real
+export async function pushUserToFirestore(user) {
+  if (!user || !user.email) return;
   try {
-    await fetch(CLOUD_SYNC_ENDPOINT, {
-      method: 'PUT',
+    const docId = encodeURIComponent(user.email.toLowerCase().trim());
+    const body = {
+      fields: {
+        id: { stringValue: String(user.id || ('user_' + Date.now())) },
+        name: { stringValue: String(user.name || 'Parceiro Z8') },
+        company: { stringValue: String(user.company || 'Empresa Parceira') },
+        city: { stringValue: String(user.city || 'São Paulo - SP') },
+        email: { stringValue: String(user.email.toLowerCase().trim()) },
+        phone: { stringValue: String(user.phone || '') },
+        role: { stringValue: String(user.role || 'partner') },
+        status: { stringValue: String(user.status || 'pending') },
+        password: { stringValue: String(user.password || 'Z8@2026') },
+        updatedAt: { integerValue: String(user.updatedAt || Date.now()) },
+        createdAt: { stringValue: String(user.createdAt || new Date().toISOString()) }
+      }
+    };
+    await fetch(`${FIRESTORE_USERS_URL}/${docId}?key=${FIREBASE_API_KEY}`, {
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: 'z8_global_users_directory_hub',
-        data: { users: usersList }
-      })
+      body: JSON.stringify(body)
     });
   } catch (err) {
-    console.warn('Cloud sync push warning:', err);
+    console.warn('Firestore user push warning:', err);
   }
 }
 
-// Fetch all registered users from cloud hub and merge safely with local storage
+// Sincroniza lista de usuários com o Firebase Firestore
+export async function pushUsersToCloud(usersList) {
+  if (!Array.isArray(usersList)) return;
+  for (const u of usersList) {
+    pushUserToFirestore(u);
+  }
+}
+
+// Busca todos os usuários reais cadastrados no Firebase Firestore
 export async function fetchUsersFromCloud() {
   try {
-    const res = await fetch(CLOUD_SYNC_ENDPOINT);
+    const res = await fetch(`${FIRESTORE_USERS_URL}?key=${FIREBASE_API_KEY}`);
     if (!res.ok) return null;
     const json = await res.json();
-    const cloudUsers = json?.data?.users;
-    if (Array.isArray(cloudUsers) && cloudUsers.length > 0) {
+    const documents = json?.documents;
+    if (Array.isArray(documents) && documents.length > 0) {
       const localUsers = getRegisteredUsers();
       let hasChanges = false;
 
-      // Merge cloud users into local
       const mergedMap = new Map();
       localUsers.forEach(u => mergedMap.set(u.email.toLowerCase(), u));
 
-      cloudUsers.forEach(cu => {
-        const key = cu.email.toLowerCase();
-        if (!mergedMap.has(key)) {
-          mergedMap.set(key, cu);
+      documents.forEach(doc => {
+        const f = doc.fields || {};
+        const email = (f.email?.stringValue || '').toLowerCase().trim();
+        if (!email) return;
+
+        const cu = {
+          id: f.id?.stringValue || ('user_' + Date.now()),
+          name: f.name?.stringValue || 'Parceiro Z8',
+          company: f.company?.stringValue || 'Empresa Parceira',
+          city: f.city?.stringValue || 'São Paulo - SP',
+          email: email,
+          phone: f.phone?.stringValue || '',
+          role: f.role?.stringValue || 'partner',
+          status: f.status?.stringValue || 'pending',
+          password: f.password?.stringValue || 'Z8@2026',
+          updatedAt: parseInt(f.updatedAt?.integerValue || '1000', 10),
+          createdAt: f.createdAt?.stringValue || new Date().toISOString()
+        };
+
+        if (!mergedMap.has(email)) {
+          mergedMap.set(email, cu);
           hasChanges = true;
         } else {
-          const localU = mergedMap.get(key);
+          const localU = mergedMap.get(email);
           const cloudTime = cu.updatedAt || 0;
           const localTime = localU.updatedAt || 0;
 
-          // Se a nuvem tem timestamp estritamente mais recente, atualiza status
-          if (cloudTime > localTime && cu.status && cu.status !== localU.status && key !== MASTER_ADMIN_EMAIL.toLowerCase()) {
+          // Se o Firebase tem atualização mais recente, atualiza status
+          if (cloudTime > localTime && cu.status && cu.status !== localU.status && email !== MASTER_ADMIN_EMAIL.toLowerCase()) {
             localU.status = cu.status;
             localU.updatedAt = cloudTime;
             hasChanges = true;
@@ -197,7 +237,7 @@ export async function fetchUsersFromCloud() {
       return mergedList;
     }
   } catch (err) {
-    console.warn('Cloud sync fetch warning:', err);
+    console.warn('Firestore fetch warning:', err);
   }
   return null;
 }

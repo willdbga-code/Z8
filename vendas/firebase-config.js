@@ -4,12 +4,13 @@
 // ==========================================================================
 
 export const firebaseConfig = {
-  apiKey: "AIzaSy_YOUR_FIREBASE_API_KEY_HERE",
-  authDomain: "z8-emotion-crm.firebaseapp.com",
-  projectId: "z8-emotion-crm",
-  storageBucket: "z8-emotion-crm.appspot.com",
-  messagingSenderId: "987654321012",
-  appId: "1:987654321012:web:a1b2c3d4e5f6"
+  projectId: "william-site-43963",
+  appId: "1:796751991729:web:720e8e01bdfca6d3d16390",
+  storageBucket: "william-site-43963.firebasestorage.app",
+  apiKey: "AIzaSyDxBfXwvrBt19dQbxqGYkVmFIl_S87VOdU",
+  authDomain: "william-site-43963.firebaseapp.com",
+  messagingSenderId: "796751991729",
+  measurementId: "G-K0JQDK5J0P"
 };
 
 const STORAGE_KEY = 'z8_crm_leads_data';
