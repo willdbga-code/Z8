@@ -1,4 +1,6 @@
 import { checkCityAvailability } from './cities-cluster.js';
+import { loginCatalogUser, registerCatalogUser } from '../site-principal/catalog-auth.js';
+import { saveLead } from './firebase-config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   initCountdownTimer();
@@ -586,44 +588,27 @@ function initPortalLoginModal() {
 
   // 1. Submit de Login
   if (loginForm) {
-    loginForm.addEventListener('submit', async (e) => {
+    loginForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const userVal = document.getElementById('portal-input-user').value.trim();
       const passVal = document.getElementById('portal-input-pass').value.trim();
 
-      try {
-        const { loginCatalogUser } = await import('../site-principal/catalog-auth.js');
-        const res = loginCatalogUser(userVal, passVal);
+      const res = loginCatalogUser(userVal, passVal);
 
-        if (res.success) {
-          showPortalMessage(`🎉 Login efetuado com sucesso! Redirecionando para o painel de atacado...`, 'success');
-          
-          if (openPortalBtn) {
-            const label = openPortalBtn.querySelector('.btn-header-login-text');
-            if (label) label.textContent = (res.user.name || 'CONECTADO').split(' ')[0].toUpperCase();
-          }
+      if (res.success) {
+        showPortalMessage(`🎉 Login efetuado com sucesso! Redirecionando para o painel de atacado...`, 'success');
+        
+        if (openPortalBtn) {
+          const label = openPortalBtn.querySelector('.btn-header-login-text');
+          if (label) label.textContent = (res.user.name || 'CONECTADO').split(' ')[0].toUpperCase();
+        }
 
-          setTimeout(() => {
-            portalModal.classList.remove('active');
-            window.location.href = '/site-principal/';
-          }, 1200);
-        } else {
-          showPortalMessage(res.error || 'Credenciais inválidas. Verifique seu e-mail e senha.', 'error');
-        }
-      } catch (err) {
-        // Fallback autenticação direta
-        if ((userVal === 'christian.tkh@gmail.com' && passVal === '@12345678@') || (userVal && passVal.length >= 6)) {
-          const userObj = { email: userVal, name: userVal.split('@')[0], role: 'partner', status: 'approved' };
-          localStorage.setItem('z8_catalog_auth_user', JSON.stringify(userObj));
-          localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
-          showPortalMessage(`🎉 Login efetuado com sucesso! Redirecionando...`, 'success');
-          setTimeout(() => {
-            portalModal.classList.remove('active');
-            window.location.href = '/site-principal/';
-          }, 1200);
-        } else {
-          showPortalMessage('E-mail ou senha incorretos. Solicite acesso na aba ao lado.', 'error');
-        }
+        setTimeout(() => {
+          portalModal.classList.remove('active');
+          window.location.href = '/site-principal/';
+        }, 1000);
+      } else {
+        showPortalMessage(res.error || 'Credenciais inválidas. Verifique seu e-mail e senha.', 'error');
       }
     });
   }
@@ -641,20 +626,11 @@ function initPortalLoginModal() {
 
       const userData = { name, company, city, email, phone, password };
 
-      // Salva no sistema de autenticação
-      try {
-        const { registerCatalogUser } = await import('../site-principal/catalog-auth.js');
-        const res = await registerCatalogUser(userData);
-        if (!res || !res.success) {
-          showPortalMessage(res?.error || 'Erro ao registrar conta. Tente novamente.', 'error');
-          return;
-        }
-      } catch(err) {
-        console.warn('Registration error:', err);
-        // Fallback local
-        const userObj = { ...userData, role: 'partner', status: 'pending' };
-        localStorage.setItem('z8_catalog_auth_user', JSON.stringify(userObj));
-        localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
+      // Salva no sistema de autenticação e no Firestore
+      const res = await registerCatalogUser(userData);
+      if (!res || !res.success) {
+        showPortalMessage(res?.error || 'Erro ao registrar conta. Tente novamente.', 'error');
+        return;
       }
 
       // Dispara conversão de Lead
@@ -664,12 +640,9 @@ function initPortalLoginModal() {
         city: city
       });
 
-      // Salva no Firebase se disponível
+      // Salva no Firebase Leads
       try {
-        const { saveLead } = await import('./firebase-config.js');
-        if (typeof saveLead === 'function') {
-          saveLead({ name, company, city, email, phone, paymentMethod: 'Cadastro Direto Portal' });
-        }
+        saveLead({ name, company, city, email, phone, paymentMethod: 'Cadastro Direto Portal' });
       } catch(e) {}
 
       showPortalMessage(`🎉 <strong>Conta criada com sucesso!</strong><br/>Entrando no seu Portal Z8...`, 'success');
@@ -678,7 +651,7 @@ function initPortalLoginModal() {
       setTimeout(() => {
         portalModal.classList.remove('active');
         window.location.href = '/site-principal/';
-      }, 1200);
+      }, 1000);
     });
   }
 }
