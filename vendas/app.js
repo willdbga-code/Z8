@@ -644,12 +644,13 @@ function initPortalLoginModal() {
       // Salva no sistema de autenticação
       try {
         const { registerCatalogUser } = await import('../site-principal/catalog-auth.js');
-        const res = registerCatalogUser(userData);
-        if (!res.success) {
-          showPortalMessage(res.error, 'error');
+        const res = await registerCatalogUser(userData);
+        if (!res || !res.success) {
+          showPortalMessage(res?.error || 'Erro ao registrar conta. Tente novamente.', 'error');
           return;
         }
       } catch(err) {
+        console.warn('Registration error:', err);
         // Fallback local
         const userObj = { ...userData, role: 'partner', status: 'pending' };
         localStorage.setItem('z8_catalog_auth_user', JSON.stringify(userObj));
