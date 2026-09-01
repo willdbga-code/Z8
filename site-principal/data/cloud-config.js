@@ -27,7 +27,7 @@ export const CLOUD_CONFIG = {
 
 export const DEFAULT_MASTER_ADMIN = {
   id: 'user_admin_01',
-  name: 'Christian Admin',
+  name: 'Christian Hideyuki (Admin Master)',
   company: 'Z8 E-Motion Brasil (Matriz)',
   city: 'São Paulo - SP',
   email: 'christian.tkh@gmail.com',
@@ -36,5 +36,49 @@ export const DEFAULT_MASTER_ADMIN = {
   role: 'admin',
   status: 'approved',
   updatedAt: 1000,
-  createdAt: new Date().toISOString()
+  createdAt: '2026-08-25T16:08:04.281Z'
 };
+
+// Base consolidada com todas as contas reais e cadastradas no sistema
+export const SEED_REGISTERED_USERS = [
+  DEFAULT_MASTER_ADMIN,
+  {
+    id: 'user_1787674451313',
+    name: 'christian hideyuki',
+    company: 'hide',
+    city: 'Pindamonhangaba - SP',
+    email: 'christian.hide@hotmail.com',
+    phone: '(12) 98898-6148',
+    password: '12345678',
+    role: 'partner',
+    status: 'approved',
+    updatedAt: 1787674543174,
+    createdAt: '2026-08-25T16:14:11.313Z'
+  },
+  {
+    id: 'user_william_01',
+    name: 'William Del Barrio',
+    company: 'Del Barrio E-Motors',
+    city: 'Pindamonhangaba - SP',
+    email: 'willdbga@gmail.com',
+    phone: '(12) 98813-0316',
+    password: '12345678',
+    role: 'partner',
+    status: 'approved',
+    updatedAt: 1787627826993,
+    createdAt: '2026-08-25T03:15:24.950Z'
+  },
+  {
+    id: 'lead_1787790262588',
+    name: 'Fabrício Daniel de Oliveira Castro',
+    company: 'JF',
+    city: 'Pindamonhangaba - SP',
+    email: 'fabriciopolocruzeiro@gmail.com',
+    phone: '(12) 99106-4106',
+    password: 'Z8@' + '4106',
+    role: 'partner',
+    status: 'pending',
+    updatedAt: 1787790262589,
+    createdAt: '2026-08-27T00:24:22.588Z'
+  }
+];

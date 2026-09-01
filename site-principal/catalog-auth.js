@@ -2,7 +2,7 @@
 // Z8 E-Motion - Catalog Access Control, User Approval & Cloud Database Engine
 // ==========================================================================
 
-import { CLOUD_CONFIG, DEFAULT_MASTER_ADMIN } from './data/cloud-config.js';
+import { CLOUD_CONFIG, DEFAULT_MASTER_ADMIN, SEED_REGISTERED_USERS } from './data/cloud-config.js';
 
 const USERS_STORAGE_KEY = CLOUD_CONFIG.STORAGE_USERS_KEY;
 const SESSION_KEY = CLOUD_CONFIG.STORAGE_SESSION_KEY;
@@ -11,9 +11,7 @@ const SESSION_USER_KEY = CLOUD_CONFIG.STORAGE_SESSION_USER_KEY;
 const MASTER_ADMIN_EMAIL = CLOUD_CONFIG.MASTER_ADMIN_EMAIL;
 const MASTER_ADMIN_PASS = "@12345678@";
 
-const DEFAULT_USERS = [
-  DEFAULT_MASTER_ADMIN
-];
+const DEFAULT_USERS = SEED_REGISTERED_USERS;
 
 const TEST_DEMO_EMAILS = [
   'zedasilva@loja.com.br',

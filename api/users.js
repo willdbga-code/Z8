@@ -4,11 +4,11 @@
 
 const MASTER_ADMIN_EMAIL = "christian.tkh@gmail.com";
 
-// In-memory persistent cache for serverless environment
+// Base persistente de usuários e lojistas cadastrados
 let globalUsersStore = [
   {
     id: 'user_admin_01',
-    name: 'Christian Hideyuki',
+    name: 'Christian Hideyuki (Admin Master)',
     company: 'Z8 E-Motion Brasil (Matriz)',
     city: 'São Paulo - SP',
     email: 'christian.tkh@gmail.com',
@@ -17,11 +17,49 @@ let globalUsersStore = [
     role: 'admin',
     status: 'approved',
     updatedAt: 1000,
-    createdAt: new Date().toISOString()
+    createdAt: '2026-08-25T16:08:04.281Z'
+  },
+  {
+    id: 'user_1787674451313',
+    name: 'christian hideyuki',
+    company: 'hide',
+    city: 'Pindamonhangaba - SP',
+    email: 'christian.hide@hotmail.com',
+    phone: '(12) 98898-6148',
+    password: '12345678',
+    role: 'partner',
+    status: 'approved',
+    updatedAt: 1787674543174,
+    createdAt: '2026-08-25T16:14:11.313Z'
+  },
+  {
+    id: 'user_william_01',
+    name: 'William Del Barrio',
+    company: 'Del Barrio E-Motors',
+    city: 'Pindamonhangaba - SP',
+    email: 'willdbga@gmail.com',
+    phone: '(12) 98813-0316',
+    password: '12345678',
+    role: 'partner',
+    status: 'approved',
+    updatedAt: 1787627826993,
+    createdAt: '2026-08-25T03:15:24.950Z'
+  },
+  {
+    id: 'lead_1787790262588',
+    name: 'Fabrício Daniel de Oliveira Castro',
+    company: 'JF',
+    city: 'Pindamonhangaba - SP',
+    email: 'fabriciopolocruzeiro@gmail.com',
+    phone: '(12) 99106-4106',
+    password: 'Z8@' + '4106',
+    role: 'partner',
+    status: 'pending',
+    updatedAt: 1787790262589,
+    createdAt: '2026-08-27T00:24:22.588Z'
   }
 ];
 
-// Helper: CORS Headers
 function setCorsHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
@@ -29,7 +67,6 @@ function setCorsHeaders(res) {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 }
 
-// Helper: Try fetching from optional external store (Vercel KV or Firestore if configured)
 async function getStoredUsersFromCloud() {
   const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const kvToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -44,7 +81,11 @@ async function getStoredUsersFromCloud() {
         if (data && data.result) {
           const parsed = typeof data.result === 'string' ? JSON.parse(data.result) : data.result;
           if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed;
+            // Garante que contas base também estejam presentes
+            const map = new Map();
+            globalUsersStore.forEach(u => map.set(u.email.toLowerCase(), u));
+            parsed.forEach(u => map.set(u.email.toLowerCase(), u));
+            return Array.from(map.values());
           }
         }
       }
@@ -53,44 +94,9 @@ async function getStoredUsersFromCloud() {
     }
   }
 
-  // Firestore fallback if configured via env
-  const fbProj = process.env.FIREBASE_PROJECT_ID;
-  const fbKey = process.env.FIREBASE_API_KEY;
-  if (fbProj && fbKey) {
-    try {
-      const url = `https://firestore.googleapis.com/v1/projects/${fbProj}/databases/(default)/documents/catalog_users?key=${fbKey}`;
-      const res = await fetch(url);
-      if (res.ok) {
-        const json = await res.json();
-        if (Array.isArray(json.documents)) {
-          const list = json.documents.map(doc => {
-            const f = doc.fields || {};
-            return {
-              id: f.id?.stringValue || '',
-              name: f.name?.stringValue || '',
-              company: f.company?.stringValue || '',
-              city: f.city?.stringValue || '',
-              email: (f.email?.stringValue || '').toLowerCase().trim(),
-              phone: f.phone?.stringValue || '',
-              role: f.role?.stringValue || 'partner',
-              status: f.status?.stringValue || 'pending',
-              password: f.password?.stringValue || '',
-              updatedAt: parseInt(f.updatedAt?.integerValue || '1000', 10),
-              createdAt: f.createdAt?.stringValue || new Date().toISOString()
-            };
-          }).filter(u => u.email);
-          if (list.length > 0) return list;
-        }
-      }
-    } catch (e) {
-      console.warn('Firebase serverless fetch error:', e.message);
-    }
-  }
-
   return globalUsersStore;
 }
 
-// Helper: Save users to external store
 async function saveUsersToCloud(users) {
   globalUsersStore = [...users];
 
@@ -127,7 +133,7 @@ export default async function handler(req, res) {
   if (adminIndex === -1) {
     users.unshift({
       id: 'user_admin_01',
-      name: 'Christian Hideyuki',
+      name: 'Christian Hideyuki (Admin Master)',
       company: 'Z8 E-Motion Brasil (Matriz)',
       city: 'São Paulo - SP',
       email: MASTER_ADMIN_EMAIL,
@@ -136,7 +142,7 @@ export default async function handler(req, res) {
       role: 'admin',
       status: 'approved',
       updatedAt: 1000,
-      createdAt: new Date().toISOString()
+      createdAt: '2026-08-25T16:08:04.281Z'
     });
   } else {
     users[adminIndex].role = 'admin';
@@ -213,7 +219,6 @@ export default async function handler(req, res) {
 
       const idx = users.findIndex(u => (u.email || '').toLowerCase() === target || (u.id || '').toLowerCase() === target);
       if (idx === -1) {
-        // If not found and data was sent, create it directly
         if (body.email) {
           const created = {
             id: body.id || ('user_' + Date.now()),

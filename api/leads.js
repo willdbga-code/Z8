@@ -2,7 +2,23 @@
 // Z8 E-Motion - Serverless API: CRM Leads Management
 // ==========================================================================
 
-let globalLeadsStore = [];
+let globalLeadsStore = [
+  {
+    id: 'lead_1787790262588',
+    name: 'Fabrício Daniel de Oliveira Castro',
+    company: 'JF',
+    city: 'Pindamonhangaba',
+    state: 'SP',
+    email: 'fabriciopolocruzeiro@gmail.com',
+    phone: '12991064106',
+    paymentMethod: 'Passaporte VIP Exclusividade',
+    status: 'novo',
+    estimatedRevenue: 2989.00,
+    source: 'Passaporte VIP Exclusividade',
+    createdAt: '2026-08-27T00:24:22.588Z',
+    updatedAt: 1787790262589
+  }
+];
 
 function setCorsHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -43,6 +59,7 @@ export default async function handler(req, res) {
         state: body.state || 'SP',
         email: email,
         phone: body.phone || '',
+        paymentMethod: body.paymentMethod || 'PIX',
         investment: body.investment || '',
         status: body.status || 'novo',
         notes: body.notes || '',
