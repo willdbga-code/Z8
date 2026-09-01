@@ -1,6 +1,7 @@
 {
   "cleanUrls": true,
   "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/n95c", "dest": "/n95c/index.html" },
     { "src": "/n95c/", "dest": "/n95c/index.html" },
     { "src": "/N95C", "dest": "/n95c/index.html" },

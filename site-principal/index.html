@@ -573,7 +573,7 @@
   <!-- MODAL 1: LOGIN & CADASTRO COM APROVAÇÃO -->
   <div id="catalog-login-modal" class="skeuo-modal-backdrop hidden">
     <div class="skeuo-modal-box skeuo-panel" style="max-width: 460px; position: relative;">
-      <button class="modal-close-btn" id="close-catalog-login-btn"><i class="fa-solid fa-xmark"></i></button>
+      <button type="button" class="modal-close-btn" id="close-catalog-login-btn" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
       
       <div style="text-align: center; margin-bottom: 20px;">
         <img src="/assets/logos/ztrasparente.png" alt="Z8 Logo" style="height: 48px; margin-bottom: 8px;" />
@@ -777,9 +777,14 @@
           </h2>
           <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">Gerencie, aprove solicitações de novos lojistas e cadastre parceiros homologados da rede Z8.</p>
         </div>
-        <span style="font-size: 0.78rem; background: rgba(251,191,36,0.15); border: 1px solid #fbbf24; color: #fbbf24; padding: 4px 12px; border-radius: 20px; font-weight: 700;">
-          <i class="fa-solid fa-crown"></i> christian.tkh@gmail.com
-        </span>
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <span id="adm-cloud-status" style="font-size: 0.76rem; background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #34d399; padding: 4px 10px; border-radius: 20px; font-weight: 600; display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fa-solid fa-cloud-check"></i> Nuvem Z8 Conectada
+          </span>
+          <span style="font-size: 0.78rem; background: rgba(251,191,36,0.15); border: 1px solid #fbbf24; color: #fbbf24; padding: 4px 12px; border-radius: 20px; font-weight: 700;">
+            <i class="fa-solid fa-crown"></i> christian.tkh@gmail.com
+          </span>
+        </div>
       </div>
 
       <!-- CARDS DE ESTATÍSTICAS DO ADMINISTRADOR -->

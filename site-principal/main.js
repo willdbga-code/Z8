@@ -1,5 +1,10 @@
+import { inject } from '@vercel/analytics';
 import { z8Models } from './data/models.js';
 import { franchiseTiers, complianceInfo } from './data/franchiseInfo.js';
+
+// Inicializa Vercel Web Analytics
+inject();
+
 import {
   getStoredWarrantyOrders,
   getWarrantyOrdersForUser,
@@ -21,7 +26,8 @@ import {
   logoutCatalogUser,
   checkUrlApproval,
   fetchUsersFromCloud,
-  resetCatalogUserPassword
+  resetCatalogUserPassword,
+  getCloudSyncStatus
 } from './catalog-auth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -684,7 +690,7 @@ function initCatalogAuth() {
   const openLoginBtn = document.getElementById('open-catalog-login-btn');
   const openAdminBtn = document.getElementById('open-catalog-admin-btn');
   const closeAdminBtn = document.getElementById('close-catalog-admin-btn');
-  const closeLoginModalBtn = document.getElementById('close-cat-login-modal');
+  const closeLoginModalBtn = document.getElementById('close-catalog-login-btn') || document.getElementById('close-cat-login-modal');
   const closeLoginBottomBtn = document.getElementById('close-cat-modal-bottom-btn');
   const badgeText = document.getElementById('catalog-user-badge');
 
@@ -777,20 +783,27 @@ function initCatalogAuth() {
   });
 
   if (closeLoginModalBtn) {
-    closeLoginModalBtn.addEventListener('click', () => {
+    closeLoginModalBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       loginModal?.classList.add('hidden');
     });
   }
 
   if (closeLoginBottomBtn) {
-    closeLoginBottomBtn.addEventListener('click', () => {
+    closeLoginBottomBtn.addEventListener('click', (e) => {
+      e.preventDefault();
       loginModal?.classList.add('hidden');
     });
   }
 
   if (loginModal) {
     loginModal.addEventListener('click', (e) => {
-      if (e.target === loginModal) {
+      if (
+        e.target === loginModal || 
+        e.target.closest('#close-catalog-login-btn') || 
+        e.target.closest('#close-cat-login-modal') || 
+        e.target.closest('#close-cat-modal-bottom-btn')
+      ) {
         loginModal.classList.add('hidden');
       }
     });
@@ -1080,7 +1093,7 @@ function initCatalogAuth() {
   }
 
   if (manualPartnerForm) {
-    manualPartnerForm.addEventListener('submit', (e) => {
+    manualPartnerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('adm-field-name')?.value || '';
       const company = document.getElementById('adm-field-company')?.value || '';
@@ -1089,7 +1102,13 @@ function initCatalogAuth() {
       const phone = document.getElementById('adm-field-phone')?.value || '';
       const status = document.getElementById('adm-field-status')?.value || 'approved';
 
-      createPartnerByAdmin({
+      const submitBtn = manualPartnerForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cadastrando...';
+      }
+
+      await createPartnerByAdmin({
         name,
         company,
         city,
@@ -1097,6 +1116,11 @@ function initCatalogAuth() {
         phone,
         status
       });
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Salvar e Liberar Acesso';
+      }
 
       manualPartnerForm.reset();
       addPartnerBox.style.display = 'none';
@@ -1132,6 +1156,23 @@ function initCatalogAuth() {
   function renderAdminUsersList() {
     if (!adminUsersList) return;
     const users = getRegisteredUsers();
+
+    // Update cloud badge status
+    const cloudBadge = document.getElementById('adm-cloud-status');
+    if (cloudBadge) {
+      const syncStatus = getCloudSyncStatus();
+      if (syncStatus.isOnline) {
+        cloudBadge.innerHTML = `<i class="fa-solid fa-cloud-check" style="color: #10B981;"></i> Nuvem Z8 Conectada`;
+        cloudBadge.style.borderColor = '#10B981';
+        cloudBadge.style.color = '#34d399';
+        cloudBadge.style.background = 'rgba(16,185,129,0.15)';
+      } else {
+        cloudBadge.innerHTML = `<i class="fa-solid fa-cloud-slash" style="color: #f59e0b;"></i> Modo Offline (Cache)`;
+        cloudBadge.style.borderColor = '#f59e0b';
+        cloudBadge.style.color = '#fcd34d';
+        cloudBadge.style.background = 'rgba(245,158,11,0.15)';
+      }
+    }
 
     // Stats calculations
     const totalCount = users.length;
@@ -1195,7 +1236,14 @@ function initCatalogAuth() {
             : '<span style="color: #F59E0B; font-weight: 700; background: rgba(245,158,11,0.15); padding: 2px 6px; border-radius: 4px;"><i class="fa-solid fa-clock"></i> Aguardando Liberação</span>';
 
       const cleanPhone = (u.phone || '').replace(/\D/g, '');
-      const waLink = cleanPhone ? `https://wa.me/55${cleanPhone}?text=${encodeURIComponent(`Olá ${u.name}! Sou Christian da Z8 E-Motion. Vi seu cadastro no portal como representante da loja ${u.company}...`)}` : '#';
+      const waApprovedMsg = encodeURIComponent(
+        `🎉 *ACESSO AO CATÁLOGO Z8 LIBERADO COM SUCESSO!*\n\n` +
+        `Olá ${u.name}! Seu cadastro foi aprovado pela administração da Z8 E-Motion Brasil.\n\n` +
+        `🔑 *Seu Login*: ${u.email}\n` +
+        `🌐 *Acesse o Catálogo Executivo*: ${window.location.origin}/site-principal/\n\n` +
+        `Boas vendas e conte conosco!`
+      );
+      const waLink = cleanPhone ? `https://wa.me/55${cleanPhone}?text=${waApprovedMsg}` : '#';
 
       let actionButtons = '';
       if (isMaster) {
@@ -1207,8 +1255,8 @@ function initCatalogAuth() {
               <i class="fa-solid fa-lock"></i> Bloquear
             </button>
             ${cleanPhone ? `
-              <a href="${waLink}" target="_blank" rel="noopener" title="Chamar no WhatsApp" style="background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #34d399; padding: 5px 8px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
-                <i class="fa-brands fa-whatsapp"></i>
+              <a href="${waLink}" target="_blank" rel="noopener" title="Notificar aprovação no WhatsApp" style="background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #34d399; padding: 5px 8px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-brands fa-whatsapp"></i> Notificar
               </a>
             ` : ''}
             <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
@@ -1235,7 +1283,7 @@ function initCatalogAuth() {
               <i class="fa-solid fa-check"></i> Liberar Acesso
             </button>
             ${cleanPhone ? `
-              <a href="${waLink}" target="_blank" rel="noopener" title="Chamar no WhatsApp" style="background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #34d399; padding: 5px 8px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+              <a href="${waLink}" target="_blank" rel="noopener" title="Notificar no WhatsApp" style="background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #34d399; padding: 5px 8px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
                 <i class="fa-brands fa-whatsapp"></i>
               </a>
             ` : ''}
@@ -1268,11 +1316,13 @@ function initCatalogAuth() {
   }
 
   if (adminUsersList) {
-    adminUsersList.addEventListener('click', (e) => {
+    adminUsersList.addEventListener('click', async (e) => {
       const approveBtn = e.target.closest('.btn-approve-user');
       if (approveBtn) {
         const id = approveBtn.getAttribute('data-id');
-        updateUserStatus(id, 'approved');
+        approveBtn.disabled = true;
+        approveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        await updateUserStatus(id, 'approved');
         renderAdminUsersList();
         renderShowroom();
         renderOrderDesk();
@@ -1285,7 +1335,9 @@ function initCatalogAuth() {
       const revokeBtn = e.target.closest('.btn-revoke-user');
       if (revokeBtn) {
         const id = revokeBtn.getAttribute('data-id');
-        updateUserStatus(id, 'blocked');
+        revokeBtn.disabled = true;
+        revokeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        await updateUserStatus(id, 'blocked');
         renderAdminUsersList();
         renderShowroom();
         renderOrderDesk();
@@ -1299,7 +1351,9 @@ function initCatalogAuth() {
       if (delBtn) {
         const id = delBtn.getAttribute('data-id');
         if (confirm('Tem certeza que deseja excluir o cadastro deste cliente?')) {
-          deleteCatalogUser(id);
+          delBtn.disabled = true;
+          delBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+          await deleteCatalogUser(id);
           renderAdminUsersList();
           renderShowroom();
           renderOrderDesk();

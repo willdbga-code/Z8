@@ -1,20 +1,13 @@
 // ==========================================================================
-// Z8 E-Motion - Firebase Configuration & Real-Time Sync Engine
-// Google Cloud / Firebase Firestore API Integration with Fallback Storage
+// Z8 E-Motion - CRM Leads Cloud Database & Real-Time Sync Engine
 // ==========================================================================
 
 export const firebaseConfig = {
-  projectId: "william-site-43963",
-  appId: "1:796751991729:web:720e8e01bdfca6d3d16390",
-  storageBucket: "william-site-43963.firebasestorage.app",
-  apiKey: "AIzaSyDxBfXwvrBt19dQbxqGYkVmFIl_S87VOdU",
-  authDomain: "william-site-43963.firebaseapp.com",
-  messagingSenderId: "796751991729",
-  measurementId: "G-K0JQDK5J0P"
+  projectId: "z8-emotion-brasil",
+  apiEndpoint: "/api/leads"
 };
 
 const STORAGE_KEY = 'z8_crm_leads_data';
-
 const DEFAULT_LEADS = [];
 
 export function getLocalLeads() {
@@ -26,39 +19,61 @@ export function getLocalLeads() {
     }
     return JSON.parse(raw);
   } catch (err) {
-    console.warn('Fallback storage read warning:', err);
+    console.warn('Local leads read warning:', err);
     return DEFAULT_LEADS;
   }
 }
 
 export async function pushLeadToFirestore(lead) {
-  if (!lead || !lead.email) return;
+  if (!lead) return;
   try {
-    const docId = encodeURIComponent(lead.email.toLowerCase().trim());
-    const body = {
-      fields: {
-        id: { stringValue: String(lead.id || ('lead_' + Date.now())) },
-        name: { stringValue: String(lead.name || 'Lead Z8') },
-        company: { stringValue: String(lead.company || 'Empresa Parceira') },
-        city: { stringValue: String(lead.city || 'São Paulo') },
-        state: { stringValue: String(lead.state || 'SP') },
-        email: { stringValue: String(lead.email.toLowerCase().trim()) },
-        phone: { stringValue: String(lead.phone || '') },
-        paymentMethod: { stringValue: String(lead.paymentMethod || 'PIX') },
-        status: { stringValue: String(lead.status || 'novo') },
-        estimatedRevenue: { doubleValue: Number(lead.estimatedRevenue || 2989.00) },
-        updatedAt: { integerValue: String(Date.now()) },
-        createdAt: { stringValue: String(lead.createdAt || new Date().toISOString()) }
-      }
+    const payload = {
+      id: lead.id || ('lead_' + Date.now()),
+      name: lead.name || 'Lead Z8',
+      company: lead.company || 'Empresa Parceira',
+      city: lead.city || 'São Paulo',
+      state: lead.state || 'SP',
+      email: (lead.email || '').toLowerCase().trim(),
+      phone: lead.phone || '',
+      paymentMethod: lead.paymentMethod || 'PIX',
+      status: lead.status || 'novo',
+      estimatedRevenue: Number(lead.estimatedRevenue || 2989.00),
+      updatedAt: Date.now(),
+      createdAt: lead.createdAt || new Date().toISOString()
     };
-    await fetch(`https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents/leads/${docId}?key=${firebaseConfig.apiKey}`, {
-      method: 'PATCH',
+
+    await fetch('/api/leads', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(payload)
     });
   } catch (e) {
-    console.warn('Error saving lead to Firestore:', e);
+    console.warn('Error saving lead to Cloud API:', e);
   }
+}
+
+export async function fetchLeadsFromCloud() {
+  try {
+    const res = await fetch('/api/leads');
+    if (res.ok) {
+      const json = await res.json();
+      if (Array.isArray(json?.leads) && json.leads.length > 0) {
+        const local = getLocalLeads();
+        const map = new Map();
+        local.forEach(l => map.set(l.id || l.email, l));
+        json.leads.forEach(cl => {
+          map.set(cl.id || cl.email, cl);
+        });
+        const merged = Array.from(map.values());
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+        window.dispatchEvent(new CustomEvent('z8-crm-leads-updated', { detail: merged }));
+        return merged;
+      }
+    }
+  } catch (e) {
+    console.warn('Cloud leads fetch error:', e);
+  }
+  return getLocalLeads();
 }
 
 export function saveLead(leadData) {
@@ -80,7 +95,7 @@ export function saveLead(leadData) {
   leads.unshift(newLead);
   localStorage.setItem(STORAGE_KEY, JSON.stringify(leads));
 
-  // Push to real Firestore
+  // Push to real Cloud API
   pushLeadToFirestore(newLead);
 
   // Dispatch custom event for real-time CRM UI updates

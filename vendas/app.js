@@ -1,6 +1,11 @@
+import { inject } from '@vercel/analytics';
 import { checkCityAvailability } from './cities-cluster.js';
 import { loginCatalogUser, registerCatalogUser } from '../site-principal/catalog-auth.js';
 import { saveLead } from './firebase-config.js';
+
+// Inicializa Vercel Web Analytics
+inject();
+
 
 document.addEventListener('DOMContentLoaded', () => {
   initCountdownTimer();

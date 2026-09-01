@@ -1,14 +1,11 @@
 // ==========================================================================
 // Z8 E-Motion - Warranty & Service Order (OS) Database Engine
 // Multi-Tenant / Account Session Isolation with Master Admin Central Hub
-// Google Cloud Firebase Firestore Real-Time Cloud Integration
+// Central Serverless & Cloud Database Integration
 // ==========================================================================
 
 const OS_STORAGE_KEY = 'z8_warranty_service_orders_db';
-
-const FIREBASE_API_KEY = "AIzaSyDxBfXwvrBt19dQbxqGYkVmFIl_S87VOdU";
-const FIREBASE_PROJECT_ID = "william-site-43963";
-const FIRESTORE_OS_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/service_orders`;
+const API_ORDERS_URL = '/api/orders';
 
 const DEFAULT_ORDERS = [
   {
@@ -101,99 +98,75 @@ const DEFAULT_ORDERS = [
   }
 ];
 
-// Salva uma OS individual no Firebase Firestore
+// Salva uma OS individual na Nuvem Serverless
 export async function pushWarrantyOrderToFirestore(order) {
   if (!order || !order.id) return;
   try {
-    const docId = encodeURIComponent(order.id);
-    const body = {
-      fields: {
-        id: { stringValue: String(order.id) },
-        userId: { stringValue: String(order.userId || '') },
-        userEmail: { stringValue: String(order.userEmail || '').toLowerCase().trim() },
-        company: { stringValue: String(order.company || '') },
-        city: { stringValue: String(order.city || '') },
-        techName: { stringValue: String(order.techName || '') },
-        techPhone: { stringValue: String(order.techPhone || '') },
-        model: { stringValue: String(order.model || '') },
-        chassi: { stringValue: String(order.chassi || '') },
-        odometer: { integerValue: String(order.odometer || 0) },
-        component: { stringValue: String(order.component || '') },
-        diagnosis: { stringValue: String(order.diagnosis || '') },
-        evidenceLink: { stringValue: String(order.evidenceLink || '') },
-        status: { stringValue: String(order.status || 'analyzing') },
-        statusText: { stringValue: String(order.statusText || 'Em Análise Técnica (SLA 48h)') },
-        trackingCode: { stringValue: String(order.trackingCode || '') },
-        adminNotes: { stringValue: String(order.adminNotes || '') },
-        createdAt: { stringValue: String(order.createdAt || new Date().toISOString()) },
-        slaDeadline: { stringValue: String(order.slaDeadline || new Date().toISOString()) },
-        updatedAt: { integerValue: String(order.updatedAt || Date.now()) }
-      }
+    const payload = {
+      id: order.id,
+      userId: order.userId || '',
+      userEmail: (order.userEmail || '').toLowerCase().trim(),
+      company: order.company || '',
+      city: order.city || '',
+      techName: order.techName || '',
+      techPhone: order.techPhone || '',
+      model: order.model || '',
+      chassi: order.chassi || '',
+      odometer: Number(order.odometer || 0),
+      component: order.component || '',
+      diagnosis: order.diagnosis || '',
+      evidenceLink: order.evidenceLink || '',
+      status: order.status || 'analyzing',
+      statusText: order.statusText || 'Em Análise Técnica (SLA 48h)',
+      trackingCode: order.trackingCode || '',
+      adminNotes: order.adminNotes || '',
+      createdAt: order.createdAt || new Date().toISOString(),
+      slaDeadline: order.slaDeadline || new Date().toISOString(),
+      updatedAt: order.updatedAt || Date.now()
     };
-    await fetch(`${FIRESTORE_OS_URL}/${docId}?key=${FIREBASE_API_KEY}`, {
-      method: 'PATCH',
+
+    await fetch(API_ORDERS_URL, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      body: JSON.stringify(payload)
     });
   } catch (err) {
-    console.warn('Firestore OS push error:', err);
+    console.warn('API OS push error:', err);
   }
 }
 
-// Remove uma OS do Firebase Firestore
+// Remove uma OS da Nuvem Serverless
 export async function deleteWarrantyOrderFromFirestore(orderId) {
   if (!orderId) return;
   try {
-    const docId = encodeURIComponent(orderId);
-    await fetch(`${FIRESTORE_OS_URL}/${docId}?key=${FIREBASE_API_KEY}`, {
-      method: 'DELETE'
+    await fetch(`${API_ORDERS_URL}?id=${encodeURIComponent(orderId)}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: orderId })
     });
   } catch (err) {
-    console.warn('Firestore OS delete error:', err);
+    console.warn('API OS delete error:', err);
   }
 }
 
-// Sincroniza todas as OS do Firestore com o banco local
+// Sincroniza todas as OS do Servidor com o banco local
 export async function fetchWarrantyOrdersFromFirestore() {
   try {
-    const res = await fetch(`${FIRESTORE_OS_URL}?key=${FIREBASE_API_KEY}`);
+    const res = await fetch(API_ORDERS_URL);
     if (!res.ok) return null;
     const json = await res.json();
-    const documents = json?.documents;
-    if (Array.isArray(documents) && documents.length > 0) {
+    const ordersList = json?.orders;
+
+    if (Array.isArray(ordersList) && ordersList.length > 0) {
       const localOrders = getStoredWarrantyOrders();
       let hasChanges = false;
 
       const orderMap = new Map();
       localOrders.forEach(o => orderMap.set(o.id, o));
 
-      documents.forEach(doc => {
-        const f = doc.fields || {};
-        const id = f.id?.stringValue;
+      ordersList.forEach(cloudOrder => {
+        const id = cloudOrder.id;
         if (!id) return;
-
-        const cloudOrder = {
-          id: id,
-          userId: f.userId?.stringValue || '',
-          userEmail: (f.userEmail?.stringValue || '').toLowerCase().trim(),
-          company: f.company?.stringValue || '',
-          city: f.city?.stringValue || '',
-          techName: f.techName?.stringValue || '',
-          techPhone: f.techPhone?.stringValue || '',
-          model: f.model?.stringValue || '',
-          chassi: f.chassi?.stringValue || '',
-          odometer: Number(f.odometer?.integerValue || 0),
-          component: f.component?.stringValue || '',
-          diagnosis: f.diagnosis?.stringValue || '',
-          evidenceLink: f.evidenceLink?.stringValue || '',
-          status: f.status?.stringValue || 'analyzing',
-          statusText: f.statusText?.stringValue || 'Em Análise Técnica',
-          trackingCode: f.trackingCode?.stringValue || '',
-          adminNotes: f.adminNotes?.stringValue || '',
-          createdAt: f.createdAt?.stringValue || new Date().toISOString(),
-          slaDeadline: f.slaDeadline?.stringValue || new Date().toISOString(),
-          updatedAt: parseInt(f.updatedAt?.integerValue || '1000', 10)
-        };
 
         if (!orderMap.has(id)) {
           orderMap.set(id, cloudOrder);
@@ -218,7 +191,7 @@ export async function fetchWarrantyOrdersFromFirestore() {
       return mergedOrders;
     }
   } catch (err) {
-    console.warn('Firestore OS fetch error:', err);
+    console.warn('API OS fetch error:', err);
   }
   return null;
 }
@@ -243,11 +216,6 @@ export function getStoredWarrantyOrders() {
   }
 }
 
-/**
- * Retorna as Ordens de Serviço filtradas pela conta ativa do usuário.
- * Se for Admin Master, pode ver todas ou filtrar por unidade.
- * Se for parceiro/técnico, vê EXCLUSIVAMENTE as OS vinculadas à sua conta/e-mail.
- */
 export function getWarrantyOrdersForUser(currentUser, adminUnitFilter = 'all') {
   const allOrders = getStoredWarrantyOrders();
   if (!currentUser) return [];
@@ -276,7 +244,6 @@ export function getWarrantyOrdersForUser(currentUser, adminUnitFilter = 'all') {
 export function saveWarrantyOrder(orderData, currentUser) {
   const orders = getStoredWarrantyOrders();
   
-  // Gera ID sequencial único baseado no ano corrente
   const nextNum = (orders.length + 105).toString().padStart(4, '0');
   const osId = orderData.id || `OS-2026-${nextNum}`;
 
@@ -310,7 +277,7 @@ export function saveWarrantyOrder(orderData, currentUser) {
   orders.unshift(newOrder);
   localStorage.setItem(OS_STORAGE_KEY, JSON.stringify(orders));
 
-  // Grava diretamente no Firebase Firestore
+  // Grava diretamente no Servidor
   pushWarrantyOrderToFirestore(newOrder);
 
   window.dispatchEvent(new CustomEvent('z8-warranty-os-updated', { detail: newOrder }));
@@ -338,7 +305,7 @@ export function updateWarrantyOrderStatus(orderId, newStatus, trackingCode = '',
 
   localStorage.setItem(OS_STORAGE_KEY, JSON.stringify(orders));
 
-  // Atualiza no Firebase Firestore
+  // Atualiza no Servidor
   pushWarrantyOrderToFirestore(orders[index]);
 
   window.dispatchEvent(new CustomEvent('z8-warranty-os-updated', { detail: orders[index] }));
@@ -350,7 +317,7 @@ export function deleteWarrantyOrder(orderId) {
   const filtered = orders.filter(o => o.id !== orderId);
   localStorage.setItem(OS_STORAGE_KEY, JSON.stringify(filtered));
 
-  // Remove do Firebase Firestore
+  // Remove do Servidor
   deleteWarrantyOrderFromFirestore(orderId);
 
   window.dispatchEvent(new CustomEvent('z8-warranty-os-updated'));

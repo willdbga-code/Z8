@@ -1,32 +1,18 @@
 // ==========================================================================
-// Z8 E-Motion - Catalog Access Control, User Approval & Database Engine
+// Z8 E-Motion - Catalog Access Control, User Approval & Cloud Database Engine
 // ==========================================================================
 
-const USERS_STORAGE_KEY = 'z8_registered_users_directory';
-const SESSION_KEY = 'z8_catalog_auth_token';
-const SESSION_USER_KEY = 'z8_catalog_auth_user';
+import { CLOUD_CONFIG, DEFAULT_MASTER_ADMIN } from './data/cloud-config.js';
 
-const MASTER_ADMIN_EMAIL = "christian.tkh@gmail.com";
+const USERS_STORAGE_KEY = CLOUD_CONFIG.STORAGE_USERS_KEY;
+const SESSION_KEY = CLOUD_CONFIG.STORAGE_SESSION_KEY;
+const SESSION_USER_KEY = CLOUD_CONFIG.STORAGE_SESSION_USER_KEY;
+
+const MASTER_ADMIN_EMAIL = CLOUD_CONFIG.MASTER_ADMIN_EMAIL;
 const MASTER_ADMIN_PASS = "@12345678@";
 
-const FIREBASE_API_KEY = "AIzaSyDxBfXwvrBt19dQbxqGYkVmFIl_S87VOdU";
-const FIREBASE_PROJECT_ID = "william-site-43963";
-const FIRESTORE_USERS_URL = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/catalog_users`;
-
 const DEFAULT_USERS = [
-  {
-    id: 'user_admin_01',
-    name: 'Christian Admin',
-    company: 'Z8 E-Motion Brasil (Matriz)',
-    city: 'São Paulo - SP',
-    email: 'christian.tkh@gmail.com',
-    phone: '(11) 99999-8888',
-    password: '@12345678@',
-    role: 'admin',
-    status: 'approved',
-    updatedAt: 1000,
-    createdAt: new Date().toISOString()
-  }
+  DEFAULT_MASTER_ADMIN
 ];
 
 const TEST_DEMO_EMAILS = [
@@ -39,61 +25,105 @@ const TEST_DEMO_EMAILS = [
   'fernando@guedesmotos.com.br'
 ];
 
-// Salva um usuário específico no Firebase Firestore Real
-export async function pushUserToFirestore(user) {
-  if (!user || !user.email) return;
-  try {
-    const docId = encodeURIComponent(user.email.toLowerCase().trim());
-    const body = {
-      fields: {
-        id: { stringValue: String(user.id || ('user_' + Date.now())) },
-        name: { stringValue: String(user.name || 'Parceiro Z8') },
-        company: { stringValue: String(user.company || 'Empresa Parceira') },
-        city: { stringValue: String(user.city || 'São Paulo - SP') },
-        email: { stringValue: String(user.email.toLowerCase().trim()) },
-        phone: { stringValue: String(user.phone || '') },
-        role: { stringValue: String(user.role || 'partner') },
-        status: { stringValue: String(user.status || 'pending') },
-        password: { stringValue: String(user.password || 'Z8@2026') },
-        updatedAt: { integerValue: String(user.updatedAt || Date.now()) },
-        createdAt: { stringValue: String(user.createdAt || new Date().toISOString()) }
-      }
-    };
-    await fetch(`${FIRESTORE_USERS_URL}/${docId}?key=${FIREBASE_API_KEY}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-  } catch (err) {
-    console.warn('Firestore user push warning:', err);
-  }
+let lastCloudSyncTime = null;
+let lastCloudSyncSuccess = false;
+
+export function getCloudSyncStatus() {
+  return {
+    isOnline: navigator.onLine,
+    lastSyncTime: lastCloudSyncTime,
+    lastSyncSuccess: lastCloudSyncSuccess
+  };
 }
 
-// Sincroniza lista de usuários com o Firebase Firestore
+// Salva um usuário específico na API Serverless / Nuvem Z8
+export async function pushUserToFirestore(user) {
+  if (!user || !user.email) return false;
+  try {
+    const payload = {
+      id: user.id || ('user_' + Date.now()),
+      name: user.name || 'Parceiro Z8',
+      company: user.company || 'Empresa Parceira',
+      city: user.city || 'São Paulo - SP',
+      email: user.email.toLowerCase().trim(),
+      phone: user.phone || '',
+      role: user.role || 'partner',
+      status: user.status || 'pending',
+      password: user.password || 'Z8@2026',
+      updatedAt: user.updatedAt || Date.now(),
+      createdAt: user.createdAt || new Date().toISOString()
+    };
+
+    // 1. Envia para o endpoint Serverless /api/users
+    const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      lastCloudSyncTime = Date.now();
+      lastCloudSyncSuccess = true;
+      return true;
+    } else {
+      console.warn('API /api/users respond code:', res.status);
+    }
+  } catch (err) {
+    console.warn('Serverless API user push warning (armazenado localmente):', err);
+  }
+  return false;
+}
+
+// Sincroniza lista de usuários com o servidor central
 export async function pushUsersToCloud(usersList) {
   if (!Array.isArray(usersList)) return;
   for (const u of usersList) {
-    pushUserToFirestore(u);
+    await pushUserToFirestore(u);
   }
 }
 
-// Busca todos os usuários reais cadastrados no Firebase Firestore (catalog_users + leads)
+// Busca todos os usuários cadastrados na nuvem central e mescla com o cache local
 export async function fetchUsersFromCloud() {
   try {
-    const res = await fetch(`${FIRESTORE_USERS_URL}?key=${FIREBASE_API_KEY}`);
-    if (!res.ok) return null;
-    const json = await res.json();
-    const documents = json?.documents || [];
+    let cloudUsers = [];
 
-    // Busca também leads cadastrados no CRM do Firestore
+    // 1. Consulta o endpoint serverless /api/users
     try {
-      const leadsRes = await fetch(`https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents/leads?key=${FIREBASE_API_KEY}`);
+      const res = await fetch(CLOUD_CONFIG.API_USERS_URL);
+      if (res.ok) {
+        const json = await res.json();
+        if (json && Array.isArray(json.users)) {
+          cloudUsers = json.users;
+          lastCloudSyncTime = Date.now();
+          lastCloudSyncSuccess = true;
+        }
+      }
+    } catch (apiErr) {
+      console.warn('API /api/users fetch info:', apiErr);
+    }
+
+    // 2. Consulta também leads do CRM (/api/leads) para importar cadastros comerciais
+    try {
+      const leadsRes = await fetch(CLOUD_CONFIG.API_LEADS_URL);
       if (leadsRes.ok) {
         const leadsJson = await leadsRes.json();
-        if (Array.isArray(leadsJson?.documents)) {
-          leadsJson.documents.forEach(ld => {
-            if (ld.fields && !documents.find(d => (d.fields?.email?.stringValue || '').toLowerCase() === (ld.fields?.email?.stringValue || '').toLowerCase())) {
-              documents.push(ld);
+        if (Array.isArray(leadsJson?.leads)) {
+          leadsJson.leads.forEach(ld => {
+            const cleanLeadEmail = (ld.email || '').toLowerCase().trim();
+            if (cleanLeadEmail && !cloudUsers.find(u => (u.email || '').toLowerCase() === cleanLeadEmail)) {
+              cloudUsers.push({
+                id: ld.id || ('lead_' + Date.now()),
+                name: ld.name || 'Lead Comercial',
+                company: ld.company || 'Empresa Interessada',
+                city: ld.city || 'SP',
+                email: cleanLeadEmail,
+                phone: ld.phone || '',
+                role: 'partner',
+                status: ld.status === 'fechado' ? 'approved' : 'pending',
+                password: 'Z8@' + (ld.phone ? ld.phone.replace(/\D/g, '').slice(-4) : '2026'),
+                updatedAt: ld.updatedAt || 1000,
+                createdAt: ld.createdAt || new Date().toISOString()
+              });
             }
           });
         }
@@ -102,61 +132,60 @@ export async function fetchUsersFromCloud() {
       console.warn('Leads fetch info:', le);
     }
 
-    if (documents.length > 0) {
+    if (cloudUsers.length > 0) {
       const localUsers = getRegisteredUsers();
       let hasChanges = false;
 
       const mergedMap = new Map();
       localUsers.forEach(u => mergedMap.set(u.email.toLowerCase(), u));
 
-      documents.forEach(doc => {
-        const f = doc.fields || {};
-        const email = (f.email?.stringValue || '').toLowerCase().trim();
+      cloudUsers.forEach(cu => {
+        const email = (cu.email || '').toLowerCase().trim();
         if (!email) return;
 
-        const cu = {
-          id: f.id?.stringValue || ('user_' + Date.now()),
-          name: f.name?.stringValue || 'Parceiro Z8',
-          company: f.company?.stringValue || 'Empresa Parceira',
-          city: f.city?.stringValue || 'São Paulo - SP',
+        const normalizedUser = {
+          id: cu.id || ('user_' + Date.now()),
+          name: cu.name || 'Parceiro Z8',
+          company: cu.company || 'Empresa Parceira',
+          city: cu.city || 'São Paulo - SP',
           email: email,
-          phone: f.phone?.stringValue || '',
-          role: f.role?.stringValue || 'partner',
-          status: f.status?.stringValue || 'pending',
-          password: f.password?.stringValue || 'Z8@2026',
-          updatedAt: parseInt(f.updatedAt?.integerValue || '1000', 10),
-          createdAt: f.createdAt?.stringValue || new Date().toISOString()
+          phone: cu.phone || '',
+          role: email === MASTER_ADMIN_EMAIL.toLowerCase() ? 'admin' : (cu.role || 'partner'),
+          status: email === MASTER_ADMIN_EMAIL.toLowerCase() ? 'approved' : (cu.status || 'pending'),
+          password: cu.password || 'Z8@2026',
+          updatedAt: parseInt(cu.updatedAt || '1000', 10),
+          createdAt: cu.createdAt || new Date().toISOString()
         };
 
         if (!mergedMap.has(email)) {
-          mergedMap.set(email, cu);
+          mergedMap.set(email, normalizedUser);
           hasChanges = true;
         } else {
           const localU = mergedMap.get(email);
-          const cloudTime = cu.updatedAt || 0;
+          const cloudTime = normalizedUser.updatedAt || 0;
           const localTime = localU.updatedAt || 0;
 
-          // Se o Firebase tem atualização mais recente, atualiza status
-          if (cloudTime > localTime && cu.status && cu.status !== localU.status && email !== MASTER_ADMIN_EMAIL.toLowerCase()) {
-            localU.status = cu.status;
+          // Se a nuvem tem atualização mais recente, atualiza status
+          if (cloudTime >= localTime && normalizedUser.status && normalizedUser.status !== localU.status && email !== MASTER_ADMIN_EMAIL.toLowerCase()) {
+            localU.status = normalizedUser.status;
             localU.updatedAt = cloudTime;
             hasChanges = true;
           }
 
-          if (cu.name && (!localU.name || localU.name === 'Parceiro Z8' || localU.name === 'Lead Comercial')) {
-            localU.name = cu.name;
+          if (normalizedUser.name && (!localU.name || localU.name === 'Parceiro Z8' || localU.name === 'Lead Comercial')) {
+            localU.name = normalizedUser.name;
             hasChanges = true;
           }
-          if (cu.company && (!localU.company || localU.company === 'Empresa Parceira' || localU.company === 'Empresa Interessada')) {
-            localU.company = cu.company;
+          if (normalizedUser.company && (!localU.company || localU.company === 'Empresa Parceira' || localU.company === 'Empresa Interessada')) {
+            localU.company = normalizedUser.company;
             hasChanges = true;
           }
-          if (cu.city && (!localU.city || localU.city === 'Não informada')) {
-            localU.city = cu.city;
+          if (normalizedUser.city && (!localU.city || localU.city === 'Não informada')) {
+            localU.city = normalizedUser.city;
             hasChanges = true;
           }
-          if (cu.phone && !localU.phone) {
-            localU.phone = cu.phone;
+          if (normalizedUser.phone && !localU.phone) {
+            localU.phone = normalizedUser.phone;
             hasChanges = true;
           }
         }
@@ -178,7 +207,7 @@ export async function fetchUsersFromCloud() {
       return mergedList;
     }
   } catch (err) {
-    console.warn('Firestore fetch warning:', err);
+    console.warn('Cloud fetch warning:', err);
   }
   return null;
 }
@@ -197,14 +226,14 @@ export function getRegisteredUsers() {
     // Filtra e remove completamente e-mails de teste antigos
     users = users.filter(u => !TEST_DEMO_EMAILS.includes((u.email || '').toLowerCase().trim()));
 
-    // 1. Garante a presenca do Administrador Master
+    // 1. Garante a presença do Administrador Master
     DEFAULT_USERS.forEach(du => {
       if (!users.find(u => u.email.toLowerCase() === du.email.toLowerCase())) {
-        users.push(du);
+        users.unshift(du);
       }
     });
 
-    // 2. Auto-sync active session user if stored (apenas se nao for conta de teste)
+    // 2. Auto-sync active session user if stored
     try {
       const sessionUserRaw = localStorage.getItem('z8_catalog_auth_user') || sessionStorage.getItem('z8_catalog_auth_user');
       if (sessionUserRaw) {
@@ -247,7 +276,7 @@ export function getRegisteredUsers() {
   }
 }
 
-export function createPartnerByAdmin(userData) {
+export async function createPartnerByAdmin(userData) {
   const users = getRegisteredUsers();
   const cleanEmail = (userData.email || '').trim().toLowerCase();
 
@@ -275,7 +304,7 @@ export function createPartnerByAdmin(userData) {
   }
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-  pushUserToFirestore(newUserData);
+  await pushUserToFirestore(newUserData);
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
   return { success: true, user: newUserData };
@@ -309,7 +338,7 @@ export async function registerCatalogUser(userData) {
   users.unshift(newUser);
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
 
-  // Grava imediatamente no Google Cloud Firebase Firestore Real
+  // Grava imediatamente no Servidor / Nuvem Central
   await pushUserToFirestore(newUser);
 
   // Autentica o usuário imediatamente na sessão
@@ -374,7 +403,7 @@ export function loginCatalogUser(userOrEmail, password) {
   };
 }
 
-export function resetCatalogUserPassword(email, phone, newPassword) {
+export async function resetCatalogUserPassword(email, phone, newPassword) {
   const cleanEmail = (email || '').trim().toLowerCase();
   const cleanPhone = (phone || '').replace(/\D/g, '');
   const cleanPass = (newPassword || '').trim();
@@ -413,7 +442,7 @@ export function resetCatalogUserPassword(email, phone, newPassword) {
   found.updatedAt = Date.now();
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-  pushUsersToCloud(users);
+  await pushUserToFirestore(found);
 
   // Auto-login with new password
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
@@ -427,7 +456,7 @@ export function resetCatalogUserPassword(email, phone, newPassword) {
   return { success: true, user: found, message: 'Senha redefinida com sucesso! Você já está conectado.' };
 }
 
-export function updateUserStatus(userId, newStatus) {
+export async function updateUserStatus(userId, newStatus) {
   const users = getRegisteredUsers();
   let updatedUser = null;
   const now = Date.now();
@@ -447,7 +476,9 @@ export function updateUserStatus(userId, newStatus) {
   });
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updated));
-  pushUsersToCloud(updated);
+  if (updatedUser) {
+    await pushUserToFirestore(updatedUser);
+  }
 
   // Sincroniza status no banco de Leads do CRM se existir
   try {
@@ -479,11 +510,26 @@ export function updateUserStatus(userId, newStatus) {
   return true;
 }
 
-export function deleteCatalogUser(userId) {
+export async function deleteCatalogUser(userId) {
   const users = getRegisteredUsers();
-  const filtered = users.filter(u => u.id !== userId || u.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase());
+  const toDelete = users.find(u => u.id === userId || u.email.toLowerCase() === String(userId).toLowerCase());
+  if (toDelete && toDelete.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
+    return false;
+  }
+
+  const filtered = users.filter(u => u.id !== userId && u.email.toLowerCase() !== String(userId).toLowerCase());
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(filtered));
-  pushUsersToCloud(filtered);
+
+  try {
+    await fetch(`${CLOUD_CONFIG.API_USERS_URL}?id=${encodeURIComponent(userId)}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: userId, email: toDelete?.email })
+    });
+  } catch (err) {
+    console.warn('Delete cloud user warning:', err);
+  }
+
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
   return true;
 }
@@ -493,7 +539,6 @@ export function getCurrentCatalogUser() {
     const raw = sessionStorage.getItem(SESSION_USER_KEY) || localStorage.getItem('z8_catalog_auth_user');
     if (!raw) return null;
     const user = JSON.parse(raw);
-    // Atualiza status se houver alteração no banco de usuários
     const users = getRegisteredUsers();
     const fresh = users.find(u => u.email.toLowerCase() === user.email.toLowerCase());
     return fresh || user;
@@ -546,7 +591,7 @@ export function checkUrlApproval() {
           status: 'approved'
         });
       }
-      // Clean URL params without reload
+      // Limpa os parâmetros da URL sem recarregar
       const newUrl = window.location.pathname;
       window.history.replaceState({}, document.title, newUrl);
       return clean;

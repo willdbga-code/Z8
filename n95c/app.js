@@ -1,4 +1,8 @@
 /* n95c/app.js - Radian EXR Inspired Interactive Logic, Ultra-Smooth Heavy LERP Easing & Navbar Visibility */
+import { inject } from '@vercel/analytics';
+
+// Inicializa Vercel Web Analytics
+inject();
 
 document.addEventListener('DOMContentLoaded', () => {
   initRadianVideoScrollytelling();
