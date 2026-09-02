@@ -2,22 +2,20 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Regras de Acesso para Usuários e Parceiros do Catálogo Z8
-    match /catalog_users/{userId} {
-      allow read, write: if true;
+    // 1. Diretório de Usuários e Lojistas Z8 E-Motion
+    match /catalog_users/{userEmail} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if true;
     }
 
-    // Regras de Acesso para Leads do CRM
+    // 2. Leads Comerciais e Passaporte VIP
     match /leads/{leadId} {
       allow read, write: if true;
     }
 
-    // Regras de Acesso para Ordens de Serviço (Garantia)
+    // 3. Ordens de Serviço e Garantia Nacional
     match /service_orders/{orderId} {
-      allow read, write: if true;
-    }
-
-    match /{document=**} {
       allow read, write: if true;
     }
   }

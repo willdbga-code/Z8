@@ -593,6 +593,16 @@
 
       <!-- LOGIN FORM -->
       <div id="cat-box-login">
+        <button type="button" id="btn-google-login" class="skeuo-button" style="width: 100%; margin-bottom: 16px; padding: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
+          <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1.1rem;"></i> Entrar com o Google
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+          <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+          <span style="font-size: 0.75rem; color: #64748b;">ou com e-mail corporativo</span>
+          <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+        </div>
+
         <form id="cat-login-form">
           <div id="cat-login-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
@@ -626,37 +636,22 @@
       <!-- FORGOT PASSWORD FORM -->
       <div id="cat-box-forgot" style="display: none;">
         <div style="background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 8px; padding: 12px; margin-bottom: 14px;">
-          <h4 style="color: #00F2FE; font-size: 0.9rem; margin: 0 0 4px 0;"><i class="fa-solid fa-unlock-keyhole"></i> Recuperação de Senha</h4>
+          <h4 style="color: #00F2FE; font-size: 0.9rem; margin: 0 0 4px 0;"><i class="fa-solid fa-envelope-circle-check"></i> Recuperação de Senha por E-mail</h4>
           <p style="font-size: 0.76rem; color: #cbd5e1; margin: 0; line-height: 1.4;">
-            Informe seu e-mail e os 4 últimos dígitos do seu WhatsApp para cadastrar uma nova senha imediatamente.
+            Informe seu e-mail cadastrado para receber instantaneamente um link seguro de redefinição de senha enviado pela Google.
           </p>
         </div>
 
         <form id="cat-forgot-form">
           <div id="cat-forgot-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
-          <div style="margin-bottom: 12px;">
+          <div style="margin-bottom: 14px;">
             <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Cadastrado:</label>
-            <input type="email" id="cat-forgot-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: contato@empresa.com.br" required />
+            <input type="email" id="cat-forgot-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.88rem;" placeholder="Ex: contato@empresa.com.br" required />
           </div>
 
-          <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-phone"></i> WhatsApp (ou 4 últimos dígitos):</label>
-            <input type="text" id="cat-forgot-phone" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: (11) 98765-4321 ou 4321" required />
-          </div>
-
-          <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-lock"></i> Nova Senha Desejada:</label>
-            <div style="position: relative;">
-              <input type="password" id="cat-forgot-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 40px 10px 10px; color: #fff; font-size: 0.85rem;" placeholder="Mínimo 4 caracteres" required />
-              <button type="button" class="btn-toggle-pass-view" data-target="cat-forgot-pass" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-            </div>
-          </div>
-
-          <button type="submit" class="skeuo-button primary-metal-btn full-width" style="padding: 12px; background: linear-gradient(135deg, #00F2FE, #4FACFE); color: #0b0e14; font-weight: 800;">
-            <i class="fa-solid fa-shield-check"></i> REDEFINIR SENHA E ENTRAR
+          <button type="submit" id="btn-submit-forgot-email" class="skeuo-button primary-metal-btn full-width" style="padding: 12px; background: linear-gradient(135deg, #00F2FE, #4FACFE); color: #0b0e14; font-weight: 800;">
+            <i class="fa-solid fa-paper-plane"></i> ENVIAR LINK DE REDEFINIÇÃO
           </button>
 
           <div style="text-align: center; margin-top: 14px;">
@@ -676,8 +671,18 @@
 
       <!-- REGISTER FORM -->
       <div id="cat-box-register" style="display: none;">
+        <button type="button" id="btn-google-reg" class="skeuo-button" style="width: 100%; margin-bottom: 16px; padding: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
+          <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1.1rem;"></i> Cadastrar com o Google
+        </button>
+
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+          <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+          <span style="font-size: 0.75rem; color: #64748b;">ou preencha o cadastro comercial</span>
+          <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+        </div>
+
         <div style="background: rgba(0,242,254,0.08); border: 1px solid rgba(0,242,254,0.2); padding: 10px 14px; border-radius: 8px; font-size: 0.78rem; color: #38bdf8; margin-bottom: 14px;">
-          <i class="fa-solid fa-circle-info"></i> <strong>Aprovação Necessária:</strong> Após o cadastro, o 1º acesso precisa ser aprovado pelo Administrador Master (<code>christian.tkh@gmail.com</code>).
+          <i class="fa-solid fa-circle-info"></i> <strong>Aprovação Necessária:</strong> Novos cadastros têm aprovação do Administrador Master (<code>christian.tkh@gmail.com</code>).
         </div>
 
         <form id="cat-register-form">

@@ -3,6 +3,21 @@
 // ==========================================================================
 
 import { CLOUD_CONFIG, DEFAULT_MASTER_ADMIN, SEED_REGISTERED_USERS } from './data/cloud-config.js';
+import { 
+  signInWithGoogleAccount,
+  requestPasswordResetEmail,
+  subscribeToUsersRealtime,
+  setCloudUserStatus,
+  deleteCloudUser
+} from './services/firebase-service.js';
+
+export {
+  signInWithGoogleAccount,
+  requestPasswordResetEmail,
+  subscribeToUsersRealtime,
+  setCloudUserStatus,
+  deleteCloudUser
+};
 
 const USERS_STORAGE_KEY = CLOUD_CONFIG.STORAGE_USERS_KEY;
 const SESSION_KEY = CLOUD_CONFIG.STORAGE_SESSION_KEY;
@@ -34,6 +49,45 @@ export function getCloudSyncStatus() {
   };
 }
 
+// Login e Cadastro com 1 Clique via Google OAuth
+export async function loginWithGoogle() {
+  try {
+    const user = await signInWithGoogleAccount();
+    if (user && user.email) {
+      const users = getRegisteredUsers();
+      const cleanEmail = user.email.toLowerCase();
+      const existingIdx = users.findIndex(u => u.email.toLowerCase() === cleanEmail);
+
+      if (existingIdx !== -1) {
+        users[existingIdx] = { ...users[existingIdx], ...user };
+      } else {
+        users.unshift(user);
+      }
+
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+
+      // Salva sessão ativa
+      sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
+      sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(user));
+      localStorage.setItem('z8_catalog_auth_user', JSON.stringify(user));
+      localStorage.setItem('z8_catalog_auth_token', 'token_google_' + Date.now());
+
+      window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
+      return {
+        success: true,
+        user,
+        isPending: user.status === 'pending'
+      };
+    }
+  } catch (err) {
+    console.warn('Google login error:', err);
+    return { success: false, error: err.message || 'Falha ao autenticar com a conta Google.' };
+  }
+  return { success: false, error: 'Autenticação com o Google cancelada ou indisponível.' };
+}
+
 // Salva um usuário específico na API Serverless / Nuvem Z8
 export async function pushUserToFirestore(user) {
   if (!user || !user.email) return false;
@@ -63,11 +117,9 @@ export async function pushUserToFirestore(user) {
       lastCloudSyncTime = Date.now();
       lastCloudSyncSuccess = true;
       return true;
-    } else {
-      console.warn('API /api/users respond code:', res.status);
     }
   } catch (err) {
-    console.warn('Serverless API user push warning (armazenado localmente):', err);
+    console.warn('Serverless API user push warning:', err);
   }
   return false;
 }
@@ -100,7 +152,7 @@ export async function fetchUsersFromCloud() {
       console.warn('API /api/users fetch info:', apiErr);
     }
 
-    // 2. Consulta também leads do CRM (/api/leads) para importar cadastros comerciais
+    // 2. Consulta também leads do CRM (/api/leads)
     try {
       const leadsRes = await fetch(CLOUD_CONFIG.API_LEADS_URL);
       if (leadsRes.ok) {
@@ -224,10 +276,10 @@ export function getRegisteredUsers() {
     // Filtra e remove completamente e-mails de teste antigos
     users = users.filter(u => !TEST_DEMO_EMAILS.includes((u.email || '').toLowerCase().trim()));
 
-    // 1. Garante a presença do Administrador Master
+    // 1. Garante a presença do Administrador Master e contas cadastradas
     DEFAULT_USERS.forEach(du => {
       if (!users.find(u => u.email.toLowerCase() === du.email.toLowerCase())) {
-        users.unshift(du);
+        users.push({ ...du });
       }
     });
 
@@ -303,6 +355,7 @@ export async function createPartnerByAdmin(userData) {
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
   await pushUserToFirestore(newUserData);
+  await setCloudUserStatus(cleanEmail, newUserData.status);
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
   return { success: true, user: newUserData };
@@ -328,7 +381,7 @@ export async function registerCatalogUser(userData) {
     phone: userData.phone || '',
     password: userData.password || '',
     role: isMaster ? 'admin' : 'partner',
-    status: isMaster ? 'approved' : 'pending', // Novo cadastro entra como pending até aprovação comercial
+    status: isMaster ? 'approved' : 'pending',
     updatedAt: Date.now(),
     createdAt: new Date().toISOString()
   };
@@ -338,6 +391,7 @@ export async function registerCatalogUser(userData) {
 
   // Grava imediatamente no Servidor / Nuvem Central
   await pushUserToFirestore(newUser);
+  await setCloudUserStatus(cleanEmail, newUser.status);
 
   // Autentica o usuário imediatamente na sessão
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
@@ -359,7 +413,7 @@ export function loginCatalogUser(userOrEmail, password) {
   if (clean === MASTER_ADMIN_EMAIL.toLowerCase() && password === MASTER_ADMIN_PASS) {
     const adminUser = {
       id: 'user_admin_master',
-      name: 'Administrador Master',
+      name: 'Christian Hideyuki (Admin Master)',
       company: 'Z8 E-Motion (Matriz)',
       email: MASTER_ADMIN_EMAIL,
       role: 'admin',
@@ -380,14 +434,13 @@ export function loginCatalogUser(userOrEmail, password) {
   }
 
   if (found.password && found.password !== password) {
-    return { success: false, error: 'Senha incorreta. Tente novamente ou recupere pelo WhatsApp.' };
+    return { success: false, error: 'Senha incorreta. Tente novamente ou use a recuperação de senha por e-mail.' };
   }
 
   if (found.status === 'blocked') {
     return { success: false, error: '🔴 Seu acesso foi temporariamente suspenso pela administração.' };
   }
 
-  // Realiza o login (mesmo que pending, o usuário entra na conta, com restrição visual do catálogo)
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
   sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(found));
   localStorage.setItem('z8_catalog_auth_user', JSON.stringify(found));
@@ -414,7 +467,12 @@ export async function resetCatalogUserPassword(email, phone, newPassword) {
     return { success: false, error: 'A senha do Administrador Master só pode ser alterada diretamente no código do sistema.' };
   }
 
-  if (!cleanPass || cleanPass.length < 4) {
+  // Tenta disparo automático de e-mail oficial
+  if (!cleanPass) {
+    return await requestPasswordResetEmail(cleanEmail);
+  }
+
+  if (cleanPass.length < 4) {
     return { success: false, error: 'A nova senha deve ter no mínimo 4 caracteres.' };
   }
 
@@ -425,7 +483,6 @@ export async function resetCatalogUserPassword(email, phone, newPassword) {
     return { success: false, error: 'E-mail não encontrado no sistema. Verifique a digitação ou crie uma conta na aba de cadastro.' };
   }
 
-  // Security check: if phone was provided, verify matching digits
   if (cleanPhone) {
     const userPhoneDigits = (found.phone || '').replace(/\D/g, '');
     if (userPhoneDigits && userPhoneDigits.length >= 8 && cleanPhone.length >= 8) {
@@ -442,7 +499,6 @@ export async function resetCatalogUserPassword(email, phone, newPassword) {
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
   await pushUserToFirestore(found);
 
-  // Auto-login with new password
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
   sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(found));
   localStorage.setItem('z8_catalog_auth_user', JSON.stringify(found));
@@ -476,23 +532,7 @@ export async function updateUserStatus(userId, newStatus) {
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updated));
   if (updatedUser) {
     await pushUserToFirestore(updatedUser);
-  }
-
-  // Sincroniza status no banco de Leads do CRM se existir
-  try {
-    const crmRaw = localStorage.getItem('z8_crm_leads_data');
-    if (crmRaw && updatedUser) {
-      const leads = JSON.parse(crmRaw);
-      const crmUpdated = leads.map(l => {
-        if (l.email && l.email.toLowerCase() === updatedUser.email.toLowerCase()) {
-          l.status = newStatus;
-        }
-        return l;
-      });
-      localStorage.setItem('z8_crm_leads_data', JSON.stringify(crmUpdated));
-    }
-  } catch (e) {
-    console.warn('CRM leads status sync error:', e);
+    await setCloudUserStatus(updatedUser.email, newStatus);
   }
 
   // Se o usuário atual for o mesmo modificado, atualiza a sessão local
@@ -518,14 +558,8 @@ export async function deleteCatalogUser(userId) {
   const filtered = users.filter(u => u.id !== userId && u.email.toLowerCase() !== String(userId).toLowerCase());
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(filtered));
 
-  try {
-    await fetch(`${CLOUD_CONFIG.API_USERS_URL}?id=${encodeURIComponent(userId)}`, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: userId, email: toDelete?.email })
-    });
-  } catch (err) {
-    console.warn('Delete cloud user warning:', err);
+  if (toDelete?.email) {
+    await deleteCloudUser(toDelete.email);
   }
 
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
@@ -589,7 +623,6 @@ export function checkUrlApproval() {
           status: 'approved'
         });
       }
-      // Limpa os parâmetros da URL sem recarregar
       const newUrl = window.location.pathname;
       window.history.replaceState({}, document.title, newUrl);
       return clean;

@@ -27,7 +27,10 @@ import {
   checkUrlApproval,
   fetchUsersFromCloud,
   resetCatalogUserPassword,
-  getCloudSyncStatus
+  getCloudSyncStatus,
+  loginWithGoogle,
+  requestPasswordResetEmail,
+  subscribeToUsersRealtime
 } from './catalog-auth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -809,7 +812,7 @@ function initCatalogAuth() {
     });
   }
 
-  let adminSyncInterval = null;
+  let unsubscribeRealtime = null;
   if (openAdminBtn) {
     openAdminBtn.addEventListener('click', async () => {
       renderAdminUsersList();
@@ -817,13 +820,17 @@ function initCatalogAuth() {
       await fetchUsersFromCloud();
       renderAdminUsersList();
 
-      if (!adminSyncInterval) {
-        adminSyncInterval = setInterval(async () => {
-          if (adminModal && !adminModal.classList.contains('hidden')) {
-            await fetchUsersFromCloud();
+      if (!unsubscribeRealtime) {
+        unsubscribeRealtime = subscribeToUsersRealtime((cloudUsers) => {
+          if (Array.isArray(cloudUsers) && cloudUsers.length > 0) {
+            const localUsers = getRegisteredUsers();
+            const map = new Map();
+            localUsers.forEach(u => map.set(u.email.toLowerCase(), u));
+            cloudUsers.forEach(u => map.set((u.email || '').toLowerCase(), u));
+            localStorage.setItem('z8_registered_users_directory', JSON.stringify(Array.from(map.values())));
             renderAdminUsersList();
           }
-        }, 6000);
+        });
       }
     });
   }
@@ -831,12 +838,45 @@ function initCatalogAuth() {
   if (closeAdminBtn) {
     closeAdminBtn.addEventListener('click', () => {
       adminModal?.classList.add('hidden');
-      if (adminSyncInterval) {
-        clearInterval(adminSyncInterval);
-        adminSyncInterval = null;
+      if (unsubscribeRealtime) {
+        unsubscribeRealtime();
+        unsubscribeRealtime = null;
       }
     });
   }
+
+  // Google 1-Click Authentication Handlers
+  const btnGoogleLogin = document.getElementById('btn-google-login');
+  const btnGoogleReg = document.getElementById('btn-google-reg');
+
+  async function handleGoogleAuthClick(btn) {
+    if (!btn) return;
+    const originalText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Conectando com o Google...';
+    try {
+      const res = await loginWithGoogle();
+      if (res.success) {
+        if (loginModal) loginModal.classList.add('hidden');
+        updateHeaderAuth();
+        renderShowroom();
+        renderOrderDesk();
+        initCalculator();
+        renderDownloads();
+        renderOSDashboard();
+      } else {
+        alert(res.error || 'Não foi possível autenticar com a conta Google.');
+      }
+    } catch (e) {
+      alert('Erro ao conectar com o Google: ' + (e.message || e));
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = originalText;
+    }
+  }
+
+  if (btnGoogleLogin) btnGoogleLogin.addEventListener('click', () => handleGoogleAuthClick(btnGoogleLogin));
+  if (btnGoogleReg) btnGoogleReg.addEventListener('click', () => handleGoogleAuthClick(btnGoogleReg));
 
   if (tabLoginBtn && tabRegBtn) {
     tabLoginBtn.addEventListener('click', () => {
@@ -905,13 +945,23 @@ function initCatalogAuth() {
   }
 
   if (forgotForm) {
-    forgotForm.addEventListener('submit', (e) => {
+    forgotForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('cat-forgot-email')?.value || '';
-      const phone = document.getElementById('cat-forgot-phone')?.value || '';
-      const newPass = document.getElementById('cat-forgot-pass')?.value || '';
+      const submitBtn = document.getElementById('btn-submit-forgot-email');
 
-      const res = resetCatalogUserPassword(email, phone, newPass);
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando link...';
+      }
+
+      const res = await requestPasswordResetEmail(email);
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> ENVIAR LINK DE REDEFINIÇÃO';
+      }
+
       if (res.success) {
         if (forgotMsg) {
           forgotMsg.style.display = 'block';
@@ -920,12 +970,6 @@ function initCatalogAuth() {
           forgotMsg.style.color = '#6ee7b7';
           forgotMsg.innerHTML = `🎉 <strong>${res.message}</strong>`;
         }
-        setTimeout(() => {
-          updateHeaderAuth();
-          renderShowroom();
-          const loginModal = document.getElementById('catalog-login-modal');
-          if (loginModal) loginModal.classList.add('hidden');
-        }, 1000);
       } else {
         if (forgotMsg) {
           forgotMsg.style.display = 'block';
