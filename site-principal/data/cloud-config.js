@@ -15,7 +15,11 @@ export const CLOUD_CONFIG = {
 
   // Dedicated Firebase Firestore Configuration for Z8 E-Motion
   FIREBASE_PROJECT_ID: "z8-emotion-brasil",
-  FIREBASE_API_KEY: "",
+  FIREBASE_API_KEY: "AIzaSyCBAe00zQFgJkDJG70ywXx6xr0mOCIK8Fo",
+  FIREBASE_AUTH_DOMAIN: "z8-emotion-brasil.firebaseapp.com",
+  FIREBASE_STORAGE_BUCKET: "z8-emotion-brasil.firebasestorage.app",
+  FIREBASE_MESSAGING_SENDER_ID: "445689506709",
+  FIREBASE_APP_ID: "1:445689506709:web:c4946fcac8a83e3010249c",
 
   // Storage Keys
   STORAGE_USERS_KEY: "z8_registered_users_directory",
@@ -23,6 +27,15 @@ export const CLOUD_CONFIG = {
   STORAGE_SESSION_USER_KEY: "z8_catalog_auth_user",
   STORAGE_CRM_KEY: "z8_crm_leads_data",
   STORAGE_ORDERS_KEY: "z8_warranty_service_orders_db"
+};
+
+export const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCBAe00zQFgJkDJG70ywXx6xr0mOCIK8Fo",
+  authDomain: "z8-emotion-brasil.firebaseapp.com",
+  projectId: "z8-emotion-brasil",
+  storageBucket: "z8-emotion-brasil.firebasestorage.app",
+  messagingSenderId: "445689506709",
+  appId: "1:445689506709:web:c4946fcac8a83e3010249c"
 };
 
 export const DEFAULT_MASTER_ADMIN = {

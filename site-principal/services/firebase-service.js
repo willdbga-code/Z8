@@ -25,7 +25,7 @@ import {
   getDocs,
   serverTimestamp 
 } from 'firebase/firestore';
-import { CLOUD_CONFIG, DEFAULT_MASTER_ADMIN, SEED_REGISTERED_USERS } from '../data/cloud-config.js';
+import { CLOUD_CONFIG, DEFAULT_MASTER_ADMIN, SEED_REGISTERED_USERS, FIREBASE_CONFIG } from '../data/cloud-config.js';
 
 let firebaseApp = null;
 let auth = null;
@@ -34,23 +34,14 @@ const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export function isFirebaseConfigured() {
-  return Boolean(CLOUD_CONFIG.FIREBASE_PROJECT_ID && CLOUD_CONFIG.FIREBASE_API_KEY);
+  return Boolean(FIREBASE_CONFIG.projectId && FIREBASE_CONFIG.apiKey);
 }
 
 export function initFirebase() {
   if (firebaseApp) return { app: firebaseApp, auth, db };
 
-  const config = {
-    apiKey: CLOUD_CONFIG.FIREBASE_API_KEY || "AIzaSyDxBfXwvrBt19dQbxqGYkVmFIl_S87VOdU",
-    authDomain: `${CLOUD_CONFIG.FIREBASE_PROJECT_ID || "z8-emotion-brasil"}.firebaseapp.com`,
-    projectId: CLOUD_CONFIG.FIREBASE_PROJECT_ID || "z8-emotion-brasil",
-    storageBucket: `${CLOUD_CONFIG.FIREBASE_PROJECT_ID || "z8-emotion-brasil"}.firebasestorage.app`,
-    messagingSenderId: "796751991729",
-    appId: "1:796751991729:web:720e8e01bdfca6d3d16390"
-  };
-
   try {
-    firebaseApp = getApps().length > 0 ? getApp() : initializeApp(config);
+    firebaseApp = getApps().length > 0 ? getApp() : initializeApp(FIREBASE_CONFIG);
     auth = getAuth(firebaseApp);
     db = getFirestore(firebaseApp);
     return { app: firebaseApp, auth, db };
