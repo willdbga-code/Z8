@@ -43,7 +43,7 @@ export function initFirebase() {
   try {
     firebaseApp = getApps().length > 0 ? getApp() : initializeApp(FIREBASE_CONFIG);
     auth = getAuth(firebaseApp);
-    db = getFirestore(firebaseApp);
+    db = getFirestore(firebaseApp, 'default');
     return { app: firebaseApp, auth, db };
   } catch (err) {
     console.warn('Firebase initialization notice:', err.message);

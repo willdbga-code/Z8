@@ -4,10 +4,18 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   root: '.',
   publicDir: 'public',
+  resolve: {
+    alias: {
+      '@vercel/analytics': resolve(import.meta.dirname, 'scripts/analytics-mock.js')
+    }
+  },
   server: {
     port: 3004,
     host: true,
     allowedHosts: true
+  },
+  css: {
+    postcss: {}
   },
   build: {
     outDir: 'dist',

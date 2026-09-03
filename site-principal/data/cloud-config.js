@@ -20,6 +20,7 @@ export const CLOUD_CONFIG = {
   FIREBASE_STORAGE_BUCKET: "z8-emotion-brasil.firebasestorage.app",
   FIREBASE_MESSAGING_SENDER_ID: "445689506709",
   FIREBASE_APP_ID: "1:445689506709:web:c4946fcac8a83e3010249c",
+  FIRESTORE_DATABASE: "default",
 
   // Storage Keys
   STORAGE_USERS_KEY: "z8_registered_users_directory",
