@@ -1,7 +1,7 @@
 # 🛡️ CERTIFICADO E TERMO DE GARANTIA NACIONAL
-## **Z8 E-MOTION MOBILIDADE ELÉTRICA BRASIL**
+## **Z8 EMOTION LTDA. — SISTEMA Z8 E-MOTION**
 
-> Este documento estabelece os termos e condições da **Garantia Nacional Z8 E-Motion**, em estrita conformidade com a Lei Federal nº 8.078/1990 (**Código de Defesa do Consumidor - CDC**) e as normas técnicas do SENATRAN.
+> Este documento estabelece os termos e condições da **Garantia Nacional Z8 E-Motion**, emitida por **Z8 EMOTION LTDA.** (CNPJ/MF nº 68.774.164/0001-00), em estrita conformidade com a Lei Federal nº 8.078/1990 (**Código de Defesa do Consumidor - CDC**) e as normas técnicas do SENATRAN.
 
 ---
 
@@ -44,7 +44,7 @@ A garantia será sumariamente cancelada nas seguintes ocorrências:
 ---
 
 ### **4. PROCEDIMENTO DE ATENDIMENTO E REPARO (ART. 18 DO CDC)**
-1. Em caso de constatação de anomalia, o cliente deverá contatar a concessionária Z8 credenciada mais próxima ou o SAC Nacional (`suporte@z8emotion.com.br`).
+1. Em caso de constatação de anomalia, o cliente deverá contatar a concessionária Z8 credenciada mais próxima ou o SAC Nacional (`z8emotion.brasil@gmail.com` / `suporte@z8emotion.com.br`).
 2. O veículo passará por diagnóstico técnico com emissão de Ordem de Serviço (OS).
 3. Estando coberto pela garantia, o reparo e a substituição das peças genuínas serão efetuados sem qualquer ônus ao consumidor no prazo máximo de **30 (trinta) dias**, conforme preconiza o Art. 18 do CDC.
 

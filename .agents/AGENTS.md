@@ -37,9 +37,25 @@
 - `OS-2026-0103`: E-Motion Sul (Marcio Silva) - Z8 U2 Delivery Cargo - Status: `completed`
 - `OS-2026-0104`: Litoral Elétrico Santos (Lucas Santos) - Z8 Sport Scooter - Status: `approved`
 
+## Legal & Corporate Memory (Official `Z8 EMOTION LTDA.`)
+- **Razão Social**: `Z8 EMOTION LTDA.`
+- **CNPJ/MF**: `68.774.164/0001-00`
+- **Sede Corporativa**: Avenida Doutor Adhemar de Barros, nº 566, Jardim São Dimas, São José dos Campos - SP, CEP 12.245-010
+- **Foro de Eleição Exclusivo**: Comarca de São José dos Campos - SP
+- **Dossiê Jurídico & Franquias**:
+  - `CONTRATO_PADRAO_DE_FRANQUIA.md`: Lei 13.966/2019 e Art. 784, III CPC (Título Executivo). Taxa Inicial de R$ 35.000,00, Reincidência de R$ 6.800,00/mês + R$ 1.000,00 tráfego pago. Cláusula penal rescisória de R$ 100.000,00 (ou 12 mensalidades). Descaracterização em 5 dias (R$ 2.000/dia). Fiança solidária e aval dos sócios com renúncia aos arts. 827, 835 e 838 do CC. Non-compete de 24 meses em raio de 100 km (multa R$ 100k). Blindagem trabalhista e CDC paritário.
+  - `CIRCULAR_DE_OFERTA_DE_FRANQUIA_COF.md`: 100% harmonizada com o contrato e prazo de entrega > 10 dias corridos.
+  - `PARECER_REGULATORIO_CONTRAN_996.md`, `POLITICA_DE_PRIVACIDADE_LGPD.md`, `TERMOS_DE_USO.md`, `TERMO_DE_ENTREGA_TECNICA_E_PDI.md`, `TERMO_DE_GARANTIA_NACIONAL_Z8.md`: 100% harmonizados.
+  - Sincronização espelhada em `docs/juridico/` e `public/docs/juridico/`.
+  - PDFs oficiais gerados via `scripts/generate_pdf.js`.
+
 ## Git & Deployment Protocol
 - Remote repository is `willdbga-code/Z8`.
 - Push permission is authorized for user `christian-hideyuki`.
-- Always run `git status` and verify rebase clean before pushing.
-- Commits deployed: `cad8124`, `358995e`, `89b0cf7`.
+- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`.
+
+## Resume Point for Next Session
+1. Validar e commitar as atualizações de responsividade e dossiê jurídico no Git.
+2. Confirmar sincronização em tempo real das Ordens de Serviço (OS) e leads no Firestore oficial.
+3. Testar fluxo ponta a ponta em produção.
 

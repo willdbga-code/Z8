@@ -1,8 +1,8 @@
 # 🔒 POLÍTICA DE PRIVACIDADE E PROTEÇÃO DE DADOS (LGPD)
-## **Z8 E-MOTION MOBILIDADE ELÉTRICA BRASIL**
+## **Z8 EMOTION LTDA. — SISTEMA Z8 E-MOTION**
 ### **Conformidade Estrita com a Lei Federal nº 13.709/2018 (LGPD)**
 
-A **Z8 E-MOTION MOBILIDADE ELÉTRICA BRASIL** tem o compromisso inegociável de proteger a privacidade, a segurança e a confidencialidade dos dados pessoais de seus clientes, parceiros lojistas, franqueados e visitantes de seus canais digitais.
+A **Z8 EMOTION LTDA.** (CNPJ/MF nº 68.774.164/0001-00), com sede na Avenida Doutor Adhemar de Barros, nº 566, Jardim São Dimas, São José dos Campos - SP, CEP 12.245-010, tem o compromisso inegociável de proteger a privacidade, a segurança e a confidencialidade dos dados pessoais de seus clientes, parceiros lojistas, franqueados e visitantes de seus canais digitais.
 
 Esta Política de Privacidade descreve de forma clara e transparente como coletamos, tratamos, armazenamos e protegemos seus dados pessoais.
 
@@ -55,6 +55,6 @@ Você tem o direito de, a qualquer momento e mediante requisição formal:
 ### **6. CONTATO DO ENCARREGADO DE DADOS (DPO)**
 Para exercer seus direitos de titular ou esclarecer qualquer dúvida sobre o tratamento de seus dados pessoais, entre em contato diretamente com o nosso Encarregado de Proteção de Dados:
 
-- **Encarregado (DPO)**: Setor de Governança e Compliance Z8
-- **E-mail Direto**: `privacidade@z8emotion.com.br` / `contato@z8emotion.com.br`
-- **Endereço**: São Paulo - SP, Brasil
+- **Encarregado (DPO)**: Setor de Governança e Compliance Z8 EMOTION LTDA.
+- **E-mail Direto**: `z8emotion.brasil@gmail.com` / `privacidade@z8emotion.com.br`
+- **Endereço Corporativo**: Avenida Doutor Adhemar de Barros, nº 566, Jardim São Dimas, São José dos Campos - SP, CEP 12.245-010

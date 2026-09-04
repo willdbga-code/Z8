@@ -1,7 +1,7 @@
 # 📜 TERMOS E CONDIÇÕES DE USO DO WEBSITE E PORTAL Z8 E-MOTION
 ## **Última Atualização: Agosto de 2026**
 
-Bem-vindo ao website oficial e plataforma digital da **Z8 E-MOTION MOBILIDADE ELÉTRICA BRASIL** (`https://z8emotion.com.br`).
+Bem-vindo ao website oficial e plataforma digital da **Z8 EMOTION LTDA.** (CNPJ/MF nº 68.774.164/0001-00), titular da marca **Z8 E-MOTION** (`https://z8emotion.com.br`).
 
 Ao acessar, navegar ou utilizar qualquer página deste portal (incluindo o Site Principal, as Landing Pages de Vendas B2B, a página executiva N95C e o Portal de Acesso de Parceiros e Franqueados), você concorda integralmente com estes **Termos e Condições de Uso**. Caso não concorde com qualquer termo aqui previsto, solicitamos que não continue utilizando os nossos serviços digitais.
 
@@ -39,4 +39,4 @@ Ao acessar, navegar ou utilizar qualquer página deste portal (incluindo o Site 
 ---
 
 ### **6. FORO E LEGISLAÇÃO APLICÁVEL**
-6.1. Estes Termos são regidos pelas leis da República Federativa do Brasil. Para a resolução de controvérsias relativas a estes Termos, fica eleito o Foro da Comarca de São Paulo - SP.
+6.1. Estes Termos são regidos pelas leis da República Federativa do Brasil. Para a resolução de qualquer litígio relativo a estes Termos ou à utilização do portal, fica eleito o Foro da Comarca de São José dos Campos, Estado de São Paulo.

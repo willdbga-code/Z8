@@ -46,5 +46,6 @@ Estando categorizados como **Equipamentos de Mobilidade Individual Autopropelido
 
 ---
 
-**Departamento Jurídico e de Engenharia Regulatória — Z8 E-Motion Brasil**  
+**Departamento Jurídico e de Engenharia Regulatória — Z8 EMOTION LTDA.**  
+*CNPJ/MF nº 68.774.164/0001-00 — São José dos Campos - SP*  
 *Documento Registrado e Atestado para Fins de Fiscalização Nacional*  

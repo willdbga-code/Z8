@@ -1,7 +1,7 @@
 # 📋 TERMO DE ENTREGA TÉCNICA & VISTORIA INICIAL (PDI)
-## **PRE-DELIVERY INSPECTION (PDI) — Z8 E-MOTION BRASIL**
+## **PRE-DELIVERY INSPECTION (PDI) — Z8 EMOTION LTDA.**
 
-> Este checklist deve ser obrigatoriamente preenchido pelo técnico credenciado na presença do comprador no ato da entrega do veículo na concessionária ou franqueada.
+> Este checklist deve ser obrigatoriamente preenchido pelo técnico credenciado na presença do comprador no ato da entrega do veículo na concessionária ou franqueada homologada pela **Z8 EMOTION LTDA.** (CNPJ/MF nº 68.774.164/0001-00).
 
 ---
 
