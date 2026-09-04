@@ -49,10 +49,36 @@
   - Sincronização espelhada em `docs/juridico/` e `public/docs/juridico/`.
   - PDFs oficiais gerados via `scripts/generate_pdf.js`.
 
+## Architectural & Store Design Memory (Official Z8 Standards)
+- **Façade Specifications**:
+  - Testeira / Viga: ACM Aço Escovado Natural (*Brushed Silver / Inox*), 4mm, proteção UV.
+  - Fundo de Paredes: **Cinza Platina** (referência Cartela #284, HEX `#C2C6CA`).
+  - Logotipo Z8: 3D em chapa metálica **Bright Silver** com chanfro aero-esportivo e iluminação indireta Halo LED 6500K / Ciano Z8.
+  - Letreiro Secundário: **Preto Brilho** (*Black Piano*) usinado a laser "MOBILIDADE ELÉTRICA".
+  - Detalhe Amadeirado (Opcional): Chapa ACM textura **Madeira Mogno** nas bases dos pilares, arcos e lounge.
+  - Iluminação Rasante: Spots embutidos Downlight IP65 de 4000K (Luz Neutra).
+- **Pisos**:
+  - Showroom e Vendas: Porcelanato retificado acetinado claro tom cinza (Cinza Platina claro 80x80cm ou 90x90cm).
+  - Oficina e PDI: Resina epóxi autonivelante industrial Cinza Médio de alta resistência (≥ 500 kgf/cm²).
+- **Requisitos Operacionais & Menor Área Comercial**:
+  - 2 Elevadores hidráulicos/pneumáticos para motocicletas elétricas.
+  - Lote mínimo de 10 motos por compra da franquia.
+  - **Menor Área Útil Comercial Possível**: **50 m² a 55 m² úteis** (mínimo recomendado: **55 m² a 60 m²**).
+- **Vínculos com Tamanhos de Fachada**:
+  - **Fachada 2m (Módulo Corredor Urban)**: 56 a 60 m² (2m x 28-30m), 2 elevadores em linha (Tandem), 10 motos.
+  - **Fachada 3m (Módulo Compact Rua)**: 60 a 66 m² (3m x 20-22m), 2 elevadores semi-escalonados, 10 a 11 motos.
+  - **Fachada 5m (Módulo Standard Store)**: 80 a 90 m² (5m x 16-18m), 2 elevadores lado a lado (Twin Bay), 10 a 12 motos.
+  - **Fachada 10m a 14,90m (Master Flagship)**: 150 a 250 m² (14,90m x 1,00m de viga, 3 arcos monumentais, torre 4,20m x 1,80m), 18 a 25 motos.
+- **Core Architecture Documents**:
+  - `docs/Brandbook_Z8_Emotion/MANUAL_ARQUITETURA_E_PLANTA_BAIXA.md` (e .pdf)
+  - `docs/manuais/MANUAL_DE_IDENTIDADE_VISUAL_E_ARQUITETURA_Z8.md` (e .pdf)
+  - `docs/manuais/GUIA_PADRONIZACAO_ARQUITETURA_E_FACHADAS_Z8.md` (e .pdf)
+  - `site-principal/data/franchiseInfo.js`
+
 ## Git & Deployment Protocol
 - Remote repository is `willdbga-code/Z8`.
 - Push permission is authorized for user `christian-hideyuki`.
-- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`, `73d7620`, `8e55022`.
+- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`, `73d7620`, `8e55022`, `97290e2`.
 
 ## Resume Point for Next Session
 1. Confirmar sincronização em tempo real das Ordens de Serviço (OS) e leads no Firestore oficial.

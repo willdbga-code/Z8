@@ -1,5 +1,6 @@
 # 🎨 MANUAL DE IDENTIDADE VISUAL, ARQUITETURA & SHOWROOM
 ## **BRANDBOOK OFICIAL DA REDE DE FRANQUIAS Z8 E-MOTION**
+*Atualização Executiva de Padrão Arquitetônico, Fachadas e Acabamentos Homologados*
 
 ---
 
@@ -7,92 +8,97 @@
 
 A **Z8 E-MOTION** representa a vanguarda da mobilidade urbana sustentável no Brasil. Nosso design une sofisticação futurista, robustez estrutural, linhas aerodinâmicas agressivas e tecnologia limpa de alta performance. 
 
-O objetivo deste manual é orientar arquitetos, designers, lojistas e franqueados na padronização impecável da comunicação visual e na ambientação física dos pontos de venda (Showrooms, Concessionárias Master e Distribuidores Regionais).
+O objetivo deste manual é orientar arquitetos, engenheiros, designers e franqueados na padronização impecável da comunicação visual e na ambientação física dos pontos de venda (Concessionárias Master, Showrooms Standard e Lojas Compactas).
 
 ---
 
-### **2. PALETA CROMÁTICA OFICIAL (Cores Primárias e Secundárias)**
+### **2. PALETA CROMÁTICA OFICIAL (Arquitetura, Fachada & Showroom)**
 
-| Cor Oficial | Código HEX | RGB | CMYK | Uso e Aplicação |
+| Cor Oficial | Código HEX | RGB | CMYK | Aplicação Homologada na Rede |
 | :--- | :---: | :---: | :---: | :--- |
-| **Ciano Elétrico Z8** | `#00F0FF` | `0, 240, 255` | `65, 0, 0, 0` | Cor primária da marca, iluminação LED de destaque e badges. |
-| **Grafite Espacial** | `#0F172A` | `15, 23, 42` | `80, 70, 50, 60` | Fundo principal de painéis, ACM de fachada e paredes showroom. |
-| **Preto Profundo** | `#0B0E14` | `11, 14, 20` | `85, 75, 60, 80` | Cor base do piso epóxi, contraste e vitrines. |
-| **Ouro Champagne** | `#FBBF24` | `251, 191, 36`| `0, 25, 90, 0` | Destaque para linha exclusiva de franquia (Tank/FX-10). |
-| **Verde Eco Performance** | `#10B981` | `16, 185, 129`| `75, 0, 60, 0` | Selos de sustentabilidade, bateria de lítio e botões de ação. |
-| **Branco Metálico** | `#F8FAFC` | `248, 250, 252`| `0, 0, 0, 2` | Tipografia em contraste e iluminação neutra de detalhamento. |
+| **Cinza Platina** *(Ref. Cartela #284)* | `#C2C6CA` | `194, 198, 202` | `24, 17, 16, 0` | Cor oficial de fundo das paredes externas da fachada e alvenaria interna do showroom. |
+| **Aço Escovado Natural** | `#D1D5DB` | `209, 213, 219` | `18, 13, 11, 0` | Painéis de ACM da viga superior (testeira), pórticos e torres de entrada. |
+| **Bright Silver Metálico** | `#E5E7EB` | `229, 231, 235` | `8, 5, 5, 0` | Logotipo 3D "Z8" em aço inox polido / escovado com chanfro esportivo e halo LED. |
+| **Preto Brilho** *(Black Piano)* | `#0A0A0A` | `10, 10, 10` | `80, 75, 70, 90` | Letreiro secundário "MOBILIDADE ELÉTRICA" usinado a laser (alto brilho 95 GU). |
+| **Madeira Mogno** *(Opcional)* | `#6A3828` | `106, 56, 40` | `30, 75, 85, 35` | Chapa ACM amadeirada / ripado para base dos pilares, arcos e painel lounge VIP. |
+| **Piso Claro Cinza Suave** | `#D8DCDE` | `216, 220, 222` | `12, 8, 8, 0` | Porcelanato técnico acetinado retificado 80x80cm / 90x90cm de showroom e atendimento. |
+| **Cinza Médio Industrial** | `#8D9399` | `141, 147, 153` | `45, 35, 33, 5` | Piso epóxi de alta resistência mecânica (≥ 500 kgf/cm²) na oficina e box de PDI. |
+| **Ciano Elétrico Z8** | `#00F0FF` | `0, 240, 255` | `65, 0, 0, 0` | Iluminação linear em fita LED de destaque, rodapé dos podiums e identidade luminosa. |
 
 ---
 
 ### **3. TIPOGRAFIA INSTITUCIONAL E HIERARQUIA**
 
 1. **Tipografia de Títulos e Logomarca**: `Orbitron` (Pesos: 700 Bold, 800 ExtraBold, 900 Black).
-   - Uso: Nomes de modelos, títulos de seções, letreiros externos de fachada e cabeçalhos de propostas.
-2. **Tipografia de Texto Corrido e Conteúdo**: `Inter` (Pesos: 400 Regular, 500 Medium, 600 SemiBold, 700 Bold).
-   - Uso: Fichas técnicas, contratos, manuais de bordo, placas de especificações e comunicação digital.
-3. **Tipografia de Dados Técnicos e Chassis**: `JetBrains Mono` ou `Roboto Mono`.
-   - Uso: Códigos de fábrica (DB018, DB043), numeração de chassi, relatórios de PDI e tabelas de torque.
+   - Uso: Logotipo Z8, nomes de modelos, títulos de seções externas e letreiros luminosos.
+2. **Tipografia de Fachada ("MOBILIDADE ELÉTRICA")**: `Inter` ou `Montserrat` (Pesos: 700 Bold / 800 ExtraBold em caixa alta espaçada).
+   - Espaçamento entre letras (*letter-spacing*): `0.25em` para leitura limpa e impactante à distância.
+3. **Tipografia de Texto Corrido e Conteúdo**: `Inter` (Pesos: 400 Regular, 500 Medium, 600 SemiBold).
+   - Uso: Fichas técnicas, contratos, manuais e placas de especificações.
+4. **Tipografia Técnica**: `JetBrains Mono` ou `Roboto Mono`.
+   - Uso: Numeração de chassi, relatórios de PDI, certificados de bateria e relatórios de oficina.
 
 ---
 
-### **4. PADRÃO DE FACHADA EXTERNA DA CONCESSIONÁRIA**
+### **4. PADRÃO OFICIAL DE FACHADA EXTERNA**
 
-A fachada de uma unidade Z8 E-Motion deve transmitir inovação tecnológica, modernidade e segurança institucional:
+A fachada Z8 E-Motion foi concebida para transmitir liderança tecnológica, precisão industrial e sofisticação:
 
-1. **Revestimento**: Painéis de **ACM (Alumínio Composto) na cor Preto Fosco ou Grafite Escuro**.
-2. **Logomarca em Destaque**: Letreiro caixa alta com iluminação em **Backlight LED Ciano 6500K**, com a palavra **Z8** em alto-relevo metálico escovado e **E-MOTION** retroiluminada.
-3. **Vitrine Panorâmica**: Vidro temperado cristalino de 10mm sem películas escuras, com visibilidade total do showroom a partir da rua.
-4. **Totem de Entrada**: Totem vertical iluminado com o símbolo da Z8, indicação de "Concessionária Autorizada" e QR Code para catálogo digital.
+1. **Viga Superior / Testeira**: Painel horizontal em **ACM Aço Escovado Natural** (espessura 4mm com proteção UV).
+2. **Letreiro Principal**: Palavras **"MOBILIDADE ELÉTRICA"** em letras recortadas a laser com acabamento **Preto Brilho** (*Black Piano*).
+3. **Iluminação Cênica Superior**: Luminárias **Downlight de Embutir IP65** (LED COB 15W, luz neutra 4000K) distribuídas na face inferior da viga projetando feixes rasantes sobre a parede Platina.
+4. **Paredes da Fachada**: Revestimento no tom **Cinza Platina (Ref. Cartela #284)**, transmitindo clareza, luminosidade e equilíbrio visual contemporâneo.
+5. **Pórtico / Torre de Entrada**: Estrutura verticalizada revestida em **ACM Aço Escovado**, contendo o **Logotipo Z8 em chapa metálica Bright Silver 3D** chanfrado com retroiluminação indireta **Halo LED 6500K / Ciano Z8**.
+6. **Vitrines e Arcos**: Arcos arquitetônicos monumentais ou pórticos envidraçados com **Vidro Temperado Incolor de 10mm**, com caixilharia oculta ou alumínio anodizado preto fosco.
+7. **Bases dos Pilares (Acabamento Opcional)**: Revestimento de proteção das bases dos pilares em **ACM textura amadeirada padrão Madeira Mogno**, agregando elegância clássica e conforto térmico-visual.
 
 ---
 
-### **5. ZONEAMENTO E ARQUITETURA INTERNA DO SHOWROOM**
+### **5. ZONEAMENTO INTERNO DO SHOWROOM & OFICINA TÉCNICA**
 
-O espaço interno da concessionária divide-se em 4 zonas estratégicas de experiência do cliente:
+O layout interno estrutura-se em 5 zonas integradas, garantindo capacidade para o **lote mínimo de 10 motos** e a operação de **2 elevadores técnicos**:
 
 ```
-+-----------------------------------------------------------------------+
-|                              FACHADA & VITRINE                        |
-+-----------------------------------------------------------------------+
-|  [ ZONA 1: PODIUM CENTRAL ]     |  [ ZONA 2: LOUNGE & CAFÉ VIP ]      |
-|  - Z8 Tank / FX-10 Sport        |  - Sofás em couro grafite           |
-|  - Piso Epóxi Alto Brilho       |  - Exposição de Capacetes Homolog.  |
-|  - Spotlights direcionais       |  - TV 4K com vídeos institucionais  |
-+---------------------------------+-------------------------------------+
-|  [ ZONA 3: MESA CONSULTIVA ]    |  [ ZONA 4: BOX TÉCNICO & PDI ]      |
-|  - Simulação Financeira & B2B   |  - Bancada antiestática de testes   |
-|  - Demonstração de NFC / Chaves |  - Ferramental de alta precisão     |
-|  - Entrega de Contratos e Docs  |  - Estoque de peças de reposição    |
-+-----------------------------------------------------------------------+
++-----------------------------------------------------------------------------------------+
+|                                    FACHADA EM ACM AÇO ESCOVADO                          |
+|                       LETREIRO PRETO BRILHO & LOGO Z8 BRIGHT SILVER                     |
++-----------------------------------------------------------------------------------------+
+| [PORTAL VIDRO TEMPERADO 10MM COM DETALHE MOGNO]                                         |
+|                                                                                         |
+|  +-------------------------------------+   +-----------------------------------------+  |
+|  |     ZONA 1: SHOWROOM PRINCIPAL      |   |  ZONA 2: LOUNGE VIP & CAFETERIA GOURMET |  |
+|  | (Exposição de Scooters e Motos Z8)  |   | (Sofás Grafite, Painel Madeira Mogno)   |  |
+|  | Piso Porcelanato Claro Platina      |   | Mostruário de Capacetes Homologados     |  |
+|  | Podium com Iluminação LED Ciano     |   | Café Espresso e Simulador Financeiro    |  |
+|  +-------------------------------------+   +-----------------------------------------+  |
+|                                                                                         |
+|  +-------------------------------------+   +-----------------------------------------+  |
+|  |  ZONA 3: MESA CONSULTIVA DE VENDAS  |   |  ZONA 4: SANITÁRIOS PCD & DML TÉCNICO   |  |
+|  |  (Atendimento B2B, Emissão Chaves)  |   |  (Acessibilidade NBR 9050, TI e QGBT)   |  |
+|  +-------------------------------------+   +-----------------------------------------+  |
+|                                                                                         |
+|=================== DIVISÓRIA PANORÂMICA DE VIDRO ("OFICINA AQUÁRIO") ===================|
+|                                                                                         |
+|  +-------------------------------------+   +-----------------------------------------+  |
+|  |  ZONA 5: OFICINA COM 2 ELEVADORES   |   |  ZONA 6: ESTOQUE PULMÃO & PDI          |  |
+|  |  (Elevador 01 + Elevador 02)        |   |  (Armazenamento do Lote de 10 Motos)    |  |
+|  |  Piso Epóxi Cinza Médio 500 kgf/cm² |   |  Estação Fast Charge 32A / Baterias     |  |
+|  |  Bancada Técnica de Ferramentas Z8  |   |  Área de Testeira e Entrega Técnica     |  |
+|  +-------------------------------------+   +-----------------------------------------+  |
++-----------------------------------------------------------------------------------------+
 ```
 
-1. **Zona 1 (Podium Central de Lançamento)**:
-   - Base elevada de 10cm com iluminação perimetral em fita LED embutida;
-   - Destinada aos modelos topo de linha (Z8 Tank High-Speed e Z8 FX-10 Sport);
-   - Totem acrílico com ficha técnica detalhada e QR Code com manual de usuário.
-2. **Zona 2 (Lounge VIP & Experiência de Marca)**:
-   - Mobiliário contemporâneo em tons cinza grafite e madeira ripada clara;
-   - Espaço para café espresso e mostruário de capacetes credenciados (EBF, Pro Tork, Taurus, LS2);
-   - Tela com vídeos dinâmicos de alta definição dos modelos em ação urbana.
-3. **Zona 3 (Mesa de Atendimento e Negociação)**:
-   - Mesas de vidro fumê ou laca preta com computadores corporativos para apresentação de propostas e simulador de parcelamento;
-   - Espaço para entrega da Chave Presencial / Cartão NFC no ato da venda.
-4. **Zona 4 (Oficina Homologada & Box de PDI)**:
-   - Ambiente limpo, organizado e com piso epóxi cinza industrial antiderrapante;
-   - Painel de ferramentas padronizado Z8 e bancada de recarga e teste de baterias com extintor dedicado.
+---
+
+### **6. VÍNCULOS ENTRE TAMANHO DE FACHADA E ÁREA MÍNIMA**
+
+- **Fachada de 2,00 metros (Loja Corredor)**: Área útil mínima de **56 a 60 m²** (profundidade 28 a 30m). Elevadores em linha tandem.
+- **Fachada de 3,00 metros (Loja Compacta)**: Área útil mínima de **60 a 66 m²** (profundidade 20 a 22m). Elevadores semi-escalonados.
+- **Fachada de 5,00 metros (Concessionária Standard)**: Área útil de **80 a 90 m²** (profundidade 16 a 18m). Elevadores lado a lado (Twin Bay).
+- **Fachada de 10,00 a 14,90 metros (Master Flagship)**: Área útil de **150 a 250 m²**. 3 Arcos monumentais, torre de entrada, oficina show e lounge VIP ampliado.
 
 ---
 
-### **6. PADRÃO DE UNIFORMES OFICIAIS DA EQUIPE**
+### **7. HOMOLOGAÇÃO OBRIGATÓRIA DE OBRAS CIVIS**
 
-- **Consultores de Vendas e Gerência**:
-  - Camisa Polo Dry-Fit na cor **Preta**, com friso Ciano na gola e mangas, logo Z8 bordado no peito esquerdo e slogan *"Mobilidade Elétrica"* na manga direita;
-  - Calça jeans escura ou sarja preta e calçado preto social/casual.
-- **Técnicos e Mecânicos de Oficina**:
-  - Macacão ou conjunto calça/camisa técnica em tecido antiestático de alta resistência na cor cinza grafite com detalhes em ciano refletivo e proteção nos joelhos.
-
----
-
-### **7. REGRA DE CONFORMIDADE E HOMOLOGAÇÃO DE PROJETOS**
-
-Nenhum franqueado poderá iniciar obras civis, pintura ou instalação de letreiros sem a **aprovação prévia e formal da planta baixa pelo Departamento de Arquitetura da Franqueadora Z8 E-Motion**, sob pena de notificação e obrigação de adequação às expensas da unidade franqueada.
+Nenhum franqueado poderá iniciar obras, pintura externa, colocação de pisos ou fixação de letreiros sem a **aprovação formal do Projeto Executivo pelo Comitê de Arquitetura da Franqueadora Z8 E-Motion**, sob pena de embargo da inauguração e aplicação de multa contratual.

@@ -328,6 +328,8 @@ async function main() {
     'juridico/PARECER_REGULATORIO_CONTRAN_996.md',
     // Manuais Oficiais da Rede de Franquias
     'manuais/MANUAL_DE_IDENTIDADE_VISUAL_E_ARQUITETURA_Z8.md',
+    'manuais/GUIA_PADRONIZACAO_ARQUITETURA_E_FACHADAS_Z8.md',
+    'Brandbook_Z8_Emotion/MANUAL_ARQUITETURA_E_PLANTA_BAIXA.md',
     'manuais/MANUAL_DE_OPERACOES_E_VENDAS_CONSULTIVAS.md',
     'manuais/MANUAL_DE_ASSISTENCIA_TECNICA_E_MANUTENCAO_PREVENTIVA.md',
     'manuais/TREINAMENTO_TECNICO_INICIAL_16H.md'
