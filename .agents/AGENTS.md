@@ -52,10 +52,9 @@
 ## Git & Deployment Protocol
 - Remote repository is `willdbga-code/Z8`.
 - Push permission is authorized for user `christian-hideyuki`.
-- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`.
+- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`, `73d7620`, `8e55022`.
 
 ## Resume Point for Next Session
-1. Validar e commitar as atualizações de responsividade e dossiê jurídico no Git.
-2. Confirmar sincronização em tempo real das Ordens de Serviço (OS) e leads no Firestore oficial.
-3. Testar fluxo ponta a ponta em produção.
+1. Confirmar sincronização em tempo real das Ordens de Serviço (OS) e leads no Firestore oficial.
+2. Testar fluxo ponta a ponta em produção.
 
