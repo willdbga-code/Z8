@@ -66,3 +66,26 @@
 | **BR Motorsport** | LS2, Norisk, KYT, AGV | Premium, Esportivo, Viseira Solar | [brmotorsport.com.br](https://www.brmotorsport.com.br) | Portal Lojista |
 | **MTO Distribuidora** | Multimarcas Nacional | Motopeças e Capacetes | [mtodistribuidora.com.br](https://www.mtodistribuidora.com.br) | Portal B2B |
 | **Damásio Motopeças** | Multimarcas Nacional | Distribuição Atacado | [damasiomotopecas.com.br](https://www.damasiomotopecas.com.br) | Representantes |
+
+---
+
+## 6. 👥 Base Consolidada de Parceiros, Leads e Ordens de Serviço (Setembro/2026)
+
+### 6.1 Parceiros e Administradores Cadastrados
+1. **Christian Hideyuki (Admin Master)**: `christian.tkh@gmail.com` | Matriz Z8 (São Paulo - SP) | `(12) 99800-8818` | Status: `approved` / `admin`
+2. **christian hideyuki**: `christian.hide@hotmail.com` | hide (Pindamonhangaba - SP) | `(12) 98898-6148` | Status: `approved` / `partner`
+3. **William Del Barrio**: `willdbga@gmail.com` | Del Barrio E-Motors (Pindamonhangaba - SP) | `(12) 98813-0316` | Status: `approved` / `partner`
+4. **Fabrício Daniel de Oliveira Castro**: `fabriciopolocruzeiro@gmail.com` | JF (Pindamonhangaba - SP) | `(12) 99106-4106` | Status: `pending` (Passaporte VIP)
+5. **Derik**: `derik.dws@gmail.com` | derik (Jacareí - SP) | `(12) 98198-6760` | Status: `pending` (Cadastrado em 03/09/2026)
+
+### 6.2 Leads e Oportunidades no CRM
+- **Fabrício Castro (Passaporte VIP)**: R$ 2.989,00 | Exclusividade Pindamonhangaba | Tel: `(12) 99106-4106`
+- **Derik (Portal Catálogo)**: Jacareí - SP | Tel: `(12) 98198-6760`
+- **Lead WhatsApp**: Tel: `5512992236440` | R$ 450,00 | Retrato Autoral
+
+### 6.3 Ordens de Serviço (SLA 48h)
+- `OS-2026-0101`: Mega Motos SP (Carlos Silveira) - Z8 Tank High-Speed - Rastreio: `BR849302194SP` (Aprovado)
+- `OS-2026-0102`: Z8 Vale do Paraíba (Roberto) - Z8 FX-10 Sport - Análise Técnica
+- `OS-2026-0103`: E-Motion Sul (Marcio Silva) - Z8 U2 Delivery Cargo - Rastreio: `BR994820145PR` (Concluído)
+- `OS-2026-0104`: Litoral Elétrico Santos (Lucas) - Z8 Sport Scooter - Rastreio: `BR771920334SP` (Aprovado)
+

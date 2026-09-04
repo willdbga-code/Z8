@@ -17,8 +17,40 @@ let globalLeadsStore = [
     source: 'Passaporte VIP Exclusividade',
     createdAt: '2026-08-27T00:24:22.588Z',
     updatedAt: 1787790262589
+  },
+  {
+    id: 'lead_1788402155815',
+    name: 'derik',
+    company: 'derik',
+    city: 'jacarei',
+    state: 'SP',
+    email: 'derik.dws@gmail.com',
+    phone: '12981986760',
+    paymentMethod: 'Cadastro Portal',
+    status: 'novo',
+    estimatedRevenue: 0,
+    source: 'Portal Z8 Catálogo',
+    createdAt: '2026-09-03T21:02:35.815Z',
+    updatedAt: 1788402155815
+  },
+  {
+    id: 'lead_SC4CB308HVchdVPXMEt5',
+    name: 'Lead WhatsApp (Retrato Autoral)',
+    company: 'WhatsApp Lead',
+    city: 'Vale do Paraíba',
+    state: 'SP',
+    email: '',
+    phone: '5512992236440',
+    notes: 'Pacote: Retrato Autoral\nExtras: nenhum\nData Prevista: 11/09/2026 às 16:00\nValor Total Estimado: R$ 450,00',
+    paymentMethod: 'WhatsApp Direto',
+    estimatedRevenue: 450.00,
+    source: 'whatsapp',
+    status: 'novo',
+    createdAt: '2026-08-26T03:26:25.345Z',
+    updatedAt: 1787705185345
   }
 ];
+
 
 function setCorsHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');

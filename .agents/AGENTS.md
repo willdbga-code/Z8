@@ -17,9 +17,9 @@
 - **Firebase Auth API Key**: `AIzaSyCBAe00zQFgJkDJG70ywXx6xr0mOCIK8Fo`
 - **Auth Domain**: `z8-emotion-brasil.firebaseapp.com`
 - **Status of Auth**: Active & responding 200 OK (Google Auth + automated password reset email).
-- **Status of Firestore**: Awaiting creation of `(default)` instance in Firebase Console (`https://console.firebase.google.com/project/z8-emotion-brasil/firestore`).
+- **Status of Firestore**: ACTIVE & OPERATIONAL 200 OK on database `'default'` (`catalog_users`, `leads`, `service_orders` live and synchronized).
 - **Core Files**:
-  - `site-principal/services/firebase-service.js` (Official Firebase SDK v10 implementation)
+  - `site-principal/services/firebase-service.js` (Official Firebase SDK v12 implementation)
   - `site-principal/catalog-auth.js` (Unified Auth & Local/Cloud Fallback Engine)
   - `site-principal/data/cloud-config.js` (Centralized Credentials & Seed Users)
   - `api/users.js`, `api/leads.js`, `api/orders.js` (Vercel Serverless Endpoints)
@@ -29,14 +29,17 @@
 2. **christian hideyuki**: `christian.hide@hotmail.com` (hide, Pindamonhangaba - SP, (12) 98898-6148) -> Status: `approved`
 3. **William Del Barrio**: `willdbga@gmail.com` (Del Barrio E-Motors, Pindamonhangaba - SP, (12) 98813-0316) -> Status: `approved`
 4. **Fabrício Daniel de Oliveira Castro**: `fabriciopolocruzeiro@gmail.com` (JF, Pindamonhangaba - SP, (12) 99106-4106, Passaporte VIP) -> Status: `pending`
+5. **Derik**: `derik.dws@gmail.com` (derik, Jacareí - SP, (12) 98198-6760) -> Status: `pending` (Cadastrado via Catálogo Web em 03/09/2026)
+
+## Registered Service Orders (OS)
+- `OS-2026-0101`: Mega Motos SP (Carlos Silveira) - Z8 Tank High-Speed - Status: `approved`
+- `OS-2026-0102`: Z8 Vale do Paraíba (Roberto Mecânico) - Z8 FX-10 Sport - Status: `analyzing`
+- `OS-2026-0103`: E-Motion Sul (Marcio Silva) - Z8 U2 Delivery Cargo - Status: `completed`
+- `OS-2026-0104`: Litoral Elétrico Santos (Lucas Santos) - Z8 Sport Scooter - Status: `approved`
 
 ## Git & Deployment Protocol
 - Remote repository is `willdbga-code/Z8`.
 - Push permission is authorized for user `christian-hideyuki`.
 - Always run `git status` and verify rebase clean before pushing.
-- Commits deployed: `cad8124`, `358995e`.
+- Commits deployed: `cad8124`, `358995e`, `89b0cf7`.
 
-## Resume Point for Next Session
-1. Confirm Firestore `(default)` database creation in Firebase Console (`https://console.firebase.google.com/project/z8-emotion-brasil/firestore`).
-2. Run test script `scratch/test_new_firebase.js` to confirm read/write status 200 OK.
-3. Test end-to-end partner approval and Google login flow in production.

@@ -94,5 +94,19 @@ export const SEED_REGISTERED_USERS = [
     status: 'pending',
     updatedAt: 1787790262589,
     createdAt: '2026-08-27T00:24:22.588Z'
+  },
+  {
+    id: 'user_derik_01',
+    name: 'derik',
+    company: 'derik',
+    city: 'jacarei - SP',
+    email: 'derik.dws@gmail.com',
+    phone: '12981986760',
+    password: 'Z8@' + '6760',
+    role: 'partner',
+    status: 'pending',
+    updatedAt: 1788402155815,
+    createdAt: '2026-09-03T21:02:35.815Z'
   }
 ];
+
