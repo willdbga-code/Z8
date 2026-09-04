@@ -50,7 +50,7 @@
     }
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
       gap: 2rem;
       max-width: 860px;
       width: 100%;
@@ -136,9 +136,14 @@
       .card { padding: 1.5rem; }
     }
     @media (max-width: 480px) {
-      .header-logo h1 { font-size: 1.5rem; }
-      .card-title { font-size: 1.15rem; }
-      .badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
+      body { padding: 1.2rem 0.75rem; }
+      .header-logo { margin-bottom: 1.4rem; }
+      .header-logo h1 { font-size: 1.45rem; }
+      .header-logo p { font-size: 0.88rem; }
+      .card { padding: 1.25rem 1rem; }
+      .card-title { font-size: 1.12rem; }
+      .badge { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
+      .btn-action { font-size: 0.82rem; }
     }
   </style>
 </head>

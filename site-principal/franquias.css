@@ -1496,3 +1496,34 @@ input[type="range"] {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .frq-hero-title {
+    font-size: 1.65rem;
+    line-height: 1.2;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .frq-hero-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .strip-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .floating-whatsapp {
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+}

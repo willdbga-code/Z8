@@ -387,6 +387,19 @@ button {
   }
 }
 
+@media (max-width: 380px) {
+  .header-brand-title span:first-child {
+    font-size: 0.78rem;
+  }
+  .header-brand img {
+    height: 20px;
+  }
+  .btn-header-cta {
+    padding: 4px 8px;
+    font-size: 0.62rem;
+  }
+}
+
 /* --------------------------------------------------------------------------
    3. HERO EDITORIAL HYPERSPEED / VIDEO SECTION
    -------------------------------------------------------------------------- */
@@ -1537,9 +1550,11 @@ button {
 @media (max-width: 640px) {
   .live-toast-b2b {
     left: 12px;
-    right: 12px;
-    max-width: calc(100% - 24px);
-    bottom: 12px;
+    right: auto;
+    bottom: 74px;
+    max-width: calc(100% - 84px);
+    padding: 10px 12px;
+    font-size: 0.75rem;
   }
 }
 
@@ -1599,4 +1614,14 @@ button {
 
 .floating-whatsapp i {
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+@media (max-width: 640px) {
+  .floating-whatsapp {
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
 }
