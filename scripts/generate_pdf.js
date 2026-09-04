@@ -327,6 +327,7 @@ async function main() {
     'juridico/POLITICA_DE_PRIVACIDADE_LGPD.md',
     'juridico/PARECER_REGULATORIO_CONTRAN_996.md',
     // Manuais Oficiais da Rede de Franquias
+    'MANUAL_UNIFICADO_ARQUITETURA_E_FACHADAS_Z8.md',
     'manuais/MANUAL_DE_IDENTIDADE_VISUAL_E_ARQUITETURA_Z8.md',
     'manuais/GUIA_PADRONIZACAO_ARQUITETURA_E_FACHADAS_Z8.md',
     'Brandbook_Z8_Emotion/MANUAL_ARQUITETURA_E_PLANTA_BAIXA.md',
