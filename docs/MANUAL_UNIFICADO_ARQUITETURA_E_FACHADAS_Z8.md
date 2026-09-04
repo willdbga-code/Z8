@@ -147,9 +147,7 @@ A especificação de pisos foi calibrada para diferenciar claramente a área nob
 #### F) Circulação Técnica & Passagem Livre
 - Corredor contínuo de ligação entre a entrada, showroom, lounge e oficina, com largura mínima livre permanente de **1,00 m a 1,20 m**: **8,00 m²**.
 
-### 4.4. Equação e Resultado da Menor Metragem Viável
-
-$$\text{Área Mínima Absoluta} = 13,00\text{ (Showroom)} + 14,00\text{ (Oficina)} + 7,20\text{ (Estoque)} + 3,60\text{ (Vendas)} + 4,20\text{ (Sanit./DML)} + 8,00\text{ (Circulação)} = \mathbf{50,00\text{ m²}}$$
+### 4.4. Composição Consolidada da Menor Metragem Viável
 
 ```
 +-------------------------------------------------------------------------------+
@@ -189,61 +187,56 @@ $$\text{Área Mínima Absoluta} = 13,00\text{ (Showroom)} + 14,00\text{ (Oficina
   - Vão envidraçado: Porta de vidro temperado 10mm (`1,00 m`) + Vitrine fixa vertical (`1,00 m`). Detalhe lateral em Madeira Mogno.
 - **Disposição da Oficina**: 2 Elevadores instalados em **Linha Longitudinal (Tandem)**.
 
-```
-=============================================================================================
-PLANTA BAIXA ESQUEMÁTICA COTADA — MÓDULO 2,00m (ÁREA TOTAL: 58,0 m²)
-=============================================================================================
+![Maquete 3D — Fachada 2,00m (Módulo Corredor Urban Slim)](../public/assets/arquitetura/fachada_2m_urban_slim.jpg)
 
-[CALÇADA / ACESSO PÚBLICO]
-+-------------------------------------------------------------------------------------------+
-| TESTEIRA ACM AÇO ESCOVADO 2,00m x 0,60m | LETRAS PRETO BRILHO | LOGO Z8 BRIGHT SILVER     |
-+--------------------------------------------+----------------------------------------------+
-| [VITRINE VIDRO TEMPERADO 1,00m]            | [PORTA ENTRADA VIDRO TEMPERADO 1,00m]        |
-+--------------------------------------------+----------------------------------------------+
-| 0.00m a 8.00m: SHOWROOM LINEAR ESCALONADO (16,0 m²)                                       |
-| Piso: Porcelanato Retificado Acetinado Claro Cinza Platina 80x80cm                        |
-|                                                                                           |
-|   [MOTO 01 - Vitrine Principal] (Podium baixo com moldura LED Ciano)                      |
-|                                                                                           |
-|     \ [MOTO 02 - Urbano N95C] (Disposição em 30° com iluminação direcional 4000K)         |
-|                                                                                           |
-|       \ [MOTO 03 - Z8 Tank] (Disposição em 30° de frente para o fluxo de pedestres)       |
-|                                                                                           |
-|         \ [MOTO 04 - FX-10 Sport] (Disposição em 30° com totem descritivo digital)        |
-|                                                                                           |
-|   [CORREDOR PERMANENTE DE CIRCULAÇÃO DE PEDESTRES: 0,90m LARGURA LIVRE]                   |
-+-------------------------------------------------------------------------------------------+
-| 8.00m a 12.50m: ATENDIMENTO & VENDAS CONSULTIVAS (9,0 m²)                                 |
-| - Balcão linear slim de atendimento com detalhe ripado em Madeira Mogno                   |
-| - Terminal PDV / Emissão de Nota Fiscal, Certificados de Bateria e Chaves Presenciais     |
-| - TV corporativa de 43" fixada na parede lateral exibindo vídeos institucionais           |
-| - Expositor vertical compacto de parede para capacetes homologados (LS2, Pro Tork)        |
-+-------------------------------------------------------------------------------------------+
-| 12.50m a 15.00m: SANITÁRIO PCD NBR 9050 & DML (5,0 m²)                                   |
-| - Sanitário unissex acessível (1,60m x 1,50m) com porta de correr embutida na alvenaria   |
-| - DML e Quadro Geral de Disjuntores (0,80m x 0,50m)                                       |
-| - Passagem livre e corredor de transição técnica com 0,90m de vão                         |
-+-------------------------------------------------------------------------------------------+
-| 15.00m a 22.50m: OFICINA TÉCNICA EM LINHA (TANDEM) - 2 ELEVADORES (15,0 m²)               |
-| Piso: Epóxi Autonivelante Cinza Médio Industrial (Resistência ≥ 500 kgf/cm²)              |
-|                                                                                           |
-|   +--------------------------+                                                            |
-|   |  ELEVADOR HIDRÁULICO 01  | -> Moto 05 (Em revisão técnica / manutenção periódica)     |
-|   |  (2,20m x 0,70m)         |                                                            |
-|   +--------------------------+                                                            |
-|                | (Espaço intermediário de manobra e trânsito interno: 1,10m)              |
-|   +--------------------------+                                                            |
-|   |  ELEVADOR HIDRÁULICO 02  | -> Moto 06 (Em processo de revisão de entrega / PDI)       |
-|   |  (2,20m x 0,70m)         |                                                            |
-|   +--------------------------+                                                            |
-| - Bancada estreita suspensa de ferramentas e painel magnético de parede (profundidade 40cm|
-| - Tomada industrial de recarga rápida de bateria Stecker (32A / 220V)                     |
-+-------------------------------------------------------------------------------------------+
-| 22.50m a 29.00m: ESTOQUE PULMÃO & PDI FINAL (13,0 m²)                                     |
-| - Moto 07, Moto 08, Moto 09 e Moto 10 armazenadas em fila indiana para entrega imediata   |
-| - Prateleira modular industrial para peças de reposição rápida e carregadores extras      |
-| - Portão de serviço para carga e expedição (quando houver acesso por fundos)              |
-+-------------------------------------------------------------------------------------------+
+```
++=============================================================================+
+| FACHADA & PLANTA BAIXA: MÓDULO 2,00M CORREDOR URBAN SLIM (ÁREA: 58,0 m²)    |
++=============================================================================+
+| [TESTEIRA ACM AÇO ESCOVADO 2,00m x 0,60m]  LETRAS PRETO BRILHO              |
+| LOGO Z8 BRIGHT SILVER METÁLICO COM RETROILUMINAÇÃO HALO LED CIANO           |
++------------------------------------+----------------------------------------+
+| [VITRINE VIDRO TEMPERADO 1,00m]    | [PORTA ENTRADA VIDRO TEMPERADO 1,00m]  |
++------------------------------------+----------------------------------------+
+| 0 a 8m: SHOWROOM LINEAR ESCALONADO (16,0 m²)                                |
+| Piso: Porcelanato Retificado Acetinado Claro Cinza Platina 80x80cm          |
+|                                                                             |
+|   [MOTO 01 - Vitrine Principal] (Podium baixo com moldura LED Ciano)        |
+|     \ [MOTO 02 - Urbano N95C] (Disposição em 30° com luz direcional 4000K)  |
+|       \ [MOTO 03 - Z8 Tank] (Disposição em 30° voltada p/ fluxo pedestres)  |
+|         \ [MOTO 04 - FX-10 Sport] (Disposição 30° c/ ficha técnica digital) |
+|   [CORREDOR LIVRE DE CIRCULAÇÃO DE PEDESTRES: 0,90m LARGURA PERMANENTE]     |
++-----------------------------------------------------------------------------+
+| 8 a 12,5m: ATENDIMENTO & VENDAS CONSULTIVAS (9,0 m²)                        |
+| - Balcão linear slim de atendimento com detalhe ripado em Madeira Mogno     |
+| - Terminal PDV / Emissão de NF, Certificados e Chaves Presenciais NFC       |
+| - TV corporativa 43" lateral institucional e mostruário capacetes LS2       |
++-----------------------------------------------------------------------------+
+| 12,5 a 15m: NÚCLEO SANITÁRIO PCD NBR 9050 & DML (5,0 m²)                    |
+| - Sanitário unissex acessível (1,60m x 1,50m) com porta de correr embutida  |
+| - DML e Quadro Geral Elétrico QGBT (0,80m x 0,50m)                          |
+| - Corredor livre de transição técnica com 0,90m de vão desobstruído         |
++-----------------------------------------------------------------------------+
+| 15 a 22,5m: OFICINA TÉCNICA EM LINHA (TANDEM) - 2 ELEVADORES (15,0 m²)      |
+| Piso: Epóxi Autonivelante Cinza Médio Industrial (Resistência ≥ 500 kgf/cm²)|
+|                                                                             |
+|   +--------------------------+                                              |
+|   |  ELEVADOR HIDRÁULICO 01  | -> Moto 05 (Em revisão técnica preventiva)   |
+|   |  (2,20m x 0,70m)         |                                              |
+|   +--------------------------+                                              |
+|                | (Espaço intermediário de manobra interna: 1,10m)           |
+|   +--------------------------+                                              |
+|   |  ELEVADOR HIDRÁULICO 02  | -> Moto 06 (Em processo de revisão de PDI)   |
+|   |  (2,20m x 0,70m)         |                                              |
+|   +--------------------------+                                              |
+| - Bancada estreita suspensa de ferramentas e painel magnético (prof. 40cm)  |
+| - Tomada industrial de recarga rápida de bateria Stecker (32A / 220V)       |
++-----------------------------------------------------------------------------+
+| 22,5 a 29m: ESTOQUE PULMÃO & PDI FINAL (13,0 m²)                            |
+| - Moto 07, Moto 08, Moto 09 e Moto 10 armazenadas em fila para entrega      |
+| - Prateleira modular vertical para peças de reposição rápida e cabos        |
+| - Portão de serviço para expedição e carga (quando houver acesso fundos)    |
++=============================================================================+
 ```
 
 ---
@@ -262,55 +255,51 @@ PLANTA BAIXA ESQUEMÁTICA COTADA — MÓDULO 2,00m (ÁREA TOTAL: 58,0 m²)
   - Paredes em Cinza Platina #284 e pilar lateral direito com acabamento em Madeira Mogno.
 - **Disposição da Oficina**: 2 Elevadores semi-escalonados com bancada lateral integrada.
 
-```
-=============================================================================================
-PLANTA BAIXA ESQUEMÁTICA COTADA — MÓDULO 3,00m (ÁREA TOTAL: 63,0 m²)
-=============================================================================================
+![Maquete 3D — Fachada 3,00m (Módulo Compact Store de Rua)](../public/assets/arquitetura/fachada_3m_compact_store.jpg)
 
-[CALÇADA / ACESSO PÚBLICO]
-+-------------------------------------------------------------------------------------------+
-| TESTEIRA ACM AÇO ESCOVADO 3,00m x 0,70m | LETRAS PRETO BRILHO | LOGO Z8 BRIGHT SILVER     |
-+-------------------------------------------------+-----------------------------------------+
-| [VITRINE VIDRO TEMPERADO 1,80m]                 | [PORTA VIDRO PIVOTANTE 1,20m]           |
-| (Base da vitrine com detalhe em Madeira Mogno)  | (Puxador em Aço Inox Escovado)          |
-+-------------------------------------------------+-----------------------------------------+
-| 0.00m a 7.00m: SHOWROOM FRONTAL (21,0 m²)                                                 |
-| Piso: Porcelanato Acetinado Claro Cinza Platina 80x80cm                                   |
-|                                                                                           |
-|   [VITRINE PRINCIPAL: MOTO 01]                  [CORREDOR DE ENTRADA LIVRE 1,20m]         |
-|   (Podium elevado com iluminação LED Ciano)                                               |
-|                                                                                           |
-|   [MOTO 02: Z8 FX-10 Sport]                     [MOTO 03: Z8 Tank High-Speed]             |
-|   (Ângulo de 45° direcionado à vitrine)         (Ângulo de 45° direcionado à vitrine)     |
-|                                                                                           |
-|   [MOTO 04: Z8 N95C Urbana]                     [TOTEM DIGITAL INTERATIVO TOUCHSCREEN]    |
-+-------------------------------------------------------------------------------------------+
-| 7.00m a 11.50m: LOUNGE VIP & ATENDIMENTO CONSULTIVO (13,5 m²)                             |
-| - Mesa de atendimento executivo com tampo em vidro temperado e 3 cadeiras giratórias      |
-| - Parede de fundo com painel em Madeira Mogno, logo Z8 iluminado e TV 50"                 |
-| - Expositor de capacetes homologados (LS2, Pro Tork, Taurus, EBF) e jaquetas Z8           |
-| - Máquina de café espresso e água mineral para acolhimento do cliente                     |
-+-------------------------------------------------------------------------------------------+
-| 11.50m a 13.50m: NÚCLEO DE APOIO SANITÁRIO & DML (6,0 m²)                                 |
-| - Sanitário Unissex Acessível NBR 9050 (1,70m x 1,60m)                                    |
-| - Depósito Técnico DML e Armário para carregadores de baterias (1,30m x 1,00m)            |
-| - Corredor central de circulação técnica e manobra de veículos (largura livre de 1,20m)   |
-+-------------------------------------------------------------------------------------------+
-| 13.50m a 18.00m: OFICINA TÉCNICA CERTIFICADA - 2 ELEVADORES (13,5 m²)                     |
-| Piso: Epóxi Autonivelante Cinza Médio 3mm (Resistência ≥ 500 kgf/cm²)                     |
-|                                                                                           |
-|   +--------------------------+               +--------------------------+                 |
-|   |  ELEVADOR HIDRÁULICO 01  |               |  ELEVADOR HIDRÁULICO 02  |                 |
-|   |  (Moto 05 em manutenção) |               |  (Moto 06 em manutenção) |                 |
-|   +--------------------------+               +--------------------------+                 |
-|   \________________ Corredor entre elevadores com passagem livre de 0,80m ________________/|
-| - Bancada industrial Z8 com gaveteiro, morsa de bancada e painel de ferramentas magnético |
-| - Estação certificada de teste e recarga de baterias com extintor dedicado CO2            |
-+-------------------------------------------------------------------------------------------+
-| 18.00m a 21.00m: ESTOQUE TÉCNICO & BOX DE PDI (9,0 m²)                                    |
-| - Moto 07, Moto 08, Moto 09 e Moto 10 organizadas para conferência de PDI e expedição    |
-| - Prateleira aérea verticalizada para peças de reposição rápida e cabos elétricos        |
-+-------------------------------------------------------------------------------------------+
+```
++=============================================================================+
+| FACHADA & PLANTA BAIXA: MÓDULO 3,00M COMPACT STORE DE RUA (ÁREA: 63,0 m²)   |
++=============================================================================+
+| TESTEIRA ACM AÇO ESCOVADO 3,00m x 0,70m | LETRAS PRETO BRILHO | LOGO Z8 3D  |
++---------------------------------------------+-------------------------------+
+| [VITRINE VIDRO TEMPERADO 1,80m]             | [PORTA VIDRO PIVOTANTE 1,20m] |
+| (Base da vitrine com detalhe Madeira Mogno) | (Puxador em Aço Inox)         |
++---------------------------------------------+-------------------------------+
+| 0 a 7m: SHOWROOM FRONTAL DE VENDAS (21,0 m²)                                |
+| Piso: Porcelanato Retificado Acetinado Claro Cinza Platina 80x80cm          |
+|                                                                             |
+|   [VITRINE PRINCIPAL: MOTO 01]              [CORREDOR LIVRE ENTRADA 1,20m]  |
+|   (Podium elevado com LED Ciano)                                            |
+|   [MOTO 02: Z8 FX-10 Sport]                 [MOTO 03: Z8 Tank High-Speed]   |
+|   (Ângulo 45° voltado para a rua)           (Ângulo 45° voltado p/ a rua)   |
+|   [MOTO 04: Z8 N95C Urbana]                 [TOTEM INTERATIVO DIGITAL]      |
++-----------------------------------------------------------------------------+
+| 7 a 11,5m: LOUNGE VIP & ATENDIMENTO CONSULTIVO (13,5 m²)                    |
+| - Mesa de atendimento executivo com tampo de vidro e 3 cadeiras giratórias  |
+| - Parede de fundo com painel em Madeira Mogno, logo Z8 iluminado e TV 50"   |
+| - Expositor de capacetes homologados (LS2, Pro Tork, Taurus) e cafeteria    |
++-----------------------------------------------------------------------------+
+| 11,5 a 13,5m: SANITÁRIO PCD NBR 9050 & DML TÉCNICO (6,0 m²)                 |
+| - Sanitário unissex acessível (1,70m x 1,60m) NBR 9050                      |
+| - Depósito Técnico DML e armário para recarregadores (1,30m x 1,00m)        |
+| - Corredor central de circulação técnica livre (largura permanente 1,20m)   |
++-----------------------------------------------------------------------------+
+| 13,5 a 18m: OFICINA TÉCNICA CERTIFICADA - 2 ELEVADORES (13,5 m²)            |
+| Piso: Epóxi Autonivelante Cinza Médio 3mm (Resistência ≥ 500 kgf/cm²)       |
+|                                                                             |
+|   +--------------------------+          +--------------------------+        |
+|   |  ELEVADOR HIDRÁULICO 01  |          |  ELEVADOR HIDRÁULICO 02  |        |
+|   |  (Moto 05 em manutenção) |          |  (Moto 06 em manutenção) |        |
+|   +--------------------------+          +--------------------------+        |
+|   \_________ Corredor entre elevadores com passagem livre de 0,80m ________/|
+| - Bancada industrial Z8 de ferramentas e painel magnético de parede         |
+| - Estação certificada de teste e recarga de baterias com extintor CO2       |
++-----------------------------------------------------------------------------+
+| 18 a 21m: ESTOQUE TÉCNICO & BOX DE PDI (9,0 m²)                             |
+| - Moto 07, Moto 08, Moto 09 e Moto 10 prontas para expedição e entrega      |
+| - Prateleira aérea vertical para componentes de reposição rápida e cabos    |
++=============================================================================+
 ```
 
 ---
@@ -329,56 +318,49 @@ PLANTA BAIXA ESQUEMÁTICA COTADA — MÓDULO 3,00m (ÁREA TOTAL: 63,0 m²)
   - Bases dos pilares revestidas em chapa padrão Madeira Mogno.
 - **Disposição da Oficina**: 2 Elevadores instalados **Lado a Lado (Twin Bay)** com divisória envidraçada panorâmica (*Oficina Aquário*).
 
-```
-==================================================================================================
-PLANTA BAIXA ESQUEMÁTICA COTADA — MÓDULO 5,00m (ÁREA TOTAL: 85,0 m²)
-==================================================================================================
+![Maquete 3D — Fachada 5,00m (Módulo Concessionária Standard)](../public/assets/arquitetura/fachada_5m_standard_store.jpg)
 
-[CALÇADA / ACESSO PÚBLICO]
-+------------------------------------------------------------------------------------------------+
-| TESTEIRA ACM AÇO ESCOVADO 5,00m x 0,80m | LETREIRO PRETO BRILHO | LOGO Z8 BRIGHT SILVER HALO   |
-| * Downlight 1              * Downlight 2              * Downlight 3              * Downlight 4 |
-+------------------------------+----------------------------------+------------------------------+
-| [VITRINE ARCO 01 - 1,80m]    | [PORTA CENTRAL VIDRO 1,40m]      | [VITRINE ARCO 02 - 1,80m]    |
-| (Base em Madeira Mogno)      | (Puxadores em Inox / Acesso PCD) | (Base em Madeira Mogno)      |
-+------------------------------+----------------------------------+------------------------------+
-| 0.00m a 7.00m: SHOWROOM PRINCIPAL DE VEÍCULOS (35,0 m²)                                        |
-| Piso: Porcelanato Retificado Acetinado Claro Cinza Platina 90x90cm com junta de 1,5mm          |
-|                                                                                                |
-|   [VITRINE ESQUERDA: MOTO 01]                                   [VITRINE DIREITA: MOTO 02]     |
-|   (Scooter Urbana N95C)                                         (Scooter Retrô Vintage)        |
-|                                                                                                |
-|                      +------------------------------------------+                              |
-|                      |  PODIUM CENTRAL ELEVADO COM LED CIANO    |                              |
-|                      |  MOTO 03: Z8 TANK HIGH-SPEED (80 km/h)   |                              |
-|                      +------------------------------------------+                              |
-|                                                                                                |
-|   [MOTO 04: Z8 FX-10 Sport]                                     [MOTO 05: Z8 U2 Delivery Cargo]|
-|   (Plataforma lateral iluminada)                                (Exposição corporativa B2B)    |
-+------------------------------------------------------------------------------------------------+
-| 7.00m a 11.00m: LOUNGE VIP, BOUTIQUE & VENDAS CONSULTIVAS (20,0 m²)                             |
-| [LADO ESQUERDO: VENDAS CONSULTIVAS]           | [LADO DIREITO: LOUNGE VIP & BOUTIQUE]          |
-| - 2 Mesas executivas para consultores de venda| - Sofá modular cinza grafite com mesa de centro|
-| - Simulador de crédito, parcelamento e NF     | - Painel amadeirado em Madeira Mogno com TV 55"|
-| - Central de entrega de chaves NFC e contratos| - Expositor de capacetes homologados e jaquetas|
-| - Cafeteria com máquina Nespresso e frigobar  |                                                |
-+-----------------------------------------------+------------------------------------------------+
-| 11.00m a 12.50m: SANITÁRIO PCD & DML TÉCNICO (7,5 m²)                                          |
-| - Sanitário Unissex Acessível NBR 9050 (1,80m x 1,60m)                                         |
-| - Depósito de Limpeza DML & QGBT Elétrico (1,20m x 1,20m)                                      |
-| - Corredor de acesso envidraçado de 1,40m de largura para veículos e clientes                  |
-+------------------------------------------------------------------------------------------------+
-|===================== DIVISÓRIA PANORÂMICA DE VIDRO TEMPERADO ("OFICINA AQUÁRIO") ===============|
-+---------------------------------------------------------------+--------------------------------+
-| 12.50m a 17.00m: OFICINA COM 2 ELEVADORES TWIN (14,4 m²)      | ESTOQUE TÉCNICO & PDI (8,1 m²) |
-| Piso: Epóxi Autonivelante Cinza Médio 3mm                     | - MOTO 09 e MOTO 10 inspecionad|
-|                                                               | - Prateleiras porta-peças      |
-|  +------------------------+      +------------------------+   | - Baterias reserva e recarga   |
-|  | ELEVADOR HIDRÁULICO 01 |      | ELEVADOR HIDRÁULICO 02 |   | - Tomada Fast Charge 32A / 220V|
-|  | (Moto 07 em manutenção)|      | (Moto 08 em manutenção)|   |                                |
-|  +------------------------+      +------------------------+   |                                |
-|  - Bancada industrial com ferramentas padronizadas Z8         |                                |
-+---------------------------------------------------------------+--------------------------------+
+```
++=============================================================================+
+| FACHADA & PLANTA BAIXA: MÓDULO 5,00M CONCESSIONÁRIA STANDARD (85,0 m²)      |
++=============================================================================+
+| TESTEIRA ACM AÇO ESCOVADO 5,00m x 0,80m | LETREIRO PRETO BRILHO | LOGO Z8   |
+| * Downlight 1        * Downlight 2        * Downlight 3        * Downlight 4|
++------------------------+----------------------------+-----------------------+
+| [VITRINE ARCO 01 1,80m]| [PORTA CENTRAL VIDRO 1,40m]| [VITRINE ARCO 02 1,80m|
+| (Base Madeira Mogno)   | (Puxadores Inox / NBR 9050)| (Base Madeira Mogno)  |
++------------------------+----------------------------+-----------------------+
+| 0 a 7m: SHOWROOM PRINCIPAL DE VEÍCULOS (35,0 m²)                            |
+| Piso: Porcelanato Retificado Acetinado Claro Cinza Platina 90x90cm          |
+|                                                                             |
+|   [VITRINE ESQUERDA: MOTO 01]                 [VITRINE DIREITA: MOTO 02]    |
+|   (Scooter Urbana N95C)                       (Scooter Retrô Vintage)       |
+|                                                                             |
+|                  +--------------------------------------+                   |
+|                  | PODIUM CENTRAL ELEVADO COM LED CIANO |                   |
+|                  | MOTO 03: Z8 TANK HIGH-SPEED (80 km/h)|                   |
+|                  +--------------------------------------+                   |
+|                                                                             |
+|   [MOTO 04: Z8 FX-10 Sport]                   [MOTO 05: Z8 U2 Cargo Delivery|
++-----------------------------------------------------------------------------+
+| 7 a 11m: LOUNGE VIP, BOUTIQUE & VENDAS CONSULTIVAS (20,0 m²)                |
+| [LADO ESQUERDO: VENDAS]               | [LADO DIREITO: LOUNGE & BOUTIQUE]   |
+| - 2 Mesas para consultores de venda   | - Sofá modular grafite e mesa centro|
+| - Simulador de crédito, parcelas e NF | - Painel Madeira Mogno com TV 55"   |
+| - Central entrega de chaves e NFC     | - Expositor de capacetes homologados|
++---------------------------------------+-------------------------------------+
+| 11 a 12,5m: SANITÁRIO PCD & DML TÉCNICO (7,5 m²)                            |
+| - Sanitário unissex NBR 9050 + corredor envidraçado de 1,40m livre          |
++-----------------------------------------------------------------------------+
+|================= DIVISÓRIA DE VIDRO ("OFICINA AQUÁRIO") ====================|
+| 12,5 a 17m: OFICINA COM 2 ELEVADORES (14,4 m²)| ESTOQUE & PDI (8,1 m²)      |
+| Piso: Epóxi Autonivelante Cinza Médio 3mm     | - Moto 09 e Moto 10         |
+|  +-------------------+  +-------------------+ | - Prateleiras porta-peças   |
+|  | ELEVADOR TWIN 01  |  | ELEVADOR TWIN 02  | | - Baterias e carregadores   |
+|  | (Moto 07 revisão) |  | (Moto 08 revisão) | | - Tomada Fast Charge 32A    |
+|  +-------------------+  +-------------------+ |                             |
+| - Bancada industrial com ferramentas Z8       |                             |
++=============================================================================+
 ```
 
 ---
@@ -397,63 +379,57 @@ PLANTA BAIXA ESQUEMÁTICA COTADA — MÓDULO 5,00m (ÁREA TOTAL: 85,0 m²)
   - **Bases dos Pilares**: Revestimento nobre em chapa Madeira Mogno.
   - **Totem Externo**: Estação pública/cliente de recarga Z8 (EV Charging Station).
 
+![Maquete 3D — Fachada 10,00 a 14,90m (Módulo Master Flagship Store)](../public/assets/arquitetura/fachada_10m_master_flagship.jpg)
+
 ```
-====================================================================================================================
-FACHADA EXECUTIVA OFICIAL (14,90m x 1,00m) — RENDER FLAGSHIP Z8 E-MOTION
-====================================================================================================================
-[TESTEIRA ACM AÇO ESCOVADO 14,90m x 1,00m]   LETREIRO "MOBILIDADE ELÉTRICA" (6,78m x 0,55m) PRETO BRILHO
- * Spot 1       * Spot 2       * Spot 3       * Spot 4       * Spot 5       * Spot 6       * Spot 7
-+-------------------------------------------------------------------+-----------------------------------------------+
-|  PAREDE FRONTAL CINZA PLATINA (REF. CARTELA #284)                 | [TORRE PÓRTICO ACM AÇO ESCOVADO 4,20m x 1,80m]|
-|                                                                   |                                               |
-|   /""""""""""\           /""""""""""\           /""""""""""\      |              /""""""""""\                     |
-|  /   ARCO 01  \         /   ARCO 02  \         /   ARCO 03  \     |             /   PORTAL   \                    |
-| |   VITRINE    |       |   VITRINE    |       |   VITRINE    |    |            |   ENTRADA    |                   |
-| | (Motos Z8)   |       | (Motos Z8)   |       | (Motos Z8)   |    |            | (Vidro Auto) | [LOGO Z8 3D       |
-| |              |       |              |       |              |    |            |              |  BRIGHT SILVER    |
-| [BASE MOGNO]   |       |[BASE MOGNO]  |       |[BASE MOGNO]  |    |            |[BASE MOGNO]  |  HALO LED 6500K]  |
-+-------------------------------------------------------------------+------------+--------------+-------------------+
-|                                                                                                                   |
-| ZONA 1: SHOWROOM FLAGSHIP & PODIUMS DE LANÇAMENTO (Comp: 9,00m x Larg: 14,90m = 134,1 m²)                          |
-| Piso: Porcelanato Técnico Polido/Acetinado Claro Cinza Platina 90x90cm ou 120x60cm                                |
-|                                                                                                                   |
-|   [ARCO 01: VITRINE FX-10]      [ARCO 02: VITRINE N95C]       [ARCO 03: VITRINE U2]      [PORTAL PRINCIPAL]       |
-|   Plataforma baixa iluminada    Plataforma baixa iluminada    Plataforma baixa iluminada  Tapete técnico Z8       |
-|                                                                                                                   |
-|                          +-------------------------------------------------+                                      |
-|                          |   PODIUM REDONDO CENTRAL DE DESTAQUE NACIONAL   |                                      |
-|                          |   Z8 TANK HIGH-SPEED (80 km/h) - ILUMINAÇÃO     |                                      |
-|                          |   PERIMETRAL EM FITA LED CIANO ELÉTRICO         |                                      |
-|                          +-------------------------------------------------+                                      |
-|                                                                                                                   |
-|   - Exposição fluida de 8 a 10 modelos Z8 simultâneos com circulação livre 360°                                   |
-|   - 2 Totens digitais interativos touchscreen com catálogo técnico e simulador de parcelamento                     |
-|                                                                                                                   |
-|-------------------------------------------------------------------+-----------------------------------------------|
-| ZONA 2: LOUNGE VIP & CAFETERIA GOURMET (20,0 m²)                  | ZONA 3: MESA DE VENDAS & B2B (24,0 m²)        |
-| - Sofás contemporâneos em couro grafite escuro                    | - 3 Estações completas para consultores       |
-| - Painel arquitetônico em Madeira Mogno com iluminação indireta   | - Mesa executiva para fechamentos B2B frotas  |
-| - Mostruário oficial de capacetes certificados e jaquetas Z8      | - Caixa corporativo, emissão de NF e NFC      |
-| - Máquina de café expresso profissional, frigobar e água gelada   |                                               |
-|                                                                   |                                               |
-|-------------------------------------------------------------------+-----------------------------------------------|
-| ZONA 4: APOIO SANITÁRIO E T.I. (15,0 m²)                          | ZONA 5: ESTAÇÃO FAST CHARGE Z8 (10,0 m²)      |
-| - Sanitário Acessível PCD Masculino e Feminino independentes      | - 2 Carregadores rápidos 32A/380V Trifásicos  |
-| - DML e Sala de TI com servidor, gravação NVR e central de alarme | - Mostruário de módulos de baterias LiFePO4   |
-|                                                                   |                                               |
-|-------------------------------------------------------------------+-----------------------------------------------|
-|============================ DIVISÓRIA PANORÂMICA DE VIDRO DUPLO ("OFICINA SHOW") ================================|
-|                                                                                                                   |
-| ZONA 6: CENTRO TÉCNICO MASTER - 2 ELEVADORES HIDRÁULICOS (36,0 m²)| ZONA 7: ESTOQUE VERTICAL & PDI (35,0 m²)      |
-| Piso: Epóxi Autonivelante Cinza Médio 3mm de Alta Resistência     | - Armazenamento organizado de 10 a 20 motos   |
-|                                                                   | - Prateleira porta-paletes industrial homolog.|
-|  +------------------------+      +------------------------+       | - Doca traseira/lateral de carga e descarga   |
-|  | ELEVADOR HIDRÁULICO 01 |      | ELEVADOR HIDRÁULICO 02 |       | - Bancada de testes de controladores e cabos  |
-|  | (Capacidade 500 kg)    |      | (Capacidade 500 kg)    |       |                                               |
-|  +------------------------+      +------------------------+       |                                               |
-|  - Painel de ferramentas padronizado Z8 com ferramentas alemãs    |                                               |
-|  - Sistema central de ar comprimido e calibrador digital          |                                               |
-+===================================================================================================================+
++=============================================================================+
+| FACHADA & PLANTA EXECUTIVA: MASTER FLAGSHIP (14,90m x 16,00m = 238,4 m²)    |
++=============================================================================+
+| [TESTEIRA ACM AÇO ESCOVADO 14,90m x 1,00m]  "MOBILIDADE ELÉTRICA" (6,78m)   |
+|  * Spot 1  * Spot 2  * Spot 3  * Spot 4  * Spot 5  * Spot 6  * Spot 7       |
++---------------------------------------------+-------------------------------+
+| PAREDE FRONTAL CINZA PLATINA (#284)         | [TORRE ENTRADA ACM 4,20x1,80m]|
+|                                             |                               |
+|   /""""""\       /""""""\       /""""""\    |          /""""""\             |
+|  / ARCO 01\     / ARCO 02\     / ARCO 03\   |         / PORTAL \  [LOGO Z8  |
+| |  VITRINE |   |  VITRINE |   |  VITRINE |  |        | ENTRADA  |  METÁLICO |
+| | (Motos)  |   | (Motos)  |   | (Motos)  |  |        | (Vidro)  |  BRIGHT   |
+| [BASE MOG] |   [BASE MOG] |   [BASE MOG] |  |        [BASE MOG] |  SILVER]  |
++---------------------------------------------+-------------------------------+
+| ZONA 1: SHOWROOM FLAGSHIP & PODIUMS DE LANÇAMENTO (134,1 m²)                |
+| Piso: Porcelanato Retificado Acetinado Claro Cinza Platina 90x90cm          |
+|                                                                             |
+|  [ARCO 01: FX-10]    [ARCO 02: N95C]    [ARCO 03: U2 Cargo]  [PORTAL AUTO]  |
+|                                                                             |
+|               +---------------------------------------------+               |
+|               | PODIUM CENTRAL DE DESTAQUE: Z8 TANK (80km/h)|               |
+|               | ILUMINAÇÃO PERIMETRAL EM FITA LED CIANO Z8  |               |
+|               +---------------------------------------------+               |
+|                                                                             |
+| - Exposição fluida de 8 a 10 modelos Z8 simultâneos com circulação 360°     |
+| - 2 Totens digitais interativos touchscreen com catálogo e simulador        |
++-----------------------------------------------------------------------------+
+| ZONA 2: LOUNGE VIP & CAFÉ (20 m²)     | ZONA 3: MESA VENDAS & B2B (24 m²)   |
+| - Sofás em couro grafite escuro       | - 3 Estações para consultores       |
+| - Painel Madeira Mogno com TV 55"     | - Mesa executiva fechamento frotas  |
+| - Mostruário capacetes e jaquetas     | - Checkout, contratos e chaves NFC  |
++---------------------------------------+-------------------------------------+
+| ZONA 4: APOIO SANITÁRIO PCD (15 m²)   | ZONA 5: FAST CHARGE Z8 (10 m²)      |
+| - Sanitários Masc. e Fem. NBR 9050    | - 2 Carregadores rápidos 32A/380V   |
+| - DML e Sala de TI / NVR de câmeras   | - Painel de baterias LiFePO4        |
++---------------------------------------+-------------------------------------+
+|========= DIVISÓRIA PANORÂMICA EM VIDRO DUPLO ("OFICINA SHOW") ==============|
+|                                                                             |
+| ZONA 6: CENTRO TÉCNICO MASTER (36 m²) | ZONA 7: ESTOQUE VERTICAL (35 m²)    |
+| Piso: Epóxi Cinza Médio ≥ 500 kgf/cm² | - Armazenamento de 10 a 20 motos    |
+|                                       | - Estrutura porta-paletes industrial|
+|  +----------------+  +----------------+ - Doca de carga e descarga          |
+|  | ELEVADOR 01    |  | ELEVADOR 02    | - Bancada de testes elétricos       |
+|  | (Cap. 500 kg)  |  | (Cap. 500 kg)  |                                     |
+|  +----------------+  +----------------+                                     |
+| - Painel de ferramentas padronizado Z8                                      |
+| - Ar comprimido central e calibrador                                        |
++=============================================================================+
 ```
 
 ---

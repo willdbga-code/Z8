@@ -184,10 +184,10 @@ const HTML_TEMPLATE = (title, contentHtml) => `<!DOCTYPE html>
     pre {
       background: #0f172a;
       color: #f8fafc;
-      padding: 12px;
+      padding: 8px 10px;
       border-radius: 6px;
-      overflow-x: auto;
-      margin: 12px 0;
+      overflow: hidden;
+      margin: 10px 0;
       page-break-inside: avoid;
     }
 
@@ -196,7 +196,22 @@ const HTML_TEMPLATE = (title, contentHtml) => `<!DOCTYPE html>
       color: #38bdf8;
       border: none;
       padding: 0;
-      font-size: 8pt;
+      font-size: 6.8pt;
+      line-height: 1.15;
+      letter-spacing: -0.25px;
+      font-family: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+      white-space: pre;
+      display: block;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 10px 0;
+      border: 1px solid #cbd5e1;
+      display: block;
+      page-break-inside: avoid;
     }
 
     ul, ol {
@@ -280,7 +295,18 @@ async function convertMarkdownToPdf(relativePath) {
   }
 
   const markdownContent = fs.readFileSync(mdPath, 'utf8');
-  const parsedHtml = marked.parse(markdownContent);
+  let parsedHtml = marked.parse(markdownContent);
+
+  // Resolve image paths to file:/// URLs so headless browser loads them reliably
+  parsedHtml = parsedHtml.replace(/<img\s+([^>]*?)src=["']([^"']+)["']/g, (match, prefix, src) => {
+    if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('file:///')) {
+      return match;
+    }
+    const absoluteImgPath = path.resolve(path.dirname(mdPath), src);
+    const fileUrl = `file:///${absoluteImgPath.replace(/\\/g, '/')}`;
+    return `<img ${prefix}src="${fileUrl}"`;
+  });
+
   const title = path.basename(relativePath).replace('.md', '').replace(/_/g, ' ');
   const fullHtml = HTML_TEMPLATE(title, parsedHtml);
 
