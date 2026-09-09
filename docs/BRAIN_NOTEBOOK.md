@@ -75,7 +75,7 @@
 1. **Christian Hideyuki (Admin Master)**: `christian.tkh@gmail.com` | Matriz Z8 (São Paulo - SP) | `(12) 99800-8818` | Status: `approved` / `admin`
 2. **christian hideyuki**: `christian.hide@hotmail.com` | hide (Pindamonhangaba - SP) | `(12) 98898-6148` | Status: `approved` / `partner`
 3. **William Del Barrio**: `willdbga@gmail.com` | Del Barrio E-Motors (Pindamonhangaba - SP) | `(12) 98813-0316` | Status: `approved` / `partner`
-4. **Fabrício Daniel de Oliveira Castro**: `fabriciopolocruzeiro@gmail.com` | JF (Pindamonhangaba - SP) | `(12) 99106-4106` | Status: `pending` (Passaporte VIP)
+4. **Fabrício Daniel de Oliveira Castro**: `fabriciopolocruzeiro@gmail.com` | JF (Pindamonhangaba - SP) | `(12) 99106-4106` | Status: `approved` / `partner` (Passaporte VIP)
 5. **Derik**: `derik.dws@gmail.com` | derik (Jacareí - SP) | `(12) 98198-6760` | Status: `pending` (Cadastrado em 03/09/2026)
 
 ### 6.2 Leads e Oportunidades no CRM

@@ -54,8 +54,8 @@ let globalUsersStore = [
     phone: '(12) 99106-4106',
     password: 'Z8@' + '4106',
     role: 'partner',
-    status: 'pending',
-    updatedAt: 1787790262589,
+    status: 'approved',
+    updatedAt: 1788968594840,
     createdAt: '2026-08-27T00:24:22.588Z'
   },
   {
