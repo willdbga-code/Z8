@@ -70,8 +70,35 @@ let globalUsersStore = [
     status: 'pending',
     updatedAt: 1788402155815,
     createdAt: '2026-09-03T21:02:35.815Z'
+  },
+  {
+    id: 'user_zejda_01',
+    name: 'Jose da silva',
+    company: 'Empresa',
+    city: 'Santana do parnaiba - SP',
+    email: 'zejda@gmail.com',
+    phone: '12988130316',
+    password: 'Z8@' + '0316',
+    role: 'partner',
+    status: 'approved',
+    updatedAt: Date.now(),
+    createdAt: '2026-09-04T12:00:00.000Z'
+  },
+  {
+    id: 'user_vinicius_01',
+    name: 'Vinicius ortiz',
+    company: 'Viniciusortizdovale@gmail.com',
+    city: 'Taubaté - SP',
+    email: 'viniciusortizdovale@gmail.com',
+    phone: '12996667031',
+    password: 'Z8@' + '7031',
+    role: 'partner',
+    status: 'approved',
+    updatedAt: Date.now(),
+    createdAt: '2026-09-04T12:00:00.000Z'
   }
 ];
+
 
 
 function setCorsHeaders(res) {

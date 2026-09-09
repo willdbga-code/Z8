@@ -30,6 +30,8 @@
 3. **William Del Barrio**: `willdbga@gmail.com` (Del Barrio E-Motors, Pindamonhangaba - SP, (12) 98813-0316) -> Status: `approved`
 4. **Fabrício Daniel de Oliveira Castro**: `fabriciopolocruzeiro@gmail.com` (JF, Pindamonhangaba - SP, (12) 99106-4106, Passaporte VIP) -> Status: `approved`
 5. **Derik**: `derik.dws@gmail.com` (derik, Jacareí - SP, (12) 98198-6760) -> Status: `pending` (Cadastrado via Catálogo Web em 03/09/2026)
+6. **Jose da silva**: `zejda@gmail.com` (Empresa, Santana do Parnaíba - SP, (12) 98813-0316) -> Status: `approved`
+7. **Vinicius ortiz**: `viniciusortizdovale@gmail.com` (Taubaté - SP, (12) 99666-7031) -> Status: `approved`
 
 ## Registered Service Orders (OS)
 - `OS-2026-0101`: Mega Motos SP (Carlos Silveira) - Z8 Tank High-Speed - Status: `approved`

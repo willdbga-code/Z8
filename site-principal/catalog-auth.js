@@ -8,7 +8,8 @@ import {
   requestPasswordResetEmail,
   subscribeToUsersRealtime,
   setCloudUserStatus,
-  deleteCloudUser
+  deleteCloudUser,
+  saveUserToFirestore
 } from './services/firebase-service.js';
 
 export {
@@ -16,7 +17,8 @@ export {
   requestPasswordResetEmail,
   subscribeToUsersRealtime,
   setCloudUserStatus,
-  deleteCloudUser
+  deleteCloudUser,
+  saveUserToFirestore
 };
 
 const USERS_STORAGE_KEY = CLOUD_CONFIG.STORAGE_USERS_KEY;
@@ -106,20 +108,27 @@ export async function pushUserToFirestore(user) {
       createdAt: user.createdAt || new Date().toISOString()
     };
 
-    // 1. Envia para o endpoint Serverless /api/users
-    const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    // 1. Grava diretamente no Firebase Firestore oficial
+    await saveUserToFirestore(payload);
 
-    if (res.ok) {
-      lastCloudSyncTime = Date.now();
-      lastCloudSyncSuccess = true;
-      return true;
+    // 2. Envia para o endpoint Serverless /api/users
+    try {
+      const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        lastCloudSyncTime = Date.now();
+        lastCloudSyncSuccess = true;
+      }
+    } catch (apiErr) {
+      // ignore
     }
+
+    return true;
   } catch (err) {
-    console.warn('Serverless API user push warning:', err);
+    console.warn('User push to cloud warning:', err);
   }
   return false;
 }

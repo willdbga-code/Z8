@@ -48,8 +48,37 @@ let globalLeadsStore = [
     status: 'novo',
     createdAt: '2026-08-26T03:26:25.345Z',
     updatedAt: 1787705185345
+  },
+  {
+    id: 'lead_zejda_01',
+    name: 'Jose da silva',
+    company: 'Empresa',
+    city: 'Santana do parnaiba',
+    state: 'SP',
+    email: 'zejda@gmail.com',
+    phone: '12988130316',
+    paymentMethod: 'Cadastro Admin',
+    status: 'aprovado',
+    source: 'Admin Master Manual',
+    createdAt: '2026-09-04T12:00:00.000Z',
+    updatedAt: Date.now()
+  },
+  {
+    id: 'lead_vinicius_01',
+    name: 'Vinicius ortiz',
+    company: 'Viniciusortizdovale@gmail.com',
+    city: 'Taubaté',
+    state: 'SP',
+    email: 'viniciusortizdovale@gmail.com',
+    phone: '12996667031',
+    paymentMethod: 'Cadastro Admin',
+    status: 'aprovado',
+    source: 'Admin Master Manual',
+    createdAt: '2026-09-04T12:00:00.000Z',
+    updatedAt: Date.now()
   }
 ];
+
 
 
 function setCorsHeaders(res) {

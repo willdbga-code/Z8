@@ -195,8 +195,29 @@ export function subscribeToUsersRealtime(callback) {
 }
 
 // --------------------------------------------------------------------------
-// 4. ATOMIC PERMANENT CLOUD APPROVAL / BLOCK / DELETE
+// 4. ATOMIC PERMANENT CLOUD APPROVAL / SAVE / BLOCK / DELETE
 // --------------------------------------------------------------------------
+export async function saveUserToFirestore(userData) {
+  if (!userData || !userData.email) return false;
+  const cleanEmail = (userData.email || '').trim().toLowerCase();
+  const { db } = initFirebase();
+
+  if (db) {
+    try {
+      const userRef = doc(db, 'catalog_users', cleanEmail);
+      await setDoc(userRef, {
+        ...userData,
+        email: cleanEmail,
+        updatedAt: userData.updatedAt || Date.now()
+      }, { merge: true });
+      return true;
+    } catch (e) {
+      console.warn('Firestore direct save error:', e.message);
+    }
+  }
+  return false;
+}
+
 export async function setCloudUserStatus(email, newStatus) {
   const cleanEmail = (email || '').trim().toLowerCase();
   const { db } = initFirebase();
@@ -205,10 +226,10 @@ export async function setCloudUserStatus(email, newStatus) {
   if (db) {
     try {
       const userRef = doc(db, 'catalog_users', cleanEmail);
-      await updateDoc(userRef, {
+      await setDoc(userRef, {
         status: newStatus,
         updatedAt: now
-      });
+      }, { merge: true });
     } catch (e) {
       console.warn('Firestore status update error:', e.message);
     }
