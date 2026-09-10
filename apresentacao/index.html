@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Z8 E-Motion | Apresentação Comercial de Franquia — Pitch Deck Executivo</title>
+  
+  <!-- Favicon & Meta Tags -->
+  <meta name="description" content="Apresentação executiva e comercial da Franquia Z8 E-Motion. Seja dono de uma concessionária de mobilidade elétrica de alto padrão com suporte 360° e exclusividade territorial." />
+  <meta name="keywords" content="franquia motos elétricas, z8 emotion, franquia sustentável, mobilidade elétrica brasil, concessionária elétrica, investimento franquia" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+
+  <!-- Fonts: Inter & Orbitron -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Pitch Deck Stylesheet -->
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body class="deck-body">
+
+  <!-- PROGRESS BAR LINEAR (TOPO) -->
+  <div class="deck-progress-container">
+    <div id="deck-progress-bar" class="deck-progress-bar" style="width: 10%;"></div>
+  </div>
+
+  <!-- TOP EXECUTIVE CONTROL BAR -->
+  <header class="deck-header">
+    <div class="deck-brand">
+      <a href="/site-principal/" class="deck-logo" title="Voltar ao Portal Z8">
+        <span class="logo-accent">Z8</span> E-MOTION
+      </a>
+      <span class="deck-badge-sub">FRANQUIA OFICIAL</span>
+    </div>
+
+    <div class="deck-title-tracker">
+      <span class="tracker-prefix">PITCH DECK:</span>
+      <span id="slide-title-display" class="tracker-title">Abertura Executiva</span>
+    </div>
+
+    <div class="deck-header-actions">
+      <button id="btn-toggle-index" class="deck-icon-btn" title="Índice de Slides (I)">
+        <i class="fa-solid fa-list-ol"></i>
+        <span class="btn-text">Índice</span>
+      </button>
+
+      <button id="btn-fullscreen" class="deck-icon-btn" title="Modo Apresentação / Tela Cheia (F)">
+        <i class="fa-solid fa-expand"></i>
+        <span class="btn-text">Tela Cheia</span>
+      </button>
+
+      <button id="btn-print-deck" class="deck-icon-btn" title="Exportar / Imprimir Apresentação em PDF (Ctrl+P)">
+        <i class="fa-solid fa-print"></i>
+        <span class="btn-text">Imprimir / PDF</span>
+      </button>
+
+      <a href="https://wa.me/5512998008818?text=Ol%C3%A1,%20gostaria%20de%20conversar%20com%20o%20Diretor%20de%20Expans%C3%A3o%20sobre%20a%20Franquia%20Z8" target="_blank" rel="noopener noreferrer" class="deck-btn-cta">
+        <i class="fa-brands fa-whatsapp"></i>
+        <span>Falar com Expansão</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- SLIDE INDEX DRAWER / MODAL -->
+  <aside id="slide-drawer" class="slide-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <i class="fa-solid fa-layer-group"></i> Mapa da Apresentação
+      </div>
+      <button id="btn-close-drawer" class="drawer-close" title="Fechar">&times;</button>
+    </div>
+    <div class="drawer-content" id="drawer-slide-list">
+      <!-- Injetado dinamicamente via deck.js -->
+    </div>
+  </aside>
+  <div id="drawer-overlay" class="drawer-overlay"></div>
+
+  <!-- MAIN SLIDES STAGE CONTAINER -->
+  <main class="deck-main" id="deck-main">
+    <div class="deck-stage" id="deck-stage">
+
+      <!-- ==========================================
+           SLIDE 1: CAPA EXECUTIVA & APRESENTAÇÃO
+           ========================================== -->
+      <section class="deck-slide active" data-slide="1" data-title="Abertura Executiva">
+        <div class="slide-bg slide-bg-hero"></div>
+        <div class="slide-content slide-hero-content">
+          <div class="hero-chip">
+            <span class="chip-pulse"></span>
+            <span>PROGRAMA OFICIAL DE EXPANSÃO NACIONAL • BRASIL</span>
+          </div>
+          
+          <h1 class="hero-headline">
+            SEJA DONO DE UMA <br />
+            <span class="gradient-text">CONCESSIONÁRIA Z8 E-MOTION</span>
+          </h1>
+
+          <p class="hero-description">
+            A revolução da mobilidade elétrica no Brasil. Um modelo de negócio pronto para faturar, combinando venda de motos homologadas, oficina técnica credenciada, alta margem de lucro e suporte 360° da franqueadora.
+          </p>
+
+          <div class="hero-metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Taxa Inicial de Franquia</span>
+              <span class="metric-val">R$ 35.000<small>,00</small></span>
+              <span class="metric-sub">Know-how, manuais e projeto</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Royalties Mensais</span>
+              <span class="metric-val">5%</span>
+              <span class="metric-sub">Reinvestidos em inovação e suporte</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Menor Área Viável</span>
+              <span class="metric-val">50 a 60 m²</span>
+              <span class="metric-sub">Baixo custo fixo e alta rentabilidade</span>
+            </div>
+
+            <div class="metric-card highlight">
+              <span class="metric-label">Exclusividade de Praça</span>
+              <span class="metric-val">Contratual</span>
+              <span class="metric-sub">Proteção territorial garantida</span>
+            </div>
+          </div>
+
+          <div class="slide-cta-row">
+            <button class="btn-slide-next" onclick="deckApp.nextSlide()">
+              <span>Iniciar Apresentação</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <span class="nav-hint-text">Dica: Use as teclas [ ← ] e [ → ] do teclado para navegar</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 2: O MERCADO & A TRANSIÇÃO ENERGÉTICA
+           ========================================== -->
+      <section class="deck-slide" data-slide="2" data-title="O Mercado & Oportunidade">
+        <div class="slide-content">
+          <div class="slide-header">
+            <span class="slide-eyebrow">CENÁRIO MACROECONÔMICO</span>
+            <h2 class="slide-title">A Maior Transformação do Transporte Urbano</h2>
+            <p class="slide-lead">A disparada no preço dos combustíveis e a busca por sustentabilidade criaram um mercado bilionário com demanda reprimida em todas as regiões do país.</p>
+          </div>
+
+          <div class="grid-3-cols">
+            <div class="feature-box">
+              <div class="box-icon"><i class="fa-solid fa-bolt"></i></div>
+              <h3>Economia Brutal para o Cliente</h3>
+              <p>Uma recarga elétrica completa custa em média <strong>R$ 1,50 para rodar até 50 km</strong>. Comparado ao combustível tradicional (R$ 6,00+/litro), a economia mensal de um trabalhador ou entregador paga a parcela da própria moto.</p>
+              <div class="box-metric-badge">Até 92% de Economia de Energia</div>
+            </div>
+
+            <div class="feature-box">
+              <div class="box-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+              <h3>Demanda Aquecida em 3 Frentes</h3>
+              <ul class="clean-list">
+                <li><i class="fa-solid fa-check"></i> <strong>Deslocamento Urbano:</strong> Fuga do trânsito e transporte público lento.</li>
+                <li><i class="fa-solid fa-check"></i> <strong>Logística de Delivery:</strong> Gigantes de entrega exigem motos de baixo custo por km.</li>
+                <li><i class="fa-solid fa-check"></i> <strong>Lazer & Lifestyle:</strong> Modelos esportivos e vintage com apelo jovem.</li>
+              </ul>
+              <div class="box-metric-badge">+75% Crescimento Anual no Brasil</div>
+            </div>
+
+            <div class="feature-box">
+              <div class="box-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+              <h3>Segurança Regulatória Plena</h3>
+              <p>Total conformidade com a <strong>Resolução CONTRAN nº 996/2023</strong>. Modelos que dispensam CNH para velocidades de até 32 km/h e modelos de alta velocidade com homologação federal (CAT/SENATRAN) para emissão de RENAVAM.</p>
+              <div class="box-metric-badge">Zero Risco Jurídico</div>
+            </div>
+          </div>
+
+          <div class="highlight-banner">
+            <i class="fa-solid fa-bullhorn"></i>
+            <div>
+              <strong>Janela de Oportunidade Única:</strong> Quem entra agora no mercado de mobilidade elétrica se posiciona como a principal referência regional para os próximos 10 anos.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 3: NOSSA OPERAÇÃO (SHOWROOM & OFICINA)
+           ========================================== -->
+      <section class="deck-slide" data-slide="3" data-title="Nossa Operação Comercial">
+        <div class="slide-content">
+          <div class="slide-header">
+            <span class="slide-eyebrow">ENGENHARIA DO NEGÓCIO</span>
+            <h2 class="slide-title">Concessionária Compacta: Alto Lucro por m²</h2>
+            <p class="slide-lead">Eliminamos os custos exorbitantes de mega-concessionárias. Criamos um modelo compacto, ágil e altamente rentável que une vendas e pós-venda.</p>
+          </div>
+
+          <div class="grid-2-cols-unequal">
+            <div class="operation-cards">
+              <div class="op-card">
+                <div class="op-badge"><i class="fa-solid fa-ruler-combined"></i></div>
+                <div class="op-info">
+                  <h4>Menor Área Comercial do Setor: 50 a 60 m² úteis</h4>
+                  <p>Aluguel reduzido, IPTU baixo e facilidade para encontrar os melhores pontos nas avenidas centrais. Implantação rápida e obras enxutas em 30 a 45 dias.</p>
+                </div>
+              </div>
+
+              <div class="op-card">
+                <div class="op-badge"><i class="fa-solid fa-motorcycle"></i></div>
+                <div class="op-info">
+                  <h4>Showroom para 10 a 12 Motos</h4>
+                  <p>Exposição dos modelos mais vendidos da franquia, área para atendimento consultivo, simulação de consórcios/financiamento e entrega técnica.</p>
+                </div>
+              </div>
+
+              <div class="op-card">
+                <div class="op-badge"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                <div class="op-info">
+                  <h4>Oficina Técnica Integrada com 2 Elevadores</h4>
+                  <p>2 Elevadores hidráulicos/pneumáticos para motos, bancada técnica de testes de baterias de lítio e área de PDI (Inspeção Pré-Entrega).</p>
+                </div>
+              </div>
+
+              <div class="op-card">
+                <div class="op-badge"><i class="fa-solid fa-boxes-packing"></i></div>
+                <div class="op-info">
+                  <h4>Lote Inicial de Apenas 10 Unidades</h4>
+                  <p>Mínimo de compra (MOQ) acessível para preservar o fluxo de caixa do franqueado, com reposição rápida e estoque regulador direto da matriz.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="blueprint-preview-box">
+              <div class="blueprint-tag">Planta Homologada Z8</div>
+              <img src="/assets/arquitetura/fachada_render_oficial_3arcos.jpg" alt="Fachada Homologada Z8" class="blueprint-img" onerror="this.src='/assets/franchise/store_facade.jpg'" />
+              <div class="blueprint-meta">
+                <div class="b-meta-item"><span>Área Mínima:</span> <strong>50 m² a 60 m²</strong></div>
+                <div class="b-meta-item"><span>Elevadores:</span> <strong>2 Unidades</strong></div>
+                <div class="b-meta-item"><span>Giro Médio:</span> <strong>30 a 45 dias</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 4: OS 6 PILARES DE SUPORTE DA FRANQUIA
+           ========================================== -->
+      <section class="deck-slide" data-slide="4" data-title="O Que Oferecemos">
+        <div class="slide-content">
+          <div class="slide-header">
+            <span class="slide-eyebrow">ECOSSISTEMA DE APOIO 360°</span>
+            <h2 class="slide-title">O Que a Z8 Entrega para o Franqueado</h2>
+            <p class="slide-lead">Você não estará sozinho. Fornecemos todo o arsenal de inteligência comercial, técnica e operacional para garantir a liderança na sua região.</p>
+          </div>
+
+          <div class="pillars-grid">
+            <div class="pillar-card">
+              <div class="pillar-num">01</div>
+              <div class="pillar-icon"><i class="fa-solid fa-award"></i></div>
+              <h3>Gestão de Marca</h3>
+              <p>Brandbook completo, posicionamento de prestígio, reputação institucional e chancelas de conformidade federal.</p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-num">02</div>
+              <div class="pillar-icon"><i class="fa-solid fa-user-graduate"></i></div>
+              <h3>Treinamento de Vendas</h3>
+              <p>Metodologia de fechamento consultivo B2C e B2B (empresas/delivery), scripts, esteira de consórcios e crédito bancário.</p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-num">03</div>
+              <div class="pillar-icon"><i class="fa-solid fa-gears"></i></div>
+              <h3>Treinamento Técnico & Reparo</h3>
+              <p>Capacitação prática em PDI, montagem, diagnósticos de controladores, motores brushless e manutenção de baterias de lítio.</p>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-num">04</div>
+              <div class="pillar-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+              <h3>Manuais & Arquitetura</h3>
+              <p>Projeto de fachada em ACM Aço Escovado e Cinza Platina, plantas baixas de 2m a 15m, COF e Contrato harmonizados.</p>
+            </div>
+
+            <div class="pillar-card highlight-pillar">
+              <div class="pillar-num">05</div>
+              <div class="pillar-icon"><i class="fa-solid fa-bullseye"></i></div>
+              <h3>Marketing Local Especializado</h3>
+              <p>Campanhas de tráfego pago geolocalizadas na sua cidade gerando leads qualificados no WhatsApp da sua loja diariamente.</p>
+            </div>
+
+            <div class="pillar-card highlight-pillar">
+              <div class="pillar-num">06</div>
+              <div class="pillar-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <h3>Exclusividade Territorial</h3>
+              <p>Reserva e blindagem de praça garantidas por contrato. 100% dos clientes da sua região compram diretamente na sua franquia.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 5: MIX DE PRODUTOS (11 MODELOS)
+           ========================================== -->
+      <section class="deck-slide" data-slide="5" data-title="Mix de Produtos Z8">
+        <div class="slide-content">
+          <div class="slide-header">
+            <span class="slide-eyebrow">PORTFÓLIO COMPLETO & HOMOLOGADO</span>
+            <h2 class="slide-title">11 Modelos para Dominar Todos os Nichos</h2>
+            <p class="slide-lead">Do trabalhador urbano ao jovem esportista e operadores de delivery, a Z8 possui o catálogo mais competitivo do país.</p>
+          </div>
+
+          <div class="grid-4-models">
+            <div class="model-tier-card">
+              <div class="model-thumb">
+                <img src="/assets/models/z8_n710_studio.jpg" alt="Z8 N710 Urban" />
+              </div>
+              <div class="tier-badge">Sem CNH • Alta Saída</div>
+              <h4>Linha Urbana Diária</h4>
+              <p><strong>Z8 N710 Urban, Q11 Compact, N7 Standard.</strong> Modelos acessíveis com velocidade até 32 km/h para estudantes e trabalhadores.</p>
+              <div class="tier-profit">Markup de 40% a 54%</div>
+            </div>
+
+            <div class="model-tier-card">
+              <div class="model-thumb">
+                <img src="/assets/models/z8_tank_studio.jpg" alt="Z8 Tank High-Speed" />
+              </div>
+              <div class="tier-badge premium">Performance & Trail</div>
+              <h4>Linha Alta Performance</h4>
+              <p><strong>Z8 Tank High-Speed e FX-10 Sport.</strong> Motor 1000W de alto torque, chassi duplo de carbono, CAT para emplacamento e liderança em margem.</p>
+              <div class="tier-profit">Lucro até R$ 4.000 / un</div>
+            </div>
+
+            <div class="model-tier-card">
+              <div class="model-thumb">
+                <img src="/assets/models/z8_u2_studio.jpg" alt="Z8 U2 Delivery" />
+              </div>
+              <div class="tier-badge utility">Frotas & Delivery</div>
+              <h4>Linha Comercial Cargo</h4>
+              <p><strong>Z8 U2 Delivery Cargo.</strong> Projetada especificamente para entregadores de aplicativos e frotas de empresas com baú reforçado.</p>
+              <div class="tier-profit">Vendas em Escala B2B</div>
+            </div>
+
+            <div class="model-tier-card">
+              <div class="model-thumb">
+                <img src="/assets/models/z8_harley_studio.jpg" alt="Z8 Harley X21" />
+              </div>
+              <div class="tier-badge custom">Estilo & Lifestyle</div>
+              <h4>Linha Vintage & Chopper</h4>
+              <p><strong>Z8 Harley X21, Q10 Vintage, N95C, GS005.</strong> Design arrojado que atrai olhares e agrega alto valor percebido de venda.</p>
+              <div class="tier-profit">Ticket Médio Elevado</div>
+            </div>
+          </div>
+
+          <div class="supply-assurance">
+            <i class="fa-solid fa-warehouse"></i>
+            <span><strong>Estoque Nacional de Peças:</strong> Motores, baterias, controladores e carenagens disponíveis com reposição rápida direto da matriz brasileira.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 6: PADRÃO ARQUITETÔNICO & IDENTIDADE
+           ========================================== -->
+      <section class="deck-slide" data-slide="6" data-title="Padrão Arquitetônico">
+        <div class="slide-content">
+          <div class="slide-header">
+            <span class="slide-eyebrow">ESTÉTICA AUTOMOTIVA INTERNACIONAL</span>
+            <h2 class="slide-title">Identidade Visual & Fachada Homologada</h2>
+            <p class="slide-lead">Padrão visual sofisticado inspirado nas grandes montadoras mundiais (BYD, Tesla, Royal Enfield), gerando autoridade imediata na sua cidade.</p>
+          </div>
+
+          <div class="grid-2-cols">
+            <div class="specs-card">
+              <h3><i class="fa-solid fa-cube"></i> Especificações Oficiais da Fachada</h3>
+              <ul class="specs-list">
+                <li>
+                  <strong>Testeira / Viga Monumental:</strong>
+                  <span>ACM Aço Escovado Natural (*Brushed Silver*) 4mm com proteção UV.</span>
+                </li>
+                <li>
+                  <strong>Paredes e Fundo:</strong>
+                  <span>Cinza Platina (Cartela #284, HEX #C2C6CA), acabamento premium.</span>
+                </li>
+                <li>
+                  <strong>Logotipo Z8 3D:</strong>
+                  <span>Chapa metálica *Bright Silver* com chanfro aero-esportivo e iluminação indireta Halo LED Ciano 6500K.</span>
+                </li>
+                <li>
+                  <strong>Letreiro Secundário:</strong>
+                  <span>*Black Piano* usinado a laser ("MOBILIDADE ELÉTRICA").</span>
+                </li>
+                <li>
+                  <strong>Pisos:</strong>
+                  <span>Showroom em porcelanato cinza acetinado; Oficina em resina epóxi autonivelante industrial de alta resistência (≥ 500 kgf/cm²).</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="facades-showcase">
+              <div class="facade-item">
+                <img src="/assets/arquitetura/fachada_5m_standard_store.jpg" alt="Fachada Standard Z8" onerror="this.src='/assets/arquitetura/fachada_render_oficial_3arcos.jpg'" />
+                <div class="facade-caption">
+                  <strong>Fachada 5m a 8m (Módulo Standard):</strong> Loja completa com 10 a 14 motos e 2 elevadores lado a lado.
+                </div>
+              </div>
+
+              <div class="facade-item-row">
+                <div class="f-mini">
+                  <img src="/assets/arquitetura/fachada_2m_urban_slim.jpg" alt="Módulo 2m" onerror="this.src='/assets/arquitetura/fachada_render_oficial_3arcos.jpg'" />
+                  <span>Módulo Corredor (2m a 3m)</span>
+                </div>
+                <div class="f-mini">
+                  <img src="/assets/arquitetura/fachada_10m_master_flagship.jpg" alt="Módulo Flagship" onerror="this.src='/assets/arquitetura/fachada_render_oficial_3arcos.jpg'" />
+                  <span>Módulo Flagship (10m+)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 7: CONDIÇÕES COMERCIAIS & INVESTIMENTO
+           ========================================== -->
+      <section class="deck-slide" data-slide="7" data-title="Condições Comerciais">
+        <div class="slide-content">
+          <div class="slide-header">
+            <span class="slide-eyebrow">TRANSPARÊNCIA FINANCEIRA</span>
+            <h2 class="slide-title">Estrutura de Investimento & Taxas</h2>
+            <p class="slide-lead">Entrada acessível, regras claras e previsibilidade para que seu capital seja alocado onde realmente gera lucro.</p>
+          </div>
+
+          <div class="grid-3-cards-pricing">
+            <div class="pricing-card hero-pricing">
+              <div class="pricing-header">
+                <span class="pricing-tag">TAXA INICIAL DE FRANQUIA</span>
+                <div class="price-val">R$ 35.000<small>,00</small></div>
+                <p>Pagamento único na assinatura do contrato</p>
+              </div>
+              <ul class="pricing-benefits">
+                <li><i class="fa-solid fa-check-circle"></i> Cessão do direito de uso da marca Z8 E-Motion</li>
+                <li><i class="fa-solid fa-check-circle"></i> <strong>Exclusividade territorial contratual</strong> da praça</li>
+                <li><i class="fa-solid fa-check-circle"></i> Projeto arquitetônico executivo adaptado ao seu ponto</li>
+                <li><i class="fa-solid fa-check-circle"></i> Manuais de Operação, Vendas e Arquitetura</li>
+                <li><i class="fa-solid fa-check-circle"></i> <strong>Treinamento completo de Vendas & Técnico</strong></li>
+                <li><i class="fa-solid fa-check-circle"></i> Acesso aos preços de fábrica e tabela de atacado</li>
+              </ul>
+            </div>
+
+            <div class="pricing-card">
+              <div class="pricing-header">
+                <span class="pricing-tag">ROYALTIES MENSAIS</span>
+                <div class="price-val">5%</div>
+                <p>Calculado sobre o faturamento mensal</p>
+              </div>
+              <ul class="pricing-benefits">
+                <li><i class="fa-solid fa-check-circle"></i> Sustentação contínua da marca nacional</li>
+                <li><i class="fa-solid fa-check-circle"></i> Pesquisa & Desenvolvimento de novos modelos</li>
+                <li><i class="fa-solid fa-check-circle"></i> Suporte técnico e consultoria de pós-venda</li>
+                <li><i class="fa-solid fa-check-circle"></i> Atualizações de firmware e manuais de serviço</li>
+                <li><i class="fa-solid fa-check-circle"></i> Assessoria jurídica regulatória (CONTRAN)</li>
+              </ul>
+            </div>
+
+            <div class="pricing-card">
+              <div class="pricing-header">
+                <span class="pricing-tag">RETORNO ESTIMADO (PAYBACK)</span>
+                <div class="price-val">8 a 14 <small>meses</small></div>
+                <p>Tempo recorde no segmento automotivo</p>
+              </div>
+              <ul class="pricing-benefits">
+                <li><i class="fa-solid fa-check-circle"></i> <strong>Markup médio de 30% a 55%</strong> nos veículos</li>
+                <li><i class="fa-solid fa-check-circle"></i> Lucro líquido mensal estimado de <strong>R$ 15k a R$ 25k</strong></li>
+                <li><i class="fa-solid fa-check-circle"></i> Receitas adicionais com revisões periódicas</li>
+                <li><i class="fa-solid fa-check-circle"></i> Venda de baterias extras, capacetes e acessórios</li>
+                <li><i class="fa-solid fa-check-circle"></i> Parcerias com frotistas locais para faturamento B2B</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 8: SIMULADOR FINANCEIRO DA LOJA
+           ========================================== -->
+      <section class="deck-slide" data-slide="8" data-title="Simulador Financeiro">
+        <div class="slide-content">
+          <div class="slide-header">
+            <span class="slide-eyebrow">DRE ESTIMADA • OPERAÇÃO PADRÃO (50 m²)</span>
+            <h2 class="slide-title">Demonstrativo de Resultado da Franquia</h2>
+            <p class="slide-lead">Cenário conservador baseado na comercialização de apenas 10 motocicletas elétricas por mês mais serviços de oficina.</p>
+          </div>
+
+          <div class="dre-container">
+            <div class="dre-table-wrapper">
+              <table class="dre-table">
+                <thead>
+                  <tr>
+                    <th>Linha de Resultado</th>
+                    <th>Composição / Base de Cálculo</th>
+                    <th class="text-right">Valor Estimado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="row-highlight-green">
+                    <td><strong>(+) Receita Bruta de Vendas (Motos)</strong></td>
+                    <td>10 motos/mês (mix médio R$ 8.500/unid)</td>
+                    <td class="text-right"><strong>R$ 85.000,00</strong></td>
+                  </tr>
+                  <tr class="row-highlight-green">
+                    <td><strong>(+) Receita Oficina & Acessórios</strong></td>
+                    <td>Revisões, baterias, peças de reposição e capacetes</td>
+                    <td class="text-right"><strong>R$ 8.000,00</strong></td>
+                  </tr>
+                  <tr class="row-total">
+                    <td><strong>(=) FATURAMENTO BRUTO TOTAL</strong></td>
+                    <td>Vendas de produtos + Prestação de serviços</td>
+                    <td class="text-right text-cyan"><strong>R$ 93.000,00</strong></td>
+                  </tr>
+                  <tr class="row-expense">
+                    <td>(-) Custo de Aquisição dos Veículos (CPV)</td>
+                    <td>Preço de atacado fábrica das 10 motos</td>
+                    <td class="text-right text-red">- R$ 56.500,00</td>
+                  </tr>
+                  <tr class="row-expense">
+                    <td>(-) Custo de Peças e Acessórios</td>
+                    <td>Custo dos insumos de oficina</td>
+                    <td class="text-right text-red">- R$ 3.000,00</td>
+                  </tr>
+                  <tr class="row-subtotal">
+                    <td><strong>(=) LUCRO BRUTO DA LOJA</strong></td>
+                    <td>Margem bruta (~36%)</td>
+                    <td class="text-right"><strong>R$ 33.500,00</strong></td>
+                  </tr>
+                  <tr class="row-expense">
+                    <td>(-) Custos Fixos (Aluguel 50m², energia, internet, etc)</td>
+                    <td>Estimativa para ponto comercial em avenida</td>
+                    <td class="text-right text-red">- R$ 4.500,00</td>
+                  </tr>
+                  <tr class="row-expense">
+                    <td>(-) Folha de Pagamento</td>
+                    <td>1 Vendedor + 1 Técnico de Oficina</td>
+                    <td class="text-right text-red">- R$ 4.500,00</td>
+                  </tr>
+                  <tr class="row-expense">
+                    <td>(-) Marketing Local & Tráfego Pago</td>
+                    <td>Investimento direto em anúncios para a cidade</td>
+                    <td class="text-right text-red">- R$ 1.500,00</td>
+                  </tr>
+                  <tr class="row-expense">
+                    <td>(-) Royalties (5%) + Despesas Variáveis</td>
+                    <td>Royalties franqueadora e taxas operacionais</td>
+                    <td class="text-right text-red">- R$ 3.000,00</td>
+                  </tr>
+                  <tr class="row-net-profit">
+                    <td><i class="fa-solid fa-sack-dollar"></i> <strong>LUCRO LÍQUIDO MENSAL DO FRANQUEADO</strong></td>
+                    <td>Disponível para retirada / pro-labore</td>
+                    <td class="text-right text-emerald"><strong>R$ 20.000,00 / mês</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="dre-summary-card">
+              <div class="summary-metric">
+                <span class="s-label">Margem Líquida</span>
+                <span class="s-val text-emerald">~21,5%</span>
+              </div>
+              <div class="summary-metric">
+                <span class="s-label">Lucro Líquido Anual Est.</span>
+                <span class="s-val text-cyan">R$ 240.000,00</span>
+              </div>
+              <div class="summary-metric">
+                <span class="s-label">Giro de Estoque</span>
+                <span class="s-val">30 a 45 dias</span>
+              </div>
+              <p class="summary-disclaimer">
+                * Valores baseados em médias operacionais. Resultados variam conforme a praça, gestão comercial e capacidade de execução do franqueado.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 9: ROADMAP DE IMPLANTAÇÃO
+           ========================================== -->
+      <section class="deck-slide" data-slide="9" data-title="Roadmap de Implantação">
+        <div class="slide-content">
+          <div class="slide-header">
+            <span class="slide-eyebrow">PASSO A PASSO DA SUA JORNADA</span>
+            <h2 class="slide-title">Da Qualificação à Inauguração da Sua Loja</h2>
+            <p class="slide-lead">Processo seguro, transparente e 100% harmonizado com a Lei de Franquias (Lei Federal nº 13.966/2019).</p>
+          </div>
+
+          <div class="timeline-container">
+            <div class="timeline-step">
+              <div class="step-num">01</div>
+              <div class="step-body">
+                <h4>Qualificação & Análise de Praça</h4>
+                <p>Preenchimento do formulário executivo e verificação da disponibilidade territorial da sua cidade.</p>
+                <span class="step-time">Dia 1 a 2</span>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <div class="step-num">02</div>
+              <div class="step-body">
+                <h4>Reunião com a Diretoria</h4>
+                <p>Call executiva para apresentação aprofundada dos números e alinhamento de expectativas.</p>
+                <span class="step-time">Dia 3 a 5</span>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <div class="step-num">03</div>
+              <div class="step-body">
+                <h4>Entrega da COF (Lei 13.966/19)</h4>
+                <p>Recebimento formal da Circular de Oferta de Franquia para análise jurídica com prazo legal mínimo de 10 dias.</p>
+                <span class="step-time">Prazo Legal 10 dias</span>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <div class="step-num">04</div>
+              <div class="step-body">
+                <h4>Assinatura & Escolha do Ponto</h4>
+                <p>Assinatura do Contrato de Franquia, pagamento da Taxa de Franquia (R$ 35k) e aprovação do imóvel comercial de 50-60m².</p>
+                <span class="step-time">Dia 15 a 20</span>
+              </div>
+            </div>
+
+            <div class="timeline-step">
+              <div class="step-num">05</div>
+              <div class="step-body">
+                <h4>Reforma & Treinamentos 360°</h4>
+                <p>Execução da fachada em ACM Aço Escovado, instalação dos 2 elevadores e capacitação presencial de vendas e técnico.</p>
+                <span class="step-time">Dia 20 a 45</span>
+              </div>
+            </div>
+
+            <div class="timeline-step highlight-step">
+              <div class="step-num">06</div>
+              <div class="step-body">
+                <h4>Inauguração Oficial & Vendas</h4>
+                <p>Chegada do lote de 10 motos, disparo das campanhas de tráfego pago local e abertura das portas para o público.</p>
+                <span class="step-time">Dia 45 a 60</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SLIDE 10: ENCERRAMENTO & CALL TO ACTION
+           ========================================== -->
+      <section class="deck-slide" data-slide="10" data-title="Garanta Sua Região">
+        <div class="slide-content slide-closing-content">
+          <div class="closing-header">
+            <span class="slide-eyebrow text-cyan">A OPORTUNIDADE ESTÁ ABERTA</span>
+            <h2 class="closing-title">O Futuro da Mobilidade Já Começou.<br /><span class="gradient-text">Conquiste a Exclusividade da Sua Cidade.</span></h2>
+            <p class="closing-lead">
+              A Z8 opera com rigoroso critério de exclusividade territorial. Quando uma praça é preenchida, novos investidores não podem entrar na mesma região.
+            </p>
+          </div>
+
+          <div class="closing-interactive-grid">
+            <div class="closing-card-whatsapp">
+              <div class="cw-icon"><i class="fa-brands fa-whatsapp"></i></div>
+              <h3>Fale com o Diretor de Expansão</h3>
+              <p>Tire suas dúvidas técnicas, verifique a disponibilidade da sua praça e receba o dossiê executivo completo no seu WhatsApp.</p>
+              
+              <div class="cw-contact-info">
+                <span><i class="fa-solid fa-phone"></i> (12) 99800-8818</span>
+                <span><i class="fa-solid fa-envelope"></i> expansao@z8emotion.com.br</span>
+              </div>
+
+              <a href="https://wa.me/5512998008818?text=Ol%C3%A1,%20gostaria%20de%20conversar%20com%20o%20Diretor%20de%20Expans%C3%A3o%20sobre%20a%20Franquia%20Z8" target="_blank" rel="noopener noreferrer" class="btn-whatsapp-large">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>SOLICITAR CONTATO VIA WHATSAPP</span>
+              </a>
+            </div>
+
+            <div class="closing-card-form">
+              <h3><i class="fa-solid fa-clipboard-check"></i> Pré-Cadastro para Receber a COF</h3>
+              <p>Preencha os dados abaixo para receber a Circular de Oferta e apresentação detalhada:</p>
+              
+              <form id="franchise-pitch-form" class="pitch-form" onsubmit="event.preventDefault(); deckApp.submitLead();">
+                <div class="form-row">
+                  <input type="text" id="lead-name" placeholder="Seu Nome Completo *" required class="form-input" />
+                </div>
+                <div class="form-row-2">
+                  <input type="tel" id="lead-phone" placeholder="WhatsApp / Telefone *" required class="form-input" />
+                  <input type="email" id="lead-email" placeholder="Seu E-mail *" required class="form-input" />
+                </div>
+                <div class="form-row-2">
+                  <input type="text" id="lead-city" placeholder="Cidade de Interesse *" required class="form-input" />
+                  <select id="lead-state" class="form-input" required>
+                    <option value="">UF *</option>
+                    <option value="SP">SP</option><option value="RJ">RJ</option><option value="MG">MG</option>
+                    <option value="PR">PR</option><option value="SC">SC</option><option value="RS">RS</option>
+                    <option value="GO">GO</option><option value="DF">DF</option><option value="MT">MT</option>
+                    <option value="MS">MS</option><option value="BA">BA</option><option value="PE">PE</option>
+                    <option value="CE">CE</option><option value="PA">PA</option><option value="AM">AM</option>
+                    <option value="OUTRO">Outro</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn-submit-lead" id="btn-submit-lead">
+                  <span>ENVIAR PRÉ-CADASTRO</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+                <div id="lead-feedback" class="lead-feedback"></div>
+              </form>
+            </div>
+          </div>
+
+          <div class="closing-footer-legal">
+            <strong>Z8 EMOTION LTDA.</strong> • CNPJ/MF: 68.774.164/0001-00 • Sede Corporativa: Av. Dr. Adhemar de Barros, nº 566, Jd. São Dimas, São José dos Campos - SP • Foro Eleito: Comarca de São José dos Campos - SP
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- BOTTOM PRESENTATION TOOLBAR (NAVIGATION & DOTS) -->
+  <footer class="deck-footer">
+    <div class="deck-nav-controls">
+      <button id="btn-prev-slide" class="nav-arrow-btn" title="Slide Anterior (←)" onclick="deckApp.prevSlide()">
+        <i class="fa-solid fa-chevron-left"></i>
+        <span>Anterior</span>
+      </button>
+
+      <div class="slide-dots-container" id="slide-dots-container">
+        <!-- Injetado dinamicamente via deck.js -->
+      </div>
+
+      <button id="btn-next-slide" class="nav-arrow-btn" title="Próximo Slide (→)" onclick="deckApp.nextSlide()">
+        <span>Próximo</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="deck-slide-counter">
+      <span id="current-slide-num">01</span> / <span id="total-slides-num">10</span>
+    </div>
+  </footer>
+
+  <!-- Pitch Deck Scripts -->
+  <script type="module" src="./deck.js"></script>
+</body>
+</html>
