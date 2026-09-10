@@ -1047,6 +1047,15 @@ body.deck-body::before {
 /* ==========================================================================
    SLIDE 7: CONDIÇÕES COMERCIAIS & PRICING
    ========================================================================== */
+.grid-2-cards-pricing {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  max-width: 1040px;
+  margin: 0 auto;
+  width: 100%;
+}
+
 .grid-3-cards-pricing {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1665,7 +1674,7 @@ body.deck-body::before {
     font-size: 1.8rem;
   }
 
-  .hero-metrics-grid, .grid-3-cols, .pillars-grid, .grid-3-cards-pricing, .grid-4-models, .timeline-container {
+  .hero-metrics-grid, .grid-3-cols, .pillars-grid, .grid-2-cards-pricing, .grid-3-cards-pricing, .grid-4-models, .timeline-container {
     grid-template-columns: 1fr;
   }
 
