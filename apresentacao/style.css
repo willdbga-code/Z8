@@ -476,8 +476,9 @@ body.deck-body::before {
 
 .hero-metrics-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  max-width: 1080px;
 }
 
 .metric-card {
