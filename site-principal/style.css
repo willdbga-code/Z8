@@ -799,37 +799,170 @@ input:checked + .rocker-slider:before {
 }
 
 .skeuo-track-container {
+  position: relative;
   background: var(--bg-inset);
-  padding: 8px;
+  padding: 10px 14px;
   border-radius: 20px;
   box-shadow: var(--shadow-inset);
   border: 1px solid var(--border-metal);
+  display: flex;
+  align-items: center;
 }
 
-.skeuo-slider {
+/* Range Input Reset */
+input[type="range"].skeuo-slider {
+  -webkit-appearance: none !important;
+  appearance: none !important;
   width: 100%;
   height: 10px;
-  -webkit-appearance: none;
-  background: transparent;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
   cursor: pointer;
 }
 
-.skeuo-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--metal-btn-gradient);
-  box-shadow: var(--shadow-raised);
-  border: 2px solid var(--accent-emerald);
+input[type="range"].skeuo-slider:focus {
+  outline: none !important;
+  border: none !important;
 }
 
-.slider-ticks {
+/* WebKit Track com preenchimento dinâmico */
+.skeuo-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(to right, var(--accent-cyan) 0%, var(--accent-emerald) var(--slider-pct, 11%), rgba(0, 0, 0, 0.18) var(--slider-pct, 11%));
+  border: none !important;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4), inset -1px -1px 2px rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+:root[data-theme="dark"] .skeuo-slider::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #00f0ff 0%, #10b981 var(--slider-pct, 11%), rgba(0, 0, 0, 0.5) var(--slider-pct, 11%));
+  box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.8), inset -1px -1px 2px rgba(255, 255, 255, 0.05);
+}
+
+:root[data-theme="light"] .skeuo-slider::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #0284c7 0%, #059669 var(--slider-pct, 11%), #cbd5e1 var(--slider-pct, 11%));
+  box-shadow: inset 1px 1px 3px rgba(166, 180, 200, 0.8), inset -1px -1px 2px rgba(255, 255, 255, 0.9);
+}
+
+/* WebKit Thumb de Alta Precisão */
+.skeuo-slider::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  width: 26px;
+  height: 26px;
+  margin-top: -8px;
+  border-radius: 50%;
+  background: var(--metal-btn-gradient);
+  border: 2.5px solid var(--accent-emerald);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 0 10px rgba(16, 185, 129, 0.45);
+  cursor: grab;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.skeuo-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45), 0 0 14px rgba(16, 185, 129, 0.7);
+}
+
+.skeuo-slider::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.15);
+}
+
+/* Firefox Track & Thumb */
+.skeuo-slider::-moz-range-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  border: none !important;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.skeuo-slider::-moz-range-progress {
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-emerald));
+}
+
+.skeuo-slider::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--metal-btn-gradient);
+  border: 2.5px solid var(--accent-emerald);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 0 10px rgba(16, 185, 129, 0.45);
+  cursor: grab;
+}
+
+/* Régua de Precisão Milimétrica (Ticks) */
+.slider-ruler {
+  position: relative;
+  width: calc(100% - 54px);
+  margin: 12px 27px 0 27px;
+  height: 32px;
+}
+
+.ruler-tick {
+  position: absolute;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
-  font-size: 0.72rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.tick-notch {
+  width: 2px;
+  height: 6px;
+  background: var(--border-metal);
+  border-radius: 1px;
+  transition: all 0.2s ease;
+}
+
+.tick-label {
+  font-size: 0.74rem;
+  font-weight: 600;
   color: var(--text-muted);
-  margin-top: 6px;
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+}
+
+.ruler-tick:hover .tick-label {
+  color: var(--text-heading);
+}
+
+.ruler-tick:hover .tick-notch {
+  background: var(--accent-cyan);
+  height: 8px;
+}
+
+.ruler-tick.passed .tick-notch {
+  background: var(--accent-cyan);
+}
+
+.ruler-tick.passed .tick-label {
+  color: var(--text-main);
+}
+
+.ruler-tick.active .tick-notch {
+  background: var(--accent-emerald);
+  height: 9px;
+  box-shadow: 0 0 8px var(--accent-emerald);
+}
+
+.ruler-tick.active .tick-label {
+  color: var(--accent-emerald);
+  font-weight: 800;
 }
 
 .skeuo-select-wrapper {

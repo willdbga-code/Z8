@@ -380,6 +380,18 @@ function initCalculator() {
     const moq = parseInt(inputMoq.value, 10);
     if (displayMoq) displayMoq.innerText = `${moq} Motos`;
 
+    // Atualização dinâmica da trilha colorida e marcadores da régua
+    const minVal = parseFloat(inputMoq.min) || 5;
+    const maxVal = parseFloat(inputMoq.max) || 50;
+    const pct = ((moq - minVal) / (maxVal - minVal)) * 100;
+    inputMoq.style.setProperty('--slider-pct', `${pct}%`);
+
+    document.querySelectorAll('.slider-ruler .ruler-tick').forEach(t => {
+      const v = parseFloat(t.dataset.val);
+      t.classList.toggle('active', v === moq);
+      t.classList.toggle('passed', v <= moq);
+    });
+
     const modelObj = z8Models.find(m => m.id === selectModel.value) || z8Models[0];
     
     const unitCost = modelObj.wholesalePrice;
@@ -418,6 +430,15 @@ function initCalculator() {
 
   inputMoq?.addEventListener('input', calculate);
   selectModel?.addEventListener('change', calculate);
+
+  // Clique direto nas marcações da régua
+  document.querySelectorAll('.slider-ruler .ruler-tick').forEach(t => {
+    t.addEventListener('click', () => {
+      if (!inputMoq) return;
+      inputMoq.value = t.dataset.val;
+      calculate();
+    });
+  });
 
   btnProposal?.addEventListener('click', () => {
     const approved = isCatalogApproved();

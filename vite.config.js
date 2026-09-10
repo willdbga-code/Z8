@@ -24,7 +24,8 @@ export default defineConfig({
         main: resolve(import.meta.dirname, 'index.html'),
         principal: resolve(import.meta.dirname, 'site-principal/index.html'),
         vendas: resolve(import.meta.dirname, 'vendas/index.html'),
-        n95c: resolve(import.meta.dirname, 'n95c/index.html')
+        n95c: resolve(import.meta.dirname, 'n95c/index.html'),
+        posters: resolve(import.meta.dirname, 'posters/index.html')
       }
     }
   }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z8 E-Motion | Estúdio de Cartazes de Franquias Brasil (Stories & Feed)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="poster-studio">
+    <!-- Header -->
+    <header class="studio-header">
+      <div class="header-content">
+        <div class="brand-badge">
+          <span class="pulse-cyan"></span>
+          <span>EXPANSÃO NACIONAL DE FRANQUIAS • Z8 E-MOTION®</span>
+        </div>
+        <h1 class="studio-title">Estúdio de Cartazes Publicitários</h1>
+        <p class="studio-subtitle">
+          Campanha Oficial B2B para Captação e Venda de Concessionárias em Todo o Brasil. 
+          As motos atuam como vitrine heroica de prestígio, com foco 100% no modelo de negócio.
+        </p>
+
+        <!-- Controls Bar -->
+        <div class="controls-bar">
+          <!-- Formats Selector -->
+          <div class="control-group">
+            <span class="control-label">Formato:</span>
+            <div class="format-buttons" id="formatButtons">
+              <button class="btn-toggle active" data-format="stories">
+                <span class="btn-icon">📱</span> Stories (9:16)
+              </button>
+              <button class="btn-toggle" data-format="feed-portrait">
+                <span class="btn-icon">📐</span> Feed Retrato (4:5)
+              </button>
+              <button class="btn-toggle" data-format="feed-square">
+                <span class="btn-icon">⏹️</span> Feed Quadrado (1:1)
+              </button>
+            </div>
+          </div>
+
+          <!-- Region Filter -->
+          <div class="control-group">
+            <span class="control-label">Região:</span>
+            <div class="region-chips" id="regionChips">
+              <button class="chip active" data-region="all">Todas (15)</button>
+              <button class="chip" data-region="Sul">Sul (3)</button>
+              <button class="chip" data-region="Sudeste">Sudeste (3)</button>
+              <button class="chip" data-region="Centro-Oeste">Centro-Oeste (3)</button>
+              <button class="chip" data-region="Nordeste">Nordeste (3)</button>
+              <button class="chip" data-region="Norte">Norte (3)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="studio-main">
+      <div class="posters-grid" id="postersGrid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">Texto copiado para a área de transferência!</div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
