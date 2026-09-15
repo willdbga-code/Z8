@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z8 E-Motion - Designer de Franquias Vale do Paraíba (+50%)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,400;0,700;0,900;1,700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    .font-condensed {
+      font-family: 'Anton', 'Oswald', sans-serif;
+      letter-spacing: 0.03em;
+    }
+    .font-body {
+      font-family: 'Montserrat', sans-serif;
+    }
+    .gold-bar {
+      background: linear-gradient(180deg, #F5D061 0%, #E5A93C 50%, #C48822 100%);
+    }
+    .gold-badge {
+      background: linear-gradient(90deg, #E5A93C 0%, #D4982E 100%);
+      box-shadow: 0 4px 20px rgba(229, 169, 60, 0.4);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-body min-h-screen p-4 md:p-8">
+
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto mb-8 flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-6">
+    <div class="flex items-center gap-3">
+      <div class="w-3 h-8 gold-bar rounded-sm"></div>
+      <div>
+        <h1 class="text-2xl font-bold tracking-wider text-white">Z8 E-MOTION // DESIGN STUDIO OFICIAL</h1>
+        <p class="text-xs text-amber-400 font-semibold tracking-widest uppercase">Margem +50% • Formatos 3:4 & Story (9:16) • Loja Matriz & Z8 Tank</p>
+      </div>
+    </div>
+    
+    <!-- Format Selectors -->
+    <div class="flex flex-wrap items-center gap-2">
+      <button onclick="setFormat('3:4')" id="btn-3-4" class="px-4 py-2 rounded-lg bg-amber-500 text-black font-bold text-sm transition hover:bg-amber-400">Retrato (3:4)</button>
+      <button onclick="setFormat('9:16')" id="btn-9-16" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 font-bold text-sm transition hover:bg-slate-700">Story (9:16)</button>
+      <button onclick="setFormat('1:1')" id="btn-1-1" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 font-bold text-sm transition hover:bg-slate-700">Feed (1:1)</button>
+      <button onclick="downloadActiveBanner()" class="px-5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/20">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Baixar Imagem HD
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Grid -->
+  <main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Visual Canvas Preview Area (Col 7) -->
+    <div class="lg:col-span-7 flex flex-col items-center justify-center bg-slate-900/60 p-6 rounded-2xl border border-slate-800 backdrop-blur-md">
+      <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Pré-Visualização em Tempo Real (<span id="format-label">1080 x 1440 px - Retrato 3:4</span>)
+      </div>
+
+      <!-- Live Art Container -->
+      <div id="banner-wrapper" class="relative overflow-hidden rounded-xl shadow-2xl transition-all duration-300 border border-slate-700" style="width: 420px; height: 560px;">
+        <!-- Matriz Background Photo & Tank -->
+        <img id="bg-image" src="franquia_matriz_z8tank_oficial.jpg" alt="Loja Matriz & Z8 Tank" class="absolute inset-0 w-full h-full object-cover transform transition-transform duration-500 scale-100" />
+        
+        <!-- Dark Vignette and Gradient Overlay for Cinematic Legibility -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-black/85"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-transparent to-black/60"></div>
+        <div class="absolute inset-0 ring-1 ring-inset ring-white/10"></div>
+
+        <!-- Gold Accent Bar on Left -->
+        <div class="absolute top-0 left-0 bottom-0 w-3.5 gold-bar shadow-xl"></div>
+
+        <!-- Content Overlay -->
+        <div class="absolute inset-0 p-6 sm:p-8 flex flex-col justify-between z-10 pl-8 sm:pl-10">
+          <!-- Top Typography Section -->
+          <div class="space-y-2 max-w-xl">
+            <h2 id="art-headline" class="font-condensed text-3xl sm:text-4xl text-white uppercase leading-none drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)]">
+              EXPANSÃO VALE DO PARAÍBA.
+            </h2>
+            <p id="art-subheadline" class="font-condensed text-xs sm:text-sm tracking-wider text-amber-400 uppercase font-bold drop-shadow">
+              FRANQUIA Z8 // EXCLUSIVIDADE DE PRAÇA // MARGEM +50%
+            </p>
+            <p id="art-cities" class="text-xs sm:text-sm text-slate-200 font-medium leading-snug drop-shadow-md">
+              Buscamos parceiros estratégicos em Taubaté, Jacareí, Pindamonhangaba e Região.
+            </p>
+          </div>
+
+          <!-- Mid / Lower Foreground Elements -->
+          <div id="bottom-container" class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mt-auto pt-4">
+            <div class="bg-black/80 backdrop-blur-md border border-amber-500/40 px-3 py-1.5 rounded-lg text-[10px] sm:text-[11px] text-amber-300 font-bold flex items-center gap-2 shadow-lg w-fit">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              LOJA MATRIZ OFICIAL • Z8 TANK
+            </div>
+
+            <!-- Bottom CTA Badge -->
+            <div id="art-cta" class="gold-badge text-slate-950 font-black text-xs px-4 py-2 rounded-full uppercase tracking-wider shadow-xl flex items-center justify-center gap-1.5 transform hover:scale-105 transition w-fit">
+              <span>SEJA UM FRANQUEADO</span>
+              <span class="opacity-60">•</span>
+              <span id="art-domain" class="font-black">Z8EMOTION.COM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-500 mt-4 text-center">
+        Composição integrada da <strong>Loja Matriz Z8</strong> com a moto <strong>Z8 Tank Amarela</strong> e <strong>Margem +50%</strong>.
+      </p>
+    </div>
+
+    <!-- Controls & Customizer (Col 5) -->
+    <div class="lg:col-span-5 bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-6">
+      <div class="border-b border-slate-800 pb-4">
+        <h3 class="font-bold text-lg text-white flex items-center gap-2">
+          <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          Editor de Textos da Campanha
+        </h3>
+        <p class="text-xs text-slate-400 mt-1">Margem atualizada para +50% e domínio oficial sem .br</p>
+      </div>
+
+      <!-- Text Inputs -->
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Título Principal</label>
+          <input type="text" id="input-headline" value="EXPANSÃO VALE DO PARAÍBA." oninput="updateTexts()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-amber-400 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Subtítulo com Margem +50%</label>
+          <input type="text" id="input-subheadline" value="FRANQUIA Z8 // EXCLUSIVIDADE DE PRAÇA // MARGEM +50%" oninput="updateTexts()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-amber-400 focus:outline-none font-bold text-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Cidades Alvo</label>
+          <textarea id="input-cities" rows="2" oninput="updateTexts()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-amber-400 focus:outline-none">Buscamos parceiros estratégicos em Taubaté, Jacareí, Pindamonhangaba e Região.</textarea>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">CTA Botão</label>
+            <input type="text" id="input-cta-text" value="SEJA UM FRANQUEADO" oninput="updateTexts()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-amber-400 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Domínio</label>
+            <input type="text" id="input-domain" value="Z8EMOTION.COM" oninput="updateTexts()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-amber-400 focus:outline-none font-bold text-amber-400">
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="border-t border-slate-800 pt-4 flex flex-col gap-2">
+        <button onclick="downloadFormat('3:4')" class="w-full py-2.5 px-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-lg text-xs flex items-center justify-center gap-2 shadow-lg transition">
+          📥 Baixar Formato 3:4 (Feed Retrato 1080x1440)
+        </button>
+        <button onclick="downloadFormat('9:16')" class="w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition">
+          📥 Baixar Formato 9:16 (Story/Reels 1080x1920)
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Canvas Exporter -->
+  <canvas id="export-canvas" style="display: none;"></canvas>
+
+  <script>
+    let currentFormat = '3:4';
+
+    function setFormat(format) {
+      currentFormat = format;
+      const wrapper = document.getElementById('banner-wrapper');
+      const btn34 = document.getElementById('btn-3-4');
+      const btn916 = document.getElementById('btn-9-16');
+      const btn11 = document.getElementById('btn-1-1');
+      const label = document.getElementById('format-label');
+
+      btn34.className = 'px-4 py-2 rounded-lg bg-slate-800 text-slate-300 font-bold text-sm transition hover:bg-slate-700';
+      btn916.className = 'px-4 py-2 rounded-lg bg-slate-800 text-slate-300 font-bold text-sm transition hover:bg-slate-700';
+      btn11.className = 'px-4 py-2 rounded-lg bg-slate-800 text-slate-300 font-bold text-sm transition hover:bg-slate-700';
+
+      if (format === '3:4') {
+        wrapper.style.width = '420px';
+        wrapper.style.height = '560px';
+        btn34.className = 'px-4 py-2 rounded-lg bg-amber-500 text-black font-bold text-sm transition';
+        label.innerText = '1080 x 1440 px - Retrato 3:4';
+      } else if (format === '9:16') {
+        wrapper.style.width = '350px';
+        wrapper.style.height = '620px';
+        btn916.className = 'px-4 py-2 rounded-lg bg-amber-500 text-black font-bold text-sm transition';
+        label.innerText = '1080 x 1920 px - Story/Reels 9:16';
+      } else {
+        wrapper.style.width = '480px';
+        wrapper.style.height = '480px';
+        btn11.className = 'px-4 py-2 rounded-lg bg-amber-500 text-black font-bold text-sm transition';
+        label.innerText = '1080 x 1080 px - Feed Quadrado 1:1';
+      }
+    }
+
+    function updateTexts() {
+      document.getElementById('art-headline').innerText = document.getElementById('input-headline').value;
+      document.getElementById('art-subheadline').innerText = document.getElementById('input-subheadline').value;
+      document.getElementById('art-cities').innerText = document.getElementById('input-cities').value;
+      document.getElementById('art-domain').innerText = document.getElementById('input-domain').value;
+      
+      const ctaText = document.getElementById('input-cta-text').value;
+      const domain = document.getElementById('input-domain').value;
+      document.getElementById('art-cta').innerHTML = `<span>${ctaText}</span><span class="opacity-60">•</span><span class="font-black">${domain}</span>`;
+    }
+
+    function downloadFormat(fmt) {
+      setFormat(fmt);
+      downloadActiveBanner();
+    }
+
+    function downloadActiveBanner() {
+      const canvas = document.getElementById('export-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      let width = 1080;
+      let height = 1440;
+      if (currentFormat === '9:16') height = 1920;
+      if (currentFormat === '1:1') height = 1080;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const bgImg = new Image();
+      bgImg.crossOrigin = "anonymous";
+      bgImg.src = "franquia_matriz_z8tank_oficial.jpg";
+
+      bgImg.onload = function() {
+        ctx.save();
+        const scale = Math.max(width / bgImg.width, height / bgImg.height);
+        const x = (width - bgImg.width * scale) / 2;
+        const y = (height - bgImg.height * scale) / 2;
+        ctx.drawImage(bgImg, x, y, bgImg.width * scale, bgImg.height * scale);
+        ctx.restore();
+
+        // Dark gradients
+        const gradV = ctx.createLinearGradient(0, 0, 0, height);
+        gradV.addColorStop(0, 'rgba(0,0,0,0.94)');
+        gradV.addColorStop(0.38, 'rgba(0,0,0,0.45)');
+        gradV.addColorStop(0.72, 'rgba(0,0,0,0.55)');
+        gradV.addColorStop(1, 'rgba(0,0,0,0.95)');
+        ctx.fillStyle = gradV;
+        ctx.fillRect(0, 0, width, height);
+
+        const gradH = ctx.createLinearGradient(0, 0, width, 0);
+        gradH.addColorStop(0, 'rgba(0,0,0,0.85)');
+        gradH.addColorStop(0.5, 'rgba(0,0,0,0.1)');
+        gradH.addColorStop(1, 'rgba(0,0,0,0.6)');
+        ctx.fillStyle = gradH;
+        ctx.fillRect(0, 0, width, height);
+
+        // Gold Bar
+        const goldGrad = ctx.createLinearGradient(0, 0, 0, height);
+        goldGrad.addColorStop(0, '#F5D061');
+        goldGrad.addColorStop(0.5, '#E5A93C');
+        goldGrad.addColorStop(1, '#C48822');
+        ctx.fillStyle = goldGrad;
+        ctx.fillRect(0, 0, 24, height);
+
+        // Texts
+        const headline = document.getElementById('input-headline').value;
+        const subheadline = document.getElementById('input-subheadline').value;
+        const cities = document.getElementById('input-cities').value;
+        const ctaText = document.getElementById('input-cta-text').value;
+        const domain = document.getElementById('input-domain').value;
+
+        const topY = currentFormat === '9:16' ? 170 : 130;
+
+        // Headline
+        ctx.font = '900 74px "Anton", "Oswald", sans-serif';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.shadowColor = 'rgba(0,0,0,0.95)';
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 4;
+        ctx.fillText(headline, 70, topY);
+
+        // Subheadline
+        ctx.font = '700 30px "Montserrat", sans-serif';
+        ctx.fillStyle = '#E5A93C';
+        ctx.shadowBlur = 10;
+        ctx.fillText(subheadline, 70, topY + 70);
+
+        // Cities
+        ctx.font = '600 26px "Montserrat", sans-serif';
+        ctx.fillStyle = '#F1F5F9';
+        ctx.shadowBlur = 8;
+        ctx.fillText(cities, 70, topY + 130);
+
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetY = 0;
+
+        // Bottom CTA Badge
+        const badgeWidth = currentFormat === '9:16' ? 920 : 500;
+        const badgeHeight = currentFormat === '9:16' ? 76 : 64;
+        const badgeX = currentFormat === '9:16' ? 80 : (width - badgeWidth - 50);
+        const badgeY = height - badgeHeight - (currentFormat === '9:16' ? 100 : 60);
+
+        ctx.fillStyle = '#E5A93C';
+        ctx.beginPath();
+        ctx.roundRect(badgeX, badgeY, badgeWidth, badgeHeight, 32);
+        ctx.fill();
+
+        ctx.font = '900 24px "Montserrat", sans-serif';
+        ctx.fillStyle = '#0F172A';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(`${ctaText} • ${domain}`, badgeX + badgeWidth / 2, badgeY + badgeHeight / 2);
+
+        // Tag Matriz
+        if (currentFormat !== '9:16') {
+          ctx.fillStyle = 'rgba(15,23,42,0.85)';
+          ctx.strokeStyle = 'rgba(229,169,60,0.7)';
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.roundRect(70, badgeY + 8, 380, 48, 12);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = '700 16px "Montserrat", sans-serif';
+          ctx.fillStyle = '#F5D061';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('LOJA MATRIZ OFICIAL • Z8 TANK', 70 + 190, badgeY + 32);
+        }
+
+        const link = document.createElement('a');
+        link.download = `Z8_Franquia_Vale_Paraiba_${currentFormat.replace(':', 'x')}_Margem50.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+      };
+    }
+  </script>
+</body>
+</html>
