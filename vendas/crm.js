@@ -47,8 +47,8 @@ export function initCRM() {
   function renderMetrics(leads) {
     const totalLeads = leads.length;
     const closedLeads = leads.filter(l => l.status === 'fechado').length;
-    const reservedCities = new Set(leads.map(l => l.city.toLowerCase().trim())).size;
-    const totalPotential = leads.reduce((sum, l) => sum + (l.estimatedRevenue || 2989), 0);
+    const reservedCities = new Set(leads.map(l => (l.city || '').toLowerCase().trim())).size;
+    const totalPotential = leads.reduce((sum, l) => sum + (Number(l.estimatedRevenue) || 0), 0);
     const conversionRate = totalLeads > 0 ? ((closedLeads / totalLeads) * 100).toFixed(1) : 0;
 
     const elTotal = document.getElementById('crm-kpi-total');
@@ -88,20 +88,30 @@ export function initCRM() {
         day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
       });
 
+      const tempBadge = lead.temperature === 'quente'
+        ? '<span style="color: #ef4444; font-weight: 800; font-size: 0.72rem; background: rgba(239,68,68,0.15); padding: 2px 6px; border-radius: 4px;"><i class="fa-solid fa-fire"></i> QUENTE</span>'
+        : lead.temperature === 'frio'
+          ? '<span style="color: #38bdf8; font-weight: 800; font-size: 0.72rem; background: rgba(56,189,248,0.15); padding: 2px 6px; border-radius: 4px;"><i class="fa-solid fa-snowflake"></i> FRIO</span>'
+          : '<span style="color: #f59e0b; font-weight: 800; font-size: 0.72rem; background: rgba(245,158,11,0.15); padding: 2px 6px; border-radius: 4px;"><i class="fa-solid fa-bolt"></i> POSSÍVEL</span>';
+
       return `
         <tr>
-          <td><strong>${lead.name}</strong><br><span style="font-size: 0.75rem; color: #64748b;">${lead.company}</span></td>
+          <td>
+            <strong>${lead.name}</strong><br>
+            <span style="font-size: 0.75rem; color: #64748b;">${lead.company || 'Pessoa Física'}</span>
+            <div style="margin-top: 3px;">${tempBadge}</div>
+          </td>
           <td><i class="fa-solid fa-location-dot" style="color: #00F2FE;"></i> ${lead.city} - ${lead.state}</td>
           <td><a href="mailto:${lead.email}" style="color: #38bdf8; text-decoration: none;">${lead.email}</a></td>
-          <td><a href="https://wa.me/55${lead.phone.replace(/\D/g, '')}" target="_blank" style="color: #10B981; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-whatsapp"></i> ${lead.phone}</a></td>
+          <td><a href="https://wa.me/55${(lead.phone || '').replace(/\D/g, '')}" target="_blank" style="color: #10B981; text-decoration: none; font-weight: 600;"><i class="fa-brands fa-whatsapp"></i> ${lead.phone}</a></td>
           <td><span class="pay-badge">${lead.paymentMethod}</span></td>
-          <td><strong>R$ ${(lead.estimatedRevenue || 2989).toLocaleString('pt-BR')},00</strong></td>
+          <td><strong>R$ ${(Number(lead.estimatedRevenue) || 50000).toLocaleString('pt-BR')},00</strong></td>
           <td>
             <select class="crm-status-select" data-id="${lead.id}">
               <option value="novo" ${lead.status === 'novo' ? 'selected' : ''}>🔵 Novo Lead</option>
               <option value="em_contato" ${lead.status === 'em_contato' ? 'selected' : ''}>🟡 Em Contato</option>
-              <option value="proposta" ${lead.status === 'proposta' ? 'selected' : ''}>🟠 Proposta Enviada</option>
-              <option value="fechado" ${lead.status === 'fechado' ? 'selected' : ''}>🟢 Fechado / Pago</option>
+              <option value="proposta" ${lead.status === 'proposta' ? 'selected' : ''}>🟠 Proposta / Reunião</option>
+              <option value="fechado" ${lead.status === 'fechado' ? 'selected' : ''}>🟢 Fechado / Franqueado</option>
               <option value="perdido" ${lead.status === 'perdido' ? 'selected' : ''}>🔴 Perdido</option>
             </select>
           </td>
@@ -185,19 +195,21 @@ export function initCRM() {
       return;
     }
 
-    const headers = ['ID', 'Nome', 'Empresa/Loja', 'Cidade', 'UF', 'E-mail', 'WhatsApp', 'Forma Pagamento', 'Valor Reserva', 'Status CRM', 'Data Cadastro'];
+    const headers = ['ID', 'Nome', 'Empresa/Loja', 'Cidade', 'UF', 'E-mail', 'WhatsApp', 'WhatsApp Verificado', 'Temperatura', 'Score', 'Aporte Pretendido', 'Status CRM', 'Data Cadastro'];
     const rows = leads.map(l => [
       l.id,
-      `"${l.name.replace(/"/g, '""')}"`,
-      `"${l.company.replace(/"/g, '""')}"`,
-      `"${l.city.replace(/"/g, '""')}"`,
-      `"${l.state}"`,
-      `"${l.email}"`,
-      `"${l.phone}"`,
-      `"${l.paymentMethod}"`,
-      l.estimatedRevenue || 2989,
+      `"${(l.name || '').replace(/"/g, '""')}"`,
+      `"${(l.company || '').replace(/"/g, '""')}"`,
+      `"${(l.city || '').replace(/"/g, '""')}"`,
+      `"${l.state || 'SP'}"`,
+      `"${l.email || ''}"`,
+      `"${l.phone || ''}"`,
+      l.whatsappVerified ? 'SIM' : 'NÃO',
+      (l.temperature || 'possivel').toUpperCase(),
+      l.score || 50,
+      `"${(l.investorProfile?.capitalLabel || '').replace(/"/g, '""')}"`,
       l.status,
-      `"${new Date(l.createdAt).toLocaleString('pt-BR')}"`
+      `"${new Date(l.createdAt || Date.now()).toLocaleString('pt-BR')}"`
     ]);
 
     const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');

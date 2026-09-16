@@ -35,9 +35,13 @@ export async function pushLeadToFirestore(lead) {
       state: lead.state || 'SP',
       email: (lead.email || '').toLowerCase().trim(),
       phone: lead.phone || '',
-      paymentMethod: lead.paymentMethod || 'PIX',
+      whatsappVerified: Boolean(lead.whatsappVerified),
+      paymentMethod: lead.paymentMethod || 'Candidatura Concessão Franquia',
       status: lead.status || 'novo',
-      estimatedRevenue: Number(lead.estimatedRevenue || 2989.00),
+      temperature: lead.temperature || 'possivel',
+      score: Number(lead.score || 50),
+      investorProfile: lead.investorProfile || null,
+      estimatedRevenue: Number(lead.estimatedRevenue || 0),
       updatedAt: Date.now(),
       createdAt: lead.createdAt || new Date().toISOString()
     };
@@ -83,12 +87,16 @@ export function saveLead(leadData) {
     name: leadData.name || 'Parceiro Z8',
     company: leadData.company || 'Empresa Parceira',
     city: leadData.city || 'Não especificada',
-    state: leadData.state || 'BR',
+    state: leadData.state || 'SP',
     email: leadData.email || '',
     phone: leadData.phone || '',
-    paymentMethod: leadData.paymentMethod || 'PIX',
-    status: 'novo',
-    estimatedRevenue: 2989.00,
+    whatsappVerified: Boolean(leadData.whatsappVerified),
+    paymentMethod: leadData.paymentMethod || 'Candidatura Concessão Franquia',
+    status: leadData.status || 'novo',
+    temperature: leadData.temperature || 'possivel',
+    score: Number(leadData.score || 50),
+    investorProfile: leadData.investorProfile || null,
+    estimatedRevenue: Number(leadData.estimatedRevenue || 0),
     createdAt: new Date().toISOString()
   };
 

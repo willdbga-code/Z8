@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCatalogTabs();
   initB2bProfitCalculator();
   initFaqAccordion();
+  initInvestorLeadModal();
   initCheckoutModal();
   initPortalLoginModal();
   initLiveSalesPopups();
@@ -175,16 +176,25 @@ function initCepChecker() {
 }
 
 function openModalWithCity(cityName) {
+  const investorCity = document.getElementById('investor-city');
+  if (investorCity) {
+    investorCity.value = cityName;
+    investorCity.dispatchEvent(new Event('input'));
+  }
   const cityInput = document.getElementById('input-city');
   if (cityInput) {
     cityInput.value = cityName;
     cityInput.dispatchEvent(new Event('input'));
   }
-  const modal = document.getElementById('checkout-modal');
-  if (modal) modal.classList.add('active');
+  const investorModal = document.getElementById('investor-lead-modal');
+  if (investorModal) {
+    investorModal.classList.add('active');
+  } else {
+    const modal = document.getElementById('checkout-modal');
+    if (modal) modal.classList.add('active');
+  }
   trackConversionEvent('begin_checkout', {
-    content_name: `Travar Cidade (${cityName})`,
-    value: 2989.00,
+    content_name: `Candidatura Concessão (${cityName})`,
     currency: 'BRL'
   });
 }
@@ -287,18 +297,417 @@ function trackConversionEvent(eventName, data = {}) {
     });
   }
 
-  // 3. Meta Pixel
+  // 3. Meta Pixel (Facebook Ads)
   if (typeof window.fbq === 'function') {
     if (eventName === 'begin_checkout') {
-      window.fbq('track', 'InitiateCheckout', { content_name: data.content_name || 'Cota B2B' });
+      window.fbq('track', 'InitiateCheckout', { 
+        content_name: data.content_name || 'Candidatura Franquia Z8',
+        currency: 'BRL'
+      });
     } else if (eventName === 'generate_lead') {
       window.fbq('track', 'Lead', {
-        content_name: 'Cadastro Parceiro B2B',
-        content_category: 'Atacado Direct-Factory',
-        company: data.company,
-        city: data.city
+        content_name: data.content_name || 'Perfil Investidor Franquia Z8',
+        content_category: 'Franquias e Atacado Direct-Factory',
+        value: Number(data.value || 0),
+        currency: 'BRL',
+        company: data.company || '',
+        city: data.city || '',
+        lead_quality: data.temperature || 'possivel',
+        lead_score: data.score || 50
       });
     }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7.1 MODAL DE ENTRADA B2B: CAPTURA DE LEADS & PERFIL DE INVESTIDOR
+   - Abre automaticamente ao carregar a página para qualificação
+   - Integração com Pixel do Facebook (fbq 'Lead')
+   - Validação em tempo real de WhatsApp com /api/verify-phone
+   - Algoritmo de Lead Scoring: Quente 🔥, Público Possível ⚡ e Frio ❄️
+   -------------------------------------------------------------------------- */
+function initInvestorLeadModal() {
+  const modal = document.getElementById('investor-lead-modal');
+  const closeBtn = document.getElementById('btn-close-investor-modal');
+  const openBtns = document.querySelectorAll('.btn-open-investor-modal');
+  const form = document.getElementById('investor-lead-form');
+  const phoneInput = document.getElementById('investor-phone');
+  const phoneStatus = document.getElementById('investor-phone-status');
+  const phoneFeedback = document.getElementById('investor-phone-feedback');
+  const phoneIcon = document.getElementById('investor-phone-icon');
+  const cityInput = document.getElementById('investor-city');
+  const cityStatus = document.getElementById('investor-city-status');
+  const successView = document.getElementById('investor-success-view');
+  const scoreCard = document.getElementById('investor-score-card');
+  const waBtn = document.getElementById('btn-investor-whatsapp');
+  const successBadge = document.getElementById('investor-success-badge');
+
+  if (!modal) return;
+
+  // 1. Abertura Automática Suave após 1.2 segundos (Verifica se o usuário já dispensou na sessão)
+  const isDismissed = sessionStorage.getItem('z8_investor_modal_dismissed');
+  if (!isDismissed) {
+    setTimeout(() => {
+      modal.classList.add('active');
+      if (typeof window.fbq === 'function') {
+        window.fbq('trackCustom', 'InvestorModalView', { source: 'auto_popup' });
+      }
+    }, 1200);
+  }
+
+  // 2. Botões manuais para abrir o formulário em qualquer parte da página
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      modal.classList.add('active');
+      if (typeof window.fbq === 'function') {
+        window.fbq('trackCustom', 'InvestorModalView', { source: 'button_cta' });
+      }
+    });
+  });
+
+  // 3. Fechamento do Modal
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      sessionStorage.setItem('z8_investor_modal_dismissed', '1');
+    });
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      sessionStorage.setItem('z8_investor_modal_dismissed', '1');
+    }
+  });
+
+  // 4. Máscara de Telefone & Validação em Tempo Real de WhatsApp
+  let phoneDebounce = null;
+  let isPhoneValid = false;
+  let verifiedPhoneData = null;
+
+  if (phoneInput) {
+    phoneInput.addEventListener('input', (e) => {
+      let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+      e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+
+      const digits = e.target.value.replace(/\D/g, '');
+      clearTimeout(phoneDebounce);
+
+      if (digits.length < 10) {
+        if (phoneStatus) phoneStatus.textContent = '';
+        if (phoneFeedback) phoneFeedback.style.display = 'none';
+        if (phoneIcon) phoneIcon.style.color = '#64748b';
+        isPhoneValid = false;
+        return;
+      }
+
+      if (phoneStatus) {
+        phoneStatus.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-accent-cyan"></i> <span style="color: #00e5ff;">Verificando WhatsApp...</span>';
+      }
+
+      phoneDebounce = setTimeout(async () => {
+        try {
+          const res = await fetch(`/api/verify-phone?phone=${encodeURIComponent(digits)}`);
+          const data = await res.json();
+
+          if (data.valid && data.whatsappAvailable) {
+            isPhoneValid = true;
+            verifiedPhoneData = data;
+            if (phoneStatus) phoneStatus.innerHTML = '<span style="color: #10B981;"><i class="fa-solid fa-circle-check"></i> WhatsApp Ativo</span>';
+            if (phoneIcon) phoneIcon.style.color = '#10B981';
+            if (phoneFeedback) {
+              phoneFeedback.style.display = 'block';
+              phoneFeedback.style.color = '#86efac';
+              phoneFeedback.innerHTML = `🟢 <strong>${data.formatted}</strong> verificado (${data.region})`;
+            }
+          } else {
+            isPhoneValid = false;
+            verifiedPhoneData = null;
+            if (phoneStatus) phoneStatus.innerHTML = '<span style="color: #ef4444;"><i class="fa-solid fa-circle-xmark"></i> Número Inválido</span>';
+            if (phoneIcon) phoneIcon.style.color = '#ef4444';
+            if (phoneFeedback) {
+              phoneFeedback.style.display = 'block';
+              phoneFeedback.style.color = '#fca5a5';
+              phoneFeedback.innerHTML = `⚠️ ${data.message || 'DDD ou estrutura móvel incompatível com WhatsApp Brasil.'}`;
+            }
+          }
+        } catch (err) {
+          // Fallback seguro em caso de ambiente local
+          const hasDdd = digits.length >= 10;
+          const isMobile = digits.length === 11 && digits.charAt(2) === '9';
+          if (hasDdd && isMobile) {
+            isPhoneValid = true;
+            if (phoneStatus) phoneStatus.innerHTML = '<span style="color: #10B981;"><i class="fa-solid fa-circle-check"></i> Formato WhatsApp Válido</span>';
+            if (phoneIcon) phoneIcon.style.color = '#10B981';
+            if (phoneFeedback) phoneFeedback.style.display = 'none';
+          }
+        }
+      }, 400);
+    });
+  }
+
+  // 5. Validação de Cidade e Exclusividade de 50km
+  if (cityInput && cityStatus) {
+    cityInput.addEventListener('input', () => {
+      const cityVal = cityInput.value.trim();
+      if (cityVal.length < 3) {
+        cityStatus.style.display = 'none';
+        return;
+      }
+
+      const check = checkCityAvailability(cityVal);
+      cityStatus.style.display = 'block';
+
+      if (check.status === 'occupied') {
+        cityStatus.style.background = 'rgba(239, 68, 68, 0.12)';
+        cityStatus.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+        cityStatus.style.color = '#fca5a5';
+        cityStatus.innerHTML = `
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 1.1rem; margin-top: 2px;"></i>
+            <div>
+              <strong>${check.city}</strong> já possui parceiro com exclusividade territorial.
+              ${check.neighbors?.length ? `<br/><span style="font-size: 0.72rem; color: #fff;">💡 Cidades vizinhas livres: <strong>${check.neighbors.slice(0, 3).join(', ')}</strong></span>` : ''}
+            </div>
+          </div>
+        `;
+      } else {
+        cityStatus.style.background = 'rgba(0, 255, 136, 0.08)';
+        cityStatus.style.border = '1px solid rgba(0, 255, 136, 0.35)';
+        cityStatus.style.color = '#86efac';
+        cityStatus.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-circle-check text-accent-green" style="font-size: 1.1rem;"></i>
+            <div><strong>${check.city}</strong> está <strong>DISPONÍVEL</strong> para concessão territorial (50km livres)!</div>
+          </div>
+        `;
+      }
+    });
+  }
+
+  // 6. Submissão do Formulário, Lead Scoring, Pixel e Gravação no Banco
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('investor-name')?.value.trim() || 'Investidor Z8';
+      const company = document.getElementById('investor-company')?.value.trim() || 'Investidor Individual';
+      const email = (document.getElementById('investor-email')?.value.trim() || '').toLowerCase();
+      const phone = document.getElementById('investor-phone')?.value.trim() || '';
+      const city = document.getElementById('investor-city')?.value.trim() || 'São Paulo - SP';
+
+      const capital = form.querySelector('input[name="investor_capital"]:checked')?.value || '60k-150k';
+      const experience = form.querySelector('input[name="investor_experience"]:checked')?.value || 'empresa';
+      const timeline = form.querySelector('input[name="investor_timeline"]:checked')?.value || 'imediato';
+      const involvement = form.querySelector('input[name="investor_involvement"]:checked')?.value || 'operador';
+
+      // Cálculo de Lead Scoring / Temperatura
+      let score = 0;
+
+      // 1. Capital
+      if (capital === '150k+') score += 45;
+      else if (capital === '60k-150k') score += 40;
+      else if (capital === '30k-60k') score += 25;
+      else score += 5; // under-30k
+
+      // 2. Experiência
+      if (experience === 'empresa') score += 25;
+      else if (experience === 'investidor') score += 20;
+      else score += 10; // primeiro_negocio
+
+      // 3. Prazo
+      if (timeline === 'imediato') score += 20;
+      else if (timeline === '30_60_dias') score += 15;
+      else score += 5; // pesquisando
+
+      // 4. Envolvimento
+      if (involvement === 'operador') score += 10;
+      else if (involvement === 'investidor') score += 10;
+      else score += 5; // analisando
+
+      // Classificação da Temperatura
+      let temperature = 'possivel';
+      let temperatureBadgeHtml = '';
+      let temperatureTitle = '';
+      let actionScript = '';
+
+      if (score >= 75 || capital === '150k+' || (capital === '60k-150k' && timeline === 'imediato')) {
+        temperature = 'quente';
+        temperatureTitle = '🔥 LEAD QUENTE (Alta Prioridade de Fechamento)';
+        temperatureBadgeHtml = '<span class="badge-temperature quente"><i class="fa-solid fa-fire"></i> QUENTE • PRIORIDADE 1</span>';
+        actionScript = 'Agendamento de Call Executiva com Diretor de Expansão';
+      } else if (score < 50 || capital === 'under-30k') {
+        temperature = 'frio';
+        temperatureTitle = '❄️ PÚBLICO FRIO (Nutrição Educativa)';
+        temperatureBadgeHtml = '<span class="badge-temperature frio"><i class="fa-solid fa-snowflake"></i> FRIO • BASE DE CONTEÚDO</span>';
+        actionScript = 'Envio de Catálogo Institucional & Parecer CONTRAN 996';
+      } else {
+        temperature = 'possivel';
+        temperatureTitle = '⚡ PÚBLICO POSSÍVEL (Interesse Qualificado)';
+        temperatureBadgeHtml = '<span class="badge-temperature possivel"><i class="fa-solid fa-bolt"></i> POSSÍVEL • APRESENTAÇÃO</span>';
+        actionScript = 'Apresentação Comercial do Modelo de Franquia';
+      }
+
+      const capitalLabels = {
+        '150k+': 'Acima de R$ 150.000 (Flagship Master)',
+        '60k-150k': 'R$ 60.000 a R$ 150.000 (Concessionária Standard)',
+        '30k-60k': 'R$ 30.000 a R$ 60.000 (Lote Inicial 5 a 10 motos)',
+        'under-30k': 'Menos de R$ 30.000 (Pesquisa de Mercado)'
+      };
+
+      const experienceLabels = {
+        'empresa': 'Empresário / Comércio Ativo',
+        'investidor': 'Investidor de Outros Mercados',
+        'primeiro_negocio': 'Primeiro Negócio Próprio'
+      };
+
+      const timelineLabels = {
+        'imediato': 'Imediato (em até 30 dias)',
+        '30_60_dias': 'Curto Prazo (30 a 60 dias)',
+        'pesquisando': 'Planejamento / Mais de 60 dias'
+      };
+
+      const involvementLabels = {
+        'operador': 'Sócio-Operador',
+        'investidor': 'Investidor Estratégico',
+        'analisando': 'Avaliando Formato'
+      };
+
+      const estimatedRevenues = {
+        '150k+': 250000,
+        '60k-150k': 120000,
+        '30k-60k': 50000,
+        'under-30k': 15000
+      };
+
+      const leadPayload = {
+        name,
+        company,
+        city,
+        state: city.includes('-') ? city.split('-').pop().trim() : 'SP',
+        email,
+        phone,
+        whatsappVerified: isPhoneValid,
+        paymentMethod: 'Candidatura Concessão Franquia',
+        status: 'novo',
+        temperature,
+        score,
+        estimatedRevenue: estimatedRevenues[capital] || 50000,
+        investorProfile: {
+          capital,
+          capitalLabel: capitalLabels[capital],
+          experience,
+          experienceLabel: experienceLabels[experience],
+          timeline,
+          timelineLabel: timelineLabels[timeline],
+          involvement,
+          involvementLabel: involvementLabels[involvement],
+          actionScript
+        }
+      };
+
+      // 1. Grava no banco de dados central do Firebase e localStorage
+      try {
+        saveLead(leadPayload);
+      } catch (err) {
+        console.warn('Lead saving fallback:', err);
+      }
+
+      // 2. Registra o usuário parceiro para acesso ao catálogo
+      try {
+        await registerCatalogUser({
+          name,
+          company,
+          city,
+          email,
+          phone,
+          password: 'Z8@' + Math.floor(1000 + Math.random() * 9000),
+          role: 'partner',
+          status: 'pending'
+        });
+      } catch (err) {
+        console.warn('Catalog registration fallback:', err);
+      }
+
+      // 3. DISPARO DO EVENTO DE LEAD NO META (FACEBOOK) PIXEL & GA4
+      trackConversionEvent('generate_lead', {
+        content_name: 'Perfil Investidor Franquia Z8',
+        company,
+        city,
+        value: leadPayload.estimatedRevenue,
+        currency: 'BRL',
+        temperature,
+        score
+      });
+
+      // 4. Monta a mensagem para WhatsApp direcionada ao Diretor Christian Hideyuki (+55 12 99800-8818)
+      const approvalLink = `${window.location.origin}/site-principal/?approve_user=${encodeURIComponent(email)}`;
+      const whatsappMsg = 
+        `🚀 *NOVO PERFIL DE INVESTIDOR Z8 E-MOTION*\n\n` +
+        `👤 *Nome:* ${name}\n` +
+        `🏢 *Empresa / Loja:* ${company}\n` +
+        `📍 *Praça de Concessão:* ${city}\n` +
+        `📱 *WhatsApp:* ${phone} ${isPhoneValid ? '✅ (Verificado)' : ''}\n` +
+        `📧 *E-mail:* ${email}\n\n` +
+        `📊 *QUALIFICAÇÃO COMERCIAL:* ${temperatureTitle}\n` +
+        `🎯 *Score de Investidor:* ${score}/100 Pontos\n` +
+        `💰 *Disponibilidade de Aporte:* ${capitalLabels[capital]}\n` +
+        `💼 *Experiência Atual:* ${experienceLabels[experience]}\n` +
+        `⏱ *Prazo Pretendido:* ${timelineLabels[timeline]}\n` +
+        `👔 *Modelo de Atuação:* ${involvementLabels[involvement]}\n\n` +
+        `👉 *Liberar Acesso do Investidor no Painel em 1 Clique:*\n${approvalLink}\n\n` +
+        `_Lead registrado no CRM oficial da Z8 E-Motion._`;
+
+      const whatsappUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(whatsappMsg)}`;
+
+      // 5. Exibe a tela de sucesso profissional com feedback de perfil e botão de WhatsApp
+      form.style.display = 'none';
+      if (successView) {
+        successView.style.display = 'block';
+
+        if (successBadge) {
+          successBadge.innerHTML = `<i class="fa-solid fa-shield-check"></i> ${temperatureTitle}`;
+        }
+
+        if (scoreCard) {
+          scoreCard.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+              <div>
+                <strong style="color: #fff; font-size: 0.95rem;">${name}</strong>
+                <span style="display: block; font-size: 0.74rem; color: #94a3b8;"><i class="fa-solid fa-city"></i> ${city} • ${company}</span>
+              </div>
+              <div>${temperatureBadgeHtml}</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; font-size: 0.78rem;">
+              <div><span style="color: #94a3b8;">Aporte Previsto:</span> <strong style="color: var(--accent-green);">${capitalLabels[capital].split('(')[0]}</strong></div>
+              <div><span style="color: #94a3b8;">Prazo:</span> <strong style="color: #fff;">${timelineLabels[timeline].split('(')[0]}</strong></div>
+              <div><span style="color: #94a3b8;">Perfil:</span> <strong style="color: #fff;">${experienceLabels[experience]}</strong></div>
+              <div><span style="color: #94a3b8;">WhatsApp:</span> <strong style="color: #10B981;"><i class="fa-brands fa-whatsapp"></i> ${phone}</strong></div>
+            </div>
+
+            <div style="margin-top: 10px; padding: 8px 12px; background: rgba(0,229,255,0.06); border-radius: 6px; border: 1px solid rgba(0,229,255,0.2); font-size: 0.75rem; color: #7dd3fc;">
+              <i class="fa-solid fa-bullseye"></i> <strong>Próximo Passo Estratégico:</strong> ${actionScript}
+            </div>
+          `;
+        }
+
+        if (waBtn) {
+          waBtn.href = whatsappUrl;
+        }
+      }
+
+      // 6. Tenta abrir automaticamente a conversa no WhatsApp
+      try {
+        window.open(whatsappUrl, '_blank');
+      } catch (err) {
+        console.log('Popup prevented, button ready');
+      }
+
+      // Marca que o formulário foi concluído
+      sessionStorage.setItem('z8_investor_modal_dismissed', '1');
+    });
   }
 }
 
@@ -329,8 +738,7 @@ function initCheckoutModal() {
       }
       modal.classList.add('active');
       trackConversionEvent('begin_checkout', {
-        content_name: 'Cota B2B Vendas',
-        value: 2989.00,
+        content_name: 'Candidatura Concessão Franquia',
         currency: 'BRL'
       });
     });
@@ -468,10 +876,9 @@ function initCheckoutModal() {
 
       // 3. Dispara conversão unificada de Lead para Google Ads, GA4 e Meta Pixel
       trackConversionEvent('generate_lead', {
-        lead_type: 'Revendedor B2B Exclusivo VIP',
+        lead_type: 'Candidatura Concessão Franquia',
         company: company,
         city: city,
-        value: 2989.00,
         currency: 'BRL'
       });
 

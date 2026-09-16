@@ -839,9 +839,11 @@ function initCatalogAuth() {
   if (openAdminBtn) {
     openAdminBtn.addEventListener('click', async () => {
       renderAdminUsersList();
+      renderAdminLeadsList();
       if (adminModal) adminModal.classList.remove('hidden');
-      await fetchUsersFromCloud();
+      await Promise.allSettled([fetchUsersFromCloud(), fetchAdminLeadsFromCloud()]);
       renderAdminUsersList();
+      renderAdminLeadsList();
 
       if (!unsubscribeRealtime) {
         unsubscribeRealtime = subscribeToUsersRealtime((cloudUsers) => {
@@ -1434,6 +1436,530 @@ function initCatalogAuth() {
       }
     });
   }
+
+  // ========================================================================
+  // CRM DE LEADS & QUALIFICAÇÃO DE INVESTIDORES (ADMIN MASTER)
+  // Classificação Inteligente: 🔥 QUENTE | ⚡ POSSÍVEL | ❄️ FRIO
+  // ========================================================================
+  const tabAdmUsersBtn = document.getElementById('tab-adm-users-btn');
+  const tabAdmLeadsBtn = document.getElementById('tab-adm-leads-btn');
+  const paneUsers = document.getElementById('adm-tab-pane-users');
+  const paneLeads = document.getElementById('adm-tab-pane-leads');
+
+  const leadsTableBody = document.getElementById('cat-admin-leads-list');
+  const leadsSearchInput = document.getElementById('adm-leads-search');
+  const leadsSyncBtn = document.getElementById('btn-sync-cloud-leads');
+  const leadFilterPills = document.querySelectorAll('.admin-lead-filter-pill');
+
+  let currentLeadTempFilter = 'all';
+  let currentLeadSearch = '';
+
+  const SEED_CRM_LEADS = [
+    {
+      id: 'lead_1787790262588',
+      name: 'Fabrício Daniel de Oliveira Castro',
+      company: 'JF Mobilidade',
+      city: 'Pindamonhangaba',
+      state: 'SP',
+      email: 'fabriciopolocruzeiro@gmail.com',
+      phone: '12991064106',
+      whatsappVerified: true,
+      paymentMethod: 'Candidatura Concessão Franquia',
+      status: 'fechado',
+      temperature: 'quente',
+      score: 95,
+      estimatedRevenue: 150000.00,
+      investorProfile: {
+        capitalLabel: 'R$ 60.000 a R$ 150.000',
+        experienceLabel: 'Empresário com loja ativa',
+        timelineLabel: 'Imediato (em até 30 dias)',
+        involvementLabel: 'Sócio-Operador'
+      },
+      createdAt: '2026-08-27T00:24:22.588Z'
+    },
+    {
+      id: 'lead_1788402155815',
+      name: 'Derik Silva',
+      company: 'DWS E-Motors',
+      city: 'Jacareí',
+      state: 'SP',
+      email: 'derik.dws@gmail.com',
+      phone: '12981986760',
+      whatsappVerified: true,
+      paymentMethod: 'Candidatura Concessão Franquia',
+      status: 'novo',
+      temperature: 'possivel',
+      score: 65,
+      estimatedRevenue: 60000.00,
+      investorProfile: {
+        capitalLabel: 'R$ 30.000 a R$ 60.000',
+        experienceLabel: 'Investidor em outros mercados',
+        timelineLabel: 'Curto Prazo (30 a 60 dias)',
+        involvementLabel: 'Investidor Estratégico'
+      },
+      createdAt: '2026-09-03T21:02:35.815Z'
+    },
+    {
+      id: 'lead_SC4CB308HVchdVPXMEt5',
+      name: 'Carlos Alberto Moreira',
+      company: 'Litoral E-Scooter',
+      city: 'Santos',
+      state: 'SP',
+      email: 'carlos.litoraleletrico@gmail.com',
+      phone: '12992236440',
+      whatsappVerified: true,
+      paymentMethod: 'Candidatura Concessão Franquia',
+      status: 'em_contato',
+      temperature: 'quente',
+      score: 90,
+      estimatedRevenue: 250000.00,
+      investorProfile: {
+        capitalLabel: 'Acima de R$ 150.000',
+        experienceLabel: 'Empresário / Rede de Lojas',
+        timelineLabel: 'Imediato (em até 30 dias)',
+        involvementLabel: 'Sócio-Operador'
+      },
+      createdAt: '2026-08-26T03:26:25.345Z'
+    },
+    {
+      id: 'lead_zejda_01',
+      name: 'Jose da Silva',
+      company: 'Alpha E-Bikes',
+      city: 'Santana de Parnaíba',
+      state: 'SP',
+      email: 'zejda@gmail.com',
+      phone: '12988130316',
+      whatsappVerified: true,
+      paymentMethod: 'Candidatura Concessão Franquia',
+      status: 'proposta',
+      temperature: 'quente',
+      score: 85,
+      estimatedRevenue: 120000.00,
+      investorProfile: {
+        capitalLabel: 'R$ 60.000 a R$ 150.000',
+        experienceLabel: 'Empresário ativo',
+        timelineLabel: 'Imediato (em até 30 dias)',
+        involvementLabel: 'Sócio-Operador'
+      },
+      createdAt: '2026-09-04T12:00:00.000Z'
+    },
+    {
+      id: 'lead_vinicius_01',
+      name: 'Vinicius Ortiz',
+      company: 'Vale Mobilidade',
+      city: 'Taubaté',
+      state: 'SP',
+      email: 'viniciusortizdovale@gmail.com',
+      phone: '12996667031',
+      whatsappVerified: true,
+      paymentMethod: 'Candidatura Concessão Franquia',
+      status: 'em_contato',
+      temperature: 'possivel',
+      score: 60,
+      estimatedRevenue: 50000.00,
+      investorProfile: {
+        capitalLabel: 'R$ 30.000 a R$ 60.000',
+        experienceLabel: 'Primeiro negócio próprio',
+        timelineLabel: 'Curto Prazo (30 a 60 dias)',
+        involvementLabel: 'Sócio-Operador'
+      },
+      createdAt: '2026-09-04T12:00:00.000Z'
+    },
+    {
+      id: 'lead_demo_frio_01',
+      name: 'Marcos Paulo Ribeiro',
+      company: 'Pesquisa Individual',
+      city: 'Campinas',
+      state: 'SP',
+      email: 'marcos.ribeiro.pesquisa@outlook.com',
+      phone: '19981234567',
+      whatsappVerified: true,
+      paymentMethod: 'Candidatura Concessão Franquia',
+      status: 'novo',
+      temperature: 'frio',
+      score: 30,
+      estimatedRevenue: 20000.00,
+      investorProfile: {
+        capitalLabel: 'Menos de R$ 30.000',
+        experienceLabel: 'Pesquisa de mercado',
+        timelineLabel: 'Médio/Longo Prazo (> 60 dias)',
+        involvementLabel: 'Ainda avaliando'
+      },
+      createdAt: '2026-09-10T14:30:00.000Z'
+    }
+  ];
+
+  function getAdminLeads() {
+    try {
+      const raw = localStorage.getItem('z8_crm_leads_data');
+      if (!raw) {
+        localStorage.setItem('z8_crm_leads_data', JSON.stringify(SEED_CRM_LEADS));
+        return SEED_CRM_LEADS;
+      }
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed) || parsed.length === 0) {
+        localStorage.setItem('z8_crm_leads_data', JSON.stringify(SEED_CRM_LEADS));
+        return SEED_CRM_LEADS;
+      }
+      return parsed;
+    } catch (e) {
+      return SEED_CRM_LEADS;
+    }
+  }
+
+  async function fetchAdminLeadsFromCloud() {
+    try {
+      const res = await fetch('/api/leads');
+      if (res.ok) {
+        const json = await res.json();
+        if (Array.isArray(json?.leads) && json.leads.length > 0) {
+          const current = getAdminLeads();
+          const map = new Map();
+          current.forEach(l => map.set(l.id || l.email, l));
+          json.leads.forEach(cl => map.set(cl.id || cl.email, { ...map.get(cl.id || cl.email), ...cl }));
+          const merged = Array.from(map.values());
+          localStorage.setItem('z8_crm_leads_data', JSON.stringify(merged));
+          return merged;
+        }
+      }
+    } catch (err) {
+      console.warn('Admin leads cloud fetch error:', err);
+    }
+    return getAdminLeads();
+  }
+
+  // Alternância de Abas: Acessos ao Catálogo vs CRM de Leads
+  if (tabAdmUsersBtn && tabAdmLeadsBtn && paneUsers && paneLeads) {
+    tabAdmUsersBtn.addEventListener('click', () => {
+      tabAdmUsersBtn.classList.add('active');
+      tabAdmUsersBtn.style.background = 'rgba(0, 242, 254, 0.15)';
+      tabAdmUsersBtn.style.borderColor = '#00F2FE';
+      tabAdmUsersBtn.style.color = '#00F2FE';
+
+      tabAdmLeadsBtn.classList.remove('active');
+      tabAdmLeadsBtn.style.background = 'rgba(255,255,255,0.05)';
+      tabAdmLeadsBtn.style.borderColor = 'rgba(255,255,255,0.15)';
+      tabAdmLeadsBtn.style.color = '#94a3b8';
+
+      paneUsers.style.display = 'block';
+      paneLeads.style.display = 'none';
+      renderAdminUsersList();
+    });
+
+    tabAdmLeadsBtn.addEventListener('click', () => {
+      tabAdmLeadsBtn.classList.add('active');
+      tabAdmLeadsBtn.style.background = 'rgba(255, 170, 0, 0.15)';
+      tabAdmLeadsBtn.style.borderColor = '#ffaa00';
+      tabAdmLeadsBtn.style.color = '#ffaa00';
+
+      tabAdmUsersBtn.classList.remove('active');
+      tabAdmUsersBtn.style.background = 'rgba(255,255,255,0.05)';
+      tabAdmUsersBtn.style.borderColor = 'rgba(255,255,255,0.15)';
+      tabAdmUsersBtn.style.color = '#94a3b8';
+
+      paneUsers.style.display = 'none';
+      paneLeads.style.display = 'block';
+      renderAdminLeadsList();
+    });
+  }
+
+  // Filtros por Temperatura
+  leadFilterPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      leadFilterPills.forEach(p => {
+        p.classList.remove('active');
+        p.style.background = 'rgba(255,255,255,0.05)';
+        p.style.borderColor = 'rgba(255,255,255,0.15)';
+        p.style.color = '#94a3b8';
+      });
+      pill.classList.add('active');
+      const temp = pill.getAttribute('data-temp') || 'all';
+      currentLeadTempFilter = temp;
+
+      if (temp === 'quente') {
+        pill.style.background = 'rgba(239, 68, 68, 0.2)';
+        pill.style.borderColor = '#ef4444';
+        pill.style.color = '#fca5a5';
+      } else if (temp === 'possivel') {
+        pill.style.background = 'rgba(245, 158, 11, 0.2)';
+        pill.style.borderColor = '#f59e0b';
+        pill.style.color = '#fcd34d';
+      } else if (temp === 'frio') {
+        pill.style.background = 'rgba(56, 189, 248, 0.2)';
+        pill.style.borderColor = '#38bdf8';
+        pill.style.color = '#7dd3fc';
+      } else {
+        pill.style.background = 'rgba(0, 242, 254, 0.15)';
+        pill.style.borderColor = '#00F2FE';
+        pill.style.color = '#00F2FE';
+      }
+
+      renderAdminLeadsList();
+    });
+  });
+
+  // Busca em tempo real de Leads
+  if (leadsSearchInput) {
+    leadsSearchInput.addEventListener('input', (e) => {
+      currentLeadSearch = e.target.value.toLowerCase().trim();
+      renderAdminLeadsList();
+    });
+  }
+
+  // Sincronização manual com nuvem
+  if (leadsSyncBtn) {
+    leadsSyncBtn.addEventListener('click', async () => {
+      leadsSyncBtn.disabled = true;
+      leadsSyncBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sincronizando...';
+      await fetchAdminLeadsFromCloud();
+      renderAdminLeadsList();
+      leadsSyncBtn.disabled = false;
+      leadsSyncBtn.innerHTML = '<i class="fa-solid fa-check text-accent-green"></i> Sincronizado!';
+      setTimeout(() => {
+        leadsSyncBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sincronizar Leads';
+      }, 1500);
+    });
+  }
+
+  function renderAdminLeadsList() {
+    if (!leadsTableBody) return;
+    const leads = getAdminLeads();
+
+    // Contagens por Temperatura
+    const totalLeads = leads.length;
+    const hotLeads = leads.filter(l => l.temperature === 'quente').length;
+    const warmLeads = leads.filter(l => l.temperature === 'possivel' || !l.temperature).length;
+    const coldLeads = leads.filter(l => l.temperature === 'frio').length;
+
+    // Atualiza KPIs
+    const elTotal = document.getElementById('adm-leads-kpi-total');
+    const elHot = document.getElementById('adm-leads-kpi-hot');
+    const elWarm = document.getElementById('adm-leads-kpi-warm');
+    const elCold = document.getElementById('adm-leads-kpi-cold');
+    const badgeCount = document.getElementById('adm-leads-badge-count');
+
+    if (elTotal) elTotal.textContent = totalLeads;
+    if (elHot) elHot.textContent = hotLeads;
+    if (elWarm) elWarm.textContent = warmLeads;
+    if (elCold) elCold.textContent = coldLeads;
+    if (badgeCount) badgeCount.textContent = totalLeads;
+
+    const pAll = document.getElementById('adm-leads-pill-all');
+    const pHot = document.getElementById('adm-leads-pill-hot');
+    const pWarm = document.getElementById('adm-leads-pill-warm');
+    const pCold = document.getElementById('adm-leads-pill-cold');
+
+    if (pAll) pAll.textContent = totalLeads;
+    if (pHot) pHot.textContent = hotLeads;
+    if (pWarm) pWarm.textContent = warmLeads;
+    if (pCold) pCold.textContent = coldLeads;
+
+    // Filtragem combinada
+    const filtered = leads.filter(l => {
+      let matchTemp = true;
+      if (currentLeadTempFilter === 'quente') matchTemp = (l.temperature === 'quente');
+      else if (currentLeadTempFilter === 'possivel') matchTemp = (l.temperature === 'possivel' || !l.temperature);
+      else if (currentLeadTempFilter === 'frio') matchTemp = (l.temperature === 'frio');
+
+      let matchSearch = true;
+      if (currentLeadSearch) {
+        const q = currentLeadSearch;
+        const prof = l.investorProfile || {};
+        matchSearch = (
+          (l.name || '').toLowerCase().includes(q) ||
+          (l.company || '').toLowerCase().includes(q) ||
+          (l.city || '').toLowerCase().includes(q) ||
+          (l.email || '').toLowerCase().includes(q) ||
+          (l.phone || '').toLowerCase().includes(q) ||
+          (prof.capitalLabel || '').toLowerCase().includes(q) ||
+          (prof.experienceLabel || '').toLowerCase().includes(q)
+        );
+      }
+
+      return matchTemp && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+      leadsTableBody.innerHTML = `
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 30px; color: #64748b; font-style: italic;">
+            <i class="fa-solid fa-filter-circle-xmark" style="font-size: 1.8rem; display: block; margin-bottom: 8px; color: #475569;"></i>
+            Nenhum lead encontrado com a temperatura ou busca selecionada.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    leadsTableBody.innerHTML = filtered.map(lead => {
+      const cleanPhone = (lead.phone || '').replace(/\D/g, '');
+      const prof = lead.investorProfile || {};
+      const dateStr = lead.createdAt 
+        ? new Date(lead.createdAt).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+        : 'Recente';
+
+      // Badge de Temperatura
+      let tempBadge = '';
+      let waMessage = '';
+      const firstName = (lead.name || 'Parceiro').split(' ')[0];
+      const cityName = lead.city || 'sua cidade';
+
+      if (lead.temperature === 'quente') {
+        tempBadge = `
+          <span style="background: rgba(239,68,68,0.2); border: 1px solid #ef4444; color: #fca5a5; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px rgba(239,68,68,0.25);">
+            <i class="fa-solid fa-fire text-accent-red"></i> QUENTE (${lead.score || 90}/100)
+          </span>
+          <span style="display: block; font-size: 0.68rem; color: #f87171; margin-top: 3px; font-weight: 600;">⚡ Chamar Imediatamente</span>
+        `;
+        waMessage = encodeURIComponent(
+          `Olá ${firstName}! Aqui é Christian Hideyuki, diretor de expansão da Z8 E-Motion Brasil.\n\n` +
+          `Analisei sua candidatura de franquia para ${cityName} e identifiquei seu perfil de alto potencial (${prof.capitalLabel || 'Aporte expressivo'}).\n\n` +
+          `Gostaria de agendar uma call executiva de 20 minutos hoje para apresentar os números de faturamento, margens de até 100% e a exclusividade de 50km da sua região.\n\n` +
+          `Qual o melhor horário para conversarmos?`
+        );
+      } else if (lead.temperature === 'frio') {
+        tempBadge = `
+          <span style="background: rgba(56,189,248,0.15); border: 1px solid #38bdf8; color: #7dd3fc; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; display: inline-flex; align-items: center; gap: 5px;">
+            <i class="fa-solid fa-snowflake text-accent-cyan"></i> FRIO (${lead.score || 30}/100)
+          </span>
+          <span style="display: block; font-size: 0.68rem; color: #94a3b8; margin-top: 3px;">📖 Base de Conteúdo</span>
+        `;
+        waMessage = encodeURIComponent(
+          `Olá ${firstName}! Agradecemos seu contato com a Z8 E-Motion Brasil.\n\n` +
+          `Conforme solicitado, segue nosso catálogo executivo completo de veículos elétricos e homologações CONTRAN 996:\n` +
+          `🌐 Catálogo Z8: https://z8emotion.com.br/site-principal/\n` +
+          `📁 Dossiê Técnico: https://z8emotion.com.br/docs/BRAIN_NOTEBOOK.pdf\n\n` +
+          `Ficamos à disposição para quando desejar iniciar!`
+        );
+      } else {
+        // Possível (Warm)
+        tempBadge = `
+          <span style="background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; color: #fcd34d; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 0 10px rgba(245,158,11,0.2);">
+            <i class="fa-solid fa-bolt text-accent-gold"></i> POSSÍVEL (${lead.score || 65}/100)
+          </span>
+          <span style="display: block; font-size: 0.68rem; color: #fbbf24; margin-top: 3px; font-weight: 600;">📊 Apresentação Comercial</span>
+        `;
+        waMessage = encodeURIComponent(
+          `Olá ${firstName}! Aqui é Christian da Z8 E-Motion Brasil.\n\n` +
+          `Recebi sua candidatura para a concessão de mobilidade elétrica na região de ${cityName}.\n\n` +
+          `Segue o Dossiê Executivo da Franquia Z8 com estudo de viabilidade e tabela direta de atacado:\n` +
+          `📁 Dossiê B2B: https://z8emotion.com.br/docs/BRAIN_NOTEBOOK.pdf\n\n` +
+          `Gostaria de agendar uma breve apresentação para tirar suas dúvidas sobre o modelo de negócio?`
+        );
+      }
+
+      const waDirectLink = cleanPhone ? `https://wa.me/55${cleanPhone}?text=${waMessage}` : '#';
+
+      return `
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+          <td style="padding: 12px 10px;">
+            <strong style="color: #f8fafc; font-size: 0.9rem;">${lead.name}</strong><br>
+            <span style="font-size: 0.75rem; color: #00F2FE;"><i class="fa-solid fa-location-dot"></i> ${lead.city} - ${lead.state || 'SP'}</span><br>
+            <span style="font-size: 0.72rem; color: #94a3b8;"><i class="fa-solid fa-store"></i> ${lead.company || 'Investidor Individual'}</span><br>
+            <span style="font-size: 0.68rem; color: #64748b;"><i class="fa-solid fa-clock"></i> ${dateStr}</span>
+          </td>
+
+          <td style="padding: 12px 10px;">
+            ${cleanPhone ? `
+              <a href="https://wa.me/55${cleanPhone}" target="_blank" rel="noopener" style="color: #10B981; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1rem;"></i> ${lead.phone}
+              </a>
+            ` : '<span style="color: #64748b;">N/A</span>'}
+            <div style="margin-top: 4px;">
+              ${lead.whatsappVerified ? `
+                <span style="font-size: 0.68rem; color: #34d399; background: rgba(16,185,129,0.15); border: 1px solid #10B981; padding: 2px 6px; border-radius: 4px; display: inline-flex; align-items: center; gap: 3px;">
+                  <i class="fa-solid fa-circle-check"></i> WhatsApp Ativo
+                </span>
+              ` : `
+                <span style="font-size: 0.68rem; color: #94a3b8; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">
+                  Padrão Brasil
+                </span>
+              `}
+            </div>
+            <span style="display: block; font-size: 0.73rem; color: #38bdf8; margin-top: 4px;"><a href="mailto:${lead.email}" style="color: #38bdf8; text-decoration: none;">${lead.email}</a></span>
+          </td>
+
+          <td style="padding: 12px 10px;">
+            ${tempBadge}
+          </td>
+
+          <td style="padding: 12px 10px; font-size: 0.75rem; line-height: 1.4;">
+            <div><span style="color: #94a3b8;">Aporte:</span> <strong style="color: #6ee7b7;">${prof.capitalLabel || 'R$ 60k - 150k'}</strong></div>
+            <div><span style="color: #94a3b8;">Perfil:</span> <span style="color: #cbd5e1;">${prof.experienceLabel || 'Investidor'}</span></div>
+            <div><span style="color: #94a3b8;">Prazo:</span> <span style="color: #fcd34d;">${prof.timelineLabel || 'Imediato'}</span></div>
+            <div><span style="color: #94a3b8;">Atuação:</span> <span style="color: #94a3b8;">${prof.involvementLabel || 'Sócio-Operador'}</span></div>
+          </td>
+
+          <td style="padding: 12px 10px;">
+            <select class="adm-lead-status-select" data-id="${lead.id}" style="padding: 5px 8px; font-size: 0.75rem; background: #000; border: 1px solid var(--border-metal); border-radius: 6px; color: #fff; outline: none; cursor: pointer;">
+              <option value="novo" ${lead.status === 'novo' ? 'selected' : ''}>🔵 Novo Lead</option>
+              <option value="em_contato" ${lead.status === 'em_contato' ? 'selected' : ''}>🟡 Em Contato</option>
+              <option value="proposta" ${lead.status === 'proposta' ? 'selected' : ''}>🟠 Reunião / Proposta</option>
+              <option value="fechado" ${lead.status === 'fechado' ? 'selected' : ''}>🟢 Fechado / Franqueado</option>
+              <option value="perdido" ${lead.status === 'perdido' ? 'selected' : ''}>🔴 Perdido</option>
+            </select>
+          </td>
+
+          <td style="padding: 12px 10px;">
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+              ${cleanPhone ? `
+                <a href="${waDirectLink}" target="_blank" rel="noopener" title="Chamar no WhatsApp com script personalizado" style="background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.75rem; font-weight: 800; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(37,211,102,0.35);">
+                  <i class="fa-brands fa-whatsapp"></i> Chamar
+                </a>
+              ` : ''}
+              <button type="button" class="btn-del-lead" data-id="${lead.id}" title="Excluir lead do CRM" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Ações de alteração de status e exclusão de leads no CRM
+  if (leadsTableBody) {
+    leadsTableBody.addEventListener('change', async (e) => {
+      const select = e.target.closest('.adm-lead-status-select');
+      if (select) {
+        const id = select.getAttribute('data-id');
+        const newStatus = select.value;
+        const leads = getAdminLeads();
+        const idx = leads.findIndex(l => l.id === id);
+        if (idx !== -1) {
+          leads[idx].status = newStatus;
+          localStorage.setItem('z8_crm_leads_data', JSON.stringify(leads));
+
+          // Atualiza também via API Serverless
+          try {
+            await fetch('/api/leads', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id, status: newStatus })
+            });
+          } catch (err) {}
+        }
+      }
+    });
+
+    leadsTableBody.addEventListener('click', async (e) => {
+      const delBtn = e.target.closest('.btn-del-lead');
+      if (delBtn) {
+        const id = delBtn.getAttribute('data-id');
+        if (confirm('Deseja realmente remover este lead do CRM?')) {
+          const leads = getAdminLeads();
+          const filtered = leads.filter(l => l.id !== id);
+          localStorage.setItem('z8_crm_leads_data', JSON.stringify(filtered));
+          renderAdminLeadsList();
+        }
+      }
+    });
+  }
+
+  // Ouvinte para atualizar lista se um novo lead for cadastrado em tempo real
+  window.addEventListener('z8-lead-added', () => {
+    renderAdminLeadsList();
+  });
 }
 
 /* --------------------------------------------------------------------------

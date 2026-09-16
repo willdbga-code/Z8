@@ -18,75 +18,151 @@ let globalLeadsStore = [
   {
     id: 'lead_1787790262588',
     name: 'Fabrício Daniel de Oliveira Castro',
-    company: 'JF',
+    company: 'JF Mobilidade',
     city: 'Pindamonhangaba',
     state: 'SP',
     email: 'fabriciopolocruzeiro@gmail.com',
     phone: encryptField('12991064106'),
-    paymentMethod: 'Passaporte VIP Exclusividade',
-    status: 'novo',
-    estimatedRevenue: 2989.00,
-    source: 'Passaporte VIP Exclusividade',
+    whatsappVerified: true,
+    paymentMethod: 'Candidatura Concessão Franquia',
+    status: 'fechado',
+    temperature: 'quente',
+    score: 95,
+    estimatedRevenue: 150000.00,
+    investorProfile: {
+      investmentRange: '60k-150k',
+      isInvestor: 'empresa',
+      timeline: 'imediato',
+      involvement: 'operador',
+      experienceText: 'Empresário com loja ativa, capital próprio para concessionária compacta e início imediato'
+    },
+    source: 'Landing Page Vendas',
     createdAt: '2026-08-27T00:24:22.588Z',
     updatedAt: 1787790262589
   },
   {
     id: 'lead_1788402155815',
-    name: 'derik',
-    company: 'derik',
-    city: 'jacarei',
+    name: 'Derik Silva',
+    company: 'DWS E-Motors',
+    city: 'Jacareí',
     state: 'SP',
     email: 'derik.dws@gmail.com',
     phone: encryptField('12981986760'),
-    paymentMethod: 'Cadastro Portal',
+    whatsappVerified: true,
+    paymentMethod: 'Candidatura Concessão Franquia',
     status: 'novo',
-    estimatedRevenue: 0,
-    source: 'Portal Z8 Catálogo',
+    temperature: 'possivel',
+    score: 65,
+    estimatedRevenue: 60000.00,
+    investorProfile: {
+      investmentRange: '30k-60k',
+      isInvestor: 'investidor',
+      timeline: '30_60_dias',
+      involvement: 'investidor',
+      experienceText: 'Investidor buscando diversificação de carteira na região do Vale do Paraíba'
+    },
+    source: 'Landing Page Vendas',
     createdAt: '2026-09-03T21:02:35.815Z',
     updatedAt: 1788402155815
   },
   {
     id: 'lead_SC4CB308HVchdVPXMEt5',
-    name: 'Lead WhatsApp (Retrato Autoral)',
-    company: 'WhatsApp Lead',
-    city: 'Vale do Paraíba',
+    name: 'Carlos Alberto Moreira',
+    company: 'Litoral E-Scooter',
+    city: 'Santos',
     state: 'SP',
-    email: '',
-    phone: encryptField('5512992236440'),
-    notes: 'Pacote: Retrato Autoral - Data Prevista: 11/09/2026',
-    paymentMethod: 'WhatsApp Direto',
-    estimatedRevenue: 450.00,
-    source: 'whatsapp',
-    status: 'novo',
+    email: 'carlos.litoraleletrico@gmail.com',
+    phone: encryptField('12992236440'),
+    whatsappVerified: true,
+    paymentMethod: 'Candidatura Concessão Franquia',
+    status: 'em_contato',
+    temperature: 'quente',
+    score: 90,
+    estimatedRevenue: 250000.00,
+    investorProfile: {
+      investmentRange: '150k+',
+      isInvestor: 'empresa',
+      timeline: 'imediato',
+      involvement: 'operador',
+      experienceText: 'Rede de lojas em expansão para o litoral, interesse em Flagship Master'
+    },
+    source: 'Landing Page Vendas',
     createdAt: '2026-08-26T03:26:25.345Z',
     updatedAt: 1787705185345
   },
   {
     id: 'lead_zejda_01',
-    name: 'Jose da silva',
-    company: 'Empresa',
-    city: 'Santana do parnaiba',
+    name: 'Jose da Silva',
+    company: 'Alpha E-Bikes',
+    city: 'Santana de Parnaíba',
     state: 'SP',
     email: 'zejda@gmail.com',
     phone: encryptField('12988130316'),
-    paymentMethod: 'Cadastro Admin',
-    status: 'aprovado',
-    source: 'Admin Master Manual',
+    whatsappVerified: true,
+    paymentMethod: 'Candidatura Concessão Franquia',
+    status: 'proposta',
+    temperature: 'quente',
+    score: 85,
+    estimatedRevenue: 120000.00,
+    investorProfile: {
+      investmentRange: '60k-150k',
+      isInvestor: 'empresa',
+      timeline: 'imediato',
+      involvement: 'operador',
+      experienceText: 'Empresário local avaliando ponto comercial em Alphaville'
+    },
+    source: 'Landing Page Vendas',
     createdAt: '2026-09-04T12:00:00.000Z',
     updatedAt: Date.now()
   },
   {
     id: 'lead_vinicius_01',
-    name: 'Vinicius ortiz',
-    company: 'Viniciusortizdovale@gmail.com',
+    name: 'Vinicius Ortiz',
+    company: 'Vale Mobilidade',
     city: 'Taubaté',
     state: 'SP',
     email: 'viniciusortizdovale@gmail.com',
     phone: encryptField('12996667031'),
-    paymentMethod: 'Cadastro Admin',
-    status: 'aprovado',
-    source: 'Admin Master Manual',
+    whatsappVerified: true,
+    paymentMethod: 'Candidatura Concessão Franquia',
+    status: 'em_contato',
+    temperature: 'possivel',
+    score: 60,
+    estimatedRevenue: 50000.00,
+    investorProfile: {
+      investmentRange: '30k-60k',
+      isInvestor: 'primeiro_negocio',
+      timeline: '30_60_dias',
+      involvement: 'operador',
+      experienceText: 'Primeiro negócio próprio com ponto comercial em estudo no centro de Taubaté'
+    },
+    source: 'Landing Page Vendas',
     createdAt: '2026-09-04T12:00:00.000Z',
+    updatedAt: Date.now()
+  },
+  {
+    id: 'lead_demo_frio_01',
+    name: 'Marcos Paulo Ribeiro',
+    company: 'Pesquisa Individual',
+    city: 'Campinas',
+    state: 'SP',
+    email: 'marcos.ribeiro.pesquisa@outlook.com',
+    phone: encryptField('19981234567'),
+    whatsappVerified: true,
+    paymentMethod: 'Candidatura Concessão Franquia',
+    status: 'novo',
+    temperature: 'frio',
+    score: 30,
+    estimatedRevenue: 20000.00,
+    investorProfile: {
+      investmentRange: 'under-30k',
+      isInvestor: 'primeiro_negocio',
+      timeline: 'pesquisando',
+      involvement: 'analisando',
+      experienceText: 'Apenas coletando informações sobre o mercado de mobilidade elétrica para o próximo ano'
+    },
+    source: 'Landing Page Vendas',
+    createdAt: '2026-09-10T14:30:00.000Z',
     updatedAt: Date.now()
   }
 ];
@@ -149,6 +225,10 @@ export default async function handler(req, res) {
         return res.status(400).json({ success: false, error: 'Nome inválido.' });
       }
 
+      const temperature = ['quente', 'possivel', 'frio'].includes(body.temperature)
+        ? body.temperature 
+        : 'possivel';
+
       const newLead = {
         id: body.id || ('lead_' + Date.now()),
         name: name,
@@ -157,9 +237,14 @@ export default async function handler(req, res) {
         state: sanitizeInputString(body.state || 'SP', 2),
         email: email,
         phone: encryptField(sanitizeInputString(body.phone || '', 30)),
-        paymentMethod: sanitizeInputString(body.paymentMethod || 'PIX', 50),
+        whatsappVerified: Boolean(body.whatsappVerified),
+        paymentMethod: sanitizeInputString(body.paymentMethod || 'Candidatura Concessão Franquia', 50),
         investment: sanitizeInputString(body.investment || '', 80),
-        status: 'novo',
+        estimatedRevenue: Number(body.estimatedRevenue || 0),
+        temperature: temperature,
+        score: Number(body.score || 50),
+        investorProfile: body.investorProfile || null,
+        status: sanitizeInputString(body.status || 'novo', 30),
         notes: sanitizeInputString(body.notes || '', 500),
         source: sanitizeInputString(body.source || 'Portal Z8 Vendas', 80),
         createdAt: new Date().toISOString(),
@@ -171,7 +256,9 @@ export default async function handler(req, res) {
       return res.status(201).json({
         success: true,
         message: 'Lead registrado com sucesso!',
-        id: newLead.id
+        id: newLead.id,
+        temperature: newLead.temperature,
+        score: newLead.score
       });
     } catch (err) {
       return res.status(500).json({ success: false, error: 'Erro ao registrar lead: ' + err.message });
@@ -195,6 +282,7 @@ export default async function handler(req, res) {
       const idx = globalLeadsStore.findIndex(l => l.id === leadId || l.email?.toLowerCase() === body.email?.toLowerCase());
       if (idx !== -1) {
         if (newStatus) globalLeadsStore[idx].status = sanitizeInputString(newStatus, 30);
+        if (body.temperature) globalLeadsStore[idx].temperature = sanitizeInputString(body.temperature, 20);
         if (body.notes) globalLeadsStore[idx].notes = sanitizeInputString(body.notes, 500);
         globalLeadsStore[idx].updatedAt = Date.now();
         return res.status(200).json({

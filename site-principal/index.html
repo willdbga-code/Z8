@@ -796,112 +796,196 @@
         </div>
       </div>
 
-      <!-- CARDS DE ESTATÍSTICAS DO ADMINISTRADOR -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 16px;">
-        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: 8px;">
-          <span style="font-size: 0.72rem; color: #94a3b8; display: block;">Total de Cadastros</span>
-          <strong id="adm-stat-total" style="font-size: 1.3rem; color: #f8fafc;">0</strong>
-        </div>
-        <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.35); padding: 10px 14px; border-radius: 8px;">
-          <span style="font-size: 0.72rem; color: #fcd34d; display: block; font-weight: 700;"><i class="fa-solid fa-clock"></i> Aguardando Liberação</span>
-          <strong id="adm-stat-pending" style="font-size: 1.3rem; color: #fbbf24;">0</strong>
-        </div>
-        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); padding: 10px 14px; border-radius: 8px;">
-          <span style="font-size: 0.72rem; color: #6ee7b7; display: block; font-weight: 700;"><i class="fa-solid fa-check-circle"></i> Acessos Liberados</span>
-          <strong id="adm-stat-approved" style="font-size: 1.3rem; color: #10B981;">0</strong>
-        </div>
-        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.35); padding: 10px 14px; border-radius: 8px;">
-          <span style="font-size: 0.72rem; color: #fca5a5; display: block; font-weight: 700;"><i class="fa-solid fa-ban"></i> Bloqueados</span>
-          <strong id="adm-stat-blocked" style="font-size: 1.3rem; color: #ef4444;">0</strong>
-        </div>
+      <!-- SELETOR DE ABAS DO PAINEL MASTER (CATÁLOGO vs CRM DE LEADS) -->
+      <div style="display: flex; gap: 10px; margin-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; flex-wrap: wrap;">
+        <button type="button" id="tab-adm-users-btn" class="admin-main-nav-btn active" style="background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; padding: 9px 18px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: 'Orbitron', sans-serif;">
+          <i class="fa-solid fa-users-gear"></i> LIBERAÇÃO DE ACESSOS AO CATÁLOGO
+        </button>
+        <button type="button" id="tab-adm-leads-btn" class="admin-main-nav-btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; padding: 9px 18px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: 'Orbitron', sans-serif; transition: all 0.2s;">
+          <i class="fa-solid fa-fire text-accent-gold"></i> CRM DE LEADS & PERFIL DE INVESTIDOR (<span id="adm-leads-badge-count">0</span>)
+        </button>
       </div>
 
-      <!-- BARRA DE AÇÕES: BUSCA, FILTROS E BOTÃO ADICIONAR -->
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
-        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-          <button type="button" class="admin-filter-pill active" data-status="all" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; font-weight: 700; cursor: pointer;">
-            Todos (<span id="adm-pill-all">0</span>)
-          </button>
-          <button type="button" class="admin-filter-pill" data-status="pending" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
-            ⏳ Aguardando (<span id="adm-pill-pending">0</span>)
-          </button>
-          <button type="button" class="admin-filter-pill" data-status="approved" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
-            🟢 Liberados (<span id="adm-pill-approved">0</span>)
-          </button>
-          <button type="button" class="admin-filter-pill" data-status="blocked" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
-            🔴 Bloqueados (<span id="adm-pill-blocked">0</span>)
-          </button>
+      <!-- ==================================================================== -->
+      <!-- ABA 1: GESTÃO E LIBERAÇÃO DE ACESSOS DE LOJISTAS AO CATÁLOGO -->
+      <!-- ==================================================================== -->
+      <div id="adm-tab-pane-users">
+        <!-- CARDS DE ESTATÍSTICAS DO ADMINISTRADOR -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 16px;">
+          <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.1); padding: 10px 14px; border-radius: 8px;">
+            <span style="font-size: 0.72rem; color: #94a3b8; display: block;">Total de Cadastros</span>
+            <strong id="adm-stat-total" style="font-size: 1.3rem; color: #f8fafc;">0</strong>
+          </div>
+          <div style="background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.35); padding: 10px 14px; border-radius: 8px;">
+            <span style="font-size: 0.72rem; color: #fcd34d; display: block; font-weight: 700;"><i class="fa-solid fa-clock"></i> Aguardando Liberação</span>
+            <strong id="adm-stat-pending" style="font-size: 1.3rem; color: #fbbf24;">0</strong>
+          </div>
+          <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.35); padding: 10px 14px; border-radius: 8px;">
+            <span style="font-size: 0.72rem; color: #6ee7b7; display: block; font-weight: 700;"><i class="fa-solid fa-check-circle"></i> Acessos Liberados</span>
+            <strong id="adm-stat-approved" style="font-size: 1.3rem; color: #10B981;">0</strong>
+          </div>
+          <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.35); padding: 10px 14px; border-radius: 8px;">
+            <span style="font-size: 0.72rem; color: #fca5a5; display: block; font-weight: 700;"><i class="fa-solid fa-ban"></i> Bloqueados</span>
+            <strong id="adm-stat-blocked" style="font-size: 1.3rem; color: #ef4444;">0</strong>
+          </div>
         </div>
 
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-grow: 1; justify-content: flex-end;">
-          <input type="text" id="adm-user-search" placeholder="🔍 Buscar por Nome, Loja, E-mail ou WhatsApp..." style="padding: 6px 12px; font-size: 0.78rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff; min-width: 220px; outline: none;" />
-          <button type="button" id="btn-sync-cloud-users" title="Sincronizar cadastros com a nuvem em tempo real" style="background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-            <i class="fa-solid fa-rotate"></i> Sincronizar Nuvem
-          </button>
-          <button type="button" id="btn-toggle-add-partner" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
-            <i class="fa-solid fa-user-plus"></i> Cadastrar & Liberar Parceiro
-          </button>
-        </div>
-      </div>
-
-      <!-- FORMULÁRIO RETRÁTIL DE NOVO PARCEIRO -->
-      <div id="admin-add-partner-box" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 10px; padding: 16px; margin-bottom: 16px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <h4 style="color: #6ee7b7; font-size: 0.92rem; margin: 0;"><i class="fa-solid fa-id-card"></i> Cadastrar e Liberar Novo Parceiro no Sistema</h4>
-          <button type="button" id="btn-cancel-add-partner" style="background: transparent; border: none; color: #94a3b8; font-size: 0.75rem; cursor: pointer;">Fechar ✕</button>
-        </div>
-        <form id="admin-manual-partner-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
-          <div>
-            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Nome do Responsável *</label>
-            <input type="text" id="adm-field-name" required placeholder="Ex: Zé da Silva" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
-          </div>
-          <div>
-            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Empresa / Concessionária *</label>
-            <input type="text" id="adm-field-company" required placeholder="Ex: Silva Motos E-Motion" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
-          </div>
-          <div>
-            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Cidade / UF *</label>
-            <input type="text" id="adm-field-city" required placeholder="Ex: São Paulo - SP" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
-          </div>
-          <div>
-            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">E-mail do Lojista *</label>
-            <input type="email" id="adm-field-email" required placeholder="zedasilva@loja.com.br" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
-          </div>
-          <div>
-            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">WhatsApp *</label>
-            <input type="text" id="adm-field-phone" required placeholder="(11) 98765-4321" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
-          </div>
-          <div>
-            <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Status Inicial</label>
-            <select id="adm-field-status" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;">
-              <option value="approved" selected>🟢 Liberar Acesso Imediatamente (Aprovado)</option>
-              <option value="pending">⏳ Manter Aguardando (Pendente)</option>
-            </select>
-          </div>
-          <div style="grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
-            <button type="submit" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 8px 18px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-              <i class="fa-solid fa-check"></i> Salvar e Liberar Acesso
+        <!-- BARRA DE AÇÕES: BUSCA, FILTROS E BOTÃO ADICIONAR -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button type="button" class="admin-filter-pill active" data-status="all" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; font-weight: 700; cursor: pointer;">
+              Todos (<span id="adm-pill-all">0</span>)
+            </button>
+            <button type="button" class="admin-filter-pill" data-status="pending" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
+              ⏳ Aguardando (<span id="adm-pill-pending">0</span>)
+            </button>
+            <button type="button" class="admin-filter-pill" data-status="approved" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
+              🟢 Liberados (<span id="adm-pill-approved">0</span>)
+            </button>
+            <button type="button" class="admin-filter-pill" data-status="blocked" style="padding: 5px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; font-weight: 700; cursor: pointer;">
+              🔴 Bloqueados (<span id="adm-pill-blocked">0</span>)
             </button>
           </div>
-        </form>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-grow: 1; justify-content: flex-end;">
+            <input type="text" id="adm-user-search" placeholder="🔍 Buscar por Nome, Loja, E-mail ou WhatsApp..." style="padding: 6px 12px; font-size: 0.78rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff; min-width: 220px; outline: none;" />
+            <button type="button" id="btn-sync-cloud-users" title="Sincronizar cadastros com a nuvem em tempo real" style="background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-rotate"></i> Sincronizar Nuvem
+            </button>
+            <button type="button" id="btn-toggle-add-partner" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+              <i class="fa-solid fa-user-plus"></i> Cadastrar & Liberar Parceiro
+            </button>
+          </div>
+        </div>
+
+        <!-- FORMULÁRIO RETRÁTIL DE NOVO PARCEIRO -->
+        <div id="admin-add-partner-box" style="display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 10px; padding: 16px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <h4 style="color: #6ee7b7; font-size: 0.92rem; margin: 0;"><i class="fa-solid fa-id-card"></i> Cadastrar e Liberar Novo Parceiro no Sistema</h4>
+            <button type="button" id="btn-cancel-add-partner" style="background: transparent; border: none; color: #94a3b8; font-size: 0.75rem; cursor: pointer;">Fechar ✕</button>
+          </div>
+          <form id="admin-manual-partner-form" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+            <div>
+              <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Nome do Responsável *</label>
+              <input type="text" id="adm-field-name" required placeholder="Ex: Zé da Silva" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Empresa / Concessionária *</label>
+              <input type="text" id="adm-field-company" required placeholder="Ex: Silva Motos E-Motion" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Cidade / UF *</label>
+              <input type="text" id="adm-field-city" required placeholder="Ex: São Paulo - SP" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">E-mail do Lojista *</label>
+              <input type="email" id="adm-field-email" required placeholder="zedasilva@loja.com.br" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">WhatsApp *</label>
+              <input type="text" id="adm-field-phone" required placeholder="(11) 98765-4321" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;" />
+            </div>
+            <div>
+              <label style="font-size: 0.72rem; color: #94a3b8; display: block; margin-bottom: 2px;">Status Inicial</label>
+              <select id="adm-field-status" style="width: 100%; padding: 6px 10px; font-size: 0.8rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff;">
+                <option value="approved" selected>🟢 Liberar Acesso Imediatamente (Aprovado)</option>
+                <option value="pending">⏳ Manter Aguardando (Pendente)</option>
+              </select>
+            </div>
+            <div style="grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
+              <button type="submit" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 8px 18px; border-radius: 6px; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-check"></i> Salvar e Liberar Acesso
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- TABELA DE USUÁRIOS REGISTRADOS -->
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.2); color: #00F2FE;">
+                <th style="padding: 10px;">Nome / Empresa / Cidade</th>
+                <th style="padding: 10px;">E-mail</th>
+                <th style="padding: 10px;">WhatsApp</th>
+                <th style="padding: 10px;">Status Atual</th>
+                <th style="padding: 10px;">Ação do Administrador</th>
+              </tr>
+            </thead>
+            <tbody id="cat-admin-users-list">
+              <!-- Renderizado via JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <!-- TABELA DE USUÁRIOS REGISTRADOS -->
-      <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
-          <thead>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.2); color: #00F2FE;">
-              <th style="padding: 10px;">Nome / Empresa / Cidade</th>
-              <th style="padding: 10px;">E-mail</th>
-              <th style="padding: 10px;">WhatsApp</th>
-              <th style="padding: 10px;">Status Atual</th>
-              <th style="padding: 10px;">Ação do Administrador</th>
-            </tr>
-          </thead>
-          <tbody id="cat-admin-users-list">
-            <!-- Renderizado via JS -->
-          </tbody>
-        </table>
+      <!-- ==================================================================== -->
+      <!-- ABA 2: CRM DE LEADS, PERFIL DE INVESTIDOR & QUALIFICAÇÃO INTELIGENTE -->
+      <!-- ==================================================================== -->
+      <div id="adm-tab-pane-leads" style="display: none;">
+        <!-- KPI CARDS DE LEADS POR TEMPERATURA -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 16px;">
+          <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.1); padding: 12px 14px; border-radius: 8px;">
+            <span style="font-size: 0.72rem; color: #94a3b8; display: block; text-transform: uppercase; font-family: var(--font-mono);">Total de Leads (CRM)</span>
+            <strong id="adm-leads-kpi-total" style="font-size: 1.4rem; color: #f8fafc;">0</strong>
+          </div>
+          <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.4); padding: 12px 14px; border-radius: 8px;">
+            <span style="font-size: 0.72rem; color: #fca5a5; display: block; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono);">🔥 Quentes (Chamada Imediata)</span>
+            <strong id="adm-leads-kpi-hot" style="font-size: 1.4rem; color: #ef4444;">0</strong>
+          </div>
+          <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); padding: 12px 14px; border-radius: 8px;">
+            <span style="font-size: 0.72rem; color: #fcd34d; display: block; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono);">⚡ Público Possível</span>
+            <strong id="adm-leads-kpi-warm" style="font-size: 1.4rem; color: #f59e0b;">0</strong>
+          </div>
+          <div style="background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4); padding: 12px 14px; border-radius: 8px;">
+            <span style="font-size: 0.72rem; color: #7dd3fc; display: block; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono);">❄️ Público Frio</span>
+            <strong id="adm-leads-kpi-cold" style="font-size: 1.4rem; color: #38bdf8;">0</strong>
+          </div>
+        </div>
+
+        <!-- BARRA DE FILTROS POR TEMPERATURA E BUSCA -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; background: rgba(0,0,0,0.25); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button type="button" class="admin-lead-filter-pill active" data-temp="all" style="padding: 6px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; font-weight: 700; cursor: pointer;">
+              Todos (<span id="adm-leads-pill-all">0</span>)
+            </button>
+            <button type="button" class="admin-lead-filter-pill" data-temp="quente" style="padding: 6px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #fca5a5; font-weight: 700; cursor: pointer;">
+              🔥 Quente (<span id="adm-leads-pill-hot">0</span>)
+            </button>
+            <button type="button" class="admin-lead-filter-pill" data-temp="possivel" style="padding: 6px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #fcd34d; font-weight: 700; cursor: pointer;">
+              ⚡ Público Possível (<span id="adm-leads-pill-warm">0</span>)
+            </button>
+            <button type="button" class="admin-lead-filter-pill" data-temp="frio" style="padding: 6px 12px; font-size: 0.76rem; border-radius: 6px; background: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; color: #7dd3fc; font-weight: 700; cursor: pointer;">
+              ❄️ Público Frio (<span id="adm-leads-pill-cold">0</span>)
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; flex-grow: 1; justify-content: flex-end;">
+            <input type="text" id="adm-leads-search" placeholder="🔍 Buscar por Nome, Empresa, Cidade, Aporte ou WhatsApp..." style="padding: 6px 12px; font-size: 0.78rem; background: var(--bg-inset); border: 1px solid var(--border-metal); border-radius: 6px; color: #fff; min-width: 250px; outline: none;" />
+            <button type="button" id="btn-sync-cloud-leads" title="Sincronizar leads com a nuvem em tempo real" style="background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; padding: 6px 12px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
+              <i class="fa-solid fa-rotate"></i> Sincronizar Leads
+            </button>
+          </div>
+        </div>
+
+        <!-- TABELA DETALHADA DE LEADS E QUALIFICAÇÃO DE INVESTIDORES -->
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.83rem;">
+            <thead>
+              <tr style="border-bottom: 1px solid rgba(255,255,255,0.2); color: #00F2FE;">
+                <th style="padding: 10px;">Investidor / Cidade / Empresa</th>
+                <th style="padding: 10px;">WhatsApp / Contato</th>
+                <th style="padding: 10px;">Temperatura & Score</th>
+                <th style="padding: 10px;">Perfil de Investimento</th>
+                <th style="padding: 10px;">Status CRM</th>
+                <th style="padding: 10px;">Ação Comercial no WhatsApp</th>
+              </tr>
+            </thead>
+            <tbody id="cat-admin-leads-list">
+              <!-- Renderizado dinamicamente via JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
