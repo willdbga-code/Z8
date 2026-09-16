@@ -80,7 +80,7 @@
 ## Git & Deployment Protocol
 - Remote repository is `willdbga-code/Z8`.
 - Push permission is authorized for user `christian-hideyuki`.
-- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`, `73d7620`, `8e55022`, `97290e2`.
+- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`, `73d7620`, `8e55022`, `97290e2`, `4e1b26a`, `b0c4902`, `bc5e305`, `dc1a952`, `62442bc`.
 
 ## Resume Point for Next Session
 1. Confirmar sincronização em tempo real das Ordens de Serviço (OS) e leads no Firestore oficial.
