@@ -604,6 +604,22 @@ body {
   }
 }
 
+@media (max-width: 380px) {
+  .radian-title {
+    font-size: 1.4rem;
+  }
+  .radian-subtitle {
+    font-size: 0.8rem;
+  }
+  .feature-media-card {
+    height: 200px;
+  }
+  .radian-btn-action {
+    padding: 6px 10px;
+    font-size: 0.72rem;
+  }
+}
+
 /* FLOATING WHATSAPP BUTTON */
 .floating-whatsapp {
   position: fixed;

@@ -1359,25 +1359,114 @@ input[type="range"].skeuo-slider:focus {
   }
 
   .skeuo-modal-backdrop {
-    padding: 10px;
+    padding: 8px;
   }
 
   .skeuo-modal-box {
-    padding: 24px 14px 18px;
-    max-height: 94vh;
+    padding: 20px 12px 16px;
+    max-height: 94dvh;
     border-radius: 12px;
+    width: 100%;
+    max-width: 100%;
   }
 
   .modal-close-btn {
-    top: 10px;
-    right: 10px;
-    width: 32px;
-    height: 32px;
-    font-size: 0.95rem;
+    top: 8px;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .skeuo-input, .skeuo-select, .os-input {
     font-size: 16px;
+  }
+}
+
+/* ==========================================================================
+   CROSS-DEVICE & ADMIN CRM RESPONSIVENESS OVERRIDES
+   ========================================================================== */
+html, body.skeuo-body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .admin-main-nav-btn {
+    flex: 1 1 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    font-size: 0.76rem !important;
+    padding: 10px 12px !important;
+  }
+
+  #adm-user-search,
+  #adm-leads-search {
+    min-width: 100% !important;
+    width: 100% !important;
+  }
+
+  #catalog-admin-modal .skeuo-modal-box {
+    padding: 20px 14px 18px !important;
+    max-width: 96vw !important;
+  }
+
+  #modal-os-detail div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+  }
+
+  #adm-tab-pane-users > div[style*="grid-template-columns"],
+  #adm-tab-pane-leads > div[style*="grid-template-columns"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .admin-filter-pill,
+  .admin-lead-filter-pill {
+    padding: 6px 10px !important;
+    font-size: 0.72rem !important;
+  }
+
+  .calc-skeuo-wrapper {
+    gap: 16px;
+  }
+
+  .orderdesk-table-wrapper,
+  #catalog-admin-modal div[style*="overflow-x: auto"] {
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  #adm-tab-pane-users > div[style*="grid-template-columns"],
+  #adm-tab-pane-leads > div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .admin-filter-pill,
+  .admin-lead-filter-pill {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  .pillars-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .calc-kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-stats-panel {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
   }
 }
 

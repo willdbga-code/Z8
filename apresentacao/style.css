@@ -1688,6 +1688,52 @@ body.deck-body::before {
   }
 }
 
+@media (max-width: 480px) {
+  .deck-slide {
+    padding: 16px 12px;
+  }
+
+  .hero-headline {
+    font-size: 1.45rem;
+    line-height: 1.2;
+  }
+
+  .deck-header {
+    padding: 0 10px;
+    height: 50px;
+  }
+
+  .deck-footer {
+    padding: 0 10px;
+    height: 52px;
+  }
+
+  .btn-deck-nav {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+
+  .slide-drawer {
+    max-width: 100vw;
+    width: 100vw;
+    padding: 16px 12px;
+  }
+
+  .card-kpi-metric {
+    padding: 12px 10px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-headline {
+    font-size: 1.25rem;
+  }
+
+  .deck-slide {
+    padding: 12px 8px;
+  }
+}
+
 /* ==========================================================================
    ESTILOS DE IMPRESSÃO / PDF (CTRL+P)
    ========================================================================== */

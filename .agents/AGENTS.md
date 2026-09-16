@@ -82,6 +82,18 @@
 - Push permission is authorized for user `christian-hideyuki`.
 - Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`, `73d7620`, `8e55022`, `97290e2`, `4e1b26a`, `b0c4902`, `bc5e305`, `dc1a952`, `62442bc`.
 
+## Responsive Design & Cross-Device Engineering Protocol (MANDATORY & PERMANENT)
+- **Every Single Modification Protocol**: Whenever adding, editing, or refactoring pages, sections, components, modals, tables, or buttons across ANY page in the Z8 ecosystem (`/`, `/site-principal/`, `/vendas/`, `/n95c/`, `/apresentacao/`, `/posters/`), the agent MUST proactively review, audit, and calibrate responsiveness across all viewport sizes before completing the turn.
+- **Breakpoints Standard**:
+  - **Small Mobile (< 480px / 360px - 414px)**: Single-column grids, zero horizontal overflow (`overflow-x: clip` or `hidden`), touch targets ≥ 44px, full-width modal dialogs with safe padding (12px-16px), responsive font scaling with `clamp()`, and horizontal scrolling wrappers for tables (`overflow-x: auto; -webkit-overflow-scrolling: touch;`).
+  - **Tablet (481px - 768px - 1024px)**: 2-column or fluid auto-fit grids (`repeat(auto-fit, minmax(280px, 1fr))`), adaptable navigation bars, accessible floating CTA buttons, and readable card telemetry.
+  - **Desktop (> 1024px)**: Structured multi-column luxury layouts, master flagships, and max-width containers (`1200px` - `1400px`) centered with `margin: 0 auto`.
+- **Modals & Overlays**:
+  - Max height `90vh` or `92dvh` with internal scroll (`overflow-y: auto`), accessible sticky close buttons, `max-width: min(95vw, <desktopWidth>)`, and safe margins on mobile.
+- **Tables & Data Grids (CRM / OS / Admin)**:
+  - Always wrapped in dedicated responsive containers (`overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;`) with visible badges, clear headers, and touch-friendly controls.
+- **No Side-Scroll Guarantee**: `box-sizing: border-box` on all elements, no fixed pixel widths exceeding `100vw`, no unconstrained negative margins.
+
 ## Resume Point for Next Session
 1. Confirmar sincronização em tempo real das Ordens de Serviço (OS) e leads no Firestore oficial.
 2. Testar fluxo ponta a ponta em produção.

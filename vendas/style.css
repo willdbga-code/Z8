@@ -1795,3 +1795,141 @@ button {
     font-size: 1.5rem;
   }
 }
+
+/* ==========================================================================
+   CROSS-DEVICE & INVESTOR MODAL RESPONSIVENESS OVERRIDES
+   ========================================================================== */
+@media (max-width: 768px) {
+  .modal-card-investor {
+    max-width: 95vw;
+    padding: 24px 18px;
+  }
+  
+  .investor-form-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 8px;
+  }
+
+  .modal-card-investor {
+    padding: 20px 14px;
+    max-height: 94dvh;
+    border-radius: var(--radius-md);
+    width: 100%;
+  }
+
+  .modal-header-investor {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+
+  .modal-header-investor h2 {
+    font-size: 1.25rem !important;
+    line-height: 1.25;
+  }
+
+  .modal-header-investor p {
+    font-size: 0.78rem;
+  }
+
+  .investor-form-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .investor-options-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .investor-question-card {
+    padding: 12px 10px;
+  }
+
+  .investor-question-title {
+    font-size: 0.82rem;
+    gap: 6px;
+  }
+
+  .investor-option-label,
+  .investor-option-label-compact {
+    padding: 9px 10px;
+    min-height: 44px;
+    gap: 8px;
+  }
+
+  .option-content strong,
+  .investor-option-label-compact strong {
+    font-size: 0.8rem;
+  }
+
+  .option-content span,
+  .investor-option-label-compact span {
+    font-size: 0.7rem;
+  }
+
+  .modal-close-btn {
+    top: 10px;
+    right: 10px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+  }
+
+  .tripwire-master-card {
+    padding: 20px 14px;
+  }
+
+  .tripwire-cashback-callout {
+    padding: 12px;
+    font-size: 0.78rem;
+  }
+
+  .tripwire-benefits-grid {
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .benefit-row span {
+    font-size: 0.8rem;
+  }
+
+  .hero-telemetry-card {
+    padding: 14px;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .modal-card-investor {
+    padding: 16px 10px;
+  }
+
+  .modal-header-investor h2 {
+    font-size: 1.12rem !important;
+  }
+
+  .investor-question-card {
+    padding: 10px 8px;
+  }
+
+  .form-input-b2b {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .btn-primary-pill,
+  .btn-secondary-pill {
+    font-size: 0.75rem;
+    padding: 10px 12px;
+  }
+}
+
