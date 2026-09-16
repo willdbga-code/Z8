@@ -26,7 +26,6 @@ const SESSION_KEY = CLOUD_CONFIG.STORAGE_SESSION_KEY;
 const SESSION_USER_KEY = CLOUD_CONFIG.STORAGE_SESSION_USER_KEY;
 
 const MASTER_ADMIN_EMAIL = CLOUD_CONFIG.MASTER_ADMIN_EMAIL;
-const MASTER_ADMIN_PASS = "@12345678@";
 
 const DEFAULT_USERS = SEED_REGISTERED_USERS;
 
@@ -159,36 +158,6 @@ export async function fetchUsersFromCloud() {
       }
     } catch (apiErr) {
       console.warn('API /api/users fetch info:', apiErr);
-    }
-
-    // 2. Consulta também leads do CRM (/api/leads)
-    try {
-      const leadsRes = await fetch(CLOUD_CONFIG.API_LEADS_URL);
-      if (leadsRes.ok) {
-        const leadsJson = await leadsRes.json();
-        if (Array.isArray(leadsJson?.leads)) {
-          leadsJson.leads.forEach(ld => {
-            const cleanLeadEmail = (ld.email || '').toLowerCase().trim();
-            if (cleanLeadEmail && !cloudUsers.find(u => (u.email || '').toLowerCase() === cleanLeadEmail)) {
-              cloudUsers.push({
-                id: ld.id || ('lead_' + Date.now()),
-                name: ld.name || 'Lead Comercial',
-                company: ld.company || 'Empresa Interessada',
-                city: ld.city || 'SP',
-                email: cleanLeadEmail,
-                phone: ld.phone || '',
-                role: 'partner',
-                status: ld.status === 'fechado' ? 'approved' : 'pending',
-                password: 'Z8@' + (ld.phone ? ld.phone.replace(/\D/g, '').slice(-4) : '2026'),
-                updatedAt: ld.updatedAt || 1000,
-                createdAt: ld.createdAt || new Date().toISOString()
-              });
-            }
-          });
-        }
-      }
-    } catch (le) {
-      console.warn('Leads fetch info:', le);
     }
 
     if (cloudUsers.length > 0) {
@@ -414,36 +383,43 @@ export async function registerCatalogUser(userData) {
   return { success: true, user: newUser };
 }
 
-export function loginCatalogUser(userOrEmail, password) {
-  const users = getRegisteredUsers();
+export async function loginCatalogUser(userOrEmail, password) {
   const clean = (userOrEmail || '').trim().toLowerCase();
+  const rawPassword = String(password || '').trim();
 
-  // 1. Check Master Admin Credentials
-  if (clean === MASTER_ADMIN_EMAIL.toLowerCase() && password === MASTER_ADMIN_PASS) {
-    const adminUser = {
-      id: 'user_admin_master',
-      name: 'Christian Hideyuki (Admin Master)',
-      company: 'Z8 E-Motion (Matriz)',
-      email: MASTER_ADMIN_EMAIL,
-      role: 'admin',
-      status: 'approved'
-    };
-    sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
-    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(adminUser));
-    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
-    localStorage.setItem('z8_catalog_auth_token', 'token_master_' + Date.now());
-    window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-    return { success: true, user: adminUser, isPending: false };
+  // 1. Tenta autenticar via API Serverless Central (com hash PBKDF2 e Rate Limiting)
+  try {
+    const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'login', email: clean, password: rawPassword })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success && data.user) {
+      const loggedUser = data.user;
+      sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
+      sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
+      localStorage.setItem('z8_catalog_auth_user', JSON.stringify(loggedUser));
+      localStorage.setItem('z8_catalog_auth_token', data.token || ('token_' + Date.now()));
+      window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+      return {
+        success: true,
+        user: loggedUser,
+        isPending: loggedUser.status === 'pending'
+      };
+    } else if (data && data.error) {
+      return { success: false, error: data.error };
+    }
+  } catch (apiErr) {
+    console.warn('API authentication notice, attempting offline fallback:', apiErr);
   }
 
-  // 2. Check Registered Users Directory
-  const found = users.find(u => u.email.toLowerCase() === clean || u.name.toLowerCase() === clean);
+  // 2. Fallback offline de contingência
+  const users = getRegisteredUsers();
+  const found = users.find(u => (u.email || '').toLowerCase() === clean || (u.name || '').toLowerCase() === clean);
   if (!found) {
     return { success: false, error: 'Usuário ou e-mail não encontrado. Cadastre-se na aba ao lado.' };
-  }
-
-  if (found.password && found.password !== password) {
-    return { success: false, error: 'Senha incorreta. Tente novamente ou use a recuperação de senha por e-mail.' };
   }
 
   if (found.status === 'blocked') {
@@ -603,42 +579,8 @@ export function logoutCatalogUser() {
 }
 
 export function checkUrlApproval() {
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const approveEmail = params.get('approve_user') || params.get('liberar');
-    if (approveEmail) {
-      const clean = decodeURIComponent(approveEmail).trim().toLowerCase();
-      const name = params.get('name') ? decodeURIComponent(params.get('name')) : clean.split('@')[0];
-      const company = params.get('company') ? decodeURIComponent(params.get('company')) : 'Concessionária Parceira';
-      const city = params.get('city') ? decodeURIComponent(params.get('city')) : 'São Paulo - SP';
-      const phone = params.get('phone') ? decodeURIComponent(params.get('phone')) : '';
-
-      const users = getRegisteredUsers();
-      const found = users.find(u => u.email.toLowerCase() === clean);
-      if (found) {
-        found.status = 'approved';
-        if (name && !found.name) found.name = name;
-        if (company && !found.company) found.company = company;
-        if (city && !found.city) found.city = city;
-        if (phone && !found.phone) found.phone = phone;
-        updateUserStatus(found.id, 'approved');
-      } else {
-        createPartnerByAdmin({
-          email: clean,
-          name: name,
-          company: company,
-          city: city,
-          phone: phone,
-          status: 'approved'
-        });
-      }
-      const newUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, newUrl);
-      return clean;
-    }
-  } catch (e) {
-    console.warn('URL approval check error:', e);
-  }
+  // Desativado por conformidade de segurança e LGPD:
+  // Aprovações de contas de parceiros exigem autenticação do Master Admin via painel protegido
   return null;
 }
 

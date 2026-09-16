@@ -41,9 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   }
 
-  // Cloud sync on startup
-  fetchUsersFromCloud();
-  fetchWarrantyOrdersFromFirestore();
+  // Sincronização em nuvem: restrita estritamente a sessões ativas autenticadas
+  if (getCurrentCatalogUser()) {
+    fetchUsersFromCloud();
+    fetchWarrantyOrdersFromFirestore();
+  }
 
   initThemeToggle();
   initNavigation();
@@ -1029,18 +1031,20 @@ function initCatalogAuth() {
   });
 
   if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const userVal = document.getElementById('cat-login-user').value;
       const passVal = document.getElementById('cat-login-pass').value;
 
-      const res = loginCatalogUser(userVal, passVal);
+      const res = await loginCatalogUser(userVal, passVal);
       if (res.success) {
         if (loginMsg) loginMsg.style.display = 'none';
         loginForm.reset();
         if (loginModal) loginModal.classList.add('hidden');
         updateHeaderAuth();
         renderShowroom();
+        fetchUsersFromCloud();
+        fetchWarrantyOrdersFromFirestore();
       } else {
         if (loginMsg) {
           loginMsg.style.display = 'block';

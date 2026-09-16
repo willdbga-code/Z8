@@ -1,5 +1,6 @@
 // ==========================================================================
 // Z8 E-Motion - Cloud Database & API Configuration
+// Hardened Security Standards: Zero Plaintext Credentials in Client Bundles
 // ==========================================================================
 
 export const CLOUD_CONFIG = {
@@ -13,7 +14,7 @@ export const CLOUD_CONFIG = {
   API_LEADS_URL: "/api/leads",
   API_ORDERS_URL: "/api/orders",
 
-  // Dedicated Firebase Firestore Configuration for Z8 E-Motion
+  // Dedicated Firebase Firestore Configuration for Z8 E-Motion (Base: Christian Hideyuki)
   FIREBASE_PROJECT_ID: "z8-emotion-brasil",
   FIREBASE_API_KEY: "AIzaSyCBAe00zQFgJkDJG70ywXx6xr0mOCIK8Fo",
   FIREBASE_AUTH_DOMAIN: "z8-emotion-brasil.firebaseapp.com",
@@ -39,6 +40,7 @@ export const FIREBASE_CONFIG = {
   appId: "1:445689506709:web:c4946fcac8a83e3010249c"
 };
 
+// Conta Master Admin oficial (Sem credenciais em texto puro no client bundle)
 export const DEFAULT_MASTER_ADMIN = {
   id: 'user_admin_01',
   name: 'Christian Hideyuki (Admin Master)',
@@ -46,14 +48,13 @@ export const DEFAULT_MASTER_ADMIN = {
   city: 'São Paulo - SP',
   email: 'christian.tkh@gmail.com',
   phone: '(12) 99800-8818',
-  password: '@12345678@',
   role: 'admin',
   status: 'approved',
   updatedAt: 1000,
   createdAt: '2026-08-25T16:08:04.281Z'
 };
 
-// Base consolidada com todas as contas reais e cadastradas no sistema
+// Base inicial de lojistas autorizados (Credenciais gerenciadas de forma criptografada no backend)
 export const SEED_REGISTERED_USERS = [
   DEFAULT_MASTER_ADMIN,
   {
@@ -63,7 +64,6 @@ export const SEED_REGISTERED_USERS = [
     city: 'Pindamonhangaba - SP',
     email: 'christian.hide@hotmail.com',
     phone: '(12) 98898-6148',
-    password: '12345678',
     role: 'partner',
     status: 'approved',
     updatedAt: 1787674543174,
@@ -76,7 +76,6 @@ export const SEED_REGISTERED_USERS = [
     city: 'Pindamonhangaba - SP',
     email: 'willdbga@gmail.com',
     phone: '(12) 98813-0316',
-    password: '12345678',
     role: 'partner',
     status: 'approved',
     updatedAt: 1787627826993,
@@ -89,7 +88,6 @@ export const SEED_REGISTERED_USERS = [
     city: 'Pindamonhangaba - SP',
     email: 'fabriciopolocruzeiro@gmail.com',
     phone: '(12) 99106-4106',
-    password: 'Z8@' + '4106',
     role: 'partner',
     status: 'approved',
     updatedAt: 1788968594840,
@@ -102,7 +100,6 @@ export const SEED_REGISTERED_USERS = [
     city: 'jacarei - SP',
     email: 'derik.dws@gmail.com',
     phone: '12981986760',
-    password: 'Z8@' + '6760',
     role: 'partner',
     status: 'pending',
     updatedAt: 1788402155815,
@@ -115,7 +112,6 @@ export const SEED_REGISTERED_USERS = [
     city: 'Santana do parnaiba - SP',
     email: 'zejda@gmail.com',
     phone: '12988130316',
-    password: 'Z8@' + '0316',
     role: 'partner',
     status: 'approved',
     updatedAt: Date.now(),
@@ -128,12 +124,9 @@ export const SEED_REGISTERED_USERS = [
     city: 'Taubaté - SP',
     email: 'viniciusortizdovale@gmail.com',
     phone: '12996667031',
-    password: 'Z8@' + '7031',
     role: 'partner',
     status: 'approved',
     updatedAt: Date.now(),
     createdAt: '2026-09-04T12:00:00.000Z'
   }
 ];
-
-

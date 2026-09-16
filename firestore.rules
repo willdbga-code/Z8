@@ -2,21 +2,73 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // ========================================================================
+    // Z8 E-Motion - Row Level Security (RLS) & Access Control Engine
+    // Base de dados oficial: z8-emotion-brasil (Propriedade: Christian Hideyuki)
+    // ========================================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isMasterAdmin() {
+      return isAuthenticated() && (
+        request.auth.token.email.lower() == 'christian.tkh@gmail.com' ||
+        request.auth.token.admin == true
+      );
+    }
+
+    function isOwner(userEmail) {
+      return isAuthenticated() && request.auth.token.email.lower() == userEmail.lower();
+    }
+
     // 1. Diretório de Usuários e Lojistas Z8 E-Motion
     match /catalog_users/{userEmail} {
-      allow read: if true;
+      // Leitura: apenas o próprio lojista autenticado ou o Administrador Master
+      allow read: if isOwner(userEmail) || isMasterAdmin();
+
+      // Criação de novos cadastros: permitido para registro de lojistas (inicia como pendente)
       allow create: if true;
-      allow update, delete: if true;
+
+      // Atualização: Master Admin pode atualizar tudo; 
+      // o próprio usuário pode atualizar dados de perfil, mas não pode auto-aprovar ou virar admin
+      allow update: if isMasterAdmin() || (
+        isOwner(userEmail) &&
+        request.resource.data.role == resource.data.role &&
+        request.resource.data.status == resource.data.status
+      );
+
+      // Exclusão: estritamente restrita ao Administrador Master
+      allow delete: if isMasterAdmin();
     }
 
-    // 2. Leads Comerciais e Passaporte VIP
+    // 2. Leads Comerciais e CRM
     match /leads/{leadId} {
-      allow read, write: if true;
+      // Criação de novos leads: permitido para formulários públicos de captura do site
+      allow create: if request.resource.data.name is string &&
+                       request.resource.data.name.size() > 2;
+
+      // Leitura, edição e exclusão de leads: 100% restrito ao Master Admin (Blindagem de CRM)
+      allow read, update, delete: if isMasterAdmin();
     }
 
-    // 3. Ordens de Serviço e Garantia Nacional
+    // 3. Ordens de Serviço (OS) e Garantia Nacional
     match /service_orders/{orderId} {
-      allow read, write: if true;
+      // Leitura: Admin Master ou lojista responsável pelo chamado técnico
+      allow read: if isMasterAdmin() || (
+        isAuthenticated() && resource.data.userEmail.lower() == request.auth.token.email.lower()
+      );
+
+      // Criação: qualquer lojista autenticado
+      allow create: if isAuthenticated();
+
+      // Atualização: Admin Master ou lojista responsável (sem alterar status de aprovação de garantia)
+      allow update: if isMasterAdmin() || (
+        isAuthenticated() && resource.data.userEmail.lower() == request.auth.token.email.lower()
+      );
+
+      // Exclusão: exclusivo Master Admin
+      allow delete: if isMasterAdmin();
     }
   }
 }

@@ -285,9 +285,9 @@ export function initCRM() {
 
   // Login Form Submission
   if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const res = login(loginUser.value, loginPass.value);
+      const res = await login(loginUser.value, loginPass.value);
       if (res.success) {
         if (loginModal) loginModal.style.display = 'none';
         openProtectedCRM();
@@ -302,7 +302,7 @@ export function initCRM() {
 
   // Registration Form Submission
   if (registerForm) {
-    registerForm.addEventListener('submit', (e) => {
+    registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('reg-name').value;
       const company = document.getElementById('reg-company').value;
@@ -313,7 +313,7 @@ export function initCRM() {
 
       const investment = document.getElementById('reg-investment') ? document.getElementById('reg-investment').value : 'R$ 22.600,00 (Atacado Inicial)';
 
-      const res = registerUser({ name, company, city, email, phone, investment, password });
+      const res = await registerUser({ name, company, city, email, phone, investment, password });
       if (res.success) {
         // Also save lead reservation into CRM!
         saveLead({ name, company, city, state: 'BR', email, phone, paymentMethod: `Cadastro Exclusivo (${investment})` });

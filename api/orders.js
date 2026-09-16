@@ -1,6 +1,18 @@
 // ==========================================================================
-// Z8 E-Motion - Serverless API: Warranty Service Orders (OS)
+// Z8 E-Motion - Serverless API: Hardened Warranty Service Orders (OS)
+// Defense-in-Depth: Multi-Tenant Tenant Isolation, Admin Master Central Hub,
+// AES-256-GCM Field Encryption for Client Contacts & Anti-Tampering
 // ==========================================================================
+
+import {
+  MASTER_ADMIN_EMAIL,
+  encryptField,
+  decryptField,
+  sanitizeInputString,
+  getClientIp,
+  validateAdminAuth,
+  setSecureCorsHeaders
+} from './security-utils.js';
 
 let globalOrdersStore = [
   {
@@ -8,7 +20,7 @@ let globalOrdersStore = [
     userId: "user_demo_01",
     clientEmail: "ricardo@megamotos.com.br",
     clientName: "Mega Motos SP (Carlos Silveira)",
-    clientPhone: "(19) 98765-4321",
+    clientPhone: encryptField("(19) 98765-4321"),
     city: "Campinas - SP",
     modelName: "Z8 Tank High-Speed (DB018)",
     chassis: "9Z8DB018K99042",
@@ -29,7 +41,7 @@ let globalOrdersStore = [
     userId: "user_admin_01",
     clientEmail: "christian.tkh@gmail.com",
     clientName: "Z8 Vale do Paraíba (Roberto)",
-    clientPhone: "(12) 99800-8818",
+    clientPhone: encryptField("(12) 99800-8818"),
     city: "São José dos Campos - SP",
     modelName: "Z8 FX-10 Sport (DB043)",
     chassis: "9Z8DB043L11093",
@@ -50,7 +62,7 @@ let globalOrdersStore = [
     userId: "user_demo_03",
     clientEmail: "marcio@emotionsul.com.br",
     clientName: "E-Motion Sul (Marcio Silva)",
-    clientPhone: "(41) 99111-2233",
+    clientPhone: encryptField("(41) 99111-2233"),
     city: "Curitiba - PR",
     modelName: "Z8 U2 Delivery Cargo (XB-026)",
     chassis: "9Z8XB026M55102",
@@ -58,25 +70,25 @@ let globalOrdersStore = [
     component: "Motor BLDC no Cubo / Sensor Hall",
     issueDescription: "Sensor Hall da fase amarela (U) sem sinal no osciloscópio (0V travado). Motor dá trancos na partida.",
     status: "completed",
-    statusText: "Concluído & Peça Entregue",
-    trackingCode: "BR994820145PR",
-    notes: "Estator completo com chicote e sensores Hall substituído e testado com sucesso.",
-    evidenceLink: "https://youtube.com/shorts/test-motor-z8-u2",
-    slaDeadline: "2026-08-19T02:46:48.108Z",
-    createdAt: "2026-08-17T02:46:48.108Z",
-    updatedAt: 1787626010267
+    statusText: "Concluído - Peça Substituída",
+    trackingCode: "BR991823412SP",
+    notes: "Motor cubo 800W substituído em garantia com sucesso.",
+    evidenceLink: "Laudo Técnico #941",
+    slaDeadline: "2026-08-25T15:00:00.000Z",
+    createdAt: "2026-08-23T15:00:00.000Z",
+    updatedAt: 1787626010000
   },
   {
     id: "OS-2026-0104",
     userId: "user_demo_04",
     clientEmail: "lucas@litoraleletrico.com.br",
     clientName: "Litoral Elétrico Santos (Lucas)",
-    clientPhone: "(13) 99222-3344",
+    clientPhone: encryptField("(13) 99777-6655"),
     city: "Santos - SP",
-    modelName: "Z8 Sport Scooter (DB010)",
-    chassis: "9Z8DB010N77219",
-    odometer: 890,
-    component: "Acelerador / Chicote Elétrico",
+    modelName: "Z8 Sport Scooter (DB009)",
+    chassis: "9Z8DB009X33019",
+    odometer: 640,
+    component: "Manopla de Aceleração / Chicote",
     issueDescription: "Cabo do sensor hall do acelerador rompido internamente próximo ao guidão.",
     status: "approved",
     statusText: "Aprovado - Peça Despachada",
@@ -89,51 +101,80 @@ let globalOrdersStore = [
   }
 ];
 
-
-function setCorsHeaders(res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-}
-
 export default async function handler(req, res) {
-  setCorsHeaders(res);
+  setSecureCorsHeaders(req, res);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // GET: List all OS tickets
+  const isAdmin = validateAdminAuth(req);
+  const requesterEmail = sanitizeInputString(req.headers['x-user-email'] || req.query?.email || '').toLowerCase();
+
+  // ------------------------------------------------------------------------
+  // GET: List Warranty OS (Isolamento por Lojista ou Visão Master Admin)
+  // ------------------------------------------------------------------------
   if (req.method === 'GET') {
+    if (!isAdmin && !requesterEmail) {
+      return res.status(401).json({
+        success: false,
+        error: 'Acesso restrito. Identificação ou credencial de lojista é obrigatória.'
+      });
+    }
+
+    let filtered = globalOrdersStore;
+    if (!isAdmin) {
+      filtered = globalOrdersStore.filter(o => 
+        (o.clientEmail || '').toLowerCase() === requesterEmail ||
+        (o.userEmail || '').toLowerCase() === requesterEmail
+      );
+    }
+
+    const decrypted = filtered.map(o => ({
+      ...o,
+      clientPhone: decryptField(o.clientPhone)
+    }));
+
     return res.status(200).json({
       success: true,
-      count: globalOrdersStore.length,
-      orders: globalOrdersStore,
+      count: decrypted.length,
+      orders: decrypted,
       timestamp: Date.now()
     });
   }
 
-  // POST: Create new OS ticket
+  // ------------------------------------------------------------------------
+  // POST: Create New Warranty OS Ticket
+  // ------------------------------------------------------------------------
   if (req.method === 'POST') {
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+      const email = sanitizeInputString(body.clientEmail || body.userEmail || requesterEmail || '').toLowerCase();
+
+      if (!email) {
+        return res.status(400).json({ success: false, error: 'E-mail do lojista é obrigatório.' });
+      }
 
       const newOS = {
         id: body.id || ('OS-' + Math.floor(100000 + Math.random() * 900000)),
-        clientEmail: (body.clientEmail || '').trim().toLowerCase(),
-        clientName: body.clientName || 'Cliente Z8',
-        clientPhone: body.clientPhone || '',
-        modelId: body.modelId || '',
-        modelName: body.modelName || 'Scooter / Moto Z8',
-        chassis: body.chassis || '',
-        issueDescription: body.issueDescription || '',
-        status: body.status || 'analyzing',
-        statusText: body.statusText || 'Em Análise Técnica',
-        trackingCode: body.trackingCode || '',
-        notes: body.notes || '',
-        slaDeadline: body.slaDeadline || new Date(Date.now() + 48 * 3600 * 1000).toISOString(),
-        createdAt: body.createdAt || new Date().toISOString(),
+        userId: body.userId || ('user_' + Date.now()),
+        clientEmail: email,
+        clientName: sanitizeInputString(body.clientName || 'Lojista Autorizado', 120),
+        clientPhone: encryptField(sanitizeInputString(body.clientPhone || '', 30)),
+        city: sanitizeInputString(body.city || 'SP', 80),
+        modelId: sanitizeInputString(body.modelId || '', 50),
+        modelName: sanitizeInputString(body.modelName || 'Veículo Elétrico Z8', 100),
+        chassis: sanitizeInputString(body.chassis || body.chassi || '', 50),
+        odometer: Number(body.odometer) || 0,
+        component: sanitizeInputString(body.component || 'Peça / Componente', 120),
+        issueDescription: sanitizeInputString(body.issueDescription || body.diagnosis || '', 1000),
+        status: 'analyzing',
+        statusText: 'Em Análise Técnica (SLA 48h)',
+        trackingCode: '',
+        notes: '',
+        evidenceLink: sanitizeInputString(body.evidenceLink || '', 255),
+        slaDeadline: new Date(Date.now() + 48 * 3600 * 1000).toISOString(),
+        createdAt: new Date().toISOString(),
         updatedAt: Date.now()
       };
 
@@ -142,45 +183,49 @@ export default async function handler(req, res) {
       return res.status(201).json({
         success: true,
         message: 'Ordem de Serviço registrada com sucesso!',
-        order: newOS
+        order: {
+          ...newOS,
+          clientPhone: decryptField(newOS.clientPhone)
+        }
       });
     } catch (err) {
-      return res.status(500).json({ success: false, error: 'Erro ao registrar OS: ' + err.message });
+      return res.status(500).json({ success: false, error: 'Erro ao criar Ordem de Serviço: ' + err.message });
     }
   }
 
-  // PUT: Update OS status / tracking
+  // ------------------------------------------------------------------------
+  // PUT: Update OS Ticket Status (Restrito a Admin Master)
+  // ------------------------------------------------------------------------
   if (req.method === 'PUT') {
+    if (!isAdmin) {
+      return res.status(401).json({ success: false, error: 'Apenas o Administrador Master pode autorizar ou despachar garantias.' });
+    }
+
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-      const osId = body.id || body.osId;
+      const orderId = body.id;
 
-      const idx = globalOrdersStore.findIndex(o => o.id === osId);
-      if (idx !== -1) {
-        if (body.status) globalOrdersStore[idx].status = body.status;
-        if (body.statusText) globalOrdersStore[idx].statusText = body.statusText;
-        if (body.trackingCode !== undefined) globalOrdersStore[idx].trackingCode = body.trackingCode;
-        if (body.notes !== undefined) globalOrdersStore[idx].notes = body.notes;
-        globalOrdersStore[idx].updatedAt = Date.now();
-
-        return res.status(200).json({ success: true, order: globalOrdersStore[idx] });
+      const idx = globalOrdersStore.findIndex(o => o.id === orderId);
+      if (idx === -1) {
+        return res.status(404).json({ success: false, error: 'Ordem de Serviço não encontrada.' });
       }
 
-      return res.status(404).json({ success: false, error: 'Ordem de Serviço não encontrada.' });
+      if (body.status) globalOrdersStore[idx].status = sanitizeInputString(body.status, 30);
+      if (body.statusText) globalOrdersStore[idx].statusText = sanitizeInputString(body.statusText, 80);
+      if (body.trackingCode !== undefined) globalOrdersStore[idx].trackingCode = sanitizeInputString(body.trackingCode, 60);
+      if (body.notes !== undefined) globalOrdersStore[idx].notes = sanitizeInputString(body.notes, 500);
+      globalOrdersStore[idx].updatedAt = Date.now();
+
+      return res.status(200).json({
+        success: true,
+        message: 'Ordem de Serviço atualizada!',
+        order: {
+          ...globalOrdersStore[idx],
+          clientPhone: decryptField(globalOrdersStore[idx].clientPhone)
+        }
+      });
     } catch (err) {
       return res.status(500).json({ success: false, error: 'Erro ao atualizar OS: ' + err.message });
-    }
-  }
-
-  // DELETE: Delete OS
-  if (req.method === 'DELETE') {
-    try {
-      const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
-      const osId = body.id || req.query?.id;
-      globalOrdersStore = globalOrdersStore.filter(o => o.id !== osId);
-      return res.status(200).json({ success: true, message: 'OS removida com sucesso.' });
-    } catch (err) {
-      return res.status(500).json({ success: false, error: 'Erro ao remover OS: ' + err.message });
     }
   }
 

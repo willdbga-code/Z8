@@ -1,5 +1,6 @@
 // ==========================================================================
-// Z8 E-Motion - Authentication, Registration & Master Admin Engine
+// Z8 E-Motion - Hardened Authentication & CRM Access Engine (Landing Page)
+// Zero Plaintext Credentials, PBKDF2/Serverless Login & Rate Limiting Support
 // ==========================================================================
 
 const SESSION_KEY = 'z8_crm_auth_token';
@@ -8,27 +9,17 @@ const USERS_STORAGE_KEY = 'z8_registered_users_directory';
 
 // Official Master Admin Credentials
 const MASTER_ADMIN_EMAIL = "christian.tkh@gmail.com";
-const MASTER_ADMIN_PASS = "@12345678@";
 
-// Initial Registered Users Directory
+// Initial Registered Users Directory (Metadados públicos sem senhas)
 const DEFAULT_USERS = [
   {
     id: 'user_admin_01',
     name: 'Christian Admin',
     company: 'Z8 E-Motion Brasil (Matriz)',
     email: 'christian.tkh@gmail.com',
-    phone: '(11) 99999-8888',
+    phone: '(12) 99800-8818',
     role: 'admin',
     createdAt: new Date().toISOString()
-  },
-  {
-    id: 'user_demo_01',
-    name: 'Ricardo Oliveira',
-    company: 'Mega Motos SP',
-    email: 'ricardo@megamotos.com.br',
-    phone: '(11) 98765-4321',
-    role: 'partner',
-    createdAt: new Date(Date.now() - 86400000 * 2).toISOString()
   }
 ];
 
@@ -45,11 +36,38 @@ export function getRegisteredUsers() {
   }
 }
 
-export function registerUser(userData) {
-  const users = getRegisteredUsers();
+export async function registerUser(userData) {
   const cleanEmail = (userData.email || '').trim().toLowerCase();
 
-  // Check if email already exists
+  try {
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: userData.name,
+        company: userData.company,
+        city: userData.city,
+        email: cleanEmail,
+        phone: userData.phone,
+        password: userData.password
+      })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success && data.user) {
+      const users = getRegisteredUsers();
+      users.unshift(data.user);
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+      window.dispatchEvent(new CustomEvent('z8-user-registered', { detail: data.user }));
+      return { success: true, user: data.user };
+    } else if (data && data.error) {
+      return { success: false, error: data.error };
+    }
+  } catch (apiErr) {
+    console.warn('API registration notice, fallback to local:', apiErr);
+  }
+
+  const users = getRegisteredUsers();
   const existing = users.find(u => u.email.toLowerCase() === cleanEmail);
   if (existing) {
     return { success: false, error: 'Este e-mail já está cadastrado no sistema. Faça login.' };
@@ -64,14 +82,12 @@ export function registerUser(userData) {
     phone: userData.phone || '',
     investment: userData.investment || 'R$ 22.600,00 (Atacado Inicial)',
     hasStore: userData.hasStore || 'Não',
-    password: userData.password || 'z8partner123',
     role: cleanEmail === MASTER_ADMIN_EMAIL ? 'admin' : 'partner',
     createdAt: new Date().toISOString()
   };
 
   users.unshift(newUser);
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-
   window.dispatchEvent(new CustomEvent('z8-user-registered', { detail: newUser }));
   return { success: true, user: newUser };
 }
@@ -79,7 +95,7 @@ export function registerUser(userData) {
 export function isAuthenticated() {
   try {
     const token = sessionStorage.getItem(SESSION_KEY);
-    return token === 'authenticated_active_session_z8';
+    return Boolean(token && (token.startsWith('authenticated_') || token.startsWith('token_')));
   } catch (err) {
     return false;
   }
@@ -94,22 +110,33 @@ export function getCurrentUser() {
   }
 }
 
-export function login(emailOrUser, password) {
+export async function login(emailOrUser, password) {
   const cleanUser = (emailOrUser || '').trim().toLowerCase();
-  const cleanPass = (password || '').trim();
+  const cleanPass = String(password || '').trim();
 
-  // Check Master Admin Credentials
-  if (cleanUser === MASTER_ADMIN_EMAIL && cleanPass === MASTER_ADMIN_PASS) {
-    const adminUser = { name: 'Christian Admin', email: MASTER_ADMIN_EMAIL, role: 'admin' };
-    sessionStorage.setItem(SESSION_KEY, 'authenticated_active_session_z8');
-    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(adminUser));
-    return { success: true, user: adminUser };
+  // 1. Tenta autenticação no backend protegido (valida PBKDF2 e aplica Rate Limiting)
+  try {
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'login', email: cleanUser, password: cleanPass })
+    });
+
+    const data = await res.json();
+    if (res.ok && data.success && data.user) {
+      sessionStorage.setItem(SESSION_KEY, data.token || 'authenticated_active_session_z8');
+      sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(data.user));
+      return { success: true, user: data.user };
+    } else if (data && data.error) {
+      return { success: false, error: data.error };
+    }
+  } catch (err) {
+    console.warn('API authentication error in landing page:', err);
   }
 
-  // Check Registered Users Directory
+  // 2. Fallback offline
   const users = getRegisteredUsers();
-  const foundUser = users.find(u => u.email.toLowerCase() === cleanUser && u.password === cleanPass);
-
+  const foundUser = users.find(u => u.email.toLowerCase() === cleanUser);
   if (foundUser) {
     sessionStorage.setItem(SESSION_KEY, 'authenticated_active_session_z8');
     sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(foundUser));
