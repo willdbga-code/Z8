@@ -41,7 +41,7 @@ export const complianceInfo = [
   },
   {
     title: 'Homologação SENATRAN & CAT',
-    desc: 'Modelos de alta velocidade (Z8 Tank, FX-10, Harley X21) possuem laudos técnicos para concessão de CAT para emplacamento e emissão de nota fiscal com RENAVAM.'
+    desc: 'Modelos de alta velocidade (Z8 Tank, FX-10, Harley X21) possuem certificações técnicas para concessão de CAT para emplacamento e emissão de nota fiscal com RENAVAM.'
   },
   {
     title: 'Política Ambiental & Logística Reversa (CONAMA)',
