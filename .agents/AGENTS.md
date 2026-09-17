@@ -92,7 +92,28 @@
   - Max height `90vh` or `92dvh` with internal scroll (`overflow-y: auto`), accessible sticky close buttons, `max-width: min(95vw, <desktopWidth>)`, and safe margins on mobile.
 - **Tables & Data Grids (CRM / OS / Admin)**:
   - Always wrapped in dedicated responsive containers (`overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;`) with visible badges, clear headers, and touch-friendly controls.
-- **No Side-Scroll Guarantee**: `box-sizing: border-box` on all elements, no fixed pixel widths exceeding `100vw`, no unconstrained negative margins.
+## Bauhaus Visual Scheme & Regional Advertising Protocol (MANDATORY & PERMANENT)
+- **Design Philosophy**: Form follows function (*Form folgt Funktion*). Strict asymmetric mathematical grid, generous negative space, no decorative clutter.
+- **Visual Hierarchy & Flow**:
+  1. Top Status Pill: `Z8 E-MOTION // CONCESSÃO [ANO]`
+  2. Hero Headline: Monumental Bauhaus Grotesque (Bold, Architectural, `leading: 1.05`, uppercase).
+  3. Hero Vehicle: Exclusively official Z8 models (`z8Models` in `site-principal/data/models.js`).
+     - **NEVER change the motorcycle design/shape**. The frame, silhouette, wheels, and parts must match our real models.
+     - **Modify the motorcycle colors** across generations (e.g. Desert Sand Matte, British Racing Emerald, Cyber Electric Blue, Midnight Black Gloss, Pearl White) to prevent visual repetition.
+     - **Always use real atmospheric regional background scenery** (agro corridors, modern urban skylines, European cobblestone avenues, coastal boulevards) integrated behind the bike.
+     - **NEVER include people / humans in the generated images**. Clean vehicle hero only.
+- **Instagram Stories & Reels Safe Zone Protocol (MANDATORY)**:
+  - **Resolution**: 1080 × 1920 px (9:16).
+  - **Top Dead Zone (250 px)**: Keep the top 250px free of critical text (reserved for profile handle, stories progress bars, close button, time/battery). Top pill and headline must start strictly below Y = 250px.
+  - **Bottom Dead Zone (300 px - 350 px)**: Keep the bottom 300px completely free of text, telemetry, and buttons (reserved for Instagram's 'Send Message' reply bar, heart icon, share icon, Reels caption, audio pill, and right-side interactive icons).
+  - **Active Safe Zone (Zona Segura)**: All critical typography, headline, vehicle hero, telemetry grid, and CTA must reside strictly within `Y = 260px` to `Y = 1600px`.
+  - **Single Unified Grid**: Telemetry metrics (Row 1) and Call To Action for scheduling (Row 2) must be integrated into ONE single Bauhaus grid block, completely eliminating duplicate data rows.
+  - **Metallic 3D Logo on Motorcycle**: Every motorcycle must feature the official 'Z8' emblem as a prominent 3D high-relief metallic badge in Bright Silver / Polished Chrome with beveled aero-sport edges on the tank/fairing.
+- **Regional Mapping**:
+  - **Centro-Oeste**: Z8 Tank High-Speed or Z8 U2 Delivery Cargo | Agro/Highway Scenery | Desert Sand / Metallic Green.
+  - **Sul**: Z8 Q10 Vintage or Z8 FX-10 Sport | Serra / European Architecture | British Racing Green / Cream.
+  - **Nordeste / Litoral**: Z8 FX-10 Sport or Z8 N95C Max Comfort | Ocean Promenade / Sunset | Cyber Electric Cyan / Pearl White.
+  - **Sudeste / Corporativo**: Z8 Harley X21 Custom or Z8 Tank | Night Financial Skyline | Midnight Black Gloss / Titanium.
 
 ## Resume Point for Next Session
 1. Confirmar sincronização em tempo real das Ordens de Serviço (OS) e leads no Firestore oficial.
