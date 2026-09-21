@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Z8 E-Motion // Bauhaus Story Studio (9:16) - Vale do Paraíba</title>
+  <title>Z8 E-Motion // Instagram Story Studio (9:16) - Campanha de Expansão & Franquias</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #080A0F;
       --accent-cyan: #00F0FF;
-      --accent-gold: #F59E0B;
+      --accent-gold: #FFB800;
       --border-subtle: rgba(255, 255, 255, 0.08);
       --font-bauhaus: 'Space Grotesk', -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
@@ -26,359 +26,480 @@
     }
     .font-bauhaus { font-family: var(--font-bauhaus); }
     .font-mono { font-family: var(--font-mono); }
-    .bg-grid-pattern {
-      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-      background-size: 32px 32px;
-    }
     .story-aspect {
       aspect-ratio: 9 / 16;
       width: 100%;
       max-width: 380px;
+    }
+    .story-card-thumb {
+      aspect-ratio: 9 / 16;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .story-card-thumb:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: #FFB800;
+      box-shadow: 0 12px 24px rgba(255, 184, 0, 0.2);
+    }
+    .story-card-thumb.active {
+      border-color: #00F0FF;
+      box-shadow: 0 0 0 2px #00F0FF, 0 12px 28px rgba(0, 240, 255, 0.3);
     }
   </style>
 </head>
 <body class="min-h-screen bg-slate-950 p-4 md:p-8 flex flex-col items-center">
 
   <!-- Header Institucional Bauhaus -->
-  <header class="max-w-4xl w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
+  <header class="max-w-6xl w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-6 mb-8">
     <div>
       <div class="flex items-center gap-2 mb-1">
-        <span class="inline-block w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-        <span class="font-mono text-[11px] tracking-widest uppercase text-cyan-400">BAUHAUS DESIGN SYSTEM // Z8 E-MOTION</span>
+        <span class="inline-block w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span class="font-mono text-[11px] tracking-widest uppercase text-amber-400">EXPANSÃO NACIONAL & REGIONAL // Z8 E-MOTION</span>
       </div>
-      <h1 class="font-bauhaus text-2xl sm:text-3xl font-bold tracking-tight text-white">
-        EXPANSÃO VALE DO PARAÍBA // 9:16 STUDIO
+      <h1 class="font-bauhaus text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+        INSTAGRAM STORIES STUDIO // 9:16
       </h1>
       <p class="text-xs text-slate-400 mt-1">
-        Design minimalista funcional, tipografia suíça rigorosa e telemetria de alta conversão para investidores.
+        Artes de alta conversão para venda de franquias, números financeiros reais, compliance CONTRAN 996 e Safe Zone rigorosa.
       </p>
     </div>
-    <div class="flex items-center gap-2">
-      <a href="/site-principal/" class="px-3.5 py-1.5 rounded-lg border border-white/15 hover:border-cyan-400/50 text-xs text-slate-300 hover:text-white transition font-mono">
-        ← Voltar ao Site
+    <div class="flex flex-wrap items-center gap-2">
+      <a href="/site-principal/" class="px-3.5 py-2 rounded-lg border border-white/15 hover:border-cyan-400/50 text-xs text-slate-300 hover:text-white transition font-mono">
+        ← Site Principal
       </a>
-      <button onclick="downloadStoryHD()" class="px-4 py-2 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs font-mono transition flex items-center gap-1.5 shadow-lg shadow-cyan-500/20">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-        Baixar HD (1080×1920)
+      <a href="/vendas/" class="px-3.5 py-2 rounded-lg border border-white/15 hover:border-amber-400/50 text-xs text-slate-300 hover:text-white transition font-mono">
+        Área de Vendas B2B
+      </a>
+      <button onclick="downloadStoryHD()" class="px-4 py-2 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs font-mono transition flex items-center gap-1.5 shadow-lg shadow-amber-500/20">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke_linecap="round" stroke_linejoin="round" stroke_width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Baixar Arte Atual (1080×1920)
       </button>
     </div>
   </header>
 
   <!-- Main Workspace -->
-  <main class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+  <main class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
     
     <!-- Coluna Esquerda: Preview Interativo 9:16 -->
     <div class="lg:col-span-5 flex flex-col items-center">
       <div class="w-full flex items-center justify-between mb-3 text-xs font-mono text-slate-400 px-1">
-        <span>PREVIEW DINÂMICO 9:16</span>
-        <span class="text-cyan-400">STATUS: PRONTO</span>
+        <span id="preview-tag-title">ARTE ATUAL // 9:16 FULL HD</span>
+        <span class="text-amber-400 font-bold" id="preview-art-id">ARTE 01 / 10</span>
       </div>
 
       <!-- Moldura do Story -->
-      <div id="story-frame" class="story-aspect relative overflow-hidden rounded-2xl bg-black border border-white/15 shadow-2xl flex flex-col justify-between pt-12 pb-16 px-6 bg-grid-pattern">
+      <div id="story-frame" class="story-aspect relative overflow-hidden rounded-2xl bg-black border border-white/20 shadow-2xl flex flex-col justify-between">
         
-        <!-- Fundo: Foto Chiaroscuro -->
-        <img id="bg-image-preview" src="story_bauhaus_taubate_fx10.jpg" alt="Z8 Bauhaus Story" class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none" />
-        
-        <!-- Subtle Vignette / Contrast Gradient -->
-        <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90 pointer-events-none"></div>
-
-        <!-- Grade e Linhas Técnicas Bauhaus (Overlays) -->
-        <div class="absolute inset-x-4 top-0 bottom-0 border-x border-white/[0.04] pointer-events-none"></div>
-        <div class="absolute inset-y-8 left-0 right-0 border-y border-white/[0.04] pointer-events-none"></div>
+        <!-- Fundo: Arte Renderizada em Alta Resolução -->
+        <img id="bg-image-preview" src="story_franquia_01_oportunidade.jpg" alt="Z8 Franquia Story" class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none" />
 
         <!-- Overlay de Zonas Mortas (Toggleável) -->
         <div id="safe-zone-overlay" class="absolute inset-0 pointer-events-none hidden z-30">
-          <div class="absolute top-0 left-0 right-0 h-[13%] bg-red-500/25 border-b border-red-500/60 flex items-center justify-center">
+          <div class="absolute top-0 left-0 right-0 h-[13%] bg-red-500/25 border-b-2 border-red-500/80 flex flex-col items-center justify-center">
             <span class="text-[9px] font-mono text-red-200 font-bold tracking-wider">ZONA MORTA SUPERIOR (250px)</span>
+            <span class="text-[8px] font-mono text-red-300">Perfil • Barra Stories • Botão Fechar</span>
           </div>
-          <div class="absolute bottom-0 left-0 right-0 h-[16.6%] bg-red-500/25 border-t border-red-500/60 flex items-center justify-center">
-            <span class="text-[9px] font-mono text-red-200 font-bold tracking-wider">ZONA MORTA INFERIOR (320px)</span>
-          </div>
-        </div>
-
-        <!-- Conteúdo Renderizado ao Vivo (Zona Segura) -->
-        <div class="relative z-10 flex flex-col items-center text-center">
-          <!-- Top Badge Pill -->
-          <div class="border border-white/30 px-3 py-1 rounded-full text-[9px] font-mono tracking-widest text-slate-200 uppercase bg-black/50 backdrop-blur-sm mb-3">
-            <span id="label-top-badge">Z8 E-MOTION // CONCESSÃO MUNICIPAL</span>
-          </div>
-
-          <!-- Headline Principal -->
-          <h2 id="label-headline" class="font-bauhaus font-black text-xl sm:text-2xl text-white uppercase leading-[1.05] tracking-tight">
-            CONCESSÃO EXCLUSIVA:<br>TAUBATÉ - SP
-          </h2>
-        </div>
-
-        <!-- Bloco Inferior: Grid Unificado (Sem Repetições, Dentro da Zona Segura) -->
-        <div class="relative z-10 flex flex-col">
-          <div class="border border-white/20 bg-black/70 backdrop-blur-md rounded-lg overflow-hidden divide-y divide-white/20">
-            <!-- Linha Superior de Telemetria (3 Colunas) -->
-            <div class="grid grid-cols-3 divide-x divide-white/20 text-center py-2 px-1">
-              <div class="flex flex-col items-center justify-center p-0.5">
-                <span id="stat-1-val" class="font-bauhaus font-bold text-xs sm:text-sm text-white">100%</span>
-                <span id="stat-1-lbl" class="text-[7px] sm:text-[8px] font-mono text-slate-300 uppercase leading-tight mt-0.5">CIDADE EXCLUSIVA</span>
-              </div>
-              <div class="flex flex-col items-center justify-center p-0.5">
-                <span id="stat-2-val" class="font-bauhaus font-bold text-xs sm:text-sm text-white">ATÉ 57%</span>
-                <span id="stat-2-lbl" class="text-[7px] sm:text-[8px] font-mono text-slate-300 uppercase leading-tight mt-0.5">MARKUP BRUTO</span>
-              </div>
-              <div class="flex flex-col items-center justify-center p-0.5">
-                <span id="stat-3-val" class="font-bauhaus font-bold text-xs sm:text-sm text-white">CONTRAN 996</span>
-                <span id="stat-3-lbl" class="text-[7px] sm:text-[8px] font-mono text-slate-300 uppercase leading-tight mt-0.5">SEM CNH</span>
-              </div>
-            </div>
-
-            <!-- Linha Integrada: Call to Action no Próprio Grid -->
-            <div class="p-2 bg-white/5 flex flex-col items-center gap-0.5 text-center">
-              <p id="label-cities" class="text-[8px] font-mono text-slate-300 uppercase tracking-wider">
-                POLO INDUSTRIAL • TERRITÓRIO MUNICIPAL EXCLUSIVO
-              </p>
-              <span id="label-cta" class="font-mono font-bold text-[10px] sm:text-xs text-white uppercase tracking-wider">
-                AGENDAR REUNIÃO // RESERVAR TAUBATÉ
-              </span>
-            </div>
+          <div class="absolute bottom-0 left-0 right-0 h-[17.5%] bg-red-500/25 border-t-2 border-red-500/80 flex flex-col items-center justify-center">
+            <span class="text-[9px] font-mono text-red-200 font-bold tracking-wider">ZONA MORTA INFERIOR (340px)</span>
+            <span class="text-[8px] font-mono text-red-300">Barra Enviar Mensagem • Ícone Curtir • Patrocinado</span>
           </div>
         </div>
 
       </div>
 
-      <!-- Quick Action Under Preview & Safe Zone Toggle -->
-      <div class="w-full max-w-[380px] flex flex-col gap-2 mt-3">
-        <button onclick="toggleSafeZone()" id="btn-toggle-safe" class="w-full py-2 rounded-lg border border-red-500/30 hover:bg-red-500/10 text-red-300 text-[11px] font-mono transition flex items-center justify-center gap-1.5">
+      <!-- Controles Rápidos Abaixo do Preview -->
+      <div class="w-full max-w-[380px] flex flex-col gap-2 mt-4">
+        <button onclick="toggleSafeZone()" id="btn-toggle-safe" class="w-full py-2.5 rounded-xl border border-red-500/40 hover:bg-red-500/10 text-red-300 text-xs font-mono transition flex items-center justify-center gap-1.5">
           <span>📐 Visualizar Zonas Mortas do Instagram</span>
         </button>
-        <button onclick="downloadStoryHD()" class="w-full py-3 rounded-xl bg-white hover:bg-slate-200 text-slate-950 font-bold text-xs uppercase font-mono tracking-wider flex items-center justify-center gap-2 shadow-xl transition">
-          <span>💾 Salvar Imagem em Alta Resolução (1080×1920)</span>
+        <button onclick="downloadStoryHD()" class="w-full py-3.5 rounded-xl bg-white hover:bg-slate-200 text-slate-950 font-extrabold text-xs uppercase font-mono tracking-wider flex items-center justify-center gap-2 shadow-xl transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke_linecap="round" stroke_linejoin="round" stroke_width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          <span>💾 Baixar Esta Imagem em Alta Resolução (1080×1920)</span>
         </button>
       </div>
     </div>
 
-    <!-- Coluna Direita: Controles de Customização & Playbook de Copywriting -->
+    <!-- Coluna Direita: Seletor, Telemetria & Playbook de Copywriting -->
     <div class="lg:col-span-7 flex flex-col gap-6">
       
-      <!-- Card de Controles Bauhaus -->
+      <!-- Card de Seleção de Arte -->
       <div class="bg-slate-900/60 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
         <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
           <h3 class="font-bauhaus font-bold text-base text-white uppercase tracking-wider flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
-            Controles Rápidos de Campanha
+            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+            Seletor de Arte da Campanha
           </h3>
-          <span class="text-xs font-mono text-slate-400">RMVALE 2026</span>
+          <span class="text-xs font-mono text-amber-400">10 ARTES DISPONÍVEIS</span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- Seletor de Praça -->
-          <div>
-            <label class="block text-xs font-mono text-slate-300 mb-1.5 uppercase">Praça / Região</label>
-            <select id="select-city" onchange="updateStoryCity(this.value)" class="w-full bg-slate-950 border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
-              <option value="taubate">Taubaté - SP (Polo Industrial • Z8 FX-10)</option>
-              <option value="caraguatatuba">Caraguatatuba - SP (Litoral Norte • Z8 N95C)</option>
-              <option value="pinda">Pindamonhangaba - SP (Mantiqueira • Z8 Tank)</option>
-              <option value="jacarei">Jacareí - SP (Polo Logístico • Z8 N710)</option>
-              <option value="cacapava">Caçapava - SP (Coração do Vale • Z8 Q10)</option>
-              <option value="valedoparaiba">Visão Geral Vale do Paraíba (Estúdio)</option>
-            </select>
-          </div>
+        <div class="grid grid-cols-1 gap-3">
+          <label class="block text-xs font-mono text-slate-300 uppercase">Escolha a Arte para Visualizar & Baixar:</label>
+          <select id="select-story" onchange="selectStory(this.value)" class="w-full bg-slate-950 border border-white/20 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-400 outline-none font-sans">
+            <option value="01">Arte 01: Oportunidade Central de Franquia (R$ 35.000)</option>
+            <option value="02">Arte 02: Faturamento & Poder de Caixa (R$ 80k a R$ 180k/mês)</option>
+            <option value="03">Arte 03: Revolução Sem CNH & Sem Placa (CONTRAN 996)</option>
+            <option value="04">Arte 04: Ponto Comercial Compacto (50 m² a 60 m² úteis)</option>
+            <option value="05">Arte 05: Oficina Técnica & Pós-Venda (2 Elevadores Inclusos)</option>
+            <option value="06">Arte 06: Blindagem & Exclusividade Territorial (50 km de Raio)</option>
+            <option value="07">Arte 07: Estoque Nacional & Despacho em 48h (Sem Risco Portuário)</option>
+            <option value="08">Arte 08: Expansão Regional Polo Industrial (Vale do Paraíba - SP)</option>
+            <option value="09">Arte 09: Expansão Regional Turismo & Lazer (Litoral Paulista)</option>
+            <option value="10">Arte 10: Maior Centro Econômico (São Paulo & Capital)</option>
+          </select>
+        </div>
 
-          <!-- Seletor de Ângulo de Copy -->
-          <div>
-            <label class="block text-xs font-mono text-slate-300 mb-1.5 uppercase">Ângulo do Headline</label>
-            <select id="select-headline" onchange="updateHeadline(this.value)" class="w-full bg-slate-950 border border-white/15 rounded-lg px-3 py-2 text-xs text-white focus:border-cyan-400 outline-none">
-              <option value="1">EXPANSÃO VALE DO PARAÍBA - SP</option>
-              <option value="2">CONCESSÃO EXCLUSIVA // EIXO DUTRA</option>
-              <option value="3">RESERVA DE PRAÇA // RMVALE 2026</option>
-              <option value="4">DOMINE A MOBILIDADE ELÉTRICA</option>
-            </select>
+        <!-- Telemetria Rápida da Arte Selecionada -->
+        <div class="mt-4 pt-4 border-t border-white/10 grid grid-cols-3 gap-2 text-center" id="art-meta-grid">
+          <div class="bg-black/40 rounded-lg p-2 border border-white/5">
+            <span class="text-[10px] font-mono text-slate-400 uppercase block">Destaque</span>
+            <strong class="text-xs text-amber-400 font-bauhaus" id="meta-highlight">R$ 35.000</strong>
+          </div>
+          <div class="bg-black/40 rounded-lg p-2 border border-white/5">
+            <span class="text-[10px] font-mono text-slate-400 uppercase block">Modelo Fundo</span>
+            <strong class="text-xs text-white font-bauhaus" id="meta-vehicle">Fachada Master</strong>
+          </div>
+          <div class="bg-black/40 rounded-lg p-2 border border-white/5">
+            <span class="text-[10px] font-mono text-slate-400 uppercase block">Formato</span>
+            <strong class="text-xs text-cyan-400 font-mono">1080×1920 (9:16)</strong>
           </div>
         </div>
       </div>
 
-      <!-- Card do Playbook de Copywriting Bauhaus (Pronto para Uso) -->
+      <!-- Card do Playbook de Copywriting & Script WhatsApp -->
       <div class="bg-slate-900/60 border border-white/10 rounded-2xl p-6 backdrop-blur-sm flex flex-col gap-4">
         <div class="border-b border-white/10 pb-3 flex items-center justify-between">
           <div>
             <h3 class="font-bauhaus font-bold text-base text-white uppercase tracking-wider">
-              Copywriting de Alta Conversão B2B
+              Playbook de Copywriting da Arte
             </h3>
-            <p class="text-xs text-slate-400 mt-0.5">Textos desenhados para investidores de alto padrão e concessionários.</p>
+            <p class="text-xs text-slate-400 mt-0.5">Texto pronto para postagem patrocinada (Meta Ads) e resposta rápida.</p>
           </div>
-          <span class="px-2.5 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-amber-300 text-[10px] font-mono font-bold">100% GRATUITO</span>
+          <button onclick="copyCurrentCopy()" id="btn-copy-main" class="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs font-mono transition">
+            Copiar Texto
+          </button>
         </div>
 
-        <!-- Opção 1: Exclusividade Territorial -->
-        <div class="bg-slate-950/80 border border-white/10 rounded-xl p-4 flex flex-col gap-2">
+        <!-- Texto da Copy -->
+        <div class="bg-slate-950/90 border border-white/10 rounded-xl p-4 flex flex-col gap-2">
+          <span class="text-[11px] font-mono font-bold text-amber-400 uppercase" id="copy-title">
+            COPY PATROCINADA // ARTE 01
+          </span>
+          <p id="copy-content" class="text-xs text-slate-300 leading-relaxed font-sans select-all whitespace-pre-line"></p>
+        </div>
+
+        <!-- Script de Resposta no WhatsApp -->
+        <div class="bg-slate-950/90 border border-white/10 rounded-xl p-4 flex flex-col gap-2">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-cyan-400 uppercase">COPY 01 // EXCLUSIVIDADE DE PRAÇA (DIRETA)</span>
-            <button onclick="copyToClipboard('copy-text-1', this)" class="text-[11px] font-mono text-slate-300 hover:text-white px-2 py-0.5 rounded border border-white/15 bg-white/5 transition">Copiar</button>
+            <span class="text-[11px] font-mono font-bold text-emerald-400 uppercase">
+              SCRIPT DE BOAS-VINDAS NO WHATSAPP (1º CONTATO)
+            </span>
+            <button onclick="copyWhatsAppScript()" id="btn-copy-wa" class="text-[10px] font-mono text-slate-300 hover:text-white px-2 py-0.5 rounded border border-white/15 bg-white/5 transition">
+              Copiar Script
+            </button>
           </div>
-          <p id="copy-text-1" class="text-xs text-slate-300 leading-relaxed font-sans select-all">
-⚡ CONCESSÃO EXCLUSIVA // VALE DO PARAÍBA - SP ⚡<br><br>
-A Z8 E-Motion abre a expansão estratégica no maior polo de tecnologia e inovação do interior paulista.<br><br>
-Garantia de 50km de raio territorial exclusivo para a sua concessionária em São José dos Campos, Taubaté, Jacareí ou Pindamonhangaba.<br><br>
-• Margens comerciais de até 100% direto de fábrica<br>
-• Faturamento imediato em veículos autopropelidos (Resolução CONTRAN 996)<br>
-• Suporte presencial de fábrica com sede na Av. Dr. Adhemar de Barros, 566 - SJC<br>
-• Agendamento de reunião executiva e qualificação 100% gratuita<br><br>
-🔗 Toque no link para solicitar o Dossiê Executivo ou agendar reunião com a diretoria.
-          </p>
+          <p id="wa-script-content" class="text-xs text-slate-300 leading-relaxed font-sans select-all whitespace-pre-line"></p>
         </div>
-
-        <!-- Opção 2: Tese de Investimento & Margem -->
-        <div class="bg-slate-950/80 border border-white/10 rounded-xl p-4 flex flex-col gap-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-mono font-bold text-amber-400 uppercase">COPY 02 // TESE DE INVESTIMENTO & ROI</span>
-            <button onclick="copyToClipboard('copy-text-2', this)" class="text-[11px] font-mono text-slate-300 hover:text-white px-2 py-0.5 rounded border border-white/15 bg-white/5 transition">Copiar</button>
-          </div>
-          <p id="copy-text-2" class="text-xs text-slate-300 leading-relaxed font-sans select-all">
-📈 RENTABILIDADE E ESCALABILIDADE NO EIXO DUTRA 📈<br><br>
-O mercado de mobilidade elétrica cresce acima de 40% ao ano, e o Vale do Paraíba concentra uma das maiores densidades de consumo do país.<br><br>
-A franquia Z8 E-Motion entrega uma operação enxuta (a partir de 55m²), com 2 elevadores de oficina autorizada e retorno do capital em 8 a 14 meses.<br><br>
-Condições exclusivas de inauguração para os primeiros concessionários homologados da região.<br><br>
-📲 Responda este Story ou toque no link para acessar os números da operação.
-          </p>
-        </div>
-
-        <!-- Opção 3: Stickers Interativos para Instagram -->
-        <div class="bg-slate-950/80 border border-white/10 rounded-xl p-4 flex flex-col gap-2">
-          <span class="text-xs font-mono font-bold text-slate-300 uppercase">RECURSOS DE ENGAJAMENTO NO INSTAGRAM (STICKERS)</span>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-400 font-mono">
-            <div class="p-2 bg-white/5 rounded border border-white/5">
-              <strong class="text-white block mb-0.5">Enquete de Praça:</strong>
-              "Onde você quer abrir sua Z8?"<br>
-              [ ] SJC / Jacareí<br>
-              [ ] Taubaté / Pinda
-            </div>
-            <div class="p-2 bg-white/5 rounded border border-white/5">
-              <strong class="text-white block mb-0.5">Sticker de Link (URL):</strong>
-              Texto: "DOSSIÊ EXECUTIVO Z8"<br>
-              Destino: z8emotion.com/vendas/
-            </div>
-          </div>
-        </div>
-
       </div>
 
     </div>
 
   </main>
 
-  <script>
-    let activeStoryImage = 'story_bauhaus_taubate_fx10.jpg';
-    let activeDownloadName = 'Z8_Emotion_Story_Bauhaus_Taubate_FX10_1080x1920.jpg';
+  <!-- Galeria Visual com as 10 Artes -->
+  <section class="max-w-6xl w-full border-t border-white/10 pt-8 mb-12">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h2 class="font-bauhaus text-xl sm:text-2xl font-bold text-white uppercase tracking-tight">
+          Galeria Completa das 10 Artes (Download em 1 Clique)
+        </h2>
+        <p class="text-xs text-slate-400 mt-1">
+          Todas geradas com fotos 100% limpas de veículos oficiais e arquitetura Z8, sem interferências de textos antigos.
+        </p>
+      </div>
+      <button onclick="downloadAllStories()" class="px-4 py-2 rounded-xl bg-white hover:bg-slate-200 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition shadow-lg">
+        📥 Baixar Todas as 10
+      </button>
+    </div>
 
-    const cityData = {
-      taubate: {
-        image: "story_bauhaus_taubate_fx10.jpg",
-        download: "Z8_Emotion_Story_Bauhaus_Taubate_FX10_1080x1920.jpg",
-        headline: "CONCESSÃO EXCLUSIVA:<br>TAUBATÉ - SP",
-        cities: "POLO INDUSTRIAL • TERRITÓRIO MUNICIPAL EXCLUSIVO",
-        topBadge: "Z8 E-MOTION // CONCESSÃO MUNICIPAL",
-        stat1: "100%", stat1Lbl: "CIDADE EXCLUSIVA",
-        stat2: "ATÉ 57%", stat2Lbl: "MARKUP BRUTO",
-        stat3: "CONTRAN 996", stat3Lbl: "SEM CNH",
-        cta: "RESERVAR PRAÇA DE TAUBATÉ"
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4" id="stories-grid-gallery">
+      <!-- Inserido dinamicamente via JS -->
+    </div>
+  </section>
+
+  <script>
+    const storiesCatalog = {
+      "01": {
+        id: "01",
+        title: "Arte 01: Oportunidade Central (R$ 35.000)",
+        image: "story_franquia_01_oportunidade.jpg",
+        download: "Z8_Franquia_01_Oportunidade_R35k_1080x1920.jpg",
+        highlight: "R$ 35.000",
+        vehicle: "Fachada 3 Arcos",
+        copy: `⚡ OPORTUNIDADE DE NEGÓCIO // FRANQUIA Z8 E-MOTION ⚡
+
+O mercado de mobilidade elétrica é o setor que mais cresce no Brasil. A Z8 E-Motion abre cotas de expansão com concessão territorial exclusiva para 2026.
+
+• Taxa inicial de franquia: R$ 35.000 homologada
+• Margens brutas de até 57% no atacado e varejo
+• Retorno do investimento estimado em 6 a 12 meses
+• Raio de proteção municipal de 50km garantido em contrato
+• 2 elevadores de oficina inclusos no pacote técnico
+
+🔗 Toque no botão abaixo para conversar diretamente com a diretoria de expansão pelo WhatsApp.`,
+        waScript: `Olá! Seja bem-vindo à Diretoria de Expansão da Z8 E-Motion Brasil. 🚀
+
+Recebemos seu interesse na Franquia Z8 (Taxa Inicial R$ 35.000 com exclusividade de 50km).
+
+Para verificarmos imediatamente se a sua cidade/região ainda possui cota aberta, por favor informe:
+1. Seu Nome Completo:
+2. Sua Cidade e Estado de interesse:
+3. Já possui ponto comercial ou experiência no ramo de motos/veículos?
+
+Vamos enviar o Dossiê de Franqueado e a Tabela de Margens de Atacado em seguida!`
       },
-      caraguatatuba: {
-        image: "story_bauhaus_caraguatatuba_n95c.jpg",
-        download: "Z8_Emotion_Story_Bauhaus_Caraguatatuba_N95C_1080x1920.jpg",
-        headline: "CONCESSÃO EXCLUSIVA:<br>CARAGUATATUBA - SP",
-        cities: "CAPITAL DO LITORAL NORTE • TERRITÓRIO MUNICIPAL EXCLUSIVO",
-        topBadge: "Z8 E-MOTION // CONCESSÃO MUNICIPAL",
-        stat1: "100%", stat1Lbl: "CIDADE EXCLUSIVA",
-        stat2: "ATÉ 54%", stat2Lbl: "MARKUP BRUTO",
-        stat3: "CONTRAN 996", stat3Lbl: "SEM CNH",
-        cta: "RESERVAR PRAÇA DE CARAGUÁ"
+      "02": {
+        id: "02",
+        title: "Arte 02: Faturamento & Caixa (R$ 80k a R$ 180k)",
+        image: "story_franquia_02_faturamento.jpg",
+        download: "Z8_Franquia_02_Faturamento_R80k_180k_1080x1920.jpg",
+        highlight: "R$ 80k - 180k",
+        vehicle: "Showroom Z8",
+        copy: `📈 ALTA RENTABILIDADE // PODER DE CAIXA REAL 📈
+
+Você não precisa de uma mega concessionária para ter uma operação de alta lucratividade. 
+
+A Franquia Z8 entrega faturamento médio estimado entre R$ 80.000 e R$ 180.000/mês com margem líquida de 20% a 35%.
+
+• Lucro médio de R$ 3.000 a R$ 7.000 por moto vendida
+• ZERO cobrança de royalties sobre o faturamento
+• Receita contínua com venda de motos, baterias e oficina periódica
+• Operação enxuta com 1 consultor e 1 mecânico técnico
+
+📲 Clique no botão abaixo para receber o estudo de viabilidade financeira.`,
+        waScript: `Olá! Prazer em falar com você. 📊
+
+Você solicitou o Estudo de Viabilidade Financeira da Franquia Z8 E-Motion (Faturamento estimado R$ 80.000 a R$ 180.000/mês com margem líquida de até 35%).
+
+Qual é o seu município de interesse? Vou checar a disponibilidade e te enviar o demonstrativo de fluxo de caixa completo!`
       },
-      pinda: {
-        image: "story_bauhaus_pinda_tank.jpg",
-        download: "Z8_Emotion_Story_Bauhaus_Pinda_Tank_1080x1920.jpg",
-        headline: "CONCESSÃO EXCLUSIVA:<br>PINDAMONHANGABA - SP",
-        cities: "POLO INDUSTRIAL • TERRITÓRIO MUNICIPAL EXCLUSIVO",
-        topBadge: "Z8 E-MOTION // CONCESSÃO MUNICIPAL",
-        stat1: "100%", stat1Lbl: "CIDADE EXCLUSIVA",
-        stat2: "ATÉ 53%", stat2Lbl: "MARGEM BRUTA",
-        stat3: "CONTRAN 996", stat3Lbl: "SEM CNH",
-        cta: "RESERVAR PRAÇA DE PINDA"
+      "03": {
+        id: "03",
+        title: "Arte 03: Revolução Sem CNH (CONTRAN 996)",
+        image: "story_franquia_03_contran996.jpg",
+        download: "Z8_Franquia_03_CONTRAN996_SemCNH_1080x1920.jpg",
+        highlight: "SEM CNH & SEM PLACA",
+        vehicle: "Z8 FX-10 Sport",
+        copy: `🚀 MERCADO BILIONÁRIO // RESOLUÇÃO CONTRAN 996 🚀
+
+Venda veículos elétricos sem nenhuma burocracia de Detran.
+
+Com a regulamentação oficial da Resolução CONTRAN 996/2023, nossos modelos autopropelidos não exigem CNH, emplacamento ou IPVA. O cliente compra e sai rodando na hora!
+
+• Demanda gigantesca para deslocamento urbano, estudantes e trabalho
+• Baixíssimo custo de manutenção para o comprador final
+• Homologação técnica integral direto de fábrica
+• Giro rápido de estoque e alta velocidade de vendas
+
+🔗 Toque no botão abaixo e conheça o catálogo completo da linha autopropelida.`,
+        waScript: `Olá! Seja bem-vindo à Z8 E-Motion. ⚡
+
+A linha sem CNH e sem placa (Resolução CONTRAN 996) é a líder absoluta de vendas na nossa rede, com giro de estoque extremamente ágil.
+
+Em qual cidade você deseja abrir a sua unidade Z8? Vou te passar a ficha técnica dos modelos autopropelidos!`
       },
-      jacarei: {
-        image: "story_bauhaus_jacarei_n710.jpg",
-        download: "Z8_Emotion_Story_Bauhaus_Jacarei_N710_1080x1920.jpg",
-        headline: "CONCESSÃO EXCLUSIVA:<br>JACAREÍ - SP",
-        cities: "POLO LOGÍSTICO & INDUSTRIAL • TERRITÓRIO EXCLUSIVO",
-        topBadge: "Z8 E-MOTION // CONCESSÃO MUNICIPAL",
-        stat1: "100%", stat1Lbl: "CIDADE EXCLUSIVA",
-        stat2: "ATÉ 79%", stat2Lbl: "MARKUP BRUTO",
-        stat3: "CONTRAN 996", stat3Lbl: "SEM CNH",
-        cta: "RESERVAR PRAÇA DE JACAREÍ"
+      "04": {
+        id: "04",
+        title: "Arte 04: Ponto Compacto (50 m² a 60 m²)",
+        image: "story_franquia_04_ponto_compacto.jpg",
+        download: "Z8_Franquia_04_Ponto_Compacto_50m2_1080x1920.jpg",
+        highlight: "50 A 60 M² ÚTEIS",
+        vehicle: "Fachada 3m Compact",
+        copy: `🏬 PONTO COMERCIAL MODULAR // A PARTIR DE 50 M² 🏬
+
+Custo de implantação reduzido e visual de luxo. A Z8 padronizou módulos comerciais inteligentes de 2m a 5m de fachada, ideais para corredores comerciais e pontos de rua.
+
+• Área mínima comercial de apenas 50 a 60 m² úteis
+• Lote inicial enxuto de 10 motos
+• Fachada sofisticada em ACM Aço Escovado e Cinza Platina
+• Obra rápida com plantas arquitetônicas completas fornecidas pela matriz
+
+📲 Clique abaixo para solicitar o Manual Arquitetônico e plantas baixas.`,
+        waScript: `Olá! Tudo bem? 🏬
+
+O modelo de loja compacta da Z8 (50m² a 60m²) foi desenvolvido para maximizar o lucro com o menor custo de aluguel e obra possível.
+
+Você já tem um imóvel em vista na sua cidade ou gostaria de receber as diretrizes para escolha do ponto?`
       },
-      cacapava: {
-        image: "story_bauhaus_cacapava_q10.jpg",
-        download: "Z8_Emotion_Story_Bauhaus_Cacapava_Q10_1080x1920.jpg",
-        headline: "CONCESSÃO EXCLUSIVA:<br>CAÇAPAVA - SP",
-        cities: "CORAÇÃO DO VALE • TERRITÓRIO MUNICIPAL EXCLUSIVO",
-        topBadge: "Z8 E-MOTION // CONCESSÃO MUNICIPAL",
-        stat1: "100%", stat1Lbl: "CIDADE EXCLUSIVA",
-        stat2: "ATÉ 69%", stat2Lbl: "MARKUP BRUTO",
-        stat3: "CONTRAN 996", stat3Lbl: "SEM CNH",
-        cta: "RESERVAR PRAÇA DE CAÇAPAVA"
+      "05": {
+        id: "05",
+        title: "Arte 05: Oficina & 2 Elevadores",
+        image: "story_franquia_05_oficina_elevadores.jpg",
+        download: "Z8_Franquia_05_Oficina_2Elevadores_1080x1920.jpg",
+        highlight: "2 ELEVADORES",
+        vehicle: "Oficina PDI",
+        copy: `🔧 OFICINA TÉCNICA HOMOLOGADA // 2 ELEVADORES INCLUSOS 🔧
+
+Toda concessionária Z8 conta com oficina autorizada para pós-venda estruturado e receita recorrente todo mês.
+
+• 2 elevadores hidráulicos/pneumáticos para motos inclusos
+• Estoque nacional de peças de reposição e baterias de lítio
+• Treinamento técnico de 16 horas na Z8 Academy para seu mecânico
+• Faturamento com manutenções periódicas e garantias credenciadas
+
+🔗 Toque no botão e veja como funciona o pós-venda da rede Z8.`,
+        waScript: `Olá! Seja bem-vindo. 🔧
+
+A oficina homologada Z8 é um dos nossos maiores pilares de lucro recorrente, garantindo que sua loja fature tanto na venda quanto no pós-venda.
+
+Já atua com manutenção mecânica ou pretende contratar um técnico? Vou te explicar como funciona o treinamento na Z8 Academy!`
       },
-      valedoparaiba: {
-        image: "story_bauhaus_valedoparaiba.jpg",
-        download: "Z8_Emotion_Story_Bauhaus_ValeDoParaiba_1080x1920.jpg",
-        headline: "EXPANSÃO<br>VALE DO PARAÍBA - SP",
-        cities: "TAUBATÉ • JACAREÍ • CARAGUATATUBA • PINDA",
-        topBadge: "Z8 E-MOTION // CONCESSÃO 2026",
-        stat1: "MUNICIPAL", stat1Lbl: "EXCLUSIVIDADE",
-        stat2: "ATÉ 100%", stat2Lbl: "MARGEM BRUTA",
-        stat3: "CONTRAN 996", stat3Lbl: "SEM CNH",
-        cta: "SOLICITAR DOSSIÊ EXECUTIVO"
+      "06": {
+        id: "06",
+        title: "Arte 06: Blindagem Territorial (50 km)",
+        image: "story_franquia_06_exclusividade_50km.jpg",
+        download: "Z8_Franquia_06_Exclusividade_50km_1080x1920.jpg",
+        highlight: "50 KM DE RAIO",
+        vehicle: "Z8 Tank High-Speed",
+        copy: `🛡️ BLINDAGEM DE MERCADO // 50 KM DE EXCLUSIVIDADE 🛡️
+
+Garantia jurídica de território: na Z8 você é o único franqueado autorizado em um raio de 50 quilômetros.
+
+• Sem concorrência interna da própria marca
+• Repasse integral de 100% dos clientes que chegam pelas campanhas nacionais
+• Contrato padrão regido pela Lei de Franquias (Lei 13.966/2019)
+• Proteção do seu investimento e da sua base de clientes
+
+📲 Clique abaixo para checar a disponibilidade da sua região no mapa oficial.`,
+        waScript: `Olá! 🛡️
+
+A exclusividade territorial de 50km é cláusula pétrea do nosso contrato. Nenhum outro ponto Z8 pode ser aberto dentro do seu raio protegido.
+
+Qual é a sua cidade? Vou puxar agora mesmo no sistema se sua praça ainda está disponível para reserva!`
+      },
+      "07": {
+        id: "07",
+        title: "Arte 07: Pronta-Entrega (Despacho 48h)",
+        image: "story_franquia_07_pronta_entrega.jpg",
+        download: "Z8_Franquia_07_Pronta_Entrega_48h_1080x1920.jpg",
+        highlight: "DESPACHO EM 48H",
+        vehicle: "Z8 U2 Delivery",
+        copy: `⚡ SEM RISCO DE IMPORTAÇÃO // PRONTA-ENTREGA NO BRASIL ⚡
+
+Esqueça o risco cambial, atrasos em portos e contêineres parados. A Z8 mantém Centro de Fulfillment em São Paulo com motos montadas e revisadas.
+
+• Despacho ágil em até 48 horas para qualquer estado
+• Veículos inspecionados com controle de qualidade rigoroso
+• Garantia nacional de 1 ano direta de fábrica
+• Catálogo completo de modelos à pronta-entrega
+
+🔗 Toque no botão e receba a lista de modelos com entrega imediata.`,
+        waScript: `Olá! Seja bem-vindo. ⚡
+
+Um dos nossos maiores diferenciais é o estoque nacional com despacho em até 48 horas. Você não corre risco cambial e não precisa esperar meses por contêineres.
+
+Qual estado e cidade você atua? Vou te enviar os modelos disponíveis em estoque agora!`
+      },
+      "08": {
+        id: "08",
+        title: "Arte 08: Vale do Paraíba - SP (Polo Industrial)",
+        image: "story_franquia_08_vale_do_paraiba.jpg",
+        download: "Z8_Franquia_08_ValeDoParaiba_SP_1080x1920.jpg",
+        highlight: "VALE DO PARAÍBA - SP",
+        vehicle: "Z8 N710 Scooter",
+        copy: `🏙️ EXPANSÃO VALE DO PARAÍBA // POLO INDUSTRIAL & TECNOLÓGICO 🏙️
+
+São José dos Campos, Taubaté, Jacareí, Pinda e Caçapava concentram um dos maiores PIBs do interior de São Paulo, com mais de 2,5 milhões de habitantes no Eixo Dutra.
+
+• Concessão municipal exclusiva com apenas 1 vaga por cidade
+• Sede corporativa da Z8 instalada em São José dos Campos - SP
+• Suporte presencial de fábrica a minutos da sua loja
+• Alto poder de compra e forte demanda por veículos elétricos
+
+📲 Clique abaixo para agendar reunião presencial na Matriz Z8 em SJC.`,
+        waScript: `Olá! Que excelente contato. 🏙️
+
+Nossa sede corporativa e centro de distribuição ficam no Jardim São Dimas, em São José dos Campos - SP!
+
+Qual cidade do Vale você tem interesse (SJC, Taubaté, Jacareí, Pinda, Caçapava)? Podemos inclusive agendar um café na matriz para você conhecer as motos de perto!`
+      },
+      "09": {
+        id: "09",
+        title: "Arte 09: Litoral Paulista (Turismo & Lazer)",
+        image: "story_franquia_09_litoral_paulista.jpg",
+        download: "Z8_Franquia_09_Litoral_Paulista_1080x1920.jpg",
+        highlight: "LITORAL PAULISTA",
+        vehicle: "Z8 N95C Max Comfort",
+        copy: `🌊 OPORTUNIDADE NO LITORAL PAULISTA // ALTA TEMPORADA 🌊
+
+Caraguatatuba, Santos, São Sebastião, Ubatuba e Baixada Santista: o mercado de scooters elétricas explode no litoral durante todo o ano!
+
+• Mobilidade ideal para orlas, ciclovias e deslocamentos entre praias
+• Público qualificado: moradores, condomínios fechados, turistas e comércio
+• Modelos autopropelidos perfeitos para quem quer rodar sem CNH e sem placa
+• Margens atrativas com alto volume de vendas
+
+🔗 Toque no botão e garanta a exclusividade da sua cidade litorânea.`,
+        waScript: `Olá! 🌊
+
+O mercado de scooters elétricas no litoral paulista tem uma das maiores velocidades de giro da rede Z8, com procura altíssima o ano inteiro.
+
+Você tem interesse em qual praça (Caraguá, Santos, São Sebastião, Ubatuba, Guarujá)? Vou checar a disponibilidade imediata!`
+      },
+      "10": {
+        id: "10",
+        title: "Arte 10: São Paulo & Capital (Maior Mercado)",
+        image: "story_franquia_10_sao_paulo_capital.jpg",
+        download: "Z8_Franquia_10_SaoPaulo_Capital_1080x1920.jpg",
+        highlight: "SÃO PAULO & CAPITAL",
+        vehicle: "Z8 Harley X21",
+        copy: `🏢 O MAIOR MERCADO CONSUMIDOR DO BRASIL // SÃO PAULO & CAPITAL 🏢
+
+Mais de 12 milhões de habitantes precisando fugir do trânsito, do rodízio e do combustível caro. A Z8 E-Motion abre expansão na Grande São Paulo e ABC.
+
+• Demanda explosiva para delivery sustentável, frotas e uso executivo
+• Modelos de alta velocidade e linhas autopropelidas
+• Logística de abastecimento em poucas horas direto da matriz
+• Reunião executiva direta com a diretoria de expansão
+
+📲 Clique no botão abaixo para agendar sua qualificação executiva.`,
+        waScript: `Olá! Seja bem-vindo à Diretoria de Expansão da Z8. 🏢
+
+São Paulo Capital e a Grande SP concentram a maior demanda reprimida de mobilidade elétrica do país, tanto para pessoas físicas quanto para empresas e frotas de entrega.
+
+Qual região da capital ou Grande SP você pretende atuar? Vamos marcar uma apresentação detalhada dos números!`
       }
     };
 
-    function updateStoryCity(cityKey) {
-      const data = cityData[cityKey];
+    let activeStoryKey = "01";
+
+    function selectStory(key) {
+      activeStoryKey = key;
+      const data = storiesCatalog[key];
       if (!data) return;
 
-      document.getElementById('label-headline').innerHTML = data.headline;
-      document.getElementById('label-cities').innerText = data.cities;
-      document.getElementById('label-top-badge').innerText = data.topBadge;
-      document.getElementById('stat-1-val').innerText = data.stat1;
-      document.getElementById('stat-1-lbl').innerText = data.stat1Lbl;
-      document.getElementById('stat-2-val').innerText = data.stat2;
-      document.getElementById('stat-2-lbl').innerText = data.stat2Lbl;
-      document.getElementById('stat-3-val').innerText = data.stat3;
-      document.getElementById('stat-3-lbl').innerText = data.stat3Lbl;
-      document.getElementById('label-cta').innerText = data.cta;
+      // Update Preview
+      document.getElementById('bg-image-preview').src = data.image;
+      document.getElementById('preview-art-id').innerText = `ARTE ${data.id} / 10`;
+      document.getElementById('preview-tag-title').innerText = data.title.toUpperCase();
 
-      if (data.image) {
-        document.getElementById('bg-image-preview').src = data.image;
-        activeStoryImage = data.image;
-      }
-      if (data.download) {
-        activeDownloadName = data.download;
-      }
-    }
+      // Update Meta
+      document.getElementById('meta-highlight').innerText = data.highlight;
+      document.getElementById('meta-vehicle').innerText = data.vehicle;
 
-    function updateHeadline(val) {
-      const headlineEl = document.getElementById('label-headline');
-      if (val === "1") headlineEl.innerHTML = "CONCESSÃO EXCLUSIVA<br>TERRITÓRIO MUNICIPAL";
-      if (val === "2") headlineEl.innerHTML = "EXCLUSIVIDADE TOTAL<br>EIXO DUTRA 2026";
-      if (val === "3") headlineEl.innerHTML = "RESERVA DE PRAÇA<br>100% DA CIDADE";
-      if (val === "4") headlineEl.innerHTML = "DOMINE A MOBILIDADE<br>NA SUA CIDADE";
-    }
+      // Update Copy & WhatsApp Script
+      document.getElementById('copy-title').innerText = `COPY PATROCINADA // ARTE ${data.id}`;
+      document.getElementById('copy-content').innerText = data.copy;
+      document.getElementById('wa-script-content').innerText = data.waScript;
 
-    function copyToClipboard(elementId, btn) {
-      const text = document.getElementById(elementId).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const orig = btn.innerText;
-        btn.innerText = "Copiado!";
-        btn.classList.add("bg-cyan-400", "text-slate-950");
-        setTimeout(() => {
-          btn.innerText = orig;
-          btn.classList.remove("bg-cyan-400", "text-slate-950");
-        }, 2000);
+      // Update select dropdown value if triggered externally
+      document.getElementById('select-story').value = key;
+
+      // Update active state in thumbnail gallery
+      document.querySelectorAll('.story-card-thumb').forEach(el => {
+        if (el.getAttribute('data-key') === key) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
       });
     }
 
@@ -397,13 +518,87 @@ Condições exclusivas de inauguração para os primeiros concessionários homol
     }
 
     function downloadStoryHD() {
+      const data = storiesCatalog[activeStoryKey];
+      if (!data) return;
       const link = document.createElement('a');
-      link.download = activeDownloadName;
-      link.href = activeStoryImage;
+      link.download = data.download;
+      link.href = data.image;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     }
+
+    function downloadSpecific(key) {
+      const data = storiesCatalog[key];
+      if (!data) return;
+      const link = document.createElement('a');
+      link.download = data.download;
+      link.href = data.image;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function downloadAllStories() {
+      Object.keys(storiesCatalog).forEach((key, index) => {
+        setTimeout(() => {
+          downloadSpecific(key);
+        }, index * 400);
+      });
+    }
+
+    function copyCurrentCopy() {
+      const text = document.getElementById('copy-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('btn-copy-main');
+        const orig = btn.innerText;
+        btn.innerText = "Copiado!";
+        setTimeout(() => { btn.innerText = orig; }, 2000);
+      });
+    }
+
+    function copyWhatsAppScript() {
+      const text = document.getElementById('wa-script-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('btn-copy-wa');
+        const orig = btn.innerText;
+        btn.innerText = "Copiado!";
+        setTimeout(() => { btn.innerText = orig; }, 2000);
+      });
+    }
+
+    // Build visual thumbnail gallery
+    function renderGallery() {
+      const container = document.getElementById('stories-grid-gallery');
+      container.innerHTML = '';
+
+      Object.keys(storiesCatalog).forEach(key => {
+        const item = storiesCatalog[key];
+        const card = document.createElement('div');
+        card.className = `story-card-thumb relative rounded-xl overflow-hidden border border-white/10 bg-slate-900 flex flex-col justify-end p-2 cursor-pointer ${key === activeStoryKey ? 'active' : ''}`;
+        card.setAttribute('data-key', key);
+        card.onclick = () => selectStory(key);
+
+        card.innerHTML = `
+          <img src="${item.image}" alt="${item.title}" class="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none"></div>
+          <div class="relative z-10 flex flex-col gap-1">
+            <span class="text-[9px] font-mono text-amber-400 font-bold uppercase">Arte ${item.id}</span>
+            <p class="text-[10px] text-white font-bold leading-tight line-clamp-2">${item.title.split(': ')[1] || item.title}</p>
+            <button onclick="event.stopPropagation(); downloadSpecific('${key}')" class="mt-1 w-full py-1 bg-white/20 hover:bg-white text-white hover:text-black font-mono text-[9px] font-bold rounded transition flex items-center justify-center gap-1">
+              <span>Baixar HD</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Init on load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderGallery();
+      selectStory("01");
+    });
   </script>
 </body>
 </html>
