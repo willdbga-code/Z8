@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z8 E-Motion - Instagram Story (9:16) Margem +50%</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:ital,wght@0,400;0,700;0,900;1,700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    .font-condensed { font-family: 'Anton', 'Oswald', sans-serif; letter-spacing: 0.03em; }
+    .font-body { font-family: 'Montserrat', sans-serif; }
+    .gold-bar { background: linear-gradient(180deg, #F5D061 0%, #E5A93C 50%, #C48822 100%); }
+    .gold-badge { background: linear-gradient(90deg, #E5A93C 0%, #D4982E 100%); box-shadow: 0 6px 25px rgba(229, 169, 60, 0.5); }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-body min-h-screen flex flex-col items-center justify-center p-4">
+
+  <div class="max-w-md w-full flex flex-col items-center gap-4">
+    <div class="text-center">
+      <span class="inline-block px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-widest border border-amber-500/30 mb-1">Formato Instagram Story (9:16)</span>
+      <h1 class="text-xl font-bold text-white tracking-wide">ARTE EXPANSÃO VALE DO PARAÍBA</h1>
+      <p class="text-xs text-slate-400">Margem +50% • Loja Matriz & Z8 Tank Amarela</p>
+    </div>
+
+    <!-- Live 9:16 Story Frame -->
+    <div id="story-frame" class="relative overflow-hidden rounded-2xl shadow-2xl border-2 border-slate-700 bg-black" style="width: 360px; height: 640px;">
+      <!-- Background Image -->
+      <img src="franquia_matriz_z8tank_oficial.jpg" alt="Z8 Matriz & Tank" class="absolute inset-0 w-full h-full object-cover object-center scale-105" />
+
+      <!-- Cinematic Gradient Overlays -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/25 to-black/90"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-black/85 via-transparent to-black/60"></div>
+      
+      <!-- Gold Bar on Left -->
+      <div class="absolute top-0 left-0 bottom-0 w-3 gold-bar shadow-xl z-20"></div>
+
+      <!-- Top Typography Area -->
+      <div class="absolute top-12 left-6 right-6 z-20 space-y-1.5">
+        <h2 class="font-condensed text-3xl text-white uppercase leading-none drop-shadow-[0_4px_10px_rgba(0,0,0,0.95)]">
+          EXPANSÃO VALE DO PARAÍBA.
+        </h2>
+        <p class="font-condensed text-xs tracking-wider text-amber-400 uppercase font-bold drop-shadow">
+          FRANQUIA Z8 // EXCLUSIVIDADE DE PRAÇA // MARGEM +50%
+        </p>
+        <p class="text-[11px] text-slate-200 font-medium leading-tight drop-shadow-md">
+          Buscamos parceiros estratégicos em Taubaté, Jacareí, Pindamonhangaba e Região.
+        </p>
+      </div>
+
+      <!-- Bottom CTA Area -->
+      <div class="absolute bottom-10 left-6 right-6 z-20 flex flex-col items-center gap-2.5">
+        <div class="bg-black/85 backdrop-blur-md border border-amber-500/40 px-3 py-1 rounded-lg text-[10px] text-amber-300 font-bold flex items-center gap-1.5 shadow-lg">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+          LOJA MATRIZ OFICIAL • Z8 TANK
+        </div>
+
+        <div class="gold-badge text-slate-950 font-black text-xs px-5 py-3 rounded-full uppercase tracking-wider shadow-2xl flex items-center justify-center gap-1.5 w-full">
+          <span>SEJA UM FRANQUEADO</span>
+          <span class="opacity-60">•</span>
+          <span class="font-black">Z8EMOTION.COM</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Download Buttons -->
+    <div class="w-full flex flex-col gap-2 mt-2">
+      <button onclick="downloadStoryHD()" class="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition transform active:scale-95">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Baixar Story em Alta Definição (1080 x 1920)
+      </button>
+
+      <a href="banner_matriz_designer.html" class="text-center text-xs text-slate-400 hover:text-amber-400 transition py-1">
+        ⚙️ Abrir Studio de Customização Completo
+      </a>
+    </div>
+  </div>
+
+  <canvas id="story-canvas" style="display: none;"></canvas>
+
+  <script>
+    function downloadStoryHD() {
+      const canvas = document.getElementById('story-canvas');
+      const ctx = canvas.getContext('2d');
+      const width = 1080;
+      const height = 1920;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const bgImg = new Image();
+      bgImg.crossOrigin = "anonymous";
+      bgImg.src = "franquia_matriz_z8tank_oficial.jpg";
+
+      bgImg.onload = function() {
+        ctx.save();
+        const scale = Math.max(width / bgImg.width, height / bgImg.height);
+        const x = (width - bgImg.width * scale) / 2;
+        const y = (height - bgImg.height * scale) / 2;
+        ctx.drawImage(bgImg, x, y, bgImg.width * scale, bgImg.height * scale);
+        ctx.restore();
+
+        // Dark gradients
+        const gradV = ctx.createLinearGradient(0, 0, 0, height);
+        gradV.addColorStop(0, 'rgba(0,0,0,0.95)');
+        gradV.addColorStop(0.35, 'rgba(0,0,0,0.45)');
+        gradV.addColorStop(0.70, 'rgba(0,0,0,0.50)');
+        gradV.addColorStop(1, 'rgba(0,0,0,0.96)');
+        ctx.fillStyle = gradV;
+        ctx.fillRect(0, 0, width, height);
+
+        const gradH = ctx.createLinearGradient(0, 0, width, 0);
+        gradH.addColorStop(0, 'rgba(0,0,0,0.85)');
+        gradH.addColorStop(0.5, 'rgba(0,0,0,0.1)');
+        gradH.addColorStop(1, 'rgba(0,0,0,0.6)');
+        ctx.fillStyle = gradH;
+        ctx.fillRect(0, 0, width, height);
+
+        // Gold Bar
+        const goldGrad = ctx.createLinearGradient(0, 0, 0, height);
+        goldGrad.addColorStop(0, '#F5D061');
+        goldGrad.addColorStop(0.5, '#E5A93C');
+        goldGrad.addColorStop(1, '#C48822');
+        ctx.fillStyle = goldGrad;
+        ctx.fillRect(0, 0, 24, height);
+
+        // Top Typography
+        ctx.font = '900 84px "Anton", "Oswald", sans-serif';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.shadowColor = 'rgba(0,0,0,0.95)';
+        ctx.shadowBlur = 18;
+        ctx.shadowOffsetY = 4;
+        ctx.fillText("EXPANSÃO VALE DO PARAÍBA.", 70, 200);
+
+        ctx.font = '700 34px "Montserrat", sans-serif';
+        ctx.fillStyle = '#E5A93C';
+        ctx.shadowBlur = 10;
+        ctx.fillText("FRANQUIA Z8 // EXCLUSIVIDADE DE PRAÇA // MARGEM +50%", 70, 275);
+
+        ctx.font = '600 28px "Montserrat", sans-serif';
+        ctx.fillStyle = '#F1F5F9';
+        ctx.shadowBlur = 8;
+        ctx.fillText("Buscamos parceiros estratégicos em Taubaté, Jacareí, Pindamonhangaba e Região.", 70, 345);
+
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetY = 0;
+
+        // Bottom CTA Badge
+        const badgeWidth = 940;
+        const badgeHeight = 84;
+        const badgeX = 70;
+        const badgeY = height - badgeHeight - 120;
+
+        ctx.fillStyle = '#E5A93C';
+        ctx.beginPath();
+        ctx.roundRect(badgeX, badgeY, badgeWidth, badgeHeight, 42);
+        ctx.fill();
+
+        ctx.font = '900 30px "Montserrat", sans-serif';
+        ctx.fillStyle = '#0F172A';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText("SEJA UM FRANQUEADO • Z8EMOTION.COM", badgeX + badgeWidth / 2, badgeY + badgeHeight / 2);
+
+        // Tag Loja Matriz
+        ctx.fillStyle = 'rgba(15,23,42,0.9)';
+        ctx.strokeStyle = 'rgba(229,169,60,0.7)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.roundRect(70, badgeY - 70, 440, 50, 14);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.font = '700 18px "Montserrat", sans-serif';
+        ctx.fillStyle = '#F5D061';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText("LOJA MATRIZ OFICIAL • Z8 TANK", 70 + 220, badgeY - 45);
+
+        const link = document.createElement('a');
+        link.download = "Z8_Franquia_Story_Instagram_Margem50.png";
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+      };
+    }
+  </script>
+</body>
+</html>
