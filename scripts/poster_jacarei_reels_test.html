@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Z8 E-Motion // Jacareí - Reels Nova Perspectiva</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Chakra+Petch:wght@600;700&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&family=Unbounded:wght@600;700;800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #080a0e;
+      font-family: 'Space Grotesk', sans-serif;
+      position: relative;
+    }
+
+    /* 1. Base Fotográfica Criada e Salva em /posters */
+    .bg-master {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background-image: url('../public/assets/cria/posters/base_jacarei_tank.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+
+    /* 2. Área Tipográfica com Nova Perspectiva Magnética (Safe Zone Y = 1260px a 1600px) */
+    .editorial-zone {
+      position: absolute;
+      bottom: 310px; /* Acima da zona morta de 310px do Reels/Stories */
+      left: 64px;
+      right: 64px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    /* Tag de Status Técnica Editorial */
+    .status-tag-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00f0ff;
+    }
+
+    .status-tag-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #00f0ff;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* Hook PNL Magnético em Fonte Moderna (Unbounded) */
+    .pnl-headline-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .pnl-headline-white {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 1);
+    }
+
+    .pnl-headline-cyan {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1.1;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 1);
+    }
+
+    /* Subtítulo Aumentado e Mais Autoritário */
+    .pnl-subtitle-large {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 27px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #e2e8f0;
+      letter-spacing: 0.2px;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+      max-width: 950px;
+    }
+
+    .pnl-subtitle-large strong {
+      color: #00f0ff;
+      font-weight: 800;
+    }
+
+    /* Bloco de Monopólio Territorial e Vaga Única */
+    .metrics-modern-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 4px;
+      border-top: 1.5px solid rgba(255, 255, 255, 0.12);
+      padding-top: 18px;
+    }
+
+    .badge-label-white {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9);
+    }
+
+    .badge-divider {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .badge-label-cyan {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Rodapé Limpo: Sem microtexto, apenas Z8EMOTION.COM de alta autoridade */
+    .footer-clean-url-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1.5px solid rgba(0, 240, 255, 0.35);
+      padding-top: 16px;
+      margin-top: 6px;
+    }
+
+    .footer-url-left-bracket {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #64748b;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .footer-official-url {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: #00f0ff;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Base Fotográfica Pura de Backup -->
+  <div class="bg-master"></div>
+
+  <!-- Área Tipográfica com Nova Perspectiva Magnética -->
+  <div class="editorial-zone">
+
+    <!-- Tag de Status Técnica -->
+    <div class="status-tag-row">
+      <div class="status-dot"></div>
+      <div class="status-tag-text">CONCESSÃO EXCLUSIVA // EXPANSÃO 2026</div>
+    </div>
+
+    <!-- Hook PNL Magnético em Unbounded -->
+    <div class="pnl-headline-block">
+      <div class="pnl-headline-white">UMA CIDADE INTEIRA.</div>
+      <div class="pnl-headline-cyan">UMA ÚNICA CHAVE.</div>
+    </div>
+
+    <!-- Subtítulo Aumentado e Mais Autoritário -->
+    <div class="pnl-subtitle-large">
+      O mercado elétrico não espera. <strong>Quem chegar primeiro, domina.</strong>
+    </div>
+
+    <!-- Monopólio Territorial // Apenas 1 Vaga -->
+    <div class="metrics-modern-row">
+      <div class="badge-label-white">MONOPÓLIO TERRITORIAL</div>
+      <div class="badge-divider">//</div>
+      <div class="badge-label-cyan">APENAS 1 VAGA</div>
+    </div>
+
+    <!-- Rodapé Limpo: Removido microtexto, apenas o domínio oficial com extrema presença -->
+    <div class="footer-clean-url-row">
+      <div class="footer-url-left-bracket">[ PORTAL OFICIAL ]</div>
+      <div class="footer-official-url">Z8EMOTION.COM</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

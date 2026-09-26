@@ -66,3 +66,263 @@
 | **BR Motorsport** | LS2, Norisk, KYT, AGV | Premium, Esportivo, Viseira Solar | [brmotorsport.com.br](https://www.brmotorsport.com.br) | Portal Lojista |
 | **MTO Distribuidora** | Multimarcas Nacional | Motopeças e Capacetes | [mtodistribuidora.com.br](https://www.mtodistribuidora.com.br) | Portal B2B |
 | **Damásio Motopeças** | Multimarcas Nacional | Distribuição Atacado | [damasiomotopecas.com.br](https://www.damasiomotopecas.com.br) | Representantes |
+
+---
+
+## 6. 👥 Base Consolidada de Parceiros, Leads e Ordens de Serviço (Setembro/2026)
+
+### 6.1 Parceiros e Administradores Cadastrados
+1. **Christian Hideyuki (Admin Master)**: `christian.tkh@gmail.com` | Matriz Z8 (São Paulo - SP) | `(12) 99800-8818` | Status: `approved` / `admin`
+2. **christian hideyuki**: `christian.hide@hotmail.com` | hide (Pindamonhangaba - SP) | `(12) 98898-6148` | Status: `approved` / `partner`
+3. **William Del Barrio**: `willdbga@gmail.com` | Del Barrio E-Motors (Pindamonhangaba - SP) | `(12) 98813-0316` | Status: `approved` / `partner`
+4. **Fabrício Daniel de Oliveira Castro**: `fabriciopolocruzeiro@gmail.com` | JF (Pindamonhangaba - SP) | `(12) 99106-4106` | Status: `approved` / `partner` (Passaporte VIP)
+5. **Derik**: `derik.dws@gmail.com` | derik (Jacareí - SP) | `(12) 98198-6760` | Status: `pending` (Cadastrado em 03/09/2026)
+6. **Jose da silva**: `zejda@gmail.com` | Empresa (Santana do Parnaíba - SP) | `(12) 98813-0316` | Status: `approved` / `partner`
+7. **Vinicius ortiz**: `viniciusortizdovale@gmail.com` | Viniciusortizdovale (Taubaté - SP) | `(12) 99666-7031` | Status: `approved` / `partner`
+
+### 6.2 Leads e Oportunidades no CRM
+- **Fabrício Castro (Passaporte VIP)**: R$ 2.989,00 | Exclusividade Pindamonhangaba | Tel: `(12) 99106-4106`
+- **Jose da silva**: Santana do Parnaíba - SP | Tel: `(12) 98813-0316` | Status: Aprovado
+- **Vinicius ortiz**: Taubaté - SP | Tel: `(12) 99666-7031` | Status: Aprovado
+- **Derik (Portal Catálogo)**: Jacareí - SP | Tel: `(12) 98198-6760`
+- **Lead WhatsApp**: Tel: `5512992236440` | R$ 450,00 | Retrato Autoral
+
+### 6.3 Ordens de Serviço (SLA 48h)
+- `OS-2026-0101`: Mega Motos SP (Carlos Silveira) - Z8 Tank High-Speed - Rastreio: `BR849302194SP` (Aprovado)
+- `OS-2026-0102`: Z8 Vale do Paraíba (Roberto) - Z8 FX-10 Sport - Análise Técnica
+- `OS-2026-0103`: E-Motion Sul (Marcio Silva) - Z8 U2 Delivery Cargo - Rastreio: `BR994820145PR` (Concluído)
+- `OS-2026-0104`: Litoral Elétrico Santos (Lucas) - Z8 Sport Scooter - Rastreio: `BR771920334SP` (Aprovado)
+
+---
+
+## 7. 🎨 Z8 Visual Engine, Asset Network & Brand Architecture Protocol
+
+> Protocolo perpétuo de geração de artes para redes sociais, campanhas publicitárias e identidade visual da Z8 E-Motion.
+
+### 7.1 Rede de Assets Oficiais (`public/assets/logos/`)
+- `logo minimalista.png`: Emblema 3D Z8 em Bright Silver/Cromo com chanfro aeroesportivo e relevo sutil. Uso: Selo de tanque e assinatura institucional.
+- `Repetição em padrão.png`: Grid isométrico de repetição diagonal em tom monocromático. Uso: Watermark estrutural e texturas com opacidade ≤ 100% (5% a 25%).
+- `Repetição em padrão 2.png`: Grid isométrico em Ciano Elétrico Z8 (`#00F0FF`). Uso: Acentos tecnológicos, faixas de velocidade e banners.
+- `Logo com impacto.png`: Logotipo dual-tone de alta energia (Z Verde Neon + 8 Ciano + "E-MOTION POWER").
+- `Mecanicos.png`: Selo tipográfico arquitetural vertical ("Z8 E-MOTION // ELECTRIC MOBILITY").
+- `z8logo.png` & `logo_z8_main.png`: Master vetorial horizontal com sub-assentamento institucional.
+- `ztrasparente.png`: Elemento tipográfico "Z" recortado translúcido para fundos e layouts de impacto.
+
+### 7.2 As 4 Condições Inegociáveis & 4 Leis Negativas de Criação
+1. **Modelos Reais como Base para Novas Imagens Fotográficas (`public/assets/models/`)**: O veículo hero DEVE ser gerado ou composto tendo como referência visual direta os modelos reais do catálogo oficial Z8 (`public/assets/models/z8_tank_studio.jpg`, `z8_fx10_studio.jpg`, etc.). Mantêm-se a anatomia, o chassi, o farol duplo e as proporções industriais da moto Z8.
+2. **Logo Z8 com Sentido Anatômico no Design da Moto**: O emblema na moto deve fazer sentido com a volumetria da carenagem, situando-se exclusivamente em superfícies lisas, amplas e sem obstruções (ex: face central da carenagem ou cume do tanque). É terminantemente proibido sobrepor ou transpor o logo sobre canos de aço tubular, barras de proteção, soldas ou fiações.
+3. **Logo Z8 Estrutural / Pattern de Repetição**: Todo cartaz deve conter a marca integrada à composição (ex: `Repetição em padrão 2.png` com opacidade de 10% a 25% no quadrante de acento ou monograma `Z8 E-MOTION` de fundo em escala monumental).
+4. **Fibonacci, Escala Monumental & Pílulas Dinâmicas EGIKE**:
+   - Títulos de cidades em **Escala Exponencial Monumental** (130px a 150px, bold grotesque condensado) para travar o scroll imediatamente.
+   - Telemetria e métricas estruturadas na anatomia de **Pílulas Dinâmicas EGIKE** (sistema assimétrico de pílulas sólidas brancas, ciano elétrico, contorno vazado e cápsulas circulares de ícones `✦`, `⚡`).
+- **LEI NEGATIVA 1**: NUNCA usar imagens que contenham textos rasterizados para gerar novas artes com texto. O Clean Plate fotográfico é gerado puro primeiro; a tipografia é injetada em camada independente.
+- **LEI NEGATIVA 2**: NUNCA deixar linhas expostas soltas (sublinhados órfãos, traços de PowerPoint). Todo elemento gráfico deve ser um bloco/card/pílula funcional.
+- **LEI NEGATIVA 3**: NUNCA usar degradês pesados artificiais cobrindo as áreas mortas. A fotografia de estúdio/ambiente deve respirar limpa; o controle de corte é feito posicionando a tipografia e botões estritamente dentro da Zona Segura ($Y = 260px$ a $Y = 1600px$).
+- **LEI NEGATIVA 4**: NUNCA usar efeitos luminosos (sem `text-shadow` brilhante, sem `box-shadow` com neon glow, sem halos azuis difusos ou borrões). Cores sólidas, foscas, tipografia editorial de altíssimo contraste e sombras físicas puras.
+
+### 7.3 Escolas de Referência & Benchmark EGIKE
+- **Behance Master Benchmark (EGIKE por Omar Elagamy)**:
+  - Estudo de caso: `behance.net/gallery/242918611/EGIKE`.
+  - Direção de arte automotiva minimalista pura: fotografia com iluminação rasante direcional de estúdio sobre concreto grafite escuro, reflexos suaves no piso e zero artifícios neon.
+  - Tipografia de display condensada e monumental em camadas com o veículo.
+  - Matriz de pílulas dinâmicas assimétricas com alta densidade de informação limpa.
+- **Bauhaus (Dessau/Weimar)**: Forma segue função (*Form folgt Funktion*), grids geométricos puros, assimetria intencional.
+- **Construtivismo Russo (Rodchenko, El Lissitzky)**: Tensões de escala monumental em contraste com dados técnicos.
+- **Estilo Tipográfico Internacional Suíço (Josef Müller-Brockmann)**: Grelha matemática modular, clareza cirúrgica.
+- **Walter Mattos (Brasil)**: Desmistificação prática de Fibonacci, alinhamento óptico prioritário sobre o mecânico.
+
+### 7.4 Registro Canônico de Artes Produzidas (Z8 Visual Engine Log)
+- **ID da Arte**: `ARTE-2026-JACAREI-TANK-V3-EGIKE`
+  - **Data / Horário**: 24/09/2026 - 03:35 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Jacareí - SP (Vale do Paraíba)
+  - **Modelo Hero**: Fotografia automotiva baseada na Z8 Tank High-Speed (`public/assets/models/z8_tank_studio.jpg`)
+  - **Clean Plate**: `public/assets/cria/story_jacarei_clean_egike.jpg` (estúdio industrial dark, iluminação direcional pura, zero neon)
+  - **Selo na Moto**: Emblema metálico "Z8" perfeitamente posicionado na face lisa amarela da carenagem lateral, com folga total das barras tubulares e ferragens.
+  - **Formato**: 9:16 Stories & Reels (1080 × 1920 px)
+  - **Tipografia**: Barlow Condensed 148px (Branco sólido) + 82px (Ciano Z8 sólido) — ZERO efeito luminoso.
+  - **Estrutura de Copy PNL**: `1 ÚNICA CONCESSÃO EXCLUSIVA. DOMINE O MERCADO DE MOBILIDADE DO VALE ANTES QUE OUTRO SE ANTECIPE.`
+  - **Asset Estrutural Aplicado**: `Repetição em padrão 2.png` no canto superior direito (10% opacidade) + Watermark colossal `Z8 E-MOTION` ao fundo.
+  - **Matriz de Pílulas EGIKE**:
+    - Pílula Sólida Branca: `52% Margem Líquida`
+    - Pílula Sólida Ciano: `Raio Exclusivo Comarca`
+    - Cápsula Ícone: `✦`
+    - Pílula Contorno: `Oficina 2 Elevadores`
+    - Pílula Fosca Dark: `Lote Mínimo 10 Motos`
+    - Cápsula Ícone Ciano: `⚡`
+  - **CTA de Conversão**: `[ ASSEGURE SUA CONCESSÃO • (12) 99800-8818 ]` (Pílula 9999px em ciano sólido sem brilho difuso)
+  - **Conformidade**: 100% compliant com Safe Zones do Instagram (Y=275px a 1600px), salvo em `public/assets/cria/story_jacarei_franquia_final.png` e sincronizado com `dist/assets/cria/`.
+
+- **ID da Arte**: `ARTE-2026-JACAREI-TANK-V4-7ELEMENTS`
+  - **Data / Horário**: 24/09/2026 - 04:12 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Jacareí - SP (Vale do Paraíba)
+  - **Modelo Hero**: Z8 Tank High-Speed 3000W em ângulo 3/4 estúdio industrial matte
+  - **Aplicação Rigorosa dos 7 Elementos EGIKE**:
+    1. **Tipografia Monumental Monolítica**: `JACAREÍ` (168px branco) + `ELÉTRICA` (142px ciano Z8), entrelinha 0.80 colada.
+    2. **Camadas & Profundidade (Vehicle Overlapping Text)**: A moto fica fisicamente em 1º plano, com retrovisor e carenagem sobrepondo a palavra `ELÉTRICA`.
+    3. **Matriz de Pílulas Dinâmicas EGIKE**: Pílula sólida branca (52% Margem Líquida), sólida azul (Raio Exclusivo Comarca), cápsula circular (✦), contorno vazado (Oficina 2 Elevadores), fosca dark (Lote Mínimo 10 Motos), cápsula circular (⚡).
+    4. **Color Blocking Radical (Máximo 3 cores)**: Azul Elétrico Z8 (`#00F0FF`), Branco Cirúrgico (`#FFFFFF`) e Grafite Escuro (`#080A0E`).
+    5. **Fotografia com Luz Rasante & Zero Efeitos Luminosos**: Iluminação direcional pura de estúdio, zero neon glow, zero borrão difuso.
+    6. **Aplicação Cirúrgica do Logo na Moto**: Emblema metálico Z8 em área plana da carenagem lateral amarela, com folga total das barras tubulares.
+    7. **Micro-Tipografia Suíça Editorial**: Header `Z8 // TANK HIGH-SPEED (3000W)` + `HOMOLOGAÇÃO CONTRAN Nº 996` + parágrafo descritivo limpo à esquerda.
+  - **Condição Especial**: Pattern de repetição removido conforme instrução ("ignore a nossa logo rerepetição para essa criação").
+  - **Conformidade**: 100% compliant com Safe Zones do Instagram, salvo em `public/assets/cria/story_jacarei_franquia_final.png` e sincronizado com `dist/assets/cria/`.
+
+- **ID da Arte**: `ARTE-2026-JACAREI-TANK-V5-HEROLIGHT`
+  - **Data / Horário**: 24/09/2026 - 04:45 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Jacareí - SP (Vale do Paraíba)
+  - **Direção de Arte "Desengessada"**: Ruptura com templates centralizados convencionais, aplicando o **Plano Americano em ângulo baixo com iluminação Hero Light** (strobe superior direcional recortando carenagem amarela mostarda e texturas de fibra de carbono).
+  - **Ativos Fotográficos Gerados**:
+    - `public/assets/cria/z8_tank_hero_light.jpg`: Fotografia de estúdio plano americano 3/4 com Hero Light, pneus off-road fincados no piso e faróis duplos com anéis DRL cristalinos.
+    - `public/assets/cria/z8_tank_macro_detail.jpg`: Fotografia macro 1:1 destacando o emblema metálico OEM "Z8", a ótica do projetor cristal e o chassi de carbono.
+  - **Execução dos 7 Elementos EGIKE**:
+    1. **Tipografia Monumental Monolítica**: `JACAREÍ` (168px branco) + `ELÉTRICA` (114px ciano), empilhamento vertical maciço e entrelinha 0.78.
+    2. **Sobreposição 3D Real (Vehicle Overlapping Text)**: O para-brisa e os retrovisores da moto sobrepõem suavemente a base da palavra `ELÉTRICA`.
+    3. **Matriz de Pílulas EGIKE Assimétricas**: Pílula sólida branca (52% Margem Líquida), sólida ciano (Raio Exclusivo Comarca), cápsula circular (✦), contorno vazado (Oficina 2 Elevadores), fosca dark (Lote Mínimo 10 Motos), cápsula circular (⚡).
+    4. **Color Blocking Estrito**: Azul Elétrico Z8 (`#00F0FF`), Branco (`#FFFFFF`), Grafite Profundo (`#06080B`).
+    5. **Luz Rasante & Zero Efeitos Luminosos**: Iluminação direcional pura de estúdio, sombras físicas puras, zero neon glow.
+    6. **Logo OEM Integrado**: Logotipo Z8 metálico em alto relevo na face esculpida da moto.
+    7. **Micro-Tipografia Suíça**: Dados técnicos e legais CONTRAN 996 com parágrafo editorial limpo e espaçamento de respiro.
+  - **Conformidade**: 100% compliant com Safe Zones do Instagram, salvo em `public/assets/cria/story_jacarei_franquia_final.png` e sincronizado com `dist/assets/cria/`.
+
+- **ID da Arte**: `ARTE-2026-JACAREI-TANK-V6-PROVOCATIVE`
+  - **Data / Horário**: 24/09/2026 - 05:45 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Jacareí - SP (Vale do Paraíba)
+  - **Nova Métrica PNL (Alta Curiosidade & Provocação)**:
+    - Ruptura com textos descritivos longos. Foco em impacto psicológico, curiosidade, FOMO e autoridade territorial.
+    - Hook: `UMA CIDADE INTEIRA. UMA ÚNICA CHAVE.` / `O mercado elétrico não espera. Quem chegar primeiro, domina.`
+    - Pílulas EGIKE Enxutas: `[ Monopólio Territorial ]`, `[ Apenas 1 Vaga ]`, `[ Lucro de Montadora ]`, cápsulas `✦` e `⚡`.
+    - CTA de Comando PNL: `[ ASSUMA O CONTROLE • (12) 99800-8818 ]`.
+  - **Nova Estrutura de Pastas e Backup**:
+    - **Backup de Bases Criadas**: `public/assets/cria/posters/base_jacarei_tank.jpg` (Base fotográfica pura gerada com o título monumental `JACAREI` e piso livre).
+    - **Arte Final Pós-Injeção**: `public/assets/cria/story_jacarei_franquia_final.png` (Composição com os dados de conversão injetados sobre o piso reflexivo).
+  - **Conformidade**: 100% compliant com Safe Zones do Instagram, salvo em `public/assets/cria/story_jacarei_franquia_final.png` e sincronizado com `dist/assets/cria/`.
+
+- **ID da Arte**: `ARTE-2026-JACAREI-TANK-V7-UNENCAPSULATED`
+  - **Data / Horário**: 24/09/2026 - 06:10 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Jacareí - SP (Vale do Paraíba)
+  - **Diretriz de Design Desencapsulado**:
+    - **Zero Pílulas / Zero Cápsulas**: Textos totalmente libertos de caixas e contornos, atuando como tipografia editorial pura sobre o piso de concreto.
+    - **Remoção do Botão CTA**: Eliminado o botão "Assuma o controle" para deixar a imagem respirar com elegância e foco puro na autoridade.
+    - **Escala Ampliada de Textos-Chave**:
+      - `MONOPÓLIO TERRITORIAL` (42px branco condensed) + `//` + `APENAS 1 VAGA` (42px ciano Z8 condensed).
+      - Hook Provocante PNL: `UMA CIDADE INTEIRA. UMA ÚNICA CHAVE.` (48px) / `O mercado elétrico não espera. Quem chegar primeiro, domina.`
+      - Linha Direta de Contato: `Z8 EMOTION // CONCESSÃO JACAREÍ - SP` e `(12) 99800-8818` (32px ciano elétrico).
+  - **Base de Injeção**: `public/assets/cria/posters/base_jacarei_tank.jpg` (preservada em backup).
+- **ID da Arte**: `ARTE-2026-JACAREI-TANK-V7-MULTIFORMAT-PACK`
+  - **Data / Horário**: 24/09/2026 - 23:20 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Jacareí - SP (Vale do Paraíba)
+  - **Veículo**: Z8 Tank High-Speed (Amarela Mostarda, iluminação Hero Light, plano americano 3/4)
+  - **Decisões Estratégicas Consolidadas via /grill-me**:
+    1. **Sobreposição 3D com Contraste**: Mantida a sobreposição parcial do texto sobre o pneu dianteiro com sombra física preta (`rgba(0, 0, 0, 0.95)`), reforçando a tridimensionalidade sem comprometer a leitura.
+    2. **Domínio Corporativo Oficial**: Substituído o telefone pelo link institucional oficial `Z8EMOTION.COM` (estrita proibição de `.com.br`).
+    3. **Topo Limpo & Dinâmico**: Topo livre de chancelas, preservando o impacto monumental do letreiro de cada cidade.
+    4. **Alternância de Modelos**: Confirmada a alternância de motos oficiais para as próximas praças (SJC, Taubaté, Pinda, etc.).
+  - **Arquivos do Pacote Multiformato (Salvos em /public e sincronizados em /dist)**:
+    - **Stories / Reels (9:16 - 1080 × 1920)**: `public/assets/cria/story_jacarei_franquia_final.png` (Base: `public/assets/cria/posters/base_jacarei_tank.jpg`).
+    - **Feed Retrato (4:5 - 1080 × 1350)**: `public/assets/cria/feed_portrait_jacarei_franquia_final.png` (Base: `public/assets/cria/posters/base_jacarei_tank_4x5.jpg`).
+    - **Feed Quadrado (1:1 - 1080 × 1080)**: `public/assets/cria/feed_square_jacarei_franquia_final.png` (Base: `public/assets/cria/posters/base_jacarei_tank_1x1.jpg`).
+  - **Scripts de Renderização**:
+- **ID da Arte**: `ARTE-2026-GUARATINGUETA-FX10-REELS`
+  - **Data / Horário**: 25/09/2026 - 01:35 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Guaratinguetá - SP (Vale Histórico / Vale do Paraíba)
+  - **Veículo**: Z8 FX-10 Sport (Prata Titânio Metálico, plano americano 3/4 com iluminação Hero Light, faróis duplos LED com barras horizontais e acabamento em fibra de carbono)
+  - **Letreiro Monumental Adaptado**: `GUARATINGUETÁ` empilhado em duas linhas colossais atrás da moto:
+    - Linha 1: `GUARA` (Branco cirúrgico `#FFFFFF`)
+    - Linha 2: `TINGUETÁ` (Ciano elétrico Z8 `#00F0FF`)
+  - **Diretrizes Tipográficas & Rodapé Consolidadas**:
+    1. **Tipografia Magnética**: Hook em fonte `Syne 800` (`UMA CIDADE INTEIRA.` em branco / `UMA ÚNICA CHAVE.` em ciano).
+    2. **Subtítulo Aumentado (32px)**: *"O mercado elétrico não espera. / Quem chegar primeiro, domina."*
+    3. **Métrica Editorial**: `MONOPÓLIO TERRITORIAL // APENAS 1 VAGA` em `Syne 800`.
+    4. **Regra Permanente de Rodapé**: ZERO microtextos e **PROIBIÇÃO DE SETAS (`→`)**. Apenas o link limpo `Z8EMOTION.COM` em ciano elétrico, alinhado à direita sobre o piso.
+  - **Arquivos Gerados**:
+    - **Base Limpa (Backup)**: `public/assets/cria/posters/base_guaratingueta_fx10.jpg` (e espelho em `dist/assets/cria/posters/`).
+    - **Reels Final (9:16 - 1080 × 1920)**: `public/assets/cria/story_guaratingueta_franquia_final.png` (e espelho em `dist/assets/cria/`).
+  - **Script de Renderização**: `scripts/render_guaratingueta_reels.js` (Edge Headless 1080x1920).
+
+- **Subagente Oficial Consolidado**: `z8-franchise-sdr` (`.agents/skills/franchise_sdr/SKILL.md`)
+  - **Função**: Triagem, scoring de capital (≥ R$ 100k) e geração de script de abordagem WhatsApp para Christian Hideyuki.
+  - **Status**: 100% Calibrado e Validado pelo Usuário em 25/09/2026.
+  - **Regras Validadas**: Filtro antecipado de requisitos (10 motos + 2 elevadores) mantido no primeiro contato para afastar curiosos; remoção do link do site na mensagem pois a maioria dos leads já vem do site.
+- **Subagente Oficial Consolidado**: `z8-legal-counsel` (`.agents/skills/legal_counsel/SKILL.md`)
+  - **Função**: Emissão de COF com Recibo e trava legal de 10 dias corridos (Lei 13.966/2019), injeção cadastral do Contrato Padrão de Franquia (Título Executivo Art. 784 CPC) e geração de pacotes técnicos de PDI e Garantia vinculados a lotes de 10 motos.
+  - **Status**: 100% Calibrado e Validado pelo Usuário em 25/09/2026.
+  - **Script Operacional**: `scripts/legal_counsel_engine.js`.
+- **Subagente Oficial Consolidado**: `z8-service-ops` (`.agents/skills/service_ops/SKILL.md`)
+  - **Função**: Diagnóstico interativo de falhas elétricas em motos Z8 (baterias 72V, BMS, FOC, Hall), auditoria de vigência de garantia por chassi, emissão de laudo técnico com Part Numbers de reposição para autorização da diretoria e alocação especializada dos 2 elevadores da oficina.
+  - **Status**: 100% Calibrado e Validado pelo Usuário em 25/09/2026.
+  - **Script Operacional**: `scripts/service_ops_engine.js`.
+- **Subagente Oficial Consolidado**: `z8-finance-intel` (`.agents/skills/finance_intel/SKILL.md`)
+  - **Função**: Controladoria, simulação de DRE trifásica (10, 15 e 20 motos/mês), cálculo de break-even (4 motos com oficina), receita dos 2 elevadores e tempo de retorno (payback).
+  - **Status**: 100% Calibrado e Validado pelo Usuário em 25/09/2026.
+  - **Script Operacional**: `scripts/finance_intel_engine.js`.
+- **Subagente Oficial Consolidado**: `z8-concierge-b2c` (`.agents/skills/concierge_b2c/SKILL.md`)
+  - **Função**: Atendimento ao consumidor final, consultoria de modelo ideal (trabalho, retrô, custom, esportiva, executiva), desmistificação jurídica CONTRAN 996 (sem CNH/emplacamento até 32 km/h), calculadora de recarga na tomada (R$ 1,80 a R$ 2,50/carga, R$ 0,05/km) e direcionamento geolocalizado para test-ride nas concessionárias autorizadas do Vale do Paraíba.
+  - **Status**: 100% Calibrado e Validado em 25/09/2026.
+  - **Script Operacional**: `scripts/concierge_b2c_engine.js`.
+
+- **ID da Arte**: `ARTE-2026-GUARATINGUETA-FX10-MULTIFORMAT-PACK`
+  - **Data / Horário**: 25/09/2026 - 15:45 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Guaratinguetá - SP (Vale Histórico / Vale do Paraíba)
+  - **Veículo**: Z8 FX-10 Sport (Prata Titânio Metálico, faróis duplos LED com projetor, carenagem aerodinâmica, acabamento em fibra de carbono e iluminação Hero Light)
+  - **Pacote Multiformato Completo (Salvos em /public e sincronizados em /dist)**:
+    - **Stories / Reels (9:16 - 1080 × 1920)**: `public/assets/cria/story_guaratingueta_franquia_final.png` (Base: `public/assets/cria/posters/base_guaratingueta_fx10.jpg`).
+    - **Feed Retrato (4:5 - 1080 × 1350)**: `public/assets/cria/feed_portrait_guaratingueta_franquia_final.png` (Base: `public/assets/cria/posters/base_guaratingueta_fx10_4x5.jpg`).
+    - **Feed Quadrado (1:1 - 1080 × 1080)**: `public/assets/cria/feed_square_guaratingueta_franquia_final.png` (Base: `public/assets/cria/posters/base_guaratingueta_fx10_1x1.jpg`).
+  - **Scripts de Renderização**: `scripts/render_guaratingueta_reels.js`, `scripts/render_guaratingueta_portrait.js`, `scripts/render_guaratingueta_square.js`.
+
+- **ID da Arte**: `ARTE-2026-TAUBATE-HARLEY-MULTIFORMAT-PACK`
+  - **Data / Horário**: 25/09/2026 - 15:45 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Taubaté - SP (Polo Automotivo e Industrial / Vale do Paraíba)
+  - **Veículo**: Z8 Harley X21 Custom (Acabamento Midnight Gloss Black, guidão alto chopper americano, pneus largos fat-bob com sulcos profundos, chassi tubular customizado, farol duplo circular com anéis DRL LED e descanso lateral rebaixado)
+  - **Letreiro Monumental Monolítico**: Letreiro colossal `TAUBATÉ` em grotesco condensado com contorno Ciano Elétrico Z8 (`#00F0FF`) e corpo branco sólido, integrado à arquitetura industrial da moto.
+  - **Diretrizes Tipográficas & Rodapé**: Hook PNL em `Syne 800` (`UMA CIDADE INTEIRA.` em branco / `UMA ÚNICA CHAVE.` em ciano), subtítulo `Outfit 600/800` com barra ciano, métrica `MONOPÓLIO TERRITORIAL // APENAS 1 VAGA` em linha única contínua, rodapé 100% limpo com link direto `Z8EMOTION.COM` à direita (sem setas).
+  - **Pacote Multiformato Completo (Salvos em /public e sincronizados em /dist)**:
+    - **Stories / Reels (9:16 - 1080 × 1920)**: `public/assets/cria/story_taubate_franquia_final.png` (Base: `public/assets/cria/posters/base_taubate_harley.jpg`).
+    - **Feed Retrato (4:5 - 1080 × 1350)**: `public/assets/cria/feed_portrait_taubate_franquia_final.png` (Base: `public/assets/cria/posters/base_taubate_harley_4x5.jpg`).
+    - **Feed Quadrado (1:1 - 1080 × 1080)**: `public/assets/cria/feed_square_taubate_franquia_final.png` (Base: `public/assets/cria/posters/base_taubate_harley_1x1.jpg`).
+- **ID da Arte**: `ARTE-2026-PINDA-N710-MULTIFORMAT-PACK`
+  - **Data / Horário**: 25/09/2026 - 16:25 BRT
+  - **Campanha**: Expansão de Concessionárias / Franquia B2B
+  - **Praça**: Comarca de Pindamonhangaba - SP (Polo Regional Vale do Paraíba)
+  - **Veículo**: Z8 N710 Urban Plus (Carenagem aerodinâmica cinza titânio escuro com grafismos neon e laranja, farol dianteiro mecha LED projetor horizontal, rodas de liga leve pretas, freios a disco e encosto traseiro esportivo)
+  - **Letreiro Monumental Empilhado**: `PINDA` no topo em branco cirúrgico maciço, sobreposto a `MONHANGABA` em Ciano Elétrico Z8 (`#00F0FF`) em caixa alta condensada, conferindo monumentalidade legível sem poluição visual.
+  - **Diretrizes Tipográficas & Rodapé**: Hook PNL em `Syne 800` (`UMA CIDADE INTEIRA.` em branco / `UMA ÚNICA CHAVE.` em ciano), subtítulo `Outfit 600/800` com barra ciano vertical de 3.5px, métrica horizontal contínua `MONOPÓLIO TERRITORIAL // APENAS 1 VAGA` e rodapé institucional puro `Z8EMOTION.COM` alinhado à direita (sem setas).
+  - **Pacote Multiformato Completo (Salvos em /public e sincronizados em /dist)**:
+    - **Stories / Reels (9:16 - 1080 × 1920)**: `public/assets/cria/story_pinda_franquia_final.png` (Base: `public/assets/cria/posters/base_pinda_n710.jpg`).
+    - **Feed Retrato (4:5 - 1080 × 1350)**: `public/assets/cria/feed_portrait_pinda_franquia_final.png` (Base: `public/assets/cria/posters/base_pinda_n710_4x5.jpg`).
+    - **Feed Quadrado (1:1 - 1080 × 1080)**: `public/assets/cria/feed_square_pinda_franquia_final.png` (Base: `public/assets/cria/posters/base_pinda_n710_1x1.jpg`).
+  - **Scripts de Renderização**: `scripts/render_pinda_pack.js`.
+
+- **ID da Arte**: `ARTE-2026-RECRUTAMENTO-MATRIZ-SJC-PACK`
+  - **Data / Horário**: 25/09/2026 - 20:00 BRT
+  - **Campanha**: Recrutamento de Talentos // Loja Matriz & Showroom Z8 (São José dos Campos - SP)
+  - **Formato**: Stories / Reels (9:16 - 1080 × 1920) com resposta direta via Direct do Instagram
+  - **Diretriz de Arte com Manequins & Uniformes Oficiais**:
+    - Manequins esportivos/estilizados em acabamento preto fosco / cinza chumbo (sem rosto humano / faceless), destacando 100% o caimento, detalhes e logotipos dos uniformes da Z8.
+    - Letreiro monumental do cargo (`MECÂNICO`, `VENDAS`, `ZELADORIA`) em tipografia condensada monumental atrás do manequim com sobreposição 3D.
+    - Subtítulo em `Outfit 600/800` com barra ciano vertical de 3.5px, pílula de status superior e métricas de benefícios em `Syne 800`.
+    - CTA nativo para Instagram Stories: `RESPONDA ESTE STORY COM SEU CURRÍCULO` e link oficial `Z8EMOTION.COM` (sem número de WhatsApp nem e-mail, direcionando direto para o chat do Direct).
+  - **Peças Geradas (Salvas em /public/assets/cria/ e sincronizadas em /dist/assets/cria/)**:
+    1. **Mecânico de Motos Elétricas**: `public/assets/cria/story_vaga_mecanico_final.png` (Base: `public/assets/cria/posters/base_vaga_mecanico.jpg`). Manequim com camiseta técnica Z8 Power (ciano/verde), oficina de 2 elevadores ao fundo, hook: *"A OFICINA DO FUTURO PRECISA DAS SUAS MÃOS."*
+    2. **Consultora de Vendas / Showroom**: `public/assets/cria/story_vaga_vendas_final.png` (Base: `public/assets/cria/posters/base_vaga_vendas.jpg`). Manequim em busto de alfaiataria com camisa polo preta Z8 bordada, showroom moderno, hook: *"SEU TALENTO MERECE ACELERAR COM A GENTE."*
+    3. **Zeladoria & Serviços Gerais**: `public/assets/cria/story_vaga_zeladoria_final.png` (Base: `public/assets/cria/posters/base_vaga_zeladoria.jpg`). Manequim atlético com camiseta preta oficial Z8 E-Motion, sede corporativa impecável, hook: *"O PRIMEIRO BRILHO DA MARCA COMEÇA NO SEU CUIDADO."*
+  - **Scripts de Renderização**: `scripts/render_vagas_pack.js`.
+
+
+
+
+
+
+
+
+
+

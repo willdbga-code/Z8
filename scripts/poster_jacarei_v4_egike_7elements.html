@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Z8 E-Motion // Jacareí - 7 Elementos EGIKE</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #080a0e;
+      font-family: 'Outfit', sans-serif;
+      position: relative;
+    }
+
+    /* ---------------------------------------------------- */
+    /* CAMADA 1: Fundo Fotográfico Automotivo de Estúdio   */
+    /* (Elemento 5: Fotografia com iluminação rasante)     */
+    /* ---------------------------------------------------- */
+    .bg-plate {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background-image: url('../public/assets/cria/story_jacarei_clean_egike.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+
+    /* ---------------------------------------------------- */
+    /* CAMADA 2: Tipografia Monumental Monolítica          */
+    /* (Elemento 1: Display Grotesque em Bloco)            */
+    /* (Elemento 2: Fica ATRÁS da moto)                    */
+    /* (Elemento 4: Color Blocking Azul Z8 + Branco)       */
+    /* ---------------------------------------------------- */
+    .layer-title-behind {
+      position: absolute;
+      top: 275px;
+      left: 72px;
+      right: 72px;
+      z-index: 2; /* Fica atrás do cutout da moto (z-index: 3) */
+      pointer-events: none;
+    }
+
+    .status-badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 20px;
+      background: #11141b;
+      border: 1.5px solid #232a36;
+      border-radius: 9999px;
+      color: #94a3b8;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+    }
+
+    .status-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00f0ff;
+    }
+
+    .status-badge-top span {
+      color: #00f0ff;
+    }
+
+    .headline-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .title-line-1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 168px;
+      font-weight: 900;
+      line-height: 0.80;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: -4px;
+    }
+
+    .title-line-2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 142px;
+      font-weight: 900;
+      line-height: 0.82;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: -3px;
+      margin-top: 2px;
+    }
+
+    /* ---------------------------------------------------- */
+    /* CAMADA 3: Recorte Superior da Moto em 1º Plano       */
+    /* (Elemento 2: Efeito de Camadas e Profundidade)       */
+    /* O guidão e carenagem sobrepõem o texto!              */
+    /* ---------------------------------------------------- */
+    .layer-bike-cutout {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background-image: url('../public/assets/cria/bike_cutout.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 3; /* Sobrepõe a Camada 2 (Texto) */
+      pointer-events: none;
+    }
+
+    /* ---------------------------------------------------- */
+    /* CAMADA 4: Conteúdo Frontal / Safe Zone               */
+    /* (Elemento 3: Pílulas Dinâmicas EGIKE)               */
+    /* (Elemento 7: Micro-Tipografia Suíça de Apoio)        */
+    /* ---------------------------------------------------- */
+    .safe-zone-content {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      padding: 0 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 310px; /* Respeita a Safe Zone inferior do Instagram (Y=1610px max) */
+    }
+
+    /* Elemento 7: Micro-Tipografia Suíça de Apoio (Editorial) */
+    .swiss-editorial-block {
+      margin-bottom: 22px;
+      border-top: 1.5px solid rgba(255, 255, 255, 0.16);
+      padding-top: 14px;
+    }
+
+    .swiss-header-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .swiss-model-code {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .swiss-homologation {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .swiss-paragraph {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.45;
+      color: #94a3b8;
+      max-width: 900px;
+    }
+
+    .swiss-paragraph strong {
+      color: #f1f5f9;
+      font-weight: 700;
+    }
+
+    /* ---------------------------------------------------- */
+    /* Elemento 3: Matriz de Pílulas Dinâmicas EGIKE        */
+    /* (Inspiração: Omar Elagamy Brand Persona)             */
+    /* ---------------------------------------------------- */
+    .egike-pills-cluster {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .pills-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Pílula 1: Sólida Branca */
+    .pill-solid-white {
+      padding: 12px 26px;
+      background: #ffffff;
+      border-radius: 9999px;
+      color: #080a0e;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    /* Pílula 2: Sólida Azul Elétrico Z8 */
+    .pill-solid-blue {
+      padding: 12px 26px;
+      background: #00f0ff;
+      border-radius: 9999px;
+      color: #080a0e;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    /* Pílula 3: Cápsula Circular de Ícone Mínimo */
+    .pill-capsule-dark {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #141822;
+      border: 1.5px solid #232a36;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* Pílula 4: Contorno Fino (Ghost / Outlined) */
+    .pill-outlined-thin {
+      padding: 11px 24px;
+      background: rgba(13, 17, 24, 0.75);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border-radius: 9999px;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+
+    /* Pílula 5: Fosca Dark com Acento Azul */
+    .pill-dark-blue-accent {
+      padding: 11px 24px;
+      background: #121620;
+      border: 1.5px solid #232a36;
+      border-radius: 9999px;
+      color: #00f0ff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    /* Pílula 6: Cápsula Circular de Energia Azul */
+    .pill-capsule-blue {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #00f0ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #080a0e;
+      font-size: 18px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* Call To Action Pill Button (Padrão EGIKE - Sólido, Zero Glow) */
+    .cta-pill-action {
+      width: 100%;
+      height: 72px;
+      background: #00f0ff;
+      border-radius: 9999px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #080a0e;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .cta-pill-action span {
+      margin-left: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0px;
+    }
+
+    /* Rodapé Institucional */
+    .corporate-credits {
+      margin-top: 14px;
+      text-align: center;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CAMADA 1: Fundo Fotográfico Automotivo Puro (Estúdio Matte, Luz Rasante) -->
+  <div class="bg-plate"></div>
+
+  <!-- CAMADA 2: Tipografia Monumental Monolítica (Fica atrás da silhueta da moto) -->
+  <div class="layer-title-behind">
+    <div class="status-badge-top">
+      <div class="status-badge-dot"></div>
+      Z8 E-MOTION // <span>EXPANSÃO REGIONAL</span>
+    </div>
+
+    <div class="headline-block">
+      <div class="title-line-1">JACAREÍ</div>
+      <div class="title-line-2">ELÉTRICA</div>
+    </div>
+  </div>
+
+  <!-- CAMADA 3: Recorte da Moto que sobrepõe a Camada 2 (Efeito de Profundidade 3D) -->
+  <div class="layer-bike-cutout"></div>
+
+  <!-- CAMADA 4: Conteúdo Frontal (Safe Zone) -->
+  <div class="safe-zone-content">
+
+    <!-- Elemento 7: Micro-Tipografia Suíça de Apoio (Editorial Minimalista) -->
+    <div class="swiss-editorial-block">
+      <div class="swiss-header-row">
+        <div class="swiss-model-code">Z8 // TANK HIGH-SPEED (3000W)</div>
+        <div class="swiss-homologation">HOMOLOGAÇÃO CONTRAN Nº 996</div>
+      </div>
+      <p class="swiss-paragraph">
+        <strong>1 ÚNICA CONCESSÃO TERRITORIAL NA COMARCA.</strong> Operação completa com showroom, oficina de 2 elevadores e até 52% de margem líquida. Domine a mobilidade elétrica do Vale antes que outro se antecipe.
+      </p>
+    </div>
+
+    <!-- Elemento 3: Matriz de Pílulas Dinâmicas EGIKE (Brand Persona Anatomy) -->
+    <div class="egike-pills-cluster">
+      <!-- Linha 1 -->
+      <div class="pills-row">
+        <div class="pill-solid-white">
+          <span>52% Margem Líquida</span>
+        </div>
+        <div class="pill-solid-blue">
+          <span>Raio Exclusivo Comarca</span>
+        </div>
+        <div class="pill-capsule-dark">✦</div>
+      </div>
+
+      <!-- Linha 2 -->
+      <div class="pills-row">
+        <div class="pill-outlined-thin">
+          <span>Oficina 2 Elevadores</span>
+        </div>
+        <div class="pill-dark-blue-accent">
+          <span>Lote Mínimo 10 Motos</span>
+        </div>
+        <div class="pill-capsule-blue">⚡</div>
+      </div>
+    </div>
+
+    <!-- Call To Action Sólido -->
+    <div class="cta-pill-action">
+      ASSEGURE SUA CONCESSÃO <span>• (12) 99800-8818</span>
+    </div>
+
+    <!-- Rodapé Corporativo -->
+    <div class="corporate-credits">
+      Z8 EMOTION LTDA. • CNPJ: 68.774.164/0001-00 • MATRIZ SÃO JOSÉ DOS CAMPOS - SP
+    </div>
+
+  </div>
+
+</body>
+</html>

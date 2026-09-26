@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Z8 E-Motion // Jacareí Expansão - EGIKE Style</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #090a0d;
+      font-family: 'Outfit', sans-serif;
+      position: relative;
+    }
+
+    /* Photographic Background Plate (EGIKE Automotive Studio) */
+    .bg-plate {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background-image: url('../public/assets/cria/story_jacarei_clean_egike.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+
+    /* Massive Architectural Typography Watermark (EGIKE Reference 3 - Behind Vehicle) */
+    .watermark-z8 {
+      position: absolute;
+      top: 360px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 420px;
+      font-weight: 900;
+      line-height: 0.8;
+      color: rgba(255, 255, 255, 0.035);
+      letter-spacing: -20px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 2;
+      white-space: nowrap;
+      font-family: 'Barlow Condensed', sans-serif;
+    }
+
+    /* Structural Repeating Pattern Accent (Top-Right Subtle Corner - Z8 Identity) */
+    .structural-pattern {
+      position: absolute;
+      top: 240px;
+      right: -60px;
+      width: 520px;
+      height: 480px;
+      background-image: url('../public/assets/logos/Repetição em padrão 2.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.10;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Content Layer - Strict Instagram Safe Zone (Y = 270px to 1600px, X = 72px) */
+    .safe-zone-container {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      padding: 0 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* ------------------------------------ */
+    /* TOP SECTION (Starts strictly at Y=275px) */
+    /* ------------------------------------ */
+    .top-section {
+      padding-top: 275px;
+    }
+
+    /* Minimalist Non-Luminous Status Pill */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 22px;
+      background: #11141b;
+      border: 1.5px solid #232a36;
+      border-radius: 9999px;
+      color: #94a3b8;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .status-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #00f0ff;
+    }
+
+    .status-badge span {
+      color: #00f0ff;
+    }
+
+    /* Monumental EGIKE-Style Stacking Headline */
+    .headline-wrap {
+      margin-top: 20px;
+    }
+
+    .headline-city {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 148px;
+      font-weight: 900;
+      line-height: 0.86;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: -3px;
+      /* Pure crisp text - ZERO glowing shadow */
+    }
+
+    .headline-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 82px;
+      font-weight: 900;
+      line-height: 0.95;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      margin-top: 4px;
+    }
+
+    /* Concise PNL Lead */
+    .pnl-lead {
+      margin-top: 14px;
+      font-size: 20px;
+      font-weight: 600;
+      color: #cbd5e1;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-family: 'Chakra Petch', sans-serif;
+      max-width: 850px;
+    }
+
+    .pnl-lead strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* ------------------------------------ */
+    /* BOTTOM SECTION (Strictly ends at Y=1600px) */
+    /* ------------------------------------ */
+    .bottom-section {
+      padding-bottom: 320px;
+    }
+
+    /* Model Specification Mini-Header (EGIKE M260 style) */
+    .spec-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .spec-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .spec-badge {
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* ------------------------------------ */
+    /* EGIKE DYNAMIC PILLS CLUSTER          */
+    /* (Omar Elagamy Brand Persona Anatomy) */
+    /* ------------------------------------ */
+    .egike-pills-matrix {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .pills-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Solid White Pill */
+    .pill-solid-white {
+      padding: 12px 26px;
+      background: #ffffff;
+      border-radius: 9999px;
+      color: #090a0d;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Solid Cyan Pill */
+    .pill-solid-cyan {
+      padding: 12px 26px;
+      background: #00f0ff;
+      border-radius: 9999px;
+      color: #090a0d;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Transparent Outlined Pill */
+    .pill-outlined {
+      padding: 11px 24px;
+      background: rgba(17, 20, 27, 0.7);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      border-radius: 9999px;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Dark Matte Pill with Colored Text */
+    .pill-dark-matte {
+      padding: 11px 24px;
+      background: #131720;
+      border: 1.5px solid #232a36;
+      border-radius: 9999px;
+      color: #00f0ff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Circular Minimalist Icon Pill (EGIKE style) */
+    .pill-circle-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #171c26;
+      border: 1.5px solid #283244;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .pill-circle-cyan {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #00f0ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #090a0d;
+      font-size: 18px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* High-Impact Solid CTA Pill Button (EGIKE Minimalist - ZERO GLOW) */
+    .cta-pill-button {
+      width: 100%;
+      height: 72px;
+      background: #00f0ff;
+      border-radius: 9999px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #090a0d;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      /* Solid flat shadow for physical lift - ZERO neon glow */
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .cta-pill-button span {
+      margin-left: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0px;
+    }
+
+    /* Corporate Subtext Footer */
+    .footer-corporate {
+      margin-top: 14px;
+      text-align: center;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Photographic Studio Plate (EGIKE Matte Lighting) -->
+  <div class="bg-plate"></div>
+
+  <!-- Monumental Typography Watermark (Behind Motorcycle) -->
+  <div class="watermark-z8">Z8 E-MOTION</div>
+
+  <!-- Structural Repeating Pattern (Top-Right Accent) -->
+  <div class="structural-pattern"></div>
+
+  <!-- Content Layer (Strict Safe Zone) -->
+  <div class="safe-zone-container">
+
+    <!-- TOP SECTION -->
+    <div class="top-section">
+      <!-- Status Badge -->
+      <div class="status-badge">
+        <div class="status-badge-dot"></div>
+        Z8 E-MOTION // <span>EXPANSÃO REGIONAL</span>
+      </div>
+
+      <!-- Monumental Headline -->
+      <div class="headline-wrap">
+        <h1 class="headline-city">JACAREÍ</h1>
+        <h2 class="headline-sub">SERÁ ELÉTRICA.</h2>
+      </div>
+
+      <!-- PNL Lead -->
+      <p class="pnl-lead">
+        <strong>1 ÚNICA CONCESSÃO EXCLUSIVA.</strong> DOMINE O MERCADO DE MOBILIDADE DO VALE ANTES QUE OUTRO SE ANTECIPE.
+      </p>
+    </div>
+
+    <!-- BOTTOM SECTION -->
+    <div class="bottom-section">
+      <!-- Model Specification Header -->
+      <div class="spec-header">
+        <div class="spec-title">VITRINE // Z8 TANK HIGH-SPEED</div>
+        <div class="spec-badge">HOMOLOGAÇÃO CONTRAN Nº 996</div>
+      </div>
+
+      <!-- EGIKE-Inspired Dynamic Pills Matrix (Solid, Asymmetric, Non-Luminous) -->
+      <div class="egike-pills-matrix">
+        <!-- Row 1 -->
+        <div class="pills-row">
+          <div class="pill-solid-white">
+            <span>52% Margem Líquida</span>
+          </div>
+          <div class="pill-solid-cyan">
+            <span>Raio Exclusivo Comarca</span>
+          </div>
+          <div class="pill-circle-icon">✦</div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="pills-row">
+          <div class="pill-outlined">
+            <span>Oficina 2 Elevadores</span>
+          </div>
+          <div class="pill-dark-matte">
+            <span>Lote Mínimo 10 Motos</span>
+          </div>
+          <div class="pill-circle-cyan">⚡</div>
+        </div>
+      </div>
+
+      <!-- Call To Action Pill Button -->
+      <div class="cta-pill-button">
+        ASSEGURE SUA CONCESSÃO <span>• (12) 99800-8818</span>
+      </div>
+
+      <!-- Corporate Subtext -->
+      <div class="footer-corporate">
+        Z8 EMOTION LTDA. • CNPJ: 68.774.164/0001-00 • MATRIZ SÃO JOSÉ DOS CAMPOS - SP
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

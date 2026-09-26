@@ -206,6 +206,40 @@ A sede da Z8 E-motion está localizada em São José dos Campos - SP, garantindo
 
 #FranquiaZ8 #SJC #ValedoParaiba #TecnologiaNacional #MotosEletricas #Z8Emotion #NegocioSolido`
   },
+  {
+    id: 'poster-sudeste-jacarei',
+    region: 'Sudeste',
+    regionCode: 'SUDESTE',
+    cityState: 'Jacareí - SP',
+    modelId: 'z8-tank',
+    modelName: 'Z8 Tank High-Speed',
+    modelCategory: 'Performance Urbana',
+    image: '/assets/stories_franquias/story_jacarei_tank.jpg',
+    franchiseHeadline: 'JACAREÍ SERÁ ELÉTRICA: DOMINE ANTES QUE OUTRO SE ANTECIPE',
+    franchiseSubhead: '1 única concessão com até 52% de margem líquida. Posicione-se no topo da mobilidade elétrica.',
+    profitMetric: 'Margem Líquida até 52%',
+    liftsMetric: 'Oficina 2 Elevadores Inclusos',
+    paybackMetric: 'Payback de 8 a 14 Meses',
+    complianceMetric: '100% Homologada CONTRAN 996',
+    moqMetric: 'Lote Inicial: 10 Motos',
+    exclusiveRadius: 'Raio Exclusivo Comarca Jacareí',
+    ctaText: 'ASSEGURE SUA CONCESSÃO EM JACAREÍ',
+    feedCaption: `⚡ JACAREÍ SERÁ ELÉTRICA. O FUTURO NÃO ESPERA.
+
+Domine o mercado de mobilidade que mais cresce no Vale do Paraíba antes que outro investidor ocupe sua praça:
+
+✅ 1 ÚNICA concessão oficial com proteção territorial comarcana
+✅ Margem líquida de até 52% na revenda das motos elétricas Z8
+✅ 2 Elevadores hidráulicos inclusos para faturamento recorrente com revisões e PDI
+✅ Suporte da matriz Z8 a apenas 15 minutos (São José dos Campos - SP)
+✅ Lote inicial acessível de 10 unidades com payback estimado em 8 a 14 meses
+
+Decida antes que o mercado decida por você.
+
+📲 Envie uma mensagem no WhatsApp executivo (12) 99800-8818 ou toque no link da bio para receber o Dossiê de Concessão de Jacareí.
+
+#FranquiaZ8 #Jacarei #ValedoParaiba #MotosEletricas #ConcessionariaZ8 #Empreendedorismo #Z8Emotion`
+  },
 
   // ==================== REGIÃO CENTRO-OESTE ====================
   {

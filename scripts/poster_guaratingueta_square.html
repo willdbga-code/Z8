@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Z8 E-Motion // Guaratinguetá - Feed Quadrado 1:1</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      background: #080a0e;
+      font-family: 'Outfit', sans-serif;
+      position: relative;
+    }
+
+    /* 1. Base Fotográfica com Z8 FX-10 Sport e 'GUARA / TINGUETA' (1:1) */
+    .bg-master {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1080px;
+      background-image: url('../public/assets/cria/posters/base_guaratingueta_fx10_1x1.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+
+    /* 2. Área Tipográfica Magnética Desencapsulada (Safe Zone Feed 1:1) */
+    .editorial-zone {
+      position: absolute;
+      bottom: 25px;
+      left: 50px;
+      right: 50px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Hook PNL Magnético em Syne 800 */
+    .pnl-hook-block {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .pnl-title-line-1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 0.98;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 1);
+    }
+
+    .pnl-title-line-2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 0.98;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
+      white-space: nowrap;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 1);
+    }
+
+    /* Subtítulo Calibrado com Destaque PNL */
+    .pnl-sub-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-left: 3px solid #00f0ff;
+      padding-left: 12px;
+      margin-top: 1px;
+    }
+
+    .pnl-sub-line-1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: #cbd5e1;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+      white-space: nowrap;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+    }
+
+    .pnl-sub-line-2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: #00f0ff;
+      letter-spacing: -0.2px;
+      line-height: 1.2;
+      white-space: nowrap;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+    }
+
+    /* Linha de Autoridade & Escassez */
+    .metrics-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+      flex-wrap: nowrap;
+      padding-top: 2px;
+    }
+
+    .metric-white {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9);
+    }
+
+    .metric-divider {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #334155;
+      white-space: nowrap;
+    }
+
+    .metric-cyan {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Rodapé 100% Limpo: Sem microtexto, SEM SETA, apenas o domínio oficial */
+    .footer-pure-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      border-top: 1.5px solid rgba(255, 255, 255, 0.16);
+      padding-top: 8px;
+      margin-top: 2px;
+    }
+
+    .footer-url {
+      font-family: 'Syne', sans-serif;
+      font-size: 24px;
+      font-weight: 800;
+      color: #00f0ff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.9);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-master"></div>
+
+  <div class="editorial-zone">
+
+    <!-- Hook PNL Magnético em Syne 800 -->
+    <div class="pnl-hook-block">
+      <div class="pnl-title-line-1">UMA CIDADE INTEIRA.</div>
+      <div class="pnl-title-line-2">UMA ÚNICA CHAVE.</div>
+    </div>
+
+    <!-- Subtítulo Calibrado com Destaque PNL -->
+    <div class="pnl-sub-block">
+      <div class="pnl-sub-line-1">O mercado elétrico não espera.</div>
+      <div class="pnl-sub-line-2">Quem chegar primeiro, domina.</div>
+    </div>
+
+    <!-- Monopólio Territorial // Apenas 1 Vaga -->
+    <div class="metrics-row">
+      <div class="metric-white">MONOPÓLIO TERRITORIAL</div>
+      <div class="metric-divider">//</div>
+      <div class="metric-cyan">APENAS 1 VAGA</div>
+    </div>
+
+    <!-- Rodapé 100% Limpo: Sem microtexto e SEM SETA -->
+    <div class="footer-pure-row">
+      <div class="footer-url">Z8EMOTION.COM</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

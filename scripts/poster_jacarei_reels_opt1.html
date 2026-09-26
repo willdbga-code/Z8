@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Z8 E-Motion // Jacareí - Reels Perspectiva 1: Tech Avant-Garde</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Unbounded:wght@600;700;800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #080a0e;
+      font-family: 'Space Grotesk', sans-serif;
+      position: relative;
+    }
+
+    .bg-master {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background-image: url('../public/assets/cria/posters/base_jacarei_tank.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+
+    /* Área Tipográfica - Safe Zone Inferior (Y = 1240px a 1600px) */
+    .editorial-zone {
+      position: absolute;
+      bottom: 310px;
+      left: 70px;
+      right: 70px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Hook PNL com Escala Magnética Ampliada (Unbounded) */
+    .pnl-hook-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pnl-title-line-1 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 44px;
+      font-weight: 900;
+      line-height: 1.05;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 1);
+    }
+
+    .pnl-title-line-2 {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 44px;
+      font-weight: 900;
+      line-height: 1.05;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 1);
+    }
+
+    /* Subtítulo Aumentado e com Mais Presença */
+    .pnl-sub-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-left: 3px solid #00f0ff;
+      padding-left: 20px;
+      margin-top: 4px;
+    }
+
+    .pnl-sub-line-1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 600;
+      color: #e2e8f0;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+    }
+
+    .pnl-sub-line-2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #00f0ff;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 1);
+    }
+
+    /* Linha de Autoridade & Escassez */
+    .metrics-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-top: 6px;
+    }
+
+    .metric-white {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.9);
+    }
+
+    .metric-divider {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    .metric-cyan {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Rodapé Limpo: Sem microtexto, Z8EMOTION.COM protagonista */
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1.5px solid rgba(255, 255, 255, 0.16);
+      padding-top: 18px;
+      margin-top: 6px;
+    }
+
+    .footer-lead-tag {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #00f0ff;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .footer-url {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 34px;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow: 0 3px 16px rgba(0, 0, 0, 0.9);
+    }
+
+    .footer-url span {
+      color: #00f0ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-master"></div>
+
+  <div class="editorial-zone">
+
+    <!-- Hook PNL Magnético em Unbounded -->
+    <div class="pnl-hook-block">
+      <div class="pnl-title-line-1">UMA CIDADE INTEIRA.</div>
+      <div class="pnl-title-line-2">UMA ÚNICA CHAVE.</div>
+    </div>
+
+    <!-- Subtítulo Aumentado (32px) com destaque PNL -->
+    <div class="pnl-sub-block">
+      <div class="pnl-sub-line-1">O mercado elétrico não espera.</div>
+      <div class="pnl-sub-line-2">Quem chegar primeiro, domina.</div>
+    </div>
+
+    <!-- Monopólio Territorial // Apenas 1 Vaga -->
+    <div class="metrics-row">
+      <div class="metric-white">MONOPÓLIO TERRITORIAL</div>
+      <div class="metric-divider">//</div>
+      <div class="metric-cyan">APENAS 1 VAGA</div>
+    </div>
+
+    <!-- Rodapé Limpo: Removido microtexto, apenas Z8EMOTION.COM de alta autoridade -->
+    <div class="footer-row">
+      <div class="footer-lead-tag">// CONCESSÃO 2026</div>
+      <div class="footer-url">Z8EMOTION<span>.COM</span></div>
+    </div>
+
+  </div>
+
+</body>
+</html>

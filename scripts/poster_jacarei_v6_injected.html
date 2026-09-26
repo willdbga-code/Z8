@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Z8 E-Motion // Jacareí - PNL Provocante</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #080a0e;
+      font-family: 'Outfit', sans-serif;
+      position: relative;
+    }
+
+    /* 1. Base Fotográfica Criada e Salva em /posters */
+    .bg-master {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background-image: url('../public/assets/cria/posters/base_jacarei_tank.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+
+    /* 2. Área Injetada Frontal (Safe Zone Inferior Y = 1250px a 1600px) */
+    .injected-content-zone {
+      position: absolute;
+      bottom: 310px; /* Safe Zone de corte rigorosa */
+      left: 70px;
+      right: 70px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Hook PNL Provocante de Alta Curiosidade */
+    .pnl-provocative-hook {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border-left: 3px solid #00f0ff;
+      padding-left: 18px;
+    }
+
+    .pnl-title-line {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 0.95;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .pnl-sub-line {
+      font-family: 'Outfit', sans-serif;
+      font-size: 19px;
+      font-weight: 600;
+      color: #94a3b8;
+      letter-spacing: 0.5px;
+    }
+
+    .pnl-sub-line strong {
+      color: #00f0ff;
+      font-weight: 700;
+    }
+
+    /* Matriz de Pílulas Dinâmicas EGIKE (Enxuta e Provocante) */
+    .egike-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Pílula Sólida Branca */
+    .pill-solid-white {
+      padding: 12px 26px;
+      background: #ffffff;
+      border-radius: 9999px;
+      color: #080a0e;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    /* Pílula Sólida Azul Z8 */
+    .pill-solid-cyan {
+      padding: 12px 26px;
+      background: #00f0ff;
+      border-radius: 9999px;
+      color: #080a0e;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    /* Pílula Contorno Vazado */
+    .pill-outlined {
+      padding: 11px 24px;
+      background: rgba(13, 17, 24, 0.75);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      border-radius: 9999px;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      white-space: nowrap;
+    }
+
+    /* Cápsula Circular Ícone */
+    .capsule-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #11151e;
+      border: 1.5px solid #232c3d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .capsule-icon-cyan {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #00f0ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #080a0e;
+      font-size: 18px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* Call To Action Provocante PNL */
+    .cta-pnl-button {
+      width: 100%;
+      height: 72px;
+      background: #00f0ff;
+      border-radius: 9999px;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #080a0e;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.65);
+    }
+
+    .cta-pnl-button span {
+      margin-left: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0px;
+    }
+
+    /* Micro-Footer Corporativo */
+    .corporate-subtext {
+      text-align: center;
+      font-family: 'Chakra Petch', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Base Fotográfica Pura Criada e Preservada em /posters -->
+  <div class="bg-master"></div>
+
+  <!-- Injeção Frontal dos Dados (PNL Provocante + Pílulas EGIKE + CTA) -->
+  <div class="injected-content-zone">
+
+    <!-- Hook PNL Provocante de Alta Curiosidade -->
+    <div class="pnl-provocative-hook">
+      <div class="pnl-title-line">UMA CIDADE INTEIRA. UMA ÚNICA CHAVE.</div>
+      <div class="pnl-sub-line">O mercado elétrico não espera. <strong>Quem chegar primeiro, domina.</strong></div>
+    </div>
+
+    <!-- Pílulas Dinâmicas EGIKE (Métricas Enxutas) -->
+    <div class="egike-pills-row">
+      <div class="pill-solid-white">
+        <span>Monopólio Territorial</span>
+      </div>
+      <div class="pill-solid-cyan">
+        <span>Apenas 1 Vaga</span>
+      </div>
+      <div class="capsule-icon">✦</div>
+      <div class="pill-outlined">
+        <span>Lucro de Montadora</span>
+      </div>
+      <div class="capsule-icon-cyan">⚡</div>
+    </div>
+
+    <!-- Call To Action de Comando PNL -->
+    <div class="cta-pnl-button">
+      ASSUMA O CONTROLE <span>• (12) 99800-8818</span>
+    </div>
+
+    <!-- Subtexto Corporativo -->
+    <div class="corporate-subtext">
+      Z8 EMOTION LTDA. // CONCESSÃO EXCLUSIVA COMARCA DE JACAREÍ - SP
+    </div>
+
+  </div>
+
+</body>
+</html>
