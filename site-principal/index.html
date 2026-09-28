@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Z8 E-motion | Franquia & Importação de Motos Elétricas no Atacado Brasil</title>
-  <meta name="description" content="Seja um Franqueado ou Distribuidor Z8 E-motion. Motos e Scooters Elétricas Direto da Fábrica no Atacado com markups de até 100% sobre o custo (lucros de até R$ 4.200 por moto)." />
+  <title>Z8 E-Motion | Concessionárias & Distribuição de Motos Elétricas Brasil</title>
+  <meta name="description" content="Seja um Concessionário Z8 E-Motion. Motos e Scooters Elétricas Homologadas DENATRAN direto da fábrica no atacado com até 100% de markup e lucros de até R$ 4.200 por moto." />
   
-  <!-- Fonts Google -->
+  <!-- Fonts Google: Inter & Outfit (Padrão Montadora Hyundai) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Custom Skeuomorphic CSS -->
+  <!-- Custom Montadora CSS -->
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body class="skeuo-body">
@@ -26,7 +26,7 @@
       <div class="announcement-links">
         <a href="https://wa.me/5512998008818" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Central Corporativa: (12) 99800-8818</a>
         <a href="#franchise-section"><i class="fa-solid fa-store"></i> Expansão de Concessionárias</a>
-        <a href="/vendas/" style="color: #00F0FF; font-weight: 700;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Portal de Vendas VIP</a>
+        <a href="/vendas/" style="color: #00AAD2; font-weight: 700;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Portal de Vendas VIP</a>
       </div>
     </div>
   </div>
@@ -93,65 +93,76 @@
   <!-- Conteúdo Principal -->
   <main class="main-content" id="catalog-main-content">
     
-    <!-- SECTION: HERO SECTION -->
-    <section id="hero-section" class="hero-grid skeuo-panel">
-      <div class="hero-text-block">
-        <div class="embossed-badge">
-          <i class="fa-solid fa-industry"></i> Importação Direta & Franquias
-        </div>
-        
-        <h1 class="hero-title">
-          Mobilidade Elétrica de Alta Performance no <span class="metal-text">Atacado Brasil</span>
-        </h1>
-        
-        <p class="hero-subtitle">
-          Seja um parceiro de distribuição ou abra uma Franquia Z8 E-motion na sua região. Preços direto de fábrica no atacado com markups de até 100% sobre o custo (lucros de até R$ 4.200 por moto).
-        </p>
+    <!-- SECTION: HERO STAGE DE MONTADORA (PADRÃO HYUNDAI BRASIL) -->
+    <section id="hero-section" class="montadora-hero-stage">
+      <div class="hero-stage-badge">
+        <span class="badge-dot"></span> Z8 E-MOTION // CONCESSÃO NACIONAL 2026 • HOMOLOGAÇÃO DENATRAN
+      </div>
+      
+      <h1 class="hero-stage-title">
+        O PADRÃO SUPREMO EM <br><span class="hero-title-accent">MOBILIDADE ELÉTRICA</span>
+      </h1>
+      
+      <p class="hero-stage-subtitle">
+        Linha completa de motos e scooters homologadas no atacado direto da fábrica. Markups de até 100% sobre o custo (lucros de até R$ 4.200 por moto) com exclusividade territorial para sua concessionária.
+      </p>
+      
+      <div class="hero-stage-actions">
+        <button class="btn-montadora btn-primary-navy" id="btn-open-franchise">
+          <i class="fa-solid fa-store"></i> Seja uma Concessionária
+        </button>
+        <button class="btn-montadora btn-outline-slate" id="btn-explore-models">
+          <i class="fa-solid fa-layer-group"></i> Ver Catálogo Completo
+        </button>
+        <a href="#comparator-section" class="btn-montadora btn-ghost">
+          <i class="fa-solid fa-code-compare"></i> Comparar Versões
+        </a>
+      </div>
 
-        <!-- Painel de Métricas Skeuomorphic -->
-        <div class="skeuo-inset hero-stats-panel">
-          <div class="stat-box">
-            <span class="stat-number">100%</span>
-            <span class="stat-desc">Markup Máximo</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-box">
-            <span class="stat-number">100%</span>
-            <span class="stat-desc">Homologado DENATRAN</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-box">
-            <span class="stat-number">2 Anos</span>
-            <span class="stat-desc">Garantia Nacional</span>
-          </div>
+      <!-- Palco Automotivo do Veículo Hero -->
+      <div class="hero-vehicle-stage">
+        <div class="hero-stage-pedestal"></div>
+        <img src="/assets/models/z8_tank_studio.jpg" alt="Z8 Tank High-Speed" id="hero-main-stage-img" class="hero-stage-vehicle-img" />
+        
+        <div class="hero-stage-model-info">
+          <span class="hero-stage-badge-tag">Versão em Destaque</span>
+          <h3 id="hero-stage-model-name">Z8 TANK HIGH-SPEED</h3>
         </div>
 
-        <div class="hero-actions">
-          <button class="skeuo-button primary-metal-btn" id="btn-open-franchise">
-            <i class="fa-solid fa-briefcase"></i> Quero Ser Parceiro Z8
-          </button>
-          <button class="skeuo-button secondary-metal-btn" id="btn-explore-models">
-            <i class="fa-solid fa-layer-group"></i> Ver Catálogo Completo
-          </button>
+        <div class="hero-stage-telemetry">
+          <div class="telemetry-pill">
+            <span class="pill-label"><i class="fa-solid fa-bolt"></i> Potência</span>
+            <span class="pill-val" id="hero-telemetry-power">1000W High Torque</span>
+          </div>
+          <div class="telemetry-pill">
+            <span class="pill-label"><i class="fa-solid fa-gauge-high"></i> Velocidade</span>
+            <span class="pill-val" id="hero-telemetry-speed">32 km/h Homologada</span>
+          </div>
+          <div class="telemetry-pill">
+            <span class="pill-label"><i class="fa-solid fa-battery-full"></i> Autonomia</span>
+            <span class="pill-val" id="hero-telemetry-range">Até 40 km</span>
+          </div>
+          <div class="telemetry-pill highlight">
+            <span class="pill-label"><i class="fa-solid fa-scale-balanced"></i> CONTRAN 996</span>
+            <span class="pill-val text-navy" id="hero-telemetry-cnh">Dispensa CNH</span>
+          </div>
         </div>
       </div>
 
-      <!-- Card em Destaque 3D / Glass -->
-      <div class="skeuo-display-card">
-        <div class="glass-reflection"></div>
-        
-        <img src="/assets/models/z8_tank_studio.jpg" alt="Z8 Tank High-Speed" class="hero-featured-image" />
-        
-        <div class="hero-featured-info">
-          <h3 class="orbitron-title">Z8 TANK HIGH-SPEED</h3>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">1000W High Torque | 32 km/h (Limitada CONTRAN) | Autonomia 40km</p>
-          <div class="hero-featured-specs">
-            <span><i class="fa-solid fa-bolt"></i> 1000W</span>
-            <span><i class="fa-solid fa-gauge-high"></i> 32 km/h</span>
-            <span><i class="fa-solid fa-battery-full"></i> 40 km</span>
-            <span><i class="fa-solid fa-shield"></i> Homologada</span>
-          </div>
-        </div>
+      <!-- Seletor Horizontal de Versões na Base do Palco -->
+      <div class="hero-stage-switcher" id="hero-stage-switcher">
+        <button type="button" class="stage-switch-btn active" data-img="/assets/models/z8_tank_studio.jpg" data-name="Z8 TANK HIGH-SPEED" data-power="1000W High Torque" data-speed="32 km/h Homologada" data-range="Até 40 km" data-cnh="Dispensa CNH">
+          <span class="switch-idx">01</span> Z8 Tank High-Speed
+        </button>
+        <button type="button" class="stage-switch-btn" data-img="/assets/models/z8_fx10_studio.jpg" data-name="Z8 FX-10 SPORT" data-power="1000W High Performance" data-speed="32 km/h Homologada" data-range="Até 40 km" data-cnh="Dispensa CNH">
+          <span class="switch-idx">02</span> Z8 FX-10 Sport
+        </button>
+        <button type="button" class="stage-switch-btn" data-img="/assets/models/z8_harley_studio.jpg" data-name="Z8 HARLEY X21 CUSTOM" data-power="1000W Chopper" data-speed="32 km/h Homologada" data-range="Até 40 km" data-cnh="Dispensa CNH">
+          <span class="switch-idx">03</span> Z8 Harley X21 Custom
+        </button>
+        <button type="button" class="stage-switch-btn" data-img="/assets/models/z8_n710_studio.jpg" data-name="Z8 N710 URBAN PLUS" data-power="1000W Urban" data-speed="32 km/h Homologada" data-range="Até 40 km" data-cnh="Dispensa CNH">
+          <span class="switch-idx">04</span> Z8 N710 Urban Plus
+        </button>
       </div>
     </section>
 
@@ -175,7 +186,7 @@
         <div style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: rgba(251, 191, 36, 0.15); border: 2px solid #fbbf24; color: #fbbf24; font-size: 1.3rem; margin-bottom: 12px;">
           <i class="fa-solid fa-lock"></i>
         </div>
-        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; color: #ffffff; margin-bottom: 8px;">
+        <h3 style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.25rem; color: #ffffff; margin-bottom: 8px;">
           CONTA ATIVA • AGUARDANDO LIBERAÇÃO DO CATÁLOGO
         </h3>
         <p style="color: #94a3b8; font-size: 0.92rem; max-width: 620px; margin: 0 auto 20px; line-height: 1.6;">
@@ -447,7 +458,7 @@
         <!-- COLUNA 1: FORMULÁRIO DE ABERTURA DE OS -->
         <div class="skeuo-card warranty-form-panel">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.05rem; color: var(--accent-cyan); display: flex; align-items: center; gap: 8px;">
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 800; color: var(--accent-navy); display: flex; align-items: center; gap: 8px;">
               <i class="fa-solid fa-wrench"></i> Abrir Nova Ordem de Serviço (OS)
             </h3>
             <span class="skeuo-badge" id="auto-os-code">OS-2026-0104</span>
@@ -532,7 +543,7 @@
         <!-- COLUNA 2: PAINEL DE GESTÃO DE OS (BANCO DE DADOS EM TEMPO REAL) -->
         <div class="skeuo-card warranty-orders-dashboard">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
-            <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1rem; color: #fff; display: flex; align-items: center; gap: 8px;">
+            <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 800; color: var(--text-heading); display: flex; align-items: center; gap: 8px;">
               <i class="fa-solid fa-database"></i> Painel de O.S (Banco de Dados)
             </h3>
             <span style="font-size: 0.78rem; color: var(--accent-cyan); font-weight: 700;" id="os-count-badge">Carregando chamados...</span>
@@ -621,16 +632,16 @@
       
       <div style="text-align: center; margin-bottom: 20px;">
         <img src="/assets/logos/ztrasparente.png" alt="Z8 Logo" style="height: 48px; margin-bottom: 8px;" />
-        <h2 style="font-family: 'Orbitron', sans-serif; color: #00F2FE; font-size: 1.25rem;">ACESSO AO CATÁLOGO Z8</h2>
-        <p style="font-size: 0.82rem; color: #94a3b8;">Tabelas de Atacado, Margens & Preços de Importação</p>
+        <h2 style="font-family: 'Outfit', sans-serif; font-weight: 800; color: var(--accent-navy); font-size: 1.3rem;">ACESSO AO CATÁLOGO Z8</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">Tabelas de Atacado, Margens & Preços de Importação</p>
       </div>
 
       <!-- TABS SWITCHER -->
-      <div style="display: flex; gap: 8px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 10px;">
-        <button type="button" id="tab-cat-login" style="flex: 1; padding: 10px; border: none; background: #00F2FE; color: #0b0e14; border-radius: 8px; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; font-size: 0.85rem;">
+      <div style="display: flex; gap: 8px; margin-bottom: 20px; background: var(--bg-inset); padding: 4px; border-radius: 10px; border: 1px solid var(--border-metal);">
+        <button type="button" id="tab-cat-login" style="flex: 1; padding: 10px; border: none; background: var(--accent-navy); color: #ffffff; border-radius: 8px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; font-size: 0.88rem;">
           <i class="fa-solid fa-key"></i> Entrar
         </button>
-        <button type="button" id="tab-cat-register" style="flex: 1; padding: 10px; border: none; background: transparent; color: #94a3b8; border-radius: 8px; font-weight: 700; font-family: 'Orbitron', sans-serif; cursor: pointer; font-size: 0.85rem;">
+        <button type="button" id="tab-cat-register" style="flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); border-radius: 8px; font-weight: 700; font-family: 'Outfit', sans-serif; cursor: pointer; font-size: 0.88rem;">
           <i class="fa-solid fa-user-plus"></i> Cadastrar-se
         </button>
       </div>
@@ -821,7 +832,7 @@
 
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px; flex-wrap: wrap; gap: 10px;">
         <div>
-          <h2 style="font-family: 'Orbitron', sans-serif; color: #fbbf24; font-size: 1.2rem; margin: 0;">
+          <h2 style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #B45309; font-size: 1.25rem; margin: 0;">
             <i class="fa-solid fa-user-shield"></i> PAINEL DE APROVAÇÃO DE ACESSOS (ADMINISTRADOR MASTER)
           </h2>
           <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px;">Gerencie, aprove solicitações de novos lojistas e cadastre parceiros homologados da rede Z8.</p>
@@ -837,11 +848,11 @@
       </div>
 
       <!-- SELETOR DE ABAS DO PAINEL MASTER (CATÁLOGO vs CRM DE LEADS) -->
-      <div style="display: flex; gap: 10px; margin-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; flex-wrap: wrap;">
-        <button type="button" id="tab-adm-users-btn" class="admin-main-nav-btn active" style="background: rgba(0, 242, 254, 0.15); border: 1px solid #00F2FE; color: #00F2FE; padding: 9px 18px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: 'Orbitron', sans-serif;">
+      <div style="display: flex; gap: 10px; margin-bottom: 18px; border-bottom: 1px solid var(--border-metal); padding-bottom: 12px; flex-wrap: wrap;">
+        <button type="button" id="tab-adm-users-btn" class="admin-main-nav-btn active" style="background: var(--accent-navy); border: 1px solid var(--accent-navy); color: #ffffff; padding: 9px 18px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: 'Outfit', sans-serif;">
           <i class="fa-solid fa-users-gear"></i> LIBERAÇÃO DE ACESSOS AO CATÁLOGO
         </button>
-        <button type="button" id="tab-adm-leads-btn" class="admin-main-nav-btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94a3b8; padding: 9px 18px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: 'Orbitron', sans-serif; transition: all 0.2s;">
+        <button type="button" id="tab-adm-leads-btn" class="admin-main-nav-btn" style="background: var(--bg-inset); border: 1px solid var(--border-metal); color: var(--text-muted); padding: 9px 18px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-family: 'Outfit', sans-serif; transition: all 0.2s;">
           <i class="fa-solid fa-fire text-accent-gold"></i> CRM DE LEADS & PERFIL DE INVESTIDOR (<span id="adm-leads-badge-count">0</span>)
         </button>
       </div>

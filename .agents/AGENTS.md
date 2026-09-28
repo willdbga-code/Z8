@@ -190,8 +190,13 @@
    - **Zeladoria & Serviços Gerais**: Manequim atlético camiseta Z8, sede corporativa, `ZELADORIA` monumental, Direct Instagram.
 4. **Próximas Praças Estratégicas do Cluster**:
    - São José dos Campos (Matriz / Flagship) e Litoral Norte (Caraguatatuba / Ubatuba / São Sebastião / Ilhabela).
-5. **Redesign de Montadora Padrão Hyundai Brasil (Páginas /vendas/ e /site-principal/)**:
-   - Engenharia Reversa AEM/React & CRO: `docs/design_system/BENCHMARK_HYUNDAI_E_UX_Z8.md`.
-   - Página de Vendas (`/vendas/`): Clean Pewter White (`#F8F9FA`) com Navy (`#002C5F`), seletor interativo de cores (10 modelos com transição suave), wizard progressivo em 2 etapas com auto-save de leads e Mobile Sticky Action Bar.
-   - Site Principal (`/site-principal/`): Top announcement bar institucional, tema refinado, seletor de cores no catálogo dinâmico de 11 modelos, Comparador de Modelos lado a lado (14 métricas técnicas CONTRAN 996, recarga R$ 2,10, economia e atacado) e Mobile Sticky Action Bar.
-   - Teste de build Vite concluído com 100% de sucesso.
+5. **Redesign Drástico de Montadora de Luxo (Padrão Hyundai Brasil - 100% Concluído)**:
+   - **Engenharia Reversa AEM/React & CRO**: `docs/design_system/BENCHMARK_HYUNDAI_E_UX_Z8.md`.
+   - **Erradicação Total de Skeuomorfismo**: Remoção integral da fonte Orbitron, bevels, texturas pseudo-metálicas e botões plásticos. Adoção da tipografia moderna `Outfit` (pesos 300 a 900) para títulos/destaques e `Inter` para leitura corporal.
+   - **Paleta Refinada Automotiva**: Cinza Claro Estúdio Acetinado (`#F4F5F7`), Cinza Escuro Slate (`#111827`), Azul Navy Heritage (`#002C5F`), superfícies brancas puras (`#FFFFFF`) e linhas milimétricas (`1px solid #E2E8F0`).
+   - **Palco do Veículo Hero de Montadora (`/site-principal/`)**: Palco monumental com seletor interativo horizontal na base (Tank, FX-10, Harley, N710), telemetria dinâmica em pills e transição de imagem suave.
+   - **Showroom & Comparador de Modelos**: Seletor dinâmico de cores de fábrica (swatches) em 11 modelos, Comparador lado a lado com 14 especificações CONTRAN 996, custos de recarga e margens.
+   - **Controles & Painel Financeiro Executivo**: Substituição da tela LCD verde e sliders volumosos por controles refinados de montadora, sliders com track milimétrica e tabela executiva.
+   - **Landing Page B2B (`/vendas/`)**: Tokens alinhados em `#F4F5F7` e `#002C5F`, tipografia `Outfit`, seletor de cores nos 10 modelos, wizard progressivo em 2 etapas com auto-save e Mobile Sticky Action Bar.
+   - **Portal Hub (`/`)**: Totalmente modernizado para padrão corporativo com badges institucionais e cards refinados.
+   - **Build & Responsividade**: `npm run build` testado com 100% de sucesso (0 erros de bundling) e calibração responsiva mobile (< 480px, 640px, 768px, 1024px+).

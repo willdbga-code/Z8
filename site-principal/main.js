@@ -49,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initThemeToggle();
   initNavigation();
+  initHeroStageSwitcher();
   initFilterBar();
   renderShowroom();
   initVehicleComparator();
@@ -68,7 +69,7 @@ function initThemeToggle() {
   const themeSwitch = document.getElementById('theme-toggle-switch');
   const root = document.documentElement;
 
-  const savedTheme = localStorage.getItem('z8_theme') || 'dark';
+  const savedTheme = localStorage.getItem('z8_theme') || 'light';
   root.setAttribute('data-theme', savedTheme);
   if (themeSwitch) {
     themeSwitch.checked = savedTheme === 'light';
@@ -112,6 +113,50 @@ function initNavigation() {
 
   document.getElementById('btn-explore-models')?.addEventListener('click', () => {
     document.getElementById('showroom-section')?.scrollIntoView({ behavior: 'smooth' });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   2.1 HERO STAGE VEHICLE SWITCHER (PADRÃO MONTADORA HYUNDAI BRASIL)
+   -------------------------------------------------------------------------- */
+function initHeroStageSwitcher() {
+  const switchBtns = document.querySelectorAll('.stage-switch-btn');
+  const imgEl = document.getElementById('hero-main-stage-img');
+  const nameEl = document.getElementById('hero-stage-model-name');
+  const powerEl = document.getElementById('hero-telemetry-power');
+  const speedEl = document.getElementById('hero-telemetry-speed');
+  const rangeEl = document.getElementById('hero-telemetry-range');
+  const cnhEl = document.getElementById('hero-telemetry-cnh');
+
+  switchBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      switchBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const imgPath = btn.getAttribute('data-img');
+      const name = btn.getAttribute('data-name');
+      const power = btn.getAttribute('data-power');
+      const speed = btn.getAttribute('data-speed');
+      const range = btn.getAttribute('data-range');
+      const cnh = btn.getAttribute('data-cnh');
+
+      if (imgEl && imgPath) {
+        imgEl.style.opacity = '0.25';
+        imgEl.style.transform = 'scale(0.96)';
+        const tempImg = new Image();
+        tempImg.onload = () => {
+          imgEl.src = imgPath;
+          imgEl.style.opacity = '1';
+          imgEl.style.transform = 'scale(1)';
+        };
+        tempImg.src = imgPath;
+      }
+      if (nameEl && name) nameEl.textContent = name;
+      if (powerEl && power) powerEl.textContent = power;
+      if (speedEl && speed) speedEl.textContent = speed;
+      if (rangeEl && range) rangeEl.textContent = range;
+      if (cnhEl && cnh) cnhEl.textContent = cnh;
+    });
   });
 }
 

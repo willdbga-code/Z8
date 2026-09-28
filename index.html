@@ -1,23 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Z8 E-motion | Hub Portal de Aplicações</title>
+  <title>Z8 E-Motion | Portal Corporativo & Hub de Aplicações</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --bg-main: #0B0E14;
-      --card-bg: #141824;
-      --card-border: rgba(0, 240, 255, 0.2);
-      --accent-cyan: #00f0ff;
-      --accent-gold: #fbbf24;
-      --accent-green: #10b981;
-      --text-main: #f3f4f6;
-      --text-muted: #9ca3af;
+      --bg-main: #F4F5F7;
+      --card-bg: #FFFFFF;
+      --card-border: #E2E8F0;
+      --accent-navy: #002C5F;
+      --accent-slate: #111827;
+      --accent-gold: #B45309;
+      --accent-green: #059669;
+      --text-main: #111827;
+      --text-muted: #64748B;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -27,35 +28,49 @@
     }
     body {
       font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at top center, #1a233a 0%, #0b0e14 70%);
+      background: var(--bg-main);
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 2rem 1rem;
+      padding: 2.5rem 1.25rem;
     }
     .header-logo {
       text-align: center;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2.8rem;
+    }
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      background: rgba(0, 44, 95, 0.06);
+      border: 1px solid rgba(0, 44, 95, 0.15);
+      color: var(--accent-navy);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
     }
     .header-logo h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2.5rem;
-      letter-spacing: 2px;
-      background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      color: var(--accent-navy);
       margin-bottom: 0.5rem;
     }
     .header-logo p {
       color: var(--text-muted);
-      font-size: 1.1rem;
+      font-size: 1.05rem;
     }
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
       gap: 2rem;
       max-width: 860px;
       width: 100%;
@@ -64,99 +79,92 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 2rem;
+      padding: 2.2rem;
       text-decoration: none;
       color: inherit;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
+      box-shadow: 0 4px 20px rgba(0, 44, 95, 0.04);
     }
     .card:hover {
-      transform: translateY(-8px);
-      border-color: var(--accent-cyan);
-      box-shadow: 0 20px 40px rgba(0, 240, 255, 0.15);
+      transform: translateY(-6px);
+      border-color: var(--accent-navy);
+      box-shadow: 0 16px 36px rgba(0, 44, 95, 0.1);
     }
-    .card:hover::before { opacity: 1; }
     .card-icon {
-      font-size: 2.5rem;
-      color: var(--accent-cyan);
+      font-size: 2.2rem;
+      color: var(--accent-navy);
       margin-bottom: 1.2rem;
     }
     .card-title {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 1.3rem;
-      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--accent-slate);
       margin-bottom: 0.8rem;
     }
     .card-desc {
       color: var(--text-muted);
       font-size: 0.95rem;
-      line-height: 1.5;
-      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
       flex-grow: 1;
     }
     .btn-action {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--accent-cyan);
+      gap: 0.6rem;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--accent-navy);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.04em;
     }
     .btn-action i { transition: transform 0.2s; }
     .card:hover .btn-action i { transform: translateX(5px); }
     .badge {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: rgba(0, 240, 255, 0.1);
-      border: 1px solid var(--accent-cyan);
-      color: var(--accent-cyan);
+      top: 1.2rem;
+      right: 1.2rem;
+      background: rgba(0, 44, 95, 0.06);
+      border: 1px solid rgba(0, 44, 95, 0.15);
+      color: var(--accent-navy);
       font-size: 0.75rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 20px;
-      font-weight: 600;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      font-weight: 700;
     }
     @media (max-width: 768px) {
-      body { padding: 1.5rem 1rem; }
-      .header-logo { margin-bottom: 1.8rem; }
-      .header-logo h1 { font-size: 1.8rem; letter-spacing: 1px; }
+      body { padding: 1.8rem 1rem; }
+      .header-logo { margin-bottom: 2rem; }
+      .header-logo h1 { font-size: 2rem; }
       .header-logo p { font-size: 0.95rem; }
       .grid-container { grid-template-columns: 1fr; gap: 1.2rem; }
-      .card { padding: 1.5rem; }
+      .card { padding: 1.6rem; }
     }
     @media (max-width: 480px) {
       body { padding: 1.2rem 0.75rem; }
-      .header-logo { margin-bottom: 1.4rem; }
-      .header-logo h1 { font-size: 1.45rem; }
+      .header-logo { margin-bottom: 1.5rem; }
+      .header-logo h1 { font-size: 1.65rem; }
       .header-logo p { font-size: 0.88rem; }
-      .card { padding: 1.25rem 1rem; }
-      .card-title { font-size: 1.12rem; }
-      .badge { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
-      .btn-action { font-size: 0.82rem; }
+      .card { padding: 1.4rem 1.1rem; }
+      .card-title { font-size: 1.2rem; }
+      .badge { font-size: 0.7rem; padding: 0.25rem 0.6rem; }
+      .btn-action { font-size: 0.85rem; }
     }
   </style>
 </head>
 <body>
 
   <div class="header-logo">
+    <div class="header-badge"><i class="fa-solid fa-bolt-lightning"></i> HUB CORPORATIVO Z8 E-MOTION</div>
     <h1>Z8 E-MOTION</h1>
-    <p>Selecione a página que deseja visualizar e executar</p>
+    <p>Selecione a plataforma executiva que deseja acessar</p>
   </div>
 
   <div class="grid-container">
@@ -167,22 +175,22 @@
       <div>
         <div class="card-icon"><i class="fa-solid fa-motorcycle"></i></div>
         <h2 class="card-title">Catálogo Z8 E-Motion</h2>
-        <p class="card-desc">Catálogo completo dos 11 modelos, especificações técnicas, tabela de atacado, varejo e calculadora de rentabilidade.</p>
+        <p class="card-desc">Showroom executivo dos 11 modelos de veículos elétricos, comparador técnico lado a lado, especificações CONTRAN 996, tabela de atacado e simulador de rentabilidade.</p>
       </div>
       <div class="btn-action">
-        Ver Catálogo Z8 <i class="fa-solid fa-arrow-right"></i>
+        Acessar Catálogo Showroom <i class="fa-solid fa-arrow-right"></i>
       </div>
     </a>
 
-    <!-- Card 3: Seja Parceiro Z8 -->
+    <!-- Card 2: Seja Parceiro Z8 -->
     <a href="/vendas/" class="card">
-      <span class="badge" style="border-color: var(--accent-gold); color: var(--accent-gold); background: rgba(251, 191, 36, 0.1);">Parcerias & Franquias</span>
+      <span class="badge" style="border-color: rgba(0, 44, 95, 0.2); color: var(--accent-navy); background: rgba(0, 44, 95, 0.06);">B2B & Franquias</span>
       <div>
-        <div class="card-icon" style="color: var(--accent-gold);"><i class="fa-solid fa-handshake"></i></div>
-        <h2 class="card-title">Seja Parceiro Z8</h2>
-        <p class="card-desc">Portal de captação de parceiros comerciais, exclusividade territorial de cidade, atacado e contratação de franquia.</p>
+        <div class="card-icon" style="color: var(--accent-navy);"><i class="fa-solid fa-handshake"></i></div>
+        <h2 class="card-title">Distribuição & Franquias</h2>
+        <p class="card-desc">Portal B2B de captação de revendedores e franqueados com exclusividade de cidade, margem de até 41,51%, pronta-entrega no Brasil e wizard de adesão.</p>
       </div>
-      <div class="btn-action" style="color: var(--accent-gold);">
+      <div class="btn-action" style="color: var(--accent-navy);">
         Seja um Parceiro <i class="fa-solid fa-arrow-right"></i>
       </div>
     </a>

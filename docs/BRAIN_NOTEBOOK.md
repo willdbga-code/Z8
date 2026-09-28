@@ -347,6 +347,25 @@
 - **Comparador de Modelos Lado a Lado (Versões A vs B)**: Comparador técnico interativo inspirado no "Compare as Versões" da Hyundai, com 14 métricas lado a lado (Regulação CONTRAN 996, Isenção de CNH, Potência W, Velocidade km/h, Autonomia, Baterias, Custo de Recarga R$ 2,10, Economia Mensal R$ 450,00, Freios, Pneus, Preço Atacado e Lucro Unitário).
 - **Barra Fixa Mobile Sticky**: Navegação ágil no rodapé de dispositivos móveis com links para Modelos, Comparador e WhatsApp comercial.
 
+### 8.3 Conclusão da Reformulação Drástica 100% Montadora de Luxo (Hyundai Motor Brasil)
 
-
-
+- **Erradicação Total do Skeuomorfismo & Orbitron**:
+  - Eliminação completa de relevos plásticos, botões chanfrados, telas LCD simuladas em verde e texturas pseudo-metálicas.
+  - Adoção da tipografia moderna `Outfit` (pesos 300 a 900) para todos os cabeçalhos, números e títulos, aliada a `Inter` para o corpo de texto.
+- **Paleta Refinada Automotiva**:
+  - **Cinza Claro Estúdio Acetinado** (`#F4F5F7`): Tom neutro de estúdio fotográfico automotivo utilizado como base das duas páginas e do Hub.
+  - **Cinza Escuro Slate** (`#111827`): Tipografia monumental de alto contraste e elegância sóbria.
+  - **Azul Navy Heritage** (`#002C5F`): Cor de autoridade executiva da montadora, acentos, botões primários e cabeçalhos de tabela.
+  - Superfícies em Branco Puro (`#FFFFFF`) com linhas milimétricas estruturais (`1px solid #E2E8F0`) e sombras físicas suaves (`0 4px 20px rgba(0, 44, 95, 0.05)`).
+- **Palco do Veículo Hero de Montadora (`/site-principal/`)**:
+  - Palco automotivo de luxo com iluminação cenográfica no piso e pedestal elíptico.
+  - Seletor interativo horizontal na base permitindo alternar instantaneamente entre modelos emblemáticos (Z8 Tank High-Speed, Z8 FX-10 Sport, Z8 Harley X21 Custom, Z8 N710 Urban Plus).
+  - Telemetria dinâmica em pills (`border-radius: 9999px`) e fade suave de foto (`opacity: 0.25 -> 1.0`).
+- **Painel Financeiro & Controles Executivos**:
+  - Substituição da tela LCD retrô por um Painel de Resultados Financeiros moderno em cartão branco e navy.
+  - Sliders com cursores circulares minimalistas brancos com anel Navy e trilha contínua sem bevels 3D.
+- **Portal Hub Corporativo (`/`)**:
+  - Redesenhado integralmente no mesmo padrão de luxo com selo `HUB CORPORATIVO Z8 E-MOTION`, tipografia `Outfit` e cards elevados.
+- **Engenharia de Responsividade & Build**:
+  - Calibração completa para Mobile (< 480px, 640px), Tablet (768px, 900px) e Desktop (1024px+).
+  - `npm run build` executado com 100% de sucesso sem qualquer erro de bundling ou dependência.
