@@ -12,12 +12,16 @@
     "veo:u2": "node scripts/generate_veo.js --preset u2-warehouse",
     "veo:harley": "node scripts/generate_veo.js --preset harley-carvalhopinto",
     "veo:list": "node scripts/generate_veo.js --list",
-    "pdf": "node scripts/generate_pdf.js"
+    "pdf": "node scripts/generate_pdf.js",
+    "audit": "unlighthouse --site http://localhost:3000",
+    "audit:desktop": "unlighthouse --site http://localhost:3000 --desktop",
+    "audit:prod": "unlighthouse --site https://z8emotion.com.br"
   },
   "devDependencies": {
     "@google/genai": "^2.17.1",
     "dotenv": "^17.4.2",
     "marked": "^18.0.10",
+    "unlighthouse": "^0.18.2",
     "vite": "^5.0.0"
   },
   "dependencies": {
