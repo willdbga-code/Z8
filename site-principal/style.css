@@ -1,34 +1,35 @@
 /* ==========================================================================
-   Z8 E-MOTION - SKEUOMORPHIC DESIGN SYSTEM (SITE PRINCIPAL)
+   Z8 E-MOTION - AUTOMOTIVE DESIGN SYSTEM (PADRÃO MONTADORA HYUNDAI)
    ========================================================================== */
 
 :root[data-theme="dark"] {
-  --bg-page: #0f1217;
-  --bg-panel: linear-gradient(145deg, #1b2029, #13171f);
-  --bg-card: linear-gradient(135deg, #222936, #181d26);
-  --bg-inset: linear-gradient(145deg, #0a0c10, #13171f);
-  --bg-bezel: linear-gradient(145deg, #2c3545, #151a24);
+  --bg-page: #0a0f1d;
+  --bg-panel: #111827;
+  --bg-card: #151f32;
+  --bg-inset: #0d1424;
+  --bg-bezel: #1f2e47;
   
-  --metal-gradient: linear-gradient(135deg, #3a4556 0%, #1f2733 50%, #151a22 100%);
-  --metal-btn-gradient: linear-gradient(180deg, #3d495c 0%, #252e3c 100%);
-  --primary-btn-gradient: linear-gradient(180deg, #10b981 0%, #047857 100%);
-  --primary-btn-hover: linear-gradient(180deg, #34d399 0%, #059669 100%);
+  --metal-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  --metal-btn-gradient: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  --primary-btn-gradient: linear-gradient(180deg, #00AAD2 0%, #002C5F 100%);
+  --primary-btn-hover: linear-gradient(180deg, #00F0FF 0%, #003875 100%);
   
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
   --text-heading: #ffffff;
-  --border-metal: #334155;
-  --border-highlight: rgba(255, 255, 255, 0.15);
+  --border-metal: #1e293b;
+  --border-highlight: rgba(255, 255, 255, 0.12);
   
+  --accent-navy: #002c5f;
   --accent-emerald: #10b981;
-  --accent-cyan: #06b6d4;
+  --accent-cyan: #00f0ff;
   --accent-gold: #fbbf24;
   --accent-neon: #00f0ff;
   
-  --shadow-raised: 8px 8px 16px rgba(0, 0, 0, 0.6), -4px -4px 12px rgba(255, 255, 255, 0.05);
-  --shadow-card: 6px 6px 14px rgba(0, 0, 0, 0.5), -3px -3px 10px rgba(255, 255, 255, 0.04);
-  --shadow-inset: inset 3px 3px 6px rgba(0, 0, 0, 0.7), inset -2px -2px 5px rgba(255, 255, 255, 0.08);
-  --glow-cyan: 0 0 15px rgba(6, 182, 212, 0.4);
+  --shadow-raised: 0 10px 30px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  --glow-cyan: 0 0 15px rgba(0, 240, 255, 0.35);
   --glow-emerald: 0 0 15px rgba(16, 185, 129, 0.4);
   
   --lcd-bg: #091a24;
@@ -37,37 +38,38 @@
 }
 
 :root[data-theme="light"] {
-  --bg-page: #e6ebf2;
-  --bg-panel: linear-gradient(145deg, #f0f4f9, #dce2ed);
-  --bg-card: linear-gradient(135deg, #ffffff, #e6ecf5);
-  --bg-inset: linear-gradient(145deg, #d3d9e4, #eaf0f8);
-  --bg-bezel: linear-gradient(145deg, #cfd7e3, #ab89d);
+  --bg-page: #f8f9fa;
+  --bg-panel: #ffffff;
+  --bg-card: #ffffff;
+  --bg-inset: #f1f5f9;
+  --bg-bezel: #e2e8f0;
   
-  --metal-gradient: linear-gradient(135deg, #e1e7f0 0%, #cbd4e2 50%, #b8c3d4 100%);
-  --metal-btn-gradient: linear-gradient(180deg, #f5f8fc 0%, #cbd4e2 100%);
-  --primary-btn-gradient: linear-gradient(180deg, #059669 0%, #046c4e 100%);
-  --primary-btn-hover: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  --metal-gradient: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+  --metal-btn-gradient: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
+  --primary-btn-gradient: linear-gradient(180deg, #002c5f 0%, #001f44 100%);
+  --primary-btn-hover: linear-gradient(180deg, #003875 0%, #002c5f 100%);
   
   --text-main: #1e293b;
   --text-muted: #64748b;
   --text-heading: #0f172a;
-  --border-metal: #cbd5e1;
-  --border-highlight: rgba(255, 255, 255, 0.9);
+  --border-metal: #e2e8f0;
+  --border-highlight: rgba(0, 44, 95, 0.08);
   
+  --accent-navy: #002c5f;
   --accent-emerald: #059669;
-  --accent-cyan: #0284c7;
+  --accent-cyan: #00aad2;
   --accent-gold: #d97706;
-  --accent-neon: #0284c7;
+  --accent-neon: #00aad2;
   
-  --shadow-raised: 8px 8px 18px rgba(166, 180, 200, 0.7), -6px -6px 14px rgba(255, 255, 255, 0.95);
-  --shadow-card: 6px 6px 12px rgba(166, 180, 200, 0.6), -4px -4px 10px rgba(255, 255, 255, 0.9);
-  --shadow-inset: inset 3px 3px 6px rgba(166, 180, 200, 0.8), inset -3px -3px 6px rgba(255, 255, 255, 0.95);
-  --glow-cyan: 0 0 10px rgba(2, 132, 199, 0.3);
-  --glow-emerald: 0 0 10px rgba(5, 150, 105, 0.3);
+  --shadow-raised: 0 10px 30px rgba(0, 44, 95, 0.07), 0 2px 6px rgba(0, 0, 0, 0.03);
+  --shadow-card: 0 4px 20px rgba(0, 44, 95, 0.05);
+  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, 0.04);
+  --glow-cyan: 0 0 10px rgba(0, 170, 210, 0.25);
+  --glow-emerald: 0 0 10px rgba(5, 150, 105, 0.25);
   
-  --lcd-bg: #d1fae5;
-  --lcd-border: #6ee7b7;
-  --lcd-text: #065f46;
+  --lcd-bg: #e0f2fe;
+  --lcd-border: #bae6fd;
+  --lcd-text: #0369a1;
 }
 
 * {
@@ -1922,3 +1924,463 @@ html, body.skeuo-body {
 .floating-whatsapp i {
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
+
+/* ==========================================================================
+   HYUNDAI MONTADORA EXTENSIONS (PADRÃO HYUNDAI BRASIL)
+   ========================================================================== */
+
+/* 1. TOP ANNOUNCEMENT BAR */
+.top-announcement-bar {
+  background: var(--accent-navy, #002c5f);
+  color: #ffffff;
+  padding: 8px 24px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.top-announcement-bar .announcement-content {
+  max-width: 1350px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.top-announcement-bar .announcement-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.top-announcement-bar .announcement-links a {
+  color: #e2e8f0;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.top-announcement-bar .announcement-links a:hover {
+  color: #00f0ff;
+}
+
+/* 2. COLOR SWATCHES SELECTOR (SHOWROOM CARDS) */
+.model-swatch-box {
+  margin: 10px 0 14px 0;
+  padding: 10px 12px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-metal);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.swatch-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.74rem;
+}
+
+.swatch-meta-label {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+}
+
+.swatch-label-active {
+  color: var(--text-heading);
+  font-weight: 700;
+}
+
+.swatch-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.swatch-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+  padding: 0;
+  position: relative;
+}
+
+.swatch-dot:hover {
+  transform: scale(1.18);
+}
+
+.swatch-dot.active {
+  box-shadow: 0 0 0 2px var(--accent-cyan), 0 2px 8px rgba(0, 170, 210, 0.4);
+  transform: scale(1.15);
+}
+
+.model-img {
+  transition: opacity 0.25s ease, transform 0.3s ease;
+}
+
+.model-card:hover .model-img {
+  transform: scale(1.03);
+}
+
+.card-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.btn-quick-compare {
+  background: var(--metal-btn-gradient);
+  color: var(--text-heading);
+  border: 1px solid var(--border-metal);
+  padding: 10px 12px;
+  font-size: 0.82rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-quick-compare:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+/* 3. COMPARADOR DE MODELOS DE MONTADORA (SIDE-BY-SIDE) */
+#comparator-section {
+  scroll-margin-top: 90px;
+}
+
+.comparator-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 10px 0 28px 0;
+  flex-wrap: wrap;
+}
+
+.comparator-selector-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 280px;
+  flex: 1;
+  max-width: 440px;
+}
+
+.comparator-selector-box label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.comparator-select {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-metal);
+  border-radius: 10px;
+  color: var(--text-heading);
+  font-size: 0.92rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comparator-select:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 170, 210, 0.2);
+}
+
+.comparator-vs-badge {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent-navy, #002c5f);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 44, 95, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  margin-top: 20px;
+}
+
+.comparator-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 14px;
+  border: 1px solid var(--border-metal);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+
+.comparator-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  min-width: 680px;
+}
+
+.comparator-table thead th {
+  padding: 24px 20px;
+  background: var(--bg-panel);
+  border-bottom: 2px solid var(--border-metal);
+  vertical-align: top;
+}
+
+.comparator-table th.col-feature {
+  width: 26%;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.comparator-table th.col-vehicle {
+  width: 37%;
+  text-align: center;
+}
+
+.comparator-vehicle-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.comparator-vehicle-img {
+  max-height: 140px;
+  width: auto;
+  max-width: 90%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+}
+
+.comparator-vehicle-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin: 0;
+}
+
+.comparator-vehicle-code {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.comparator-vehicle-price {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent-navy, #002c5f);
+}
+
+[data-theme="dark"] .comparator-vehicle-price {
+  color: var(--accent-neon, #00f0ff);
+}
+
+.comparator-table tbody tr {
+  border-bottom: 1px solid var(--border-metal);
+  transition: background-color 0.2s ease;
+}
+
+.comparator-table tbody tr:hover {
+  background: rgba(0, 44, 95, 0.03);
+}
+
+[data-theme="dark"] .comparator-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.comparator-table tbody td {
+  padding: 14px 20px;
+  font-size: 0.88rem;
+  color: var(--text-main);
+}
+
+.comparator-table tbody td.feature-title {
+  font-weight: 700;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comparator-table tbody td.spec-val {
+  text-align: center;
+  font-weight: 600;
+}
+
+.comparator-table tbody td.spec-val.highlight {
+  color: var(--accent-cyan);
+  font-weight: 800;
+}
+
+.comparator-badge-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-metal);
+}
+
+.comparator-badge-pill.exempt {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+[data-theme="dark"] .comparator-badge-pill.exempt {
+  color: #34d399;
+}
+
+.comparator-cta-row td {
+  padding: 20px !important;
+  background: var(--bg-panel);
+}
+
+.comparator-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 280px;
+  padding: 12px 18px;
+  background: var(--primary-btn-gradient);
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0, 44, 95, 0.2);
+  transition: all 0.2s ease;
+}
+
+.comparator-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 44, 95, 0.3);
+  color: #ffffff;
+}
+
+/* 4. MOBILE STICKY ACTION BAR (PADRÃO MONTADORA HYUNDAI) */
+.mobile-sticky-action-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-metal);
+  padding: 10px 16px;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+[data-theme="dark"] .mobile-sticky-action-bar {
+  background: rgba(17, 24, 39, 0.95);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-sticky-action-bar .mobile-bar-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.mobile-sticky-action-bar .mobile-bar-btn.outline {
+  background: transparent;
+  color: var(--text-heading);
+  border: 1px solid var(--border-metal);
+}
+
+.mobile-sticky-action-bar .mobile-bar-btn.primary {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 2px 10px rgba(37, 211, 102, 0.3);
+}
+
+@media (max-width: 768px) {
+  .top-announcement-bar {
+    display: none;
+  }
+
+  .mobile-sticky-action-bar {
+    display: flex;
+  }
+
+  .floating-whatsapp {
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+  }
+
+  .main-content {
+    margin-bottom: 80px;
+  }
+
+  .comparator-controls-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .comparator-selector-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .comparator-vs-badge {
+    margin: 0;
+  }
+}
+

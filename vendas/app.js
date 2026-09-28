@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSeatDecreaser();
   initCepChecker();
   initCatalogTabs();
+  initColorSwatches();
   initB2bProfitCalculator();
   initFaqAccordion();
   initInvestorLeadModal();
@@ -224,6 +225,52 @@ function initCatalogTabs() {
           card.style.display = 'none';
         }
       });
+    });
+  });
+}
+
+/* --------------------------------------------------------------------------
+   4.1 SELETOR INTERATIVO DE CORES DE MONTADORA (ESTILO HYUNDAI MOTOR)
+   -------------------------------------------------------------------------- */
+function initColorSwatches() {
+  const swatchButtons = document.querySelectorAll('.color-swatch-btn');
+  swatchButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const parentCard = btn.closest('.product-card-editorial');
+      if (!parentCard) return;
+
+      const imgEl = parentCard.querySelector('.product-img');
+      const labelEl = parentCard.querySelector('.active-color-name');
+      const siblingSwatches = parentCard.querySelectorAll('.color-swatch-btn');
+
+      const targetImg = btn.getAttribute('data-img');
+      const colorName = btn.getAttribute('data-color');
+
+      // Atualiza visualização das amostras (swatches)
+      siblingSwatches.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (labelEl && colorName) {
+        labelEl.textContent = colorName;
+      }
+
+      if (imgEl && targetImg && !imgEl.src.includes(targetImg)) {
+        imgEl.style.opacity = '0.35';
+        imgEl.style.transform = 'scale(0.98)';
+        
+        const preloadImg = new Image();
+        preloadImg.onload = () => {
+          imgEl.src = targetImg;
+          imgEl.style.opacity = '1';
+          imgEl.style.transform = 'scale(1)';
+        };
+        preloadImg.onerror = () => {
+          imgEl.style.opacity = '1';
+          imgEl.style.transform = 'scale(1)';
+        };
+        preloadImg.src = targetImg;
+      }
     });
   });
 }
@@ -482,6 +529,86 @@ function initInvestorLeadModal() {
             <div><strong>${check.city}</strong> está <strong>DISPONÍVEL</strong> para concessão territorial (50km livres)!</div>
           </div>
         `;
+      }
+    });
+  }
+
+  // 5.1 Navegação do Wizard em 2 Passos (Progressive Disclosure - Estilo Hyundai)
+  const step1El = document.getElementById('investor-step-1');
+  const step2El = document.getElementById('investor-step-2');
+  const pillStep1 = document.getElementById('pill-step-1');
+  const pillStep2 = document.getElementById('pill-step-2');
+  const btnGoToStep2 = document.getElementById('btn-go-to-step-2');
+  const btnBackToStep1 = document.getElementById('btn-back-to-step-1');
+
+  if (btnGoToStep2 && step1El && step2El) {
+    btnGoToStep2.addEventListener('click', (e) => {
+      e.preventDefault();
+      const nameVal = document.getElementById('investor-name')?.value.trim();
+      const cityVal = document.getElementById('investor-city')?.value.trim();
+      const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+
+      if (!nameVal) {
+        alert('Por favor, informe seu Nome Completo.');
+        document.getElementById('investor-name')?.focus();
+        return;
+      }
+
+      if (!phoneVal || phoneVal.replace(/\D/g, '').length < 10) {
+        alert('Por favor, informe um WhatsApp válido com DDD.');
+        phoneInput?.focus();
+        return;
+      }
+
+      if (!cityVal) {
+        alert('Por favor, informe a Cidade desejada para a concessão.');
+        document.getElementById('investor-city')?.focus();
+        return;
+      }
+
+      // Salva pré-lead para não perder nenhum contato se o usuário fechar no passo 2
+      try {
+        saveLead({
+          name: nameVal,
+          city: cityVal,
+          phone: phoneVal,
+          email: document.getElementById('investor-email')?.value.trim() || '',
+          company: document.getElementById('investor-company')?.value.trim() || 'Pessoa Física',
+          status: 'pre_lead_passo_1',
+          temperature: 'possivel',
+          score: 50,
+          createdAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.warn('Pre-lead save fallback:', err);
+      }
+
+      // Transiciona visualmente para o Passo 2
+      step1El.style.display = 'none';
+      step2El.style.display = 'block';
+      if (pillStep1) {
+        pillStep1.classList.remove('active');
+        pillStep1.classList.add('completed');
+        pillStep1.innerHTML = '<i class="fa-solid fa-check" style="font-size: 0.7rem;"></i> <span class="step-text">Região</span>';
+      }
+      if (pillStep2) {
+        pillStep2.classList.add('active');
+      }
+    });
+  }
+
+  if (btnBackToStep1 && step1El && step2El) {
+    btnBackToStep1.addEventListener('click', (e) => {
+      e.preventDefault();
+      step2El.style.display = 'none';
+      step1El.style.display = 'block';
+      if (pillStep1) {
+        pillStep1.classList.add('active');
+        pillStep1.classList.remove('completed');
+        pillStep1.innerHTML = '<span class="step-num">1</span> <span class="step-text">Região & Contato</span>';
+      }
+      if (pillStep2) {
+        pillStep2.classList.remove('active');
       }
     });
   }

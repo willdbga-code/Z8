@@ -6,32 +6,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap');
 
 :root {
-  /* Paleta Base Awwwards Dark */
-  --bg-black: #000000;
-  --bg-surface: #070707;
-  --bg-card: #0d0d0d;
-  --bg-card-inner: #131313;
-  --bg-card-hover: #181818;
+  /* Paleta Clean Pewter White Showroom (Padrão Hyundai Motor Brasil) */
+  --bg-black: #F8F9FA;         /* Base Platinum White */
+  --bg-surface: #FFFFFF;       /* Pure White Showroom */
+  --bg-card: #FFFFFF;          /* Pure White Cards */
+  --bg-card-inner: #F1F5F9;    /* Clean Pewter/Slate Inner */
+  --bg-card-hover: #E9EFF6;    /* Soft Elevated Hover */
   
-  /* Acentos de Marca Z8 */
-  --accent-green: #00ff88;
-  --accent-green-glow: rgba(0, 255, 136, 0.25);
-  --accent-gold: #ffaa00;
-  --accent-gold-glow: rgba(255, 170, 0, 0.25);
-  --accent-cyan: #00e5ff;
-  --accent-cyan-glow: rgba(0, 229, 255, 0.2);
+  /* Acentos Automotivos de Luxo */
+  --accent-navy: #002C5F;       /* Hyundai Heritage Navy */
+  --accent-navy-hover: #001A3A;
+  --accent-green: #059669;      /* Emerald Green B2B */
+  --accent-green-glow: rgba(5, 150, 105, 0.2);
+  --accent-gold: #D97706;       /* Warm Gold/Amber */
+  --accent-gold-glow: rgba(217, 119, 6, 0.2);
+  --accent-cyan: #0088CC;       /* Active Electric Cyan */
+  --accent-cyan-glow: rgba(0, 136, 204, 0.2);
   
-  /* Textos & Tons de Cinza */
-  --text-white: #ffffff;
-  --text-light: #e5e5e5;
-  --text-muted: #888888;
-  --text-dim: #555555;
-  --text-dark: #000000;
+  /* Textos de Alto Contraste & Legibilidade */
+  --text-white: #0F172A;        /* Slate Dark (Títulos e Destaques) */
+  --text-light: #1E293B;        /* Slate Corpo Principal */
+  --text-muted: #475569;        /* Slate Secundário */
+  --text-dim: #64748B;          /* Slate Legendas */
+  --text-dark: #FFFFFF;         /* Invertido para botões escuros */
   
-  /* Bordas Geométricas Sutis */
-  --border-subtle: rgba(255, 255, 255, 0.07);
-  --border-medium: rgba(255, 255, 255, 0.12);
-  --border-hover: rgba(255, 255, 255, 0.22);
+  /* Bordas & Elevação Automotiva */
+  --border-subtle: rgba(0, 44, 95, 0.08);
+  --border-medium: rgba(0, 44, 95, 0.16);
+  --border-hover: rgba(0, 44, 95, 0.32);
+  --shadow-card: 0 4px 20px rgba(0, 44, 95, 0.05);
+  --shadow-elevated: 0 14px 34px rgba(0, 44, 95, 0.08);
   
   /* Tipografia */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -42,9 +46,9 @@
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-btn: 8px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 18px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
   
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -145,11 +149,11 @@ button {
    1. TOP ANNOUNCEMENT BAR (URGÊNCIA & COTAS)
    -------------------------------------------------------------------------- */
 .top-announcement-bar {
-  background-color: #000000;
-  border-bottom: 1px solid var(--border-subtle);
+  background-color: var(--accent-navy);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   padding: 6px 12px;
   font-size: 0.72rem;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -167,9 +171,9 @@ button {
   font-family: var(--font-mono);
   font-size: 0.65rem;
   text-transform: uppercase;
-  color: var(--accent-green);
-  background: rgba(0, 255, 136, 0.08);
-  border: 1px solid rgba(0, 255, 136, 0.2);
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 2px 8px;
   border-radius: var(--radius-xs);
   white-space: nowrap;
@@ -179,16 +183,17 @@ button {
   font-family: var(--font-mono);
   color: #fff;
   font-weight: 700;
-  background: #151515;
+  background: rgba(0, 0, 0, 0.35);
   padding: 2px 6px;
   border-radius: var(--radius-xs);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   white-space: nowrap;
 }
 
 .announcement-link {
-  color: var(--text-light);
-  border: 1px solid var(--border-medium);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
   padding: 3px 10px;
   border-radius: var(--radius-sm);
   font-size: 0.68rem;
@@ -198,9 +203,9 @@ button {
 }
 
 .announcement-link:hover {
-  border-color: var(--accent-green);
+  border-color: #fff;
   color: #fff;
-  background: rgba(0, 255, 136, 0.06);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 @media (max-width: 640px) {
@@ -233,10 +238,11 @@ button {
   left: 0;
   right: 0;
   z-index: 40;
-  background: rgba(0, 0, 0, 0.88);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
+  box-shadow: 0 2px 10px rgba(0, 44, 95, 0.04);
   width: 100%;
 }
 
@@ -260,7 +266,7 @@ button {
 .header-brand img {
   height: 24px;
   width: auto;
-  filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.2));
+  filter: drop-shadow(0 0 8px rgba(0, 44, 95, 0.15));
   flex-shrink: 0;
 }
 
@@ -268,7 +274,7 @@ button {
   font-family: var(--font-heading);
   font-weight: 800;
   font-size: 0.95rem;
-  color: #fff;
+  color: #0F172A;
   letter-spacing: 0.03em;
   display: inline-flex;
   align-items: center;
@@ -279,8 +285,9 @@ button {
 .header-brand-tag {
   font-family: var(--font-mono);
   font-size: 0.55rem;
-  color: var(--accent-green);
-  border: 1px solid rgba(0, 255, 136, 0.3);
+  color: var(--accent-navy);
+  border: 1px solid rgba(0, 44, 95, 0.25);
+  background: rgba(0, 44, 95, 0.05);
   padding: 1px 5px;
   border-radius: var(--radius-xs);
   white-space: nowrap;
@@ -308,7 +315,8 @@ button {
 }
 
 .nav-link:hover {
-  color: #ffffff;
+  color: var(--accent-navy);
+  font-weight: 600;
 }
 
 .header-actions {
@@ -323,6 +331,7 @@ button {
   font-size: 0.68rem;
   color: var(--text-light);
   border: 1px solid var(--border-medium);
+  background: #FFFFFF;
   padding: 6px 12px;
   border-radius: var(--radius-btn);
   display: inline-flex;
@@ -334,17 +343,17 @@ button {
 }
 
 .btn-header-login:hover {
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
-  background: rgba(0, 229, 255, 0.05);
+  border-color: var(--accent-navy);
+  color: var(--accent-navy);
+  background: rgba(0, 44, 95, 0.04);
 }
 
 .btn-header-cta {
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
-  background: #ffffff;
-  color: #000000;
+  background: var(--accent-navy);
+  color: #FFFFFF;
   padding: 6px 14px;
   border-radius: var(--radius-btn);
   display: inline-flex;
@@ -1018,9 +1027,10 @@ button {
 
 /* Card de Produto */
 .product-card-editorial {
-  background: var(--bg-card);
+  background: #FFFFFF;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
   padding: 14px;
   display: flex;
   flex-direction: column;
@@ -1032,17 +1042,18 @@ button {
 
 .product-card-editorial:hover {
   border-color: var(--border-hover);
-  background: var(--bg-card-inner);
-  transform: translateY(-2px);
+  background: #FFFFFF;
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-4px);
 }
 
 .product-image-wrap {
   aspect-ratio: 16/10;
   border-radius: var(--radius-sm);
-  background: #000;
+  background: #F1F5F9;
   overflow: hidden;
   position: relative;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   width: 100%;
 }
 
@@ -1050,7 +1061,7 @@ button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-smooth);
+  transition: transform var(--transition-smooth), opacity 0.25s ease;
 }
 
 .product-card-editorial:hover .product-img {
@@ -1061,15 +1072,68 @@ button {
   position: absolute;
   top: 8px;
   left: 8px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 44, 95, 0.88);
   backdrop-filter: blur(6px);
-  border: 1px solid var(--border-medium);
-  padding: 2px 7px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 2px 8px;
   border-radius: var(--radius-xs);
   font-family: var(--font-mono);
   font-size: 0.58rem;
-  color: var(--accent-green);
+  color: #FFFFFF;
   text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+/* Seletor de Cores Interativo de Montadora (Hyundai Sensuous Sportiness) */
+.product-color-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 2px 0 6px;
+  border-bottom: 1px dashed rgba(0, 44, 95, 0.08);
+}
+
+.color-selector-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+}
+
+.color-selector-label strong {
+  color: var(--accent-navy);
+  font-weight: 700;
+}
+
+.color-swatches-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.color-swatch-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  outline: 1.5px solid rgba(0, 44, 95, 0.2);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.color-swatch-btn:hover {
+  transform: scale(1.18);
+  outline-color: var(--accent-cyan);
+}
+
+.color-swatch-btn.active {
+  transform: scale(1.22);
+  outline: 2px solid var(--accent-navy);
+  box-shadow: 0 2px 8px rgba(0, 44, 95, 0.3);
 }
 
 .product-info-head {
@@ -1084,14 +1148,14 @@ button {
   font-family: var(--font-heading);
   font-size: 1.05rem;
   font-weight: 700;
-  color: #ffffff;
+  color: #0F172A;
   line-height: 1.15;
 }
 
 .product-specs-pill {
   font-family: var(--font-mono);
   font-size: 0.65rem;
-  color: var(--text-dim);
+  color: var(--text-muted);
   display: flex;
   gap: 6px;
   margin-bottom: 12px;
@@ -1100,8 +1164,8 @@ button {
 
 /* Bloco de Lucro do Revendedor por Unidade */
 .product-pricing-box {
-  background: rgba(0, 255, 136, 0.04);
-  border: 1px solid rgba(0, 255, 136, 0.22);
+  background: #F8FAFC;
+  border: 1px solid rgba(0, 44, 95, 0.08);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   margin-top: auto;
@@ -1132,7 +1196,7 @@ button {
 
 .price-val-profit {
   font-family: var(--font-heading);
-  color: var(--accent-green);
+  color: #059669;
   font-weight: 800;
   font-size: 1.05rem;
   line-height: 1;
@@ -1143,17 +1207,17 @@ button {
 .profit-margin-tag {
   font-family: var(--font-mono);
   font-size: 0.62rem;
-  color: rgba(0, 255, 136, 0.85);
+  color: #047857;
   font-weight: 600;
   margin-top: 3px;
 }
 
 .btn-card-reserve {
   width: 100%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-medium);
-  color: #ffffff;
-  padding: 9px;
+  background: var(--accent-navy);
+  border: 1px solid var(--accent-navy);
+  color: #FFFFFF;
+  padding: 10px;
   border-radius: var(--radius-sm);
   font-size: 0.72rem;
   font-weight: 700;
@@ -1168,9 +1232,10 @@ button {
 }
 
 .btn-card-reserve:hover {
-  background: var(--accent-green);
-  border-color: var(--accent-green);
-  color: #000;
+  background: var(--accent-navy-hover);
+  border-color: var(--accent-navy-hover);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 44, 95, 0.25);
 }
 
 /* --------------------------------------------------------------------------
@@ -1505,28 +1570,29 @@ button {
 
 .form-input-b2b {
   width: 100%;
-  background: #000;
-  border: 1px solid var(--border-medium);
+  background: #F8FAFC;
+  border: 1px solid #CBD5E1;
   border-radius: var(--radius-xs);
   padding: 10px 12px;
-  color: #fff;
+  color: #0F172A;
   font-size: 0.85rem;
   outline: none;
-  transition: border-color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
 .form-input-b2b:focus {
-  border-color: var(--accent-green);
+  border-color: var(--accent-navy);
+  box-shadow: 0 0 0 3px rgba(0, 44, 95, 0.08);
 }
 
 /* ==========================================================================
-   ESTILOS EXCLUSIVOS DO MODAL DE PERFIL DE INVESTIDOR & LEAD SCORING
+   ESTILOS EXCLUSIVOS DO MODAL DE PERFIL DE INVESTIDOR & PROGRESSIVE DISCLOSURE
    ========================================================================== */
 .modal-card-investor {
   max-width: 720px;
-  background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.06), transparent 50%), #0d0d0d;
-  border: 1px solid rgba(0, 229, 255, 0.35);
-  box-shadow: 0 0 50px rgba(0, 229, 255, 0.15), 0 25px 70px rgba(0, 0, 0, 0.95);
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 44, 95, 0.16);
+  box-shadow: 0 20px 60px rgba(0, 44, 95, 0.12), 0 10px 30px rgba(0, 0, 0, 0.06);
   border-radius: var(--radius-lg);
   padding: 30px 24px;
 }
@@ -1534,7 +1600,107 @@ button {
 .modal-header-investor {
   margin-bottom: 20px;
   padding-bottom: 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(0, 44, 95, 0.08);
+}
+
+.modal-header-investor h2 {
+  color: #0F172A !important;
+}
+
+/* Wizard Step Indicator (Progressive Disclosure) */
+.form-steps-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 44, 95, 0.08);
+}
+
+.step-pill-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: #64748B;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  transition: all 0.25s ease;
+}
+
+.step-pill-indicator.active {
+  background: var(--accent-navy);
+  color: #FFFFFF;
+  border-color: var(--accent-navy);
+  box-shadow: 0 4px 12px rgba(0, 44, 95, 0.2);
+}
+
+.step-pill-indicator.completed {
+  background: #EBF8F2;
+  color: #059669;
+  border-color: #059669;
+}
+
+.step-pill-indicator .step-num {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(0, 44, 95, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.step-pill-indicator.active .step-num {
+  background: #FFFFFF;
+  color: var(--accent-navy);
+}
+
+.step-pill-indicator.completed .step-num {
+  background: #059669;
+  color: #FFFFFF;
+}
+
+.step-connector {
+  width: 24px;
+  height: 2px;
+  background: #CBD5E1;
+}
+
+.step-nav-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.btn-step-back {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  padding: 16px 20px;
+  border-radius: var(--radius-btn);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-step-back:hover {
+  color: #0F172A;
+  border-color: var(--accent-navy);
+  background: #E2E8F0;
 }
 
 .investor-form-grid {
@@ -1544,15 +1710,15 @@ button {
 }
 
 .investor-question-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
   border-radius: var(--radius-md);
   padding: 14px;
   transition: border-color var(--transition-fast);
 }
 
 .investor-question-card:hover {
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(0, 44, 95, 0.25);
 }
 
 .investor-question-title {
@@ -1561,7 +1727,7 @@ button {
   gap: 8px;
   font-family: var(--font-heading);
   font-size: 0.88rem;
-  color: #fff;
+  color: #0F172A;
   font-weight: 700;
   margin-bottom: 10px;
 }
@@ -1583,8 +1749,8 @@ button {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #FFFFFF;
+  border: 1px solid #CBD5E1;
   border-radius: var(--radius-sm);
   padding: 10px 12px;
   cursor: pointer;
@@ -1593,22 +1759,22 @@ button {
 
 .investor-option-label:hover,
 .investor-option-label-compact:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(0, 229, 255, 0.3);
+  background: #F1F5F9;
+  border-color: var(--accent-navy);
 }
 
 .investor-option-label input[type="radio"],
 .investor-option-label-compact input[type="radio"] {
   margin-top: 3px;
-  accent-color: var(--accent-cyan);
+  accent-color: var(--accent-navy);
   cursor: pointer;
 }
 
 .investor-option-label:has(input[type="radio"]:checked),
 .investor-option-label-compact:has(input[type="radio"]:checked) {
-  background: rgba(0, 229, 255, 0.08);
-  border-color: var(--accent-cyan);
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+  background: rgba(0, 44, 95, 0.04);
+  border-color: var(--accent-navy);
+  box-shadow: 0 0 0 1px var(--accent-navy);
 }
 
 .option-content {
@@ -1620,14 +1786,14 @@ button {
 .option-content strong,
 .investor-option-label-compact strong {
   font-size: 0.82rem;
-  color: #fff;
+  color: #0F172A;
   font-family: var(--font-heading);
 }
 
 .option-content span,
 .investor-option-label-compact span {
   font-size: 0.72rem;
-  color: var(--text-muted);
+  color: #64748B;
   line-height: 1.3;
 }
 
@@ -1893,4 +2059,105 @@ button {
     padding: 10px 12px;
   }
 }
+
+/* ==========================================================================
+   BARRA FIXA INFERIOR MOBILE (STICKY ACTION BAR - PADRÃO HYUNDAI MOTOR)
+   ========================================================================== */
+.mobile-sticky-action-bar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 74px; /* Espaço para a barra flutuante não cobrir o rodapé */
+  }
+
+  .mobile-sticky-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(0, 44, 95, 0.12);
+    box-shadow: 0 -4px 25px rgba(0, 44, 95, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    z-index: 99;
+  }
+
+  .sticky-bar-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--accent-navy);
+    font-size: 0.65rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+  }
+
+  .sticky-bar-link i {
+    font-size: 1.15rem;
+  }
+
+  .sticky-bar-btn-primary {
+    flex: 1;
+    max-width: 250px;
+    background: linear-gradient(135deg, #002C5F 0%, #0088CC 100%);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 16px rgba(0, 44, 95, 0.25);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+  }
+
+  .sticky-bar-btn-primary:active {
+    transform: scale(0.97);
+  }
+
+  .sticky-bar-btn-primary i {
+    font-size: 1.35rem;
+    color: #25D366;
+  }
+
+  .sticky-btn-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    line-height: 1.15;
+  }
+
+  .sticky-btn-text strong {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    white-space: nowrap;
+  }
+
+  .sticky-btn-text small {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+}
+
 

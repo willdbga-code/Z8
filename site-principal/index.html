@@ -19,6 +19,18 @@
 </head>
 <body class="skeuo-body">
 
+  <!-- Top Announcement Bar (Padrão Montadora Hyundai) -->
+  <div class="top-announcement-bar">
+    <div class="announcement-content">
+      <span><i class="fa-solid fa-bolt"></i> Z8 E-MOTION // LINHA 2026 HOMOLOGADA CONTRAN 996 • DIRETO DA FÁBRICA</span>
+      <div class="announcement-links">
+        <a href="https://wa.me/5512998008818" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Central Corporativa: (12) 99800-8818</a>
+        <a href="#franchise-section"><i class="fa-solid fa-store"></i> Expansão de Concessionárias</a>
+        <a href="/vendas/" style="color: #00F0FF; font-weight: 700;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Portal de Vendas VIP</a>
+      </div>
+    </div>
+  </div>
+
   <!-- Header Fixo Skeuomorphic -->
   <header class="skeuo-header">
     <div class="header-container">
@@ -39,6 +51,9 @@
         </button>
         <button class="skeuo-nav-btn" data-target="showroom">
           <i class="fa-solid fa-motorcycle"></i> Modelos & Preços
+        </button>
+        <button class="skeuo-nav-btn" data-target="comparator">
+          <i class="fa-solid fa-code-compare"></i> Comparador
         </button>
         <button class="skeuo-nav-btn" data-target="franchise">
           <i class="fa-solid fa-handshake"></i> Franquias & Atacado
@@ -173,6 +188,31 @@
 
       <!-- Grid de Cards Preenchido Dinamicamente via JS -->
       <div class="models-grid" id="models-grid-container">
+        <!-- Preenchido via main.js -->
+      </div>
+    </section>
+
+    <!-- SECTION: COMPARADOR DE MODELOS DE MONTADORA (PADRÃO HYUNDAI BRASIL) -->
+    <section id="comparator-section" class="section-container skeuo-panel">
+      <div class="section-header">
+        <div class="embossed-badge"><i class="fa-solid fa-code-compare"></i> Comparador de Versões</div>
+        <h2 class="section-title">Compare os Modelos Z8 Lado a Lado</h2>
+        <p class="section-sub">Analise dados técnicos oficiais de motorização, autonomia real, enquadramento CONTRAN 996 e viabilidade comercial para sua concessionária.</p>
+      </div>
+
+      <div class="comparator-controls-bar">
+        <div class="comparator-selector-box">
+          <label for="comparator-select-1"><i class="fa-solid fa-motorcycle"></i> Primeiro Modelo (Versão A):</label>
+          <select id="comparator-select-1" class="comparator-select"></select>
+        </div>
+        <div class="comparator-vs-badge">VS</div>
+        <div class="comparator-selector-box">
+          <label for="comparator-select-2"><i class="fa-solid fa-motorcycle"></i> Segundo Modelo (Versão B):</label>
+          <select id="comparator-select-2" class="comparator-select"></select>
+        </div>
+      </div>
+
+      <div class="comparator-table-wrap" id="comparator-table-wrap">
         <!-- Preenchido via main.js -->
       </div>
     </section>
@@ -1004,6 +1044,19 @@
   <a href="https://wa.me/5512998008818?text=Ol%C3%A1!%20Estou%20no%20cat%C3%A1logo%20Z8%20E-Motion%20e%20gostaria%20de%20falar%20com%20um%20consultor." target="_blank" rel="noopener" class="floating-whatsapp" title="Falar no WhatsApp">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
+
+  <!-- BARRA FIXA INFERIOR MOBILE (STICKY ACTION BAR - PADRÃO MONTADORA HYUNDAI) -->
+  <aside class="mobile-sticky-action-bar">
+    <a href="#showroom-section" class="mobile-bar-btn outline">
+      <i class="fa-solid fa-motorcycle"></i> Modelos
+    </a>
+    <a href="#comparator-section" class="mobile-bar-btn outline">
+      <i class="fa-solid fa-code-compare"></i> Comparar
+    </a>
+    <a href="https://wa.me/5512998008818?text=Ol%C3%A1!%20Gostaria%20de%20consultar%20as%20condi%C3%A7%C3%B5es%20de%20franquia%20e%20atacado%20da%20Z8%20E-Motion." target="_blank" rel="noopener" class="mobile-bar-btn primary">
+      <i class="fa-brands fa-whatsapp"></i> Falar no WhatsApp
+    </a>
+  </aside>
 
   <script type="module" src="./main.js"></script>
 </body>

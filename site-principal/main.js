@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initFilterBar();
   renderShowroom();
+  initVehicleComparator();
   renderOrderDesk();
   renderCompliance();
   initCalculator();
@@ -115,8 +116,57 @@ function initNavigation() {
 }
 
 /* --------------------------------------------------------------------------
-   3. SHOWROOM MODELS GRID RENDER
+   3. SHOWROOM MODELS & COLOR VARIANTS (PADRÃO MONTADORA HYUNDAI)
    -------------------------------------------------------------------------- */
+const MODEL_COLORS = {
+  'z8-tank': [
+    { name: 'Amarelo Mostarda', hex: '#EAB308', img: '/assets/models/z8_tank_yellow_hero.png' },
+    { name: 'Preto Paulista', hex: '#1E293B', img: '/assets/models/z8_tank_hero_paulista.png' },
+    { name: 'Cinza Platina Studio', hex: '#94A3B8', img: '/assets/models/z8_tank_studio.jpg' }
+  ],
+  'z8-fx10': [
+    { name: 'Prata Titânio', hex: '#CBD5E1', img: '/assets/models/z8_fx10_hero_capivari.png' },
+    { name: 'Preto Stealth', hex: '#1E293B', img: '/assets/models/z8_fx10_hero_sjc.png' },
+    { name: 'Cinza Studio', hex: '#64748B', img: '/assets/models/z8_fx10_studio.jpg' }
+  ],
+  'z8-harley-x21': [
+    { name: 'Midnight Black Gloss', hex: '#0F172A', img: '/assets/models/z8_harley_x21.jpg' },
+    { name: 'Custom Chrome', hex: '#E2E8F0', img: '/assets/models/z8_harley_studio.jpg' }
+  ],
+  'z8-u2-delivery': [
+    { name: 'Branco Frotista', hex: '#F8FAFC', img: '/assets/models/z8_u2_delivery.jpg' },
+    { name: 'Cinza Industrial', hex: '#64748B', img: '/assets/models/z8_u2_studio.jpg' }
+  ],
+  'z8-n95c': [
+    { name: 'Azul Executivo', hex: '#0284C7', img: '/assets/models/z8_n95c_blue.jpg' },
+    { name: 'Prata Luxo', hex: '#E2E8F0', img: '/assets/models/z8_n95c_studio.jpg' }
+  ],
+  'z8-n7': [
+    { name: 'Prata Urbano', hex: '#CBD5E1', img: '/assets/models/z8_n7_standard.jpg' },
+    { name: 'Branco Pérola', hex: '#FFFFFF', img: '/assets/models/z8_n7_white.jpg' }
+  ],
+  'z8-q10': [
+    { name: 'Verde Madalena', hex: '#10B981', img: '/assets/models/z8_q10_hero_madalena.png' },
+    { name: 'Grafite Fosco', hex: '#475569', img: '/assets/models/z8_q10_studio.jpg' }
+  ],
+  'z8-n710': [
+    { name: 'Cinza Faria Lima', hex: '#64748B', img: '/assets/models/z8_n710_hero_farialima.png' },
+    { name: 'Branco Pérola', hex: '#FFFFFF', img: '/assets/models/z8_n710_studio.jpg' }
+  ],
+  'z8-q11': [
+    { name: 'Preto Fosco', hex: '#1E293B', img: '/assets/models/z8_q11_compact.jpg' },
+    { name: 'Titanium Grey', hex: '#94A3B8', img: '/assets/models/z8_q11_studio.jpg' }
+  ],
+  'z8-gs005': [
+    { name: 'Vermelho Sport', hex: '#EF4444', img: '/assets/models/z8_gs005.jpg' },
+    { name: 'Preto Grafite', hex: '#1E293B', img: '/assets/models/z8_gs005_studio.jpg' }
+  ],
+  'z8-diamond': [
+    { name: 'Rosê Gold', hex: '#F472B6', img: '/assets/models/z8_diamond.jpg' },
+    { name: 'Branco Pérola', hex: '#FFFFFF', img: '/assets/models/z8_diamond_studio.jpg' }
+  ]
+};
+
 function renderShowroom(filterCategory = 'todos') {
   const grid = document.getElementById('models-grid-container');
   if (!grid) return;
@@ -146,6 +196,30 @@ function renderShowroom(filterCategory = 'todos') {
     const profit = model.profit ?? (model.retailPrice - model.wholesalePrice);
     const markupPct = model.markupPct ?? (((model.retailPrice - model.wholesalePrice) / model.wholesalePrice) * 100).toFixed(1);
     const rankText = model.rank ? `#${model.rank} Ranking` : '';
+
+    const colors = MODEL_COLORS[model.id] || [
+      { name: 'Padrão Montadora', hex: '#64748B', img: model.image }
+    ];
+
+    const swatchesHtml = `
+      <div class="model-swatch-box">
+        <div class="swatch-meta-row">
+          <span class="swatch-meta-label">Cor Selecionada:</span>
+          <span class="swatch-label-active" id="swatch-name-${model.id}">${colors[0].name}</span>
+        </div>
+        <div class="swatch-list">
+          ${colors.map((c, i) => `
+            <button type="button" class="swatch-dot ${i === 0 ? 'active' : ''}"
+                    data-model-id="${model.id}"
+                    data-img="${c.img}"
+                    data-name="${c.name}"
+                    style="background-color: ${c.hex};"
+                    title="${c.name}"
+                    aria-label="${c.name}"></button>
+          `).join('')}
+        </div>
+      </div>
+    `;
 
     const priceBoxHtml = approved
       ? `
@@ -185,12 +259,14 @@ function renderShowroom(filterCategory = 'todos') {
       </div>
 
       <div class="model-img-wrapper">
-        <img src="${model.image}" alt="${model.name}" class="model-img" />
+        <img src="${colors[0].img || model.image}" alt="${model.name}" class="model-img" id="model-img-${model.id}" />
       </div>
 
       <div>
         <h3 class="model-title">${model.name}</h3>
         <p class="model-code">Código Fábrica: ${model.code}</p>
+
+        ${swatchesHtml}
 
         <div class="model-specs-list">
           <div class="spec-item"><i class="fa-solid fa-bolt"></i> ${model.motor}</div>
@@ -201,9 +277,14 @@ function renderShowroom(filterCategory = 'todos') {
 
         ${priceBoxHtml}
 
-        <button class="skeuo-button secondary-metal-btn full-width btn-detail" data-id="${model.id}">
-          <i class="fa-solid fa-circle-info"></i> Detalhes do Modelo
-        </button>
+        <div class="card-actions-row">
+          <button class="skeuo-button secondary-metal-btn btn-detail" data-id="${model.id}">
+            <i class="fa-solid fa-circle-info"></i> Detalhes
+          </button>
+          <button class="btn-quick-compare" data-id="${model.id}">
+            <i class="fa-solid fa-code-compare"></i> Comparar
+          </button>
+        </div>
       </div>
     </div>
   `;
@@ -213,6 +294,54 @@ function renderShowroom(filterCategory = 'todos') {
     btn.addEventListener('click', () => {
       const modelId = btn.getAttribute('data-id');
       openModelModal(modelId);
+    });
+  });
+
+  // Listener para Seletor de Cores Dinâmico
+  grid.querySelectorAll('.swatch-dot').forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const modelId = dot.getAttribute('data-model-id');
+      const imgPath = dot.getAttribute('data-img');
+      const colorName = dot.getAttribute('data-name');
+      const card = dot.closest('.model-card');
+      if (!card) return;
+
+      const imgEl = card.querySelector('.model-img');
+      const nameEl = card.querySelector(`#swatch-name-${modelId}`);
+
+      if (imgEl && imgPath) {
+        imgEl.style.opacity = '0.35';
+        const tempImg = new Image();
+        tempImg.onload = () => {
+          imgEl.src = imgPath;
+          imgEl.style.opacity = '1';
+        };
+        tempImg.src = imgPath;
+      }
+      if (nameEl && colorName) {
+        nameEl.textContent = colorName;
+      }
+
+      card.querySelectorAll('.swatch-dot').forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+    });
+  });
+
+  // Listener para Botão Rápido de Comparação
+  grid.querySelectorAll('.btn-quick-compare').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const modelId = btn.getAttribute('data-id');
+      const sel1 = document.getElementById('comparator-select-1');
+      const compSection = document.getElementById('comparator-section');
+      if (sel1) {
+        sel1.value = modelId;
+        sel1.dispatchEvent(new Event('change'));
+      }
+      if (compSection) {
+        compSection.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 
@@ -247,6 +376,175 @@ function initFilterBar() {
       renderShowroom(cat);
     });
   });
+}
+
+/* --------------------------------------------------------------------------
+   4. VEHICLE COMPARATOR (PADRÃO MONTADORA HYUNDAI BRASIL)
+   -------------------------------------------------------------------------- */
+function initVehicleComparator() {
+  const select1 = document.getElementById('comparator-select-1');
+  const select2 = document.getElementById('comparator-select-2');
+  if (!select1 || !select2) return;
+
+  const optionsHtml = z8Models.map(m => `<option value="${m.id}">${m.name} (${m.code})</option>`).join('');
+  select1.innerHTML = optionsHtml;
+  select2.innerHTML = optionsHtml;
+
+  // Seleção inicial: Z8 Tank vs Z8 FX-10
+  select1.value = 'z8-tank';
+  select2.value = z8Models.find(m => m.id === 'z8-fx10') ? 'z8-fx10' : (z8Models[1]?.id || z8Models[0].id);
+
+  function update() {
+    renderComparatorTable(select1.value, select2.value);
+  }
+
+  select1.addEventListener('change', update);
+  select2.addEventListener('change', update);
+
+  update();
+}
+
+function renderComparatorTable(id1, id2) {
+  const container = document.getElementById('comparator-table-wrap');
+  if (!container) return;
+
+  const m1 = z8Models.find(m => m.id === id1) || z8Models[0];
+  const m2 = z8Models.find(m => m.id === id2) || z8Models[1] || z8Models[0];
+
+  const approved = isCatalogApproved();
+
+  const isM1Autopropelido = m1.speed.includes('32') || m1.motor.includes('1000') || m1.motor.includes('500');
+  const isM2Autopropelido = m2.speed.includes('32') || m2.motor.includes('1000') || m2.motor.includes('500');
+
+  const p1Wholesale = approved ? `R$ ${m1.wholesalePrice.toLocaleString('pt-BR')},00` : 'Restrito (Acesso Franqueado)';
+  const p2Wholesale = approved ? `R$ ${m2.wholesalePrice.toLocaleString('pt-BR')},00` : 'Restrito (Acesso Franqueado)';
+
+  const profit1 = m1.profit ?? (m1.retailPrice - m1.wholesalePrice);
+  const profit2 = m2.profit ?? (m2.retailPrice - m2.wholesalePrice);
+
+  const profitText1 = approved ? `R$ ${profit1.toLocaleString('pt-BR')},00` : 'Consulte Margem';
+  const profitText2 = approved ? `R$ ${profit2.toLocaleString('pt-BR')},00` : 'Consulte Margem';
+
+  container.innerHTML = `
+    <table class="comparator-table">
+      <thead>
+        <tr>
+          <th class="col-feature">Parâmetro de Comparação</th>
+          <th class="col-vehicle">
+            <div class="comparator-vehicle-header">
+              <img src="${m1.image}" alt="${m1.name}" class="comparator-vehicle-img" />
+              <h3 class="comparator-vehicle-title">${m1.name}</h3>
+              <span class="comparator-vehicle-code">${m1.code} • ${m1.tag}</span>
+              <div class="comparator-vehicle-price">R$ ${m1.retailPrice.toLocaleString('pt-BR')},00</div>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Preço Sugerido Varejo</span>
+            </div>
+          </th>
+          <th class="col-vehicle">
+            <div class="comparator-vehicle-header">
+              <img src="${m2.image}" alt="${m2.name}" class="comparator-vehicle-img" />
+              <h3 class="comparator-vehicle-title">${m2.name}</h3>
+              <span class="comparator-vehicle-code">${m2.code} • ${m2.tag}</span>
+              <div class="comparator-vehicle-price">R$ ${m2.retailPrice.toLocaleString('pt-BR')},00</div>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Preço Sugerido Varejo</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-scale-balanced"></i> Regulação CONTRAN 996</td>
+          <td class="spec-val">
+            <span class="comparator-badge-pill ${isM1Autopropelido ? 'exempt' : ''}">
+              ${isM1Autopropelido ? 'Autopropelido Homologado' : 'Ciclomotor Elétrico'}
+            </span>
+          </td>
+          <td class="spec-val">
+            <span class="comparator-badge-pill ${isM2Autopropelido ? 'exempt' : ''}">
+              ${isM2Autopropelido ? 'Autopropelido Homologado' : 'Ciclomotor Elétrico'}
+            </span>
+          </td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-id-card"></i> Exigência de CNH / Habilitação</td>
+          <td class="spec-val highlight">${isM1Autopropelido ? 'Dispensa CNH / Emplacamento' : 'ACC ou CNH Categoria A'}</td>
+          <td class="spec-val highlight">${isM2Autopropelido ? 'Dispensa CNH / Emplacamento' : 'ACC ou CNH Categoria A'}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-bolt"></i> Potência Nominal do Motor</td>
+          <td class="spec-val">${m1.motor}</td>
+          <td class="spec-val">${m2.motor}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-gauge-high"></i> Velocidade Máxima Homologada</td>
+          <td class="spec-val">${m1.speed}</td>
+          <td class="spec-val">${m2.speed}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-route"></i> Autonomia Estimada</td>
+          <td class="spec-val highlight">${m1.range}</td>
+          <td class="spec-val highlight">${m2.range}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-car-battery"></i> Banco de Baterias</td>
+          <td class="spec-val">${m1.battery}</td>
+          <td class="spec-val">${m2.battery}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-plug-circle-bolt"></i> Custo de Recarga Residencial</td>
+          <td class="spec-val"><strong style="color: var(--accent-emerald);">~R$ 2,10</strong> / carga</td>
+          <td class="spec-val"><strong style="color: var(--accent-emerald);">~R$ 2,10</strong> / carga</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-piggy-bank"></i> Economia Mensal vs Gasolina</td>
+          <td class="spec-val"><strong style="color: var(--accent-emerald);">~R$ 450,00 / mês</strong></td>
+          <td class="spec-val"><strong style="color: var(--accent-emerald);">~R$ 450,00 / mês</strong></td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-ring"></i> Sistema de Freios</td>
+          <td class="spec-val">${m1.brakes}</td>
+          <td class="spec-val">${m2.brakes}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-truck-monster"></i> Rodas & Pneus</td>
+          <td class="spec-val">${m1.tires}</td>
+          <td class="spec-val">${m2.tires}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-shield-halved"></i> Estrutura & Chassi</td>
+          <td class="spec-val">${m1.chassis}</td>
+          <td class="spec-val">${m2.chassis}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-star"></i> Diferenciais Tecnológicos</td>
+          <td class="spec-val" style="font-size: 0.8rem;">${(m1.features || []).join(' • ')}</td>
+          <td class="spec-val" style="font-size: 0.8rem;">${(m2.features || []).join(' • ')}</td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-boxes-stacked"></i> Preço Atacado Franqueado</td>
+          <td class="spec-val"><strong style="color: var(--accent-neon);">${p1Wholesale}</strong></td>
+          <td class="spec-val"><strong style="color: var(--accent-neon);">${p2Wholesale}</strong></td>
+        </tr>
+        <tr>
+          <td class="feature-title"><i class="fa-solid fa-chart-line"></i> Lucro Estimado por Unidade</td>
+          <td class="spec-val"><strong style="color: var(--accent-emerald);">${profitText1}</strong></td>
+          <td class="spec-val"><strong style="color: var(--accent-emerald);">${profitText2}</strong></td>
+        </tr>
+        <tr class="comparator-cta-row">
+          <td></td>
+          <td style="text-align: center;">
+            <a href="https://wa.me/5512998008818?text=Ol%C3%A1%20Christian!%20Gostaria%20de%20solicitar%20uma%20proposta%20comercial%20do%20modelo%20${encodeURIComponent(m1.name)}%20(${m1.code})%20para%20minha%20regi%C3%A3o." target="_blank" rel="noopener" class="comparator-cta-btn">
+              <i class="fa-brands fa-whatsapp"></i> Proposta ${m1.name.split(' ')[1] || m1.name}
+            </a>
+          </td>
+          <td style="text-align: center;">
+            <a href="https://wa.me/5512998008818?text=Ol%C3%A1%20Christian!%20Gostaria%20de%20solicitar%20uma%20proposta%20comercial%20do%20modelo%20${encodeURIComponent(m2.name)}%20(${m2.code})%20para%20minha%20regi%C3%A3o." target="_blank" rel="noopener" class="comparator-cta-btn">
+              <i class="fa-brands fa-whatsapp"></i> Proposta ${m2.name.split(' ')[1] || m2.name}
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  `;
 }
 
 

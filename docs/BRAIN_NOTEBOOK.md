@@ -318,10 +318,34 @@
   - **Scripts de Renderização**: `scripts/render_vagas_pack.js`.
 
 
+## 8. Arquitetura de Design de Montadora & Benchmark Hyundai Brasil (28/09/2026)
+> Estudo de engenharia reversa do portal Hyundai Brasil (`hyundai.com.br`) e implantação oficial nas páginas `/vendas/` e `/site-principal/`.
 
+### 8.1 Stack & Engenharia do Portal Hyundai Brasil
+- **CMS / Infraestrutura**: Adobe Experience Manager (AEM 6.5 / Cloud Service) com dispatchers Akamai CDN.
+- **Frontend Engine**: React SPA (`clientlib-react`) com hidratação sob demanda, Webpack code splitting e renderização progressiva.
+- **CRO & A/B Testing**: Visual Website Optimizer (VWO v2.2) com triggers de intenção de saída e scroll depth.
+- **Acessibilidade**: Hand Talk virtual sign language integration e conformidade WCAG AA.
+- **Identidade Estética (Sensuous Sportiness)**:
+  - Fundo **Clean Pewter White** (`#F8F9FA` / `#FFFFFF`).
+  - Cores institucionais: **Hyundai Heritage Navy** (`#002C5F`), **Active Cyan** (`#00AAD2`) e **Slate Dark** (`#0F172A`).
+  - Grids de 12 colunas assimétricos, tipografia condensada e cartões de veículos elevados com sombreamento suave (`0 4px 20px rgba(0, 44, 95, 0.05)`).
+- **Dossiê Completo**: `docs/design_system/BENCHMARK_HYUNDAI_E_UX_Z8.md`.
 
+### 8.2 Melhorias de UX e Conversão Implementadas nas Duas Páginas Z8
 
+#### 1. Página de Vendas (`/vendas/`)
+- **Tema Pewter White Montadora**: Migração dos tokens de `:root` para fundo claro de showroom (`#F8F9FA`), mantendo o hero em vídeo Veo com overlay escuro para contraste cinematográfico do headline.
+- **Seletor Interativo de Cores de Montadora (Swatches)**: 10 cartões de produtos equipados com paleta de cores reais (`MODEL_COLORS`), permitindo troca instantânea de foto com transição suave de opacidade (`opacity: 0.35 -> 1.0`).
+- **Formulário Wizard Progressivo em 2 Etapas**: Divisão do formulário de investidor em Etapa 1 (Contato & Praça) e Etapa 2 (Aporte, Prazo & Dedicação) com pílulas visuais de progresso e auto-salvamento na Nuvem Z8 na Etapa 1 (reduz abandono de carrinho/lead).
+- **Barra Fixa Inferior Mobile (Sticky Action Bar)**: Barra de ação ancorada no rodapé em telas `≤ 768px` com acesso direto a "Modelos", "Consultar Minha Cidade" e WhatsApp comercial com respeito a `safe-area-inset-bottom`.
 
+#### 2. Site Principal (`/site-principal/`)
+- **Tema Híbrido Padrão Montadora**: Calibração dos tokens `:root[data-theme="light"]` e `:root[data-theme="dark"]` para estética automotiva limpa com Azul Marinho Corporativo (`#002C5F`) e Ciano Z8 (`#00F0FF`).
+- **Top Announcement Bar**: Barra institucional superior padrão montadora com dados de homologação CONTRAN 996, contato corporativo e atalho VIP para vendas.
+- **Showroom com Seletor Dinâmico de Cores**: Cards do catálogo dinâmico de 11 modelos dotados de seletor visual de cores com indicador de nome da cor ativa e troca dinâmica de imagem.
+- **Comparador de Modelos Lado a Lado (Versões A vs B)**: Comparador técnico interativo inspirado no "Compare as Versões" da Hyundai, com 14 métricas lado a lado (Regulação CONTRAN 996, Isenção de CNH, Potência W, Velocidade km/h, Autonomia, Baterias, Custo de Recarga R$ 2,10, Economia Mensal R$ 450,00, Freios, Pneus, Preço Atacado e Lucro Unitário).
+- **Barra Fixa Mobile Sticky**: Navegação ágil no rodapé de dispositivos móveis com links para Modelos, Comparador e WhatsApp comercial.
 
 
 

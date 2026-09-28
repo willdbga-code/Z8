@@ -190,7 +190,8 @@
    - **Zeladoria & Serviços Gerais**: Manequim atlético camiseta Z8, sede corporativa, `ZELADORIA` monumental, Direct Instagram.
 4. **Próximas Praças Estratégicas do Cluster**:
    - São José dos Campos (Matriz / Flagship) e Litoral Norte (Caraguatatuba / Ubatuba / São Sebastião / Ilhabela).
-
-
-
-
+5. **Redesign de Montadora Padrão Hyundai Brasil (Páginas /vendas/ e /site-principal/)**:
+   - Engenharia Reversa AEM/React & CRO: `docs/design_system/BENCHMARK_HYUNDAI_E_UX_Z8.md`.
+   - Página de Vendas (`/vendas/`): Clean Pewter White (`#F8F9FA`) com Navy (`#002C5F`), seletor interativo de cores (10 modelos com transição suave), wizard progressivo em 2 etapas com auto-save de leads e Mobile Sticky Action Bar.
+   - Site Principal (`/site-principal/`): Top announcement bar institucional, tema refinado, seletor de cores no catálogo dinâmico de 11 modelos, Comparador de Modelos lado a lado (14 métricas técnicas CONTRAN 996, recarga R$ 2,10, economia e atacado) e Mobile Sticky Action Bar.
+   - Teste de build Vite concluído com 100% de sucesso.
