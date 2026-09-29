@@ -521,11 +521,12 @@ input:checked + .rocker-slider:before {
 }
 
 .hero-stage-telemetry {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 800px;
+  margin: 14px auto 0 auto;
   position: relative;
   z-index: 3;
 }
@@ -533,11 +534,15 @@ input:checked + .rocker-slider:before {
 .telemetry-pill {
   background: #FFFFFF;
   border: 1px solid var(--border-metal);
-  border-radius: 4px;
-  padding: 8px 14px;
-  display: inline-flex;
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 60px;
+  height: 100%;
+  box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   transition: all var(--transition-fast);
 }
@@ -548,18 +553,32 @@ input:checked + .rocker-slider:before {
 }
 
 .pill-label {
-  font-size: 0.68rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  font-size: 0.65rem;
   color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 700;
   font-family: var(--font-mono);
   letter-spacing: 0.05em;
+  line-height: 1.15;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.pill-label i {
+  font-size: 0.85rem;
+  color: var(--accent-navy);
 }
 
 .pill-val {
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 800;
   color: var(--text-main);
+  text-align: right;
+  line-height: 1.25;
 }
 
 .telemetry-pill.highlight {
@@ -1696,12 +1715,15 @@ input[type="range"].skeuo-slider:focus {
   }
 
   .hero-stage-telemetry {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 500px;
     gap: 8px;
-    justify-content: center;
+    margin: 10px auto 0 auto;
   }
 
   .telemetry-pill {
-    padding: 6px 12px;
+    padding: 8px 12px;
+    min-height: 58px;
   }
 
   .hero-stage-switcher-dock {
@@ -1744,10 +1766,29 @@ input[type="range"].skeuo-slider:focus {
     max-height: 190px;
   }
 
+  .hero-stage-telemetry {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
+    gap: 6px;
+    margin: 8px auto 0 auto;
+  }
+
   .telemetry-pill {
-    flex: 1 1 calc(50% - 8px);
-    justify-content: center;
-    padding: 6px 10px;
+    padding: 7px 10px;
+    min-height: 56px;
+    gap: 6px;
+  }
+
+  .pill-label {
+    font-size: 0.60rem;
+  }
+
+  .pill-label i {
+    font-size: 0.78rem;
+  }
+
+  .pill-val {
+    font-size: 0.80rem;
   }
 
   .hero-title {

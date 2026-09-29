@@ -585,11 +585,12 @@ button {
 }
 
 .hero-stage-telemetry {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
-  flex-wrap: wrap;
+  width: 100%;
+  max-width: 960px;
+  margin: 14px auto 0 auto;
   position: relative;
   z-index: 3;
 }
@@ -597,11 +598,15 @@ button {
 .telemetry-pill {
   background: #FFFFFF;
   border: 1px solid var(--border-medium);
-  border-radius: 4px;
-  padding: 8px 14px;
-  display: inline-flex;
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 60px;
+  height: 100%;
+  box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   transition: all var(--transition-fast);
 }
@@ -611,6 +616,36 @@ button {
   transform: translateY(-1px);
 }
 
+.pill-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+  line-height: 1.15;
+  flex-shrink: 0;
+  text-align: left;
+}
+
+.pill-label i {
+  font-size: 0.85rem;
+  color: var(--accent-navy);
+}
+
+.pill-val {
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: var(--accent-slate);
+  font-family: var(--font-heading);
+  text-align: right;
+  line-height: 1.25;
+}
+
 .telemetry-pill.highlight {
   background: #F0F7FF;
   border-color: rgba(0, 44, 95, 0.25);
@@ -618,22 +653,6 @@ button {
 
 .telemetry-pill.highlight .pill-val {
   color: var(--accent-navy);
-}
-
-.pill-label {
-  font-size: 0.68rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  font-weight: 700;
-  font-family: var(--font-mono);
-  letter-spacing: 0.05em;
-}
-
-.pill-val {
-  font-size: 0.88rem;
-  font-weight: 800;
-  color: var(--accent-slate);
-  font-family: var(--font-heading);
 }
 
 /* Seletor Horizontal de Versões Integrado em Dock Flutuante (Proximidade Gestalt) */
@@ -814,12 +833,17 @@ button {
     max-height: 260px;
   }
   .hero-stage-telemetry {
-    gap: 6px;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 520px;
+    gap: 8px;
+    margin: 10px auto 0 auto;
   }
   .telemetry-pill {
-    flex: 1 1 calc(50% - 6px);
-    justify-content: center;
-    padding: 6px 12px;
+    padding: 8px 12px;
+    min-height: 58px;
+  }
+  .telemetry-pill.highlight {
+    grid-column: span 2;
   }
   .hero-stage-switcher {
     gap: 6px;
