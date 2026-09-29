@@ -433,7 +433,7 @@ button {
   background: rgba(0, 44, 95, 0.06);
   color: var(--accent-navy);
   border: 1px solid rgba(0, 44, 95, 0.15);
-  border-radius: 9999px;
+  border-radius: 4px;
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -594,19 +594,25 @@ button {
 }
 
 .telemetry-pill {
-  background: var(--bg-card);
+  background: #FFFFFF;
   border: 1px solid var(--border-medium);
-  border-radius: 9999px;
-  padding: 8px 18px;
+  border-radius: 4px;
+  padding: 8px 14px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 2px 8px rgba(0, 44, 95, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all var(--transition-fast);
+}
+
+.telemetry-pill:hover {
+  border-color: var(--accent-navy);
+  transform: translateY(-1px);
 }
 
 .telemetry-pill.highlight {
-  background: #EBF3FA;
-  border-color: rgba(0, 44, 95, 0.2);
+  background: #F0F7FF;
+  border-color: rgba(0, 44, 95, 0.25);
 }
 
 .telemetry-pill.highlight .pill-val {
@@ -614,38 +620,39 @@ button {
 }
 
 .pill-label {
-  font-size: 0.74rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 700;
   font-family: var(--font-mono);
+  letter-spacing: 0.05em;
 }
 
 .pill-val {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 800;
   color: var(--accent-slate);
   font-family: var(--font-heading);
 }
 
-/* Seletor Horizontal de Versões na Base do Palco */
+/* Seletor Horizontal de Versões na Base do Palco (Padrão Montadora Luxury) */
 .hero-stage-switcher {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 30px;
+  margin-top: 28px;
   padding-top: 22px;
   border-top: 1px solid var(--border-subtle);
 }
 
 .stage-switch-btn {
-  background: transparent;
+  background: #FFFFFF;
   border: 1px solid var(--border-medium);
   padding: 10px 18px;
-  border-radius: 9999px;
-  font-size: 0.84rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--text-muted);
   cursor: pointer;
@@ -653,30 +660,37 @@ button {
   align-items: center;
   gap: 8px;
   transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .stage-switch-btn .switch-idx {
   font-size: 0.72rem;
+  background: #F1F5F9;
   color: var(--accent-navy);
+  padding: 2px 6px;
+  border-radius: 2px;
   font-weight: 800;
   font-family: var(--font-mono);
+  transition: all 0.2s ease;
 }
 
 .stage-switch-btn:hover {
   border-color: var(--accent-navy);
   color: var(--accent-navy);
-  background: rgba(0, 44, 95, 0.04);
+  background: #F8FAFC;
+  transform: translateY(-1px);
 }
 
 .stage-switch-btn.active {
   background: var(--accent-navy);
   color: #FFFFFF;
   border-color: var(--accent-navy);
-  box-shadow: 0 4px 12px rgba(0, 44, 95, 0.2);
+  box-shadow: 0 4px 14px rgba(0, 44, 95, 0.25);
 }
 
 .stage-switch-btn.active .switch-idx {
-  color: #7dd3fc;
+  background: rgba(255, 255, 255, 0.16);
+  color: #38BDF8;
 }
 
 @media (max-width: 768px) {
@@ -1474,7 +1488,7 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: #FFFFFF;
   padding: 5px 10px;
-  border-radius: 9999px;
+  border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 0.65rem;
   font-weight: 700;
@@ -1690,7 +1704,7 @@ button {
   padding: 6px 14px;
   background: rgba(0, 44, 95, 0.06);
   border: 1px solid rgba(0, 44, 95, 0.15);
-  border-radius: 9999px;
+  border-radius: 4px;
   font-size: 0.74rem;
   font-weight: 800;
   color: var(--accent-navy);
@@ -2804,7 +2818,7 @@ button {
     background: linear-gradient(135deg, #002C5F 0%, #0088CC 100%);
     color: #FFFFFF;
     border: none;
-    border-radius: 30px;
+    border-radius: 4px;
     padding: 8px 16px;
     display: flex;
     align-items: center;
