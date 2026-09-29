@@ -1409,8 +1409,8 @@ button {
    7. INTERACTIVE FINANCIAL CALCULATOR (SIMULADOR DE LUCRO)
    -------------------------------------------------------------------------- */
 .section-calculator {
-  padding: 60px 0;
-  background-color: var(--bg-surface);
+  padding: 64px 0;
+  background-color: var(--bg-black);
   border-bottom: 1px solid var(--border-subtle);
   width: 100%;
 }
@@ -1418,24 +1418,67 @@ button {
 .calculator-card-wrap {
   background: var(--bg-card);
   border: 1px solid var(--border-medium);
-  border-radius: var(--radius-md);
-  padding: 24px 20px;
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 28px;
+  gap: 32px;
   width: 100%;
+  box-shadow: var(--shadow-card);
+  align-items: center;
 }
 
 @media (min-width: 992px) {
   .calculator-card-wrap {
-    grid-template-columns: 1.1fr 0.9fr;
-    padding: 40px;
-    gap: 50px;
+    grid-template-columns: 1.15fr 0.85fr;
+    padding: 44px 40px;
+    gap: 48px;
   }
 }
 
+.calc-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(0, 44, 95, 0.06);
+  border: 1px solid rgba(0, 44, 95, 0.15);
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--accent-navy);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.calc-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-navy);
+  display: inline-block;
+}
+
+.calc-main-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 3.2vw, 2.3rem);
+  font-weight: 900;
+  color: var(--accent-slate);
+  margin-top: 12px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.calc-main-subtitle {
+  color: var(--text-muted);
+  font-size: 0.96rem;
+  margin-top: 10px;
+  line-height: 1.68;
+}
+
 .calc-slider-stage {
-  margin: 24px 0;
+  margin: 28px 0 20px 0;
   width: 100%;
 }
 
@@ -1446,64 +1489,211 @@ button {
   margin-bottom: 12px;
 }
 
+.calc-slider-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
 .calc-slider-value {
   font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--accent-green);
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--accent-navy);
+  letter-spacing: -0.01em;
 }
 
 .calc-range-slider {
   width: 100%;
   height: 8px;
-  border-radius: var(--radius-xs);
-  background: #1f1f1f;
+  border-radius: 9999px;
+  background: #E2E8F0;
   outline: none;
   -webkit-appearance: none;
+  transition: background 0.15s ease;
+  cursor: pointer;
 }
 
 .calc-range-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: var(--radius-xs);
-  background: var(--accent-green);
-  box-shadow: 0 0 12px var(--accent-green-glow);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent-navy);
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 2px 10px rgba(0, 44, 95, 0.35);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.calc-range-slider::-webkit-slider-thumb:hover,
+.calc-range-slider::-webkit-slider-thumb:active {
+  transform: scale(1.15);
+  box-shadow: 0 4px 14px rgba(0, 44, 95, 0.45);
+}
+
+.calc-range-slider::-moz-range-thumb {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent-navy);
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 2px 10px rgba(0, 44, 95, 0.35);
   cursor: pointer;
 }
 
+.calc-slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.calc-benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.calc-benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.calc-benefit-item i {
+  color: var(--accent-navy);
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.calc-benefit-item strong {
+  color: var(--accent-slate);
+  font-weight: 700;
+}
+
+/* Painel de Resultados Executivo (Heritage Navy Luxury Card) */
 .calc-results-panel {
-  background: #000;
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-sm);
-  padding: 24px 18px;
+  background: linear-gradient(145deg, #002C5F 0%, #001A3A 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 34px 28px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 20px;
+  gap: 22px;
   width: 100%;
+  box-shadow: 0 16px 40px rgba(0, 44, 95, 0.22);
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+}
+
+.calc-results-panel::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .result-block-item {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  position: relative;
+  z-index: 2;
+}
+
+.result-tag-mono {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #94A3B8;
 }
 
 .result-metric-large {
   font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  font-size: clamp(2.2rem, 4vw, 2.7rem);
   font-weight: 900;
-  color: #ffffff;
-  line-height: 1;
+  color: #FFFFFF;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 
 .result-metric-annual {
   font-family: var(--font-heading);
-  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-size: clamp(1.6rem, 3.2vw, 2.1rem);
   font-weight: 800;
-  color: var(--accent-green);
-  line-height: 1;
+  color: #38BDF8;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.result-sub-detail {
+  font-size: 0.76rem;
+  color: #94A3B8;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.result-divider-top {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 18px;
+}
+
+.btn-calc-cta {
+  background: #FFFFFF;
+  color: #002C5F !important;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.94rem;
+  padding: 15px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: none;
+  letter-spacing: 0.02em;
+  position: relative;
+  z-index: 2;
+}
+
+.btn-calc-cta:hover {
+  background: #F8FAFC;
+  color: #001A3A !important;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.btn-calc-cta:hover i {
+  transform: translateX(4px);
+}
+
+.btn-calc-cta i {
+  transition: transform 0.2s ease;
 }
 
 /* --------------------------------------------------------------------------
@@ -2162,6 +2352,29 @@ button {
   .hero-telemetry-card {
     padding: 14px;
     gap: 12px;
+  }
+
+  .calculator-card-wrap {
+    padding: 24px 16px;
+    gap: 24px;
+    border-radius: 12px;
+  }
+
+  .calc-results-panel {
+    padding: 24px 18px;
+    border-radius: 12px;
+  }
+
+  .calc-main-title {
+    font-size: 1.6rem;
+  }
+
+  .result-metric-large {
+    font-size: 2.1rem;
+  }
+
+  .result-metric-annual {
+    font-size: 1.6rem;
   }
 }
 

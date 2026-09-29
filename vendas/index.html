@@ -749,45 +749,64 @@
     </div>
   </section>
 
-  <!-- 7. INTERACTIVE FINANCIAL CALCULATOR -->
-  <section class="section-calculator" id="calculadora">
+  <!-- 4. SIMULADOR FINANCEIRO DE MARGEM E RETORNO B2B (PADRÃO MONTADORA HYUNDAI) -->
+  <section class="section-calculator" id="simulador">
     <div class="site-container">
       <div class="calculator-card-wrap">
         <div>
-          <span class="font-mono-tag text-accent-green">SIMULADOR DE RETORNO COMERCIAL</span>
-          <h2 class="section-headline" style="font-size: 2.2rem; margin-top: 8px;">
+          <span class="calc-badge-pill">
+            <span class="calc-badge-dot"></span> SIMULADOR DE RETORNO COMERCIAL B2B
+          </span>
+          <h2 class="calc-main-title">
             Calcule o Faturamento Líquido da sua Operação
           </h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px; line-height: 1.6;">
+          <p class="calc-main-subtitle">
             Ajuste o volume estimado de vendas mensais da sua loja para visualizar a projeção de margem e faturamento com a tabela direta de fábrica.
           </p>
 
           <div class="calc-slider-stage">
             <div class="calc-slider-header">
-              <span class="font-mono-tag">Volume de Vendas / Mês</span>
+              <span class="calc-slider-label">Volume de Vendas / Mês</span>
               <span id="sales-val" class="calc-slider-value">5 motos / mês</span>
             </div>
-            <input type="range" id="sales-slider" class="calc-range-slider" min="5" max="50" value="5" />
+            <input type="range" id="sales-slider" class="calc-range-slider" min="5" max="50" value="5" step="1" aria-label="Volume de vendas mensal de motos" />
+            <div class="calc-slider-ticks">
+              <span>5 un (mínimo)</span>
+              <span>25 un</span>
+              <span>50 un / mês</span>
+            </div>
           </div>
 
-          <div style="display: flex; gap: 16px; font-size: 0.8rem; color: var(--text-dim); flex-wrap: wrap;">
-            <span><i class="fa-solid fa-check text-accent-green"></i> Lucro médio: R$ 4.000/unid</span>
-            <span><i class="fa-solid fa-check text-accent-green"></i> Sem royalties sobre vendas</span>
+          <div class="calc-benefits-list">
+            <div class="calc-benefit-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong>Lucro médio de R$ 4.000,00</strong> por unidade faturada</span>
+            </div>
+            <div class="calc-benefit-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong>Sem royalties</strong> ou taxas mensais sobre o seu faturamento</span>
+            </div>
+            <div class="calc-benefit-item">
+              <i class="fa-solid fa-circle-check"></i>
+              <span><strong>Exclusividade territorial</strong> garantida na sua praça</span>
+            </div>
           </div>
         </div>
 
         <div class="calc-results-panel">
           <div class="result-block-item">
-            <span class="font-mono-tag">LUCRO LÍQUIDO MENSAL ESTIMADO</span>
+            <span class="result-tag-mono">LUCRO LÍQUIDO MENSAL ESTIMADO</span>
             <span id="monthly-profit" class="result-metric-large">R$ 20.000</span>
+            <span class="result-sub-detail">Faturamento líquido estimado direto para a concessionária</span>
           </div>
 
-          <div class="result-block-item" style="border-top: 1px solid var(--border-medium); padding-top: 16px;">
-            <span class="font-mono-tag">PROJEÇÃO ANUALIZADA (12 MESES)</span>
+          <div class="result-block-item result-divider-top">
+            <span class="result-tag-mono">PROJEÇÃO ANUALIZADA (12 MESES)</span>
             <span id="annual-profit" class="result-metric-annual">R$ 240.000</span>
+            <span class="result-sub-detail">Potencial anual acumulado de rentabilidade direta</span>
           </div>
 
-          <a href="#tripwire-offer" class="btn-primary-pill btn-open-checkout" style="justify-content: center; width: 100%;">
+          <a href="#tripwire-offer" class="btn-calc-cta btn-open-checkout">
             <span>RESERVAR CIDADE COM ESSA MARGEM</span>
             <i class="fa-solid fa-arrow-right"></i>
           </a>

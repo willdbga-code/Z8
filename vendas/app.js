@@ -269,6 +269,10 @@ function initB2bProfitCalculator() {
     const unitsPerMonth = Math.max(5, parseInt(slider.value, 10) || 5);
     if (salesDisplay) salesDisplay.textContent = `${unitsPerMonth} motos / mês`;
 
+    // Atualiza preenchimento visual elegante do track do slider (Padrão Hyundai)
+    const pct = ((unitsPerMonth - 5) / (50 - 5)) * 100;
+    slider.style.background = `linear-gradient(to right, #002C5F 0%, #002C5F ${pct}%, #E2E8F0 ${pct}%, #E2E8F0 100%)`;
+
     // Lucro médio por unidade = R$ 4.000,00 (Markup médio de ~68% direto de fábrica)
     const monthlyProfit = unitsPerMonth * 4000;
     const annualProfit = monthlyProfit * 12;
