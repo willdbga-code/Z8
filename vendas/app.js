@@ -262,16 +262,24 @@ function initB2bProfitCalculator() {
   const salesDisplay = document.getElementById('sales-val');
   const monthlyProfitDisplay = document.getElementById('monthly-profit');
   const annualProfitDisplay = document.getElementById('annual-profit');
+  const rulerTicks = document.querySelectorAll('#slider-ruler .ruler-tick');
 
   if (!slider) return;
 
   function calculate() {
-    const unitsPerMonth = Math.max(5, parseInt(slider.value, 10) || 5);
+    const unitsPerMonth = Math.max(5, Math.min(50, parseInt(slider.value, 10) || 5));
     if (salesDisplay) salesDisplay.textContent = `${unitsPerMonth} motos / mês`;
 
-    // Atualiza preenchimento visual elegante do track do slider (Padrão Hyundai)
-    const pct = ((unitsPerMonth - 5) / (50 - 5)) * 100;
-    slider.style.background = `linear-gradient(to right, #002C5F 0%, #002C5F ${pct}%, #E2E8F0 ${pct}%, #E2E8F0 100%)`;
+    // Atualiza preenchimento visual com precisão milimétrica alinhada ao centro do thumb (26px)
+    const f = (unitsPerMonth - 5) / (50 - 5);
+    slider.style.background = `linear-gradient(to right, #002C5F 0%, #002C5F calc(13px + (100% - 26px) * ${f}), #E2E8F0 calc(13px + (100% - 26px) * ${f}), #E2E8F0 100%)`;
+
+    // Atualiza marcações ativas e passadas na régua
+    rulerTicks.forEach(tick => {
+      const v = parseInt(tick.getAttribute('data-val'), 10);
+      tick.classList.toggle('active', v === unitsPerMonth);
+      tick.classList.toggle('passed', v <= unitsPerMonth);
+    });
 
     // Lucro médio por unidade = R$ 4.000,00 (Markup médio de ~68% direto de fábrica)
     const monthlyProfit = unitsPerMonth * 4000;
@@ -284,6 +292,17 @@ function initB2bProfitCalculator() {
       annualProfitDisplay.textContent = `R$ ${annualProfit.toLocaleString('pt-BR')}`;
     }
   }
+
+  // Clique interativo direto nas marcações da régua
+  rulerTicks.forEach(tick => {
+    tick.addEventListener('click', () => {
+      const val = parseInt(tick.getAttribute('data-val'), 10);
+      if (!isNaN(val) && slider) {
+        slider.value = val;
+        calculate();
+      }
+    });
+  });
 
   slider.addEventListener('input', calculate);
   calculate();

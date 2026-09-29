@@ -1545,14 +1545,108 @@ button {
   cursor: pointer;
 }
 
-.calc-slider-ticks {
+/* Régua de Precisão Milimétrica do Slider (Padrão Hyundai Motor) */
+.slider-ruler {
+  position: relative;
+  width: calc(100% - 26px);
+  margin: 10px 13px 0 13px;
+  height: 32px;
+}
+
+.ruler-tick {
+  position: absolute;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
-  font-size: 0.72rem;
-  color: var(--text-dim);
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.ruler-tick:first-child {
+  transform: translateX(-13px);
+  align-items: flex-start;
+}
+
+.ruler-tick:first-child .tick-notch {
+  margin-left: 12px;
+}
+
+.ruler-tick:last-child {
+  transform: translateX(calc(-100% + 13px));
+  align-items: flex-end;
+}
+
+.ruler-tick:last-child .tick-notch {
+  margin-right: 12px;
+}
+
+.tick-notch {
+  width: 2px;
+  height: 6px;
+  background: #CBD5E1;
+  border-radius: 1px;
+  transition: all 0.2s ease;
+}
+
+.tick-notch.tick-major {
+  height: 8px;
+  width: 2px;
+  background: #94A3B8;
+}
+
+.tick-label {
   font-family: var(--font-mono);
-  margin-top: 8px;
+  font-size: 0.72rem;
   font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tick-label.tick-highlight {
+  color: var(--accent-slate);
+  font-weight: 700;
+}
+
+.ruler-tick:hover .tick-notch {
+  background: var(--accent-navy);
+  height: 10px;
+}
+
+.ruler-tick:hover .tick-label {
+  color: var(--accent-navy);
+}
+
+.ruler-tick.passed .tick-notch {
+  background: var(--accent-navy);
+}
+
+.ruler-tick.passed .tick-label {
+  color: var(--accent-slate);
+}
+
+.ruler-tick.active .tick-notch {
+  background: var(--accent-navy);
+  height: 10px;
+  width: 2.5px;
+}
+
+.ruler-tick.active .tick-label {
+  color: var(--accent-navy);
+  font-weight: 800;
+}
+
+@media (max-width: 420px) {
+  .ruler-tick[data-val="10"] .tick-label,
+  .ruler-tick[data-val="20"] .tick-label,
+  .ruler-tick[data-val="30"] .tick-label,
+  .ruler-tick[data-val="40"] .tick-label {
+    display: none;
+  }
 }
 
 .calc-benefits-list {
