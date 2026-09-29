@@ -328,25 +328,60 @@ button {
 }
 
 .btn-header-login {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: var(--text-light);
-  border: 1px solid var(--border-medium);
-  background: #FFFFFF;
-  padding: 6px 12px;
+  font-family: var(--font-sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-navy, #002C5F);
+  border: 1.5px solid rgba(0, 44, 95, 0.28);
+  background: #F8FAFC;
+  padding: 6px 14px;
   border-radius: var(--radius-btn);
   display: inline-flex;
   align-items: center;
   gap: 6px;
   white-space: nowrap;
   height: 34px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 44, 95, 0.06);
   transition: all var(--transition-fast);
 }
 
 .btn-header-login:hover {
   border-color: var(--accent-navy);
+  color: #FFFFFF;
+  background: var(--accent-navy);
+  box-shadow: 0 3px 10px rgba(0, 44, 95, 0.18);
+}
+
+.btn-header-login i {
+  font-size: 0.76rem;
   color: var(--accent-navy);
-  background: rgba(0, 44, 95, 0.04);
+  transition: color var(--transition-fast);
+}
+
+.btn-header-login:hover i {
+  color: #FFFFFF;
+}
+
+.btn-header-login.is-logged-in {
+  background: #F0FDF4;
+  border-color: #86EFAC;
+  color: #166534;
+}
+
+.btn-header-login.is-logged-in i {
+  color: #16A34A;
+}
+
+.btn-header-login.is-logged-in:hover {
+  background: #166534;
+  color: #FFFFFF;
+  border-color: #166534;
+}
+
+.btn-header-login.is-logged-in:hover i {
+  color: #FFFFFF;
 }
 
 .btn-header-cta {
@@ -383,17 +418,20 @@ button {
     display: none;
   }
   .btn-header-login {
-    padding: 6px 8px;
-    font-size: 0.65rem;
-    height: 30px;
+    padding: 5px 10px;
+    font-size: 0.68rem;
+    height: 32px;
+    gap: 5px;
   }
   .btn-header-login-text {
-    display: none;
+    display: inline-block !important; /* Sempre visível no mobile */
+    font-weight: 800;
+    letter-spacing: 0.03em;
   }
   .btn-header-cta {
     padding: 5px 10px;
     font-size: 0.68rem;
-    height: 30px;
+    height: 32px;
   }
 }
 
@@ -404,9 +442,19 @@ button {
   .header-brand img {
     height: 20px;
   }
+  .btn-header-login {
+    padding: 4px 8px;
+    font-size: 0.64rem;
+    height: 30px;
+    gap: 4px;
+  }
+  .btn-header-login-text {
+    display: inline-block !important;
+  }
   .btn-header-cta {
     padding: 4px 8px;
-    font-size: 0.62rem;
+    font-size: 0.64rem;
+    height: 30px;
   }
 }
 
@@ -3116,7 +3164,47 @@ button {
   background: rgba(255, 255, 255, 0.5);
 }
 
+/* Atalho e Chamada de Login em Todas as Etapas e Modais */
+.modal-login-prompt {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed #CBD5E1;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
 
+.modal-login-prompt span {
+  font-weight: 500;
+}
+
+.modal-login-prompt .btn-switch-to-login {
+  background: rgba(0, 44, 95, 0.06);
+  border: 1px solid rgba(0, 44, 95, 0.2);
+  color: var(--accent-navy, #002C5F);
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 4px 10px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all var(--transition-fast);
+}
+
+.modal-login-prompt .btn-switch-to-login:hover {
+  background: var(--accent-navy, #002C5F);
+  color: #FFFFFF;
+  border-color: var(--accent-navy, #002C5F);
+  box-shadow: 0 2px 6px rgba(0, 44, 95, 0.15);
+}
 
 /* --------------------------------------------------------------------------
    11. FOOTER CORPORATIVO OFICIAL (CLEAN SHOWROOM MONTADORA)
@@ -3437,9 +3525,12 @@ button {
     font-family: var(--font-mono);
     font-weight: 700;
     text-transform: uppercase;
-    padding: 6px 12px;
+    padding: 6px 10px;
     border-radius: var(--radius-sm);
     text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
   }
 
   .sticky-bar-link i {

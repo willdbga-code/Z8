@@ -1619,24 +1619,80 @@ function initPortalLoginModal() {
 
   const loginForm = document.getElementById('portal-login-form');
   const registerForm = document.getElementById('portal-register-form');
+  const togglePassBtn = document.getElementById('btn-toggle-portal-pass');
+  const passInput = document.getElementById('portal-input-pass');
 
   if (!portalModal) return;
 
-  // Abrir modal de login ao clicar no botão "PORTAL"
+  // 0. Sincronizar indicador de Login no Header e Barra Mobile com base no estado de autenticação
+  function syncAuthBadge() {
+    const authUser = localStorage.getItem('z8_catalog_auth_user');
+    if (authUser && openPortalBtn) {
+      try {
+        const u = JSON.parse(authUser);
+        const firstName = (u.name || u.email || 'CONECTADO').split(' ')[0].toUpperCase();
+        openPortalBtn.innerHTML = `<i class="fa-solid fa-circle-user" style="color: #16A34A;"></i> <span class="btn-header-login-text">${firstName}</span>`;
+        openPortalBtn.title = `Conectado como ${u.name || u.email} - Clique para abrir o Portal`;
+        openPortalBtn.classList.add('is-logged-in');
+      } catch(e) {}
+    }
+  }
+  syncAuthBadge();
+
+  // Abrir modal de login e focar no campo de login imediatamente
+  function openLoginModalDirectly() {
+    portalModal.classList.add('active');
+    if (tabLogin) tabLogin.click();
+    if (msgBox) msgBox.style.display = 'none';
+
+    // Focar no primeiro campo de login
+    const userInp = document.getElementById('portal-input-user');
+    if (userInp) setTimeout(() => userInp.focus(), 150);
+
+    // Verificar se já está autenticado
+    const authUser = localStorage.getItem('z8_catalog_auth_user');
+    if (authUser) {
+      try {
+        const u = JSON.parse(authUser);
+        showPortalMessage(`👤 Conectado como <strong>${u.name || u.email}</strong> (${u.company || 'Parceiro'}). <a href="/site-principal/" style="color: var(--accent-navy, #002C5F); text-decoration: underline; font-weight: 700; margin-left: 6px;">Ir para o Catálogo Oficial →</a>`, 'info');
+      } catch(e) {}
+    }
+  }
+
+  // Abrir modal de login ao clicar no botão "LOGIN" do header
   if (openPortalBtn) {
     openPortalBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      portalModal.classList.add('active');
-      if (msgBox) msgBox.style.display = 'none';
+      openLoginModalDirectly();
+    });
+  }
 
-      // Verificar se já está autenticado
-      const authUser = localStorage.getItem('z8_catalog_auth_user');
-      if (authUser) {
-        try {
-          const u = JSON.parse(authUser);
-          showPortalMessage(`👤 Conectado como <strong>${u.name || u.email}</strong> (${u.company || 'Parceiro'}). <a href="/site-principal/" style="color: var(--accent-cyan); text-decoration: underline; font-weight: 700; margin-left: 6px;">Ir para o Catálogo Oficial →</a>`, 'info');
-        } catch(e) {}
-      }
+  // Atalhos de transição para Login em todas as etapas e modais
+  document.querySelectorAll('.btn-switch-to-login').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const investorModal = document.getElementById('investor-lead-modal');
+      const checkoutModal = document.getElementById('checkout-modal');
+      if (investorModal) investorModal.classList.remove('active');
+      if (checkoutModal) checkoutModal.classList.remove('active');
+      openLoginModalDirectly();
+    });
+  });
+
+  // Botão de Login na barra fixa inferior mobile
+  document.querySelectorAll('.btn-trigger-portal-login').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openLoginModalDirectly();
+    });
+  });
+
+  // Toggle de visibilidade da senha no login
+  if (togglePassBtn && passInput) {
+    togglePassBtn.addEventListener('click', () => {
+      const isPass = passInput.getAttribute('type') === 'password';
+      passInput.setAttribute('type', isPass ? 'text' : 'password');
+      togglePassBtn.innerHTML = isPass ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
     });
   }
 
