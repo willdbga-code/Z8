@@ -972,7 +972,7 @@
         </div>
 
         <div style="text-align: center;">
-          <button type="button" class="btn-tripwire-action btn-open-investor-modal" style="background: var(--accent-navy); color: #FFFFFF; font-size: 1rem; font-weight: 800; padding: 16px 36px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0, 44, 95, 0.25); display: inline-flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.2s ease;">
+          <button type="button" class="btn-tripwire-action btn-open-investor-modal" style="background: var(--accent-navy); color: #FFFFFF; font-size: 1rem; font-weight: 800; padding: 16px 36px; border-radius: 4px; box-shadow: 0 6px 20px rgba(0, 44, 95, 0.25); display: inline-flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.2s ease;">
             <i class="fa-solid fa-handshake"></i>
             <span>SOLICITAR ANÁLISE DE CONCESSÃO PARA MINHA CIDADE</span>
           </button>
@@ -1055,14 +1055,20 @@
       <button type="button" class="modal-close-btn" id="btn-close-investor-modal" title="Fechar modal"><i class="fa-solid fa-xmark"></i></button>
 
       <div class="modal-header-investor">
-        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 6px;">
-          <span class="font-mono-tag text-accent-cyan"><i class="fa-solid fa-crown"></i> EXPANSÃO BRASIL</span>
-          <span class="font-mono-tag text-accent-green"><i class="fa-solid fa-bolt"></i> 100% GRATUITO • SEM TAXA</span>
+        <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px;">
+          <div class="modal-badge-tag">
+            <span class="indicator-dot-navy"></span>
+            <span>EXPANSÃO BRASIL</span>
+          </div>
+          <div class="modal-badge-tag-success">
+            <i class="fa-solid fa-check"></i>
+            <span>100% GRATUITO • SEM TAXA</span>
+          </div>
         </div>
-        <h2 style="font-family: var(--font-heading); font-size: clamp(1.3rem, 2.4vw, 1.7rem); color: #fff; font-weight: 800; line-height: 1.25;">
+        <h2 style="font-family: var(--font-heading); font-size: clamp(1.3rem, 2.4vw, 1.7rem); color: #0F172A; font-weight: 800; line-height: 1.25;">
           Construa seu Perfil de Investidor e Garanta sua Região
         </h2>
-        <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 6px; line-height: 1.5;">
+        <p style="font-size: 0.84rem; color: #475569; margin-top: 6px; line-height: 1.5;">
           Descubra a viabilidade da concessão na sua cidade (raio de 50km de exclusividade) e receba a tabela de atacado com margens de até 100%. Processo de seleção sem taxa de agendamento.
         </p>
       </div>
@@ -1108,7 +1114,7 @@
           <div class="form-group-b2b" style="margin-top: 10px;">
             <label class="form-label-b2b">Cidade e Estado Desejados para a Concessão / Franquia *</label>
             <input type="text" id="investor-city" class="form-input-b2b" placeholder="Digite sua cidade (Ex: São José dos Campos - SP)" autocomplete="off" required />
-            <div id="investor-city-status" style="display: none; margin-top: 8px; padding: 10px 12px; border-radius: 8px; font-size: 0.78rem; line-height: 1.4;"></div>
+            <div id="investor-city-status" style="display: none; margin-top: 8px; padding: 10px 12px; border-radius: 4px; font-size: 0.78rem; line-height: 1.4;"></div>
           </div>
 
           <div class="investor-form-grid" style="margin-top: 10px;">
@@ -1124,7 +1130,7 @@
           </div>
 
           <!-- BOTÃO AVANÇAR PASSO 1 -->
-          <button type="button" id="btn-go-to-step-2" class="btn-tripwire-action" style="margin-top: 18px; padding: 18px; font-size: 0.98rem; font-weight: 800; border-radius: 10px; background: linear-gradient(135deg, #002C5F, #0088CC); color: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; border: none; cursor: pointer; box-shadow: 0 10px 25px rgba(0, 44, 95, 0.25);">
+          <button type="button" id="btn-go-to-step-2" class="btn-tripwire-action" style="margin-top: 18px; padding: 18px; font-size: 0.98rem; font-weight: 800; border-radius: 4px; background: var(--accent-navy, #002C5F); color: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; border: none; cursor: pointer; box-shadow: 0 10px 25px rgba(0, 44, 95, 0.25);">
             <span>AVANÇAR PARA RESERVAR MINHA CIDADE</span>
             <i class="fa-solid fa-arrow-right"></i>
           </button>
@@ -1270,53 +1276,53 @@
 
           <!-- NAVEGAÇÃO ENTRE PASSOS (VOLTAR / CONFIRMAR) -->
           <div class="step-nav-actions" style="margin-top: 18px; display: flex; gap: 10px; align-items: center;">
-            <button type="button" id="btn-back-to-step-1" class="btn-step-back" style="padding: 16px 20px; font-weight: 700; border-radius: 10px;">
+            <button type="button" id="btn-back-to-step-1" class="btn-step-back" style="padding: 16px 20px; font-weight: 700; border-radius: 4px;">
               <i class="fa-solid fa-arrow-left"></i> Voltar
             </button>
-            <button type="submit" id="btn-submit-investor" class="btn-tripwire-action" style="flex: 1; padding: 18px; font-size: 0.98rem; font-weight: 800; border-radius: 10px; background: linear-gradient(135deg, #002C5F, #0088CC); color: #FFFFFF; border: none; cursor: pointer; box-shadow: 0 10px 25px rgba(0, 44, 95, 0.25);">
+            <button type="submit" id="btn-submit-investor" class="btn-tripwire-action" style="flex: 1; padding: 18px; font-size: 0.98rem; font-weight: 800; border-radius: 4px; background: var(--accent-navy, #002C5F); color: #FFFFFF; border: none; cursor: pointer; box-shadow: 0 10px 25px rgba(0, 44, 95, 0.25);">
               <i class="fa-solid fa-paper-plane"></i>
               <span>CONFIRMAR RESERVA & FALAR NO WHATSAPP</span>
             </button>
           </div>
         </div>
 
-        <p style="text-align: center; font-size: 0.74rem; color: var(--text-dim); margin-top: 10px;">
+        <p style="text-align: center; font-size: 0.74rem; color: #64748B; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px;">
           <i class="fa-solid fa-lock"></i> Seus dados estão seguros e protegidos pela LGPD • Sem taxa de agendamento
         </p>
       </form>
 
       <!-- TELA DE SUCESSO PÓS-ENVIO DO QUESTIONÁRIO -->
       <div id="investor-success-view" style="display: none; text-align: center; padding: 16px 6px;">
-        <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(0, 255, 136, 0.15); border: 2px solid var(--accent-green); color: var(--accent-green); font-size: 2.2rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 0 30px rgba(0,255,136,0.3);">
+        <div style="width: 64px; height: 64px; border-radius: 50%; background: #F0FDF4; border: 2px solid #22C55E; color: #16A34A; font-size: 2rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);">
           <i class="fa-solid fa-circle-check"></i>
         </div>
 
-        <span id="investor-success-badge" class="font-mono-tag text-accent-green" style="display: block; font-size: 0.8rem; letter-spacing: 0.08em; margin-bottom: 4px;">
+        <span id="investor-success-badge" class="modal-badge-tag-success" style="display: inline-flex; font-size: 0.76rem; letter-spacing: 0.08em; margin-bottom: 6px;">
           PERFIL DE INVESTIDOR APROVADO
         </span>
 
-        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: #fff; font-weight: 800; margin: 4px 0 8px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; color: #0F172A; font-weight: 800; margin: 4px 0 8px;">
           Candidatura Registrada com Sucesso!
         </h3>
 
-        <div id="investor-score-card" style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-medium); border-radius: 12px; padding: 16px; margin: 16px 0 20px; text-align: left; font-size: 0.85rem;">
+        <div id="investor-score-card" style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 16px; margin: 16px 0 20px; text-align: left; font-size: 0.85rem;">
           <!-- Preenchido dinamicamente via JS -->
         </div>
 
-        <p style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 16px; line-height: 1.5;">
+        <p style="font-size: 0.85rem; color: #475569; margin-bottom: 16px; line-height: 1.5;">
           Para validar a exclusividade de 50km da sua região em tempo real com a nossa diretoria de expansão, clique abaixo para abrir a conversa no WhatsApp:
         </p>
 
-        <a id="btn-investor-whatsapp" href="#" target="_blank" rel="noopener" class="btn-tripwire-action" style="background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; padding: 16px; font-size: 1rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 10px; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.45); margin-bottom: 12px;">
+        <a id="btn-investor-whatsapp" href="#" target="_blank" rel="noopener" class="btn-tripwire-action" style="background: #25D366; color: #FFFFFF; padding: 16px; font-size: 0.98rem; font-weight: 700; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 4px; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.35); margin-bottom: 12px;">
           <i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i>
           <span>FALAR COM O DIRETOR DE EXPANSÃO NO WHATSAPP</span>
         </a>
 
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <a href="/docs/BRAIN_NOTEBOOK.pdf" target="_blank" rel="noopener" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-medium); color: #fff; text-decoration: none;">
-            <i class="fa-solid fa-file-pdf text-accent-gold"></i> Baixar Dossiê B2B (PDF)
+          <a href="/docs/BRAIN_NOTEBOOK.pdf" target="_blank" rel="noopener" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: #F1F5F9; border: 1px solid #CBD5E1; color: #0F172A; text-decoration: none; border-radius: 4px; font-weight: 600;">
+            <i class="fa-solid fa-file-pdf" style="color: #002C5F;"></i> Baixar Dossiê B2B (PDF)
           </a>
-          <a href="/site-principal/" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--accent-cyan); text-decoration: none;">
+          <a href="/site-principal/" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: #EEF2F6; border: 1px solid rgba(0, 44, 95, 0.2); color: #002C5F; text-decoration: none; border-radius: 4px; font-weight: 600;">
             <i class="fa-solid fa-motorcycle"></i> Ver Catálogo de Atacado
           </a>
         </div>
@@ -1327,85 +1333,92 @@
   <!-- 10. MODAL DE CHECKOUT B2B (RESERVA TERRITORIAL 100% GRATUITA) -->
   <div class="modal-overlay" id="checkout-modal">
     <div class="modal-card">
-      <button type="button" class="modal-close-btn" id="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+      <button type="button" class="modal-close-btn" id="btn-close-modal" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
 
       <div style="margin-bottom: 20px;">
-        <span class="font-mono-tag text-accent-green">RESERVA DE EXCLUSIVIDADE</span>
-        <h3 style="font-family: var(--font-heading); font-size: 1.4rem; color: #fff; font-weight: 800; margin-top: 4px;">
+        <div class="modal-badge-tag" style="margin-bottom: 8px;">
+          <span class="indicator-dot-navy"></span>
+          <span>RESERVA DE EXCLUSIVIDADE // TERRITÓRIO HOMOLOGADO</span>
+        </div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.45rem; color: #0F172A; font-weight: 800; margin-top: 4px; line-height: 1.25;">
           Candidatura de Concessão Territorial
         </h3>
-        <p style="font-size: 0.82rem; color: var(--text-muted);">
-          Análise de Viabilidade & Reserva: <strong style="color: var(--accent-green);">100% Gratuita (Sem Taxa de Agendamento)</strong>.
+        <p style="font-size: 0.84rem; color: #475569; margin-top: 4px; line-height: 1.5;">
+          Análise de Viabilidade & Reserva: <strong style="color: #002C5F; font-weight: 700;">100% Gratuita (Sem Taxa de Agendamento)</strong>.
         </p>
       </div>
 
       <form id="checkout-form">
         <div class="form-group-b2b">
-          <label class="form-label-b2b">Seu Nome Completo</label>
+          <label class="form-label-b2b">Seu Nome Completo *</label>
           <input type="text" id="input-name" class="form-input-b2b" placeholder="Ex: Roberto Silva" required />
         </div>
 
         <div class="form-group-b2b">
-          <label class="form-label-b2b">Nome da sua Loja ou Empresa</label>
+          <label class="form-label-b2b">Nome da sua Loja ou Empresa *</label>
           <input type="text" id="input-company" class="form-input-b2b" placeholder="Ex: Silva Motos Elétricas Ltda" required />
         </div>
 
         <div class="form-group-b2b">
-          <label class="form-label-b2b">Cidade e Estado para Exclusividade Territorial</label>
+          <label class="form-label-b2b">Cidade e Estado para Exclusividade Territorial *</label>
           <input type="text" id="input-city" class="form-input-b2b" placeholder="Digite sua cidade (Ex: Pindamonhangaba - SP)" autocomplete="off" required />
           
           <!-- Box Dinâmico de Validação de Disponibilidade e Cidades Vizinhas -->
-          <div id="city-status-box" style="display: none; margin-top: 10px; padding: 12px; border-radius: 8px; font-size: 0.8rem; line-height: 1.5;"></div>
+          <div id="city-status-box" style="display: none; margin-top: 10px; padding: 12px; border-radius: 4px; font-size: 0.8rem; line-height: 1.5;"></div>
         </div>
 
         <div class="form-group-b2b">
-          <label class="form-label-b2b">E-mail Corporativo</label>
+          <label class="form-label-b2b">E-mail Corporativo *</label>
           <input type="email" id="input-email" class="form-input-b2b" placeholder="seuemail@empresa.com.br" required />
         </div>
 
         <div class="form-group-b2b">
-          <label class="form-label-b2b">WhatsApp / Telefone com DDD</label>
+          <label class="form-label-b2b">WhatsApp / Telefone com DDD *</label>
           <input type="tel" id="input-phone" class="form-input-b2b" placeholder="(12) 99800-8818" required />
         </div>
 
-        <button type="submit" id="btn-submit-checkout" class="btn-tripwire-action" style="padding: 16px; font-size: 0.9rem; margin-top: 10px;">
-          <i class="fa-solid fa-shield"></i>
+        <button type="submit" id="btn-submit-checkout" class="btn-tripwire-action" style="padding: 16px; font-size: 0.92rem; margin-top: 14px;">
+          <i class="fa-solid fa-shield-halved"></i>
           <span>GARANTIR EXCLUSIVIDADE & ENVIAR WHATSAPP</span>
         </button>
+
+        <p style="text-align: center; font-size: 0.74rem; color: #64748B; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <i class="fa-solid fa-lock"></i> Seus dados estão seguros e protegidos pela LGPD • Sem taxa de agendamento
+        </p>
       </form>
 
       <!-- TELA DE SUCESSO PÓS-CADASTRO (TRANSMISSÃO REAL PARA O WHATSAPP E DOWNLOAD) -->
       <div id="checkout-success-view" style="display: none; text-align: center; padding: 10px 0;">
-        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(0, 255, 136, 0.15); border: 2px solid var(--accent-green); color: var(--accent-green); font-size: 1.8rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: #F0FDF4; border: 2px solid #22C55E; color: #16A34A; font-size: 1.8rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 16px;">
           <i class="fa-solid fa-check"></i>
         </div>
 
-        <span class="font-mono-tag text-accent-green" style="display: block; font-size: 0.75rem; letter-spacing: 0.08em;">REGISTRO EFETUADO COM SUCESSO</span>
+        <span class="modal-badge-tag-success" style="display: inline-flex; font-size: 0.74rem; letter-spacing: 0.08em; margin-bottom: 6px;">REGISTRO EFETUADO COM SUCESSO</span>
         
-        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: #fff; font-weight: 800; margin: 6px 0 10px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.5rem; color: #0F172A; font-weight: 800; margin: 6px 0 10px;">
           Exclusividade Registrada!
         </h3>
 
-        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-medium); border-radius: 10px; padding: 14px; margin-bottom: 20px; text-align: left; font-size: 0.84rem;">
-          <div style="margin-bottom: 6px;"><strong style="color: var(--text-muted);">Empresa:</strong> <span id="success-company-name" style="color: #fff; font-weight: 700;">Z8</span></div>
-          <div style="margin-bottom: 6px;"><strong style="color: var(--text-muted);">Cidade Bloqueada:</strong> <span id="success-city-name" style="color: var(--accent-gold); font-weight: 700;">Pindamonhangaba - SP</span></div>
-          <div><strong style="color: var(--text-muted);">Status da Reserva:</strong> <span style="color: var(--accent-green); font-weight: 700;"><i class="fa-solid fa-shield"></i> Exclusividade de 50km Gravada no Banco de Dados</span></div>
+        <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 14px; margin-bottom: 20px; text-align: left; font-size: 0.84rem;">
+          <div style="margin-bottom: 6px;"><strong style="color: #64748B;">Empresa:</strong> <span id="success-company-name" style="color: #0F172A; font-weight: 700;">Z8</span></div>
+          <div style="margin-bottom: 6px;"><strong style="color: #64748B;">Cidade Bloqueada:</strong> <span id="success-city-name" style="color: #002C5F; font-weight: 700;">Pindamonhangaba - SP</span></div>
+          <div><strong style="color: #64748B;">Status da Reserva:</strong> <span style="color: #16A34A; font-weight: 700;"><i class="fa-solid fa-shield-halved"></i> Exclusividade de 50km Gravada no Banco de Dados</span></div>
         </div>
 
-        <p style="font-size: 0.82rem; color: var(--text-light); margin-bottom: 18px; line-height: 1.5;">
+        <p style="font-size: 0.84rem; color: #475569; margin-bottom: 18px; line-height: 1.5;">
           Os dados do seu cadastro e os links do <strong>Dossiê B2B e Catálogo de Importação</strong> estão prontos para envio ao WhatsApp oficial da Z8:
         </p>
 
-        <a id="btn-open-whatsapp-success" href="https://wa.me/5512998008818" target="_blank" rel="noopener" class="btn-tripwire-action" style="background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; padding: 16px; font-size: 0.95rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 10px; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4); margin-bottom: 12px;">
+        <a id="btn-open-whatsapp-success" href="https://wa.me/5512998008818" target="_blank" rel="noopener" class="btn-tripwire-action" style="background: #25D366; color: #FFFFFF; padding: 16px; font-size: 0.95rem; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 4px; box-shadow: 0 8px 25px rgba(37, 211, 102, 0.35); margin-bottom: 12px;">
           <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i>
           <span>ABRIR WHATSAPP E ENVIAR AGORA</span>
         </a>
 
         <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-          <a href="/docs/BRAIN_NOTEBOOK.pdf" target="_blank" rel="noopener" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: rgba(255,255,255,0.06); border: 1px solid var(--border-medium); color: #fff; text-decoration: none;">
-            <i class="fa-solid fa-file-pdf text-accent-gold"></i> Baixar Dossiê B2B (PDF)
+          <a href="/docs/BRAIN_NOTEBOOK.pdf" target="_blank" rel="noopener" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: #F1F5F9; border: 1px solid #CBD5E1; color: #0F172A; text-decoration: none; border-radius: 4px; font-weight: 600;">
+            <i class="fa-solid fa-file-pdf" style="color: #002C5F;"></i> Baixar Dossiê B2B (PDF)
           </a>
-          <a href="/site-principal/" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.3); color: var(--accent-cyan); text-decoration: none;">
+          <a href="/site-principal/" class="btn-primary-pill" style="font-size: 0.78rem; padding: 10px 16px; background: #EEF2F6; border: 1px solid rgba(0, 44, 95, 0.2); color: #002C5F; text-decoration: none; border-radius: 4px; font-weight: 600;">
             <i class="fa-solid fa-motorcycle"></i> Ver Catálogo de Atacado
           </a>
         </div>
@@ -1415,34 +1428,37 @@
 
   <!-- 10.1 MODAL DE LOGIN / PORTAL DO REVENDEDOR B2B -->
   <div class="modal-overlay" id="portal-login-modal">
-    <div class="modal-card" style="max-width: 460px; border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 0 40px rgba(0, 229, 255, 0.15), 0 25px 60px rgba(0,0,0,0.95);">
-      <button type="button" class="modal-close-btn" id="btn-close-portal-modal"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-card" style="max-width: 480px;">
+      <button type="button" class="modal-close-btn" id="btn-close-portal-modal" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
 
-      <div style="margin-bottom: 18px; text-align: center;">
-        <div style="display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: rgba(0, 229, 255, 0.1); border: 1px solid rgba(0, 229, 255, 0.4); color: var(--accent-cyan); font-size: 1.3rem; margin-bottom: 12px;">
+      <div style="margin-bottom: 20px; text-align: center;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 4px; background: #EEF2F6; border: 1px solid rgba(0, 44, 95, 0.15); color: #002C5F; font-size: 1.25rem; margin-bottom: 12px;">
           <i class="fa-solid fa-shield-halved"></i>
         </div>
-        <span class="font-mono-tag text-accent-cyan" style="display: block; font-size: 0.72rem; letter-spacing: 0.08em;">ÁREA RESTRITA DO REVENDEDOR</span>
-        <h3 style="font-family: var(--font-heading); font-size: 1.45rem; color: #fff; font-weight: 800; margin-top: 4px;">
+        <div class="modal-badge-tag" style="justify-content: center; margin-bottom: 8px;">
+          <span class="indicator-dot-navy"></span>
+          <span>ÁREA RESTRITA DO REVENDEDOR</span>
+        </div>
+        <h3 style="font-family: var(--font-heading); font-size: 1.45rem; color: #0F172A; font-weight: 800; margin-top: 4px;">
           Portal B2B Direct-Factory
         </h3>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">
+        <p style="font-size: 0.82rem; color: #64748B; margin-top: 4px;">
           Acesso exclusivo para lojistas credenciados e distribuidores Z8.
         </p>
       </div>
 
       <!-- Abas do Modal: Entrar / Criar Conta -->
-      <div style="display: flex; gap: 8px; background: #000; padding: 4px; border-radius: 8px; border: 1px solid var(--border-medium); margin-bottom: 18px;">
-        <button type="button" id="tab-portal-login" class="portal-tab-btn active" style="flex: 1; padding: 10px; border: none; background: var(--accent-cyan); color: #000; border-radius: 6px; font-weight: 800; font-family: var(--font-heading); font-size: 0.82rem; cursor: pointer; transition: all 0.2s;">
+      <div class="portal-tab-bar">
+        <button type="button" id="tab-portal-login" class="portal-tab-btn active">
           <i class="fa-solid fa-right-to-bracket"></i> ENTRAR
         </button>
-        <button type="button" id="tab-portal-register" class="portal-tab-btn" style="flex: 1; padding: 10px; border: none; background: transparent; color: var(--text-muted); border-radius: 6px; font-weight: 800; font-family: var(--font-heading); font-size: 0.82rem; cursor: pointer; transition: all 0.2s;">
+        <button type="button" id="tab-portal-register" class="portal-tab-btn">
           <i class="fa-solid fa-user-plus"></i> CRIAR CONTA
         </button>
       </div>
 
       <!-- Feedback / Alert Box -->
-      <div id="portal-msg-box" style="display: none; padding: 12px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px; line-height: 1.4;"></div>
+      <div id="portal-msg-box" style="display: none; padding: 12px; border-radius: 4px; font-size: 0.82rem; margin-bottom: 14px; line-height: 1.4;"></div>
 
       <!-- ABA 1: FORMULÁRIO DE LOGIN -->
       <div id="portal-view-login">
@@ -1455,19 +1471,19 @@
           <div class="form-group-b2b">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
               <label class="form-label-b2b" style="margin-bottom: 0;">Senha de Acesso</label>
-              <a href="https://wa.me/5512998008818?text=Ol%C3%A1%2C+preciso+de+ajuda+para+recuperar+minha+senha+do+Portal+Z8" target="_blank" rel="noopener" style="font-size: 0.72rem; color: var(--accent-cyan); text-decoration: none;">Esqueci a senha</a>
+              <a href="https://wa.me/5512998008818?text=Ol%C3%A1%2C+preciso+de+ajuda+para+recuperar+minha+senha+do+Portal+Z8" target="_blank" rel="noopener" style="font-size: 0.74rem; color: #002C5F; font-weight: 600; text-decoration: none;">Esqueci a senha</a>
             </div>
             <input type="password" id="portal-input-pass" class="form-input-b2b" placeholder="••••••••••••" required />
           </div>
 
-          <button type="submit" class="btn-tripwire-action" style="background: linear-gradient(135deg, #00e5ff, #0099ff); color: #000; padding: 14px; font-size: 0.88rem; margin-top: 12px; box-shadow: 0 8px 25px rgba(0, 229, 255, 0.25);">
+          <button type="submit" class="btn-tripwire-action" style="padding: 14px; font-size: 0.88rem; margin-top: 14px;">
             <i class="fa-solid fa-lock-open"></i>
             <span>ENTRAR NO PORTAL</span>
           </button>
         </form>
 
-        <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border-subtle); text-align: center;">
-          <p style="font-size: 0.75rem; color: var(--text-dim);">
+        <div style="margin-top: 16px; padding-top: 14px; border-top: 1px solid #E2E8F0; text-align: center;">
+          <p style="font-size: 0.78rem; color: #64748B;">
             Novo por aqui? Clique na aba <strong>"Criar Conta"</strong> para acessar imediatamente.
           </p>
         </div>
@@ -1506,7 +1522,7 @@
             <input type="password" id="portal-reg-pass" class="form-input-b2b" placeholder="Mínimo 6 caracteres" minlength="6" required />
           </div>
 
-          <button type="submit" class="btn-tripwire-action" style="background: linear-gradient(135deg, #00ff88, #00cc66); color: #000; padding: 14px; font-size: 0.88rem; margin-top: 12px; box-shadow: 0 8px 25px rgba(0, 255, 136, 0.25);">
+          <button type="submit" class="btn-tripwire-action" style="padding: 14px; font-size: 0.88rem; margin-top: 14px;">
             <i class="fa-solid fa-user-check"></i>
             <span>CRIAR CONTA E ENTRAR NO PORTAL</span>
           </button>

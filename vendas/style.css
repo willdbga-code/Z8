@@ -2136,28 +2136,31 @@ button {
 
 .btn-tripwire-action {
   width: 100%;
-  background: linear-gradient(135deg, #ffaa00, #ff8800);
-  color: #000000;
-  font-family: var(--font-sans);
-  font-size: 0.88rem;
-  font-weight: 800;
+  background: var(--accent-navy, #002C5F);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  padding: 14px 18px;
-  border-radius: var(--radius-btn);
-  box-shadow: 0 8px 25px var(--accent-gold-glow);
+  letter-spacing: 0.04em;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 8px 20px rgba(0, 44, 95, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   transition: all var(--transition-normal);
   text-align: center;
+  cursor: pointer;
 }
 
 .btn-tripwire-action:hover {
-  background: #ffffff;
-  color: #000000;
+  background: #001E42;
+  color: #FFFFFF;
   transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0, 44, 95, 0.32);
 }
 
 /* --------------------------------------------------------------------------
@@ -2289,18 +2292,20 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   10. MODAL DE CHECKOUT & LOGIN B2B
+   10. MODAL DE CHECKOUT & LOGIN B2B (PADRÃO MONTADORA LUXURY)
    -------------------------------------------------------------------------- */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.88);
-  backdrop-filter: blur(12px);
-  z-index: 100;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
   display: none;
   align-items: center;
   justify-content: center;
   padding: 16px;
+  transition: opacity 0.25s ease;
 }
 
 .modal-overlay.active {
@@ -2308,29 +2313,99 @@ button {
 }
 
 .modal-card {
-  background: #0d0d0d;
-  border: 1px solid var(--border-medium);
-  border-radius: var(--radius-md);
-  padding: 24px 20px;
-  max-width: 500px;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+  padding: 32px 28px;
+  max-width: 520px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 25px 60px -15px rgba(0, 44, 95, 0.2), 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+  animation: modalSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .modal-close-btn {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  color: var(--text-dim);
-  font-size: 1.1rem;
-  transition: color var(--transition-fast);
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  color: #475569;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
 }
 
 .modal-close-btn:hover {
-  color: #fff;
+  background: #E2E8F0;
+  color: #0F172A;
+  border-color: #CBD5E1;
+}
+
+.modal-badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #EEF2F6;
+  border: 1px solid rgba(0, 44, 95, 0.15);
+  border-radius: 4px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #002C5F;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.indicator-dot-navy {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #002C5F;
+  display: inline-block;
+}
+
+.modal-badge-tag-success {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #F0FDF4;
+  border: 1px solid #BBF7D0;
+  border-radius: 4px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #15803D;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.modal-card h2,
+.modal-card h3 {
+  color: #0F172A;
+  font-family: var(--font-heading);
 }
 
 .form-group-b2b {
@@ -2338,28 +2413,38 @@ button {
 }
 
 .form-label-b2b {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 0.74rem;
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+  color: #334155;
+  margin-bottom: 6px;
 }
 
 .form-input-b2b {
   width: 100%;
   background: #F8FAFC;
   border: 1px solid #CBD5E1;
-  border-radius: var(--radius-xs);
-  padding: 10px 12px;
+  border-radius: 4px;
+  padding: 12px 14px;
   color: #0F172A;
-  font-size: 0.85rem;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
   outline: none;
   transition: all var(--transition-fast);
 }
 
+.form-input-b2b::placeholder {
+  color: #94A3B8;
+}
+
 .form-input-b2b:focus {
-  border-color: var(--accent-navy);
+  background: #FFFFFF;
+  border-color: var(--accent-navy, #002C5F);
   box-shadow: 0 0 0 3px rgba(0, 44, 95, 0.08);
 }
 
@@ -2369,10 +2454,10 @@ button {
 .modal-card-investor {
   max-width: 720px;
   background: #FFFFFF;
-  border: 1px solid rgba(0, 44, 95, 0.16);
-  box-shadow: 0 20px 60px rgba(0, 44, 95, 0.12), 0 10px 30px rgba(0, 0, 0, 0.06);
-  border-radius: var(--radius-lg);
-  padding: 30px 24px;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 25px 60px -15px rgba(0, 44, 95, 0.2), 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+  border-radius: 6px;
+  padding: 32px 28px;
 }
 
 .modal-header-investor {
@@ -2404,8 +2489,8 @@ button {
   font-family: var(--font-mono);
   font-weight: 600;
   color: #64748B;
-  padding: 4px 12px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 4px;
   background: #F1F5F9;
   border: 1px solid #E2E8F0;
   transition: all 0.25s ease;
@@ -2419,15 +2504,15 @@ button {
 }
 
 .step-pill-indicator.completed {
-  background: #EBF8F2;
-  color: #059669;
-  border-color: #059669;
+  background: #F0FDF4;
+  color: #16A34A;
+  border-color: #BBF7D0;
 }
 
 .step-pill-indicator .step-num {
   width: 18px;
   height: 18px;
-  border-radius: 50%;
+  border-radius: 2px;
   background: rgba(0, 44, 95, 0.1);
   display: inline-flex;
   align-items: center;
@@ -2442,7 +2527,7 @@ button {
 }
 
 .step-pill-indicator.completed .step-num {
-  background: #059669;
+  background: #16A34A;
   color: #FFFFFF;
 }
 
@@ -2588,15 +2673,15 @@ button {
 }
 
 .tag-recommended {
-  background: rgba(0, 255, 136, 0.15);
-  color: var(--accent-green);
-  border: 1px solid rgba(0, 255, 136, 0.4);
+  background: #EEF2F6;
+  color: #002C5F;
+  border: 1px solid rgba(0, 44, 95, 0.2);
 }
 
 .tag-vip {
-  background: rgba(255, 170, 0, 0.15);
-  color: var(--accent-gold);
-  border: 1px solid rgba(255, 170, 0, 0.4);
+  background: #FFFBEB;
+  color: #B45309;
+  border: 1px solid #FDE68A;
 }
 
 /* Badge de Temperatura de Leads */
@@ -2608,29 +2693,64 @@ button {
   font-size: 0.72rem;
   font-weight: 700;
   padding: 4px 10px;
-  border-radius: 6px;
+  border-radius: 4px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .badge-temperature.quente {
-  background: rgba(239, 68, 68, 0.18);
-  border: 1px solid #ef4444;
-  color: #fca5a5;
-  box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #DC2626;
 }
 
 .badge-temperature.possivel {
-  background: rgba(245, 158, 11, 0.18);
-  border: 1px solid #f59e0b;
-  color: #fcd34d;
-  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25);
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #D97706;
 }
 
 .badge-temperature.frio {
-  background: rgba(56, 189, 248, 0.15);
-  border: 1px solid #38bdf8;
-  color: #7dd3fc;
+  background: #F0F9FF;
+  border: 1px solid #BAE6FD;
+  color: #0284C7;
+}
+
+/* Abas do Portal B2B */
+.portal-tab-bar {
+  display: flex;
+  gap: 6px;
+  background: #F1F5F9;
+  padding: 4px;
+  border-radius: 4px;
+  border: 1px solid #E2E8F0;
+  margin-bottom: 18px;
+}
+
+.portal-tab-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  color: #64748B;
+  border-radius: 4px;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.portal-tab-btn.active {
+  background: #FFFFFF;
+  color: var(--accent-navy, #002C5F);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.portal-tab-btn:hover:not(.active) {
+  color: #0F172A;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 
@@ -2668,6 +2788,7 @@ button {
    CROSS-DEVICE & INVESTOR MODAL RESPONSIVENESS OVERRIDES
    ========================================================================== */
 @media (max-width: 768px) {
+  .modal-card,
   .modal-card-investor {
     max-width: 95vw;
     padding: 24px 18px;
@@ -2684,6 +2805,7 @@ button {
     padding: 8px;
   }
 
+  .modal-card,
   .modal-card-investor {
     padding: 20px 14px;
     max-height: 94dvh;
@@ -2800,6 +2922,7 @@ button {
 }
 
 @media (max-width: 380px) {
+  .modal-card,
   .modal-card-investor {
     padding: 16px 10px;
   }

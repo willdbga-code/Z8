@@ -1009,26 +1009,28 @@ function initInvestorLeadModal() {
       cityStatus.style.display = 'block';
 
       if (check.status === 'occupied') {
-        cityStatus.style.background = 'rgba(239, 68, 68, 0.12)';
-        cityStatus.style.border = '1px solid rgba(239, 68, 68, 0.4)';
-        cityStatus.style.color = '#fca5a5';
+        cityStatus.style.background = '#FEF2F2';
+        cityStatus.style.border = '1px solid #FECACA';
+        cityStatus.style.color = '#991B1B';
+        cityStatus.style.borderRadius = '4px';
         cityStatus.innerHTML = `
           <div style="display: flex; align-items: flex-start; gap: 8px;">
-            <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 1.1rem; margin-top: 2px;"></i>
+            <i class="fa-solid fa-circle-xmark" style="color: #DC2626; font-size: 1.1rem; margin-top: 2px;"></i>
             <div>
-              <strong>${check.city}</strong> já possui parceiro com exclusividade territorial.
-              ${check.neighbors?.length ? `<br/><span style="font-size: 0.72rem; color: #fff;">💡 Cidades vizinhas livres: <strong>${check.neighbors.slice(0, 3).join(', ')}</strong></span>` : ''}
+              <strong style="color: #0F172A;">${check.city}</strong> já possui parceiro com exclusividade territorial.
+              ${check.neighbors?.length ? `<br/><span style="font-size: 0.74rem; color: #475569;">💡 Cidades vizinhas livres: <strong style="color: #0F172A;">${check.neighbors.slice(0, 3).join(', ')}</strong></span>` : ''}
             </div>
           </div>
         `;
       } else {
-        cityStatus.style.background = 'rgba(0, 255, 136, 0.08)';
-        cityStatus.style.border = '1px solid rgba(0, 255, 136, 0.35)';
-        cityStatus.style.color = '#86efac';
+        cityStatus.style.background = '#F0FDF4';
+        cityStatus.style.border = '1px solid #86EFAC';
+        cityStatus.style.color = '#166534';
+        cityStatus.style.borderRadius = '4px';
         cityStatus.innerHTML = `
           <div style="display: flex; align-items: center; gap: 8px;">
-            <i class="fa-solid fa-circle-check text-accent-green" style="font-size: 1.1rem;"></i>
-            <div><strong>${check.city}</strong> está <strong>DISPONÍVEL</strong> para concessão territorial (50km livres)!</div>
+            <i class="fa-solid fa-circle-check" style="color: #16A34A; font-size: 1.1rem;"></i>
+            <div><strong style="color: #0F172A;">${check.city}</strong> está <strong style="color: #166534;">DISPONÍVEL</strong> para concessão territorial (50km livres)!</div>
           </div>
         `;
       }
@@ -1301,22 +1303,22 @@ function initInvestorLeadModal() {
 
         if (scoreCard) {
           scoreCard.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E2E8F0; padding-bottom: 10px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
               <div>
-                <strong style="color: #fff; font-size: 0.95rem;">${name}</strong>
-                <span style="display: block; font-size: 0.74rem; color: #94a3b8;"><i class="fa-solid fa-city"></i> ${city} • ${company}</span>
+                <strong style="color: #0F172A; font-size: 0.95rem;">${name}</strong>
+                <span style="display: block; font-size: 0.74rem; color: #64748B;"><i class="fa-solid fa-city"></i> ${city} • ${company}</span>
               </div>
               <div>${temperatureBadgeHtml}</div>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; font-size: 0.78rem;">
-              <div><span style="color: #94a3b8;">Aporte Previsto:</span> <strong style="color: var(--accent-green);">${capitalLabels[capital].split('(')[0]}</strong></div>
-              <div><span style="color: #94a3b8;">Prazo:</span> <strong style="color: #fff;">${timelineLabels[timeline].split('(')[0]}</strong></div>
-              <div><span style="color: #94a3b8;">Perfil:</span> <strong style="color: #fff;">${experienceLabels[experience]}</strong></div>
-              <div><span style="color: #94a3b8;">WhatsApp:</span> <strong style="color: #10B981;"><i class="fa-brands fa-whatsapp"></i> ${phone}</strong></div>
+              <div><span style="color: #64748B;">Aporte Previsto:</span> <strong style="color: #059669;">${capitalLabels[capital].split('(')[0]}</strong></div>
+              <div><span style="color: #64748B;">Prazo:</span> <strong style="color: #0F172A;">${timelineLabels[timeline].split('(')[0]}</strong></div>
+              <div><span style="color: #64748B;">Perfil:</span> <strong style="color: #0F172A;">${experienceLabels[experience]}</strong></div>
+              <div><span style="color: #64748B;">WhatsApp:</span> <strong style="color: #059669;"><i class="fa-brands fa-whatsapp"></i> ${phone}</strong></div>
             </div>
 
-            <div style="margin-top: 10px; padding: 8px 12px; background: rgba(0,229,255,0.06); border-radius: 6px; border: 1px solid rgba(0,229,255,0.2); font-size: 0.75rem; color: #7dd3fc;">
+            <div style="margin-top: 10px; padding: 10px 12px; background: #F0F9FF; border-radius: 4px; border: 1px solid #BAE6FD; font-size: 0.76rem; color: #0369A1;">
               <i class="fa-solid fa-bullseye"></i> <strong>Próximo Passo Estratégico:</strong> ${actionScript}
             </div>
           `;
@@ -1400,21 +1402,22 @@ function initCheckoutModal() {
     cityStatusBox.style.display = 'block';
 
     if (check.status === 'occupied') {
-      cityStatusBox.style.background = 'rgba(239, 68, 68, 0.12)';
-      cityStatusBox.style.border = '1px solid rgba(239, 68, 68, 0.45)';
-      cityStatusBox.style.color = '#fca5a5';
+      cityStatusBox.style.background = '#FEF2F2';
+      cityStatusBox.style.border = '1px solid #FECACA';
+      cityStatusBox.style.color = '#991B1B';
+      cityStatusBox.style.borderRadius = '4px';
 
       let neighborsHtml = '';
       if (check.neighbors && check.neighbors.length > 0) {
         neighborsHtml = `
-          <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(239,68,68,0.35);">
-            <span style="font-size: 0.72rem; color: #fecaca; display: block; margin-bottom: 6px; font-weight: 700; letter-spacing: 0.04em;">
+          <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #FCA5A5;">
+            <span style="font-size: 0.72rem; color: #991B1B; display: block; margin-bottom: 6px; font-weight: 700; letter-spacing: 0.04em;">
               💡 CIDADES VIZINHAS DISPONÍVEIS NO MESMO RAIO DE 50KM:
             </span>
             <div style="display: flex; flex-wrap: wrap; gap: 6px;">
               ${check.neighbors.map(n => `
-                <button type="button" class="btn-neighbor-chip" data-city="${n}" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 5px 12px; border-radius: 20px; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;">
-                  <i class="fa-solid fa-plus text-accent-green"></i> ${n}
+                <button type="button" class="btn-neighbor-chip" data-city="${n}" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #0F172A; padding: 6px 12px; border-radius: 4px; font-size: 0.76rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: inherit;">
+                  <i class="fa-solid fa-plus" style="color: #16A34A;"></i> ${n}
                 </button>
               `).join('')}
             </div>
@@ -1424,9 +1427,9 @@ function initCheckoutModal() {
 
       cityStatusBox.innerHTML = `
         <div style="display: flex; align-items: flex-start; gap: 8px;">
-          <i class="fa-solid fa-circle-xmark" style="color: #ef4444; font-size: 1.15rem; margin-top: 2px; flex-shrink: 0;"></i>
+          <i class="fa-solid fa-circle-xmark" style="color: #DC2626; font-size: 1.15rem; margin-top: 2px; flex-shrink: 0;"></i>
           <div>
-            <strong style="color: #ffffff;">${check.city}</strong> já possui revendedor exclusivo ativo registrado (${check.company}).
+            <strong style="color: #0F172A;">${check.city}</strong> já possui revendedor exclusivo ativo registrado (${check.company}).
           </div>
         </div>
         ${neighborsHtml}
@@ -1440,14 +1443,15 @@ function initCheckoutModal() {
         });
       });
     } else if (check.status === 'available') {
-      cityStatusBox.style.background = 'rgba(0, 255, 136, 0.08)';
-      cityStatusBox.style.border = '1px solid rgba(0, 255, 136, 0.4)';
-      cityStatusBox.style.color = '#86efac';
+      cityStatusBox.style.background = '#F0FDF4';
+      cityStatusBox.style.border = '1px solid #86EFAC';
+      cityStatusBox.style.color = '#166534';
+      cityStatusBox.style.borderRadius = '4px';
       cityStatusBox.innerHTML = `
         <div style="display: flex; align-items: center; gap: 8px;">
-          <i class="fa-solid fa-circle-check text-accent-green" style="font-size: 1.15rem; flex-shrink: 0;"></i>
+          <i class="fa-solid fa-circle-check" style="color: #16A34A; font-size: 1.15rem; flex-shrink: 0;"></i>
           <div>
-            <strong style="color: #ffffff;">${check.city}</strong> está <strong>DISPONÍVEL</strong> para exclusividade territorial (raio de 50km)!
+            <strong style="color: #0F172A;">${check.city}</strong> está <strong style="color: #166534;">DISPONÍVEL</strong> para exclusividade territorial (raio de 50km)!
           </div>
         </div>
       `;
@@ -1613,20 +1617,24 @@ function initPortalLoginModal() {
   // Alternar entre abas Entrar e Solicitar Acesso
   if (tabLogin && tabRegister && viewLogin && viewRegister) {
     tabLogin.addEventListener('click', () => {
-      tabLogin.style.background = 'var(--accent-cyan)';
-      tabLogin.style.color = '#000';
-      tabRegister.style.background = 'transparent';
-      tabRegister.style.color = 'var(--text-muted)';
+      tabLogin.classList.add('active');
+      tabRegister.classList.remove('active');
+      tabLogin.style.background = '';
+      tabLogin.style.color = '';
+      tabRegister.style.background = '';
+      tabRegister.style.color = '';
       viewLogin.style.display = 'block';
       viewRegister.style.display = 'none';
       if (msgBox) msgBox.style.display = 'none';
     });
 
     tabRegister.addEventListener('click', () => {
-      tabRegister.style.background = 'var(--accent-green)';
-      tabRegister.style.color = '#000';
-      tabLogin.style.background = 'transparent';
-      tabLogin.style.color = 'var(--text-muted)';
+      tabRegister.classList.add('active');
+      tabLogin.classList.remove('active');
+      tabRegister.style.background = '';
+      tabRegister.style.color = '';
+      tabLogin.style.background = '';
+      tabLogin.style.color = '';
       viewRegister.style.display = 'block';
       viewLogin.style.display = 'none';
       if (msgBox) msgBox.style.display = 'none';
@@ -1637,20 +1645,20 @@ function initPortalLoginModal() {
     if (!msgBox) return;
     msgBox.style.display = 'block';
     if (type === 'error') {
-      msgBox.style.background = 'rgba(255, 59, 48, 0.15)';
-      msgBox.style.border = '1px solid rgba(255, 59, 48, 0.4)';
-      msgBox.style.color = '#ff6b6b';
-      msgBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${msg}`;
+      msgBox.style.background = '#FEF2F2';
+      msgBox.style.border = '1px solid #FECACA';
+      msgBox.style.color = '#991B1B';
+      msgBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color: #DC2626;"></i> ${msg}`;
     } else if (type === 'success') {
-      msgBox.style.background = 'rgba(0, 255, 136, 0.15)';
-      msgBox.style.border = '1px solid rgba(0, 255, 136, 0.4)';
-      msgBox.style.color = '#00ff88';
-      msgBox.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
+      msgBox.style.background = '#F0FDF4';
+      msgBox.style.border = '1px solid #BBF7D0';
+      msgBox.style.color = '#166534';
+      msgBox.innerHTML = `<i class="fa-solid fa-circle-check" style="color: #16A34A;"></i> ${msg}`;
     } else {
-      msgBox.style.background = 'rgba(0, 229, 255, 0.15)';
-      msgBox.style.border = '1px solid rgba(0, 229, 255, 0.4)';
-      msgBox.style.color = '#00e5ff';
-      msgBox.innerHTML = `<i class="fa-solid fa-circle-info"></i> ${msg}`;
+      msgBox.style.background = '#F0F9FF';
+      msgBox.style.border = '1px solid #BAE6FD';
+      msgBox.style.color = '#0369A1';
+      msgBox.innerHTML = `<i class="fa-solid fa-circle-info" style="color: #0284C7;"></i> ${msg}`;
     }
   }
 
