@@ -2868,9 +2868,10 @@ button {
 }
 
 .lightbox-overlay.active {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
 }
 
 .lightbox-container {

@@ -392,7 +392,7 @@ function initVehicleLightbox() {
     const name = card.querySelector('.product-model-name')?.textContent?.trim() || 'Z8 E-Motion';
     const specs = card.querySelector('.product-specs-pill')?.textContent?.trim() || '';
     const imgEl = card.querySelector('.product-img');
-    const mainImgSrc = imgEl ? (imgEl.currentSrc || imgEl.src) : '';
+    const mainImgSrc = imgEl ? (imgEl.currentSrc || imgEl.getAttribute('src') || imgEl.src) : '';
     const profitEl = card.querySelector('.price-val-profit')?.textContent?.trim() || '+ R$ 4.000,00';
 
     const swatches = Array.from(card.querySelectorAll('.color-swatch-btn')).map(sw => ({
@@ -475,13 +475,8 @@ function initVehicleLightbox() {
           btn.classList.add('active');
           if (activeColorNameEl) activeColorNameEl.textContent = sw.color;
 
-          activeImg.style.opacity = '0.35';
-          const preloader = new Image();
-          preloader.onload = () => {
-            activeImg.src = sw.img;
-            activeImg.style.opacity = '1';
-          };
-          preloader.src = sw.img;
+          activeImg.src = sw.img;
+          activeImg.style.opacity = '1';
         });
 
         swatchesContainer.appendChild(btn);
@@ -492,14 +487,11 @@ function initVehicleLightbox() {
       }
     }
 
-    // Carrega imagem principal
-    activeImg.style.opacity = '0.35';
-    const preloader = new Image();
-    preloader.onload = () => {
+    // Carrega imagem principal imediatamente (já pré-carregada pelo card)
+    if (data.mainImgSrc) {
       activeImg.src = data.mainImgSrc;
       activeImg.style.opacity = '1';
-    };
-    preloader.src = data.mainImgSrc;
+    }
   }
 
   function openLightbox(index) {
@@ -524,28 +516,33 @@ function initVehicleLightbox() {
     resetZoom();
   }
 
-  // Ouvintes nos Cards: Botão "AMPLIAR" ou clique na imagem
-  cards.forEach((card, idx) => {
-    const zoomTrigger = card.querySelector('.btn-card-zoom-trigger');
-    const imgWrap = card.querySelector('.product-image-wrap');
+  // Delegação de eventos no container de catálogo (#catalogo)
+  const catalogSection = document.getElementById('catalogo');
+  if (catalogSection) {
+    catalogSection.addEventListener('click', (e) => {
+      const zoomTrigger = e.target.closest('.btn-card-zoom-trigger');
+      const imgWrap = e.target.closest('.product-image-wrap');
 
-    if (zoomTrigger) {
-      zoomTrigger.addEventListener('click', (e) => {
+      if (zoomTrigger || imgWrap) {
+        if (e.target.closest('.color-swatches-row') || e.target.closest('.btn-card-reserve')) return;
+
         e.preventDefault();
         e.stopPropagation();
-        openLightbox(idx);
-      });
-    }
 
-    if (imgWrap) {
-      imgWrap.addEventListener('click', (e) => {
-        // Se não clicou no seletor de cores ou botão de reserva
-        if (!e.target.closest('.color-swatches-row') && !e.target.closest('.btn-card-reserve')) {
-          openLightbox(idx);
+        const card = e.target.closest('.product-card-editorial');
+        if (card) {
+          const allCards = Array.from(document.querySelectorAll('.product-card-editorial'));
+          const idx = allCards.indexOf(card);
+          if (idx !== -1) {
+            openLightbox(idx);
+          }
         }
-      });
-    }
-  });
+      }
+    });
+  }
+
+  // Também expõe no window global para testes diretos
+  window.openVehicleLightbox = openLightbox;
 
   // Fechamento
   if (closeBtn) {
