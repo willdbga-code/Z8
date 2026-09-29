@@ -635,23 +635,28 @@ button {
   font-family: var(--font-heading);
 }
 
-/* Seletor Horizontal de Versões na Base do Palco (Padrão Montadora Luxury) */
-.hero-stage-switcher {
-  display: flex;
+/* Seletor Horizontal de Versões Integrado em Dock Flutuante (Proximidade Gestalt) */
+.hero-stage-switcher-dock {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   flex-wrap: wrap;
-  margin-top: 28px;
-  padding-top: 22px;
-  border-top: 1px solid var(--border-subtle);
+  background: #FFFFFF;
+  border: 1px solid var(--border-medium);
+  padding: 6px 10px;
+  border-radius: 9999px;
+  box-shadow: 0 4px 16px rgba(0, 44, 95, 0.08);
+  margin: 12px auto 6px auto;
+  position: relative;
+  z-index: 4;
 }
 
 .stage-switch-btn {
-  background: #FFFFFF;
-  border: 1px solid var(--border-medium);
-  padding: 10px 18px;
-  border-radius: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 7px 16px;
+  border-radius: 9999px;
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--text-muted);
@@ -659,23 +664,21 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stage-switch-btn .switch-idx {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   background: #F1F5F9;
   color: var(--accent-navy);
   padding: 2px 6px;
-  border-radius: 2px;
+  border-radius: 9999px;
   font-weight: 800;
   font-family: var(--font-mono);
   transition: all 0.2s ease;
 }
 
 .stage-switch-btn:hover {
-  border-color: var(--accent-navy);
   color: var(--accent-navy);
   background: #F8FAFC;
   transform: translateY(-1px);
@@ -685,12 +688,102 @@ button {
   background: var(--accent-navy);
   color: #FFFFFF;
   border-color: var(--accent-navy);
-  box-shadow: 0 4px 14px rgba(0, 44, 95, 0.25);
+  box-shadow: 0 3px 12px rgba(0, 44, 95, 0.25);
 }
 
 .stage-switch-btn.active .switch-idx {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.2);
   color: #38BDF8;
+}
+
+/* Link Editorial 1+1 no Hero */
+.hero-link-editorial {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--accent-navy);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-link-editorial i {
+  transition: transform 0.2s ease;
+}
+
+.hero-link-editorial:hover {
+  color: var(--accent-slate);
+  background: rgba(0, 44, 95, 0.04);
+}
+
+.hero-link-editorial:hover i {
+  transform: translateX(4px);
+}
+
+/* --------------------------------------------------------------------------
+   1.1 FITA DE CREDIBILIDADE & HOMOLOGAÇÃO DE MONTADORA (TRUST TICKER)
+   -------------------------------------------------------------------------- */
+.trust-ticker-strip {
+  background: #FFFFFF;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 18px 0;
+  width: 100%;
+  box-shadow: 0 2px 12px rgba(0, 44, 95, 0.03);
+}
+
+.trust-ticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  align-items: center;
+}
+
+.trust-ticker-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+}
+
+.trust-ticker-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(0, 44, 95, 0.06);
+  color: var(--accent-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 44, 95, 0.1);
+}
+
+.trust-ticker-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.trust-ticker-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 0.82rem;
+  color: var(--accent-slate);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.trust-ticker-sub {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  margin-top: 2px;
 }
 
 @media (max-width: 768px) {
