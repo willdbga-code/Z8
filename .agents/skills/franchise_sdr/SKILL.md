@@ -27,20 +27,19 @@ O **Z8 Franchise SDR** é o subagente responsável por automatizar a inteligênc
 Para cada lead qualificado, o agente gera:
 1. **Ficha de Inteligência**: Nome, cidade/comarca, telefone, perfil profissional e estimativa de capital.
 2. **Análise Territorial**: População da comarca, concorrência elétrica local e potencial de monopólio.
-3. **Script de WhatsApp Oficial (Calibrado & Aprovado)**:
-   * **Filtro Imediato de Curiosos**: Já menciona no primeiro contato os requisitos mínimos (10 motos e oficina com 2 elevadores).
-   * **Sem Link de Site**: Como a maioria dos leads vem do site para o WhatsApp, a mensagem foca exclusivamente na abertura da vaga e agendamento da reunião de 10 minutos.
+3. **Script de WhatsApp Oficial (Padrão Dale Carnegie - Respeitoso, Caloroso & de Alto Fechamento)**:
+   * **Abordagem Central**: Foco nos interesses de longo prazo do investidor, apreço sincero à sua visão de mercado, sem pressão artificial, e convite respeitoso para uma conversa de alinhamento mútuo.
    * **Modelo Oficial**:
      ```text
-     Olá, [Nome]! Aqui é o Christian Hideyuki, diretor de expansão da Z8 E-Motion.
+     Olá, [Nome]! Tudo bem com você? Aqui é o Christian Hideyuki, diretor de expansão da Z8 E-Motion.
 
-     Recebi o seu cadastro de credenciamento comercial para a praça de [Cidade - UF].
+     Foi uma grande satisfação receber a sua manifestação de interesse para a concessão exclusiva em [Cidade - UF].
 
-     Estamos estruturando as concessões do Vale do Paraíba e a nossa política é de Monopólio Territorial: abriremos apenas 1 concessionária oficial por comarca, operando com o lote mínimo inicial de 10 motos elétricas e oficina padronizada com 2 elevadores.
+     Sabemos que a transição para a mobilidade elétrica está transformando o transporte na sua região, e nossa política é garantir que você, como nosso parceiro oficial, tenha um monopólio territorial protegido de 50km — sem concorrência interna, com oficina de 2 elevadores e um primeiro lote de 10 motos que já coloca sua operação pronta no mercado.
 
-     Gostaria de entender se o seu plano é assumir a concessão exclusiva de [Cidade - UF] neste trimestre.
+     Gostaria de entender se faz sentido para o seu momento empresarial liderar a bandeira da Z8 em [Cidade] neste trimestre.
 
-     Podemos conversar 10 minutos hoje para eu te apresentar as margens e a Circular de Oferta (COF)?
+     Podemos conversar 10 minutos hoje para eu lhe apresentar os números de margem, o plano de viabilidade e a nossa Circular de Oferta (COF)?
      ```
 
 ---

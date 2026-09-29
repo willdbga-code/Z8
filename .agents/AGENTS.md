@@ -170,6 +170,19 @@
 5. **`z8-finance-intel`** (`.agents/skills/finance_intel/SKILL.md`): Agente de Controladoria & Inteligência Financeira. Modelagem de DRE trifásica (10, 15 e 20 motos/mês), cálculo de break-even (4 motos), rentabilidade da oficina dos 2 elevadores e tempo de payback para investidores.
 6. **`z8-concierge-b2c`** (`.agents/skills/concierge_b2c/SKILL.md`): Agente de Atendimento ao Consumidor Final & Vendas Varejo. Consultoria de escolha do modelo ideal de moto, desmistificação de regras de CNH e trânsito (CONTRAN 996), cálculo de custo de recarga na tomada (R$ 1,80 a R$ 2,50/carga, economia mensal vs gasolina) e direcionamento geolocalizado para test-ride na concessionária credenciada mais próxima.
 7. **`memplace`** (`.agents/skills/memplace/SKILL.md`): Motor de memória contextual e conexão com NotebookLM / Gemini Knowledge Brain.
+8. **`z8-dale-carnegie-copy`** (`.agents/skills/dale_carnegie/SKILL.md`): Motor de Comunicação, Redação Persuasiva e Relacionamento Humano no Estilo Dale Carnegie para Z8 E-Motion. Transforma copys, abordagens comerciais de WhatsApp, atendimento ao cliente B2C/B2B e textos institucionais em diálogos calorosos, empáticos, focados no interesse do interlocutor e de altíssima influência.
+
+## Dale Carnegie Communication, Copywriting & Persuasion Protocol (MANDATORY & PERMANENT)
+- **Core Philosophy**: All verbal, editorial, and written communication across the Z8 ecosystem (landing pages, website copy, WhatsApp scripts, B2B franchise proposals, B2C customer care, error messages, and email campaigns) MUST adhere strictly to the human relations and persuasion principles of **Dale Carnegie** (*How to Win Friends and Influence People*):
+  1. **Focus on the Other Person's Perspective**: Always lead with what the customer or investor gains (peace of mind, pride, financial freedom, savings, territorial monopoly). Never write in self-absorbed corporate monologues.
+  2. **Call People by Name**: A person's name is the sweetest sound. Personalize messages with the partner's name, company, and city.
+  3. **The Socratic "Yes, Yes" Technique**: Open arguments on shared, undeniable truths (rising fuel costs, urban mobility challenges, the inevitability of clean electric energy) so the reader agrees from the opening lines.
+  4. **Sincere Appreciation & Respect**: Speak to the reader's intelligence, entrepreneurial courage, and foresight. Absolute ban on cheap flattery, condescension, or aggressive infoproduct pressure ("compre agora", "vagas acabando").
+  5. **Let the Other Person Feel the Idea is Theirs**: Frame facts and numbers clearly so the prospect arrives at the conviction on their own. "A decision you make because it makes sense for your business."
+  6. **Dramatize Ideas with Tangible Stories**: Turn cold numbers into real human moments (e.g. charging at home for R$ 1,80 while sleeping, saving R$ 450/month for family leisure; or a dealer making R$ 4.200 profit in a single Saturday test-ride).
+  7. **Empathetic Objection Handling**: Never say "You are wrong". Always validate the customer's doubt first (*Full Validation + Empathetic Scenario + Factual Reassurance*).
+  8. **Appeal to Nobler Motives**: Connect commercial success to regional leadership, environmental impact, local job creation, and leaving a lasting legacy.
+  9. **Throw Down a Respectful Challenge**: Inspire high-performing entrepreneurs to be the pioneers of their region.
 
 ## Resume Point for Current Session
 1. **Rede de 6 Subagentes Oficiais 100% Concluída e Operacional**:
