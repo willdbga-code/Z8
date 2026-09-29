@@ -40,6 +40,7 @@
   --lcd-bg: #F1F5F9;
   --lcd-border: #CBD5E1;
   --lcd-text: #002C5F;
+  --transition-luxury: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 :root[data-theme="dark"] {
@@ -421,8 +422,15 @@ input:checked + .rocker-slider:before {
   gap: 8px;
   text-decoration: none;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all var(--transition-luxury);
   border: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn-montadora:active {
+  transform: scale(0.982) translateY(1px) !important;
+  transition-duration: 0.08s !important;
 }
 
 .btn-primary-navy {
@@ -665,11 +673,18 @@ input:checked + .rocker-slider:before {
   gap: 8px;
   border: 1px solid var(--border-metal);
   box-shadow: 0 2px 8px rgba(0, 44, 95, 0.05);
-  transition: all 0.2s ease;
+  transition: all var(--transition-luxury);
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .skeuo-button:hover {
   transform: translateY(-1px);
+}
+
+.skeuo-button:active {
+  transform: scale(0.982) translateY(1px) !important;
+  transition-duration: 0.08s !important;
 }
 
 .primary-metal-btn {

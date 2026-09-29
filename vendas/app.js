@@ -100,14 +100,14 @@ function initCepChecker() {
         let neighborBtns = '';
         if (availability.neighbors && availability.neighbors.length > 0) {
           neighborBtns = `
-            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed rgba(239,68,68,0.3);">
-              <span style="font-size: 0.72rem; color: #fecaca; display: block; margin-bottom: 6px; font-weight: 600;">
+            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(239,68,68,0.3);">
+              <span style="font-size: 0.74rem; color: #991B1B; display: block; margin-bottom: 6px; font-weight: 700;">
                 💡 CIDADES VIZINHAS DISPONÍVEIS NO MESMO RAIO DE 50KM:
               </span>
               <div style="display: flex; flex-wrap: wrap; gap: 6px;">
                 ${availability.neighbors.map(n => `
-                  <button type="button" class="btn-neighbor-cep" data-city="${n}" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; font-family: inherit;">
-                    <i class="fa-solid fa-plus text-accent-green"></i> ${n}
+                  <button type="button" class="btn-neighbor-cep" data-city="${n}" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #0F172A; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; font-family: inherit; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+                    <i class="fa-solid fa-plus" style="color: #10B981;"></i> ${n}
                   </button>
                 `).join('')}
               </div>
@@ -116,10 +116,16 @@ function initCepChecker() {
         }
 
         resultMsg.innerHTML = `
-          <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 8px; padding: 12px 14px; margin-top: 10px; text-align: left;">
-            <p style="color: #fca5a5; font-size: 0.82rem; margin-bottom: 6px;">
-              <i class="fa-solid fa-circle-xmark" style="color: #ef4444;"></i> <strong>REGIÃO OCUPADA:</strong> ${availability.city} já possui revendedor exclusivo registrado (${availability.company}).
-            </p>
+          <div class="city-availability-card occupied">
+            <div class="availability-header">
+              <div class="radar-pulse-wrap occupied">
+                <i class="fa-solid fa-circle-xmark radar-core-icon"></i>
+              </div>
+              <div class="availability-info">
+                <strong class="avail-title">TERRITÓRIO EM ATENDIMENTO // ${availability.city.toUpperCase()}</strong>
+                <p class="avail-desc">Esta praça já possui parceiro homologado Z8 (<strong>${availability.company}</strong>). Escolha uma praça vizinha livre no mesmo polo:</p>
+              </div>
+            </div>
             ${neighborBtns}
           </div>
         `;
@@ -133,12 +139,20 @@ function initCepChecker() {
         });
       } else {
         resultMsg.innerHTML = `
-          <div style="background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 8px; padding: 10px 14px; margin-top: 10px;">
-            <p style="color: #fff; font-size: 0.82rem; margin-bottom: 8px;">
-              <i class="fa-solid fa-circle-check text-accent-green"></i> <strong>PRAÇA DISPONÍVEL:</strong> A concessão exclusiva para "<strong>${val.toUpperCase()}</strong>" está livre no momento (raio de 50km)!
-            </p>
-            <button type="button" class="btn-open-checkout" data-city="${val}" style="background: var(--accent-green); color: #000; font-weight: 800; font-size: 0.75rem; padding: 6px 14px; border-radius: 9999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-              <i class="fa-solid fa-shield-halved"></i> RESERVAR MINHA CIDADE COM EXCLUSIVIDADE
+          <div class="city-availability-card available">
+            <div class="availability-header">
+              <div class="radar-pulse-wrap">
+                <span class="radar-ping"></span>
+                <i class="fa-solid fa-shield-halved radar-core-icon"></i>
+              </div>
+              <div class="availability-info">
+                <strong class="avail-title">PRAÇA 100% DISPONÍVEL // 50KM DE MONOPÓLIO</strong>
+                <p class="avail-desc">A concessão oficial exclusiva para <strong>${val.toUpperCase()}</strong> está livre para reserva imediata.</p>
+              </div>
+            </div>
+            <button type="button" class="btn-open-checkout btn-avail-reserve" data-city="${val}">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>RESERVAR MINHA CIDADE COM EXCLUSIVIDADE</span>
             </button>
           </div>
         `;
@@ -655,27 +669,46 @@ function initVehicleLightbox() {
   });
 
   // Pan & Arraste com Touch (Mobile)
+  // Gestos Touch Mobile: Pan quando ampliado e Swipe Left/Right em 1x
+  let touchStartX = 0;
+  let touchStartY = 0;
   viewport.addEventListener('touchstart', (e) => {
-    if (scale <= 1 || e.touches.length !== 1) return;
-    isDragging = true;
-    startX = e.touches[0].clientX - translateX;
-    startY = e.touches[0].clientY - translateY;
+    if (e.touches.length !== 1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    if (scale > 1) {
+      isDragging = true;
+      startX = e.touches[0].clientX - translateX;
+      startY = e.touches[0].clientY - translateY;
+    }
   }, { passive: true });
 
   viewport.addEventListener('touchmove', (e) => {
-    if (!isDragging || e.touches.length !== 1) return;
-    translateX = e.touches[0].clientX - startX;
-    translateY = e.touches[0].clientY - startY;
+    if (scale > 1 && isDragging && e.touches.length === 1) {
+      translateX = e.touches[0].clientX - startX;
+      translateY = e.touches[0].clientY - startY;
 
-    const maxBoundX = (scale - 1) * (viewport.clientWidth * 0.45);
-    const maxBoundY = (scale - 1) * (viewport.clientHeight * 0.45);
-    translateX = Math.max(-maxBoundX, Math.min(maxBoundX, translateX));
-    translateY = Math.max(-maxBoundY, Math.min(maxBoundY, translateY));
+      const maxBoundX = (scale - 1) * (viewport.clientWidth * 0.45);
+      const maxBoundY = (scale - 1) * (viewport.clientHeight * 0.45);
+      translateX = Math.max(-maxBoundX, Math.min(maxBoundX, translateX));
+      translateY = Math.max(-maxBoundY, Math.min(maxBoundY, translateY));
 
-    applyTransform(false);
+      applyTransform(false);
+    }
   }, { passive: true });
 
-  viewport.addEventListener('touchend', () => {
+  viewport.addEventListener('touchend', (e) => {
+    if (scale <= 1 && e.changedTouches.length === 1) {
+      const deltaX = e.changedTouches[0].clientX - touchStartX;
+      const deltaY = e.changedTouches[0].clientY - touchStartY;
+      if (Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX < 0) {
+          loadModel(currentModelIndex + 1); // Swipe left -> Próximo
+        } else {
+          loadModel(currentModelIndex - 1); // Swipe right -> Anterior
+        }
+      }
+    }
     if (isDragging) {
       isDragging = false;
       applyTransform(true);
@@ -791,6 +824,16 @@ function initB2bProfitCalculator() {
     if (annualProfitDisplay) {
       annualProfitDisplay.textContent = `R$ ${annualProfit.toLocaleString('pt-BR')}`;
     }
+
+    // Atualização dinâmica do micro-gráfico de eficiência de capital (ROI)
+    const costBar = document.getElementById('roi-bar-cost');
+    const profitBar = document.getElementById('roi-bar-profit');
+    const roiBadge = document.getElementById('roi-chart-badge');
+    const profitMarginPct = 41;
+    const costPct = 59;
+    if (costBar) costBar.style.width = `${costPct}%`;
+    if (profitBar) profitBar.style.width = `${profitMarginPct}%`;
+    if (roiBadge) roiBadge.textContent = `${profitMarginPct}% Margem Líquida (${unitsPerMonth} un/mês)`;
   }
 
   // Clique interativo direto nas marcações da régua
@@ -1087,8 +1130,9 @@ function initInvestorLeadModal() {
         console.warn('Pre-lead save fallback:', err);
       }
 
-      // Transiciona visualmente para o Passo 2
+      // Transiciona visualmente com slide suave para o Passo 2
       step1El.style.display = 'none';
+      step2El.classList.remove('slide-back');
       step2El.style.display = 'block';
       if (pillStep1) {
         pillStep1.classList.remove('active');
@@ -1105,6 +1149,7 @@ function initInvestorLeadModal() {
     btnBackToStep1.addEventListener('click', (e) => {
       e.preventDefault();
       step2El.style.display = 'none';
+      step1El.classList.add('slide-back');
       step1El.style.display = 'block';
       if (pillStep1) {
         pillStep1.classList.add('active');

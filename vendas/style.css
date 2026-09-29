@@ -53,6 +53,7 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-luxury: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Reset Global & Trava de Overflow */
@@ -1156,6 +1157,111 @@ button {
   min-height: 20px;
 }
 
+/* Feedback Radial & Expansão de Cidade / CEP (Item 9) */
+.city-availability-card {
+  margin-top: 14px;
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: availSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(0, 44, 95, 0.06);
+}
+
+.city-availability-card.available {
+  background: #F0FDF4;
+  border: 1.5px solid #86EFAC;
+}
+
+.city-availability-card.occupied {
+  background: #FEF2F2;
+  border: 1.5px solid #FECACA;
+}
+
+.availability-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.radar-pulse-wrap {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #DCFCE7;
+  color: #16A34A;
+}
+
+.radar-pulse-wrap.occupied {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.radar-ping {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.4);
+  animation: radarPing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes radarPing {
+  0% { transform: scale(0.8); opacity: 1; }
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+
+@keyframes availSlideIn {
+  0% { opacity: 0; transform: translateY(-8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.avail-title {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0F172A;
+  letter-spacing: -0.01em;
+}
+
+.avail-desc {
+  font-size: 0.82rem;
+  color: #334155;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+.btn-avail-reserve {
+  background: var(--accent-navy);
+  color: #FFFFFF !important;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(0, 44, 95, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  width: fit-content;
+}
+
+.btn-avail-reserve:hover {
+  background: #001A3A;
+  transform: translateY(-1px);
+}
+
 /* --------------------------------------------------------------------------
    5. SUPPLY CHAIN & CERTIFICATIONS INFINITE MARQUEE
    -------------------------------------------------------------------------- */
@@ -1663,6 +1769,7 @@ button {
   align-items: flex-start;
   gap: 8px;
   margin-bottom: 6px;
+  min-height: 48px; /* Alinhamento ótico rígido */
 }
 
 .product-model-name {
@@ -1670,7 +1777,7 @@ button {
   font-size: 1.05rem;
   font-weight: 700;
   color: #0F172A;
-  line-height: 1.15;
+  line-height: 1.25;
 }
 
 .product-specs-pill {
@@ -1681,6 +1788,7 @@ button {
   gap: 6px;
   margin-bottom: 12px;
   flex-wrap: wrap;
+  min-height: 22px; /* Uniformiza linha de especificações */
 }
 
 /* Bloco de Lucro do Revendedor por Unidade */
@@ -1696,6 +1804,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
+  min-height: 56px; /* Alinha horizontalmente caixas de lucro */
 }
 
 .profit-label {
@@ -2006,6 +2115,23 @@ button {
   font-weight: 900;
 }
 
+@media (max-width: 540px) {
+  .calc-ruler {
+    height: 28px;
+    margin-top: 14px;
+  }
+  .ruler-tick.tick-minor .tick-notch {
+    opacity: 0.35;
+    height: 3px;
+  }
+  .ruler-tick.tick-minor {
+    pointer-events: none;
+  }
+  .ruler-tick .tick-label {
+    font-size: 0.65rem;
+  }
+}
+
 .calc-benefits-list {
   display: flex;
   flex-direction: column;
@@ -2107,6 +2233,105 @@ button {
 .result-divider-top {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   padding-top: 18px;
+}
+
+/* Micro-Gráfico de Retorno Proporcional (ROI / Margem Líquida) */
+.calc-roi-chart-wrap {
+  margin-top: 6px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.roi-chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.roi-chart-title {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: #94A3B8;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.roi-chart-title i {
+  color: #38BDF8;
+}
+
+.roi-chart-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #38BDF8;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-weight: 800;
+}
+
+.roi-progress-track {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 9999px;
+  overflow: hidden;
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.roi-bar-cost {
+  height: 100%;
+  background: #64748B;
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.roi-bar-profit {
+  height: 100%;
+  background: linear-gradient(90deg, #10B981, #34D399);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+  transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.roi-chart-legend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.68rem;
+  color: #CBD5E1;
+  font-family: var(--font-mono);
+}
+
+.roi-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.legend-dot.cost {
+  background: #64748B;
+}
+
+.legend-dot.profit {
+  background: #10B981;
 }
 
 .btn-calc-cta {
@@ -2630,6 +2855,25 @@ button {
   background: #CBD5E1;
 }
 
+/* Transição em Slide do Modal Wizard (Item 10) */
+.form-wizard-step {
+  animation: wizardStepInRight 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form-wizard-step.slide-back {
+  animation: wizardStepInLeft 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes wizardStepInRight {
+  0% { opacity: 0; transform: translateX(20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes wizardStepInLeft {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
 .step-nav-actions {
   display: flex;
   gap: 10px;
@@ -3133,7 +3377,7 @@ button {
 
 @media (max-width: 768px) {
   body {
-    padding-bottom: 74px; /* Espaço para a barra flutuante não cobrir o rodapé */
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
   }
 
   .mobile-sticky-action-bar {
@@ -3141,18 +3385,19 @@ button {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 64px;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    height: auto;
+    min-height: 64px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid rgba(0, 44, 95, 0.12);
-    box-shadow: 0 -4px 25px rgba(0, 44, 95, 0.08);
+    box-shadow: 0 -6px 25px rgba(0, 44, 95, 0.09);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 8px 14px;
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
-    z-index: 99;
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 0px));
+    z-index: 999;
   }
 
   .sticky-bar-link {
@@ -3635,9 +3880,11 @@ button {
     justify-content: space-between;
   }
   .btn-lightbox-nav {
-    width: 36px;
-    height: 36px;
-    font-size: 0.85rem;
+    width: 44px;
+    height: 44px;
+    font-size: 0.95rem;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
   }
   .btn-lightbox-nav.prev {
     left: 8px;
@@ -3650,4 +3897,40 @@ button {
   }
 }
 
+/* ==========================================================================
+   ITEM 12: FÍSICA MECÂNICA E FEEDBACK TÁTIL GLOBAL (LUXURY MOTOR DYNAMICS)
+   ========================================================================== */
+.btn-hero-primary,
+.btn-calc-cta,
+.btn-tripwire-action,
+.btn-card-reserve,
+.btn-neighbor-cep,
+.stage-switch-btn,
+.btn-wizard-nav,
+.btn-submit-wizard,
+.btn-lightbox-nav,
+.btn-lightbox-close,
+.btn-filter,
+.btn-view-toggle,
+.mobile-sticky-btn {
+  transition: transform var(--transition-luxury), background-color var(--transition-luxury), border-color var(--transition-luxury), box-shadow var(--transition-luxury) !important;
+  user-select: none;
+  -webkit-user-select: none;
+}
 
+.btn-hero-primary:active,
+.btn-calc-cta:active,
+.btn-tripwire-action:active,
+.btn-card-reserve:active,
+.btn-neighbor-cep:active,
+.stage-switch-btn:active,
+.btn-wizard-nav:active,
+.btn-submit-wizard:active,
+.btn-lightbox-nav:active,
+.btn-lightbox-close:active,
+.btn-filter:active,
+.btn-view-toggle:active,
+.mobile-sticky-btn:active {
+  transform: scale(0.982) translateY(1px) !important;
+  transition-duration: 0.08s !important;
+}
