@@ -685,7 +685,7 @@ function renderCompliance() {
 
   container.innerHTML = complianceInfo.map(item => `
     <div class="skeuo-card compliance-card">
-      <h3><i class="fa-solid fa-shield-check text-emerald"></i> ${item.title}</h3>
+      <h3><i class="fa-solid fa-shield-halved text-emerald"></i> ${item.title}</h3>
       <p>${item.desc}</p>
     </div>
   `).join('');

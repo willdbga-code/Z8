@@ -1343,7 +1343,7 @@ function initInvestorLeadModal() {
         successView.style.display = 'block';
 
         if (successBadge) {
-          successBadge.innerHTML = `<i class="fa-solid fa-shield-check"></i> ${temperatureTitle}`;
+          successBadge.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${temperatureTitle}`;
         }
 
         if (scoreCard) {
