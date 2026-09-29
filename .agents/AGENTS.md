@@ -200,3 +200,9 @@
    - **Landing Page B2B (`/vendas/`)**: Tokens alinhados em `#F4F5F7` e `#002C5F`, tipografia `Outfit`, seletor de cores nos 10 modelos, wizard progressivo em 2 etapas com auto-save e Mobile Sticky Action Bar.
    - **Portal Hub (`/`)**: Totalmente modernizado para padrão corporativo com badges institucionais e cards refinados.
    - **Build & Responsividade**: `npm run build` testado com 100% de sucesso (0 erros de bundling) e calibração responsiva mobile (< 480px, 640px, 768px, 1024px+).
+6. **Auditoria 360, Humanização & Limpeza Profunda (100% Concluída)**:
+   - **Expurgo do Balão Inferior Esquerdo**: Remoção integral de `#live-sales-popup` e de scripts de compradores simulados (`initLiveSalesPopups`, `initCountdownTimer`, `initSeatDecreaser`).
+   - **Remoção de Redundâncias**: Eliminação do footer duplicado intermediário em `/vendas/` e fusão da seção intermediária de franquia diretamente no rodapé de `/site-principal/`, desobstruindo o fluxo de rolagem.
+   - **Ampliação do Fluxo de Leitura**: Aumento das fontes corporais (de 11-13px para 15-18px / 1rem - 1.08rem) e altura de linha (1.68) para legibilidade descansada.
+   - **Humanização de Tom & Linguagem**: Eliminação de termos de infoproduto ("tripwire", "master card", "taxa gratuita") em prol de comunicação executiva de concessão de montadora.
+   - **Correção de Contraste**: Resolução de textos brancos herdados do modo escuro sobre o novo fundo cinza claro.

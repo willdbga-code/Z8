@@ -369,3 +369,11 @@
 - **Engenharia de Responsividade & Build**:
   - Calibra√ß√£o completa para Mobile (< 480px, 640px), Tablet (768px, 900px) e Desktop (1024px+).
   - `npm run build` executado com 100% de sucesso sem qualquer erro de bundling ou depend√™ncia.
+
+### 8.4 Auditoria 360, HumanizaÁ„o & Limpeza Profunda de ResquÌcios
+
+- **ErradicaÁ„o do Bal„o Flutuante Inferior Esquerdo**: Removido #live-sales-popup e o loop de compradores fictÌcios.
+- **EliminaÁ„o de Falsa UrgÍncia**: Removidos #top-timer e #seats-left em prol de an˙ncio corporativo.
+- **RemoÁ„o de Redund‚ncias**: Footer duplicado eliminado em /vendas/ e seÁ„o de franquia fundida no rodapÈ de /site-principal/.
+- **AmpliaÁ„o do Fluxo de Leitura**: Fontes ampliadas para 1rem-1.08rem com line-height 1.68.
+- **HumanizaÁ„o**: SubstituiÁ„o de jargıes de infoproduto por tom de concess„o de montadora.

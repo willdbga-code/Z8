@@ -658,12 +658,12 @@ button {
 
 .section-headline {
   font-family: var(--font-heading);
-  font-size: clamp(1.5rem, 3.4vw, 2.8rem);
+  font-size: clamp(1.75rem, 3.8vw, 3rem);
   font-weight: 800;
-  color: #ffffff;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  max-width: 720px;
+  color: var(--accent-slate);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  max-width: 800px;
   word-break: break-word;
 }
 
@@ -741,18 +741,18 @@ button {
 
 .bento-title {
   font-family: var(--font-heading);
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.2;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent-slate);
+  line-height: 1.25;
   margin-top: 6px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .bento-text {
-  font-size: 0.84rem;
+  font-size: 1rem;
   color: var(--text-muted);
-  line-height: 1.55;
+  line-height: 1.68;
 }
 
 .bento-feature-list {
@@ -1217,16 +1217,16 @@ button {
   background: var(--accent-navy);
   border: 1px solid var(--accent-navy);
   color: #FFFFFF;
-  padding: 10px;
+  padding: 12px 14px;
   border-radius: var(--radius-sm);
-  font-size: 0.72rem;
+  font-size: 0.86rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
   white-space: nowrap;
   transition: all var(--transition-fast);
 }
@@ -1855,44 +1855,7 @@ button {
   color: #7dd3fc;
 }
 
-/* Toast de Prova Social Flutuante */
-.live-toast-b2b {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  background: rgba(13, 13, 13, 0.95);
-  border: 1px solid var(--border-medium);
-  border-left: 3px solid var(--accent-green);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(10px);
-  z-index: 45;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 320px;
-  transform: translateY(120px);
-  opacity: 0;
-  transition: all var(--transition-normal);
-  pointer-events: none;
-}
 
-.live-toast-b2b.show {
-  transform: translateY(0);
-  opacity: 1;
-}
-
-@media (max-width: 640px) {
-  .live-toast-b2b {
-    left: 12px;
-    right: 12px;
-    bottom: 16px;
-    max-width: calc(100% - 24px);
-    padding: 10px 12px;
-    font-size: 0.75rem;
-  }
-}
 
 /* --------------------------------------------------------------------------
    11. FOOTER CORPORATIVO
