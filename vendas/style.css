@@ -1120,6 +1120,23 @@ button {
   .catalog-header-wrap {
     flex-direction: row;
     align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.catalog-controls-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .catalog-controls-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 }
 
@@ -1140,6 +1157,7 @@ button {
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
     width: 100%;
+    padding-bottom: 6px;
   }
 }
 
@@ -1154,23 +1172,154 @@ button {
   white-space: nowrap;
   flex-shrink: 0;
   transition: all var(--transition-fast);
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .catalog-tab-btn:hover {
-  color: #fff;
+  color: #002C5F;
 }
 
 .catalog-tab-btn.active {
-  background: #ffffff;
-  color: #000000;
+  background: #002C5F;
+  color: #FFFFFF;
   font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 44, 95, 0.2);
 }
 
+/* Controles do Seletor em Modo Slide (Hyundai Carrousel Refinado) */
+.catalog-slider-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.slider-counter-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.counter-label {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.counter-value {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent-slate);
+}
+
+.counter-value strong {
+  color: #002C5F;
+  font-weight: 800;
+}
+
+.slider-arrows-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-slide-nav {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: #FFFFFF;
+  border: 1px solid var(--border-subtle);
+  color: var(--accent-slate);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-slide-nav:hover:not(:disabled) {
+  background: #002C5F;
+  border-color: #002C5F;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 44, 95, 0.18);
+}
+
+.btn-slide-nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.catalog-view-toggle {
+  display: inline-flex;
+  background: #E2E8F0;
+  padding: 3px;
+  border-radius: var(--radius-sm);
+  gap: 2px;
+}
+
+.btn-view-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+  border-radius: calc(var(--radius-sm) - 2px);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-view-toggle:hover {
+  color: #002C5F;
+}
+
+.btn-view-toggle.active {
+  background: #FFFFFF;
+  color: #002C5F;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 480px) {
+  .catalog-slider-controls {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .slider-counter-box {
+    padding: 5px 8px;
+  }
+  .btn-slide-nav {
+    width: 34px;
+    height: 34px;
+  }
+  .btn-view-toggle {
+    padding: 4px 8px;
+    font-size: 0.68rem;
+  }
+}
+
+/* Grid Padrão */
 .catalog-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 16px;
   width: 100%;
+  transition: opacity 0.25s ease;
 }
 
 @media (min-width: 580px) {
@@ -1189,6 +1338,64 @@ button {
 @media (min-width: 1360px) {
   .catalog-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Modo Slide Horizontal (Carrossel Interativo de Montadora) */
+.catalog-grid.mode-slide {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-snap-type: x mandatory !important;
+  gap: 20px !important;
+  scroll-behavior: smooth !important;
+  -webkit-overflow-scrolling: touch !important;
+  padding: 8px 4px 22px 4px !important;
+  scrollbar-width: thin;
+  scrollbar-color: #94A3B8 rgba(0, 0, 0, 0.05);
+}
+
+.catalog-grid.mode-slide::-webkit-scrollbar {
+  height: 8px;
+}
+
+.catalog-grid.mode-slide::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+}
+
+.catalog-grid.mode-slide::-webkit-scrollbar-thumb {
+  background: #94A3B8;
+  border-radius: 9999px;
+  border: 2px solid #F4F5F7;
+}
+
+.catalog-grid.mode-slide::-webkit-scrollbar-thumb:hover {
+  background: #002C5F;
+}
+
+.catalog-grid.mode-slide .product-card-editorial {
+  flex: 0 0 min(86vw, 340px) !important;
+  scroll-snap-align: start !important;
+  scroll-snap-stop: normal !important;
+}
+
+@media (min-width: 640px) {
+  .catalog-grid.mode-slide .product-card-editorial {
+    flex: 0 0 calc(50% - 10px) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .catalog-grid.mode-slide .product-card-editorial {
+    flex: 0 0 calc(33.333% - 14px) !important;
+  }
+}
+
+@media (min-width: 1360px) {
+  .catalog-grid.mode-slide .product-card-editorial {
+    flex: 0 0 calc(25% - 15px) !important;
   }
 }
 
@@ -1251,6 +1458,46 @@ button {
   font-weight: 600;
   letter-spacing: 0.05em;
   z-index: 2;
+}
+
+/* Botão de Ampliação e Inspeção no Card */
+.btn-card-zoom-trigger {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #FFFFFF;
+  padding: 5px 10px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 3;
+  opacity: 0.9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.product-card-editorial:hover .btn-card-zoom-trigger,
+.btn-card-zoom-trigger:hover {
+  opacity: 1;
+  background: #002C5F;
+  border-color: #38BDF8;
+  color: #FFFFFF;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 44, 95, 0.4);
+}
+
+.product-image-wrap {
+  cursor: pointer;
 }
 
 /* Seletor de Cores Interativo de Montadora (Hyundai Sensuous Sportiness) */
@@ -2597,6 +2844,431 @@ button {
     color: rgba(255, 255, 255, 0.85);
     font-family: var(--font-mono);
     white-space: nowrap;
+  }
+}
+
+/* ==========================================================================
+   14. AMPLIADOR DE IMAGEM & INSPEÇÃO EM ALTA RESOLUÇÃO (ESTÚDIO Z8 LUXURY)
+   ========================================================================== */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(10, 15, 25, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+}
+
+.lightbox-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.lightbox-container {
+  background: #0F172A;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+  width: 100%;
+  max-width: 1200px;
+  height: min(92vh, 840px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  animation: lightboxIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes lightboxIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Header */
+.lightbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: rgba(15, 23, 42, 0.96);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 10;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.lightbox-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lightbox-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #38BDF8;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lightbox-dot-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #38BDF8;
+  box-shadow: 0 0 8px #38BDF8;
+}
+
+.lightbox-model-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.lightbox-model-specs {
+  font-size: 0.8rem;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.lightbox-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lightbox-zoom-bar {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  gap: 4px;
+}
+
+.btn-lightbox-tool {
+  width: 34px;
+  height: 34px;
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: transparent;
+  border: none;
+  color: #E2E8F0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 0.82rem;
+  gap: 4px;
+}
+
+.btn-lightbox-tool:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+}
+
+.btn-lightbox-tool .tool-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.lightbox-zoom-level {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #38BDF8;
+  min-width: 44px;
+  text-align: center;
+}
+
+.btn-lightbox-close {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 1rem;
+}
+
+.btn-lightbox-close:hover {
+  background: #EF4444;
+  border-color: #EF4444;
+  transform: scale(1.05);
+}
+
+/* Viewport & Canvas */
+.lightbox-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #1E293B 0%, #090D16 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+
+.lightbox-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.lightbox-hint-badge {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #94A3B8;
+  font-size: 0.72rem;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.5s ease;
+}
+
+.lightbox-stage-canvas {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  will-change: transform;
+  user-select: none;
+}
+
+.lightbox-active-img {
+  max-width: 90%;
+  max-height: 85%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Setas de Navegação entre Veículos */
+.btn-lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 6;
+  font-size: 1rem;
+}
+
+.btn-lightbox-nav:hover {
+  background: #002C5F;
+  border-color: #38BDF8;
+  color: #FFFFFF;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.btn-lightbox-nav.prev {
+  left: 16px;
+}
+
+.btn-lightbox-nav.next {
+  right: 16px;
+}
+
+/* Rodapé do Ampliador */
+.lightbox-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: rgba(15, 23, 42, 0.96);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 10;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.lightbox-footer-color-col {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.lightbox-col-label {
+  font-size: 0.76rem;
+  color: #94A3B8;
+}
+
+.lightbox-col-label strong {
+  color: #FFFFFF;
+}
+
+.lightbox-swatches-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lightbox-swatch-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.lightbox-swatch-btn:hover {
+  transform: scale(1.18);
+  border-color: #FFFFFF;
+}
+
+.lightbox-swatch-btn.active {
+  border-color: #38BDF8;
+  box-shadow: 0 0 0 2px #0F172A, 0 0 0 4px #38BDF8;
+  transform: scale(1.12);
+}
+
+.lightbox-footer-action-col {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.lightbox-profit-display {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+}
+
+.lightbox-profit-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #94A3B8;
+  letter-spacing: 0.04em;
+}
+
+.lightbox-profit-val {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: #10B981;
+  font-weight: 800;
+}
+
+.btn-lightbox-reserve {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #002C5F;
+  color: #FFFFFF;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-lightbox-reserve:hover {
+  background: #001E42;
+  border-color: #38BDF8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 44, 95, 0.4);
+}
+
+/* Responsividade do Ampliador */
+@media (max-width: 768px) {
+  .lightbox-container {
+    height: 96vh;
+    border-radius: var(--radius-md);
+  }
+  .lightbox-header {
+    padding: 12px 14px;
+  }
+  .lightbox-model-name {
+    font-size: 1.05rem;
+  }
+  .lightbox-model-specs {
+    font-size: 0.72rem;
+  }
+  .lightbox-footer {
+    padding: 12px 14px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .lightbox-footer-action-col {
+    justify-content: space-between;
+  }
+  .btn-lightbox-nav {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+  .btn-lightbox-nav.prev {
+    left: 8px;
+  }
+  .btn-lightbox-nav.next {
+    right: 8px;
+  }
+  .lightbox-hint-badge {
+    display: none;
   }
 }
 

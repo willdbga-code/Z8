@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroStageSwitcher();
   initCepChecker();
   initCatalogTabs();
+  initCatalogSlider();
+  initVehicleLightbox();
   initColorSwatches();
   initB2bProfitCalculator();
   initFaqAccordion();
@@ -180,32 +182,533 @@ function openModalWithCity(cityName) {
 }
 
 /* --------------------------------------------------------------------------
-   4. FILTRO DE CATEGORIAS DO CATÁLOGO TABULADO (AWWWARDS STYLE)
+   4. FILTRO DE CATEGORIAS E SELETOR EM MODO SLIDE (CARROSSEL HYUNDAI MOTOR)
    -------------------------------------------------------------------------- */
+let updateSlideCounterGlobal = null;
+
 function initCatalogTabs() {
-  const tabs = document.querySelectorAll('.cat-pill-tab');
-  const cards = document.querySelectorAll('.product-showcase-card');
+  const tabBtns = document.querySelectorAll('.catalog-tab-btn');
+  const cards = document.querySelectorAll('.product-card-editorial');
+  const gridEl = document.getElementById('catalog-grid-cards');
 
-  if (!tabs.length || !cards.length) return;
+  if (!tabBtns.length || !cards.length) return;
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabBtns.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
 
-      const filter = tab.getAttribute('data-filter');
+      const filter = btn.getAttribute('data-category');
 
       cards.forEach(card => {
-        const cat = card.getAttribute('data-category');
+        const cat = card.getAttribute('data-cat');
         if (filter === 'all' || cat === filter) {
-          card.style.display = 'block';
-          card.style.animation = 'fadeIn 0.35s ease';
+          card.style.display = '';
+          card.classList.remove('is-filtered-out');
         } else {
           card.style.display = 'none';
+          card.classList.add('is-filtered-out');
         }
       });
+
+      // Retorna ao primeiro card visível
+      if (gridEl) {
+        gridEl.scrollTo({ left: 0, behavior: 'smooth' });
+      }
+
+      if (typeof updateSlideCounterGlobal === 'function') {
+        updateSlideCounterGlobal();
+      }
     });
   });
+}
+
+function initCatalogSlider() {
+  const gridEl = document.getElementById('catalog-grid-cards');
+  const prevBtn = document.getElementById('catalog-slide-prev');
+  const nextBtn = document.getElementById('catalog-slide-next');
+  const counterEl = document.getElementById('catalog-slide-counter');
+  const viewSlideBtn = document.getElementById('catalog-view-slide');
+  const viewGridBtn = document.getElementById('catalog-view-grid');
+
+  if (!gridEl) return;
+
+  function getVisibleCards() {
+    return Array.from(gridEl.querySelectorAll('.product-card-editorial')).filter(c => c.style.display !== 'none');
+  }
+
+  function updateCounterAndArrows() {
+    const visibleCards = getVisibleCards();
+    const total = visibleCards.length;
+    if (total === 0) {
+      if (counterEl) counterEl.innerHTML = '<strong>00</strong> / 00';
+      if (prevBtn) prevBtn.disabled = true;
+      if (nextBtn) nextBtn.disabled = true;
+      return;
+    }
+
+    if (!gridEl.classList.contains('mode-slide')) {
+      if (counterEl) counterEl.innerHTML = `<strong>${String(total).padStart(2, '0')}</strong> / ${String(total).padStart(2, '0')}`;
+      if (prevBtn) prevBtn.disabled = true;
+      if (nextBtn) nextBtn.disabled = true;
+      return;
+    }
+
+    const scrollLeft = gridEl.scrollLeft;
+    const maxScroll = Math.max(0, gridEl.scrollWidth - gridEl.clientWidth);
+
+    // Achar o card visível mais próximo do início da visualização
+    let currentIndex = 0;
+    let minDiff = Infinity;
+    visibleCards.forEach((card, idx) => {
+      const diff = Math.abs(card.offsetLeft - gridEl.offsetLeft - scrollLeft);
+      if (diff < minDiff) {
+        minDiff = diff;
+        currentIndex = idx;
+      }
+    });
+
+    const activeNum = String(currentIndex + 1).padStart(2, '0');
+    const totalNum = String(total).padStart(2, '0');
+    if (counterEl) {
+      counterEl.innerHTML = `<strong>${activeNum}</strong> / ${totalNum}`;
+    }
+
+    if (prevBtn) {
+      prevBtn.disabled = scrollLeft <= 8;
+    }
+    if (nextBtn) {
+      nextBtn.disabled = scrollLeft >= maxScroll - 8;
+    }
+  }
+
+  updateSlideCounterGlobal = updateCounterAndArrows;
+
+  // Navegação Prev / Next
+  function getStepWidth() {
+    const visibleCards = getVisibleCards();
+    if (visibleCards.length > 0) {
+      const firstCard = visibleCards[0];
+      const style = window.getComputedStyle(gridEl);
+      const gap = parseFloat(style.gap) || 20;
+      return firstCard.offsetWidth + gap;
+    }
+    return 340;
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const step = getStepWidth();
+      gridEl.scrollBy({ left: -step, behavior: 'smooth' });
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const step = getStepWidth();
+      gridEl.scrollBy({ left: step, behavior: 'smooth' });
+    });
+  }
+
+  // Scroll listener com throttle rAF
+  let ticking = false;
+  gridEl.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateCounterAndArrows();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Alternador de Visualização (Slide vs Grade)
+  if (viewSlideBtn && viewGridBtn) {
+    viewSlideBtn.addEventListener('click', () => {
+      viewSlideBtn.classList.add('active');
+      viewGridBtn.classList.remove('active');
+      gridEl.classList.add('mode-slide');
+      updateCounterAndArrows();
+    });
+
+    viewGridBtn.addEventListener('click', () => {
+      viewGridBtn.classList.add('active');
+      viewSlideBtn.classList.remove('active');
+      gridEl.classList.remove('mode-slide');
+      updateCounterAndArrows();
+    });
+  }
+
+  // Inicializa o estado
+  updateCounterAndArrows();
+}
+
+/* --------------------------------------------------------------------------
+   4.2 AMPLIADOR DE IMAGEM & INSPEÇÃO EM ALTA RESOLUÇÃO (ESTÚDIO Z8 LUXURY)
+   -------------------------------------------------------------------------- */
+function initVehicleLightbox() {
+  const modal = document.getElementById('vehicle-lightbox-modal');
+  const closeBtn = document.getElementById('lightbox-btn-close');
+  const viewport = document.getElementById('lightbox-viewport');
+  const canvas = document.getElementById('lightbox-stage-canvas');
+  const activeImg = document.getElementById('lightbox-active-img');
+  const modelNameEl = document.getElementById('lightbox-model-name');
+  const modelSpecsEl = document.getElementById('lightbox-model-specs');
+  const zoomLevelEl = document.getElementById('lightbox-zoom-level');
+  const zoomInBtn = document.getElementById('lightbox-zoom-in');
+  const zoomOutBtn = document.getElementById('lightbox-zoom-out');
+  const zoomResetBtn = document.getElementById('lightbox-zoom-reset');
+  const navPrevBtn = document.getElementById('lightbox-nav-prev');
+  const navNextBtn = document.getElementById('lightbox-nav-next');
+  const swatchesContainer = document.getElementById('lightbox-swatches-container');
+  const activeColorNameEl = document.getElementById('lightbox-active-color-name');
+  const profitValEl = document.getElementById('lightbox-profit-val');
+  const reserveBtn = document.getElementById('lightbox-btn-reserve');
+  const hintBadge = document.getElementById('lightbox-hint-badge');
+
+  if (!modal || !viewport || !canvas || !activeImg) return;
+
+  // Estado do Ampliador
+  let currentModelIndex = 0;
+  let scale = 1;
+  const minScale = 1;
+  const maxScale = 3.5;
+  const stepScale = 0.5;
+  let translateX = 0;
+  let translateY = 0;
+  let isDragging = false;
+  let startX = 0;
+  let startY = 0;
+
+  // Coleta referências dos cards
+  const cards = Array.from(document.querySelectorAll('.product-card-editorial'));
+  if (!cards.length) return;
+
+  function getModelData(card) {
+    const name = card.querySelector('.product-model-name')?.textContent?.trim() || 'Z8 E-Motion';
+    const specs = card.querySelector('.product-specs-pill')?.textContent?.trim() || '';
+    const imgEl = card.querySelector('.product-img');
+    const mainImgSrc = imgEl ? (imgEl.currentSrc || imgEl.src) : '';
+    const profitEl = card.querySelector('.price-val-profit')?.textContent?.trim() || '+ R$ 4.000,00';
+
+    const swatches = Array.from(card.querySelectorAll('.color-swatch-btn')).map(sw => ({
+      color: sw.getAttribute('data-color') || '',
+      img: sw.getAttribute('data-img') || '',
+      bg: sw.style.backgroundColor || '#000000',
+      isActive: sw.classList.contains('active')
+    }));
+
+    return { name, specs, mainImgSrc, profit: profitEl, swatches };
+  }
+
+  function applyTransform(withTransition = false) {
+    if (withTransition) {
+      canvas.style.transition = 'transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+    } else {
+      canvas.style.transition = 'none';
+    }
+    canvas.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale(${scale})`;
+
+    if (zoomLevelEl) {
+      zoomLevelEl.textContent = `${Math.round(scale * 100)}%`;
+    }
+
+    if (scale <= 1) {
+      translateX = 0;
+      translateY = 0;
+      viewport.style.cursor = 'grab';
+    } else {
+      viewport.style.cursor = isDragging ? 'grabbing' : 'grab';
+    }
+  }
+
+  function resetZoom() {
+    scale = 1;
+    translateX = 0;
+    translateY = 0;
+    applyTransform(true);
+  }
+
+  function setZoom(newScale, withTransition = true) {
+    scale = Math.min(Math.max(newScale, minScale), maxScale);
+    if (scale === 1) {
+      translateX = 0;
+      translateY = 0;
+    }
+    applyTransform(withTransition);
+  }
+
+  function loadModel(index) {
+    if (index < 0) index = cards.length - 1;
+    if (index >= cards.length) index = 0;
+    currentModelIndex = index;
+
+    const card = cards[currentModelIndex];
+    const data = getModelData(card);
+
+    if (modelNameEl) modelNameEl.textContent = data.name;
+    if (modelSpecsEl) modelSpecsEl.textContent = data.specs;
+    if (profitValEl) profitValEl.textContent = data.profit;
+
+    // Reseta zoom ao trocar de modelo
+    resetZoom();
+
+    // Injeta Swatches na Lightbox
+    if (swatchesContainer) {
+      swatchesContainer.innerHTML = '';
+      const activeColor = data.swatches.find(s => s.isActive) || data.swatches[0];
+
+      data.swatches.forEach(sw => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `lightbox-swatch-btn ${sw.isActive ? 'active' : ''}`;
+        btn.style.backgroundColor = sw.bg;
+        btn.title = sw.color;
+        btn.setAttribute('aria-label', sw.color);
+
+        btn.addEventListener('click', () => {
+          swatchesContainer.querySelectorAll('.lightbox-swatch-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          if (activeColorNameEl) activeColorNameEl.textContent = sw.color;
+
+          activeImg.style.opacity = '0.35';
+          const preloader = new Image();
+          preloader.onload = () => {
+            activeImg.src = sw.img;
+            activeImg.style.opacity = '1';
+          };
+          preloader.src = sw.img;
+        });
+
+        swatchesContainer.appendChild(btn);
+      });
+
+      if (activeColorNameEl && activeColor) {
+        activeColorNameEl.textContent = activeColor.color;
+      }
+    }
+
+    // Carrega imagem principal
+    activeImg.style.opacity = '0.35';
+    const preloader = new Image();
+    preloader.onload = () => {
+      activeImg.src = data.mainImgSrc;
+      activeImg.style.opacity = '1';
+    };
+    preloader.src = data.mainImgSrc;
+  }
+
+  function openLightbox(index) {
+    loadModel(index);
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    // Oculta hint após 4 segundos
+    if (hintBadge) {
+      hintBadge.style.opacity = '1';
+      setTimeout(() => {
+        hintBadge.style.opacity = '0';
+      }, 4000);
+    }
+  }
+
+  function closeLightbox() {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    resetZoom();
+  }
+
+  // Ouvintes nos Cards: Botão "AMPLIAR" ou clique na imagem
+  cards.forEach((card, idx) => {
+    const zoomTrigger = card.querySelector('.btn-card-zoom-trigger');
+    const imgWrap = card.querySelector('.product-image-wrap');
+
+    if (zoomTrigger) {
+      zoomTrigger.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openLightbox(idx);
+      });
+    }
+
+    if (imgWrap) {
+      imgWrap.addEventListener('click', (e) => {
+        // Se não clicou no seletor de cores ou botão de reserva
+        if (!e.target.closest('.color-swatches-row') && !e.target.closest('.btn-card-reserve')) {
+          openLightbox(idx);
+        }
+      });
+    }
+  });
+
+  // Fechamento
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeLightbox);
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') loadModel(currentModelIndex - 1);
+    if (e.key === 'ArrowRight') loadModel(currentModelIndex + 1);
+    if (e.key === '+' || e.key === '=') setZoom(scale + stepScale);
+    if (e.key === '-' || e.key === '_') setZoom(scale - stepScale);
+    if (e.key === '0') resetZoom();
+  });
+
+  // Navegação Prev / Next
+  if (navPrevBtn) {
+    navPrevBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadModel(currentModelIndex - 1);
+    });
+  }
+
+  if (navNextBtn) {
+    navNextBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadModel(currentModelIndex + 1);
+    });
+  }
+
+  // Botões de Zoom
+  if (zoomInBtn) {
+    zoomInBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setZoom(scale + stepScale);
+    });
+  }
+
+  if (zoomOutBtn) {
+    zoomOutBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      setZoom(scale - stepScale);
+    });
+  }
+
+  if (zoomResetBtn) {
+    zoomResetBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      resetZoom();
+    });
+  }
+
+  // Double-Click / Double-Tap para alternar zoom 1x / 2x
+  let lastTap = 0;
+  viewport.addEventListener('click', (e) => {
+    const now = Date.now();
+    if (now - lastTap < 300) {
+      if (scale > 1) {
+        resetZoom();
+      } else {
+        setZoom(2);
+      }
+    }
+    lastTap = now;
+  });
+
+  // Zoom pelo Mouse Wheel
+  viewport.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 0.25 : -0.25;
+    setZoom(scale + delta, false);
+  }, { passive: false });
+
+  // Pan & Arraste com Mouse
+  viewport.addEventListener('mousedown', (e) => {
+    if (scale <= 1) return;
+    isDragging = true;
+    viewport.classList.add('is-dragging');
+    startX = e.clientX - translateX;
+    startY = e.clientY - translateY;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    translateX = e.clientX - startX;
+    translateY = e.clientY - startY;
+
+    // Limites de deslocamento com base no zoom
+    const maxBoundX = (scale - 1) * (viewport.clientWidth * 0.45);
+    const maxBoundY = (scale - 1) * (viewport.clientHeight * 0.45);
+    translateX = Math.max(-maxBoundX, Math.min(maxBoundX, translateX));
+    translateY = Math.max(-maxBoundY, Math.min(maxBoundY, translateY));
+
+    applyTransform(false);
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      viewport.classList.remove('is-dragging');
+      applyTransform(true);
+    }
+  });
+
+  // Pan & Arraste com Touch (Mobile)
+  viewport.addEventListener('touchstart', (e) => {
+    if (scale <= 1 || e.touches.length !== 1) return;
+    isDragging = true;
+    startX = e.touches[0].clientX - translateX;
+    startY = e.touches[0].clientY - translateY;
+  }, { passive: true });
+
+  viewport.addEventListener('touchmove', (e) => {
+    if (!isDragging || e.touches.length !== 1) return;
+    translateX = e.touches[0].clientX - startX;
+    translateY = e.touches[0].clientY - startY;
+
+    const maxBoundX = (scale - 1) * (viewport.clientWidth * 0.45);
+    const maxBoundY = (scale - 1) * (viewport.clientHeight * 0.45);
+    translateX = Math.max(-maxBoundX, Math.min(maxBoundX, translateX));
+    translateY = Math.max(-maxBoundY, Math.min(maxBoundY, translateY));
+
+    applyTransform(false);
+  }, { passive: true });
+
+  viewport.addEventListener('touchend', () => {
+    if (isDragging) {
+      isDragging = false;
+      applyTransform(true);
+    }
+  });
+
+  // Botão de Reserva na Lightbox
+  if (reserveBtn) {
+    reserveBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeLightbox();
+      const currentCard = cards[currentModelIndex];
+      const modelName = currentCard?.querySelector('.product-model-name')?.textContent?.trim() || '';
+      
+      const tripwire = document.getElementById('tripwire-offer');
+      if (tripwire) {
+        tripwire.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      // Se houver modal de candidatura, abre com nome do modelo pré-preenchido
+      const investorModal = document.getElementById('investor-lead-modal');
+      if (investorModal) {
+        investorModal.classList.add('active');
+        const notes = document.getElementById('investor-experience');
+        if (notes && !notes.value) {
+          notes.value = `Interesse no modelo: ${modelName}`;
+        }
+      }
+    });
+  }
 }
 
 /* --------------------------------------------------------------------------

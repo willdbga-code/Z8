@@ -444,24 +444,57 @@
           </p>
         </div>
 
-        <!-- Abas de Filtro de Categoria -->
-        <div class="catalog-nav-tabs">
-          <button type="button" class="catalog-tab-btn active" data-category="all">Todos (10)</button>
-          <button type="button" class="catalog-tab-btn" data-category="alta-velocidade">Alta Velocidade</button>
-          <button type="button" class="catalog-tab-btn" data-category="urbana">Urbanas</button>
-          <button type="button" class="catalog-tab-btn" data-category="vintage">Vintage & Retro</button>
-          <button type="button" class="catalog-tab-btn" data-category="utilitaria">Carga & Utility</button>
+        <!-- Controles Unificados do Catálogo (Filtros + Navegação em Slide + Alternador) -->
+        <div class="catalog-controls-bar">
+          <!-- Abas de Filtro de Categoria -->
+          <div class="catalog-nav-tabs" role="tablist" aria-label="Filtrar por Categoria">
+            <button type="button" class="catalog-tab-btn active" data-category="all" role="tab" aria-selected="true">Todos (10)</button>
+            <button type="button" class="catalog-tab-btn" data-category="alta-velocidade" role="tab" aria-selected="false">Alta Velocidade</button>
+            <button type="button" class="catalog-tab-btn" data-category="urbana" role="tab" aria-selected="false">Urbanas</button>
+            <button type="button" class="catalog-tab-btn" data-category="vintage" role="tab" aria-selected="false">Vintage & Retro</button>
+            <button type="button" class="catalog-tab-btn" data-category="utilitaria" role="tab" aria-selected="false">Carga & Utility</button>
+          </div>
+
+          <!-- Controles do Slide & Alternador de Modo -->
+          <div class="catalog-slider-controls">
+            <div class="slider-counter-box" title="Posição no catálogo">
+              <span class="counter-label">MODELO</span>
+              <span id="catalog-slide-counter" class="counter-value"><strong>01</strong> / 10</span>
+            </div>
+            <div class="slider-arrows-group">
+              <button type="button" id="catalog-slide-prev" class="btn-slide-nav prev" aria-label="Modelo anterior" title="Modelo anterior">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <button type="button" id="catalog-slide-next" class="btn-slide-nav next" aria-label="Próximo modelo" title="Próximo modelo">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+            <div class="catalog-view-toggle" role="group" aria-label="Modo de visualização">
+              <button type="button" id="catalog-view-slide" class="btn-view-toggle active" title="Visualização em Modo Slide" aria-label="Modo Slide">
+                <i class="fa-solid fa-sliders"></i>
+                <span class="view-toggle-text">Slide</span>
+              </button>
+              <button type="button" id="catalog-view-grid" class="btn-view-toggle" title="Visualização em Grade Completa" aria-label="Modo Grade">
+                <i class="fa-solid fa-border-all"></i>
+                <span class="view-toggle-text">Grade</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Grid de Cards de Produtos -->
-      <div class="catalog-grid" id="catalog-grid-cards">
+      <!-- Grid de Cards de Produtos (Modo Slide por Padrão) -->
+      <div class="catalog-grid mode-slide" id="catalog-grid-cards">
 
         <!-- 1. Z8 TANK HIGH-SPEED -->
-        <article class="product-card-editorial" data-cat="alta-velocidade">
+        <article class="product-card-editorial" data-cat="alta-velocidade" data-model-id="tank" data-model-index="0">
           <div class="product-image-wrap">
             <span class="product-category-tag">Topo de Linha / Trail</span>
             <img src="/assets/models/z8_tank_minas_wide.jpg" alt="Moto Elétrica Z8 Tank High-Speed 1000W Trail Atacado" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Mostarda Trilha</strong></span>
@@ -488,10 +521,14 @@
         </article>
 
         <!-- 2. Z8 FX-10 SPORT -->
-        <article class="product-card-editorial" data-cat="alta-velocidade">
+        <article class="product-card-editorial" data-cat="alta-velocidade" data-model-id="fx10" data-model-index="1">
           <div class="product-image-wrap">
             <span class="product-category-tag">Esportiva</span>
             <img src="/assets/models/z8_fx10_capivari_wide.jpg" alt="Moto Elétrica Naked Z8 FX-10 Sport 1000W Atacado" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Prata Líquido</strong></span>
@@ -518,10 +555,14 @@
         </article>
 
         <!-- 3. Z8 U2 DELIVERY CARGO -->
-        <article class="product-card-editorial" data-cat="utilitaria">
+        <article class="product-card-editorial" data-cat="utilitaria" data-model-id="u2" data-model-index="2">
           <div class="product-image-wrap">
             <span class="product-category-tag">Frotas & Delivery</span>
             <img src="/assets/models/z8_u2_warehouse_wide.jpg" alt="Scooter Elétrica de Carga e Delivery Z8 U2 Atacado" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Branco Fulfillment</strong></span>
@@ -547,10 +588,14 @@
         </article>
 
         <!-- 4. Z8 N710 URBAN PLUS -->
-        <article class="product-card-editorial" data-cat="urbana">
+        <article class="product-card-editorial" data-cat="urbana" data-model-id="n710" data-model-index="3">
           <div class="product-image-wrap">
             <span class="product-category-tag">Lançamento 2026</span>
             <img src="/assets/models/z8_n710_farialima_wide.jpg" alt="Scooter Elétrica Urbana Z8 N710 Urban Plus 1000W" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Cinza Faria Lima</strong></span>
@@ -576,10 +621,14 @@
         </article>
 
         <!-- 5. Z8 Q10 VINTAGE -->
-        <article class="product-card-editorial" data-cat="vintage">
+        <article class="product-card-editorial" data-cat="vintage" data-model-id="q10" data-model-index="4">
           <div class="product-image-wrap">
             <span class="product-category-tag">Retrô / Clássica</span>
             <img src="/assets/models/z8_q10_madalena_wide.jpg" alt="Moto Elétrica Retrô Vintage Cafe Racer Z8 Q10" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Verde Madalena</strong></span>
@@ -605,10 +654,14 @@
         </article>
 
         <!-- 6. Z8 N95C MAX COMFORT -->
-        <article class="product-card-editorial" data-cat="urbana">
+        <article class="product-card-editorial" data-cat="urbana" data-model-id="n95c" data-model-index="5">
           <div class="product-image-wrap">
             <span class="product-category-tag">Executiva</span>
             <img src="/assets/n95c/n95c_hero.jpg" alt="Scooter Elétrica Executiva Conforto Z8 N95C Max" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Preto Executivo</strong></span>
@@ -634,10 +687,14 @@
         </article>
 
         <!-- 7. Z8 N7 STANDARD -->
-        <article class="product-card-editorial" data-cat="urbana">
+        <article class="product-card-editorial" data-cat="urbana" data-model-id="n7" data-model-index="6">
           <div class="product-image-wrap">
             <span class="product-category-tag">Mais Vendido</span>
             <img src="/assets/models/z8_n7_studio.jpg" alt="Scooter Elétrica Z8 N7 Standard Urbana" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Preto Metropolitano</strong></span>
@@ -662,10 +719,14 @@
         </article>
 
         <!-- 8. Z8 Q11 COMPACT -->
-        <article class="product-card-editorial" data-cat="urbana">
+        <article class="product-card-editorial" data-cat="urbana" data-model-id="q11" data-model-index="7">
           <div class="product-image-wrap">
             <span class="product-category-tag">Leve & Ágil</span>
             <img src="/assets/models/z8_q11_studio.jpg" alt="Scooter Elétrica Compacta Z8 Q11 City" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Prata Compacto</strong></span>
@@ -690,10 +751,14 @@
         </article>
 
         <!-- 9. Z8 DIAMOND LUXE -->
-        <article class="product-card-editorial" data-cat="vintage">
+        <article class="product-card-editorial" data-cat="vintage" data-model-id="diamond" data-model-index="8">
           <div class="product-image-wrap">
             <span class="product-category-tag">Design Leve</span>
             <img src="/assets/models/z8_diamond_studio.jpg" alt="Bicicleta Elétrica e Ciclomotor Z8 Diamond Luxe" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Branco Platina</strong></span>
@@ -718,10 +783,14 @@
         </article>
 
         <!-- 10. Z8 GS-005 BASE NORTE -->
-        <article class="product-card-editorial" data-cat="utilitaria">
+        <article class="product-card-editorial" data-cat="utilitaria" data-model-id="gs005" data-model-index="9">
           <div class="product-image-wrap">
             <span class="product-category-tag">Utility / Pedelec</span>
             <img src="/assets/models/z8_gs005_studio.jpg" alt="Ciclomotor e Bicicleta Elétrica Utilitária Z8 GS-005" class="product-img" width="600" height="380" loading="lazy" decoding="async" />
+            <button type="button" class="btn-card-zoom-trigger" title="Ampliar e inspecionar detalhes em alta resolução" aria-label="Ampliar detalhes do modelo">
+              <i class="fa-solid fa-magnifying-glass-plus"></i>
+              <span>AMPLIAR</span>
+            </button>
           </div>
           <div class="product-color-selector">
             <span class="color-selector-label">Cor: <strong class="active-color-name">Preto Utilitário</strong></span>
@@ -1444,6 +1513,85 @@
         </form>
       </div>
 
+  <!-- 14. AMPLIADOR DE IMAGEM & INSPEÇÃO DE DETALHES EM ALTA RESOLUÇÃO (ESTÚDIO Z8 LUXURY) -->
+  <div class="lightbox-overlay" id="vehicle-lightbox-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="lightbox-container">
+      <!-- Header do Ampliador -->
+      <header class="lightbox-header">
+        <div class="lightbox-title-wrap">
+          <div class="lightbox-tag-pill">
+            <span class="lightbox-dot-pulse"></span>
+            <span>INSPEÇÃO EM ALTA RESOLUÇÃO // ESTÚDIO Z8</span>
+          </div>
+          <h2 id="lightbox-model-name" class="lightbox-model-name">Z8 Tank High-Speed</h2>
+          <p id="lightbox-model-specs" class="lightbox-model-specs">32 km/h (Limitada CONTRAN) • Até 40km • Motor 1000W Direct-Drive</p>
+        </div>
+
+        <div class="lightbox-header-actions">
+          <!-- Ferramentas de Zoom Interativo -->
+          <div class="lightbox-zoom-bar" role="group" aria-label="Controles de Zoom">
+            <button type="button" class="btn-lightbox-tool" id="lightbox-zoom-out" title="Diminuir Zoom (-)" aria-label="Diminuir Zoom">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <span id="lightbox-zoom-level" class="lightbox-zoom-level">100%</span>
+            <button type="button" class="btn-lightbox-tool" id="lightbox-zoom-in" title="Aumentar Zoom (+)" aria-label="Aumentar Zoom">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button type="button" class="btn-lightbox-tool" id="lightbox-zoom-reset" title="Redefinir Escala Original (1:1)" aria-label="Redefinir Zoom">
+              <i class="fa-solid fa-expand"></i>
+              <span class="tool-label">1:1</span>
+            </button>
+          </div>
+
+          <!-- Botão Fechar Modal -->
+          <button type="button" class="btn-lightbox-close" id="lightbox-btn-close" title="Fechar Visualizador (Esc)" aria-label="Fechar Inspecção">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Viewport / Stage de Ampliação -->
+      <div class="lightbox-viewport" id="lightbox-viewport" tabindex="0" aria-label="Área de inspeção e zoom. Use o scroll ou arraste com o mouse/toque.">
+        <!-- Badge de Instrução e Dica de Navegação -->
+        <div class="lightbox-hint-badge" id="lightbox-hint-badge">
+          <i class="fa-solid fa-hand-pointer"></i>
+          <span>Role o scroll para zoom • Arraste para inspecionar componentes</span>
+        </div>
+
+        <!-- Canvas com Imagem em Alta Resolução -->
+        <div class="lightbox-stage-canvas" id="lightbox-stage-canvas">
+          <img src="" alt="Inspeção detalhada de moto elétrica Z8" id="lightbox-active-img" class="lightbox-active-img" draggable="false" />
+        </div>
+
+        <!-- Setas de Navegação entre Veículos -->
+        <button type="button" class="btn-lightbox-nav prev" id="lightbox-nav-prev" title="Modelo Anterior" aria-label="Ver Modelo Anterior">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button type="button" class="btn-lightbox-nav next" id="lightbox-nav-next" title="Próximo Modelo" aria-label="Ver Próximo Modelo">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Rodapé do Ampliador: Paleta de Cores de Fábrica + Lucro + CTA -->
+      <footer class="lightbox-footer">
+        <div class="lightbox-footer-color-col">
+          <span class="lightbox-col-label">COR DE FÁBRICA: <strong id="lightbox-active-color-name">Mostarda Trilha</strong></span>
+          <div class="lightbox-swatches-row" id="lightbox-swatches-container">
+            <!-- Amostras de cores injetadas dinamicamente -->
+          </div>
+        </div>
+
+        <div class="lightbox-footer-action-col">
+          <div class="lightbox-profit-display">
+            <span class="lightbox-profit-lbl">RETORNO ESTIMADO / UNIDADE:</span>
+            <strong id="lightbox-profit-val" class="lightbox-profit-val">+ R$ 4.000,00</strong>
+          </div>
+          <button type="button" class="btn-lightbox-reserve" id="lightbox-btn-reserve">
+            <i class="fa-solid fa-lock"></i>
+            <span>RESERVAR LOTE DESTE MODELO</span>
+          </button>
+        </div>
+      </footer>
     </div>
   </div>
 
