@@ -377,3 +377,19 @@
 - **Remoção de Redundâncias**: Footer duplicado eliminado em /vendas/ e seção de franquia fundida no rodapé de /site-principal/.
 - **Ampliação do Fluxo de Leitura**: Fontes ampliadas para 1rem-1.08rem com line-height 1.68.
 - **Humanização**: Substituição de jargões de infoproduto por tom de concessão de montadora.
+
+### 8.5 Conclusao Integral das 12 Otimizacoes de UX, Design Tatil e Fluxo Otico
+
+1. Reordenacao do Palco Hero
+2. Dock do Switcher Integrado
+3. Hierarquia de Acao 1+1 (Lei de Hick)
+4. Strip de Credibilidade e Homologacao (Trust Ticker)
+5. Alinhamento Otico Rigido nos Cards
+6. Ergonomia Tactil do Lightbox com Touch Swipe
+7. Calibracao Mobile da Regua do Simulador
+8. Visualizacao Grafica do Painel de ROI
+9. Transicao Suave e Radar de CEP
+10. Transicao em Slide no Modal Wizard
+11. Adaptacao de Safe Area na Barra Fixa Mobile
+12. Padronizacao de Fisica Mecanica Global nos Botoes
+13. Harmonizacao de Cores do Rodape (Clean Showroom Branco WCAG AAA)
