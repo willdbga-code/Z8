@@ -393,3 +393,37 @@
 11. Adaptacao de Safe Area na Barra Fixa Mobile
 12. Padronizacao de Fisica Mecanica Global nos Botoes
 13. Harmonizacao de Cores do Rodape (Clean Showroom Branco WCAG AAA)
+
+### 8.6 Motor de Cores Estático de Montadora (Configurador Automotivo Estilo Hyundai/Porsche)
+
+- **Objetivo**: Eliminar o salto visual e a troca de ângulo de câmera ao alternar as amostras de cores (swatches) nos cards de produto e no Lightbox executivo.
+- **Técnica de Geração**: Fotografias de estúdio geradas com perspectiva 3/4 estática 100% congelada (pixel-aligned), mantendo exatamente a mesma iluminação direcional, o mesmo piso de concreto com reflexo sutil e o mesmo enquadramento, alterando exclusivamente a pintura da carenagem da moto.
+- **Modelos e Variantes Geradas**:
+  1. **Z8 Tank High-Speed**:
+     - Mostarda Trilha (z8_tank_amber.jpg)
+     - Preto Ônix Paulista (z8_tank_black.jpg)
+     - Cinza Titânio Studio (z8_tank_titanium.jpg)
+  2. **Z8 FX-10 Sport**:
+     - Prata Líquido (z8_fx10_studio.jpg)
+     - Preto Noturno SJC (z8_fx10_black.jpg)
+     - Branco Studio (z8_fx10_white.jpg)
+  3. **Z8 N710 Urban Plus**:
+     - Cinza Faria Lima (z8_n710_studio.jpg)
+     - Branco Platina (z8_n710_white.jpg)
+     - Preto Ônix (z8_n710_black.jpg)
+  4. **Z8 Harley X21 Custom**:
+     - Preto Midnight (z8_harley_studio.jpg)
+     - Vinho Bordeaux Metálico (z8_harley_crimson.jpg)
+     - Prata Titânio Líquido (z8_harley_silver.jpg)
+  5. **Z8 U2 Delivery Cargo**:
+     - Branco Fulfillment (z8_u2_white.jpg)
+     - Preto Industrial (z8_u2_black.jpg)
+     - Azul E-Motion (z8_u2_studio.jpg)
+  6. **Z8 Q10 Vintage**:
+     - Verde Madalena Retrô (z8_q10_green.jpg)
+     - Preto Vintage Ônix (z8_q10_black.jpg)
+     - Amarelo Retrô (z8_q10_studio.jpg)
+- **Arquivos & Integração**:
+  - Salvos e espelhados em public/assets/models/ e public/assets/cria/posters/.
+  - Vinculados aos botões .color-swatch-btn em endas/index.html e herdados automaticamente pelo modal Lightbox.
+  - Zero saltos de câmera: transição 100% fluida de pintura de fábrica.
