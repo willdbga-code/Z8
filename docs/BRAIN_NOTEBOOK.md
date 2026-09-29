@@ -468,3 +468,22 @@
   2. Sincronizados todos os demais modelos do MODEL_COLORS (z8-fx10, z8-harley-x21, z8-u2-delivery, z8-n95c, z8-n7, z8-q10, z8-n710, z8-q11, z8-gs005, z8-diamond) com suas respectivas imagens reais e validadas.
   3. Criados aliases de segurança public/assets/models/z8_tank_yellow_hero.png e z8_tank_hero_paulista.png como salvaguarda para qualquer cache legado de navegador.
   4. Adicionada salvaguarda onerror="this.onerror=null; this.src='';" no template HTML de renderização dos cards do showroom para blindagem contra 404 em qualquer circunstância.
+
+### 8.10 Remoção Completa do Modo Escuro no Site Principal (`/site-principal/`)
+
+- **Solicitação do Usuário**: Remoção definitiva do modo escuro e seu seletor no site principal, unificando toda a experiência na identidade visual oficial de montadora de luxo (Light Theme / Cinza Platina Estúdio).
+- **Ações Executadas**:
+  1. **HTML (`site-principal/index.html`)**:
+     - Removido o container do botão de alternância rocker switch (`.theme-switch-container`, com ícones de sol e lua e `#theme-toggle-switch`).
+     - Mantido `<html lang="pt-BR" data-theme="light">` fixo.
+  2. **JavaScript (`site-principal/main.js`)**:
+     - Substituída a função `initThemeToggle()` por um travamento permanente: força `document.documentElement.setAttribute('data-theme', 'light')` e limpa/sobrescreve qualquer valor prévio em `localStorage.setItem('z8_theme', 'light')`.
+     - Removidos listeners de troca de tema.
+  3. **CSS (`site-principal/style.css`)**:
+     - Removido o bloco completo `:root[data-theme="dark"]` com todas as suas variáveis escuras.
+     - Padronizado `:root` unicamente com os tokens de montadora de luxo (Light Theme).
+     - Removidas todas as regras e seletores específicos `[data-theme="dark"]` (`.embossed-badge`, `.skeuo-header`, `.badge-national`, `.skeuo-nav-btn.active`, `.hero-title-accent`, `.model-img-wrapper`, `.model-price-box`, `.price-val`, `.comparator-vehicle-price`, `.comparator-table tbody tr:hover`, `.comparator-badge-pill.exempt`, `.mobile-sticky-action-bar`).
+     - Removidas todas as classes de estilo do rocker switch (`.theme-switch-container`, `.switch-label`, `.rocker-switch`, `.rocker-slider`).
+  4. **Validação**:
+     - `npm run build` executado com sucesso (código 0, 0 erros de empacotamento).
+     - Deploy efetuado no GitHub com commit `3540716`.
