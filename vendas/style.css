@@ -641,12 +641,12 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 4px;
   flex-wrap: wrap;
   background: #FFFFFF;
   border: 1px solid var(--border-medium);
-  padding: 6px 10px;
-  border-radius: 9999px;
+  padding: 4px;
+  border-radius: 6px;
   box-shadow: 0 4px 16px rgba(0, 44, 95, 0.08);
   margin: 12px auto 6px auto;
   position: relative;
@@ -656,8 +656,8 @@ button {
 .stage-switch-btn {
   background: transparent;
   border: 1px solid transparent;
-  padding: 7px 16px;
-  border-radius: 9999px;
+  padding: 7px 14px;
+  border-radius: 4px;
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--text-muted);
@@ -673,7 +673,7 @@ button {
   background: #F1F5F9;
   color: var(--accent-navy);
   padding: 2px 6px;
-  border-radius: 9999px;
+  border-radius: 3px;
   font-weight: 800;
   font-family: var(--font-mono);
   transition: all 0.2s ease;
@@ -689,12 +689,14 @@ button {
   background: var(--accent-navy);
   color: #FFFFFF;
   border-color: var(--accent-navy);
-  box-shadow: 0 3px 12px rgba(0, 44, 95, 0.25);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 44, 95, 0.25);
 }
 
 .stage-switch-btn.active .switch-idx {
   background: rgba(255, 255, 255, 0.2);
   color: #38BDF8;
+  border-radius: 3px;
 }
 
 /* Link Editorial 1+1 no Hero */
@@ -2278,14 +2280,14 @@ button {
   border: 1px solid rgba(56, 189, 248, 0.3);
   color: #38BDF8;
   padding: 2px 8px;
-  border-radius: 9999px;
+  border-radius: 4px;
   font-weight: 800;
 }
 
 .roi-progress-track {
   height: 8px;
   background: rgba(0, 0, 0, 0.35);
-  border-radius: 9999px;
+  border-radius: 4px;
   overflow: hidden;
   display: flex;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -3679,7 +3681,7 @@ button {
   color: #94A3B8;
   font-size: 0.72rem;
   padding: 5px 14px;
-  border-radius: 9999px;
+  border-radius: 4px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
