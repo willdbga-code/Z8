@@ -2849,21 +2849,28 @@ button {
 
 
 /* --------------------------------------------------------------------------
-   11. FOOTER CORPORATIVO
+   11. FOOTER CORPORATIVO OFICIAL (CLEAN SHOWROOM MONTADORA)
    -------------------------------------------------------------------------- */
 .site-footer {
-  background: #000000;
-  padding: 40px 0 30px;
+  background: #FFFFFF;
+  padding: 48px 0 36px;
   border-top: 1px solid var(--border-subtle);
-  font-size: 0.75rem;
-  color: var(--text-dim);
+  font-size: 0.85rem;
+  color: var(--text-muted);
   width: 100%;
+}
+
+@media (max-width: 768px) {
+  .site-footer {
+    padding-top: 36px;
+    padding-bottom: 96px; /* Folga ergonômica para não colidir com a barra fixa mobile */
+  }
 }
 
 .footer-inner {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
   text-align: center;
 }
@@ -2874,6 +2881,83 @@ button {
     justify-content: space-between;
     text-align: left;
   }
+}
+
+.footer-brand-title {
+  color: var(--accent-navy);
+  font-weight: 800;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+.footer-brand-sub {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+}
+
+.footer-links-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+  font-size: 0.82rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .footer-links-row {
+    justify-content: flex-start;
+  }
+}
+
+.footer-legal-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color var(--transition-fast);
+}
+
+.footer-legal-link:hover {
+  color: var(--accent-navy);
+  text-decoration: underline;
+}
+
+.footer-legal-link.highlight {
+  color: var(--accent-green);
+  font-weight: 700;
+}
+
+.footer-legal-link.highlight:hover {
+  color: #047857;
+  text-decoration: underline;
+}
+
+.footer-copyright-col {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.82rem;
+}
+
+@media (min-width: 768px) {
+  .footer-copyright-col {
+    text-align: right;
+  }
+}
+
+.footer-homologation {
+  margin-top: 4px;
+  color: var(--text-dim);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.footer-homologation i {
+  color: var(--accent-green);
 }
 
 
