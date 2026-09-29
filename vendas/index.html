@@ -771,33 +771,48 @@
             </div>
             <input type="range" id="sales-slider" class="calc-range-slider" min="5" max="50" value="5" step="1" aria-label="Volume de vendas mensal de motos" />
             <div class="slider-ruler" id="slider-ruler" aria-hidden="true">
-              <div class="ruler-tick" data-val="5" style="left: 0%;">
-                <span class="tick-notch tick-major"></span>
+              <!-- 5 motos (Batente Mínimo) -->
+              <div class="ruler-tick tick-major" data-val="5" style="left: 0%;" title="5 motos / mês (mínimo)">
+                <span class="tick-notch"></span>
                 <span class="tick-label">5 un (mín)</span>
               </div>
-              <div class="ruler-tick" data-val="10" style="left: 11.11%;">
+              <!-- 10 motos -->
+              <div class="ruler-tick tick-minor" data-val="10" style="left: 11.11%;" title="10 motos / mês">
                 <span class="tick-notch"></span>
-                <span class="tick-label">10</span>
               </div>
-              <div class="ruler-tick" data-val="20" style="left: 33.33%;">
+              <!-- 15 motos -->
+              <div class="ruler-tick tick-minor" data-val="15" style="left: 22.22%;" title="15 motos / mês">
                 <span class="tick-notch"></span>
-                <span class="tick-label">20</span>
               </div>
-              <div class="ruler-tick" data-val="25" style="left: 44.44%;">
-                <span class="tick-notch tick-major"></span>
-                <span class="tick-label tick-highlight">25 un</span>
-              </div>
-              <div class="ruler-tick" data-val="30" style="left: 55.56%;">
+              <!-- 20 motos -->
+              <div class="ruler-tick tick-minor" data-val="20" style="left: 33.33%;" title="20 motos / mês">
                 <span class="tick-notch"></span>
-                <span class="tick-label">30</span>
               </div>
-              <div class="ruler-tick" data-val="40" style="left: 77.78%;">
+              <!-- 25 motos (Meta Intermediária) -->
+              <div class="ruler-tick tick-major tick-mid" data-val="25" style="left: 44.44%;" title="25 motos / mês (meta)">
                 <span class="tick-notch"></span>
-                <span class="tick-label">40</span>
+                <span class="tick-label">25 un</span>
               </div>
-              <div class="ruler-tick" data-val="50" style="left: 100%;">
-                <span class="tick-notch tick-major"></span>
-                <span class="tick-label">50 un / mês</span>
+              <!-- 30 motos -->
+              <div class="ruler-tick tick-minor" data-val="30" style="left: 55.56%;" title="30 motos / mês">
+                <span class="tick-notch"></span>
+              </div>
+              <!-- 35 motos -->
+              <div class="ruler-tick tick-minor" data-val="35" style="left: 66.67%;" title="35 motos / mês">
+                <span class="tick-notch"></span>
+              </div>
+              <!-- 40 motos -->
+              <div class="ruler-tick tick-minor" data-val="40" style="left: 77.78%;" title="40 motos / mês">
+                <span class="tick-notch"></span>
+              </div>
+              <!-- 45 motos -->
+              <div class="ruler-tick tick-minor" data-val="45" style="left: 88.89%;" title="45 motos / mês">
+                <span class="tick-notch"></span>
+              </div>
+              <!-- 50 motos (Batente Máximo) -->
+              <div class="ruler-tick tick-major" data-val="50" style="left: 100%;" title="50 motos / mês (máximo)">
+                <span class="tick-notch"></span>
+                <span class="tick-label">50 un (máx)</span>
               </div>
             </div>
           </div>
