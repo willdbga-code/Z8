@@ -135,10 +135,10 @@ function initCepChecker() {
         resultMsg.innerHTML = `
           <div style="background: rgba(0, 255, 136, 0.08); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 8px; padding: 10px 14px; margin-top: 10px;">
             <p style="color: #fff; font-size: 0.82rem; margin-bottom: 8px;">
-              <i class="fa-solid fa-circle-check text-accent-green"></i> <strong>DISPONÍVEL:</strong> Concessão livre para "<strong>${val.toUpperCase()}</strong>" (50km de exclusividade)!
+              <i class="fa-solid fa-circle-check text-accent-green"></i> <strong>PRAÇA DISPONÍVEL:</strong> A concessão exclusiva para "<strong>${val.toUpperCase()}</strong>" está livre no momento (raio de 50km)!
             </p>
             <button type="button" class="btn-open-checkout" data-city="${val}" style="background: var(--accent-green); color: #000; font-weight: 800; font-size: 0.75rem; padding: 6px 14px; border-radius: 9999px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;">
-              <i class="fa-solid fa-lock"></i> TRAVAR ESTA CIDADE AGORA
+              <i class="fa-solid fa-shield-halved"></i> RESERVAR MINHA CIDADE COM EXCLUSIVIDADE
             </button>
           </div>
         `;
