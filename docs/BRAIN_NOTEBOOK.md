@@ -427,3 +427,21 @@
   - Salvos e espelhados em public/assets/models/ e public/assets/cria/posters/.
   - Vinculados aos botões .color-swatch-btn em endas/index.html e herdados automaticamente pelo modal Lightbox.
   - Zero saltos de câmera: transição 100% fluida de pintura de fábrica.
+
+### 8.7 Otimização de UX & Clareza da Área de Login em Todas as Etapas
+
+- **Diagnóstico**: O botão de login no cabeçalho exibia anteriormente apenas o ícone de cadeado [ 🔒 ] no mobile/tablet porque a classe .btn-header-login-text estava configurada com display: none; abaixo de 640px, e o texto original era o vago PORTAL.
+- **Implementações Realizadas**:
+  1. **Cabeçalho (Navbar Sticky)**:
+     - Texto alterado de PORTAL para **LOGIN** explícito.
+     - .btn-header-login-text configurado com display: inline-block !important; em todos os breakpoints (Desktop, Tablet, Mobile < 640px e < 380px).
+     - Visual montadora com fundo #F8FAFC, borda Navy 1.5px solid rgba(0, 44, 95, 0.28), tipografia com peso 700 e contraste superior.
+  2. **Barra Fixa Inferior Mobile (mobile-sticky-action-bar)**:
+     - Inclusão do botão de acesso direto [ 🔒 Login ] entre *Modelos* e *Consultar Minha Cidade*, garantindo que em qualquer momento do scroll no smartphone o usuário tenha acesso imediato à autenticação.
+  3. **Etapas de Modais (Wizard de Candidatura & Checkout)**:
+     - Adicionada a faixa de atalho .modal-login-prompt em ambos os passos do investor-lead-modal (Passo 1 e Passo 2) e no checkout-modal: *"Já é concessionário credenciado? [ Fazer Login no Portal → ]"*.
+  4. **Modal de Login (#portal-login-modal)**:
+     - Aba de login renomeada para **FAZER LOGIN**.
+     - Inputs com labels detalhadas contendo ícones (envelope e lock), foco automático no input de usuário e botão de alternância de visibilidade da senha (olho aberto/fechado).
+  5. **Sincronização de Estado de Autenticação**:
+     - Se o usuário já estiver conectado, o botão no cabeçalho exibe automaticamente seu primeiro nome com badge verde [ 👤 NOME ] em vez do cadeado genérico.
