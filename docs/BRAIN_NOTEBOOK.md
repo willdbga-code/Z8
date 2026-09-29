@@ -456,3 +456,15 @@
     2. **🚪 Área de Login / Sair (Nome)** (#open-catalog-login-btn), permitindo entrar e sair com sincronização em tempo real de sessão.
     3. **👤 Aprovações de Acesso** (#open-catalog-admin-btn), mantido dinâmico para acesso exclusivo da conta admin master (Christian).
   - A barra ficou minimalista, sem quebras de linha ou sobrecarga visual em qualquer resolução.
+
+### 8.9 Correção de Renderização de Imagem do Card Z8 Tank High-Speed no Showroom
+
+- **Diagnóstico do Bug**: O objeto MODEL_COLORS em site-principal/main.js apontava anteriormente para caminhos legados inexistentes (/assets/models/z8_tank_yellow_hero.png e z8_tank_hero_paulista.png), causando erro 404 e ícone quebrado na amostra inicial "Amarelo Mostarda".
+- **Ações Executadas**:
+  1. Atualizado MODEL_COLORS em site-principal/main.js para apontar diretamente para as fotografias oficiais de estúdio de alta resolução:
+     - Amarelo Mostarda: /assets/models/z8_tank_amber.jpg
+     - Preto Paulista: /assets/models/z8_tank_black.jpg
+     - Cinza Titânio Studio: /assets/models/z8_tank_titanium.jpg
+  2. Sincronizados todos os demais modelos do MODEL_COLORS (z8-fx10, z8-harley-x21, z8-u2-delivery, z8-n95c, z8-n7, z8-q10, z8-n710, z8-q11, z8-gs005, z8-diamond) com suas respectivas imagens reais e validadas.
+  3. Criados aliases de segurança public/assets/models/z8_tank_yellow_hero.png e z8_tank_hero_paulista.png como salvaguarda para qualquer cache legado de navegador.
+  4. Adicionada salvaguarda onerror="this.onerror=null; this.src='';" no template HTML de renderização dos cards do showroom para blindagem contra 404 em qualquer circunstância.
