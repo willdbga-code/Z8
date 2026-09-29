@@ -63,23 +63,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   1. THEME SWITCHER
+   1. THEME LOCK (EXCLUSIVAMENTE LIGHT LUXURY MONTADORA)
    -------------------------------------------------------------------------- */
 function initThemeToggle() {
-  const themeSwitch = document.getElementById('theme-toggle-switch');
   const root = document.documentElement;
-
-  const savedTheme = localStorage.getItem('z8_theme') || 'light';
-  root.setAttribute('data-theme', savedTheme);
-  if (themeSwitch) {
-    themeSwitch.checked = savedTheme === 'light';
-  }
-
-  themeSwitch?.addEventListener('change', (e) => {
-    const newTheme = e.target.checked ? 'light' : 'dark';
-    root.setAttribute('data-theme', newTheme);
-    localStorage.setItem('z8_theme', newTheme);
-  });
+  root.setAttribute('data-theme', 'light');
+  try {
+    localStorage.removeItem('z8_theme');
+    localStorage.setItem('z8_theme', 'light');
+  } catch (e) {}
 }
 
 /* --------------------------------------------------------------------------

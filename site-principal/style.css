@@ -5,8 +5,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 
-:root[data-theme="light"], :root {
-  /* Cores Base Padrão Montadora de Luxo */
+:root {
+  /* Cores Base Padrão Montadora de Luxo (Light Theme Exclusivo) */
   --bg-page: #F4F5F7;          /* Cinza Claro Estúdio Acetinado */
   --bg-panel: #FFFFFF;         /* Superfície Branco Puro */
   --bg-card: #FFFFFF;          /* Cartões Branco Puro */
@@ -41,42 +41,6 @@
   --lcd-border: #CBD5E1;
   --lcd-text: #002C5F;
   --transition-luxury: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-:root[data-theme="dark"] {
-  --bg-page: #0B0F19;
-  --bg-panel: #111827;
-  --bg-card: #151F32;
-  --bg-inset: #0D1424;
-  --bg-bezel: #1F2E47;
-  
-  --metal-gradient: #151F32;
-  --metal-btn-gradient: #1E293B;
-  --primary-btn-gradient: linear-gradient(180deg, #00AAD2 0%, #002C5F 100%);
-  --primary-btn-hover: linear-gradient(180deg, #00C8FF 0%, #003875 100%);
-  
-  --text-main: #E2E8F0;
-  --text-muted: #94A3B8;
-  --text-heading: #FFFFFF;
-  --border-metal: #1E293B;
-  --border-highlight: rgba(255, 255, 255, 0.08);
-  
-  --accent-navy: #00AAD2;
-  --accent-slate: #1E293B;
-  --accent-cyan: #00F0FF;
-  --accent-emerald: #10B981;
-  --accent-gold: #FBBF24;
-  --accent-neon: #00F0FF;
-  
-  --shadow-raised: 0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
-  --shadow-inset: none;
-  --glow-cyan: none;
-  --glow-emerald: none;
-  
-  --lcd-bg: #0D1424;
-  --lcd-border: #1E293B;
-  --lcd-text: #00F0FF;
 }
 
 * {
@@ -155,12 +119,6 @@ body.skeuo-body {
   border: 1px solid rgba(0, 44, 95, 0.12);
 }
 
-[data-theme="dark"] .embossed-badge {
-  background: rgba(0, 170, 210, 0.15);
-  color: #00F0FF;
-  border-color: rgba(0, 240, 255, 0.3);
-}
-
 /* Header de Montadora de Luxo */
 .skeuo-header {
   position: sticky;
@@ -172,11 +130,6 @@ body.skeuo-body {
   border-bottom: 1px solid var(--border-metal);
   box-shadow: 0 2px 14px rgba(0, 44, 95, 0.04);
   padding: 12px 24px;
-}
-
-[data-theme="dark"] .skeuo-header {
-  background: rgba(17, 24, 39, 0.95);
-  border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
 .header-container {
@@ -223,10 +176,6 @@ body.skeuo-body {
   letter-spacing: 0.5px;
 }
 
-[data-theme="dark"] .badge-national {
-  color: var(--accent-cyan);
-}
-
 .badge-factory {
   font-size: 0.68rem;
   color: var(--text-muted);
@@ -270,69 +219,6 @@ body.skeuo-body {
   color: #FFFFFF;
   box-shadow: 0 2px 8px rgba(0, 44, 95, 0.2);
   border: none;
-}
-
-[data-theme="dark"] .skeuo-nav-btn.active {
-  background: #1E293B;
-  color: var(--accent-cyan);
-}
-
-.theme-switch-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg-inset);
-  padding: 6px 10px;
-  border-radius: 20px;
-  border: 1px solid var(--border-metal);
-}
-
-.switch-label {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
-
-.rocker-switch {
-  position: relative;
-  display: inline-block;
-  width: 36px;
-  height: 20px;
-}
-
-.rocker-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.rocker-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: var(--border-metal);
-  border-radius: 20px;
-  transition: 0.2s;
-}
-
-.rocker-slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 3px;
-  bottom: 3px;
-  background: #FFFFFF;
-  border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  transition: 0.2s;
-}
-
-input:checked + .rocker-slider {
-  background-color: var(--accent-navy);
-}
-
-input:checked + .rocker-slider:before {
-  transform: translateX(16px);
 }
 
 /* ==========================================================================
@@ -388,10 +274,6 @@ input:checked + .rocker-slider:before {
 
 .hero-title-accent {
   color: var(--accent-navy);
-}
-
-[data-theme="dark"] .hero-title-accent {
-  color: var(--accent-cyan);
 }
 
 .hero-stage-subtitle {
@@ -906,9 +788,6 @@ input:checked + .rocker-slider:before {
   border: 1px solid var(--border-metal);
 }
 
-[data-theme="dark"] .model-img-wrapper {
-  background: #0D1424;
-}
 
 .model-img {
   max-width: 100%;
@@ -969,10 +848,6 @@ input:checked + .rocker-slider:before {
   margin-bottom: 14px;
 }
 
-[data-theme="dark"] .model-price-box {
-  background: rgba(0, 44, 95, 0.3);
-  border-color: rgba(0, 240, 255, 0.2);
-}
 
 .price-wholesale {
   display: flex;
@@ -994,9 +869,6 @@ input:checked + .rocker-slider:before {
   color: var(--accent-navy);
 }
 
-[data-theme="dark"] .price-val {
-  color: var(--accent-neon);
-}
 
 .price-margin {
   font-size: 0.78rem;
@@ -1193,13 +1065,6 @@ input[type="range"].skeuo-slider:focus {
   cursor: pointer;
 }
 
-:root[data-theme="dark"] .skeuo-slider::-webkit-slider-runnable-track {
-  background: linear-gradient(to right, #00AAD2 0%, #00AAD2 var(--slider-pct, 11%), #1E293B var(--slider-pct, 11%));
-}
-
-:root[data-theme="light"] .skeuo-slider::-webkit-slider-runnable-track {
-  background: linear-gradient(to right, #002C5F 0%, #002C5F var(--slider-pct, 11%), #E2E8F0 var(--slider-pct, 11%));
-}
 
 /* WebKit Thumb Minimalista de Montadora */
 .skeuo-slider::-webkit-slider-thumb {
@@ -2675,10 +2540,6 @@ html, body.skeuo-body {
   color: var(--accent-navy, #002c5f);
 }
 
-[data-theme="dark"] .comparator-vehicle-price {
-  color: var(--accent-neon, #00f0ff);
-}
-
 .comparator-table tbody tr {
   border-bottom: 1px solid var(--border-metal);
   transition: background-color 0.2s ease;
@@ -2686,10 +2547,6 @@ html, body.skeuo-body {
 
 .comparator-table tbody tr:hover {
   background: rgba(0, 44, 95, 0.03);
-}
-
-[data-theme="dark"] .comparator-table tbody tr:hover {
-  background: rgba(255, 255, 255, 0.02);
 }
 
 .comparator-table tbody td {
@@ -2730,10 +2587,6 @@ html, body.skeuo-body {
   background: rgba(16, 185, 129, 0.12);
   color: #059669;
   border-color: rgba(16, 185, 129, 0.3);
-}
-
-[data-theme="dark"] .comparator-badge-pill.exempt {
-  color: #34d399;
 }
 
 .comparator-cta-row td {
@@ -2783,11 +2636,6 @@ html, body.skeuo-body {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-}
-
-[data-theme="dark"] .mobile-sticky-action-bar {
-  background: rgba(17, 24, 39, 0.95);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .mobile-sticky-action-bar .mobile-bar-btn {
