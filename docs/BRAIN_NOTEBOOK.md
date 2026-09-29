@@ -445,3 +445,14 @@
      - Inputs com labels detalhadas contendo ícones (envelope e lock), foco automático no input de usuário e botão de alternância de visibilidade da senha (olho aberto/fechado).
   5. **Sincronização de Estado de Autenticação**:
      - Se o usuário já estiver conectado, o botão no cabeçalho exibe automaticamente seu primeiro nome com badge verde [ 👤 NOME ] em vez do cadeado genérico.
+
+### 8.8 Simplificação do Menu de Navegação do Site Principal (site-principal/index.html)
+
+- **Solicitação do Usuário**: Remoção de todos os tópicos de página da barra de navegação (.skeuo-nav), mantendo exclusivamente a **Área de Login** e o botão **Início**.
+- **Ações Executadas**:
+  - Removidos os 7 botões de tópicos: *Modelos & Preços*, *Comparador*, *Seja Concessionário*, *Calculadora de Rentabilidade*, *Portal do Franqueado*, *Garantia & O.S* e *Central de Manuais*.
+  - Mantidos exclusivamente:
+    1. **🏠 Início** (.skeuo-nav-btn active) com scroll suave para o hero stage.
+    2. **🚪 Área de Login / Sair (Nome)** (#open-catalog-login-btn), permitindo entrar e sair com sincronização em tempo real de sessão.
+    3. **👤 Aprovações de Acesso** (#open-catalog-admin-btn), mantido dinâmico para acesso exclusivo da conta admin master (Christian).
+  - A barra ficou minimalista, sem quebras de linha ou sobrecarga visual em qualquer resolução.
