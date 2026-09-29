@@ -8,6 +8,7 @@ inject();
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  initHeroStageSwitcher();
   initCepChecker();
   initCatalogTabs();
   initColorSwatches();
@@ -17,6 +18,55 @@ document.addEventListener('DOMContentLoaded', () => {
   initCheckoutModal();
   initPortalLoginModal();
 });
+
+/* --------------------------------------------------------------------------
+   2. HERO STAGE VEHICLE SWITCHER (PADRÃO MONTADORA HYUNDAI LUXURY)
+   -------------------------------------------------------------------------- */
+function initHeroStageSwitcher() {
+  const switchBtns = document.querySelectorAll('.stage-switch-btn');
+  const imgEl = document.getElementById('hero-main-stage-img');
+  const nameEl = document.getElementById('hero-stage-model-name');
+  const powerEl = document.getElementById('hero-telemetry-power');
+  const speedEl = document.getElementById('hero-telemetry-speed');
+  const rangeEl = document.getElementById('hero-telemetry-range');
+  const cnhEl = document.getElementById('hero-telemetry-cnh');
+  const profitEl = document.getElementById('hero-telemetry-profit');
+
+  if (!switchBtns.length || !imgEl) return;
+
+  switchBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      switchBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const imgPath = btn.getAttribute('data-img');
+      const name = btn.getAttribute('data-name');
+      const power = btn.getAttribute('data-power');
+      const speed = btn.getAttribute('data-speed');
+      const range = btn.getAttribute('data-range');
+      const cnh = btn.getAttribute('data-cnh');
+      const profit = btn.getAttribute('data-profit');
+
+      if (imgPath) {
+        imgEl.style.opacity = '0.25';
+        imgEl.style.transform = 'scale(0.96)';
+        const tempImg = new Image();
+        tempImg.onload = () => {
+          imgEl.src = imgPath;
+          imgEl.style.opacity = '1';
+          imgEl.style.transform = 'scale(1)';
+        };
+        tempImg.src = imgPath;
+      }
+      if (nameEl && name) nameEl.textContent = name;
+      if (powerEl && power) powerEl.textContent = power;
+      if (speedEl && speed) speedEl.textContent = speed;
+      if (rangeEl && range) rangeEl.textContent = range;
+      if (cnhEl && cnh) cnhEl.textContent = cnh;
+      if (profitEl && profit) profitEl.textContent = profit;
+    });
+  });
+}
 
 /* --------------------------------------------------------------------------
    3. VERIFICADOR DE EXCLUSIVIDADE POR CEP OU CIDADE

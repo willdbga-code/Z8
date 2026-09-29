@@ -295,9 +295,9 @@
         </a>
 
         <nav class="header-nav">
-          <a href="#bento-overview" class="nav-link">Logística & Estoque</a>
-          <a href="#catalogo" class="nav-link">Catálogo de Fábrica</a>
-          <a href="#calculadora" class="nav-link">Simulador de Lucro</a>
+          <a href="#pilares" class="nav-link">Pilares da Concessão</a>
+          <a href="#catalogo" class="nav-link">Catálogo Direct-Factory</a>
+          <a href="#simulador" class="nav-link">Simulador B2B</a>
           <a href="#tripwire-offer" class="nav-link">Exclusividade de Cidade</a>
           <a href="#faq" class="nav-link">FAQ Atacado</a>
         </nav>
@@ -317,213 +317,115 @@
   </header>
 
   <main id="main-content">
-  <!-- 3. HERO EDITORIAL HYPERSPEED / VIDEO SECTION -->
-  <section class="hero-editorial" id="platform">
-    <!-- Video Stage de Fundo (Google Veo - Z8 Tank na Trilha de Minas) -->
-    <div class="hero-video-stage">
-      <video class="hero-video-bg" autoplay muted loop playsinline poster="/assets/models/z8_tank_minas_wide.jpg">
-        <source src="/assets/videos/z8_tank_minas_hero.mp4" type="video/mp4">
-        <source src="/assets/videos/Hero Loop Background (Z8 Tank na Trilha de Minas).mp4" type="video/mp4">
-      </video>
-      <div class="hero-video-overlay"></div>
-    </div>
-
+  <!-- 1. PALCO HERO ESTÚDIO DE MONTADORA (PADRÃO HYUNDAI LUXURY) -->
+  <section class="hero-montadora-stage" id="platform">
     <div class="site-container">
-      <div class="hero-content-grid">
-        <div class="hero-text-side">
-          <div class="hero-tag">
-            <span class="hero-tag-dot"></span>
-            <span class="font-mono-tag">OPERAÇÃO DIRECT-FACTORY BRASIL 2026</span>
-          </div>
+      <div class="hero-stage-badge">
+        <span class="badge-dot"></span> Z8 E-MOTION // CONCESSÃO NACIONAL 2026 • DIRECT-FACTORY
+      </div>
 
-          <h1 class="hero-title">
-            DISTRIBUIÇÃO & ATACADO DE VEÍCULOS ELÉTRICOS.
-            <span class="hero-title-subline">A MAIOR MARGEM DO MERCADO EM DUAS RODAS.</span>
-          </h1>
+      <h1 class="hero-stage-title">
+        DISTRIBUIÇÃO & ATACADO DE VEÍCULOS ELÉTRICOS.
+        <span class="hero-title-accent">A MAIOR MARGEM DO MERCADO EM DUAS RODAS.</span>
+      </h1>
 
-          <p class="hero-description">
-            Abasteça sua loja ou comece sua operação com margens diretas de fábrica de até <strong>50%</strong> e lucro líquido de até <strong>R$ 4.200 por unidade</strong>. Estoque pronta-entrega em São Paulo e pedido mínimo reduzido de 5 motos.
-          </p>
+      <p class="hero-stage-subtitle">
+        Abasteça sua loja ou concessionária com margens diretas de fábrica de até <strong>48,4%</strong> e lucro líquido de até <strong>R$ 4.200 por unidade</strong>. Estoque pronta-entrega em São Paulo e pedido mínimo reduzido de 5 motos.
+      </p>
 
-          <div class="hero-cta-group">
-            <a href="#tripwire-offer" class="btn-primary-pill btn-open-checkout">
-              <span>SOLICITAR CONCESSÃO EXCLUSIVA (100% GRATUITO)</span>
-              <i class="fa-solid fa-arrow-right"></i>
-            </a>
-            <a href="#catalogo" class="btn-secondary-pill">
-              <i class="fa-solid fa-layer-group"></i>
-              <span>VER CATÁLOGO DIRECT-FACTORY</span>
-            </a>
-          </div>
+      <div class="hero-stage-actions">
+        <a href="#tripwire-offer" class="btn-hero-primary btn-open-checkout">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>SOLICITAR CONCESSÃO EXCLUSIVA</span>
+        </a>
+        <a href="#catalogo" class="btn-hero-secondary">
+          <i class="fa-solid fa-layer-group"></i>
+          <span>VER CATÁLOGO DIRECT-FACTORY</span>
+        </a>
+        <a href="#simulador" class="btn-hero-secondary">
+          <i class="fa-solid fa-calculator"></i>
+          <span>SIMULAR MARGEM B2B</span>
+        </a>
+      </div>
+
+      <!-- Palco Central do Veículo Hero -->
+      <div class="hero-vehicle-stage">
+        <div class="hero-stage-pedestal"></div>
+        <img src="/assets/models/z8_tank_studio.jpg" alt="Z8 Tank High-Speed" id="hero-main-stage-img" class="hero-stage-vehicle-img" />
+
+        <div class="hero-stage-model-info">
+          <span class="hero-stage-badge-tag">Versão em Destaque</span>
+          <h3 id="hero-stage-model-name">Z8 TANK HIGH-SPEED</h3>
         </div>
 
-        <!-- Telemetria Lateral do Hero -->
-        <div class="hero-telemetry-card">
-          <div class="telemetry-header">
-            <span class="font-mono-tag text-accent-green">STATUS DA OPERAÇÃO B2B</span>
-            <p style="font-size: 0.82rem; color: #fff; margin-top: 4px; font-weight: 600;">Despacho Logístico Nacional Ativo</p>
+        <div class="hero-stage-telemetry">
+          <div class="telemetry-pill">
+            <span class="pill-label"><i class="fa-solid fa-bolt"></i> Potência</span>
+            <span class="pill-val" id="hero-telemetry-power">1000W High Torque</span>
           </div>
-
-          <div class="telemetry-row">
-            <div class="telemetry-item">
-              <span class="telemetry-value text-accent-green">100%</span>
-              <span class="telemetry-label">Markup Máx.</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="telemetry-value">5 UNID</span>
-              <span class="telemetry-label">Pedido Mínimo</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="telemetry-value text-accent-gold">48H</span>
-              <span class="telemetry-label">Despacho SP</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="telemetry-value">100%</span>
-              <span class="telemetry-label">Homologado</span>
-            </div>
+          <div class="telemetry-pill">
+            <span class="pill-label"><i class="fa-solid fa-gauge-high"></i> Velocidade</span>
+            <span class="pill-val" id="hero-telemetry-speed">32 km/h Homologada</span>
+          </div>
+          <div class="telemetry-pill">
+            <span class="pill-label"><i class="fa-solid fa-battery-full"></i> Autonomia</span>
+            <span class="pill-val" id="hero-telemetry-range">Até 40 km</span>
+          </div>
+          <div class="telemetry-pill">
+            <span class="pill-label"><i class="fa-solid fa-scale-balanced"></i> CONTRAN 996</span>
+            <span class="pill-val" id="hero-telemetry-cnh">Dispensa CNH</span>
+          </div>
+          <div class="telemetry-pill highlight">
+            <span class="pill-label"><i class="fa-solid fa-chart-line"></i> Lucro / Unidade</span>
+            <span class="pill-val" id="hero-telemetry-profit">+ R$ 4.000,00</span>
           </div>
         </div>
+      </div>
+
+      <!-- Seletor Horizontal de Versões na Base do Palco -->
+      <div class="hero-stage-switcher" id="hero-stage-switcher">
+        <button type="button" class="stage-switch-btn active" data-img="/assets/models/z8_tank_studio.jpg" data-name="Z8 TANK HIGH-SPEED" data-power="1000W High Torque" data-speed="32 km/h Homologada" data-range="Até 40 km" data-cnh="Dispensa CNH" data-profit="+ R$ 4.000,00">
+          <span class="switch-idx">01</span> Z8 Tank High-Speed
+        </button>
+        <button type="button" class="stage-switch-btn" data-img="/assets/models/z8_fx10_studio.jpg" data-name="Z8 FX-10 SPORT" data-power="1000W High Performance" data-speed="32 km/h Homologada" data-range="Até 40 km" data-cnh="Dispensa CNH" data-profit="+ R$ 4.000,00">
+          <span class="switch-idx">02</span> Z8 FX-10 Sport
+        </button>
+        <button type="button" class="stage-switch-btn" data-img="/assets/models/z8_harley_studio.jpg" data-name="Z8 HARLEY X21 CUSTOM" data-power="1000W Chopper" data-speed="32 km/h Homologada" data-range="Até 40 km" data-cnh="Dispensa CNH" data-profit="+ R$ 3.800,00">
+          <span class="switch-idx">03</span> Z8 Harley X21 Custom
+        </button>
+        <button type="button" class="stage-switch-btn" data-img="/assets/models/z8_n710_studio.jpg" data-name="Z8 N710 URBAN PLUS" data-power="1000W Urban" data-speed="32 km/h Homologada" data-range="Até 40 km" data-cnh="Dispensa CNH" data-profit="+ R$ 3.500,00">
+          <span class="switch-idx">04</span> Z8 N710 Urban Plus
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- 4. SUPPLY CHAIN & CERTIFICATIONS INFINITE MARQUEE -->
-  <div class="marquee-section">
-    <div class="marquee-track">
-      <div class="marquee-item"><span class="highlight">VELOCIDADE LIMITADA EM 32 KM/H (CONTRAN 996)</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">MOTORES BRUSHLESS 1000W & 500W</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">BATERIAS LÍTIO CATL</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">FREIOS A DISCO HIDRÁULICOS</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">CHASSI TUBULAR AÇO DE ALTA CARBONO</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">PARTIDA KEYLESS NFC</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">100% HOMOLOGADO CONTRAN (SEM CNH)</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">1 ANO DE GARANTIA DE FÁBRICA</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">ESTOQUE FULFILLMENT SÃO PAULO</span></div>
-      <div class="marquee-divider"></div>
-      <!-- Duplicação para loop contínuo -->
-      <div class="marquee-item"><span class="highlight">VELOCIDADE LIMITADA EM 32 KM/H (CONTRAN 996)</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">MOTORES BRUSHLESS 1000W & 500W</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">BATERIAS LÍTIO CATL</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">FREIOS A DISCO HIDRÁULICOS</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">CHASSI TUBULAR AÇO DE ALTA CARBONO</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">PARTIDA KEYLESS NFC</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">100% HOMOLOGADO CONTRAN (SEM CNH)</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">1 ANO DE GARANTIA DE FÁBRICA</span></div>
-      <div class="marquee-divider"></div>
-      <div class="marquee-item"><span class="highlight">ESTOQUE FULFILLMENT SÃO PAULO</span></div>
-    </div>
-  </div>
-
-  <!-- 5. BENTO GRID SECTION: DA IMPORTAÇÃO AO LUCRO LÍQUIDO -->
-  <section class="section-bento" id="bento-overview">
+  <!-- 2. PILARES ESTRATÉGICOS DE CONCESSÃO (PADRÃO MONTADORA HYUNDAI) -->
+  <section class="section-pillars" id="pilares">
     <div class="site-container">
-      <div class="section-header-editorial">
-        <span class="font-mono-tag">ENGENHARIA DE DISTRIBUIÇÃO B2B</span>
-        <h2 class="section-headline">Soluções rápidas de faturamento direto para o lojista moderno.</h2>
+      <div class="section-header-editorial" style="text-align: center;">
+        <span class="font-mono-tag">ENGENHARIA DE CONCESSÃO B2B</span>
+        <h2 class="section-headline" style="margin: 8px auto 0;">Por que os maiores lojistas escolhem a Z8 E-Motion.</h2>
       </div>
 
-      <div class="bento-grid">
-        <!-- Bento Card Grande (Warehouse & Logística Direct-Factory com Vídeo Veo) -->
-        <article class="bento-card-large">
-          <div class="bento-media-stage">
-            <video class="bento-video" autoplay muted loop playsinline poster="/assets/models/z8_u2_warehouse_wide.jpg">
-              <source src="/assets/videos/z8_u2_delivery_fulfillment.mp4" type="video/mp4">
-              <source src="/assets/videos/Logistics & Cargo Fulfillment (Z8 U2 Delivery).mp4" type="video/mp4">
-            </video>
-            <div class="bento-media-badge">
-              <i class="fa-solid fa-warehouse"></i> Centro de Fulfillment SP
-            </div>
-          </div>
-
-          <div class="bento-content">
-            <div>
-              <span class="font-mono-tag text-accent-green">ESTOQUE NACIONAL</span>
-              <h3 class="bento-title">Disponibilidade Imediata & Despacho em 48h</h3>
-              <p class="bento-text">
-                Eliminamos a barreira da importação própria. Entregamos os veículos montados e revisados na porta da sua loja com garantia e suporte técnico completo de peças.
-              </p>
-
-              <ul class="bento-feature-list">
-                <li class="bento-feature-item">
-                  <span class="bento-feature-dot"></span>
-                  <span>Despacho ágil por transportadora com rastreamento</span>
-                </li>
-                <li class="bento-feature-item">
-                  <span class="bento-feature-dot"></span>
-                  <span>Peças de reposição originais e pós-venda estruturado</span>
-                </li>
-                <li class="bento-feature-item">
-                  <span class="bento-feature-dot"></span>
-                  <span>Veículos 100% elétricos sem necessidade de CNH (Velocidade Limitada 32 km/h)</span>
-                </li>
-              </ul>
-            </div>
-
-            <div class="bento-stats-footer">
-              <div>
-                <p class="telemetry-value">10+</p>
-                <p class="telemetry-label">Modelos em Linha</p>
-              </div>
-              <div>
-                <p class="telemetry-value text-accent-green">R$ 3.800</p>
-                <p class="telemetry-label">Lucro Médio / Moto</p>
-              </div>
-            </div>
-          </div>
+      <div class="pillars-grid">
+        <article class="pillar-card">
+          <div class="pillar-icon-box"><i class="fa-solid fa-chart-line"></i></div>
+          <h3>Margem Direta de até 48,4%</h3>
+          <p>Faturamento direto da montadora com lucro líquido de até R$ 4.200 por unidade vendida. Sem taxas ocultas, sem intermediários e com pedido mínimo de apenas 5 unidades.</p>
         </article>
 
-        <!-- Stack de Cards Laterais (Exclusividade de Cidade & Pedido Mínimo) -->
-        <div class="bento-stack">
-          <!-- Card 1: Verificador de Exclusividade de Cidade -->
-          <article class="bento-card-compact">
-            <div>
-              <span class="font-mono-tag text-accent-gold">PROTEÇÃO TERRITORIAL</span>
-              <h3 class="bento-title" style="font-size: 1.35rem; margin-top: 6px;">Exclusividade Garantida na sua Cidade</h3>
-              <p class="bento-text" style="font-size: 0.82rem;">
-                A Z8 garante 1 revendedor autorizado por raio geográfico. Trave seu município antes que seu concorrente local assuma a concessão.
-              </p>
-            </div>
+        <article class="pillar-card">
+          <div class="pillar-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3>Homologação CONTRAN 996</h3>
+          <p>Veículos 100% regulamentados conforme a Resolução 996/2023. Modelos com isenção total de CNH e emplacamento, viabilizando vendas rápidas e sem atrito para o cliente final.</p>
+        </article>
 
-            <div class="bento-cep-box">
-              <div class="cep-input-group">
-                <input type="text" id="cep-input" class="cep-input-field" placeholder="Digite sua Cidade ou CEP (Ex: Campinas - SP)" />
-                <button type="button" id="cep-btn" class="cep-submit-btn">CONSULTAR</button>
-              </div>
-              <div id="cep-result-msg" class="cep-feedback-status"></div>
-            </div>
-          </article>
-
-          <!-- Card 2: Pedido Mínimo Reduzido -->
-          <article class="bento-card-compact">
-            <div>
-              <span class="font-mono-tag text-accent-cyan">ACESSO DEMOCRATIZADO</span>
-              <h3 class="bento-title" style="font-size: 1.35rem; margin-top: 6px;">Pedido Mínimo de Apenas 5 Motos</h3>
-              <p class="bento-text" style="font-size: 0.82rem;">
-                Sem exigência de investimento de R$ 300.000 de franquias antigas. Você fatura como distribuidor direto com mix personalizado de modelos.
-              </p>
-            </div>
-
-            <div style="margin-top: 14px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-subtle); padding-top: 12px;">
-              <span class="font-mono-tag">Reserva de Território</span>
-              <span style="font-family: var(--font-mono); color: var(--accent-green); font-weight: 700; font-size: 0.85rem;">100% GRATUITA • SEM TAXA</span>
-            </div>
-          </article>
-        </div>
+        <article class="pillar-card">
+          <div class="pillar-icon-box"><i class="fa-solid fa-warehouse"></i></div>
+          <h3>Centro de Peças & Despacho em SP</h3>
+          <p>Estoque contínuo de peças originais, baterias de lítio e suporte técnico especializado para a sua oficina autorizada com despacho nacional em até 48 horas.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -908,6 +810,18 @@
               Seja o ponto de referência da mobilidade elétrica na sua cidade. Concedemos exclusividade regional com faturamento direto da montadora, suporte técnico certificado e homologação integral CONTRAN 996.
             </p>
           </div>
+        </div>
+
+        <!-- VERIFICADOR DE EXCLUSIVIDADE POR CIDADE / CEP -->
+        <div class="bento-cep-box" style="max-width: 580px; margin: 0 auto 32px auto; background: var(--bg-surface); padding: 20px 24px; border-radius: 12px; border: 1.5px solid var(--border-medium);">
+          <label for="cep-input" style="display: block; font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; color: var(--accent-slate); margin-bottom: 10px; text-align: center;">
+            <i class="fa-solid fa-location-dot" style="color: var(--accent-navy);"></i> Consulte a disponibilidade territorial da sua Cidade ou CEP:
+          </label>
+          <div class="cep-input-group">
+            <input type="text" id="cep-input" class="cep-input-field" placeholder="Digite sua Cidade ou CEP (Ex: Taubaté - SP)" />
+            <button type="button" id="cep-btn" class="cep-submit-btn">CONSULTAR</button>
+          </div>
+          <div id="cep-result-msg" class="cep-feedback-status"></div>
         </div>
 
         <div class="tripwire-benefits-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px;">
