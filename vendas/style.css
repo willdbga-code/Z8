@@ -75,6 +75,8 @@ html {
   font-size: 16px;
   background-color: var(--bg-black);
   color: var(--text-muted);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -634,27 +636,31 @@ button {
 
 .hero-stage-telemetry {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
   width: 100%;
   max-width: 960px;
-  margin: 14px auto 0 auto;
+  margin: 16px auto 0 auto;
   position: relative;
   z-index: 3;
+  box-sizing: border-box;
 }
 
 .telemetry-pill {
   background: #FFFFFF;
   border: 1px solid var(--border-medium);
-  border-radius: 6px;
-  padding: 10px 14px;
+  border-radius: 8px;
+  padding: 10px 12px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 4px;
   min-height: 60px;
   height: 100%;
   box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   transition: all var(--transition-fast);
 }
@@ -666,32 +672,43 @@ button {
 
 .pill-label {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 3px;
-  font-size: 0.65rem;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(0.58rem, 1.8vw, 0.66rem);
   color: var(--text-muted);
   text-transform: uppercase;
   font-weight: 700;
   font-family: var(--font-mono);
   letter-spacing: 0.05em;
   line-height: 1.15;
-  flex-shrink: 0;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-align: left;
+  min-width: 0;
 }
 
 .pill-label i {
-  font-size: 0.85rem;
+  font-size: clamp(0.72rem, 2vw, 0.82rem);
   color: var(--accent-navy);
+  flex-shrink: 0;
 }
 
 .pill-val {
-  font-size: 0.86rem;
+  font-size: clamp(0.76rem, 2.2vw, 0.86rem);
   font-weight: 800;
   color: var(--accent-slate);
   font-family: var(--font-heading);
-  text-align: right;
+  text-align: left;
   line-height: 1.25;
+  min-width: 0;
+  width: 100%;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .telemetry-pill.highlight {
@@ -808,7 +825,7 @@ button {
 
 .trust-ticker-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 16px;
   align-items: center;
 }
@@ -875,20 +892,52 @@ button {
   }
   .btn-hero-primary, .btn-hero-secondary {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
     justify-content: center;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    padding: 12px 18px;
+    font-size: clamp(0.82rem, 2.5vw, 0.95rem);
   }
   .hero-stage-vehicle-img {
     max-height: 260px;
   }
   .hero-stage-telemetry {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 520px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 540px;
+    width: 100%;
     gap: 8px;
-    margin: 10px auto 0 auto;
+    margin: 12px auto 0 auto;
+    box-sizing: border-box;
   }
   .telemetry-pill {
-    padding: 8px 12px;
+    padding: 8px 10px;
     min-height: 58px;
+    gap: 3px;
+    min-width: 0;
+  }
+  .telemetry-pill .pill-label {
+    gap: 5px;
+    font-size: clamp(0.56rem, 1.9vw, 0.64rem);
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .telemetry-pill .pill-label i {
+    font-size: clamp(0.70rem, 2vw, 0.80rem);
+  }
+  .telemetry-pill .pill-val {
+    font-size: clamp(0.74rem, 2.2vw, 0.84rem);
+    line-height: 1.22;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    white-space: normal;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+    width: 100%;
   }
   .telemetry-pill.highlight {
     grid-column: span 2;
@@ -1124,7 +1173,7 @@ button {
   border-top: 1px solid var(--border-subtle);
   padding-top: 14px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -1444,7 +1493,13 @@ button {
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    scrollbar-width: none;
     padding-bottom: 6px;
+  }
+  .catalog-nav-tabs::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -1583,6 +1638,37 @@ button {
 }
 
 @media (max-width: 480px) {
+  .hero-stage-telemetry {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 100%;
+    width: 100%;
+    gap: 6px;
+    box-sizing: border-box;
+  }
+  .telemetry-pill {
+    padding: 7px 9px;
+    min-height: 54px;
+    gap: 2px;
+    min-width: 0;
+  }
+  .telemetry-pill .pill-label {
+    font-size: clamp(0.52rem, 1.8vw, 0.60rem);
+    gap: 4px;
+  }
+  .telemetry-pill .pill-val {
+    font-size: clamp(0.70rem, 2.3vw, 0.78rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    white-space: normal;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    padding: 11px 14px;
+    font-size: clamp(0.78rem, 3.2vw, 0.88rem);
+  }
   .catalog-slider-controls {
     justify-content: space-between;
     width: 100%;
@@ -1611,20 +1697,20 @@ button {
 
 @media (min-width: 580px) {
   .catalog-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
   .catalog-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
   }
 }
 
 @media (min-width: 1360px) {
   .catalog-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -2507,7 +2593,7 @@ button {
 
 @media (min-width: 768px) {
   .tripwire-benefits-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -3325,12 +3411,14 @@ button {
 @media (max-width: 768px) {
   .modal-card,
   .modal-card-investor {
-    max-width: 95vw;
+    max-width: min(95vw, calc(100% - 16px)) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
     padding: 24px 18px;
   }
   
   .investor-form-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
 }
@@ -3345,7 +3433,9 @@ button {
     padding: 20px 14px;
     max-height: 94dvh;
     border-radius: var(--radius-md);
-    width: 100%;
+    width: 100% !important;
+    max-width: min(95vw, calc(100% - 12px)) !important;
+    box-sizing: border-box !important;
   }
 
   .modal-header-investor {
@@ -3457,9 +3547,42 @@ button {
 }
 
 @media (max-width: 380px) {
+  .hero-stage-telemetry {
+    gap: 5px;
+  }
+  .telemetry-pill {
+    padding: 6px 8px;
+    min-height: 50px;
+    gap: 2px;
+  }
+  .telemetry-pill .pill-label {
+    font-size: clamp(0.54rem, 1.8vw, 0.60rem);
+    gap: 3px;
+  }
+  .telemetry-pill .pill-label i {
+    font-size: 0.65rem;
+  }
+  .telemetry-pill .pill-val {
+    font-size: clamp(0.68rem, 2.2vw, 0.74rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    white-space: normal;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    padding: 10px 12px;
+    font-size: 0.78rem;
+  }
+
   .modal-card,
   .modal-card-investor {
     padding: 16px 10px;
+    max-width: min(96vw, calc(100% - 8px)) !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .modal-header-investor h2 {

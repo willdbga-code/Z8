@@ -487,3 +487,22 @@
   4. **Validação**:
      - `npm run build` executado com sucesso (código 0, 0 erros de empacotamento).
      - Deploy efetuado no GitHub com commit `3540716`.
+
+### 8.11 Blindagem Integral de Responsividade e Correção de Overflow nos Cards de Telemetria
+
+- **Problema Diagnosticado**: Na imagem reportada pelo usuário (`media_1790718912363.png`), a grade 2x2 de especificações técnicas do Palco de Montadora (`POTÊNCIA`, `VELOCIDADE`, `AUTONOMIA`, `CONTRAN 996`) apresentava corte de texto na borda direita (*text clipping*) para valores mais extensos como `"32 km/h Homologada"` e `"Dispensa CNH"`. O problema ocorria porque o layout padrão alinhava o rótulo e o valor lado a lado (`flex-direction: row; justify-content: space-between`), espremendo os valores em colunas estreitas (~60px a 80px) em tablets e telas médias (641px–900px) e celulares compactos.
+- **Implementações & Solução Estrutural**:
+  1. **Arquitetura Vertical de 2 Níveis (`.telemetry-pill`)**:
+     - Padronização em `site-principal/style.css` e `vendas/style.css` da estrutura vertical em todos os breakpoints (`flex-direction: column; align-items: flex-start; justify-content: center; width: 100%; box-sizing: border-box; min-width: 0;`).
+     - Linha 1 (`.pill-label`): Rótulo superior com ícone e texto (`display: flex; align-items: center; gap: 6px; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: clamp(0.58rem, 1.8vw, 0.66rem);`).
+     - Linha 2 (`.pill-val`): Valor com 100% da largura útil disponível (`font-size: clamp(0.76rem, 2.2vw, 0.86rem); font-weight: 800; text-align: left; width: 100%; min-width: 0; overflow-wrap: anywhere; hyphens: auto; white-space: normal;`).
+  2. **Blindagem de Grids e Prevenção de Estouro (`minmax(0, 1fr)`)**:
+     - Conversão de todas as colunas rígidas `1fr` para `minmax(0, 1fr)` em todas as seções (Garantia, OS, Admin, Modelos, Comparador).
+     - Adicionado `-webkit-text-size-adjust: 100%; text-size-adjust: 100%;` no elemento raiz `html` para blindar contra distorção de fontes no iOS Safari e Android Chrome.
+  3. **Barra Móvel Inferior e Botões de Ação**:
+     - `.mobile-sticky-action-bar` blindada com `width: 100%; max-width: 100vw; box-sizing: border-box;`.
+     - Botão de WhatsApp sintetizado para `<i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span>`, impedindo qualquer alargamento forçado da página em telas de 320px–360px.
+     - Botões primários (`.btn-montadora`, `.btn-hero-primary`) calibrados com padding responsivo e tipografia fluida com `clamp()`.
+  4. **Bateria Automatizada de Testes Headless (Headless Edge)**:
+     - Script `scripts/test_responsive_renders.js` executado sobre 9 configurações de viewport (Mobile 360px, 375px, 414px; Tablet 768px; Desktop 1280px).
+     - Resultado: **0 elementos estourando a tela (`stretcherCount: 0`)** em todos os testes, e verificação visual confirmando 100% de legibilidade dos textos e alinhamento dos botões.

@@ -937,7 +937,7 @@ function initInvestorLeadModal() {
   if (!modal) return;
 
   // 1. Abertura Automática Suave após 1.2 segundos (Verifica se o usuário já dispensou na sessão)
-  const isDismissed = sessionStorage.getItem('z8_investor_modal_dismissed');
+  const isDismissed = sessionStorage.getItem('z8_investor_modal_dismissed') || window.location.search.includes('nomodal=1');
   if (!isDismissed) {
     setTimeout(() => {
       modal.classList.add('active');
