@@ -583,3 +583,17 @@
   5. **Build & Deploy**:
      - npm run build executado com 100% de sucesso.
      - Commit 5659da1 enviado com sucesso para main.
+
+
+### 8.16 Remoção do Botão Flutuante (Balãozinho) de WhatsApp Sobreposto ao Conteúdo
+
+- **Solicitação do Usuário**: "remova o balaozinho de msg no wpp" acompanhado da imagem media_1790801757562.png demonstrando o botão redondo verde flutuante de WhatsApp sobrepondo textos ("...nômica") no canto inferior da tela.
+- **Ações Executadas**:
+  1. **HTML (site-principal/index.html)**:
+     - Removida a tag fixa `<a class="floating-whatsapp">...</a>` que causava sobreposição de texto em resoluções mobile e desktop.
+     - Preservada a barra fixa de ações mobile oficial da montadora (`.mobile-sticky-action-bar`) e os links dedicados de atendimento no cabeçalho e rodapé.
+  2. **CSS (site-principal/style.css)**:
+     - Definido `.floating-whatsapp { display: none !important; }` e removidas as regras redundantes nos media queries.
+  3. **Build & Deploy**:
+     - Compilação de produção com Vite (`npm run build`) concluída com 100% de sucesso.
+     - Commit `7a4a9ea` enviado para `main`.
