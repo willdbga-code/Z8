@@ -520,3 +520,22 @@
   3. **Build & Deploy**:
      - Build de produção verificado com sucesso (`npm run build`).
      - Commit `657e21f` enviado para `main`.
+
+### 8.13 Blindagem de Responsividade da Barra de Sessão Master & Filtro de Unidades (O.S)
+
+- **Problema Diagnosticado**: Na imagem `media_1790799011010.png`, o card dourado de status da Sessão Master do Portal de Garantia & Engenharia (`.os-account-bar.master-admin`) apresentava overflow horizontal: o seletor escuro de unidades (`#os-admin-unit-filter-select`) e seu rótulo `"Unidade:"` extrapolavam fisicamente a borda direita do card, invadindo a página.
+- **Causas**:
+  1. O elemento `<select>` possuía `width: auto` com opções longas (ex: `"🏢 Todas as Concessionárias (4 Total)"`), exigindo largura intrínseca maior que a largura disponível no card em telas médias/móveis.
+  2. Ausência de `max-width: 100%`, `text-overflow: ellipsis` e regras de empilhamento vertical (`flex-direction: column`) para telas <= 768px e <= 480px.
+  3. Cores legadas de modo escuro (`#0b0e14` e `#cbd5e1`) incompatíveis com o padrão Light Theme de montadora.
+- **Implementações & Solução**:
+  1. **Markup Semântico (`site-principal/main.js`)**:
+     - Criação do wrapper `.os-account-filter-wrap` com rótulo de alto contraste `.os-account-filter-label` (`color: var(--text-main); font-weight: 700;`).
+     - Estruturação do texto à esquerda com `.os-account-info-text`, `.os-account-title` e `.os-account-subtitle` com contenção de quebra (`word-break: break-word`).
+  2. **Folha de Estilos (`site-principal/style.css`)**:
+     - `.os-admin-unit-select`: Estilizado no padrão Montadora Luxo Light (`background: #FFFFFF`, texto Azul Navy `#002C5F`, borda dourada `rgba(217, 119, 6, 0.45)`, `max-width: min(100%, 300px)`, `text-overflow: ellipsis; overflow: hidden; white-space: nowrap;`).
+     - Breakpoint `<= 768px`: `.os-account-bar` passa para layout em coluna (`flex-direction: column; align-items: stretch; gap: 12px;`), garantindo que o filtro ocupe sua própria linha com 100% de largura disponível.
+     - Breakpoint `<= 480px`: O wrapper `.os-account-filter-wrap` empilha o rótulo e o select verticalmente (`width: 100%; max-width: 100%;`), eliminando qualquer possibilidade de sangria lateral.
+  3. **Build & Deploy**:
+     - `npm run build` bem-sucedido (0 erros).
+     - Commit `b4da5e1` enviado para `main`.
