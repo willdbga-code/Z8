@@ -506,3 +506,17 @@
   4. **Bateria Automatizada de Testes Headless (Headless Edge)**:
      - Script `scripts/test_responsive_renders.js` executado sobre 9 configurações de viewport (Mobile 360px, 375px, 414px; Tablet 768px; Desktop 1280px).
      - Resultado: **0 elementos estourando a tela (`stretcherCount: 0`)** em todos os testes, e verificação visual confirmando 100% de legibilidade dos textos e alinhamento dos botões.
+
+### 8.12 Geometrização do Badge de Margem de Lucro (.price-margin) no Showroom
+
+- **Solicitação do Usuário**: Deixar a área de destaque da margem de lucro (`Lucro R$ 4.000`) mais quadrada (menos arredondada / remoção do formato de pílula oval).
+- **Ações Executadas**:
+  1. **Folha de Estilos (`site-principal/style.css`)**:
+     - `.price-margin`: `border-radius` reduzido de `20px` (oval estilo cápsula) para `4px` (formato retangular técnico arquitetural).
+     - Adicionada borda sutil de precisão `border: 1px solid rgba(5, 150, 105, 0.28);`.
+     - Inserido `display: inline-flex; align-items: center; justify-content: center; text-align: center; white-space: nowrap;` para manter o valor alinhado e sem quebras indesejadas.
+  2. **Scripts (`site-principal/main.js`)**:
+     - Botão alternativo de consulta (`.btn-unlock-price`) também harmonizado para `border-radius: 4px;`.
+  3. **Build & Deploy**:
+     - Build de produção verificado com sucesso (`npm run build`).
+     - Commit `657e21f` enviado para `main`.
