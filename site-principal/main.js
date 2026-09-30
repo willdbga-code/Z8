@@ -1079,14 +1079,15 @@ function initCatalogAuth() {
     if (mainContent) mainContent.style.display = 'block';
 
     if (user) {
-      if (badgeText) badgeText.textContent = `Sair (${(user.name || user.email).split(' ')[0]})`;
       if (openAdminBtn) {
         openAdminBtn.style.display = (user.email.toLowerCase() === 'christian.tkh@gmail.com') ? 'inline-flex' : 'none';
       }
 
       if (approved) {
+        if (badgeText) badgeText.textContent = `Sair (${(user.name || user.email).split(' ')[0]})`;
         if (pendingBanner) pendingBanner.style.display = 'none';
       } else {
+        if (badgeText) badgeText.innerHTML = `<i class="fa-solid fa-clock" style="color: #fbbf24;"></i> Esperando Aprovação`;
         if (pendingBanner) pendingBanner.style.display = 'block';
         if (pendingName) pendingName.textContent = user.name || user.email;
         if (pendingCta) {
@@ -2661,7 +2662,7 @@ function initWarrantyPortal() {
       }
 
       if (!approved) {
-        alert('Seu cadastro está aguardando aprovação do Administrador Master (christian.tkh@gmail.com). A abertura de O.S e requisição de garantia é liberada mediante autorização comercial.');
+        alert('Seu cadastro está esperando aprovação. A abertura de O.S e requisição de garantia é liberada mediante autorização comercial.');
         const cleanPhone = '5512998008818';
         const msg = `Olá Christian! Sou ${user.name || user.company} (${user.email}). Gostaria de solicitar a aprovação do meu cadastro para abrir uma Ordem de Serviço (Garantia) no Portal Z8.`;
         window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
