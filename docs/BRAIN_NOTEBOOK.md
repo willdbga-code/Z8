@@ -539,3 +539,19 @@
   3. **Build & Deploy**:
      - `npm run build` bem-sucedido (0 erros).
      - Commit `b4da5e1` enviado para `main`.
+
+### 8.14 Ocultação de E-mail do Administrador & Padronização de "Esperando Aprovação"
+
+- **Solicitação do Usuário**: O cliente via o e-mail do administrador ao solicitar acesso/cadastro. Alterar para exibir apenas *"Esperando aprovação"*.
+- **Ações Executadas**:
+  1. **Interface de Cadastro (`site-principal/index.html`)**:
+     - Removida a menção ao e-mail `christian.tkh@gmail.com` na caixa de aviso do formulário de solicitação de acesso (`#cat-box-register`).
+     - Atualizado para: `<i class="fa-solid fa-clock"></i> <strong>Status:</strong> Esperando aprovação`.
+     - No banner de boas-vindas do usuário pendente (`#pending-approval-banner`), o título foi atualizado para: `CONTA REGISTRADA • ESPERANDO APROVAÇÃO`.
+     - No cabeçalho do painel de administração (`#catalog-admin-modal`), o badge foi generalizado para `Administrador Master`.
+  2. **Controle de Autenticação (`site-principal/main.js`)**:
+     - No cabeçalho principal, quando o usuário está conectado porém com status pendente (`!approved`), o botão do menu agora exibe explicitamente `<i class="fa-solid fa-clock"></i> Esperando Aprovação` (em vez de `Sair (...)`).
+     - No alerta de abertura de Ordens de Serviço (Garantia), a mensagem foi simplificada para: *"Seu cadastro está esperando aprovação. A abertura de O.S e requisição de garantia é liberada mediante autorização comercial."* (sem exibir e-mail de administrador).
+  3. **Build & Deploy**:
+     - `npm run build` executado com 0 erros.
+     - Commit `e25b473` enviado para `main`.
