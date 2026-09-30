@@ -942,8 +942,15 @@ body.skeuo-body {
   font-weight: 800;
   color: var(--accent-emerald);
   background: rgba(5, 150, 105, 0.12);
-  padding: 4px 10px;
-  border-radius: 20px;
+  border: 1px solid rgba(5, 150, 105, 0.28);
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.2px;
 }
 
 .btn-unlock-price {

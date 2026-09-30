@@ -276,7 +276,7 @@ function renderShowroom(filterCategory = 'todos') {
             <span class="price-label">Preço Atacado Fábrica</span>
             <span class="price-val" style="color: #fbbf24; font-size: 0.85rem;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>
           </div>
-          <button type="button" class="price-margin btn-unlock-price" data-model="${model.name}" data-code="${model.code}" style="background: rgba(251,191,36,0.18); color: #fbbf24; border: 1px solid rgba(251,191,36,0.4); cursor: pointer; border-radius: 6px; padding: 5px 12px; font-weight: 700; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
+          <button type="button" class="price-margin btn-unlock-price" data-model="${model.name}" data-code="${model.code}" style="background: rgba(251,191,36,0.18); color: #fbbf24; border: 1px solid rgba(251,191,36,0.4); cursor: pointer; border-radius: 4px; padding: 5px 12px; font-weight: 700; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
             <i class="fa-brands fa-whatsapp"></i> Consultar Condições
           </button>
         </div>
