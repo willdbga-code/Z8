@@ -2346,12 +2346,12 @@ function initWarrantyPortal() {
           <div class="os-account-avatar" style="border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.12);">
             <i class="fa-solid fa-user-lock"></i>
           </div>
-          <div>
-            <div style="font-size: 0.88rem; color: #f59e0b; font-weight: 700;">Sessão Não Identificada</div>
-            <div style="font-size: 0.74rem; color: var(--text-muted);">Faça login na sua conta de Franqueado para visualizar e gerenciar as Ordens de Serviço da sua unidade.</div>
+          <div class="os-account-info-text">
+            <div class="os-account-title" style="color: #d97706;">Sessão Não Identificada</div>
+            <div class="os-account-subtitle">Faça login na sua conta de Franqueado para visualizar e gerenciar as Ordens de Serviço da sua unidade.</div>
           </div>
         </div>
-        <div>
+        <div class="os-account-action-wrap">
           <button type="button" class="skeuo-button primary-metal-btn trigger-catalog-login-action" style="padding: 8px 16px; font-size: 0.78rem;">
             <i class="fa-solid fa-right-to-bracket"></i> Identificar Minha Conta
           </button>
@@ -2376,18 +2376,18 @@ function initWarrantyPortal() {
           <div class="os-account-avatar gold">
             <i class="fa-solid fa-crown"></i>
           </div>
-          <div>
-            <div style="font-size: 0.88rem; color: #fbbf24; font-weight: 700;">
+          <div class="os-account-info-text">
+            <div class="os-account-title" style="color: #b45309;">
               Sessão Master • Central Nacional de Garantia & Engenharia Z8
             </div>
-            <div style="font-size: 0.74rem; color: var(--text-muted);">
+            <div class="os-account-subtitle">
               Acesso irrestrito a todas as concessionárias do Brasil • Matriz Z8 (${user.email})
             </div>
           </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <label style="font-size: 0.78rem; color: #cbd5e1; white-space: nowrap;"><i class="fa-solid fa-filter text-gold"></i> Unidade:</label>
-          <select id="os-admin-unit-filter-select" class="os-input" style="padding: 6px 12px; font-size: 0.78rem; width: auto; background: #0b0e14; border-color: rgba(251,191,36,0.4); color: #fff;">
+        <div class="os-account-filter-wrap">
+          <label class="os-account-filter-label"><i class="fa-solid fa-filter" style="color: #d97706;"></i> Unidade:</label>
+          <select id="os-admin-unit-filter-select" class="os-input os-admin-unit-select">
             <option value="all" ${currentAdminUnitFilter === 'all' ? 'selected' : ''}>🏢 Todas as Concessionárias (${allOrders.length} Total)</option>
             ${unitOptions}
           </select>
@@ -2408,17 +2408,17 @@ function initWarrantyPortal() {
           <div class="os-account-avatar">
             <i class="fa-solid fa-user-check"></i>
           </div>
-          <div>
-            <div style="font-size: 0.88rem; color: var(--accent-cyan); font-weight: 700;">
+          <div class="os-account-info-text">
+            <div class="os-account-title" style="color: var(--accent-navy);">
               Sessão Ativa: ${user.name || user.company} (${user.company || 'Concessionária Autorizada'})
             </div>
-            <div style="font-size: 0.74rem; color: var(--text-muted);">
+            <div class="os-account-subtitle">
               ${user.email} • Exibindo exclusivamente os chamados e garantias da sua unidade
             </div>
           </div>
         </div>
-        <div>
-          <span class="skeuo-badge" style="font-size: 0.76rem; border-color: #10B981; color: #10B981; background: rgba(16,185,129,0.1);">
+        <div class="os-account-action-wrap">
+          <span class="skeuo-badge" style="font-size: 0.76rem; border-color: #10B981; color: #10B981; background: rgba(16,185,129,0.1); border-radius: 4px;">
             <i class="fa-solid fa-lock"></i> Seus Pedidos Isolados
           </span>
         </div>
