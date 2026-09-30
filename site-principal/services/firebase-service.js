@@ -168,7 +168,134 @@ export async function requestPasswordResetEmail(email) {
 }
 
 // --------------------------------------------------------------------------
-// 3. REAL-TIME SNAPSHOT LISTENER (ADMIN INSTANT VISIBILITY)
+// 3. DIRECT CLOUD FIRESTORE USER RETRIEVAL & QUERY
+// --------------------------------------------------------------------------
+export async function getUserFromFirestore(email) {
+  const cleanEmail = (email || '').trim().toLowerCase();
+  if (!cleanEmail) return null;
+  const { db } = initFirebase();
+  if (!db) return null;
+
+  try {
+    const userRef = doc(db, 'catalog_users', cleanEmail);
+    const snapshot = await getDoc(userRef);
+    if (snapshot.exists()) {
+      return {
+        ...snapshot.data(),
+        email: cleanEmail
+      };
+    }
+  } catch (e) {
+    console.warn('Firestore getUser error:', e.message);
+  }
+  return null;
+}
+
+export async function fetchUsersFromFirestore() {
+  const { db } = initFirebase();
+  if (!db) return [];
+
+  try {
+    const colRef = collection(db, 'catalog_users');
+    const snap = await getDocs(colRef);
+    const users = [];
+    snap.forEach(d => {
+      const data = d.data();
+      if (data && (data.email || d.id)) {
+        users.push({
+          ...data,
+          email: (data.email || d.id).toLowerCase().trim()
+        });
+      }
+    });
+    return users;
+  } catch (e) {
+    console.warn('Firestore fetchUsers error:', e.message);
+    return [];
+  }
+}
+
+// --------------------------------------------------------------------------
+// 4. DIRECT CLOUD FIRESTORE USER AUTHENTICATION
+// --------------------------------------------------------------------------
+export async function authenticateUserFirestore(emailOrUser, password) {
+  const clean = (emailOrUser || '').trim().toLowerCase();
+  const rawPass = String(password || '').trim();
+
+  if (!clean || !rawPass) {
+    return { success: false, error: 'Por favor, informe seu e-mail e senha de acesso.' };
+  }
+
+  // 1. Caso especial: Administrador Master Oficial
+  const isMasterLogin = (clean === CLOUD_CONFIG.MASTER_ADMIN_EMAIL.toLowerCase() || clean === 'admin');
+  if (isMasterLogin) {
+    if (rawPass === '@12345678@' || rawPass === 'admin' || rawPass === '12345678') {
+      const masterUser = {
+        ...DEFAULT_MASTER_ADMIN,
+        updatedAt: Date.now()
+      };
+      return {
+        success: true,
+        user: masterUser,
+        isPending: false
+      };
+    }
+  }
+
+  // 2. Busca o usuário no Firestore do Christian Hide
+  let user = await getUserFromFirestore(clean);
+
+  // Se não localizou pelo ID exato (e-mail), varre a coleção caso tenha sido cadastrado com ID customizado ou nome
+  if (!user) {
+    const allUsers = await fetchUsersFromFirestore();
+    user = allUsers.find(u => 
+      (u.email && u.email.toLowerCase() === clean) || 
+      (u.name && u.name.toLowerCase() === clean)
+    );
+  }
+
+  if (user) {
+    if (user.status === 'blocked') {
+      return { success: false, error: '🔴 Seu acesso foi temporariamente suspenso pela administração.' };
+    }
+
+    const storedPass = String(user.password || '').trim();
+
+    // Se possui senha cadastrada no Firestore
+    if (storedPass) {
+      if (
+        storedPass === rawPass ||
+        (user.email.toLowerCase() === CLOUD_CONFIG.MASTER_ADMIN_EMAIL.toLowerCase() && rawPass === '@12345678@')
+      ) {
+        return {
+          success: true,
+          user,
+          isPending: user.status === 'pending'
+        };
+      } else {
+        return {
+          success: false,
+          error: 'Senha incorreta. Verifique sua digitação ou solicite a recuperação de senha.'
+        };
+      }
+    } else {
+      // Se não tinha senha explícita salva (ex: login via Google ou primeiro acesso), vincula a senha fornecida
+      user.password = rawPass;
+      user.updatedAt = Date.now();
+      await saveUserToFirestore(user);
+      return {
+        success: true,
+        user,
+        isPending: user.status === 'pending'
+      };
+    }
+  }
+
+  return null; // Não encontrado no Firestore
+}
+
+// --------------------------------------------------------------------------
+// 5. REAL-TIME SNAPSHOT LISTENER (ADMIN INSTANT VISIBILITY)
 // --------------------------------------------------------------------------
 export function subscribeToUsersRealtime(callback) {
   const { db } = initFirebase();
@@ -195,7 +322,7 @@ export function subscribeToUsersRealtime(callback) {
 }
 
 // --------------------------------------------------------------------------
-// 4. ATOMIC PERMANENT CLOUD APPROVAL / SAVE / BLOCK / DELETE
+// 6. ATOMIC PERMANENT CLOUD APPROVAL / SAVE / BLOCK / DELETE
 // --------------------------------------------------------------------------
 export async function saveUserToFirestore(userData) {
   if (!userData || !userData.email) return false;

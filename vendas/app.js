@@ -1765,12 +1765,12 @@ function initPortalLoginModal() {
 
   // 1. Submit de Login
   if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const userVal = document.getElementById('portal-input-user').value.trim();
       const passVal = document.getElementById('portal-input-pass').value.trim();
 
-      const res = loginCatalogUser(userVal, passVal);
+      const res = await loginCatalogUser(userVal, passVal);
 
       if (res.success) {
         showPortalMessage(`🎉 Login efetuado com sucesso! Redirecionando para o painel de atacado...`, 'success');

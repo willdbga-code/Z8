@@ -41,9 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   }
 
-  // Sincronização em nuvem: restrita estritamente a sessões ativas autenticadas
+  // Sincronização em nuvem oficial Z8 (Firebase de Christian Hideyuki)
+  fetchUsersFromCloud().catch(e => console.warn('Cloud sync init info:', e));
   if (getCurrentCatalogUser()) {
-    fetchUsersFromCloud();
     fetchWarrantyOrdersFromFirestore();
   }
 
@@ -2429,7 +2429,7 @@ function initWarrantyPortal() {
     // Bind login buttons inside session bar
     sessionBar.querySelectorAll('.trigger-catalog-login-action').forEach(btn => {
       btn.addEventListener('click', () => {
-        const loginModal = document.getElementById('catalog-auth-modal');
+        const loginModal = document.getElementById('catalog-login-modal') || document.getElementById('catalog-auth-modal');
         if (loginModal) loginModal.classList.remove('hidden');
       });
     });
@@ -2512,7 +2512,10 @@ function initWarrantyPortal() {
         </div>
       `;
       osListContainer.querySelectorAll('.trigger-login-direct').forEach(b => {
-        b.onclick = () => document.getElementById('catalog-auth-modal')?.classList.remove('hidden');
+        b.onclick = () => {
+          const m = document.getElementById('catalog-login-modal') || document.getElementById('catalog-auth-modal');
+          if (m) m.classList.remove('hidden');
+        };
       });
       return;
     }
@@ -2657,7 +2660,8 @@ function initWarrantyPortal() {
 
       if (!user) {
         alert('Por favor, faça login ou cadastre sua unidade para registrar uma Ordem de Serviço vinculada à sua conta.');
-        document.getElementById('catalog-auth-modal')?.classList.remove('hidden');
+        const m = document.getElementById('catalog-login-modal') || document.getElementById('catalog-auth-modal');
+        if (m) m.classList.remove('hidden');
         return;
       }
 
