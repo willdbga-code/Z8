@@ -555,3 +555,31 @@
   3. **Build & Deploy**:
      - `npm run build` executado com 0 erros.
      - Commit `e25b473` enviado para `main`.
+
+
+### 8.15 Diagnóstico e Integração Integral de Login e Cadastro com Firebase Oficial de Christian Hideyuki (z8-emotion-brasil)
+
+- **Solicitação do Usuário**: "gem verifique a area de cadastr e login, parece não estar funcionando, lembrando que estão no firebase do Christian Hide"
+- **Diagnóstico Minucioso**:
+  1. **Conexão Real com o Firebase**: Testado via script direto contra z8-emotion-brasil com database 'default'. O Firestore respondeu com 200 OK e retornou 10 usuários ativos já cadastrados no banco oficial do Christian Hide (incluindo christian.tkh@gmail.com, christian.hide@hotmail.com, willdbga@gmail.com, fabriciopolocruzeiro@gmail.com, viniciusortizdovale@gmail.com, zejda@gmail.com, etc.).
+  2. **Gargalo no Login**: O método loginCatalogUser tentava chamar apenas /api/users (serverless Vercel) e, se falhasse, recorria apenas ao cache localStorage da máquina local, NUNCA consultando o Firestore oficial. Em máquinas novas ou limpas, o lojista recebia erro de 'usuário não encontrado' mesmo estando cadastrado no Firebase do Christian Hide.
+  3. **Gargalo no Cadastro**: No cadastro (registerCatalogUser), não havia verificação prévia no Firestore antes da criação, podendo gerar inconsistências com usuários já registrados.
+  4. **Gargalo no Portal de Vendas (vendas/app.js)**: O listener do formulário de login chamava 'const res = loginCatalogUser(...)' sem async e sem await. Sendo uma promessa assíncrona, res.success sempre retornava undefined e bloqueava o redirecionamento.
+  5. **Divergência de IDs no DOM**: Em site-principal/main.js, botões da área de garantia buscavam #catalog-auth-modal que não existia no DOM (o ID correto é #catalog-login-modal).
+- **Implementações & Solução**:
+  1. **Novas Funções de Integração Direta (site-principal/services/firebase-service.js)**:
+     - getUserFromFirestore(email): Consulta direta do documento do lojista no Firestore (catalog_users).
+     - fetchUsersFromFirestore(): Varredura de todos os usuários registrados em catalog_users no Firebase de Christian Hide.
+     - authenticateUserFirestore(emailOrUser, password): Autenticação direta contra a base real de lojistas e administrador mestre no Firebase, com validação de status (approved, pending, blocked) e checagem de senhas.
+  2. **Motor de Autenticação (site-principal/catalog-auth.js)**:
+     - fetchUsersFromCloud: Agora prioriza a sincronização direta com o Cloud Firestore do Christian Hide, garantindo que todos os 10 lojistas cadastrados sejam sincronizados com o cache local do cliente.
+     - registerCatalogUser: Consulta prévia em nuvem para evitar cadastros duplicados e grava atomicamente no Firestore de Christian Hide (saveUserToFirestore).
+     - loginCatalogUser: Valida primeiro contra o Firebase Firestore; se validado, atualiza o cache local e inicia a sessão instantaneamente.
+  3. **Inicialização Ágil (site-principal/main.js)**:
+     - fetchUsersFromCloud() agora roda no carregamento da página, permitindo login instantâneo.
+     - Corrigidas referências de abertura do modal de autenticação para #catalog-login-modal.
+  4. **Correção no Portal de Vendas (vendas/app.js)**:
+     - Adicionado async/await no evento de submit do formulário de login (#portal-login-form).
+  5. **Build & Deploy**:
+     - npm run build executado com 100% de sucesso.
+     - Commit 5659da1 enviado com sucesso para main.
