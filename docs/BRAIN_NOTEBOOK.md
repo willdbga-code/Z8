@@ -619,3 +619,19 @@
      - Conta de Derik (derik.dws@gmail.com) atualizada com status 'approved' no Cloud Firestore, em api/users.js e em site-principal/data/cloud-config.js.
   5. **Build & Validação**:
      - npm run build executado com 100% de sucesso.
+
+
+### 8.18 Confidencialidade Comercial: Qualificação & Score Estritamente Exclusivos do Painel do Administrador
+
+- **Solicitação do Usuário**: 'QUALIFICAÇÃO COMERCIAL: ❄️ PÚBLICO FRIO (Nutrição Educativa) / Score de Investidor: 25/100 Pontos / Disponibilidade de Aporte... quero que seja exclusiva no painel do adm. nao apareça para o cliente, nem seja enviado para o whatsap.'
+- **Ações Executadas**:
+  1. **Remoção de Vazamento no WhatsApp (vendas/app.js)**:
+     - Removidas da mensagem de WhatsApp todas as menções a QUALIFICAÇÃO COMERCIAL, Score de Investidor, PÚBLICO FRIO, Disponibilidade de Aporte e Envolvimento.
+     - Padronizada a mensagem enviada pelo cliente para o WhatsApp de Christian Hideyuki (+55 12 99800-8818) em estilo executivo limpo (Dale Carnegie), contendo apenas Nome, Empresa, Praça de Interesse, WhatsApp e E-mail, solicitando reunião comercial.
+  2. **Remoção de Classificação na Tela do Cliente (Modal de Sucesso)**:
+     - Eliminada a exibição de badges de temperatura (ex: ❄️ PÚBLICO FRIO), score e próximo passo estratégico no card de confirmação do cliente.
+     - Substituído por confirmação institucional elegante de montadora ('CANDIDATURA RECEBIDA COM SUCESSO • Análise Territorial em Andamento').
+  3. **Manutenção Integral no CRM do Painel Master**:
+     - Todos os dados analíticos (temperatura quente/possível/frio, score numérico 0-100, aporte financeiro, histórico de experiência, prazo e modelo de atuação) continuam sendo gravados no Cloud Firestore e permanecem 100% visíveis de forma exclusiva para a diretoria na aba 'CRM de Leads' do Catálogo Administrativo.
+  4. **Build & Deploy**:
+     - npm run build executado com 100% de sucesso.

@@ -1317,54 +1317,49 @@ function initInvestorLeadModal() {
         score
       });
 
-      // 4. Monta a mensagem para WhatsApp direcionada ao Diretor Christian Hideyuki (+55 12 99800-8818)
-      const approvalLink = `${window.location.origin}/site-principal/?approve_user=${encodeURIComponent(email)}`;
+      // 4. Mensagem oficial para WhatsApp direcionada ao Diretor Christian Hideyuki (+55 12 99800-8818)
+      // Confidencialidade comercial: Score de Investidor e temperatura são estritamente exclusivos do Painel do Admin
       const whatsappMsg = 
-        `🚀 *NOVO PERFIL DE INVESTIDOR Z8 E-MOTION*\n\n` +
+        `Olá Christian! Acabei de enviar minha candidatura para abertura de concessão da Z8 E-Motion.\n\n` +
         `👤 *Nome:* ${name}\n` +
         `🏢 *Empresa / Loja:* ${company}\n` +
-        `📍 *Praça de Concessão:* ${city}\n` +
-        `📱 *WhatsApp:* ${phone} ${isPhoneValid ? '✅ (Verificado)' : ''}\n` +
-        `📧 *E-mail:* ${email}\n\n` +
-        `📊 *QUALIFICAÇÃO COMERCIAL:* ${temperatureTitle}\n` +
-        `🎯 *Score de Investidor:* ${score}/100 Pontos\n` +
-        `💰 *Disponibilidade de Aporte:* ${capitalLabels[capital]}\n` +
-        `💼 *Experiência Atual:* ${experienceLabels[experience]}\n` +
-        `⏱ *Prazo Pretendido:* ${timelineLabels[timeline]}\n` +
-        `👔 *Modelo de Atuação:* ${involvementLabels[involvement]}\n\n` +
-        `👉 *Liberar Acesso do Investidor no Painel em 1 Clique:*\n${approvalLink}\n\n` +
-        `_Lead registrado no CRM oficial da Z8 E-Motion._`;
+        `📍 *Praça de Interesse:* ${city}\n` +
+        `📱 *WhatsApp:* ${phone}\n` +
+        `📧 *E-mail:* ${email || 'Não informado'}\n\n` +
+        `Gostaria de agendar uma reunião comercial para conhecer os modelos da Z8 e verificar a disponibilidade territorial da minha cidade.`;
 
       const whatsappUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(whatsappMsg)}`;
 
-      // 5. Exibe a tela de sucesso profissional com feedback de perfil e botão de WhatsApp
+      // 5. Exibe a tela de sucesso profissional de montadora (sem expor scores internos ou temperatura ao cliente)
       form.style.display = 'none';
       if (successView) {
         successView.style.display = 'block';
 
         if (successBadge) {
-          successBadge.innerHTML = `<i class="fa-solid fa-shield-halved"></i> ${temperatureTitle}`;
+          successBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i> CANDIDATURA RECEBIDA COM SUCESSO`;
         }
 
         if (scoreCard) {
           scoreCard.innerHTML = `
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #E2E8F0; padding-bottom: 10px; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
               <div>
-                <strong style="color: #0F172A; font-size: 0.95rem;">${name}</strong>
-                <span style="display: block; font-size: 0.74rem; color: #64748B;"><i class="fa-solid fa-city"></i> ${city} • ${company}</span>
+                <strong style="color: #0F172A; font-size: 0.98rem;">${name}</strong>
+                <span style="display: block; font-size: 0.76rem; color: #64748B;"><i class="fa-solid fa-city"></i> ${city} • ${company}</span>
               </div>
-              <div>${temperatureBadgeHtml}</div>
+              <span style="background: rgba(16,185,129,0.12); color: #059669; border: 1px solid rgba(16,185,129,0.3); padding: 4px 10px; border-radius: 4px; font-size: 0.72rem; font-weight: 700;">
+                <i class="fa-solid fa-check"></i> Análise Territorial em Andamento
+              </span>
             </div>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; font-size: 0.78rem;">
-              <div><span style="color: #64748B;">Aporte Previsto:</span> <strong style="color: #059669;">${capitalLabels[capital].split('(')[0]}</strong></div>
-              <div><span style="color: #64748B;">Prazo:</span> <strong style="color: #0F172A;">${timelineLabels[timeline].split('(')[0]}</strong></div>
-              <div><span style="color: #64748B;">Perfil:</span> <strong style="color: #0F172A;">${experienceLabels[experience]}</strong></div>
-              <div><span style="color: #64748B;">WhatsApp:</span> <strong style="color: #059669;"><i class="fa-brands fa-whatsapp"></i> ${phone}</strong></div>
+              <div><span style="color: #64748B;">Praça de Interesse:</span> <strong style="color: #002C5F;">${city}</strong></div>
+              <div><span style="color: #64748B;">Empresa / Titular:</span> <strong style="color: #0F172A;">${company}</strong></div>
+              <div><span style="color: #64748B;">WhatsApp Informado:</span> <strong style="color: #059669;"><i class="fa-brands fa-whatsapp"></i> ${phone}</strong></div>
+              <div><span style="color: #64748B;">E-mail:</span> <strong style="color: #0F172A;">${email || 'Registrado'}</strong></div>
             </div>
 
-            <div style="margin-top: 10px; padding: 10px 12px; background: #F0F9FF; border-radius: 4px; border: 1px solid #BAE6FD; font-size: 0.76rem; color: #0369A1;">
-              <i class="fa-solid fa-bullseye"></i> <strong>Próximo Passo Estratégico:</strong> ${actionScript}
+            <div style="margin-top: 10px; padding: 10px 12px; background: #F0F9FF; border-radius: 4px; border: 1px solid #BAE6FD; font-size: 0.78rem; color: #0369A1; line-height: 1.45;">
+              <i class="fa-solid fa-circle-info"></i> <strong>Confirmação de Reserva:</strong> Seus dados foram encaminhados à diretoria executiva da Z8 E-Motion. Nossa equipe avaliará a exclusividade de 50km da sua praça e responderá prontamente.
             </div>
           `;
         }
