@@ -178,8 +178,9 @@ const MODEL_COLORS = {
     { name: 'Azul E-Motion', hex: '#2563EB', img: '/assets/models/z8_u2_studio.jpg' }
   ],
   'z8-n95c': [
-    { name: 'Preto Executivo', hex: '#18181B', img: '/assets/n95c/n95c_hero.jpg' },
-    { name: 'Prata Studio', hex: '#94A3B8', img: '/assets/models/z8_n95c_studio.jpg' }
+    { name: 'Cinza Executivo', hex: '#475569', img: '/assets/models/z8_n95c_studio.jpg' },
+    { name: 'Branco Platina', hex: '#F8FAFC', img: '/assets/models/z8_n95c_white.jpg' },
+    { name: 'Preto Ônix', hex: '#0F172A', img: '/assets/models/z8_n95c_black.jpg' }
   ],
   'z8-n7': [
     { name: 'Preto Metropolitano', hex: '#18181B', img: '/assets/models/z8_n7_studio.jpg' }
@@ -190,9 +191,7 @@ const MODEL_COLORS = {
     { name: 'Amarelo Retrô', hex: '#EAB308', img: '/assets/models/z8_q10_studio.jpg' }
   ],
   'z8-n710': [
-    { name: 'Cinza Faria Lima', hex: '#475569', img: '/assets/models/z8_n710_studio.jpg' },
-    { name: 'Branco Platina', hex: '#F8FAFC', img: '/assets/models/z8_n710_white.jpg' },
-    { name: 'Preto Ônix', hex: '#0F172A', img: '/assets/models/z8_n710_black.jpg' }
+    { name: 'Verde Esmeralda Urban', hex: '#059669', img: '/assets/models/z8_n710_studio.jpg' }
   ],
   'z8-q11': [
     { name: 'Prata Compacto', hex: '#94A3B8', img: '/assets/models/z8_q11_studio.jpg' }
