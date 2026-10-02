@@ -30,7 +30,8 @@ import {
   getCloudSyncStatus,
   loginWithGoogle,
   requestPasswordResetEmail,
-  subscribeToUsersRealtime
+  subscribeToUsersRealtime,
+  subscribeToUserDocRealtime
 } from './catalog-auth.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1112,10 +1113,48 @@ function initCatalogAuth() {
     }
   }
 
+  let userDocUnsubscribe = null;
+
+  function setupUserRealtimeSync() {
+    if (userDocUnsubscribe) {
+      userDocUnsubscribe();
+      userDocUnsubscribe = null;
+    }
+
+    const currentUser = getCurrentCatalogUser();
+    if (!currentUser || !currentUser.email) return;
+
+    // Se o usuário estiver esperando aprovação ('pending'), escuta em tempo real o documento dele no Firestore
+    if (currentUser.status === 'pending') {
+      userDocUnsubscribe = subscribeToUserDocRealtime(currentUser.email, (cloudUser) => {
+        if (cloudUser && cloudUser.status && cloudUser.status !== 'pending') {
+          // Status mudou na nuvem para approved ou blocked!
+          const localUsers = getRegisteredUsers();
+          const idx = localUsers.findIndex(u => (u.email || '').toLowerCase() === cloudUser.email.toLowerCase());
+          if (idx !== -1) {
+            localUsers[idx] = { ...localUsers[idx], ...cloudUser };
+          } else {
+            localUsers.push(cloudUser);
+          }
+          localStorage.setItem('z8_registered_users_directory', JSON.stringify(localUsers));
+
+          const sessionObj = { ...currentUser, ...cloudUser };
+          sessionStorage.setItem('z8_catalog_session_user_data', JSON.stringify(sessionObj));
+          localStorage.setItem('z8_catalog_auth_user', JSON.stringify(sessionObj));
+
+          window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+          window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }
+      });
+    }
+  }
+
   updateHeaderAuth();
+  setupUserRealtimeSync();
 
   window.addEventListener('z8-catalog-auth-changed', () => {
     updateHeaderAuth();
+    setupUserRealtimeSync();
     renderShowroom();
     renderOrderDesk();
     initCalculator();
@@ -1661,7 +1700,7 @@ function initCatalogAuth() {
       } else if (u.status === 'approved') {
         actionButtons = `
           <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
-            <button type="button" class="btn-revoke-user" data-id="${u.id}" title="Bloquear visualização de atacado" style="background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; color: #fcd34d; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
+            <button type="button" class="btn-revoke-user" data-id="${u.id || u.email}" data-email="${u.email}" title="Bloquear visualização de atacado" style="background: rgba(245,158,11,0.2); border: 1px solid #f59e0b; color: #fcd34d; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
               <i class="fa-solid fa-lock"></i> Bloquear
             </button>
             ${cleanPhone ? `
@@ -1669,7 +1708,7 @@ function initCatalogAuth() {
                 <i class="fa-brands fa-whatsapp"></i> Notificar
               </a>
             ` : ''}
-            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
+            <button type="button" class="btn-del-user" data-id="${u.id || u.email}" data-email="${u.email}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -1677,10 +1716,10 @@ function initCatalogAuth() {
       } else if (u.status === 'blocked') {
         actionButtons = `
           <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
-            <button type="button" class="btn-approve-user" data-id="${u.id}" title="Desbloquear acesso" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
+            <button type="button" class="btn-approve-user" data-id="${u.id || u.email}" data-email="${u.email}" title="Desbloquear acesso" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16,185,129,0.3);">
               <i class="fa-solid fa-lock-open"></i> Desbloquear
             </button>
-            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
+            <button type="button" class="btn-del-user" data-id="${u.id || u.email}" data-email="${u.email}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -1689,7 +1728,7 @@ function initCatalogAuth() {
         // Pending
         actionButtons = `
           <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
-            <button type="button" class="btn-approve-user" data-id="${u.id}" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16,185,129,0.4);">
+            <button type="button" class="btn-approve-user" data-id="${u.id || u.email}" data-email="${u.email}" style="background: linear-gradient(135deg, #10B981, #059669); border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(16,185,129,0.4);">
               <i class="fa-solid fa-check"></i> Liberar Acesso
             </button>
             ${cleanPhone ? `
@@ -1697,7 +1736,7 @@ function initCatalogAuth() {
                 <i class="fa-brands fa-whatsapp"></i>
               </a>
             ` : ''}
-            <button type="button" class="btn-del-user" data-id="${u.id}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
+            <button type="button" class="btn-del-user" data-id="${u.id || u.email}" data-email="${u.email}" title="Excluir cadastro" style="background: rgba(239,68,68,0.15); border: 1px solid #ef4444; color: #fca5a5; padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;">
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -1729,10 +1768,10 @@ function initCatalogAuth() {
     adminUsersList.addEventListener('click', async (e) => {
       const approveBtn = e.target.closest('.btn-approve-user');
       if (approveBtn) {
-        const id = approveBtn.getAttribute('data-id');
+        const target = approveBtn.getAttribute('data-email') || approveBtn.getAttribute('data-id');
         approveBtn.disabled = true;
         approveBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-        await updateUserStatus(id, 'approved');
+        await updateUserStatus(target, 'approved');
         renderAdminUsersList();
         renderShowroom();
         renderOrderDesk();
@@ -1744,10 +1783,10 @@ function initCatalogAuth() {
 
       const revokeBtn = e.target.closest('.btn-revoke-user');
       if (revokeBtn) {
-        const id = revokeBtn.getAttribute('data-id');
+        const target = revokeBtn.getAttribute('data-email') || revokeBtn.getAttribute('data-id');
         revokeBtn.disabled = true;
         revokeBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-        await updateUserStatus(id, 'blocked');
+        await updateUserStatus(target, 'blocked');
         renderAdminUsersList();
         renderShowroom();
         renderOrderDesk();
@@ -1759,11 +1798,11 @@ function initCatalogAuth() {
 
       const delBtn = e.target.closest('.btn-del-user');
       if (delBtn) {
-        const id = delBtn.getAttribute('data-id');
+        const target = delBtn.getAttribute('data-email') || delBtn.getAttribute('data-id');
         if (confirm('Tem certeza que deseja excluir o cadastro deste cliente?')) {
           delBtn.disabled = true;
           delBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
-          await deleteCatalogUser(id);
+          await deleteCatalogUser(target);
           renderAdminUsersList();
           renderShowroom();
           renderOrderDesk();

@@ -202,9 +202,13 @@ export async function fetchUsersFromFirestore() {
     snap.forEach(d => {
       const data = d.data();
       if (data && (data.email || d.id)) {
+        const cleanEmail = (data.email || d.id).toLowerCase().trim();
         users.push({
           ...data,
-          email: (data.email || d.id).toLowerCase().trim()
+          id: data.id || ('user_' + cleanEmail.replace(/[^a-zA-Z0-9]/g, '_')),
+          email: cleanEmail,
+          status: data.status || 'pending',
+          role: data.role || (cleanEmail === CLOUD_CONFIG.MASTER_ADMIN_EMAIL.toLowerCase() ? 'admin' : 'partner')
         });
       }
     });
@@ -295,7 +299,7 @@ export async function authenticateUserFirestore(emailOrUser, password) {
 }
 
 // --------------------------------------------------------------------------
-// 5. REAL-TIME SNAPSHOT LISTENER (ADMIN INSTANT VISIBILITY)
+// 5. REAL-TIME SNAPSHOT LISTENERS (INSTANT VISIBILITY & AUTO-APPROVAL)
 // --------------------------------------------------------------------------
 export function subscribeToUsersRealtime(callback) {
   const { db } = initFirebase();
@@ -306,7 +310,13 @@ export function subscribeToUsersRealtime(callback) {
     const unsubscribe = onSnapshot(usersCol, (snapshot) => {
       const users = [];
       snapshot.forEach(docSnap => {
-        users.push(docSnap.data());
+        const data = docSnap.data();
+        const cleanEmail = (data.email || docSnap.id).toLowerCase().trim();
+        users.push({
+          ...data,
+          id: data.id || ('user_' + cleanEmail.replace(/[^a-zA-Z0-9]/g, '_')),
+          email: cleanEmail
+        });
       });
       if (typeof callback === 'function') {
         callback(users);
@@ -317,6 +327,37 @@ export function subscribeToUsersRealtime(callback) {
     return unsubscribe;
   } catch (err) {
     console.warn('Error subscribing to Firestore:', err.message);
+    return () => {};
+  }
+}
+
+export function subscribeToUserDocRealtime(email, callback) {
+  const cleanEmail = (email || '').trim().toLowerCase();
+  if (!cleanEmail) return () => {};
+  const { db } = initFirebase();
+  if (!db) return () => {};
+
+  try {
+    const userRef = doc(db, 'catalog_users', cleanEmail);
+    const unsubscribe = onSnapshot(userRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const userData = {
+          ...data,
+          id: data.id || ('user_' + cleanEmail.replace(/[^a-zA-Z0-9]/g, '_')),
+          email: cleanEmail,
+          status: data.status || 'pending'
+        };
+        if (typeof callback === 'function') {
+          callback(userData);
+        }
+      }
+    }, (error) => {
+      console.warn('Firestore user doc real-time listener notice:', error.message);
+    });
+    return unsubscribe;
+  } catch (err) {
+    console.warn('Error subscribing to user doc in Firestore:', err.message);
     return () => {};
   }
 }
@@ -364,9 +405,13 @@ export async function setCloudUserStatus(email, newStatus) {
 
   // Atualiza também via API Serverless
   try {
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || ('token_master_' + now);
     await fetch(CLOUD_CONFIG.API_USERS_URL, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminToken}`
+      },
       body: JSON.stringify({ email: cleanEmail, status: newStatus })
     });
   } catch (e) {
@@ -391,9 +436,13 @@ export async function deleteCloudUser(email) {
   }
 
   try {
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || ('token_master_' + Date.now());
     await fetch(`${CLOUD_CONFIG.API_USERS_URL}?email=${encodeURIComponent(cleanEmail)}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminToken}`
+      },
       body: JSON.stringify({ email: cleanEmail })
     });
   } catch (e) {

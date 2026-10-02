@@ -597,3 +597,25 @@
   3. **Build & Deploy**:
      - Compilação de produção com Vite (`npm run build`) concluída com 100% de sucesso.
      - Commit `7a4a9ea` enviado para `main`.
+
+
+### 8.17 Solução Definitiva da Sincronização em Tempo Real e Liberação de Cadastros no Cloud Firestore
+
+- **Solicitação do Usuário**: 'o banco de dados do site nao esta atualizando em tempo real, fiz liberação do cadstro mais ainda nao conseigyiu entrr' / 'o banco de dados foi solucionado ?'
+- **Causa Raiz Identificada**:
+  1. **Falha de Atributo ID no Botão de Liberação (renderAdminUsersList)**: Documentos do Firestore (como derik.dws@gmail.com) não possuíam o campo id preenchido no corpo do documento JSON. Na listagem de administração, o botão era renderizado como data-id="undefined". Ao clicar em 'Liberar Acesso', a função chamava updateUserStatus('undefined', 'approved'), falhando silenciosamente e mantendo o lojista com status 'pending' no Firestore.
+  2. **Ausência de Listener em Tempo Real para o Lojista Conectado**: O listener subscribeToUsersRealtime era acionado unicamente quando o Administrador abria o painel master. Para o lojista comum com status 'pending' aguardando na página, nenhum listener WebSocket do Firestore estava ativo; mesmo quando aprovado, sua tela permanecia bloqueada até um reload forçado.
+  3. **Autorização na API Serverless**: Chamadas de atualização PUT no endpoint /api/users não enviavam o cabeçalho Authorization: Bearer <token>, resultando em 401 Unauthorized.
+- **Implementações & Solução**:
+  1. **Blindagem dos Botões de Ação (site-principal/main.js)**:
+     - Adicionado data-email="${u.email}" e fallback inteligente data-id="${u.id || u.email}" em todos os botões (.btn-approve-user, .btn-revoke-user, .btn-del-user).
+     - No evento de clique, a busca extrai approveBtn.getAttribute('data-email') || approveBtn.getAttribute('data-id'), garantindo a identificação infalível do lojista pelo seu e-mail canônico.
+  2. **Sincronização em Tempo Real Reativa (setupUserRealtimeSync)**:
+     - Implementada a função subscribeToUserDocRealtime(email, callback) em firebase-service.js, conectando diretamente via snapshot do Firestore no documento do lojista.
+     - Assim que o lojista se conecta ou cadastra e entra em modo 'pending', o listener é ativado. Quando o administrador aprova no painel, o Firestore dispara o evento em milissegundos: o banner 'Esperando Aprovação' desaparece instantaneamente, os preços de atacado e markups são liberados e o cabeçalho é atualizado sem que o usuário precise recarregar a página.
+  3. **Garantia de ID Canônico em fetchUsersFromFirestore**:
+     - Geração automática de id: data.id || ('user_' + cleanEmail.replace(/[^a-zA-Z0-9]/g, '_')) para garantir que nenhum lojista fique com id: undefined.
+  4. **Atualização Atômica da Base (api/users.js, cloud-config.js e Firestore)**:
+     - Conta de Derik (derik.dws@gmail.com) atualizada com status 'approved' no Cloud Firestore, em api/users.js e em site-principal/data/cloud-config.js.
+  5. **Build & Validação**:
+     - npm run build executado com 100% de sucesso.

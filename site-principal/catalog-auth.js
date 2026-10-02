@@ -7,6 +7,7 @@ import {
   signInWithGoogleAccount,
   requestPasswordResetEmail,
   subscribeToUsersRealtime,
+  subscribeToUserDocRealtime,
   setCloudUserStatus,
   deleteCloudUser,
   saveUserToFirestore,
@@ -19,6 +20,7 @@ export {
   signInWithGoogleAccount,
   requestPasswordResetEmail,
   subscribeToUsersRealtime,
+  subscribeToUserDocRealtime,
   setCloudUserStatus,
   deleteCloudUser,
   saveUserToFirestore,
@@ -590,15 +592,16 @@ export async function resetCatalogUserPassword(email, phone, newPassword) {
   return { success: true, user: found, message: 'Senha redefinida com sucesso! Você já está conectado.' };
 }
 
-export async function updateUserStatus(userId, newStatus) {
+export async function updateUserStatus(userIdOrEmail, newStatus) {
   const users = getRegisteredUsers();
   let updatedUser = null;
   const now = Date.now();
-  const searchKey = String(userId).trim().toLowerCase();
+  const searchKey = String(userIdOrEmail || '').trim().toLowerCase();
+  if (!searchKey) return false;
 
   const updated = users.map(u => {
     const isTarget = (
-      String(u.id).toLowerCase() === searchKey ||
+      String(u.id || '').toLowerCase() === searchKey ||
       (u.email && u.email.toLowerCase() === searchKey)
     );
     if (isTarget && u.email.toLowerCase() !== MASTER_ADMIN_EMAIL.toLowerCase()) {
@@ -610,14 +613,19 @@ export async function updateUserStatus(userId, newStatus) {
   });
 
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updated));
-  if (updatedUser) {
-    await pushUserToFirestore(updatedUser);
-    await setCloudUserStatus(updatedUser.email, newStatus);
+
+  const targetEmail = updatedUser ? updatedUser.email : (searchKey.includes('@') ? searchKey : null);
+
+  if (targetEmail) {
+    if (updatedUser) {
+      await pushUserToFirestore(updatedUser);
+    }
+    await setCloudUserStatus(targetEmail, newStatus);
   }
 
   // Se o usuário atual for o mesmo modificado, atualiza a sessão local
   const currentUser = getCurrentCatalogUser();
-  if (currentUser && updatedUser && (String(currentUser.id).toLowerCase() === String(updatedUser.id).toLowerCase() || currentUser.email.toLowerCase() === updatedUser.email.toLowerCase())) {
+  if (currentUser && targetEmail && currentUser.email.toLowerCase() === targetEmail.toLowerCase()) {
     const sessionObj = { ...currentUser, status: newStatus, updatedAt: now };
     sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(sessionObj));
     localStorage.setItem('z8_catalog_auth_user', JSON.stringify(sessionObj));

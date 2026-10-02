@@ -101,8 +101,8 @@ export const SEED_REGISTERED_USERS = [
     email: 'derik.dws@gmail.com',
     phone: '12981986760',
     role: 'partner',
-    status: 'pending',
-    updatedAt: 1788402155815,
+    status: 'approved',
+    updatedAt: Date.now(),
     createdAt: '2026-09-03T21:02:35.815Z'
   },
   {
