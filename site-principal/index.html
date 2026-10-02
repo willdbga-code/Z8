@@ -589,36 +589,36 @@
 
       <!-- LOGIN FORM -->
       <div id="cat-box-login">
-        <button type="button" id="btn-google-login" class="skeuo-button" style="width: 100%; margin-bottom: 16px; padding: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
+        <button type="button" id="btn-google-login" class="skeuo-button" style="width: 100%; margin-bottom: 16px; padding: 12px; background: #FFFFFF; border: 1px solid var(--border-metal); color: var(--text-main); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
           <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1.1rem;"></i> Entrar com o Google
         </button>
 
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
-          <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+          <div style="flex: 1; height: 1px; background: var(--border-metal);"></div>
           <span style="font-size: 0.75rem; color: #64748b;">ou com e-mail corporativo</span>
-          <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+          <div style="flex: 1; height: 1px; background: var(--border-metal);"></div>
         </div>
 
         <form id="cat-login-form">
           <div id="cat-login-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
           <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-envelope"></i> E-mail ou Usuário Master:</label>
-            <input type="text" id="cat-login-user" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.9rem;" placeholder="Digite seu e-mail" required />
+            <label style="display: block; font-size: 0.82rem; color: var(--text-heading); margin-bottom: 6px;"><i class="fa-solid fa-envelope"></i> E-mail ou Usuário Master:</label>
+            <input type="text" id="cat-login-user" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 12px; color: var(--text-main); font-size: 0.9rem;" placeholder="Digite seu e-mail" required />
           </div>
 
           <div style="margin-bottom: 8px; position: relative;">
-            <label style="display: block; font-size: 0.82rem; color: #cbd5e1; margin-bottom: 6px;"><i class="fa-solid fa-lock"></i> Senha de Acesso:</label>
+            <label style="display: block; font-size: 0.82rem; color: var(--text-heading); margin-bottom: 6px;"><i class="fa-solid fa-lock"></i> Senha de Acesso:</label>
             <div style="position: relative;">
-              <input type="password" id="cat-login-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 42px 12px 12px; color: #fff; font-size: 0.9rem;" placeholder="••••••••••••" required />
-              <button type="button" class="btn-toggle-pass-view" data-target="cat-login-pass" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
+              <input type="password" id="cat-login-pass" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 12px 42px 12px 12px; color: var(--text-main); font-size: 0.9rem;" placeholder="••••••••••••" required />
+              <button type="button" class="btn-toggle-pass-view" data-target="cat-login-pass" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;">
                 <i class="fa-solid fa-eye"></i>
               </button>
             </div>
           </div>
 
           <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
-            <a href="#" id="btn-forgot-password-trigger" style="font-size: 0.78rem; color: #00F2FE; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            <a href="#" id="btn-forgot-password-trigger" style="font-size: 0.78rem; color: var(--accent-cyan); text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
               <i class="fa-solid fa-key"></i> Esqueceu a senha?
             </a>
           </div>
@@ -631,9 +631,9 @@
 
       <!-- FORGOT PASSWORD FORM -->
       <div id="cat-box-forgot" style="display: none;">
-        <div style="background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 8px; padding: 12px; margin-bottom: 14px;">
-          <h4 style="color: #00F2FE; font-size: 0.9rem; margin: 0 0 4px 0;"><i class="fa-solid fa-envelope-circle-check"></i> Recuperação de Senha por E-mail</h4>
-          <p style="font-size: 0.76rem; color: #cbd5e1; margin: 0; line-height: 1.4;">
+        <div style="background: rgba(0, 170, 210, 0.08); border: 1px solid rgba(0, 170, 210, 0.25); border-radius: 8px; padding: 12px; margin-bottom: 14px;">
+          <h4 style="color: var(--accent-cyan); font-size: 0.9rem; margin: 0 0 4px 0;"><i class="fa-solid fa-envelope-circle-check"></i> Recuperação de Senha por E-mail</h4>
+          <p style="font-size: 0.76rem; color: var(--text-heading); margin: 0; line-height: 1.4;">
             Informe seu e-mail cadastrado para receber instantaneamente um link seguro de redefinição de senha enviado pela Google.
           </p>
         </div>
@@ -642,8 +642,8 @@
           <div id="cat-forgot-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
           <div style="margin-bottom: 14px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Cadastrado:</label>
-            <input type="email" id="cat-forgot-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px; color: #fff; font-size: 0.88rem;" placeholder="Ex: contato@empresa.com.br" required />
+            <label style="display: block; font-size: 0.8rem; color: var(--text-heading); margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Cadastrado:</label>
+            <input type="email" id="cat-forgot-email" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 12px; color: var(--text-main); font-size: 0.88rem;" placeholder="Ex: contato@empresa.com.br" required />
           </div>
 
           <button type="submit" id="btn-submit-forgot-email" class="skeuo-button primary-metal-btn full-width" style="padding: 12px; background: linear-gradient(135deg, #00F2FE, #4FACFE); color: #0b0e14; font-weight: 800;">
@@ -651,12 +651,12 @@
           </button>
 
           <div style="text-align: center; margin-top: 14px;">
-            <a href="#" id="btn-forgot-back-to-login" style="font-size: 0.8rem; color: #94a3b8; text-decoration: underline;">
+            <a href="#" id="btn-forgot-back-to-login" style="font-size: 0.8rem; color: var(--text-muted); text-decoration: underline;">
               <i class="fa-solid fa-arrow-left"></i> Voltar para a tela de Login
             </a>
           </div>
 
-          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.1); text-align: center;">
+          <div style="margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border-metal); text-align: center;">
             <span style="font-size: 0.74rem; color: #64748b; display: block; margin-bottom: 6px;">Ou se preferir suporte direto:</span>
             <a href="https://wa.me/5512998008818?text=Ol%C3%A1%20Christian%2C%20esqueci%20minha%20senha%20de%20acesso%20ao%20Cat%C3%A1logo%20Z8%20e%20gostaria%20de%20solicitar%20uma%20redefini%C3%A7%C3%A3o." target="_blank" rel="noopener" style="font-size: 0.78rem; color: #10B981; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
               <i class="fa-brands fa-whatsapp"></i> Falar com Suporte Master via WhatsApp
@@ -667,17 +667,17 @@
 
       <!-- REGISTER FORM -->
       <div id="cat-box-register" style="display: none;">
-        <button type="button" id="btn-google-reg" class="skeuo-button" style="width: 100%; margin-bottom: 16px; padding: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
+        <button type="button" id="btn-google-reg" class="skeuo-button" style="width: 100%; margin-bottom: 16px; padding: 12px; background: #FFFFFF; border: 1px solid var(--border-metal); color: var(--text-main); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
           <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1.1rem;"></i> Cadastrar com o Google
         </button>
 
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
-          <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+          <div style="flex: 1; height: 1px; background: var(--border-metal);"></div>
           <span style="font-size: 0.75rem; color: #64748b;">ou preencha o cadastro comercial</span>
-          <div style="flex: 1; height: 1px; background: rgba(255,255,255,0.1);"></div>
+          <div style="flex: 1; height: 1px; background: var(--border-metal);"></div>
         </div>
 
-        <div style="background: rgba(0,242,254,0.08); border: 1px solid rgba(0,242,254,0.2); padding: 10px 14px; border-radius: 8px; font-size: 0.78rem; color: #38bdf8; margin-bottom: 14px;">
+        <div style="background: rgba(0, 170, 210, 0.08); border: 1px solid rgba(0, 170, 210, 0.25); padding: 10px 14px; border-radius: 8px; font-size: 0.78rem; color: var(--accent-cyan); margin-bottom: 14px;">
           <i class="fa-solid fa-clock"></i> <strong>Status:</strong> Esperando aprovação
         </div>
 
@@ -685,24 +685,24 @@
           <div id="cat-reg-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
           <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-user"></i> Nome Completo / Responsável:</label>
-            <input type="text" id="cat-reg-name" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: João da Silva" required />
+            <label style="display: block; font-size: 0.8rem; color: var(--text-heading); margin-bottom: 4px;"><i class="fa-solid fa-user"></i> Nome Completo / Responsável:</label>
+            <input type="text" id="cat-reg-name" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 10px; color: var(--text-main); font-size: 0.85rem;" placeholder="Ex: João da Silva" required />
           </div>
 
           <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-building"></i> Nome da Empresa / Razão Social / Loja:</label>
-            <input type="text" id="cat-reg-company" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: Silva Motos Elétricas Ltda" required />
+            <label style="display: block; font-size: 0.8rem; color: var(--text-heading); margin-bottom: 4px;"><i class="fa-solid fa-building"></i> Nome da Empresa / Razão Social / Loja:</label>
+            <input type="text" id="cat-reg-company" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 10px; color: var(--text-main); font-size: 0.85rem;" placeholder="Ex: Silva Motos Elétricas Ltda" required />
           </div>
 
           <!-- LOCALIZAÇÃO / PRAÇA DE CONCESSÃO EXCLUSIVA -->
           <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px; margin-bottom: 12px;">
             <div>
-              <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-location-dot"></i> Cidade / Praça Local:</label>
-              <input type="text" id="cat-reg-city" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="Ex: Ribeirão Preto" required />
+              <label style="display: block; font-size: 0.8rem; color: var(--text-heading); margin-bottom: 4px;"><i class="fa-solid fa-location-dot"></i> Cidade / Praça Local:</label>
+              <input type="text" id="cat-reg-city" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 10px; color: var(--text-main); font-size: 0.85rem;" placeholder="Ex: Ribeirão Preto" required />
             </div>
             <div>
-              <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-map-pin"></i> UF (Estado):</label>
-              <select id="cat-reg-state" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem; cursor: pointer;" required>
+              <label style="display: block; font-size: 0.8rem; color: var(--text-heading); margin-bottom: 4px;"><i class="fa-solid fa-map-pin"></i> UF (Estado):</label>
+              <select id="cat-reg-state" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 10px; color: var(--text-main); font-size: 0.85rem; cursor: pointer;" required>
                 <option value="SP" selected>SP</option>
                 <option value="RJ">RJ</option>
                 <option value="MG">MG</option>
@@ -735,20 +735,20 @@
           </div>
 
           <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Corporativo:</label>
-            <input type="email" id="cat-reg-email" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="contato@empresa.com.br" required />
+            <label style="display: block; font-size: 0.8rem; color: var(--text-heading); margin-bottom: 4px;"><i class="fa-solid fa-envelope"></i> E-mail Corporativo:</label>
+            <input type="email" id="cat-reg-email" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 10px; color: var(--text-main); font-size: 0.85rem;" placeholder="contato@empresa.com.br" required />
           </div>
 
           <div style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-phone"></i> WhatsApp do Responsável:</label>
-            <input type="tel" id="cat-reg-phone" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px; color: #fff; font-size: 0.85rem;" placeholder="(11) 99999-9999" required />
+            <label style="display: block; font-size: 0.8rem; color: var(--text-heading); margin-bottom: 4px;"><i class="fa-solid fa-phone"></i> WhatsApp do Responsável:</label>
+            <input type="tel" id="cat-reg-phone" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 10px; color: var(--text-main); font-size: 0.85rem;" placeholder="(11) 99999-9999" required />
           </div>
 
           <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 0.8rem; color: #cbd5e1; margin-bottom: 4px;"><i class="fa-solid fa-lock"></i> Criar Senha de Acesso:</label>
+            <label style="display: block; font-size: 0.8rem; color: var(--text-heading); margin-bottom: 4px;"><i class="fa-solid fa-lock"></i> Criar Senha de Acesso:</label>
             <div style="position: relative;">
-              <input type="password" id="cat-reg-pass" style="width: 100%; background: #0b0e14; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 10px 40px 10px 10px; color: #fff; font-size: 0.85rem;" placeholder="Crie sua senha segura" required />
-              <button type="button" class="btn-toggle-pass-view" data-target="cat-reg-pass" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;">
+              <input type="password" id="cat-reg-pass" style="width: 100%; background: #FFFFFF; border: 1px solid var(--border-metal); border-radius: 8px; padding: 10px 40px 10px 10px; color: var(--text-main); font-size: 0.85rem;" placeholder="Crie sua senha segura" required />
+              <button type="button" class="btn-toggle-pass-view" data-target="cat-reg-pass" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;">
                 <i class="fa-solid fa-eye"></i>
               </button>
             </div>
@@ -760,7 +760,7 @@
         </form>
       </div>
 
-      <button type="button" id="close-cat-modal-bottom-btn" style="background: transparent; border: none; color: #94a3b8; font-size: 0.82rem; cursor: pointer; width: 100%; margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px;">
+      <button type="button" id="close-cat-modal-bottom-btn" style="background: transparent; border: none; color: var(--text-muted); font-size: 0.82rem; cursor: pointer; width: 100%; margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px;">
         <i class="fa-solid fa-arrow-left"></i> Voltar ao Catálogo
       </button>
     </div>

@@ -38,11 +38,11 @@ export const z8Models = [
     tires: '130/60/10 Pneu de Vácuo',
     chassis: 'Quadro Aço Carbono Esportivo',
     features: ['Carenagem Aerodinâmica', 'Suspensão Amortecedora Hidráulica', 'Painel Digital Futurista', 'Entrada USB Fast Charge'],
-    wholesalePrice: 7000,
+    wholesalePrice: 6200,
     retailPrice: 11000,
-    profit: 4000,
-    markupPct: 57.1,
-    marginPct: 36.4,
+    profit: 4800,
+    markupPct: 77.4,
+    marginPct: 43.6,
     description: 'Scooter esportiva com motor de 1000W, velocidade limitada a 32 km/h e visual agressivo. Modelo de alto apelo comercial para o público jovem e urbano.'
   },
   {
@@ -61,11 +61,11 @@ export const z8Models = [
     tires: '10 polegadas Pneu Largo Chopper',
     chassis: 'Estrutura Custom Aço Reforçado',
     features: ['Caixa de Som Bluetooth Integrada', 'Keyless NFC + Alarme Anti-Furto', 'Banco Duplo Confort', 'Guidão Alto Chopper'],
-    wholesalePrice: 6500,
+    wholesalePrice: 6400,
     retailPrice: 10000,
-    profit: 3500,
-    markupPct: 53.8,
-    marginPct: 35.0,
+    profit: 3600,
+    markupPct: 56.3,
+    marginPct: 36.0,
     description: 'Estilo chopper/custom inconfundível com motor de 1000W, velocidade limitada a 32 km/h, caixa de som Bluetooth nativa e sistema NFC.'
   },
   {
