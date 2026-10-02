@@ -635,3 +635,26 @@
      - Todos os dados analíticos (temperatura quente/possível/frio, score numérico 0-100, aporte financeiro, histórico de experiência, prazo e modelo de atuação) continuam sendo gravados no Cloud Firestore e permanecem 100% visíveis de forma exclusiva para a diretoria na aba 'CRM de Leads' do Catálogo Administrativo.
   4. **Build & Deploy**:
      - npm run build executado com 100% de sucesso.
+
+
+### 8.17 Inversão e Correção das Fotos Oficiais da Z8 N710 e Z8 N95C
+
+- **Solicitação do Usuário**: "gem troque as fotos da N710 e da N95c"
+- **Diagnóstico Minucioso**:
+  1. **Inversão Histórica**: Na ficha técnica de fábrica oficial da matriz chinesa (`public/assets/models/Originais/z8_n95c_comfort.jpg`, modelo DB039), a N95C Max Comfort é definida como a scooter executiva com assento duplo acolchoado VIP, encosto traseiro de passageiro, pneus alargados de 130mm e farol LED DRL horizontal retangular embutido no escudo frontal.
+  2. No catálogo e nos arquivos, a N710 estava erroneamente associada a essa foto executiva (`z8_n710_studio.jpg`), enquanto a N95C estava associada à scooter urbana verde com farol quadrado e grafismo "S" (`z8_n95c_studio.jpg` / `n95c_hero.jpg` / `z8_green_urban.jpg`), que na verdade é a Z8 N710 Urban Plus.
+- **Implementações & Solução**:
+  1. **Arquivos Físicos (`public/assets/models/` e `public/assets/n95c/`)**:
+     - Atribuída a scooter executiva de farol horizontal para a Z8 N95C: `z8_n95c_studio.jpg`, `z8_n95c_white.jpg`, `z8_n95c_black.jpg` e `public/assets/n95c/n95c_hero.jpg`.
+     - Atribuída a scooter urbana verde de farol quadrado para a Z8 N710: `z8_n710_studio.jpg` e `z8_n710_green.jpg`.
+  2. **Catálogo e Metadados (`site-principal/data/models.js`)**:
+     - `z8-n95c` agora aponta oficialmente para `/assets/models/z8_n95c_studio.jpg`.
+     - `z8-n710` agora aponta oficialmente para `/assets/models/z8_n710_studio.jpg`.
+  3. **Configurador de Cores (`site-principal/main.js` e `vendas/index.html`)**:
+     - N95C: Paleta Executiva (Cinza Executivo, Branco Platina e Preto Ônix).
+     - N710: Paleta Urbana (Verde Esmeralda Urban).
+  4. **Página de Produto Executiva (`n95c/index.html`)**:
+     - `n95c_hero.jpg` e textos alternativos perfeitamente alinhados com o farol DRL horizontal e assento acolchoado VIP.
+  5. **Build & Deploy**:
+     - `npm run build` verificado com sucesso absoluto (0 erros).
+     - Commit `465c380` enviado para `main`.
