@@ -4,6 +4,7 @@
 // Sliding-Window Rate Limiting, Strict RBAC & Zero Plaintext Password Leakage
 // ==========================================================================
 
+import crypto from 'node:crypto';
 import {
   MASTER_ADMIN_EMAIL,
   hashPassword,
@@ -15,7 +16,9 @@ import {
   sanitizeInputString,
   getClientIp,
   validateAdminAuth,
-  setSecureCorsHeaders
+  setSecureCorsHeaders,
+  generateSecureToken,
+  verifySecureToken
 } from './security-utils.js';
 
 // Base inicial com contas de lojistas e administradores da Z8 E-Motion
@@ -246,7 +249,11 @@ export default async function handler(req, res) {
 
       // 1. Ação de Login Seguro com Rate Limiting
       if (action === 'login') {
-        const rateLimitKey = `login_${clientIp}_${email}`;
+        const lookupEmail = (email === 'admin' || email === MASTER_ADMIN_EMAIL.toLowerCase())
+          ? MASTER_ADMIN_EMAIL.toLowerCase()
+          : email;
+
+        const rateLimitKey = `login_${clientIp}_${lookupEmail}`;
         const rateCheck = checkRateLimit(rateLimitKey, 5, 900); // 5 tentativas em 15 minutos
 
         if (!rateCheck.allowed) {
@@ -258,7 +265,7 @@ export default async function handler(req, res) {
         }
 
         const candidatePass = String(body.password || '');
-        const targetUser = users.find(u => (u.email || '').toLowerCase() === email);
+        const targetUser = users.find(u => (u.email || '').toLowerCase() === lookupEmail);
 
         if (!targetUser) {
           return res.status(401).json({
@@ -291,8 +298,14 @@ export default async function handler(req, res) {
           await saveUsersToCloud(users);
         }
 
-        const isMaster = email === MASTER_ADMIN_EMAIL.toLowerCase();
-        const authToken = isMaster ? ('token_master_' + Date.now()) : ('token_partner_' + Date.now());
+        const isMaster = lookupEmail === MASTER_ADMIN_EMAIL.toLowerCase();
+        const role = isMaster ? 'admin' : (targetUser.role || 'partner');
+        const authToken = generateSecureToken({
+          sub: lookupEmail,
+          id: targetUser.id,
+          role: role,
+          name: targetUser.name
+        }, role, 86400); // 24 horas de validade
 
         return res.status(200).json({
           success: true,
@@ -302,7 +315,63 @@ export default async function handler(req, res) {
         });
       }
 
-      // 2. Ação de Registro de Novo Parceiro (com Rate Limiting de criação)
+      // 2. Ação de Login / Sincronização via Google OAuth Oficial
+      if (action === 'google_auth') {
+        if (!email || !email.includes('@')) {
+          return res.status(400).json({ success: false, error: 'E-mail inválido fornecido.' });
+        }
+
+        const isMaster = email === MASTER_ADMIN_EMAIL.toLowerCase();
+        let targetUser = users.find(u => (u.email || '').toLowerCase() === email);
+
+        if (!targetUser) {
+          targetUser = {
+            id: body.id || ('user_g_' + Date.now()),
+            name: sanitizeInputString(body.name || 'Parceiro Z8'),
+            company: encryptField(sanitizeInputString(body.company || 'Lojista Conectado via Google')),
+            city: sanitizeInputString(body.city || 'São Paulo - SP'),
+            email: email,
+            phone: encryptField(sanitizeInputString(body.phone || '')),
+            photoUrl: sanitizeInputString(body.photoUrl || ''),
+            password: hashPassword(crypto.randomBytes(32).toString('hex')), // Senha aleatória inacessível
+            authProvider: 'google',
+            role: isMaster ? 'admin' : 'partner',
+            status: isMaster ? 'approved' : 'pending',
+            updatedAt: Date.now(),
+            createdAt: new Date().toISOString()
+          };
+          users.unshift(targetUser);
+          await saveUsersToCloud(users);
+        } else {
+          if (targetUser.status === 'blocked') {
+            return res.status(403).json({
+              success: false,
+              error: 'Acesso temporariamente suspenso pela administração.'
+            });
+          }
+          if (body.photoUrl) targetUser.photoUrl = sanitizeInputString(body.photoUrl);
+          targetUser.authProvider = targetUser.authProvider || 'google';
+          targetUser.updatedAt = Date.now();
+          await saveUsersToCloud(users);
+        }
+
+        const role = isMaster ? 'admin' : (targetUser.role || 'partner');
+        const authToken = generateSecureToken({
+          sub: email,
+          id: targetUser.id,
+          role: role,
+          name: targetUser.name
+        }, role, 86400);
+
+        return res.status(200).json({
+          success: true,
+          message: 'Autenticado com sucesso via Google OAuth!',
+          token: authToken,
+          user: sanitizeUserOutput(targetUser, true)
+        });
+      }
+
+      // 3. Ação de Registro de Novo Parceiro (com Rate Limiting de criação)
       const regRateCheck = checkRateLimit(`reg_${clientIp}`, 10, 3600); // 10 registros por hora
       if (!regRateCheck.allowed) {
         return res.status(429).json({
@@ -344,9 +413,17 @@ export default async function handler(req, res) {
       users.unshift(newUser);
       await saveUsersToCloud(users);
 
+      const authToken = generateSecureToken({
+        sub: email,
+        id: newUser.id,
+        role: newUser.role,
+        name: newUser.name
+      }, newUser.role, 86400);
+
       return res.status(201).json({
         success: true,
         message: isMaster ? 'Acesso Master Concedido' : 'Cadastro recebido! Aguardando aprovação comercial.',
+        token: authToken,
         user: sanitizeUserOutput(newUser, true)
       });
     } catch (err) {
@@ -407,7 +484,7 @@ export default async function handler(req, res) {
   }
 
   // ------------------------------------------------------------------------
-  // PATCH: Redefinição Segura de Senha (com Rate Limit)
+  // PATCH: Redefinição Segura de Senha (com Rate Limit e Verificação Forte)
   // ------------------------------------------------------------------------
   if (req.method === 'PATCH') {
     const rateCheck = checkRateLimit(`pwd_reset_${clientIp}`, 5, 900);
@@ -422,6 +499,7 @@ export default async function handler(req, res) {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
       const email = sanitizeInputString(body.email || '').toLowerCase();
       const newPassword = String(body.password || '').trim();
+      const isAdmin = validateAdminAuth(req);
 
       if (!email || !newPassword) {
         return res.status(400).json({ success: false, error: 'E-mail e nova senha são obrigatórios.' });
@@ -431,10 +509,28 @@ export default async function handler(req, res) {
         return res.status(403).json({ success: false, error: 'A senha master não pode ser alterada via endpoint público.' });
       }
 
+      if (newPassword.length < 6) {
+        return res.status(400).json({ success: false, error: 'A nova senha deve ter no mínimo 6 caracteres.' });
+      }
+
       const idx = users.findIndex(u => (u.email || '').toLowerCase() === email);
       if (idx === -1) {
         // Resposta genérica para impedir enumeração de e-mails
         return res.status(200).json({ success: true, message: 'Se o e-mail estiver cadastrado, a senha foi atualizada.' });
+      }
+
+      // Cibersegurança: Redefinição pública exige comprovação de titularidade via WhatsApp/Telefone cadastrado
+      if (!isAdmin) {
+        const storedPhoneRaw = users[idx].phone ? decryptField(users[idx].phone) : '';
+        const storedDigits = storedPhoneRaw.replace(/\D/g, '');
+        const providedDigits = String(body.phone || '').replace(/\D/g, '');
+
+        if (!providedDigits || storedDigits.length < 4 || providedDigits.slice(-4) !== storedDigits.slice(-4)) {
+          return res.status(403).json({
+            success: false,
+            error: 'Verificação de segurança falhou. O número de WhatsApp/Telefone informado não confere com o cadastro.'
+          });
+        }
       }
 
       users[idx].password = hashPassword(newPassword);

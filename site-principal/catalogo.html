@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Oficial & Tabela de Atacado 2026 | Z8 E-Motion</title>
+  <meta name="description" content="Explore o catálogo comercial completo e a tabela oficial de compra no atacado para revendedores da Z8 E-Motion. Motos elétricas de alta performance e máxima rentabilidade.">
+  <link rel="icon" type="image/png" href="/assets/logos/logo minimalista.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&family=Orbitron:wght@700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cyan-electric: #00E5FF;
+      --cyan-deep: #008CA8;
+      --lime-green: #22C55E;
+      --dark-piano: #0A0B0E;
+      --dark-surface: #141822;
+      --dark-card: #1A212E;
+      --gray-platinum: #C2C6CA;
+      --gray-light: #F8FAFC;
+      --border-subtle: rgba(0, 229, 255, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--dark-piano);
+      color: #FFFFFF;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Top Global Header */
+    .catalog-header {
+      background: rgba(10, 11, 14, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 14px 24px;
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #FFFFFF;
+    }
+
+    .brand-logo-img {
+      height: 38px;
+      filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.4));
+    }
+
+    .brand-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #FFFFFF;
+      line-height: 1.1;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--cyan-electric);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      letter-spacing: 1px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-pdf {
+      background: linear-gradient(135deg, var(--cyan-electric) 0%, #0092B3 100%);
+      color: var(--dark-piano);
+      box-shadow: 0 4px 15px rgba(0, 229, 255, 0.35);
+    }
+
+    .btn-pdf:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 229, 255, 0.5);
+    }
+
+    .btn-wpp {
+      background: #25D366;
+      color: #FFFFFF;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+
+    .btn-wpp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    }
+
+    .btn-portal {
+      background: rgba(255, 255, 255, 0.08);
+      color: #CBD5E1;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-portal:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+    }
+
+    /* Mode Switcher Bar */
+    .mode-bar-container {
+      max-width: 1400px;
+      width: 100%;
+      margin: 18px auto 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .catalog-mode-switcher {
+      display: inline-flex;
+      background: var(--dark-surface);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 9999px;
+      padding: 5px;
+      gap: 6px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .mode-btn {
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 9px 24px;
+      border-radius: 9999px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .mode-btn:hover {
+      color: #FFFFFF;
+    }
+
+    .mode-btn.active.retail {
+      background: linear-gradient(135deg, var(--cyan-electric) 0%, #0092B3 100%);
+      color: var(--dark-piano);
+      box-shadow: 0 2px 14px rgba(0, 229, 255, 0.4);
+    }
+
+    .mode-btn.active.wholesale {
+      background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%);
+      color: #FFFFFF;
+      box-shadow: 0 2px 14px rgba(34, 197, 94, 0.4);
+    }
+
+    /* Main Showcase Section */
+    .viewer-section {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 16px 20px 40px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Top Control Bar */
+    .viewer-nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--dark-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 12px 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .page-indicator-pill {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--cyan-electric);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 1.5px;
+    }
+
+    .page-title-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-buttons-cluster {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-nav {
+      background: var(--dark-card);
+      color: #FFFFFF;
+      border: 1px solid rgba(0, 229, 255, 0.3);
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav:hover:not(:disabled) {
+      background: var(--cyan-electric);
+      color: var(--dark-piano);
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    }
+
+    .btn-nav:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .select-page-dropdown {
+      background: var(--dark-card);
+      color: #FFFFFF;
+      border: 1px solid var(--border-subtle);
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .select-page-dropdown option {
+      background: var(--dark-piano);
+      color: #FFFFFF;
+    }
+
+    /* Main Display Frame */
+    .catalog-display-stage {
+      position: relative;
+      width: 100%;
+      background: radial-gradient(circle at center, #1E2536 0%, #080A0D 100%);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5), 0 0 40px rgba(0, 229, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 520px;
+    }
+
+    .stage-image-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-in;
+      position: relative;
+    }
+
+    .stage-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+
+    /* Floating Arrow Buttons on Image */
+    .floating-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 52px;
+      height: 52px;
+      background: rgba(10, 11, 14, 0.85);
+      border: 1.5px solid var(--cyan-electric);
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      transition: all 0.2s ease;
+      z-index: 10;
+      backdrop-filter: blur(8px);
+    }
+
+    .floating-arrow:hover {
+      background: var(--cyan-electric);
+      color: var(--dark-piano);
+      box-shadow: 0 0 20px var(--cyan-electric);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .arrow-prev {
+      left: 20px;
+    }
+
+    .arrow-next {
+      right: 20px;
+    }
+
+    /* Thumbnails Strip */
+    .thumbnails-strip-container {
+      background: var(--dark-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 16px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--cyan-electric) var(--dark-piano);
+    }
+
+    .thumbnails-strip {
+      display: flex;
+      gap: 14px;
+      min-width: max-content;
+    }
+
+    .thumb-card {
+      width: 130px;
+      aspect-ratio: 1754 / 1240;
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.6;
+      transition: all 0.25s ease;
+      position: relative;
+      background: #000;
+    }
+
+    .thumb-card:hover {
+      opacity: 0.9;
+      transform: translateY(-3px);
+    }
+
+    .thumb-card.active {
+      opacity: 1;
+      border-color: var(--cyan-electric);
+      box-shadow: 0 0 16px rgba(0, 229, 255, 0.5);
+      transform: translateY(-4px);
+    }
+
+    .thumb-card.active.wholesale {
+      border-color: #22C55E;
+      box-shadow: 0 0 16px rgba(34, 197, 94, 0.5);
+    }
+
+    .thumb-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .thumb-number {
+      position: absolute;
+      bottom: 4px;
+      right: 6px;
+      background: rgba(10, 11, 14, 0.85);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 7, 10, 0.96);
+      backdrop-filter: blur(15px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .lightbox-modal.open {
+      display: flex;
+    }
+
+    .lightbox-img {
+      max-width: 95vw;
+      max-height: 92vh;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 229, 255, 0.2);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 24px;
+      right: 28px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #FFFFFF;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .lightbox-close:hover {
+      background: var(--cyan-electric);
+      color: var(--dark-piano);
+    }
+
+    /* Footer Legal */
+    .catalog-footer {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 24px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748B;
+      letter-spacing: 1px;
+    }
+
+    .catalog-footer strong {
+      color: #CBD5E1;
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-actions {
+        width: 100%;
+        justify-content: stretch;
+      }
+      .btn-action {
+        flex: 1;
+        justify-content: center;
+      }
+      .viewer-nav-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .nav-buttons-cluster {
+        justify-content: space-between;
+      }
+      .floating-arrow {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+      .thumb-card {
+        width: 95px;
+      }
+      .catalog-mode-switcher {
+        width: 100%;
+        justify-content: center;
+      }
+      .mode-btn {
+        flex: 1;
+        padding: 8px 12px;
+        font-size: 11px;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="catalog-header">
+    <div class="header-inner">
+      <a href="/site-principal/" class="brand-link">
+        <img src="/assets/logos/logo minimalista.png" alt="Z8 Logo" class="brand-logo-img">
+        <div class="brand-info">
+          <span class="brand-name">Z8 E-MOTION</span>
+          <span class="brand-sub" id="headerBrandSub">CATÁLOGO OFICIAL 2026</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <a href="/docs/CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf" download="CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf" class="btn-action btn-pdf" id="btnDownloadPdf">
+          <span id="btnDownloadText">📥 Baixar PDF Varejo</span>
+        </a>
+        <a href="https://wa.me/5512998008818?text=Ol%C3%A1!%20Acessei%20o%20Cat%C3%A1logo%20Oficial%20Z8%202026%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20comerciais." target="_blank" rel="noopener noreferrer" class="btn-action btn-wpp">
+          <span>⚡ Falar com Consultor</span>
+        </a>
+        <a href="/site-principal/" class="btn-action btn-portal">
+          <span>Voltar ao Portal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mode Switcher -->
+  <div class="mode-bar-container">
+    <div class="catalog-mode-switcher">
+      <button class="mode-btn active retail" id="tabRetail">
+        <span>🏍️ Catálogo Consumidor (Varejo)</span>
+      </button>
+      <button class="mode-btn" id="tabWholesale">
+        <span>💼 Tabela de Atacado (Revendedores)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Viewer Section -->
+  <main class="viewer-section">
+    
+    <!-- Navigation Bar -->
+    <div class="viewer-nav-bar">
+      <div class="page-indicator-pill">
+        <span id="pageCurrent">01</span>
+        <span>/</span>
+        <span id="pageTotal">13</span>
+        <span class="page-title-label" id="pageTitleLabel">— Capa Oficial</span>
+      </div>
+
+      <div class="nav-buttons-cluster">
+        <button class="btn-nav" id="btnPrev" title="Página Anterior">◀ Anterior</button>
+        <select class="select-page-dropdown" id="pageDropdown"></select>
+        <button class="btn-nav" id="btnNext" title="Próxima Página">Próxima ▶</button>
+        <button class="btn-nav" id="btnZoom" title="Ampliar em Tela Cheia">🔍 Zoom</button>
+      </div>
+    </div>
+
+    <!-- Stage Image Display -->
+    <div class="catalog-display-stage">
+      <button class="floating-arrow arrow-prev" id="floatingPrev" title="Anterior">◀</button>
+      
+      <div class="stage-image-wrapper" id="imageWrapper" title="Clique para ampliar">
+        <img src="/assets/catalogo/pagina_01_capa.png" alt="Catálogo Z8" class="stage-img" id="mainStageImg">
+      </div>
+
+      <button class="floating-arrow arrow-next" id="floatingNext" title="Próxima">▶</button>
+    </div>
+
+    <!-- Thumbnails Bar -->
+    <div class="thumbnails-strip-container">
+      <div class="thumbnails-strip" id="thumbStrip"></div>
+    </div>
+
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal">
+    <button class="lightbox-close" id="lightboxClose" title="Fechar">&times;</button>
+    <img src="" alt="Página ampliada" class="lightbox-img" id="lightboxImg">
+  </div>
+
+  <!-- Footer Legal -->
+  <footer class="catalog-footer">
+    <strong>Z8 EMOTION LTDA.</strong> • CNPJ: 68.774.164/0001-00 • MATRIZ: SÃO JOSÉ DOS CAMPOS - SP • FORO EXCLUSIVO COMARCA DE SÃO JOSÉ DOS CAMPOS - SP
+  </footer>
+
+  <script>
+    const retailPages = [
+      { num: 1, title: 'Capa Oficial Z8', file: 'pagina_01_capa.png' },
+      { num: 2, title: 'Z8 Tank High-Speed', file: 'pagina_02_z8_tank.png' },
+      { num: 3, title: 'Z8 FX-10 Sport', file: 'pagina_03_z8_fx10.png' },
+      { num: 4, title: 'Z8 Harley X21 Custom', file: 'pagina_04_z8_harley_x21.png' },
+      { num: 5, title: 'Z8 U2 Delivery Cargo', file: 'pagina_05_z8_u2_delivery.png' },
+      { num: 6, title: 'Z8 N95C Executive', file: 'pagina_06_z8_n95c.png' },
+      { num: 7, title: 'Z8 N7 Giro Comercial', file: 'pagina_07_z8_n7.png' },
+      { num: 8, title: 'Z8 Q10 Retrô Vintage', file: 'pagina_08_z8_q10.png' },
+      { num: 9, title: 'Z8 N710 Tecnologia', file: 'pagina_09_z8_n710.png' },
+      { num: 10, title: 'Z8 Q11 City Agility', file: 'pagina_10_z8_q11.png' },
+      { num: 11, title: 'Z8 GS005 Pedelec Cargo', file: 'pagina_11_z8_gs005.png' },
+      { num: 12, title: 'Z8 Diamond Luxe', file: 'pagina_12_z8_diamond.png' },
+      { num: 13, title: 'Contracapa & Rede Oficial', file: 'pagina_13_contracapa.png' }
+    ];
+
+    const wholesalePages = [
+      { num: 1, title: 'Capa Tabela Atacado', file: 'pagina_01_capa_atacado.png' },
+      { num: 2, title: 'Z8 Tank High-Speed (Atacado)', file: 'pagina_02_z8_tank_atacado.png' },
+      { num: 3, title: 'Z8 FX-10 Sport (Atacado)', file: 'pagina_03_z8_fx10_atacado.png' },
+      { num: 4, title: 'Z8 Harley X21 (Atacado)', file: 'pagina_04_z8_harley_x21_atacado.png' },
+      { num: 5, title: 'Z8 U2 Delivery Cargo (Atacado)', file: 'pagina_05_z8_u2_delivery_atacado.png' },
+      { num: 6, title: 'Z8 N95C Executive (Atacado)', file: 'pagina_06_z8_n95c_atacado.png' },
+      { num: 7, title: 'Z8 N7 Giro Comercial (Atacado)', file: 'pagina_07_z8_n7_atacado.png' },
+      { num: 8, title: 'Z8 Q10 Retrô Vintage (Atacado)', file: 'pagina_08_z8_q10_atacado.png' },
+      { num: 9, title: 'Z8 N710 Tecnologia (Atacado)', file: 'pagina_09_z8_n710_atacado.png' },
+      { num: 10, title: 'Z8 Q11 City Agility (Atacado)', file: 'pagina_10_z8_q11_atacado.png' },
+      { num: 11, title: 'Z8 GS005 Pedelec (Atacado)', file: 'pagina_11_z8_gs005_atacado.png' },
+      { num: 12, title: 'Z8 Diamond Luxe (Atacado)', file: 'pagina_12_z8_diamond_atacado.png' },
+      { num: 13, title: 'Condições Atacado 10+ Motos', file: 'pagina_13_contracapa_atacado.png' }
+    ];
+
+    let currentMode = 'retail'; // 'retail' or 'wholesale'
+    let currentIndex = 0;
+
+    const mainStageImg = document.getElementById('mainStageImg');
+    const pageCurrent = document.getElementById('pageCurrent');
+    const pageTotal = document.getElementById('pageTotal');
+    const pageTitleLabel = document.getElementById('pageTitleLabel');
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    const floatingPrev = document.getElementById('floatingPrev');
+    const floatingNext = document.getElementById('floatingNext');
+    const pageDropdown = document.getElementById('pageDropdown');
+    const thumbStrip = document.getElementById('thumbStrip');
+    const lightboxModal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+    const btnZoom = document.getElementById('btnZoom');
+    const imageWrapper = document.getElementById('imageWrapper');
+    const tabRetail = document.getElementById('tabRetail');
+    const tabWholesale = document.getElementById('tabWholesale');
+    const btnDownloadPdf = document.getElementById('btnDownloadPdf');
+    const btnDownloadText = document.getElementById('btnDownloadText');
+    const headerBrandSub = document.getElementById('headerBrandSub');
+
+    function getActiveList() {
+      return (currentMode === 'retail') ? retailPages : wholesalePages;
+    }
+
+    function getImgBasePath() {
+      return (currentMode === 'retail') ? '/assets/catalogo/' : '/assets/catalogo_atacado/';
+    }
+
+    function buildUI() {
+      const list = getActiveList();
+      pageTotal.textContent = String(list.length).padStart(2, '0');
+
+      // Clear & rebuild dropdown
+      pageDropdown.innerHTML = '';
+      list.forEach((p, idx) => {
+        const opt = document.createElement('option');
+        opt.value = idx;
+        opt.textContent = `${String(p.num).padStart(2, '0')} - ${p.title}`;
+        pageDropdown.appendChild(opt);
+      });
+
+      // Clear & rebuild thumbnails
+      thumbStrip.innerHTML = '';
+      list.forEach((p, idx) => {
+        const thumb = document.createElement('div');
+        thumb.className = `thumb-card ${idx === currentIndex ? 'active' : ''} ${currentMode === 'wholesale' ? 'wholesale' : ''}`;
+        thumb.innerHTML = `
+          <img src="${getImgBasePath()}${p.file}" alt="${p.title}" loading="lazy">
+          <span class="thumb-number">${String(p.num).padStart(2, '0')}</span>
+        `;
+        thumb.addEventListener('click', () => setPage(idx));
+        thumbStrip.appendChild(thumb);
+      });
+
+      // Update download PDF button
+      if (currentMode === 'retail') {
+        btnDownloadPdf.href = '/docs/CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf';
+        btnDownloadPdf.download = 'CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf';
+        btnDownloadText.textContent = '📥 Baixar PDF Varejo';
+        headerBrandSub.textContent = 'CATÁLOGO OFICIAL 2026';
+        headerBrandSub.style.color = '#00E5FF';
+      } else {
+        btnDownloadPdf.href = '/docs/TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf';
+        btnDownloadPdf.download = 'TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf';
+        btnDownloadText.textContent = '📥 Baixar Tabela Atacado';
+        headerBrandSub.textContent = 'TABELA ATACADO & REVENDA 2026';
+        headerBrandSub.style.color = '#22C55E';
+      }
+
+      setPage(currentIndex);
+    }
+
+    function setPage(idx) {
+      const list = getActiveList();
+      if (idx < 0 || idx >= list.length) return;
+      currentIndex = idx;
+      const page = list[idx];
+
+      const imgSrc = `${getImgBasePath()}${page.file}`;
+      mainStageImg.src = imgSrc;
+      pageCurrent.textContent = String(page.num).padStart(2, '0');
+      pageTitleLabel.textContent = `— ${page.title}`;
+      pageDropdown.value = idx;
+
+      btnPrev.disabled = (idx === 0);
+      floatingPrev.style.display = (idx === 0) ? 'none' : 'flex';
+      btnNext.disabled = (idx === list.length - 1);
+      floatingNext.style.display = (idx === list.length - 1) ? 'none' : 'flex';
+
+      // Update thumbnails
+      const thumbs = thumbStrip.querySelectorAll('.thumb-card');
+      thumbs.forEach((t, i) => {
+        if (i === idx) {
+          t.classList.add('active');
+          if (currentMode === 'wholesale') t.classList.add('wholesale');
+          t.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        } else {
+          t.classList.remove('active');
+        }
+      });
+    }
+
+    function switchMode(mode) {
+      if (currentMode === mode) return;
+      currentMode = mode;
+
+      if (mode === 'retail') {
+        tabRetail.className = 'mode-btn active retail';
+        tabWholesale.className = 'mode-btn';
+      } else {
+        tabRetail.className = 'mode-btn';
+        tabWholesale.className = 'mode-btn active wholesale';
+      }
+
+      buildUI();
+    }
+
+    function prevPage() {
+      if (currentIndex > 0) setPage(currentIndex - 1);
+    }
+
+    function nextPage() {
+      const list = getActiveList();
+      if (currentIndex < list.length - 1) setPage(currentIndex + 1);
+    }
+
+    function openZoom() {
+      const list = getActiveList();
+      const page = list[currentIndex];
+      lightboxImg.src = `${getImgBasePath()}${page.file}`;
+      lightboxModal.classList.add('open');
+    }
+
+    function closeZoom() {
+      lightboxModal.classList.remove('open');
+    }
+
+    tabRetail.addEventListener('click', () => switchMode('retail'));
+    tabWholesale.addEventListener('click', () => switchMode('wholesale'));
+    btnPrev.addEventListener('click', prevPage);
+    btnNext.addEventListener('click', nextPage);
+    floatingPrev.addEventListener('click', prevPage);
+    floatingNext.addEventListener('click', nextPage);
+    pageDropdown.addEventListener('change', (e) => setPage(parseInt(e.target.value, 10)));
+    btnZoom.addEventListener('click', openZoom);
+    imageWrapper.addEventListener('click', openZoom);
+    lightboxClose.addEventListener('click', closeZoom);
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) closeZoom();
+    });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') prevPage();
+      if (e.key === 'ArrowRight') nextPage();
+      if (e.key === 'Escape') closeZoom();
+    });
+
+    // Initial state
+    buildUI();
+  </script>
+</body>
+</html>

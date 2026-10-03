@@ -26,6 +26,7 @@
       <div class="announcement-links">
         <a href="https://wa.me/5512998008818" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Central Corporativa: (12) 99800-8818</a>
         <a href="#franchise-section"><i class="fa-solid fa-store"></i> Expansão de Concessionárias</a>
+        <a href="/site-principal/catalogo.html" style="color: #00AAD2; font-weight: 700;"><i class="fa-solid fa-book-open"></i> Catálogo Oficial 2026</a>
         <a href="/vendas/" style="color: #00AAD2; font-weight: 700;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Portal de Vendas VIP</a>
       </div>
     </div>
@@ -49,6 +50,9 @@
         <button class="skeuo-nav-btn active" data-target="hero">
           <i class="fa-solid fa-house"></i> Início
         </button>
+        <a href="/site-principal/catalogo.html" class="skeuo-nav-btn" style="text-decoration: none; color: #00AAD2; border: 1px solid rgba(0,170,210,0.3); background: rgba(0,170,210,0.06);">
+          <i class="fa-solid fa-book-open"></i> Catálogo 2026
+        </a>
         <button class="skeuo-nav-btn" id="open-catalog-login-btn" style="color: #00F2FE; border: 1px solid rgba(0,242,254,0.3);">
           <i class="fa-solid fa-right-to-bracket"></i> <span id="catalog-user-badge">Área de Login</span>
         </button>
@@ -589,9 +593,15 @@
 
       <!-- LOGIN FORM -->
       <div id="cat-box-login">
+<<<<<<< HEAD
         <button type="button" id="btn-google-login" class="skeuo-button" style="width: 100%; margin-bottom: 16px; padding: 12px; background: #FFFFFF; border: 1px solid var(--border-metal); color: var(--text-main); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
+=======
+        <button type="button" id="btn-google-login" class="skeuo-button" style="width: 100%; margin-bottom: 12px; padding: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: #fff; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
+>>>>>>> 8c52d77 (security: blindagem de autenticação, tokens HMAC-SHA256, anti-brute force e tratamento de domínio Firebase)
           <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1.1rem;"></i> Entrar com o Google
         </button>
+
+        <div id="cat-google-notice-login" style="display: none; margin-bottom: 14px;"></div>
 
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
           <div style="flex: 1; height: 1px; background: var(--border-metal);"></div>
@@ -667,9 +677,11 @@
 
       <!-- REGISTER FORM -->
       <div id="cat-box-register" style="display: none;">
-        <button type="button" id="btn-google-reg" class="skeuo-button" style="width: 100%; margin-bottom: 16px; padding: 12px; background: #FFFFFF; border: 1px solid var(--border-metal); color: var(--text-main); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
+        <button type="button" id="btn-google-reg" class="skeuo-button" style="width: 100%; margin-bottom: 12px; padding: 12px; background: #FFFFFF; border: 1px solid var(--border-metal); color: var(--text-main); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; border-radius: 8px; font-size: 0.88rem; cursor: pointer; transition: all 0.2s ease;">
           <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1.1rem;"></i> Cadastrar com o Google
         </button>
+
+        <div id="cat-google-notice-reg" style="display: none; margin-bottom: 14px;"></div>
 
         <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
           <div style="flex: 1; height: 1px; background: var(--border-metal);"></div>

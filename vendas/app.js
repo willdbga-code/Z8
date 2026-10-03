@@ -1088,6 +1088,30 @@ function initInvestorLeadModal() {
   const btnGoToStep2 = document.getElementById('btn-go-to-step-2');
   const btnBackToStep1 = document.getElementById('btn-back-to-step-1');
 
+  function showVendasToast(msg, type = 'warning') {
+    let toast = document.getElementById('vendas-floating-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'vendas-floating-toast';
+      toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999999;padding:12px 20px;border-radius:8px;font-size:0.88rem;font-weight:600;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,0.5);transition:all 0.3s ease;pointer-events:auto;';
+      document.body.appendChild(toast);
+    }
+    const bg = type === 'error' ? 'rgba(220,38,38,0.95)' : type === 'success' ? 'rgba(16,185,129,0.95)' : 'rgba(245,158,11,0.95)';
+    const border = type === 'error' ? '#ef4444' : type === 'success' ? '#10B981' : '#f59e0b';
+    const icon = type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation';
+    toast.style.background = bg;
+    toast.style.border = `1px solid ${border}`;
+    toast.style.color = '#ffffff';
+    toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${msg}</span>`;
+    toast.style.display = 'flex';
+    toast.style.opacity = '1';
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => { toast.style.display = 'none'; }, 300);
+    }, 4000);
+  }
+
   if (btnGoToStep2 && step1El && step2El) {
     btnGoToStep2.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1096,19 +1120,19 @@ function initInvestorLeadModal() {
       const phoneVal = phoneInput ? phoneInput.value.trim() : '';
 
       if (!nameVal) {
-        alert('Por favor, informe seu Nome Completo.');
+        showVendasToast('Por favor, informe seu Nome Completo.', 'warning');
         document.getElementById('investor-name')?.focus();
         return;
       }
 
       if (!phoneVal || phoneVal.replace(/\D/g, '').length < 10) {
-        alert('Por favor, informe um WhatsApp válido com DDD.');
+        showVendasToast('Por favor, informe um WhatsApp válido com DDD.', 'warning');
         phoneInput?.focus();
         return;
       }
 
       if (!cityVal) {
-        alert('Por favor, informe a Cidade desejada para a concessão.');
+        showVendasToast('Por favor, informe a Cidade desejada para a concessão.', 'warning');
         document.getElementById('investor-city')?.focus();
         return;
       }

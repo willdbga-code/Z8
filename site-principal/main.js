@@ -34,11 +34,38 @@ import {
   subscribeToUserDocRealtime
 } from './catalog-auth.js';
 
+export function showZ8Notice(message, type = 'info', durationMs = 4500) {
+  let toastContainer = document.getElementById('z8-toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'z8-toast-container';
+    toastContainer.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 999999; display: flex; flex-direction: column; gap: 10px; max-width: min(92vw, 420px); pointer-events: none;';
+    document.body.appendChild(toastContainer);
+  }
+
+  const toast = document.createElement('div');
+  const bg = type === 'success' ? 'rgba(6, 78, 59, 0.95)' : type === 'error' ? 'rgba(127, 29, 29, 0.95)' : type === 'warning' ? 'rgba(120, 53, 15, 0.95)' : 'rgba(15, 23, 42, 0.95)';
+  const border = type === 'success' ? '#10B981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#00F2FE';
+  const icon = type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-triangle-exclamation' : type === 'warning' ? 'fa-shield-halved' : 'fa-circle-info';
+  const iconColor = type === 'success' ? '#34d399' : type === 'error' ? '#f87171' : type === 'warning' ? '#fbbf24' : '#38bdf8';
+
+  toast.className = 'skeuo-panel';
+  toast.style.cssText = `background: ${bg}; border: 1px solid ${border}; color: #ffffff; padding: 14px 18px; border-radius: 10px; font-size: 0.85rem; box-shadow: 0 12px 30px rgba(0,0,0,0.6); display: flex; align-items: flex-start; gap: 12px; pointer-events: auto; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);`;
+  toast.innerHTML = `<i class="fa-solid ${icon}" style="font-size: 1.15rem; color: ${iconColor}; margin-top: 2px;"></i> <div style="flex: 1; line-height: 1.45;">${message}</div>`;
+
+  toastContainer.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(12px)';
+    setTimeout(() => toast.remove(), 350);
+  }, durationMs);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const approvedViaUrl = checkUrlApproval();
   if (approvedViaUrl) {
     setTimeout(() => {
-      alert(`🎉 Acesso comercial liberado com sucesso para o parceiro: ${approvedViaUrl}`);
+      showZ8Notice(`🎉 Acesso comercial liberado com sucesso para o parceiro: <strong>${approvedViaUrl}</strong>`, 'success');
     }, 500);
   }
 
@@ -1247,15 +1274,79 @@ function initCatalogAuth() {
     });
   }
 
-  // Google 1-Click Authentication Handlers
+  // Google 1-Click Authentication Handlers & Inline Cyber Notices
   const btnGoogleLogin = document.getElementById('btn-google-login');
   const btnGoogleReg = document.getElementById('btn-google-reg');
+  const googleNoticeLogin = document.getElementById('cat-google-notice-login');
+  const googleNoticeReg = document.getElementById('cat-google-notice-reg');
 
-  async function handleGoogleAuthClick(btn) {
+  function renderGoogleNotice(targetContainer, res, isRegisterTab = false) {
+    if (!targetContainer) return;
+
+    if (res.code === 'auth/unauthorized-domain' || (res.error && res.error.includes('unauthorized-domain'))) {
+      targetContainer.style.display = 'block';
+      targetContainer.innerHTML = `
+        <div style="background: rgba(245, 158, 11, 0.12); border: 1px solid rgba(245, 158, 11, 0.4); border-radius: 8px; padding: 12px; color: #fbbf24; text-align: left; animation: fadeIn 0.3s ease;">
+          <div style="display: flex; align-items: flex-start; gap: 10px;">
+            <i class="fa-solid fa-shield-halved" style="font-size: 1.25rem; color: #f59e0b; margin-top: 2px;"></i>
+            <div style="flex: 1;">
+              <strong style="display: block; font-size: 0.86rem; margin-bottom: 4px; color: #fef3c7;">Domínio Aguardando Liberação no Firebase</strong>
+              <p style="margin: 0 0 8px 0; font-size: 0.78rem; line-height: 1.4; color: #fde68a;">
+                O domínio <strong>z8emotion.com</strong> precisa ser autorizado no Firebase Console pelo administrador para liberar o Google 1-Click.
+              </p>
+              <div style="font-size: 0.78rem; color: #e2e8f0; background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.08);">
+                👉 <strong>Acesso imediato:</strong> ${isRegisterTab ? 'Preencha seus dados corporativos no formulário logo abaixo.' : 'Utilize seu <strong>e-mail corporativo e senha</strong> no formulário logo abaixo.'}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (!isRegisterTab) {
+        const userInput = document.getElementById('cat-login-user');
+        if (userInput) {
+          userInput.focus();
+          userInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          userInput.style.borderColor = '#f59e0b';
+          setTimeout(() => { userInput.style.borderColor = 'rgba(255,255,255,0.15)'; }, 2500);
+        }
+      } else {
+        const regNameInput = document.getElementById('cat-reg-name');
+        if (regNameInput) {
+          regNameInput.focus();
+          regNameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          regNameInput.style.borderColor = '#10B981';
+          setTimeout(() => { regNameInput.style.borderColor = 'rgba(255,255,255,0.15)'; }, 2500);
+        }
+      }
+    } else if (res.code === 'auth/popup-closed-by-user' || res.code === 'auth/cancelled-popup-request') {
+      targetContainer.style.display = 'block';
+      targetContainer.innerHTML = `
+        <div style="background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.25); border-radius: 8px; padding: 10px 12px; color: #cbd5e1; font-size: 0.8rem; display: flex; align-items: center; gap: 8px; text-align: left;">
+          <i class="fa-solid fa-circle-info" style="color: #94a3b8;"></i>
+          <span>Autenticação Google cancelada. Você pode tentar novamente ou entrar com seu e-mail corporativo abaixo.</span>
+        </div>
+      `;
+    } else {
+      targetContainer.style.display = 'block';
+      targetContainer.innerHTML = `
+        <div style="background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 10px 12px; color: #fca5a5; font-size: 0.8rem; display: flex; align-items: center; gap: 8px; text-align: left;">
+          <i class="fa-solid fa-circle-exclamation" style="color: #ef4444;"></i>
+          <span>${res.error || 'Não foi possível autenticar com a conta Google.'}</span>
+        </div>
+      `;
+    }
+  }
+
+  async function handleGoogleAuthClick(btn, isRegister = false) {
     if (!btn) return;
     const originalText = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Conectando com o Google...';
+
+    const noticeEl = isRegister ? googleNoticeReg : googleNoticeLogin;
+    if (noticeEl) noticeEl.style.display = 'none';
+
     try {
       const res = await loginWithGoogle();
       if (res.success) {
@@ -1267,18 +1358,18 @@ function initCatalogAuth() {
         renderDownloads();
         renderOSDashboard();
       } else {
-        alert(res.error || 'Não foi possível autenticar com a conta Google.');
+        renderGoogleNotice(noticeEl, res, isRegister);
       }
     } catch (e) {
-      alert('Erro ao conectar com o Google: ' + (e.message || e));
+      renderGoogleNotice(noticeEl, { code: 'auth/unknown', error: e.message || 'Erro ao conectar com o Google.' }, isRegister);
     } finally {
       btn.disabled = false;
       btn.innerHTML = originalText;
     }
   }
 
-  if (btnGoogleLogin) btnGoogleLogin.addEventListener('click', () => handleGoogleAuthClick(btnGoogleLogin));
-  if (btnGoogleReg) btnGoogleReg.addEventListener('click', () => handleGoogleAuthClick(btnGoogleReg));
+  if (btnGoogleLogin) btnGoogleLogin.addEventListener('click', () => handleGoogleAuthClick(btnGoogleLogin, false));
+  if (btnGoogleReg) btnGoogleReg.addEventListener('click', () => handleGoogleAuthClick(btnGoogleReg, true));
 
   if (tabLoginBtn && tabRegBtn) {
     tabLoginBtn.addEventListener('click', () => {
@@ -1289,6 +1380,9 @@ function initCatalogAuth() {
       if (boxLogin) boxLogin.style.display = 'block';
       if (boxReg) boxReg.style.display = 'none';
       if (boxForgot) boxForgot.style.display = 'none';
+      if (googleNoticeLogin) googleNoticeLogin.style.display = 'none';
+      if (googleNoticeReg) googleNoticeReg.style.display = 'none';
+      if (typeof checkLockoutState === 'function') checkLockoutState();
     });
 
     tabRegBtn.addEventListener('click', () => {
@@ -1299,6 +1393,8 @@ function initCatalogAuth() {
       if (boxReg) boxReg.style.display = 'block';
       if (boxLogin) boxLogin.style.display = 'none';
       if (boxForgot) boxForgot.style.display = 'none';
+      if (googleNoticeLogin) googleNoticeLogin.style.display = 'none';
+      if (googleNoticeReg) googleNoticeReg.style.display = 'none';
     });
   }
 
@@ -1409,14 +1505,87 @@ function initCatalogAuth() {
     }
   });
 
+  // Anti-Brute Force Protection: 5 failed attempts = 60s cooldown lockout with countdown
+  let failedLoginCount = parseInt(sessionStorage.getItem('z8_login_failed_attempts') || '0', 10);
+  let lockoutTimer = null;
+  const loginSubmitBtn = loginForm?.querySelector('button[type="submit"]');
+
+  function checkLockoutState() {
+    const lockoutUntil = parseInt(sessionStorage.getItem('z8_login_lockout_until') || '0', 10);
+    const now = Date.now();
+    if (lockoutUntil > now) {
+      const remainingSec = Math.ceil((lockoutUntil - now) / 1000);
+      applyLockout(remainingSec);
+      return true;
+    }
+    return false;
+  }
+
+  function applyLockout(seconds) {
+    if (!loginSubmitBtn) return;
+    loginSubmitBtn.disabled = true;
+    let currentRemaining = seconds;
+
+    if (loginMsg) {
+      loginMsg.style.display = 'block';
+      loginMsg.style.background = 'rgba(239, 68, 68, 0.15)';
+      loginMsg.style.border = '1px solid rgba(239, 68, 68, 0.4)';
+      loginMsg.style.color = '#fca5a5';
+      loginMsg.innerHTML = `<i class="fa-solid fa-shield-virus"></i> <strong>Acesso temporariamente bloqueado</strong><br><span style="font-size:0.78rem;">Muitas tentativas incorretas. Por segurança, aguarde <span id="cat-lockout-counter" style="font-weight: 700; color: #fecaca;">${currentRemaining}</span>s para tentar novamente.</span>`;
+    }
+
+    loginSubmitBtn.innerHTML = `<i class="fa-solid fa-lock"></i> BLOQUEADO (${currentRemaining}s)`;
+
+    if (lockoutTimer) clearInterval(lockoutTimer);
+    lockoutTimer = setInterval(() => {
+      currentRemaining -= 1;
+      const counterEl = document.getElementById('cat-lockout-counter');
+      if (counterEl) counterEl.textContent = currentRemaining;
+      if (loginSubmitBtn) loginSubmitBtn.innerHTML = `<i class="fa-solid fa-lock"></i> BLOQUEADO (${currentRemaining}s)`;
+
+      if (currentRemaining <= 0) {
+        clearInterval(lockoutTimer);
+        lockoutTimer = null;
+        sessionStorage.removeItem('z8_login_lockout_until');
+        sessionStorage.removeItem('z8_login_failed_attempts');
+        failedLoginCount = 0;
+        if (loginSubmitBtn) {
+          loginSubmitBtn.disabled = false;
+          loginSubmitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ENTRAR NO CATÁLOGO';
+        }
+        if (loginMsg) {
+          loginMsg.style.display = 'none';
+        }
+      }
+    }, 1000);
+  }
+
+  // Verifica lockout persistente ao carregar
+  checkLockoutState();
+
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const userVal = document.getElementById('cat-login-user').value;
-      const passVal = document.getElementById('cat-login-pass').value;
+      if (checkLockoutState()) return;
+
+      const userVal = document.getElementById('cat-login-user')?.value || '';
+      const passVal = document.getElementById('cat-login-pass')?.value || '';
+
+      if (loginSubmitBtn) {
+        loginSubmitBtn.disabled = true;
+        loginSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Autenticando com segurança...';
+      }
 
       const res = await loginCatalogUser(userVal, passVal);
+
       if (res.success) {
+        failedLoginCount = 0;
+        sessionStorage.removeItem('z8_login_failed_attempts');
+        sessionStorage.removeItem('z8_login_lockout_until');
+        if (loginSubmitBtn) {
+          loginSubmitBtn.disabled = false;
+          loginSubmitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ENTRAR NO CATÁLOGO';
+        }
         if (loginMsg) loginMsg.style.display = 'none';
         loginForm.reset();
         if (loginModal) loginModal.classList.add('hidden');
@@ -1425,12 +1594,29 @@ function initCatalogAuth() {
         fetchUsersFromCloud();
         fetchWarrantyOrdersFromFirestore();
       } else {
-        if (loginMsg) {
-          loginMsg.style.display = 'block';
-          loginMsg.style.background = 'rgba(239,68,68,0.15)';
-          loginMsg.style.border = '1px solid rgba(239,68,68,0.3)';
-          loginMsg.style.color = '#fca5a5';
-          loginMsg.textContent = res.error;
+        failedLoginCount += 1;
+        sessionStorage.setItem('z8_login_failed_attempts', String(failedLoginCount));
+
+        if (loginSubmitBtn) {
+          loginSubmitBtn.disabled = false;
+          loginSubmitBtn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> ENTRAR NO CATÁLOGO';
+        }
+
+        const isServerBlocked = res.error && (res.error.includes('Muitas tentativas') || res.error.includes('bloqueado'));
+        if (failedLoginCount >= 5 || isServerBlocked) {
+          const lockUntil = Date.now() + 60000;
+          sessionStorage.setItem('z8_login_lockout_until', String(lockUntil));
+          sessionStorage.removeItem('z8_login_failed_attempts');
+          applyLockout(60);
+        } else {
+          if (loginMsg) {
+            loginMsg.style.display = 'block';
+            loginMsg.style.background = 'rgba(239,68,68,0.15)';
+            loginMsg.style.border = '1px solid rgba(239,68,68,0.3)';
+            loginMsg.style.color = '#fca5a5';
+            const remainingTries = Math.max(0, 5 - failedLoginCount);
+            loginMsg.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${res.error}<br><span style="font-size:0.75rem; color:#f87171; display:block; margin-top:4px;">Tentativa ${failedLoginCount} de 5 (${remainingTries} restante${remainingTries === 1 ? '' : 's'} antes do bloqueio de 60s).</span>`;
+          }
         }
       }
     });
@@ -1573,7 +1759,7 @@ function initCatalogAuth() {
       manualPartnerForm.reset();
       addPartnerBox.style.display = 'none';
       renderAdminUsersList();
-      alert(`✅ Parceiro ${name} (${company}) cadastrado com status ${status === 'approved' ? 'LIBERADO' : 'PENDENTE'} com sucesso!`);
+      showZ8Notice(`✅ Parceiro <strong>${name}</strong> (${company}) cadastrado com status <strong>${status === 'approved' ? 'LIBERADO' : 'PENDENTE'}</strong> com sucesso!`, 'success');
     });
   }
 
@@ -2697,14 +2883,14 @@ function initWarrantyPortal() {
       const approved = isCatalogApproved();
 
       if (!user) {
-        alert('Por favor, faça login ou cadastre sua unidade para registrar uma Ordem de Serviço vinculada à sua conta.');
+        showZ8Notice('Por favor, faça login ou cadastre sua unidade para registrar uma Ordem de Serviço vinculada à sua conta.', 'warning');
         const m = document.getElementById('catalog-login-modal') || document.getElementById('catalog-auth-modal');
         if (m) m.classList.remove('hidden');
         return;
       }
 
       if (!approved) {
-        alert('Seu cadastro está esperando aprovação. A abertura de O.S e requisição de garantia é liberada mediante autorização comercial.');
+        showZ8Notice('Seu cadastro está aguardando aprovação. A abertura de O.S e requisição de garantia é liberada mediante autorização comercial.', 'warning');
         const cleanPhone = '5512998008818';
         const msg = `Olá Christian! Sou ${user.name || user.company} (${user.email}). Gostaria de solicitar a aprovação do meu cadastro para abrir uma Ordem de Serviço (Garantia) no Portal Z8.`;
         window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -2789,7 +2975,7 @@ function openOSDetailModal(osId, focusAdmin = false) {
 
   const os = getWarrantyOrderById(osId);
   if (!os) {
-    alert('Ordem de Serviço não encontrada.');
+    showZ8Notice('Ordem de Serviço não encontrada.', 'error');
     return;
   }
 

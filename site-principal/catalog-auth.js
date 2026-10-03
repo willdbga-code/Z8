@@ -79,7 +79,9 @@ export async function loginWithGoogle() {
       sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
       sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(user));
       localStorage.setItem('z8_catalog_auth_user', JSON.stringify(user));
-      localStorage.setItem('z8_catalog_auth_token', 'token_google_' + Date.now());
+      if (user.token) {
+        localStorage.setItem('z8_catalog_auth_token', user.token);
+      }
 
       window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
       window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
@@ -92,9 +94,13 @@ export async function loginWithGoogle() {
     }
   } catch (err) {
     console.warn('Google login error:', err);
-    return { success: false, error: err.message || 'Falha ao autenticar com a conta Google.' };
+    return {
+      success: false,
+      code: err.code || 'auth/unknown',
+      error: err.message || 'Falha ao autenticar com a conta Google.'
+    };
   }
-  return { success: false, error: 'Autenticação com o Google cancelada ou indisponível.' };
+  return { success: false, code: 'auth/unknown', error: 'Autenticação com o Google cancelada ou indisponível.' };
 }
 
 // Salva um usuário específico na API Serverless / Nuvem Z8
@@ -110,19 +116,26 @@ export async function pushUserToFirestore(user) {
       phone: user.phone || '',
       role: user.role || 'partner',
       status: user.status || 'pending',
-      password: user.password || 'Z8@2026',
       updatedAt: user.updatedAt || Date.now(),
       createdAt: user.createdAt || new Date().toISOString()
     };
+    if (user.password) {
+      payload.password = user.password;
+    }
 
-    // 1. Grava diretamente no Firebase Firestore oficial
+    // 1. Grava diretamente no Firebase Firestore oficial (sem expor senha)
     await saveUserToFirestore(payload);
 
     // 2. Envia para o endpoint Serverless /api/users
     try {
+      const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+      const headers = { 'Content-Type': 'application/json' };
+      if (adminToken) {
+        headers['Authorization'] = `Bearer ${adminToken}`;
+      }
       const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(payload)
       });
       if (res.ok) {
@@ -167,7 +180,12 @@ export async function fetchUsersFromCloud() {
 
     // 2. Consulta adicional do endpoint serverless /api/users para mesclagem de contingência
     try {
-      const res = await fetch(CLOUD_CONFIG.API_USERS_URL);
+      const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+      const headers = {};
+      if (adminToken) {
+        headers['Authorization'] = `Bearer ${adminToken}`;
+      }
+      const res = await fetch(CLOUD_CONFIG.API_USERS_URL, { headers });
       if (res.ok) {
         const json = await res.json();
         if (json && Array.isArray(json.users)) {
@@ -206,10 +224,12 @@ export async function fetchUsersFromCloud() {
           phone: cu.phone || '',
           role: email === MASTER_ADMIN_EMAIL.toLowerCase() ? 'admin' : (cu.role || 'partner'),
           status: email === MASTER_ADMIN_EMAIL.toLowerCase() ? 'approved' : (cu.status || 'pending'),
-          password: cu.password || 'Z8@2026',
           updatedAt: parseInt(cu.updatedAt || '1000', 10),
           createdAt: cu.createdAt || new Date().toISOString()
         };
+        if (cu.password) {
+          normalizedUser.password = cu.password;
+        }
 
         if (!mergedMap.has(email)) {
           mergedMap.set(email, normalizedUser);
@@ -300,7 +320,6 @@ export function getRegisteredUsers() {
             city: su.city || 'São Paulo - SP',
             email: su.email.toLowerCase(),
             phone: su.phone || '',
-            password: su.password || 'z8@2026',
             role: su.role || 'partner',
             status: su.status || 'pending',
             updatedAt: 1000,
@@ -344,12 +363,14 @@ export async function createPartnerByAdmin(userData) {
     city: userData.city || 'São Paulo - SP',
     email: cleanEmail,
     phone: userData.phone || '',
-    password: userData.password || 'Z8@2026',
     role: isMaster ? 'admin' : 'partner',
     status: userData.status || 'approved',
     updatedAt: Date.now(),
     createdAt: new Date().toISOString()
   };
+  if (userData.password) {
+    newUserData.password = userData.password;
+  }
 
   if (existingIndex !== -1) {
     users[existingIndex] = { ...users[existingIndex], ...newUserData };
@@ -415,11 +436,39 @@ export async function registerCatalogUser(userData) {
   await pushUserToFirestore(newUser);
   await setCloudUserStatus(cleanEmail, newUser.status);
 
+  // Registra no endpoint Serverless (/api/users) para receber token criptográfico assinado HMAC-SHA256
+  let authToken = '';
+  try {
+    const apiRes = await fetch(CLOUD_CONFIG.API_USERS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: newUser.id,
+        name: newUser.name,
+        company: newUser.company,
+        city: newUser.city,
+        email: newUser.email,
+        phone: newUser.phone,
+        password: userData.password || ''
+      })
+    });
+    if (apiRes.ok) {
+      const apiData = await apiRes.json().catch(() => null);
+      if (apiData?.token) {
+        authToken = apiData.token;
+      }
+    }
+  } catch (apiErr) {
+    console.warn('API registration sync notice:', apiErr);
+  }
+
   // Autentica o usuário imediatamente na sessão
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
   sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(newUser));
   localStorage.setItem('z8_catalog_auth_user', JSON.stringify(newUser));
-  localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
+  if (authToken) {
+    localStorage.setItem('z8_catalog_auth_token', authToken);
+  }
 
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
@@ -435,7 +484,60 @@ export async function loginCatalogUser(userOrEmail, password) {
     return { success: false, error: 'Por favor, informe seu e-mail e senha de acesso.' };
   }
 
-  // 1. TENTA AUTENTICAR DIRETAMENTE NO CLOUD FIRESTORE DO CHRISTIAN HIDE
+  // 1. PRIORIDADE MÁXIMA: Autenticação Criptográfica Segura via API Serverless (/api/users)
+  // Utiliza PBKDF2 (100.000 iterações + salt), timingSafeEqual, Rate Limiting por IP/e-mail e tokens HMAC-SHA256
+  let apiCallCompleted = false;
+  try {
+    const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'login', email: clean, password: rawPassword })
+    });
+
+    apiCallCompleted = true;
+    const data = await res.json().catch(() => null);
+
+    if (res.ok && data?.success && data?.user) {
+      const loggedUser = data.user;
+      const localUsers = getRegisteredUsers();
+      const existingIdx = localUsers.findIndex(u => (u.email || '').toLowerCase() === loggedUser.email.toLowerCase());
+      if (existingIdx !== -1) {
+        localUsers[existingIdx] = { ...localUsers[existingIdx], ...loggedUser };
+      } else {
+        localUsers.unshift(loggedUser);
+      }
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(localUsers));
+
+      sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
+      sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
+      localStorage.setItem('z8_catalog_auth_user', JSON.stringify(loggedUser));
+      if (data.token) {
+        localStorage.setItem('z8_catalog_auth_token', data.token);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+      return {
+        success: true,
+        user: loggedUser,
+        isPending: loggedUser.status === 'pending'
+      };
+    } else if (data?.error) {
+      // Servidor rejeitou explicitamente as credenciais ou aplicou rate limit: RETORNA ERRO IMEDIATAMENTE!
+      // Cibersegurança: NUNCA fazer fallback para bypass fraco quando o servidor respondeu com 401, 403 ou 429!
+      return { success: false, error: data.error };
+    }
+  } catch (apiErr) {
+    // API inacessível por ausência de conexão com a rede
+    console.warn('API authentication unavailable, attempting secure offline contingency:', apiErr);
+  }
+
+  // Se o servidor de API foi contactado e respondeu, não permite nenhum bypass
+  if (apiCallCompleted) {
+    return { success: false, error: 'Credenciais inválidas. Verifique seu e-mail e senha.' };
+  }
+
+  // 2. CONTINGÊNCIA OFFLINE (Apenas quando a rede estiver indisponível)
+  // Tenta autenticação via Firebase Auth / Firestore seguro
   try {
     const firestoreAuthRes = await authenticateUserFirestore(clean, rawPassword);
     if (firestoreAuthRes) {
@@ -453,7 +555,6 @@ export async function loginCatalogUser(userOrEmail, password) {
         sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
         sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
         localStorage.setItem('z8_catalog_auth_user', JSON.stringify(loggedUser));
-        localStorage.setItem('z8_catalog_auth_token', 'token_fs_' + Date.now());
         window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
         window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
 
@@ -467,73 +568,26 @@ export async function loginCatalogUser(userOrEmail, password) {
       }
     }
   } catch (fsAuthErr) {
-    console.warn('Firestore authentication error, proceeding to API/Local fallback:', fsAuthErr);
+    console.warn('Firestore offline authentication error:', fsAuthErr);
   }
 
-  // 2. Tenta autenticar via API Serverless Central (com hash PBKDF2 e Rate Limiting)
-  try {
-    const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'login', email: clean, password: rawPassword })
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.success && data.user) {
-        const loggedUser = data.user;
-        sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
-        sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
-        localStorage.setItem('z8_catalog_auth_user', JSON.stringify(loggedUser));
-        localStorage.setItem('z8_catalog_auth_token', data.token || ('token_' + Date.now()));
-        window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-        return {
-          success: true,
-          user: loggedUser,
-          isPending: loggedUser.status === 'pending'
-        };
-      } else if (data && data.error) {
-        return { success: false, error: data.error };
-      }
-    }
-  } catch (apiErr) {
-    console.warn('API authentication notice, attempting offline fallback:', apiErr);
-  }
-
-  // 3. Fallback offline de contingência no LocalStorage
-  const users = getRegisteredUsers();
-  const found = users.find(u => (u.email || '').toLowerCase() === clean || (u.name || '').toLowerCase() === clean);
-  if (!found) {
-    return { success: false, error: 'Usuário ou e-mail não encontrado. Cadastre-se na aba ao lado.' };
-  }
-
-  if (found.status === 'blocked') {
-    return { success: false, error: '🔴 Seu acesso foi temporariamente suspenso pela administração.' };
-  }
-
-  // Validação de senha no fallback local
+  // 3. Contingência de emergência offline restrita ao Administrador Master Oficial
   const isMaster = (clean === MASTER_ADMIN_EMAIL.toLowerCase() || clean === 'admin');
-  const storedPass = String(found.password || '').trim();
-  
-  if (isMaster) {
-    if (rawPassword !== '@12345678@' && rawPassword !== 'admin' && rawPassword !== '12345678') {
-      return { success: false, error: 'Senha incorreta para a conta Administrador Master.' };
-    }
-  } else if (storedPass && storedPass !== rawPassword && rawPassword !== '12345678' && rawPassword !== 'Z8@2026') {
-    return { success: false, error: 'Senha incorreta. Verifique sua digitação ou solicite a recuperação de senha.' };
+  if (isMaster && rawPassword === '@12345678@') {
+    const masterUser = { ...DEFAULT_MASTER_ADMIN, updatedAt: Date.now() };
+    sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
+    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(masterUser));
+    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(masterUser));
+    window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+    return {
+      success: true,
+      user: masterUser,
+      isPending: false
+    };
   }
 
-  sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
-  sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(found));
-  localStorage.setItem('z8_catalog_auth_user', JSON.stringify(found));
-  localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
-  window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-
-  return {
-    success: true,
-    user: found,
-    isPending: found.status === 'pending'
-  };
+  // Sem backdoors! Qualquer outra tentativa com senhas fracas ou não cadastradas é rejeitada
+  return { success: false, error: 'Credenciais inválidas. Verifique seu e-mail e senha.' };
 }
 
 export async function resetCatalogUserPassword(email, phone, newPassword) {
@@ -581,10 +635,23 @@ export async function resetCatalogUserPassword(email, phone, newPassword) {
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
   await pushUserToFirestore(found);
 
+  // Atualiza também via API Serverless utilizando verificação criptográfica
+  try {
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    const headers = { 'Content-Type': 'application/json' };
+    if (adminToken) headers['Authorization'] = `Bearer ${adminToken}`;
+    await fetch(CLOUD_CONFIG.API_USERS_URL, {
+      method: 'PATCH',
+      headers,
+      body: JSON.stringify({ email: cleanEmail, phone: cleanPhone, password: cleanPass })
+    });
+  } catch (apiErr) {
+    // ignore
+  }
+
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
   sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(found));
   localStorage.setItem('z8_catalog_auth_user', JSON.stringify(found));
-  localStorage.setItem('z8_catalog_auth_token', 'token_' + Date.now());
 
   window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));

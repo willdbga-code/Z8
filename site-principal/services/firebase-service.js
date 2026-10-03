@@ -60,7 +60,36 @@ export async function signInWithGoogleAccount() {
     throw new Error('Serviço de autenticação temporariamente indisponível.');
   }
 
-  const result = await signInWithPopup(auth, googleProvider);
+  let result;
+  try {
+    result = await signInWithPopup(auth, googleProvider);
+  } catch (err) {
+    const errorCode = err?.code || '';
+    const errorMsg = err?.message || '';
+
+    const authError = new Error();
+    authError.originalError = err;
+
+    if (errorCode === 'auth/unauthorized-domain' || errorMsg.includes('auth/unauthorized-domain')) {
+      authError.code = 'auth/unauthorized-domain';
+      authError.message = 'O domínio z8emotion.com precisa ser autorizado no Firebase Console pelo administrador. Por favor, acesse utilizando seu e-mail e senha corporativos no formulário abaixo.';
+    } else if (errorCode === 'auth/popup-closed-by-user' || errorMsg.includes('auth/popup-closed-by-user')) {
+      authError.code = 'auth/popup-closed-by-user';
+      authError.message = 'A janela de login do Google foi fechada antes de completar a autenticação.';
+    } else if (errorCode === 'auth/cancelled-popup-request' || errorMsg.includes('auth/cancelled-popup-request')) {
+      authError.code = 'auth/cancelled-popup-request';
+      authError.message = 'A requisição de login foi cancelada.';
+    } else if (errorCode === 'auth/popup-blocked' || errorMsg.includes('auth/popup-blocked')) {
+      authError.code = 'auth/popup-blocked';
+      authError.message = 'A janela popup de login foi bloqueada pelo seu navegador. Por favor, permita popups para este site.';
+    } else {
+      authError.code = errorCode || 'auth/unknown';
+      authError.message = errorMsg || 'Não foi possível autenticar com a conta Google.';
+    }
+
+    throw authError;
+  }
+
   const user = result.user;
   const email = (user.email || '').toLowerCase().trim();
   const isMaster = email === CLOUD_CONFIG.MASTER_ADMIN_EMAIL.toLowerCase();
@@ -104,13 +133,28 @@ export async function signInWithGoogleAccount() {
     }
   }
 
-  // Também envia para a API Serverless
+  // Também envia e autentica na API Serverless para emissão de token criptográfico assinado
   try {
-    await fetch(CLOUD_CONFIG.API_USERS_URL, {
-      method: 'PUT',
+    const apiRes = await fetch(CLOUD_CONFIG.API_USERS_URL, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData)
+      body: JSON.stringify({
+        action: 'google_auth',
+        email: userData.email,
+        name: userData.name,
+        company: userData.company,
+        city: userData.city,
+        phone: userData.phone,
+        photoUrl: userData.photoUrl,
+        id: userData.id
+      })
     });
+    if (apiRes.ok) {
+      const apiData = await apiRes.json().catch(() => null);
+      if (apiData?.token) {
+        userData.token = apiData.token;
+      }
+    }
   } catch (e) {
     // offline/fallback
   }
@@ -144,26 +188,16 @@ export async function requestPasswordResetEmail(email) {
       if (err.code === 'auth/user-not-found') {
         return { success: false, error: 'E-mail não encontrado. Cadastre-se na aba ao lado.' };
       }
+      return {
+        success: false,
+        error: 'Não foi possível disparar o e-mail no momento. Por favor, contate o Administrador Master via WhatsApp para redefinição segura.'
+      };
     }
-  }
-
-  // Fallback via API Serverless
-  try {
-    const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: cleanEmail, password: 'Z8@' + Math.floor(1000 + Math.random() * 9000) })
-    });
-    if (res.ok) {
-      return { success: true, message: `Solicitação registrada! Um link seguro foi gerado para ${cleanEmail}.` };
-    }
-  } catch (e) {
-    // ignore
   }
 
   return { 
-    success: true, 
-    message: `📧 Se o e-mail ${cleanEmail} estiver cadastrado, as instruções de recuperação foram enviadas!` 
+    success: false, 
+    error: 'Serviço de redefinição temporariamente indisponível. Por favor, contate o suporte da Z8 E-Motion.' 
   };
 }
 
@@ -230,10 +264,10 @@ export async function authenticateUserFirestore(emailOrUser, password) {
     return { success: false, error: 'Por favor, informe seu e-mail e senha de acesso.' };
   }
 
-  // 1. Caso especial: Administrador Master Oficial
+  // 1. Caso especial: Administrador Master Oficial (senha restrita ao padrão mestre)
   const isMasterLogin = (clean === CLOUD_CONFIG.MASTER_ADMIN_EMAIL.toLowerCase() || clean === 'admin');
   if (isMasterLogin) {
-    if (rawPass === '@12345678@' || rawPass === 'admin' || rawPass === '12345678') {
+    if (rawPass === '@12345678@') {
       const masterUser = {
         ...DEFAULT_MASTER_ADMIN,
         updatedAt: Date.now()
@@ -243,59 +277,54 @@ export async function authenticateUserFirestore(emailOrUser, password) {
         user: masterUser,
         isPending: false
       };
-    }
-  }
-
-  // 2. Busca o usuário no Firestore do Christian Hide
-  let user = await getUserFromFirestore(clean);
-
-  // Se não localizou pelo ID exato (e-mail), varre a coleção caso tenha sido cadastrado com ID customizado ou nome
-  if (!user) {
-    const allUsers = await fetchUsersFromFirestore();
-    user = allUsers.find(u => 
-      (u.email && u.email.toLowerCase() === clean) || 
-      (u.name && u.name.toLowerCase() === clean)
-    );
-  }
-
-  if (user) {
-    if (user.status === 'blocked') {
-      return { success: false, error: '🔴 Seu acesso foi temporariamente suspenso pela administração.' };
-    }
-
-    const storedPass = String(user.password || '').trim();
-
-    // Se possui senha cadastrada no Firestore
-    if (storedPass) {
-      if (
-        storedPass === rawPass ||
-        (user.email.toLowerCase() === CLOUD_CONFIG.MASTER_ADMIN_EMAIL.toLowerCase() && rawPass === '@12345678@')
-      ) {
-        return {
-          success: true,
-          user,
-          isPending: user.status === 'pending'
-        };
-      } else {
-        return {
-          success: false,
-          error: 'Senha incorreta. Verifique sua digitação ou solicite a recuperação de senha.'
-        };
-      }
     } else {
-      // Se não tinha senha explícita salva (ex: login via Google ou primeiro acesso), vincula a senha fornecida
-      user.password = rawPass;
-      user.updatedAt = Date.now();
-      await saveUserToFirestore(user);
       return {
-        success: true,
-        user,
-        isPending: user.status === 'pending'
+        success: false,
+        error: 'Senha incorreta para a conta Administrador Master.'
       };
     }
   }
 
-  return null; // Não encontrado no Firestore
+  // 2. Autenticação via Firebase Auth SDK oficial (sem verificação de senha em texto puro no cliente)
+  const { auth } = initFirebase();
+  if (auth) {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, clean, rawPass);
+      if (userCredential?.user) {
+        const userDoc = await getUserFromFirestore(clean);
+        const userData = userDoc || {
+          id: userCredential.user.uid,
+          name: userCredential.user.displayName || 'Parceiro Z8',
+          company: 'Loja Parceira',
+          city: 'São Paulo - SP',
+          email: clean,
+          role: 'partner',
+          status: 'approved',
+          updatedAt: Date.now(),
+          createdAt: new Date().toISOString()
+        };
+
+        if (userData.status === 'blocked') {
+          return { success: false, error: '🔴 Seu acesso foi temporariamente suspenso pela administração.' };
+        }
+
+        return {
+          success: true,
+          user: userData,
+          isPending: userData.status === 'pending'
+        };
+      }
+    } catch (fbAuthErr) {
+      if (fbAuthErr.code === 'auth/wrong-password' || fbAuthErr.code === 'auth/invalid-credential') {
+        return { success: false, error: 'Senha incorreta. Verifique sua digitação ou solicite a recuperação de senha.' };
+      }
+      if (fbAuthErr.code === 'auth/user-not-found') {
+        return { success: false, error: 'Usuário não encontrado. Cadastre-se na aba ao lado.' };
+      }
+    }
+  }
+
+  return null; // Delega para o endpoint serverless /api/users
 }
 
 // --------------------------------------------------------------------------
@@ -373,8 +402,10 @@ export async function saveUserToFirestore(userData) {
   if (db) {
     try {
       const userRef = doc(db, 'catalog_users', cleanEmail);
+      const safeData = { ...userData };
+      delete safeData.password; // Cibersegurança: NUNCA expor senha em texto puro no Firestore
       await setDoc(userRef, {
-        ...userData,
+        ...safeData,
         email: cleanEmail,
         updatedAt: userData.updatedAt || Date.now()
       }, { merge: true });
@@ -403,17 +434,19 @@ export async function setCloudUserStatus(email, newStatus) {
     }
   }
 
-  // Atualiza também via API Serverless
+  // Atualiza também via API Serverless utilizando o token de administrador verificado
   try {
-    const adminToken = localStorage.getItem('z8_catalog_auth_token') || ('token_master_' + now);
-    await fetch(CLOUD_CONFIG.API_USERS_URL, {
-      method: 'PUT',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${adminToken}`
-      },
-      body: JSON.stringify({ email: cleanEmail, status: newStatus })
-    });
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    if (adminToken) {
+      await fetch(CLOUD_CONFIG.API_USERS_URL, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify({ email: cleanEmail, status: newStatus })
+      });
+    }
   } catch (e) {
     // ignore
   }
@@ -436,15 +469,17 @@ export async function deleteCloudUser(email) {
   }
 
   try {
-    const adminToken = localStorage.getItem('z8_catalog_auth_token') || ('token_master_' + Date.now());
-    await fetch(`${CLOUD_CONFIG.API_USERS_URL}?email=${encodeURIComponent(cleanEmail)}`, {
-      method: 'DELETE',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${adminToken}`
-      },
-      body: JSON.stringify({ email: cleanEmail })
-    });
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    if (adminToken) {
+      await fetch(`${CLOUD_CONFIG.API_USERS_URL}?email=${encodeURIComponent(cleanEmail)}`, {
+        method: 'DELETE',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${adminToken}`
+        },
+        body: JSON.stringify({ email: cleanEmail })
+      });
+    }
   } catch (e) {
     // ignore
   }

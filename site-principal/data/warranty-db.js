@@ -99,35 +99,47 @@ const DEFAULT_ORDERS = [
 ];
 
 // Salva uma OS individual na Nuvem Serverless
-export async function pushWarrantyOrderToFirestore(order) {
+export async function pushWarrantyOrderToFirestore(order, isUpdate = false) {
   if (!order || !order.id) return;
   try {
     const payload = {
       id: order.id,
       userId: order.userId || '',
-      userEmail: (order.userEmail || '').toLowerCase().trim(),
+      userEmail: (order.userEmail || order.clientEmail || '').toLowerCase().trim(),
+      clientEmail: (order.clientEmail || order.userEmail || '').toLowerCase().trim(),
+      clientName: order.clientName || order.techName || order.company || 'Lojista Autorizado',
+      clientPhone: order.clientPhone || order.techPhone || '',
       company: order.company || '',
-      city: order.city || '',
+      city: order.city || 'SP',
       techName: order.techName || '',
       techPhone: order.techPhone || '',
-      model: order.model || '',
-      chassi: order.chassi || '',
+      model: order.model || order.modelName || 'Z8 E-Motion',
+      modelName: order.modelName || order.model || 'Veículo Elétrico Z8',
+      chassi: order.chassi || order.chassis || '',
+      chassis: order.chassis || order.chassi || '',
       odometer: Number(order.odometer || 0),
-      component: order.component || '',
-      diagnosis: order.diagnosis || '',
+      component: order.component || 'Peça / Componente',
+      diagnosis: order.diagnosis || order.issueDescription || '',
+      issueDescription: order.issueDescription || order.diagnosis || '',
       evidenceLink: order.evidenceLink || '',
       status: order.status || 'analyzing',
       statusText: order.statusText || 'Em Análise Técnica (SLA 48h)',
       trackingCode: order.trackingCode || '',
-      adminNotes: order.adminNotes || '',
+      notes: order.notes || order.adminNotes || '',
+      adminNotes: order.adminNotes || order.notes || '',
       createdAt: order.createdAt || new Date().toISOString(),
       slaDeadline: order.slaDeadline || new Date().toISOString(),
       updatedAt: order.updatedAt || Date.now()
     };
 
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    const headers = { 'Content-Type': 'application/json' };
+    if (adminToken) headers['Authorization'] = `Bearer ${adminToken}`;
+
+    const method = isUpdate ? 'PUT' : 'POST';
     await fetch(API_ORDERS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method,
+      headers,
       body: JSON.stringify(payload)
     });
   } catch (err) {
@@ -139,9 +151,13 @@ export async function pushWarrantyOrderToFirestore(order) {
 export async function deleteWarrantyOrderFromFirestore(orderId) {
   if (!orderId) return;
   try {
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    const headers = { 'Content-Type': 'application/json' };
+    if (adminToken) headers['Authorization'] = `Bearer ${adminToken}`;
+
     await fetch(`${API_ORDERS_URL}?id=${encodeURIComponent(orderId)}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({ id: orderId })
     });
   } catch (err) {
@@ -152,7 +168,18 @@ export async function deleteWarrantyOrderFromFirestore(orderId) {
 // Sincroniza todas as OS do Servidor com o banco local
 export async function fetchWarrantyOrdersFromFirestore() {
   try {
-    const res = await fetch(API_ORDERS_URL);
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    const rawUser = sessionStorage.getItem('z8_catalog_auth_user') || localStorage.getItem('z8_catalog_auth_user');
+    let user = null;
+    try {
+      user = rawUser ? JSON.parse(rawUser) : null;
+    } catch {}
+
+    const headers = {};
+    if (adminToken) headers['Authorization'] = `Bearer ${adminToken}`;
+    if (user?.email) headers['x-user-email'] = user.email;
+
+    const res = await fetch(API_ORDERS_URL, { headers });
     if (!res.ok) return null;
     const json = await res.json();
     const ordersList = json?.orders;
@@ -306,7 +333,7 @@ export function updateWarrantyOrderStatus(orderId, newStatus, trackingCode = '',
   localStorage.setItem(OS_STORAGE_KEY, JSON.stringify(orders));
 
   // Atualiza no Servidor
-  pushWarrantyOrderToFirestore(orders[index]);
+  pushWarrantyOrderToFirestore(orders[index], true);
 
   window.dispatchEvent(new CustomEvent('z8-warranty-os-updated', { detail: orders[index] }));
   return { success: true, order: orders[index] };

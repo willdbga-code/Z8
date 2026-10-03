@@ -187,11 +187,35 @@ export function initCRM() {
     }
   }
 
+  function showCrmToast(msg, type = 'info') {
+    let toast = document.getElementById('vendas-floating-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'vendas-floating-toast';
+      toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:999999;padding:12px 20px;border-radius:8px;font-size:0.88rem;font-weight:600;display:flex;align-items:center;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,0.5);transition:all 0.3s ease;pointer-events:auto;';
+      document.body.appendChild(toast);
+    }
+    const bg = type === 'error' ? 'rgba(220,38,38,0.95)' : type === 'success' ? 'rgba(16,185,129,0.95)' : 'rgba(245,158,11,0.95)';
+    const border = type === 'error' ? '#ef4444' : type === 'success' ? '#10B981' : '#f59e0b';
+    const icon = type === 'success' ? 'fa-circle-check' : 'fa-triangle-exclamation';
+    toast.style.background = bg;
+    toast.style.border = `1px solid ${border}`;
+    toast.style.color = '#ffffff';
+    toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${msg}</span>`;
+    toast.style.display = 'flex';
+    toast.style.opacity = '1';
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => { toast.style.display = 'none'; }, 300);
+    }, 4000);
+  }
+
   // Export to Excel / CSV
   function exportToExcel() {
     const leads = getLocalLeads();
     if (leads.length === 0) {
-      alert('Nenhum lead disponível para exportar.');
+      showCrmToast('Nenhum lead disponível para exportar.', 'warning');
       return;
     }
 
@@ -256,7 +280,7 @@ export function initCRM() {
     logoutCrmBtn.addEventListener('click', () => {
       logout();
       crmModal.style.display = 'none';
-      alert('Sessão encerrada com sucesso.');
+      showCrmToast('Sessão encerrada com sucesso.', 'success');
     });
   }
 

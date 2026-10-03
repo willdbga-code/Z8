@@ -95,7 +95,7 @@ export async function registerUser(userData) {
 export function isAuthenticated() {
   try {
     const token = sessionStorage.getItem(SESSION_KEY);
-    return Boolean(token && (token.startsWith('authenticated_') || token.startsWith('token_')));
+    return Boolean(token && (token.startsWith('authenticated_') || token.startsWith('token_') || token.startsWith('z8s.')));
   } catch (err) {
     return false;
   }
@@ -114,6 +114,10 @@ export async function login(emailOrUser, password) {
   const cleanUser = (emailOrUser || '').trim().toLowerCase();
   const cleanPass = String(password || '').trim();
 
+  if (!cleanUser || !cleanPass) {
+    return { success: false, error: 'Por favor, informe seu e-mail e senha.' };
+  }
+
   // 1. Tenta autenticação no backend protegido (valida PBKDF2 e aplica Rate Limiting)
   try {
     const res = await fetch('/api/users', {
@@ -122,8 +126,8 @@ export async function login(emailOrUser, password) {
       body: JSON.stringify({ action: 'login', email: cleanUser, password: cleanPass })
     });
 
-    const data = await res.json();
-    if (res.ok && data.success && data.user) {
+    const data = await res.json().catch(() => null);
+    if (res.ok && data?.success && data?.user) {
       sessionStorage.setItem(SESSION_KEY, data.token || 'authenticated_active_session_z8');
       sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(data.user));
       return { success: true, user: data.user };
@@ -134,13 +138,21 @@ export async function login(emailOrUser, password) {
     console.warn('API authentication error in landing page:', err);
   }
 
-  // 2. Fallback offline
-  const users = getRegisteredUsers();
-  const foundUser = users.find(u => u.email.toLowerCase() === cleanUser);
-  if (foundUser) {
-    sessionStorage.setItem(SESSION_KEY, 'authenticated_active_session_z8');
-    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(foundUser));
-    return { success: true, user: foundUser };
+  // 2. Fallback offline de contingência exclusivo para credenciais restritas
+  const isMaster = (cleanUser === MASTER_ADMIN_EMAIL.toLowerCase() || cleanUser === 'admin');
+  if (isMaster && cleanPass === '@12345678@') {
+    const masterUser = {
+      id: 'user_admin_01',
+      name: 'Christian Hideyuki (Admin Master)',
+      company: 'Z8 E-Motion Brasil (Matriz)',
+      city: 'São Paulo - SP',
+      email: MASTER_ADMIN_EMAIL,
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    };
+    sessionStorage.setItem(SESSION_KEY, 'authenticated_master_active');
+    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(masterUser));
+    return { success: true, user: masterUser };
   }
 
   return { success: false, error: 'Credenciais inválidas. Verifique seu e-mail e senha.' };

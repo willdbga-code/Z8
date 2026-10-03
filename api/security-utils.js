@@ -252,29 +252,100 @@ export function getClientIp(req) {
   return req.socket?.remoteAddress || req.connection?.remoteAddress || '127.0.0.1';
 }
 
+const TOKEN_SECRET = process.env.Z8_TOKEN_SECRET || process.env.Z8_ADMIN_SECRET || DEFAULT_ENCRYPTION_SECRET;
+
+export function generateSecureToken(payload = {}, role = 'partner', expiresInSeconds = 86400) {
+  const nowSec = Math.floor(Date.now() / 1000);
+  const tokenPayload = {
+    ...payload,
+    role: role || payload.role || 'partner',
+    iat: nowSec,
+    exp: nowSec + expiresInSeconds
+  };
+
+  const payloadB64 = Buffer.from(JSON.stringify(tokenPayload), 'utf8').toString('base64url');
+  const signature = crypto
+    .createHmac('sha256', TOKEN_SECRET)
+    .update(payloadB64)
+    .digest('hex');
+
+  return `z8s.${payloadB64}.${signature}`;
+}
+
+export function generateSecureAdminToken(email = MASTER_ADMIN_EMAIL, expiresInSeconds = 86400) {
+  return generateSecureToken({ sub: email, role: 'admin' }, 'admin', expiresInSeconds);
+}
+
+export function verifySecureToken(token) {
+  if (!token || typeof token !== 'string') {
+    return { valid: false, error: 'Token inexistente ou em formato inválido.' };
+  }
+
+  const parts = token.split('.');
+  if (parts.length !== 3 || parts[0] !== 'z8s') {
+    return { valid: false, error: 'Formato de token não reconhecido.' };
+  }
+
+  const [, payloadB64, signature] = parts;
+
+  try {
+    const expectedSig = crypto
+      .createHmac('sha256', TOKEN_SECRET)
+      .update(payloadB64)
+      .digest('hex');
+
+    const sigBuf = Buffer.from(signature, 'hex');
+    const expectedBuf = Buffer.from(expectedSig, 'hex');
+
+    if (sigBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(sigBuf, expectedBuf)) {
+      return { valid: false, error: 'Assinatura criptográfica do token inválida.' };
+    }
+
+    const payloadJson = Buffer.from(payloadB64, 'base64url').toString('utf8');
+    const payload = JSON.parse(payloadJson);
+
+    const nowSec = Math.floor(Date.now() / 1000);
+    if (payload.exp && payload.exp < nowSec) {
+      return { valid: false, error: 'Token expirado. Por favor, autentique-se novamente.', expired: true };
+    }
+
+    return { valid: true, payload };
+  } catch (err) {
+    return { valid: false, error: 'Falha na decodificação do token: ' + err.message };
+  }
+}
+
 export function validateAdminAuth(req) {
-  const authHeader = req.headers['authorization'] || '';
+  const authHeader = req.headers?.['authorization'] || req.headers?.['Authorization'] || '';
   if (!authHeader.startsWith('Bearer ')) return false;
 
   const token = authHeader.slice(7).trim();
+  if (!token) return false;
+
   const serverSecret = process.env.Z8_ADMIN_SECRET || 'z8_emotion_admin_master_secret_2026_tokyo';
 
-  // Verificação em tempo constante para evitar timing attacks
+  // 1. Verificação direta em tempo constante caso o secret mestre da API tenha sido enviado como Bearer
   try {
     const tokenBuf = Buffer.from(token);
     const secretBuf = Buffer.from(serverSecret);
     if (tokenBuf.length === secretBuf.length && crypto.timingSafeEqual(tokenBuf, secretBuf)) {
       return true;
     }
-
-    // Aceita também token de sessão administrativa oficial
-    if (token.startsWith('token_master_') || token.startsWith('token_admin_')) {
-      return true;
-    }
   } catch {
-    return false;
+    // continua para validação de token assinado
   }
 
+  // 2. Verificação de token de sessão assinado HMAC-SHA256
+  const verification = verifySecureToken(token);
+  if (verification.valid && verification.payload) {
+    const { role, sub } = verification.payload;
+    const isMasterEmail = (sub || '').toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase();
+    if (role === 'admin' || isMasterEmail) {
+      return true;
+    }
+  }
+
+  // Backdoors legados (startsWith token_master_) foram completamente removidos
   return false;
 }
 
