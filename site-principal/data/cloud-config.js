@@ -118,6 +118,18 @@ export const SEED_REGISTERED_USERS = [
     createdAt: '2026-09-04T12:00:00.000Z'
   },
   {
+    id: 'user_mariana_01',
+    name: 'Mariana de Freitas Carvalho',
+    company: 'Star fire',
+    city: 'Rio de Janeiro - RJ',
+    email: 'mary_fcarvalho@hotmail.com',
+    phone: '21959370278',
+    role: 'partner',
+    status: 'approved',
+    updatedAt: Date.now(),
+    createdAt: '2026-10-05T12:00:00.000Z'
+  },
+  {
     id: 'user_vinicius_01',
     name: 'Vinicius ortiz',
     company: 'Viniciusortizdovale@gmail.com',
