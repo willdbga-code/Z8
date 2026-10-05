@@ -34,7 +34,7 @@
 - **Motorização:** 1000W High Torque
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)
-- **Bateria:** Lítio / Chumbo 60V 20Ah
+- **Bateria:** Lítio 60V 20Ah
 - **Freios:** Freios a disco hidráulicos duplos (Diant / Tras)
 - **Pneus:** 110/70/12 Pneus Off-Road / Neve Texturizados
 - **Chassi:** Aço de Alta Carbono com Estrutura Tubular Dupla
@@ -48,7 +48,7 @@
 - **Motorização:** 1000W High Performance
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)
-- **Bateria:** Lítio / Chumbo 60V 20Ah
+- **Bateria:** Lítio 60V 20Ah
 - **Freios:** Freio a disco hidráulico 180mm
 - **Pneus:** 130/60/10 Pneu de Vácuo
 - **Chassi:** Quadro Aço Carbono Esportivo
@@ -76,7 +76,7 @@
 - **Motorização:** 1000W Heavy-Duty Carga
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)
-- **Bateria:** Lítio / Chumbo 60V 20Ah
+- **Bateria:** Lítio 60V 20Ah
 - **Freios:** Disco Hidráulico Dianteiro e Traseiro 180mm
 - **Pneus:** 300-10 Pneu de Vácuo
 - **Chassi:** Aço Carbono Reforçado para Carga
@@ -90,7 +90,7 @@
 - **Motorização:** 1000W 27H
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)
-- **Bateria:** Lítio / Chumbo 60V 20Ah
+- **Bateria:** Lítio 60V 20Ah
 - **Freios:** Freio a Disco Dianteiro / Tambor Traseiro
 - **Pneus:** 130/70/10 Pneus Alargados
 - **Chassi:** Aço Carbono Reforçado com Proteção Lateral
@@ -104,7 +104,7 @@
 - **Motorização:** 1000W High Efficiency
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)
-- **Bateria:** Lítio / Chumbo 60V 20Ah
+- **Bateria:** Lítio 60V 20Ah
 - **Freios:** Duplo Disco Hidráulico 180mm
 - **Pneus:** 300-10 Pneu Vácuo
 - **Chassi:** Estrutura Aço Leve e Resistente
@@ -118,7 +118,7 @@
 - **Motorização:** 1000W High Efficiency
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)
-- **Bateria:** Lítio / Chumbo 60V 20Ah
+- **Bateria:** Lítio 60V 20Ah
 - **Freios:** Disco Dianteiro / Tambor Traseiro
 - **Pneus:** 300-10 Pneu Vácuo
 - **Chassi:** Aço Carbono Estilo Italiano
@@ -132,7 +132,7 @@
 - **Motorização:** 1000W High Performance
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)
-- **Bateria:** Lítio / Chumbo 60V 20Ah
+- **Bateria:** Lítio 60V 20Ah
 - **Freios:** Disco Hidráulico Dianteiro / Traseiro
 - **Pneus:** 300-10 Pneu de Vácuo
 - **Chassi:** Aço Carbono Reforçado Urban
@@ -146,7 +146,7 @@
 - **Motorização:** 1000W 9G
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 35-40 km (Bateria 60V 20Ah)
-- **Bateria:** Lítio / Chumbo 60V 20Ah
+- **Bateria:** Lítio 60V 20Ah
 - **Freios:** Disco Dianteiro 180mm / Tambor Traseiro
 - **Pneus:** 300-10 Pneu Vácuo
 - **Chassi:** Aço Carbono Compacto
@@ -160,7 +160,7 @@
 - **Motorização:** 500W Cobre Puro
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 35-40 km (Bateria 48V 20Ah)
-- **Bateria:** Chumbo-Ácido 48V 20Ah
+- **Bateria:** Lítio 48V 20Ah
 - **Freios:** Tambor Dianteiro e Traseiro Reforçado
 - **Pneus:** 14x2.5 inch Pneu de Vácuo
 - **Chassi:** Aço de Alta Carbono de Trabalho
@@ -174,7 +174,7 @@
 - **Motorização:** 500W High Efficiency
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 35-40 km (Bateria 48V 20Ah)
-- **Bateria:** Chumbo-Ácido / Lítio 48V 20Ah
+- **Bateria:** Lítio 48V 20Ah
 - **Freios:** Freio a Disco Dianteiro / Tambor Traseiro
 - **Pneus:** 14x2.5 Pneu Vácuo
 - **Chassi:** Quadro Leve em Liga Reforçada
