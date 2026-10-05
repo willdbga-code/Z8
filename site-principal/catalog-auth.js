@@ -84,7 +84,37 @@ export async function loginWithGoogle() {
       }
 
       window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+      
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (user.role === 'admin' || user.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
       window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
+        }, 1000);
+      }
+      
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
+
 
       return {
         success: true,
@@ -275,7 +305,17 @@ export async function fetchUsersFromCloud() {
 
       localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(mergedList));
       if (hasChanges) {
-        window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
         window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
       }
       return mergedList;
@@ -381,7 +421,17 @@ export async function createPartnerByAdmin(userData) {
   localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
   await pushUserToFirestore(newUserData);
   await setCloudUserStatus(cleanEmail, newUserData.status);
-  window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+  
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
   return { success: true, user: newUserData };
 }
@@ -471,7 +521,17 @@ export async function registerCatalogUser(userData) {
   }
 
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-  window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+  
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
 
   return { success: true, user: newUser };
 }
@@ -515,7 +575,17 @@ export async function loginCatalogUser(userOrEmail, password) {
         localStorage.setItem('z8_catalog_auth_token', data.token);
       }
       window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+      
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
       window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
       return {
         success: true,
         user: loggedUser,
@@ -556,7 +626,17 @@ export async function loginCatalogUser(userOrEmail, password) {
         sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
         localStorage.setItem('z8_catalog_auth_user', JSON.stringify(loggedUser));
         window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-        window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
 
         return {
           success: true,
@@ -653,7 +733,17 @@ export async function resetCatalogUserPassword(email, phone, newPassword) {
   sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(found));
   localStorage.setItem('z8_catalog_auth_user', JSON.stringify(found));
 
-  window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+  
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
 
   return { success: true, user: found, message: 'Senha redefinida com sucesso! Você já está conectado.' };
@@ -698,7 +788,17 @@ export async function updateUserStatus(userIdOrEmail, newStatus) {
     localStorage.setItem('z8_catalog_auth_user', JSON.stringify(sessionObj));
   }
 
-  window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+  
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
   return true;
 }
@@ -717,7 +817,17 @@ export async function deleteCatalogUser(userId) {
     await deleteCloudUser(toDelete.email);
   }
 
-  window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+  
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
   return true;
 }
 
@@ -749,14 +859,62 @@ export function logoutCatalogUser() {
 }
 
 export function checkUrlApproval() {
-  // Desativado por conformidade de segurança e LGPD:
-  // Aprovações de contas de parceiros exigem autenticação do Master Admin via painel protegido
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const approveEmail = params.get('approve_user') || params.get('liberar');
+    
+    if (approveEmail) {
+      const clean = decodeURIComponent(approveEmail).trim().toLowerCase();
+      
+      // SECURTY CHECK: Only allow if logged in as Admin Master
+      const currentUser = getCurrentCatalogUser();
+      const isAdmin = currentUser && (currentUser.role === 'admin' || currentUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase());
+      
+      if (!isAdmin) {
+         console.warn("Unauthorized: URL approval requires Admin Master session.");
+         sessionStorage.setItem('z8_pending_approval', clean);
+         return null;
+      }
+
+      const users = getRegisteredUsers();
+      const found = users.find(u => (u.email || '').toLowerCase() === clean);
+      
+      if (found) {
+        // Usa a função existente que sincroniza com LocalStorage, Firestore e API
+        updateUserStatus(found.id, 'approved');
+      } else {
+        createPartnerByAdmin({
+          email: clean,
+          name: clean.split('@')[0],
+          company: 'Concessionária Parceira',
+          status: 'approved'
+        });
+      }
+      
+      // Clean URL params without reload
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+      return clean;
+    }
+  } catch (e) {
+    console.warn('URL approval check error:', e);
+  }
   return null;
 }
 
 window.addEventListener('storage', (e) => {
   if (e.key === USERS_STORAGE_KEY || e.key === SESSION_USER_KEY || e.key === 'z8_catalog_auth_user') {
-    window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+    
+      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+        setTimeout(() => {
+           updateUserStatus(pendingApproval, 'approved');
+           sessionStorage.removeItem('z8_pending_approval');
+           window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        }, 1000);
+      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+
     window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
   }
 });
