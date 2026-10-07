@@ -1258,8 +1258,8 @@ import os
 
 root_dir = r"${rootDir.replace(/\\/g, '\\\\')}"
 img_dir = os.path.join(root_dir, "public", "assets", "catalogo")
-pdf_docs = os.path.join(root_dir, "docs", "CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf")
-pdf_public = os.path.join(root_dir, "public", "docs", "CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf")
+pdf_docs = os.path.join(root_dir, "scratch", "CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf")
+pdf_public = os.path.join(root_dir, "scratch", "CATALOGO_OFICIAL_Z8_EMOTION_2026_COPIA.pdf")
 
 doc = fitz.open()
 
