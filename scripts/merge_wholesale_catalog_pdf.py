@@ -2,7 +2,7 @@
 import fitz
 import os
 
-root_dir = r"C:\\Users\\LENOVO\\Desktop\\Z8"
+root_dir = r"/Users/apple/Desktop/Z8"
 img_dir = os.path.join(root_dir, "public", "assets", "catalogo_atacado")
 pdf_docs = os.path.join(root_dir, "docs", "TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf")
 pdf_public = os.path.join(root_dir, "public", "docs", "TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf")
