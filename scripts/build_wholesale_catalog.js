@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
+const edgePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const pagesDir = path.resolve(rootDir, 'scratch', 'wholesale_catalog_html_pages');
 const outputImgDir = path.resolve(rootDir, 'public', 'assets', 'catalogo_atacado');
 
@@ -801,10 +801,16 @@ function buildCoverHtml() {
         <strong>Z8 EMOTION LTDA.</strong> • CNPJ: 68.774.164/0001-00 • MATRIZ: SÃO JOSÉ DOS CAMPOS - SP
       </div>
       <div class="footer-portal">
-        DEPARTAMENTO DE EXPANSÃO & REVENDAS // WWW.Z8EMOTION.COM.BR
+        DEPARTAMENTO DE EXPANSÃO & REVENDAS
       </div>
     </div>
   </div>
+
+      <div style="position: absolute; bottom: 80px; left: 0; width: 100%; text-align: center; z-index: 999;">
+        <div style="display: inline-block; background: #FF0055; color: #FFF; padding: 20px 40px; font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; border-radius: 12px; letter-spacing: 2px; text-transform: uppercase; box-shadow: 0 10px 30px rgba(255,0,85,0.4); border: 2px solid rgba(255,255,255,0.2);">
+          ⚠️ PROMOÇÃO VÁLIDA SOMENTE NESSE MÊS DE OUTUBRO ⚠️
+        </div>
+      </div>
 </body>
 </html>`;
 }
@@ -1253,7 +1259,7 @@ function buildBackCoverHtml() {
       </div>
       <div class="contact-col">
         <div class="contact-label">CREDENCIAMENTO B2B</div>
-        <div class="contact-val">🌐 WWW.Z8EMOTION.COM.BR/ATACADO</div>
+        
       </div>
     </div>
 
@@ -1371,7 +1377,7 @@ print(f"   -> {pdf_docs} ({os.path.getsize(pdf_docs)/1024/1024:.2f} MB)")
 print(f"   -> {pdf_public} ({os.path.getsize(pdf_public)/1024/1024:.2f} MB)")
 `, 'utf8');
 
-  execSync(`python "${pythonMergeScript}"`, { stdio: 'inherit' });
+  execSync(`python3 "${pythonMergeScript}"`, { stdio: 'inherit' });
   console.log('[FINALIZADO] PDF de Atacado e Revenda gerado com sucesso!');
 }
 
