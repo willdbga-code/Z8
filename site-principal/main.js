@@ -131,8 +131,9 @@ function initNavigation() {
     window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank');
   });
 
-  document.getElementById('btn-explore-models')?.addEventListener('click', () => {
-    document.getElementById('showroom-section')?.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('btn-explore-models')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('comparator-section')?.scrollIntoView({ behavior: 'smooth' });
   });
 }
 
