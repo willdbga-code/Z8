@@ -551,9 +551,7 @@
       </a>
 
       <div class="header-actions">
-        <a href="#" class="btn-action btn-pdf" id="btnDownloadPdf" style="display: none;">
-          <span id="btnDownloadText">📥 Baixar PDF Varejo</span>
-        </a>
+
         <a href="https://wa.me/5512998008818?text=Ol%C3%A1!%20Acessei%20o%20Cat%C3%A1logo%20Oficial%20Z8%202026%20e%20gostaria%20de%20informa%C3%A7%C3%B5es%20comerciais." target="_blank" rel="noopener noreferrer" class="btn-action btn-wpp">
           <span>⚡ Falar com Consultor</span>
         </a>
@@ -678,8 +676,6 @@
     const imageWrapper = document.getElementById('imageWrapper');
     const tabRetail = document.getElementById('tabRetail');
     const tabWholesale = document.getElementById('tabWholesale');
-    const btnDownloadPdf = document.getElementById('btnDownloadPdf');
-    const btnDownloadText = document.getElementById('btnDownloadText');
     const headerBrandSub = document.getElementById('headerBrandSub');
 
     function getActiveList() {
@@ -716,17 +712,11 @@
         thumbStrip.appendChild(thumb);
       });
 
-      // Update download PDF button
       if (currentMode === 'retail') {
         // Remover link de PDF no varejo
-        btnDownloadPdf.style.display = 'none';
         headerBrandSub.textContent = 'CATÁLOGO OFICIAL 2026';
         headerBrandSub.style.color = '#00E5FF';
       } else {
-        btnDownloadPdf.style.display = ''; // restabelece visibilidade
-        btnDownloadPdf.href = '/docs/TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf';
-        btnDownloadPdf.download = 'TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf';
-        btnDownloadText.textContent = '📥 Baixar Tabela Atacado';
         headerBrandSub.textContent = 'TABELA ATACADO & REVENDA 2026';
         headerBrandSub.style.color = '#22C55E';
       }
