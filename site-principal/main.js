@@ -124,11 +124,7 @@ function initNavigation() {
 
   document.getElementById('btn-open-franchise')?.addEventListener('click', (e) => {
     e.preventDefault();
-    const cleanPhone = '5512998008818';
-    const msg = encodeURIComponent(
-      'Olá Christian! Estou no site da Z8 E-Motion e tenho interesse em me tornar um Lojista / Franqueado Parceiro na minha cidade. Gostaria de receber mais detalhes sobre a concessão.'
-    );
-    window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank');
+    document.getElementById('franchise-section')?.scrollIntoView({ behavior: 'smooth' });
   });
 
   document.getElementById('btn-explore-models')?.addEventListener('click', () => {
@@ -303,15 +299,12 @@ function renderShowroom(filterCategory = 'todos') {
             <span class="price-label">Preço Atacado Fábrica</span>
             <span class="price-val" style="color: #fbbf24; font-size: 0.85rem;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>
           </div>
-          <button type="button" class="price-margin btn-unlock-price" data-model="${model.name}" data-code="${model.code}" style="background: rgba(251,191,36,0.18); color: #fbbf24; border: 1px solid rgba(251,191,36,0.4); cursor: pointer; border-radius: 4px; padding: 5px 12px; font-weight: 700; font-size: 0.78rem; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s ease;">
-            <i class="fa-brands fa-whatsapp"></i> Consultar Condições
-          </button>
         </div>
       `;
 
     const specMarkup = approved
       ? `<div class="spec-item"><i class="fa-solid fa-chart-line"></i> ${markupPct}% Markup</div>`
-      : `<div class="spec-item btn-unlock-price" data-model="${model.name}" data-code="${model.code}" style="color: #fbbf24; cursor: pointer;"><i class="fa-solid fa-lock"></i> Tabela Restrita</div>`;
+      : `<div class="spec-item" style="color: #fbbf24;"><i class="fa-solid fa-lock"></i> Tabela Restrita</div>`;
 
     return `
     <div class="skeuo-card model-card animate-on-scroll">
@@ -427,8 +420,7 @@ function renderShowroom(filterCategory = 'todos') {
         msg = `Olá Christian! Estou visualizando o catálogo da Z8 E-Motion e gostaria de liberar meu acesso para consultar os preços e condições de atacado do modelo ${modelName}.`;
       }
 
-      const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`;
-      window.open(waUrl, '_blank');
+      alert("Os valores de atacado são restritos a concessionários e lojistas aprovados. Por favor, solicite a liberação comercial.");
     });
   });
 }
@@ -598,16 +590,8 @@ function renderComparatorTable(id1, id2) {
         </tr>
         <tr class="comparator-cta-row">
           <td></td>
-          <td style="text-align: center;">
-            <a href="https://wa.me/5512998008818?text=Ol%C3%A1%20Christian!%20Gostaria%20de%20solicitar%20uma%20proposta%20comercial%20do%20modelo%20${encodeURIComponent(m1.name)}%20(${m1.code})%20para%20minha%20regi%C3%A3o." target="_blank" rel="noopener" class="comparator-cta-btn">
-              <i class="fa-brands fa-whatsapp"></i> Proposta ${m1.name.split(' ')[1] || m1.name}
-            </a>
-          </td>
-          <td style="text-align: center;">
-            <a href="https://wa.me/5512998008818?text=Ol%C3%A1%20Christian!%20Gostaria%20de%20solicitar%20uma%20proposta%20comercial%20do%20modelo%20${encodeURIComponent(m2.name)}%20(${m2.code})%20para%20minha%20regi%C3%A3o." target="_blank" rel="noopener" class="comparator-cta-btn">
-              <i class="fa-brands fa-whatsapp"></i> Proposta ${m2.name.split(' ')[1] || m2.name}
-            </a>
-          </td>
+          <td style="text-align: center;"></td>
+          <td style="text-align: center;"></td>
         </tr>
       </tbody>
     </table>
@@ -652,7 +636,7 @@ function renderOrderDesk() {
            <i class="fa-solid fa-cart-plus"></i> Pedir Lote
          </button>`
       : `<button class="skeuo-button secondary-metal-btn btn-unlock-table-order" data-model="${model.name}" style="padding: 6px 12px; font-size: 0.78rem; background: rgba(251,191,36,0.16); color: #fbbf24; border: 1px solid rgba(251,191,36,0.35); font-weight: 700; cursor: pointer;">
-           <i class="fa-brands fa-whatsapp"></i> Liberar Acesso
+           <i class="fa-solid fa-lock"></i> Acesso Restrito
          </button>`;
 
     return `
@@ -693,7 +677,7 @@ function renderOrderDesk() {
       } else {
         msg = `Olá Christian! Gostaria de solicitar a liberação da tabela de atacado e margens do modelo ${modelName} no portal Z8.`;
       }
-      window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+      alert("A tabela de atacado e faturamento direto de fábrica é restrita. Acesso pendente de aprovação.");
     });
   });
 }
@@ -787,7 +771,7 @@ function initCalculator() {
       if (resMargin) resMargin.innerHTML = `<span style="color: #fbbf24; font-size: 0.9rem;"><i class="fa-solid fa-lock"></i> Restrito aos Franqueados</span>`;
       if (btnProposal) {
         btnProposal.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
-        btnProposal.innerHTML = `<i class="fa-brands fa-whatsapp"></i> Solicitar Liberação dos Custos de Atacado`;
+        btnProposal.innerHTML = `<i class="fa-solid fa-lock"></i> Custo de Atacado Restrito`;
       }
     }
   }
@@ -834,16 +818,7 @@ function initCalculator() {
         `• *WhatsApp:* ${clientPhone}\n\n` +
         `_Olá! Gostaria de receber a formalização comercial deste lote com as opções de frete e prazos de entrega._`;
 
-      const propUrl = `https://wa.me/5512998008818?text=${encodeURIComponent(propMsg)}`;
-      window.open(propUrl, '_blank');
-    } else {
-      let unlockMsg = '';
-      if (currentUser) {
-        unlockMsg = `Olá Christian! Sou ${currentUser.name || currentUser.company} (${currentUser.email}). Gostaria de liberar meu acesso para visualizar a simulação e custos de atacado do lote de ${moq} unidades do modelo ${modelObj.name}.`;
-      } else {
-        unlockMsg = `Olá Christian! Gostaria de liberar o acesso para visualizar a simulação de rentabilidade e custos de atacado para um lote de ${moq} unidades do modelo ${modelObj.name}.`;
-      }
-      window.open(`https://wa.me/5512998008818?text=${encodeURIComponent(unlockMsg)}`, '_blank');
+      alert("As propostas formais e liberações de acesso comercial devem ser solicitadas diretamente através do seu executivo de expansão.");
     }
   });
 }
@@ -927,7 +902,7 @@ function renderDownloads() {
       `
       : `
         <button type="button" class="skeuo-button secondary-metal-btn full-width manual-btn btn-unlock-manual" data-title="${m.title}" style="background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.35); font-weight: 700; cursor: pointer;">
-          <i class="fa-brands fa-whatsapp"></i> Liberar Acesso ao Material
+          <i class="fa-solid fa-lock"></i> Acesso Restrito ao Material
         </button>
       `;
 
@@ -956,7 +931,7 @@ function renderDownloads() {
       } else {
         msg = `Olá Christian! Gostaria de solicitar a liberação para download do material oficial da Franquia Z8: ${title}.`;
       }
-      window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+      alert("O download de materiais oficiais é restrito a parceiros aprovados. Solicite a liberação com seu executivo.");
     });
   });
 }
@@ -1015,9 +990,7 @@ function openModelModal(modelId) {
           <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">PREÇO DE ATACADO PARCEIRO</span>
           <strong style="font-size: 1.4rem; color: var(--accent-neon);">R$ ${model.wholesalePrice.toLocaleString('pt-BR')},00</strong>
         </div>
-        <a href="${whatsappLoteUrl}" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 12px 22px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
-          <i class="fa-brands fa-whatsapp" style="font-size: 1.15rem;"></i> Solicitar Lote
-        </a>
+        
       </div>
     `
     : `
@@ -1026,9 +999,7 @@ function openModelModal(modelId) {
           <span style="font-size: 0.75rem; color: #fcd34d; display: block; font-weight: 700;"><i class="fa-solid fa-lock"></i> TABELA DE ATACADO RESTRITA</span>
           <span style="font-size: 0.85rem; color: #94a3b8;">Preços e margens liberados após aprovação comercial.</span>
         </div>
-        <a href="${whatsappLoteUrl}" target="_blank" rel="noopener" class="skeuo-button primary-metal-btn" style="background: linear-gradient(135deg, #10B981, #059669); color: #fff; font-weight: 800; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px;">
-          <i class="fa-brands fa-whatsapp"></i> Solicitar Acesso no WhatsApp
-        </a>
+        
       </div>
     `;
 
