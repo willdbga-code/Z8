@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Z8 E-Motion - Vagas PNG</title>
+  <style>
+    body { background: #0A0C0E; color: #FFF; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 40px; }
+    .grid { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+    .card { background: #14191E; border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+    canvas { max-width: 100%; height: auto; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px; }
+    h2 { margin: 10px 0; color: #FFE600; }
+    button { background: #FFE600; color: #000; border: none; padding: 12px 24px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; transition: transform 0.2s; }
+    button:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body>
+  <h1>Baixar Artes de Vagas em PNG</h1>
+  <p>Clique nos botões abaixo para salvar os arquivos já no formato de imagem (PNG) ideais para o Instagram.</p>
+  
+  <div class="grid">
+    <div class="card" style="width: 500px;">
+      <h2>Feed (1080x1080)</h2>
+      <canvas id="canvasFeed" width="1080" height="1080"></canvas>
+      <button onclick="downloadPNG('canvasFeed', 'z8_vagas_feed.png')">SALVAR FEED EM PNG</button>
+    </div>
+    <div class="card" style="width: 350px;">
+      <h2>Story (1080x1920)</h2>
+      <canvas id="canvasStory" width="1080" height="1920"></canvas>
+      <button onclick="downloadPNG('canvasStory', 'z8_vagas_story.png')">SALVAR STORY EM PNG</button>
+    </div>
+  </div>
+
+  <script>
+    function renderSvgToCanvas(svgUrl, canvasId) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, 0, 0);
+      };
+      img.src = svgUrl;
+    }
+
+    renderSvgToCanvas('vagas_feed.svg', 'canvasFeed');
+    renderSvgToCanvas('vagas_story.svg', 'canvasStory');
+
+    function downloadPNG(canvasId, filename) {
+      const canvas = document.getElementById(canvasId);
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+</html>
