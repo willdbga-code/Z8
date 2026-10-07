@@ -80,7 +80,7 @@
 ## Git & Deployment Protocol
 - Remote repository is `willdbga-code/Z8`.
 - Push permission is authorized for user `christian-hideyuki`.
-- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`, `73d7620`, `8e55022`, `97290e2`, `4e1b26a`, `b0c4902`, `bc5e305`, `dc1a952`, `62442bc`, `8f87583`, `0d87b26`, `64a17ab`, `d69ede0`, `5a0851c`, `8ca9d05`, `725c746`, `1b19ea7`, `0fd5de8`, `1b240cc`, `da899fc`, `ba40be1`, `3c2f67f`, `149b4f6`, `bff12f8`, `58702b3`, `64da687`, `3ea4535`, `316d4a2`.
+- Commits deployed: `cad8124`, `358995e`, `89b0cf7`, `cca27dc`, `73d7620`, `8e55022`, `97290e2`, `4e1b26a`, `b0c4902`, `bc5e305`, `dc1a952`, `62442bc`, `8f87583`, `0d87b26`, `64a17ab`, `d69ede0`, `5a0851c`, `8ca9d05`, `725c746`, `1b19ea7`, `0fd5de8`, `1b240cc`, `da899fc`, `ba40be1`, `3c2f67f`, `149b4f6`, `bff12f8`, `58702b3`, `64da687`, `3ea4535`, `316d4a2`, `dafabe0`.
 
 ## Responsive Design & Cross-Device Engineering Protocol (MANDATORY & PERMANENT)
 - **Every Single Modification Protocol**: Whenever adding, editing, or refactoring pages, sections, components, modals, tables, or buttons across ANY page in the Z8 ecosystem (`/`, `/site-principal/`, `/vendas/`, `/n95c/`, `/apresentacao/`, `/posters/`), the agent MUST proactively review, audit, and calibrate responsiveness across all viewport sizes before completing the turn.
