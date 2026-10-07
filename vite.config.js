@@ -23,6 +23,7 @@ export default defineConfig({
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
         principal: resolve(import.meta.dirname, 'site-principal/index.html'),
+        catalogo: resolve(import.meta.dirname, 'site-principal/catalogo.html'),
         vendas: resolve(import.meta.dirname, 'vendas/index.html'),
         n95c: resolve(import.meta.dirname, 'n95c/index.html'),
         posters: resolve(import.meta.dirname, 'posters/index.html'),
