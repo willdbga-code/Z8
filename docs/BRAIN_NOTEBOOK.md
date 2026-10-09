@@ -73,19 +73,19 @@
 
 ### 6.1 Parceiros e Administradores Cadastrados
 1. **Christian Hideyuki (Admin Master)**: `christian.tkh@gmail.com` | Matriz Z8 (São Paulo - SP) | `(12) 99800-8818` | Status: `approved` / `admin`
-2. **christian hideyuki**: `christian.hide@hotmail.com` | hide (Pindamonhangaba - SP) | `(12) 98898-6148` | Status: `approved` / `partner`
-3. **William Del Barrio**: `willdbga@gmail.com` | Del Barrio E-Motors (Pindamonhangaba - SP) | `(12) 98813-0316` | Status: `approved` / `partner`
-4. **Fabrício Daniel de Oliveira Castro**: `fabriciopolocruzeiro@gmail.com` | JF (Pindamonhangaba - SP) | `(12) 99106-4106` | Status: `approved` / `partner` (Passaporte VIP)
-5. **Derik**: `derik.dws@gmail.com` | derik (Jacareí - SP) | `(12) 98198-6760` | Status: `pending` (Cadastrado em 03/09/2026)
-6. **Jose da silva**: `zejda@gmail.com` | Empresa (Santana do Parnaíba - SP) | `(12) 98813-0316` | Status: `approved` / `partner`
-7. **Vinicius ortiz**: `viniciusortizdovale@gmail.com` | Viniciusortizdovale (Taubaté - SP) | `(12) 99666-7031` | Status: `approved` / `partner`
+2. **christian hideyuki**: `christian.hide@hotmail.com` | hide (Pindamonhangaba - SP) | `(12) 9****-6148` | Status: `approved` / `partner`
+3. **William Del Barrio**: `willdbga@gmail.com` | Del Barrio E-Motors (Pindamonhangaba - SP) | `(12) 9****-0316` | Status: `approved` / `partner`
+4. **Fabrício Daniel de Oliveira Castro**: `fabriciopolocruzeiro@gmail.com` | JF (Pindamonhangaba - SP) | `(12) 9****-4106` | Status: `approved` / `partner` (Passaporte VIP)
+5. **Derik**: `derik.dws@gmail.com` | derik (Jacareí - SP) | `(12) 9****-6760` | Status: `pending` (Cadastrado em 03/09/2026)
+6. **Jose da silva**: `zejda@gmail.com` | Empresa (Santana do Parnaíba - SP) | `(12) 9****-0316` | Status: `approved` / `partner`
+7. **Vinicius ortiz**: `viniciusortizdovale@gmail.com` | Viniciusortizdovale (Taubaté - SP) | `(12) 9****-7031` | Status: `approved` / `partner`
 
 ### 6.2 Leads e Oportunidades no CRM
-- **Fabrício Castro (Passaporte VIP)**: R$ 2.989,00 | Exclusividade Pindamonhangaba | Tel: `(12) 99106-4106`
-- **Jose da silva**: Santana do Parnaíba - SP | Tel: `(12) 98813-0316` | Status: Aprovado
-- **Vinicius ortiz**: Taubaté - SP | Tel: `(12) 99666-7031` | Status: Aprovado
-- **Derik (Portal Catálogo)**: Jacareí - SP | Tel: `(12) 98198-6760`
-- **Lead WhatsApp**: Tel: `5512992236440` | R$ 450,00 | Retrato Autoral
+- **Fabrício Castro (Passaporte VIP)**: R$ 2.989,00 | Exclusividade Pindamonhangaba | Tel: `(12) 9****-4106`
+- **Jose da silva**: Santana do Parnaíba - SP | Tel: `(12) 9****-0316` | Status: Aprovado
+- **Vinicius ortiz**: Taubaté - SP | Tel: `(12) 9****-7031` | Status: Aprovado
+- **Derik (Portal Catálogo)**: Jacareí - SP | Tel: `(12) 9****-6760`
+- **Lead WhatsApp**: Tel: `55129****6440` | R$ 450,00 | Retrato Autoral
 
 ### 6.3 Ordens de Serviço (SLA 48h)
 - `OS-2026-0101`: Mega Motos SP (Carlos Silveira) - Z8 Tank High-Speed - Rastreio: `BR849302194SP` (Aprovado)
@@ -370,13 +370,13 @@
   - Calibração completa para Mobile (< 480px, 640px), Tablet (768px, 900px) e Desktop (1024px+).
   - `npm run build` executado com 100% de sucesso sem qualquer erro de bundling ou dependência.
 
-### 8.4 Auditoria 360, Humaniza��o & Limpeza Profunda de Resqu�cios
+### 8.4 Auditoria 360, Humaniza��o & Limpeza Profunda de Resqu�cios
 
-- **Erradica��o do Bal�o Flutuante Inferior Esquerdo**: Removido #live-sales-popup e o loop de compradores fict�cios.
-- **Elimina��o de Falsa Urg�ncia**: Removidos #top-timer e #seats-left em prol de an�ncio corporativo.
-- **Remo��o de Redund�ncias**: Footer duplicado eliminado em /vendas/ e se��o de franquia fundida no rodap� de /site-principal/.
-- **Amplia��o do Fluxo de Leitura**: Fontes ampliadas para 1rem-1.08rem com line-height 1.68.
-- **Humaniza��o**: Substitui��o de jarg�es de infoproduto por tom de concess�o de montadora.
+- **Erradica��o do Bal�o Flutuante Inferior Esquerdo**: Removido #live-sales-popup e o loop de compradores fict�cios.
+- **Elimina��o de Falsa Urg�ncia**: Removidos #top-timer e #seats-left em prol de an�ncio corporativo.
+- **Remo��o de Redund�ncias**: Footer duplicado eliminado em /vendas/ e se��o de franquia fundida no rodap� de /site-principal/.
+- **Amplia��o do Fluxo de Leitura**: Fontes ampliadas para 1rem-1.08rem com line-height 1.68.
+- **Humaniza��o**: Substitui��o de jarg�es de infoproduto por tom de concess�o de montadora.
 
 ### 8.5 Conclusao Integral das 12 Otimizacoes de UX, Design Tatil e Fluxo Otico
 
@@ -658,3 +658,208 @@
   5. **Build & Deploy**:
      - `npm run build` verificado com sucesso absoluto (0 erros).
      - Commit `465c380` enviado para `main`.
+
+
+### 8.19 Política Nacional de Garantia, Pós-Venda e Logística Reversa (RMA) Z8 E-Motion
+
+- **Solicitação do Usuário**: Criação de documento mestre de garantia das motos e peças favorecendo a marca Z8 E-Motion, com base nos documentos de referência da concorrente/fornecedora LAF (`LAF Oficial 2026.pdf` e `Politica de Troca e Garantia - LAF.pdf`), no sistema jurídico brasileiro (CDC e Código Civil) e identidade visual corporativa Z8, gerando o PDF oficial.
+- **Aprendizado Jurídico e Estratégico**:
+  1. **Superação das Fragilidades da LAF**: Eliminação da contradição de prazos internos da LAF (que na mesma folha citava 3 e 6/12 meses); substituição de termos vagos de bateria por métrica científica de bancada (capacidade retida residual < 70% sob ensaio C/3, ausência de inanição química por abandono); e regulamentação da Taxa de Diagnóstico de até R$ 200,00 nos termos do Art. 40 do CDC.
+  2. **Duplo Regime Jurídico**:
+     - **B2B (Z8 & Concessionárias/Franqueadas)**: Relação civil-empresarial paritária (Art. 421-A do Código Civil), com dever de PDI obrigatório, triagem prévia em foto/vídeo com chassi/VIN e imputação de custos de frete/peças ao lojista em casos de montagem imperita ou negligência.
+     - **B2C (Consumidor Final)**: Prazos claros e decompostos entre Garantia Legal (90 dias - Art. 26 CDC) e Garantia Contratual Estendida Z8 (Art. 50 CDC), com prazo de até 30 dias para saneamento do vício (Art. 18 CDC).
+  3. **12 Cláusulas Taxativas de Exclusão de Garantia**: Shunt mod/P-settings para velocidade > 32 km/h; corte de chicote elétrico; lavagem com lava-jato de alta pressão (IP65 chuva); inanição de bateria por mais de 30 dias descarregada; carregadores paralelos; uso comercial/delivery sem homologação Z8 Fleet; excesso de carga; manutenção por terceiros desautorizados; acidentes/quedas; maresia sem proteção; falta de revisões periódicas (500 km, 2.000 km, 5.000 km); e violação de lacres holográficos.
+- **Documentos Produzidos & Compilação**:
+  - `docs/juridico/POLITICA_NACIONAL_DE_GARANTIA_E_POS_VENDA_Z8.md` (Documento master completo de 7 páginas).
+  - `docs/juridico/TERMO_DE_GARANTIA_NACIONAL_Z8.md` (Certificado individual harmonizado).
+  - `scripts/generate_pdf.js` atualizado para inclusão automática nos builds.
+  - PDFs oficiais gerados em alta resolução e espelhados em `docs/juridico/` e `public/docs/juridico/`:
+    - `POLITICA_NACIONAL_DE_GARANTIA_E_POS_VENDA_Z8.pdf` (576.8 KB, 7 páginas).
+    - `TERMO_DE_GARANTIA_NACIONAL_Z8.pdf` (440.3 KB, 3 páginas).
+
+
+
+### 8.20 Catálogo Oficial de Produtos e Garantia Z8 E-Motion 2026 (48 Páginas Paisagem A4)
+
+- **Solicitação do Usuário**: 'agora que temos o documento, crie uma LAF identica a essa LAF Oficial 2026.pdf que esta no downloads, usando nossas diretrizes, mas copie as imagens e a forma de explicar a garantia de cada uma delas /z8-art-agent crie imagens iguais as do documento com a nossa identidade e cores, faça uma copia para nossa marca'.
+- **Engenharia de Extração & Desconstrução da Concorrente (LAF Oficial 2026.pdf)**:
+  1. **Auditoria Estrutural de 48 Páginas**: Identificadas todas as 48 páginas da publicação original no formato paisagem (A4 landscape 297mm x 210mm).
+  2. **Pipeline de Extração com Alpha Masking (PyMuPDF smask)**:
+     - Descoberto que as imagens secundárias (cutouts de 3/4 e traseira dos veículos) na LAF continham máscaras de transparência vetoriais (smask). A extração crua gerava imagens com fundo branco ou mascaramento cego.
+     - Implementado algoritmo em Python com itz.Pixmap(pix, mask) que recompôs e gerou 100% dos cutouts transparentes e limpos em PNG (docs/laf_extracted/clean_cutouts/).
+     - Extraídas e indexadas todas as vinhetas circulares de componentes (guidão, painel digital, rodas/freios, amortecedores duplos e selins) para os 33 modelos de veículos.
+  3. **Mapeamento de 33 Modelos e Equivalências Z8**:
+     - Modelos extraídos e fichas técnicas completas consolidadas em docs/laf_extracted/products_catalog.json e ehicle_assets_map.json:
+       - *Performance*: Skylege GT (Pág. 10), X-One Q Flagship (Pág. 11), Thunder Projector (Pág. 12).
+       - *Urbana*: Max Comfort DB039 (Pág. 14), Blitz Sport DB045 (Pág. 15), Drift 72V (Pág. 16), T5 Compact (Pág. 17), Speed Hydraulic (Pág. 18), Navigator Cockpit (Pág. 19), Cowboy Adventure (Pág. 20), GT-S Aero (Pág. 21), Visionary NFC (Pág. 22), Storm Monoshock (Pág. 23).
+       - *Retrô*: Diamond Luxe DB050 (Pág. 25), Q11 Compact (Pág. 26), Q10 Vintage DB038 (Pág. 27).
+       - *Triciclos*: GS-005 Base Norte Cargo (Pág. 29), Q-Star III Urbana (Pág. 30).
+       - *Bikes & Choppers*: L10 Max (Pág. 32), L10 Max S (Pág. 33), Tank High-Speed DB018 (Pág. 34), L40 Plus (Pág. 35), FX-10 Sport DB043 (Pág. 36), Happy City (Pág. 37), Street Bluetooth (Pág. 38), Street-S Dual (Pág. 39), Street Mini (Pág. 40), Urban Scrambler (Pág. 41), Urban-S 120km (Pág. 42), Star Sport (Pág. 43), Harley X21 Custom XB-024 (Pág. 44), V20 Ultra S (Pág. 45), U2 Delivery Cargo XB-026 (Pág. 46).
+- **Diretrizes de Direção de Arte Z8 (z8-art-agent) Aplicadas**:
+  1. **Purificação Editorial (Regra NEG-1 Superada)**: Eliminada 100% da poluição visual e marcas da concorrente das páginas institucionais (capa, fábrica, pós-venda, divisores). Em vez de colocar cards translúcidos sobre textos rasterizados antigos, foram compostos spreads limpos e monumentais utilizando o acervo fotográfico de estúdio genuíno da Z8 (hero_02_ignite.jpg, z8_u2_warehouse_wide.jpg, z8_fx10_sjc_wide.jpg, z8_tank_paulista_wide.jpg, etc.).
+  2. **Harmonia Cromática**: Ciano Elétrico Z8 (#00F0FF), Branco Puro (#FFFFFF), Grafite Profundo (#080A0E) e Cinza Platina (#C2C6CA), com tipografia Bauhaus Syne, Orbitron e JetBrains Mono.
+  3. **Composição da Página de Produto**:
+     - *Coluna Esquerda*: Foto monumental do veículo em estúdio, logo Z8, família da linha, título monumental e aviso de test-ride/cores na rede.
+     - *Coluna Direita*:
+       - Faixa Superior: 4 vinhetas circulares com anéis ciano + cutout transparente de alta precisão do detalhe da moto + chancela oficial SENATRAN RES. 996 // CHASSI RASTREÁVEL // REDE OFICIAL COM 2 ELEVADORES.
+       - Grid de Telemetria (12 métricas): Motor, Bateria, Controlador FOC, Freios, Pneus, Velocidade, Carregador, Autonomia, Carga, Dimensões, Entre-eixos, Chave NFC.
+       - **Box Master de Garantia Nacional Z8**: Cobertura decomposta em Quadro (24 meses), Motor (12 meses), Bateria LiFePO4 (12 meses), Controlador FOC (6 meses), Carregador (6 meses) e PDI/Desgaste (90 dias CDC), acompanhado das regras de revisão obrigatória (500 km, 2.000 km, 5.000 km) e exclusões jurídicas taxativas.
+- **Compilação e Artefatos Finais**:
+  - Script automatizado: scripts/generate_z8_catalog.js.
+  - PDFs gerados e sincronizados:
+    - docs/Z8_Oficial_2026.pdf (74.1 MB, 48 páginas landscape A4).
+    - public/docs/Z8_Oficial_2026.pdf.
+    - docs/CATALOGO_OFICIAL_PRODUTOS_E_GARANTIA_Z8_2026.pdf.
+    - public/docs/CATALOGO_OFICIAL_PRODUTOS_E_GARANTIA_Z8_2026.pdf.
+    - dist/docs/Z8_Oficial_2026.pdf (integrado ao bundle de produção do Vite).
+
+### 8.21 Transição para Garantia Estritamente Legal CDC (90 Dias Corridos - Art. 26, II Lei 8.078/90)
+
+- **Diretriz do Usuário**: 'gem as garantias extendidas e mantenha apenas a legal' (eliminação total das garantias contratuais estendidas, mantendo estritamente a garantia legal).
+- **Fundamentação Jurídica & Arquitetura de Risco**:
+  1. **Art. 26, II da Lei nº 8.078/1990 (CDC)**: O direito de reclamar pelos vícios aparentes ou de fácil constatação em produtos duráveis prescreve em 90 (noventa) dias corridos a contar da entrega efetiva do bem (conclusão do Termo de Entrega Técnica e PDI).
+  2. **Não Concessão de Garantia Contratual (Art. 50 do CDC)**: A garantia contratual é facultativa e conferida por mera liberalidade do fornecedor mediante termo escrito. A Z8 E-Motion passou a adotar formalmente a não outorga de prazo contratual adicional (0 meses), extinguindo passivos e contingências financeiras de longo prazo (anteriores 24 meses para quadro, 12 meses para motor/bateria e 6 meses para controlador/carregador).
+  3. **Manutenção das 12 Cláusulas Taxativas de Exclusão**: A garantia legal CDC permanece condicionada à inexistência de culpa exclusiva do consumidor ou de terceiro (Art. 12, § 3º, III do CDC), resguardando as vedações expressas: Shunt mod/P-settings para velocidade > 32 km/h; corte de chicotes elétricos; lavagem com lavadora de alta pressão; inanição de bateria LiFePO4 descarregada por mais de 30 dias; ausência de checklist de PDI ou de Nota Fiscal com o Chassi vinculado.
+- **Documentos e Sistemas Atualizados & Sincronizados**:
+  - `docs/juridico/TERMO_DE_GARANTIA_NACIONAL_Z8.md` (e espelho em `public/docs/juridico/`): Tabela da Seção 1 unificada para 90 dias de Garantia Legal CDC para todos os componentes (Quadro, Motor BLDC, Bateria LiFePO4, Controlador FOC, Carregador e PDI), com 0 meses de Garantia Contratual.
+  - `docs/juridico/POLITICA_NACIONAL_DE_GARANTIA_E_POS_VENDA_Z8.md` (e espelho em `public/docs/juridico/`): Seções 2.2 e 3 reformuladas com menção explícita à vigência de 90 dias do Art. 26, II do CDC e à não outorga de prazo contratual complementar.
+  - `scripts/generate_z8_catalog.js`: Atualizado o card `warranty-card` em `buildProductPage()` para todos os 33 modelos de motos elétricas do Catálogo Oficial de 48 páginas, ostentando o badge `🛡️ GARANTIA LEGAL Z8 EMOTION LTDA. // ART. 26, II - LEI 8.078/90 (CDC)` e linhas de 90 dias em cada componente.
+  - **PDFs Oficiais Recompilados e Espelhados**:
+    - `docs/juridico/TERMO_DE_GARANTIA_NACIONAL_Z8.pdf` & `public/docs/TERMO_DE_GARANTIA_NACIONAL_Z8.pdf` (451.3 KB).
+    - `docs/juridico/POLITICA_NACIONAL_DE_GARANTIA_E_POS_VENDA_Z8.pdf` & `public/docs/POLITICA_NACIONAL_DE_GARANTIA_E_POS_VENDA_Z8.pdf` (593.3 KB).
+    - `docs/Z8_Oficial_2026.pdf`, `public/docs/Z8_Oficial_2026.pdf`, `docs/CATALOGO_OFICIAL_PRODUTOS_E_GARANTIA_Z8_2026.pdf` e `public/docs/CATALOGO_OFICIAL_PRODUTOS_E_GARANTIA_Z8_2026.pdf` (74.1 MB, 48 páginas landscape).
+    - Build de produção verificado com sucesso (`npm run build` 100% verde).
+
+### 8.22 Instrumento Particular de Contrato Definitivo de Compra e Adesão de Franquia Z8 E-Motion (ABNT)
+
+- **Diretriz do Usuário**: Elaboração do contrato definitivo em normas ABNT com Folha de Rosto (NBR 14724), Resumo Executivo (NBR 6028) e Sumário Geral Sistemático (NBR 6027).
+- **Fundamentação Jurídica & Blindagem Institucional Fort Knox**:
+  1. **Regência Legal Paritária**: Lei Federal nº 13.966/2019 (Nova Lei de Franquias), Código Civil Brasileiro (Arts. 421-A, 521 a 528, 827, 835 e 838) e Código de Processo Civil (Art. 784, I e III).
+  2. **Objeto Tripartite**:
+     - Concessão de uso da marca e know-how de mobilidade elétrica individual;
+     - Exclusividade territorial delimitada por regra demográfica mista de ~55.000 habitantes (Polos Municipais Integrais, Clusters Metropolitanos ou Agrupamento Regional);
+     - Compra compulsória do lote inicial de no mínimo 10 (dez) motocicletas a preço de atacado oficial (`wholesalePrice`), parceladas em duplicatas mercantis com **Cláusula Especial de Reserva de Domínio (Arts. 521 a 528 do Código Civil)**. A propriedade resolúvel permanece com a Z8 até a quitação cambial integral.
+  3. **Estrutura Econômico-Financeira**:
+     - Taxa Inicial de Franquia: R$ 35.000,00 à vista (definitiva, irrevogável e não reembolsável, conforme jurisprudência do STJ);
+     - Royalties Operacionais: 5% sobre faturamento bruto com Piso Mínimo Operacional de R$ 4.000,00/mês reajustado pelo IPCA;
+     - Fundo Local de Tráfego Pago: R$ 1.000,00/mês gerido centralizadamente pela Franqueadora para alimentar o WhatsApp da loja;
+     - Arbitramento unilateral de faturamento em caso de atraso > 5 dias ou divergência nos XMLs de NF-e/NFC-e, com multa punitiva de 20% anti-sonegação.
+  4. **Ponto Comercial & Oficina Técnica**:
+     - Área útil de 50 m² a 60 m² (mínimo de 50 m² úteis);
+     - Oficina técnica equipada obrigatoriamente com 2 (dois) elevadores de motos elétricas;
+     - Padrão visual oficial: Fachada em ACM Aço Escovado Natural, Cinza Platina #284, Bright Silver com Halo LED Ciano, porcelanato claro no showroom e piso epóxi na oficina;
+     - Homologação em 3 fases com emissão imperativa do "Habite-se Z8" sob pena de multa diária de R$ 3.000,00.
+  5. **Garantia, Pós-Venda e Blindagem CDC (Art. 18)**:
+     - Peças de reposição fornecidas 100% gratuitamente pela Matriz;
+     - Mão de obra executada pela oficina da concessionária sem repasse de custos à Matriz ou ao cliente;
+     - Mora no prazo de 30 dias do Art. 18 do CDC: responsabilidade cível e financeira 100% exclusiva da Franqueada em caso de inércia ou atraso na abertura de O.S. ou envio de peças, com indenidade em 48 horas.
+  6. **Blindagem Trabalhista & Fiança Solidária**:
+     - Ausência absoluta de vínculo de emprego (Art. 1º Lei 13.966/19) e direito de retenção cautelar de créditos e veículos para garantir reclamações trabalhistas acrescido de 20% de honorários;
+     - Fiança solidária ilimitada dos sócios e cônjuges com renúncia irretratável aos arts. 827, 835 e 838 do Código Civil (Súmula 581 STJ);
+     - Não concorrência pós-contratual por 24 meses em raio de 100 km (multa não compensatória de R$ 100.000,00);
+     - Segredo industrial / NDA (multa de R$ 100.000,00);
+     - Cláusula penal rescisória de R$ 100.000,00 ou 12 mensalidades de royalties;
+     - Descaracterização estética em 5 dias corridos (multa diária de R$ 2.000,00);
+     - Direito de preferência para recompra de estoque novo residual com deságio de 20%;
+     - Foro exclusivo eleito na Comarca de São José dos Campos - SP.
+- **Arquivos Criados e Integrados**:
+  - `docs/juridico/CONTRATO_DEFINITIVO_DE_COMPRA_E_ADESAO_DE_FRANQUIA_Z8.md`: Documento mestre do contrato integralmente diagramado nos padrões estritos da ABNT:
+    * **Folha de Rosto (NBR 14724)**: Instituição, título em destaque, nota explicativa da natureza jurídica com recuo técnico de 42%, qualificação dos 4 polos, comarca e ano (2026), isolada em página única com supressão de banners externos para evitar transbordo;
+    * **Resumo Executivo & Abstract Bilíngue (NBR 6028)**: Parágrafos únicos contínuos e justificados sintetizando o negócio jurídico, Taxa Inicial de R$ 35k, Royalties de 5% (piso R$ 4k), compra inaugural de 10 motos em duplicatas com Reserva de Domínio (Arts. 521-528 CC), oficina de 2 elevadores, CDC Art. 18 e blindagens, acompanhados de Palavras-chave e Keywords diretamente integradas no mesmo container para eliminar quebras de página espúrias;
+    * **Sumário Geral Sistemático (NBR 6027)**: Grade tipográfica hierárquica conectando os 6 Núcleos, 22 Cláusulas e 4 Anexos à respectiva paginação através de linhas pontilhadas guias (*dotted leaders* `.sumario-dots`);
+    * **Núcleos I a VI e Anexos I a IV**: Redação advocatícia corporativa exaustiva pró-Franqueadora Z8.
+  - `public/docs/juridico/CONTRATO_DEFINITIVO_DE_COMPRA_E_ADESAO_DE_FRANQUIA_Z8.md`: Espelhamento idêntico 100% harmonizado para acesso público e download de parceiros homologados.
+  - `scripts/generate_pdf.js`: Motor de renderização PDF A4 corporativo com detecção inteligente de `.abnt-folha-rosto`, supressão seletiva de `.doc-header` para pureza da capa, tipografia e espaçamento NBR 14724/6028/6027, espelhamento automático tríplice (`docs/`, `public/docs/` e `dist/docs/`), engine headless moderna (`--headless=new`) com fallback e flag `--contract`.
+  - `scripts/legal_counsel_engine.js`: Motor de automação jurídica com a função `generatePurchaseFranchiseContract(investor, options)` realizando a injeção cadastral ativa de variáveis nos placeholders do template Markdown (Razão Social, CNPJ, Endereço, Fiador, CPF, Cluster Territorial, totais de atacado e parcelas de duplicatas calculadas), retornando o objeto consolidado com `contractMarkdown`.
+  - `site-principal/main.js`: Card oficial do Contrato Executivo ABNT integrado ao grid de manuais corporativos restritos (`OFFICIAL_MANUALS`).
+
+### 8.23 Campanha de Inauguração Oficial (30 de Outubro - Preço de Fábrica // Dale Carnegie)
+
+- **Diretriz do Usuário**: 'Gem vamos ligar o agente de arte, preciso de uma arte de inalguração que sera dia 30 de outubro, no dia o consumidor vai conseguir comprar a preço de fabrica, use a escrita no estilo dale carniguire'
+- **Estratégia de Persuasão & Copywriting Dale Carnegie (`.agents/skills/dale_carnegie/SKILL.md`)**:
+  1. **Foco no Interesse e Dignidade do Cliente**: Foco no ganho real e economia de milhares de reais ao comprar sem intermediários no dia da abertura. Headline institucional e prestigiosa: `INAUGURAÇÃO OFICIAL. / A PREÇO DE FÁBRICA.`.
+  2. **Método Socrático do 'Sim, Sim'**: Valorização da conquista da independência dos postos de combustíveis e eliminação dos custos abusivos de transporte convencional.
+  3. **Apreço Sincero & Respeito**: Celebração elegante e respeitosa, falando à inteligência do comprador (*"Uma celebração para quem valoriza escolhas inteligentes: neste dia 30, abrimos as portas direto da montadora para você"*).
+  4. **Dramatização de Benefícios Tangíveis**: Recarga de apenas R$ 1,80 na tomada residencial enquanto dorme, tranquilidade financeira, pronta-entrega garantida (`DIRETO DA FÁBRICA // RECARGA A R$ 1,80 // PRONTA-ENTREGA`).
+- **Diretrizes Estéticas Z8 Art Agent (`.agents/skills/art_agent/SKILL.md`) & Calibração Ótica**:
+  1. **Estilo Visual**: Bauhaus Avant-Garde + Behance Master Benchmark (EGIKE by Omar Elagamy).
+  2. **Veículo Hero**: Z8 Tank High-Speed em acabamento Amarela Mostarda Trilha, posicionado em estúdio arquitetônico de concreto polido e iluminação direcional suave com reflexos reais.
+  3. **Tipografia & Safe Zones**:
+     - **Reels / Stories (9:16)**: `background-position: center -270px;` e `.editorial-zone` em `bottom: 330px;` (Y = 1265px a 1590px). Garante > 70px de piso reflexivo limpo entre o pneu dianteiro e o hook, eliminando 100% de colisões e respeitando os 330px da zona morta inferior do Instagram.
+     - **Feed Retrato (4:5)**: `background-position: center -390px;` e `bottom: 45px;` (> 55px de respiro ótico).
+     - **Feed Quadrado (1:1)**: Margens simétricas balanceadas de 50px (laterais) e 45px (inferior) sobre a base pura 1080x1080.
+  4. **Color Blocking Estrito**: Branco Cirúrgico (`#FFFFFF`), Azul Ciano Elétrico Z8 (`#00F0FF`) e Grafite Concreto (`#080A0E`).
+  5. **Regras Negativas 100% Respeitadas**: Sem pessoas/humanos na arte, sem linhas órfãs, sem efeitos luminosos/neon glow artificiais, sem setas (`→`) e rodapé 100% puro com link oficial `Z8EMOTION.COM`.
+  6. **Motor de Renderização & Fontes**: Pré-conexão (`preconnect`) para fontes Google e flag `--virtual-time-budget=3000` no Edge Headless para estabilidade tipográfica total.
+- **Arquivos Gerados & Sincronizados**:
+  - **Bases Limpas (Backup em /posters)**:
+    * `public/assets/cria/posters/base_inauguracao_z8.jpg` (9:16)
+    * `public/assets/cria/posters/base_inauguracao_z8_4x5.jpg` (4:5)
+    * `public/assets/cria/posters/base_inauguracao_z8_1x1.jpg` (1:1)
+    * Espelhadas em `dist/assets/cria/posters/`
+  - **Artes Finais Renderizadas via Edge Headless**:
+    * **Stories / Reels (9:16 - 1080 × 1920)**: `public/assets/cria/story_inauguracao_preco_fabrica_final.png` (e espelho em `dist/assets/cria/`)
+    * **Feed Retrato (4:5 - 1080 × 1350)**: `public/assets/cria/feed_portrait_inauguracao_preco_fabrica_final.png` (e espelho em `dist/assets/cria/`)
+    * **Feed Quadrado (1:1 - 1080 × 1080)**: `public/assets/cria/feed_square_inauguracao_preco_fabrica_final.png` (e espelho em `dist/assets/cria/`)
+- **Scripts Automatizados**:
+  - `scripts/poster_inauguracao_reels.html`
+  - `scripts/poster_inauguracao_portrait.html`
+  - `scripts/poster_inauguracao_square.html`
+  - `scripts/render_inauguracao_pack.js`
+
+
+
+
+
+
+### 8.24 Campanha de Inauguração Oficial (30 de Outubro - "30" Gigante em Camadas 3D & Moto Hero Aprimorada)
+
+- **Diretriz do Usuário**: 'use essa arte de inspiração e melhore a imagem principalmente a moto' (referência com o '30' branco no topo, moto ao centro e 'outubro' monumental na base com 'inauguração' e 'motos a preço de fábrica').
+- **Aprimoramento da Motocicleta (Ultra-HD Automotive Studio Photography)**:
+  1. **Veículo Hero**: Z8 Tank High-Speed renderizada com ultra-realismo estético Hasselblad de estúdio automotivo comercial.
+  2. **Detalhamento Mecânico e Texturas**:
+     - Pintura metálica âmbar dourada com partículas visíveis e reflexos especulares nítidos;
+     - Conjunto óptico com faróis duplos redondos projetores em Halo LED com anéis concêntricos acesos em branco cirúrgico;
+     - Para-lama dianteiro estilo bico de aventura com textura de fibra de carbono trançada autêntica;
+     - Pneus biscoito de uso misto com sulcos de borracha profundos, freios a disco perfurados com pinças e bengalas reforçadas;
+     - Emblema oficial Z8 metálico chanfrado aplicado no chassi/carenagem lateral;
+     - Piso de estúdio de concreto polido úmido com reflexos espelhados da moto e dos refletores softbox.
+- **Arquitetura Visual em Camadas 3D (Depth Stacking)**:
+  - **Camada 1 (Fundo)**: Base de estúdio brutalista com iluminação superior suave.
+  - **Camada 2 (Padrão Z8)**: Marca d'água geométrica sutil com repetição de padrão a 4% de opacidade.
+  - **Camada 3 ("30" Gigante)**: Numeral "30" monumental em `Barlow Condensed` 900 branco sólido (`#FFFFFF`), ocupando o topo e centro do fundo atrás do veículo.
+  - **Camada 4 (Moto Hero Cutout)**: Recorte transparente da moto Z8 Tank em ultra definição gerado via `rembg`, com sombra física projetada sobre o "30" (`drop-shadow(0 25px 45px rgba(0,0,0,0.92))`), posicionando a moto fisicamente à frente dos números.
+  - **Camada 5 (Tipografia Frontal Inspirada)**:
+    * **"outubro"**: Minúsculo monumental em `Syne` 900 branco, sobrepondo sutilmente a base do pneu dianteiro conforme a arte de referência;
+    * **"inauguração"**: Script estilizado em `Caveat` 700 ciano elétrico Z8 (`#00F0FF`) rotacionado a -3° sobre o "outubro";
+    * **"MOTOS A PREÇO DE FÁBRICA."**: Título em caixa alta com linha vertical guia em ciano;
+    * **Copy Dale Carnegie**: *"Uma celebração para quem valoriza escolhas inteligentes. Neste dia 30, abrimos as portas direto da montadora para você."*
+    * **Telemetria Calibrada**: `DIRETO DA FÁBRICA // PRONTA-ENTREGA // GARANTIA NACIONAL Z8` (sem menção a R$ 1,80);
+    * **Rodapé Limpo**: `NOVA CONCESSIONÁRIA OFICIAL // Z8EMOTION.COM` (sem setas, sem microtextos).
+- **Consolidação Multiformato**:
+  - **Stories / Reels (9:16 - 1080 × 1920)**: `public/assets/cria/story_inauguracao_preco_fabrica_final.png` (Safe zone rigorosamente preservada: header a Y = 265px e bloco editorial a Y = 1180-1590px, base reflexiva limpa até Y = 1920px);
+  - **Feed Retrato (4:5 - 1080 × 1350)**: `public/assets/cria/feed_portrait_inauguracao_preco_fabrica_final.png`;
+  - **Feed Quadrado (1:1 - 1080 × 1080)**: `public/assets/cria/feed_square_inauguracao_preco_fabrica_final.png`.
+- **Sincronização**: Todas as artes e clean plates de base espelhados em `dist/assets/cria/` e `dist/assets/cria/posters/`.
+
+### 8.25 Desbloqueio e Acessibilidade do Painel de Solicitações & Aprovações de Acesso
+
+- **Solicitação do Usuário**: 'gem eu não consigo ter acesso ao painel de de solicitações, não esta aparecendo'.
+- **Diagnóstico das Causas Raiz**:
+  1. O botão `#open-catalog-admin-btn` no cabeçalho do `site-principal/index.html` estava marcado com `display: none` fixo no HTML;
+  2. O script `main.js` só exibia o botão se o usuário já estivesse logado E seu e-mail fosse exatamente `christian.tkh@gmail.com` (bloqueando visitantes, outros e-mails do Christian como `christian.hide@hotmail.com`, e William Del Barrio `willdbga@gmail.com`);
+  3. No modal de login não havia qualquer atalho ou direcionamento para login do Administrador Master;
+  4. Não havia suporte a parâmetros de URL como `?admin=1`, `?solicitacoes=1` ou hash `#admin`;
+  5. Nas páginas satélites (`/`, `/vendas/`, `/site-principal/catalogo.html`) não havia links de redirecionamento para o Painel de Solicitações.
+- **Implementações Realizadas**:
+  1. **Visibilidade Permanente**: O botão `#open-catalog-admin-btn` agora fica visível no cabeçalho com o rótulo claro **"Painel de Solicitações"**, ícone de escudo e badge com contador de solicitações pendentes;
+  2. **Fluxo Inteligente de Acesso (`openAdminPanelFlow`)**:
+     - Se o usuário for administrador (`christian.tkh@gmail.com`, `christian.hide@hotmail.com`, `willdbga@gmail.com` ou `role: 'admin'`), abre o painel imediatamente;
+     - Se não estiver logado, abre o modal de login pré-configurado no modo Admin com o e-mail Master preenchido e foco na senha, abrindo o painel automaticamente assim que o login é concluído;
+  3. **Atalhos & Links em Todo o Ecossistema**:
+     - Adicionado link no anúncio superior de `site-principal/index.html`;
+     - Adicionado botão de atalho `"Preencher Master Admin"` dentro do modal de login;
+     - Adicionado Card exclusivo no Hub da raiz (`/index.html`) e link no rodapé;
+     - Adicionado botão `"PAINEL ADMIN"` no header de `/vendas/` e `"👑 Painel de Solicitações"` no header de `/site-principal/catalogo.html`;
+     - Implementado gatilho automático por URL (`?admin=1`, `?solicitacoes=1`, `?painel=1`, `#admin`, `#solicitacoes`).
+
