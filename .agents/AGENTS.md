@@ -197,6 +197,7 @@
    - **Guaratinguetá - SP**: Z8 FX-10 Sport (Prata Titânio / LED Horizontal / Letreiro Empilhado GUARA / TINGUETÁ) -> Reels 9:16, Feed Retrato 4:5, Feed Quadrado 1:1.
    - **Taubaté - SP**: Z8 Harley X21 Custom (Midnight Gloss Black / Chopper Americana / Letreiro TAUBATÉ) -> Reels 9:16, Feed Retrato 4:5, Feed Quadrado 1:1.
    - **Pindamonhangaba - SP**: Z8 N710 Urban Plus (Cinza Titânio & Grafismos Neon / Letreiro Empilhado PINDA / MONHANGABA) -> Reels 9:16, Feed Retrato 4:5, Feed Quadrado 1:1.
+   - **Inauguração Oficial 30 de Outubro (Preço de Fábrica // Dale Carnegie)**: Z8 Tank High-Speed (Amarela Mostarda Trilha / Estúdio Arquitetônico Concreto) -> Reels 9:16 (`story_inauguracao_preco_fabrica_final.png`), Feed Retrato 4:5 (`feed_portrait_inauguracao_preco_fabrica_final.png`), Feed Quadrado 1:1 (`feed_square_inauguracao_preco_fabrica_final.png`). Calibração ótica rigorosa (> 70px de separação do pneu dianteiro, safe zone do Instagram Y ≤ 1590px e headline Dale Carnegie: `INAUGURAÇÃO OFICIAL. / A PREÇO DE FÁBRICA.`).
 3. **Campanha Oficial de Recrutamento (Matriz SJC - 3 Vagas em Stories 9:16)**:
    - **Mecânico de Motos Elétricas**: Manequim técnico Z8 Power, oficina 2 elevadores, `MECÂNICO` monumental, Direct Instagram.
    - **Consultora de Vendas**: Manequim busto polo Z8 bordada, showroom de luxo, `VENDAS` monumental, Direct Instagram.

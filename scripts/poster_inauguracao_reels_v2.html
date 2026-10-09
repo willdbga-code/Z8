@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Z8 E-Motion // Inauguração Oficial - Reels 9:16 (Inspirado 30 Outubro)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800;900&family=Caveat:wght@700&family=Outfit:wght@400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #080a0e;
+      font-family: 'Outfit', sans-serif;
+      position: relative;
+    }
+
+    /* 1. Base Fotográfica com Z8 Tank High-Speed em Estúdio Brutalista */
+    .bg-master {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background-image: url('../public/assets/cria/posters/base_inauguracao_hero_9x16.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: 1;
+    }
+
+    /* Padrão Geométrico Z8 Sutil de Fundo (Watermark 4% de opacidade) */
+    .bg-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 750px;
+      background-image: url('../public/assets/logos/Repetição em padrão 2.png');
+      background-size: 260px;
+      opacity: 0.04;
+      mix-blend-mode: screen;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* 2. O 30 GIGANTE BRANCO CONDENSADO ATRÁS DA MOTO (Inspirado na Referência) */
+    .giant-number-bg {
+      position: absolute;
+      top: 130px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 860px;
+      font-weight: 900;
+      line-height: 0.8;
+      color: #ffffff;
+      letter-spacing: -24px;
+      z-index: 3;
+      pointer-events: none;
+      user-select: none;
+      text-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+    }
+
+    /* 3. Recorte Transparente da Moto Z8 Tank com Sombra Física sobre o 30 (z-index: 4) */
+    .bike-cutout-layer {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      background-image: url('../public/assets/cria/posters/bike_cutout_hero_hq.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: 4;
+      pointer-events: none;
+      filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.92));
+    }
+
+    /* Emblema Z8 Metálico no corpo da moto */
+    .bike-z8-badge {
+      position: absolute;
+      top: 1072px;
+      left: 550px;
+      width: 44px;
+      height: auto;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0.95;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.9));
+    }
+
+    /* 4. Top Header - Safe Zone Superior (Y = 265px) */
+    .top-safe-header {
+      position: absolute;
+      top: 265px;
+      left: 70px;
+      right: 70px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-pill {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(8, 10, 14, 0.88);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(0, 240, 255, 0.45);
+      padding: 10px 22px;
+      border-radius: 9999px;
+    }
+
+    .brand-logo-img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-pill-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .date-badge {
+      display: flex;
+      align-items: center;
+      background: #00f0ff;
+      color: #080a0e;
+      font-family: 'Syne', sans-serif;
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 11px 24px;
+      border-radius: 9999px;
+      box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+    }
+
+    /* 5. Área Tipográfica Editorial Desencapsulada (Safe Zone Inferior Y = 1180px a 1590px) */
+    .editorial-zone {
+      position: absolute;
+      bottom: 330px; /* Rigorosamente acima da zona morta de Stories/Reels (Y <= 1590px) */
+      left: 70px;
+      right: 70px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Bloco "outubro" Monumental + "inauguração" Script Inspirado */
+    .month-hero-container {
+      position: relative;
+      width: 100%;
+      margin-bottom: -10px;
+    }
+
+    .script-inauguracao {
+      position: absolute;
+      top: -24px;
+      left: 14px;
+      font-family: 'Caveat', cursive;
+      font-size: 68px;
+      font-weight: 700;
+      color: #00f0ff;
+      letter-spacing: 1px;
+      transform: rotate(-3deg);
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 1);
+      z-index: 2;
+    }
+
+    .monumental-outubro {
+      font-family: 'Syne', sans-serif;
+      font-size: 140px;
+      font-weight: 900;
+      line-height: 0.85;
+      color: #ffffff;
+      text-transform: lowercase;
+      letter-spacing: -5px;
+      text-shadow: 0 8px 32px rgba(0, 0, 0, 0.95), 0 3px 10px rgba(0, 0, 0, 1);
+    }
+
+    /* Bloco Subtítulo & Proposta: Linha vertical + Motos a preço de fábrica */
+    .offer-bracket-block {
+      display: flex;
+      align-items: stretch;
+      gap: 18px;
+      margin-top: 4px;
+    }
+
+    .offer-vertical-line {
+      width: 4px;
+      background: #00f0ff;
+      border-radius: 2px;
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.5);
+    }
+
+    .offer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .offer-main-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
+      line-height: 1.05;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
+    }
+
+    .offer-main-cyan {
+      color: #00f0ff;
+    }
+
+    /* Subtítulo Dale Carnegie com Foco no Benefício Real */
+    .offer-carnegie-copy {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      color: #cbd5e1;
+      line-height: 1.25;
+      letter-spacing: -0.1px;
+      text-shadow: 0 3px 12px rgba(0, 0, 0, 0.95);
+    }
+
+    /* Linha de Benefícios e Telemetria (Sem Recarga a R$ 1,80) */
+    .metrics-row {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 12px;
+      flex-wrap: nowrap;
+      padding-top: 4px;
+    }
+
+    .metric-white {
+      font-family: 'Syne', sans-serif;
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.9);
+    }
+
+    .metric-divider {
+      font-family: 'Syne', sans-serif;
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #475569;
+      white-space: nowrap;
+    }
+
+    .metric-cyan {
+      font-family: 'Syne', sans-serif;
+      font-size: 15.5px;
+      font-weight: 800;
+      color: #00f0ff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      text-shadow: 0 3px 14px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Rodapé 100% Limpo: Sem microtexto, SEM SETA, somente o domínio oficial */
+    .footer-pure-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1.5px solid rgba(255, 255, 255, 0.2);
+      padding-top: 14px;
+      margin-top: 2px;
+    }
+
+    .footer-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .footer-url {
+      font-family: 'Syne', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      color: #00f0ff;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-shadow: 0 3px 16px rgba(0, 0, 0, 0.9);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Base Fotográfica Automotiva em Alta Definição -->
+  <div class="bg-master"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- 2. "30" Gigante Branco Condensado Atrás da Moto -->
+  <div class="giant-number-bg">30</div>
+
+  <!-- 3. Moto Sobreposta (Recorte HQ com Sombra Física) -->
+  <div class="bike-cutout-layer"></div>
+
+  <!-- Emblema Z8 no corpo da moto -->
+  <img src="../public/assets/logos/logo minimalista.png" class="bike-z8-badge" alt="Z8">
+
+  <!-- 4. Top Header na Safe Zone -->
+  <div class="top-safe-header">
+    <div class="brand-pill">
+      <img src="../public/assets/logos/logo minimalista.png" class="brand-logo-img" alt="Z8">
+      <span class="brand-pill-text">Z8 E-MOTION</span>
+    </div>
+    <div class="date-badge">
+      INAUGURAÇÃO OFICIAL
+    </div>
+  </div>
+
+  <!-- 5. Área Tipográfica Editorial Desencapsulada (Safe Zone Inferior) -->
+  <div class="editorial-zone">
+
+    <!-- Bloco "outubro" Monumental + "inauguração" Script -->
+    <div class="month-hero-container">
+      <div class="script-inauguracao">inauguração</div>
+      <div class="monumental-outubro">outubro</div>
+    </div>
+
+    <!-- Oferta com Linha Vertical + Copy Dale Carnegie -->
+    <div class="offer-bracket-block">
+      <div class="offer-vertical-line"></div>
+      <div class="offer-content">
+        <div class="offer-main-title">
+          MOTOS A <span class="offer-main-cyan">PREÇO DE FÁBRICA.</span>
+        </div>
+        <div class="offer-carnegie-copy">
+          Uma celebração para quem valoriza escolhas inteligentes. Neste dia 30, abrimos as portas direto da montadora para você.
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefícios Reais e Telemetria (Sem Recarga a R$ 1,80) -->
+    <div class="metrics-row">
+      <div class="metric-white">DIRETO DA FÁBRICA</div>
+      <div class="metric-divider">//</div>
+      <div class="metric-cyan">PRONTA-ENTREGA</div>
+      <div class="metric-divider">//</div>
+      <div class="metric-white">GARANTIA NACIONAL Z8</div>
+    </div>
+
+    <!-- Rodapé 100% Limpo (Sem Seta, Sem Microtexto) -->
+    <div class="footer-pure-row">
+      <div class="footer-label">NOVA CONCESSIONÁRIA OFICIAL</div>
+      <div class="footer-url">Z8EMOTION.COM</div>
+    </div>
+
+  </div>
+
+</body>
+</html>
