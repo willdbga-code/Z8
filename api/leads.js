@@ -9,6 +9,7 @@ import {
   decryptField,
   checkRateLimit,
   sanitizeInputString,
+  isValidEmail,
   getClientIp,
   validateAdminAuth,
   setSecureCorsHeaders
@@ -165,7 +166,74 @@ let globalLeadsStore = [
     createdAt: '2026-09-10T14:30:00.000Z',
     updatedAt: Date.now()
   }
-];
+].map(l => ({
+  ...l,
+  phone: encryptField(l.phone),
+  company: encryptField(l.company)
+}));
+
+async function getStoredLeadsFromCloud() {
+  const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const kvToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (kvUrl && kvToken) {
+    try {
+      const res = await fetch(`${kvUrl}/get/z8_leads_store_secure`, {
+        headers: { Authorization: `Bearer ${kvToken}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.result) {
+          const parsed = typeof data.result === 'string' ? JSON.parse(data.result) : data.result;
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const map = new Map();
+            globalLeadsStore.forEach(l => map.set(l.id || l.email, l));
+            parsed.forEach(l => {
+              const safeLead = {
+                ...l,
+                phone: encryptField(l.phone),
+                company: encryptField(l.company)
+              };
+              map.set(l.id || l.email, safeLead);
+            });
+            return Array.from(map.values());
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('KV leads fetch notice:', e.message);
+    }
+  }
+
+  return globalLeadsStore;
+}
+
+async function saveLeadsToCloud(leads) {
+  const encryptedLeads = leads.map(l => ({
+    ...l,
+    phone: encryptField(l.phone),
+    company: encryptField(l.company)
+  }));
+  globalLeadsStore = [...encryptedLeads];
+
+  const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+  const kvToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+
+  if (kvUrl && kvToken) {
+    try {
+      await fetch(`${kvUrl}/set/z8_leads_store_secure`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${kvToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(encryptedLeads)
+      });
+    } catch (e) {
+      console.warn('KV leads save notice:', e.message);
+    }
+  }
+}
 
 export default async function handler(req, res) {
   setSecureCorsHeaders(req, res);
@@ -175,6 +243,7 @@ export default async function handler(req, res) {
   }
 
   const clientIp = getClientIp(req);
+  let leads = await getStoredLeadsFromCloud();
 
   // ------------------------------------------------------------------------
   // GET: List all CRM leads (ESTRITAMENTE RESTRITO A ADMIN MASTER)
@@ -190,9 +259,10 @@ export default async function handler(req, res) {
     }
 
     // Decriptografa dados para exibição do administrador legítimo
-    const decryptedLeads = globalLeadsStore.map(l => ({
+    const decryptedLeads = leads.map(l => ({
       ...l,
-      phone: decryptField(l.phone)
+      phone: decryptField(l.phone),
+      company: decryptField(l.company)
     }));
 
     return res.status(200).json({
@@ -207,18 +277,28 @@ export default async function handler(req, res) {
   // POST: Captura de Novo Lead (Landing Page / Formulário do Catálogo)
   // ------------------------------------------------------------------------
   if (req.method === 'POST') {
-    // Rate limit: 10 leads por hora por IP para impedir bombardeio de robôs
-    const rateCheck = checkRateLimit(`lead_submit_${clientIp}`, 10, 3600);
-    if (!rateCheck.allowed) {
-      return res.status(429).json({
-        success: false,
-        error: 'Limite de envios de formulário excedido. Tente novamente mais tarde.'
-      });
-    }
-
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+
+      // Anti-Bot & Anti-Invasion Honeypot Trap
+      if (body.b_company_trap || body.b_trap || body['b_company_trap']) {
+        return res.status(400).json({ success: false, error: 'Requisição inválida.' });
+      }
+
+      // Rate limit: 10 leads por hora por IP para impedir bombardeio de robôs
+      const rateCheck = checkRateLimit(`lead_submit_${clientIp}`, 10, 3600);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({
+          success: false,
+          error: 'Limite de envios de formulário excedido. Tente novamente mais tarde.'
+        });
+      }
+
       const email = sanitizeInputString(body.email || '').toLowerCase();
+      if (email && !isValidEmail(email)) {
+        return res.status(400).json({ success: false, error: 'Formato de e-mail inválido ou domínio não reconhecido.' });
+      }
+
       const name = sanitizeInputString(body.name || 'Lead Interessado', 120);
 
       if (name.length < 2) {
@@ -232,7 +312,7 @@ export default async function handler(req, res) {
       const newLead = {
         id: body.id || ('lead_' + Date.now()),
         name: name,
-        company: sanitizeInputString(body.company || '', 120),
+        company: encryptField(sanitizeInputString(body.company || '', 120)),
         city: sanitizeInputString(body.city || 'SP', 80),
         state: sanitizeInputString(body.state || 'SP', 2),
         email: email,
@@ -251,7 +331,8 @@ export default async function handler(req, res) {
         updatedAt: Date.now()
       };
 
-      globalLeadsStore.unshift(newLead);
+      leads.unshift(newLead);
+      await saveLeadsToCloud(leads);
 
       return res.status(201).json({
         success: true,
@@ -276,20 +357,30 @@ export default async function handler(req, res) {
 
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+
+      // Anti-Bot & Anti-Invasion Honeypot Trap
+      if (body.b_company_trap || body.b_trap || body['b_company_trap']) {
+        return res.status(400).json({ success: false, error: 'Requisição inválida.' });
+      }
+
       const leadId = body.id || body.leadId;
       const newStatus = body.status;
 
-      const idx = globalLeadsStore.findIndex(l => l.id === leadId || l.email?.toLowerCase() === body.email?.toLowerCase());
+      const idx = leads.findIndex(l => l.id === leadId || l.email?.toLowerCase() === body.email?.toLowerCase());
       if (idx !== -1) {
-        if (newStatus) globalLeadsStore[idx].status = sanitizeInputString(newStatus, 30);
-        if (body.temperature) globalLeadsStore[idx].temperature = sanitizeInputString(body.temperature, 20);
-        if (body.notes) globalLeadsStore[idx].notes = sanitizeInputString(body.notes, 500);
-        globalLeadsStore[idx].updatedAt = Date.now();
+        if (newStatus) leads[idx].status = sanitizeInputString(newStatus, 30);
+        if (body.temperature) leads[idx].temperature = sanitizeInputString(body.temperature, 20);
+        if (body.company) leads[idx].company = encryptField(sanitizeInputString(body.company, 120));
+        if (body.phone) leads[idx].phone = encryptField(sanitizeInputString(body.phone, 30));
+        if (body.notes) leads[idx].notes = sanitizeInputString(body.notes, 500);
+        leads[idx].updatedAt = Date.now();
+        await saveLeadsToCloud(leads);
         return res.status(200).json({
           success: true,
           lead: {
-            ...globalLeadsStore[idx],
-            phone: decryptField(globalLeadsStore[idx].phone)
+            ...leads[idx],
+            phone: decryptField(leads[idx].phone),
+            company: decryptField(leads[idx].company)
           }
         });
       }

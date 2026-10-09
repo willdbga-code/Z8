@@ -303,6 +303,10 @@
         </nav>
 
         <div class="header-actions">
+          <a href="/site-principal/?admin=1" class="btn-header-login" style="background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.4); color: #fbbf24; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 9999px; font-size: 0.74rem; font-weight: 800;" title="Acessar Painel de Solicitações e CRM (Admin)">
+            <i class="fa-solid fa-user-shield"></i>
+            <span>PAINEL ADMIN</span>
+          </a>
           <button type="button" id="open-crm-btn" class="btn-header-login" title="Área de Login do Revendedor" aria-label="Acessar Área de Login do Concessionário">
             <i class="fa-solid fa-lock"></i>
             <span class="btn-header-login-text">LOGIN</span>
@@ -1126,6 +1130,7 @@
 
       <!-- FORMULÁRIO PROGRESSIVO EM 2 ETAPAS (ESTILO MONTADORA HYUNDAI) -->
       <form id="investor-lead-form">
+        <input type="text" name="b_company_trap" id="investor-lead-trap" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
         <!-- INDICADOR VISUAL DE ETAPAS -->
         <div class="form-steps-indicator">
           <div class="step-pill-indicator active" id="pill-step-1">
@@ -1410,6 +1415,7 @@
       </div>
 
       <form id="checkout-form">
+        <input type="text" name="b_company_trap" id="checkout-lead-trap" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
         <div class="form-group-b2b">
           <label class="form-label-b2b">Seu Nome Completo *</label>
           <input type="text" id="input-name" class="form-input-b2b" placeholder="Ex: Roberto Silva" required />
@@ -1529,6 +1535,7 @@
       <!-- ABA 1: FORMULÁRIO DE LOGIN -->
       <div id="portal-view-login">
         <form id="portal-login-form">
+          <input type="text" name="b_company_trap" id="portal-login-trap" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
           <div class="form-group-b2b">
             <label class="form-label-b2b" for="portal-input-user">
               <span><i class="fa-solid fa-envelope" style="color: var(--accent-navy);"></i> E-mail ou Usuário Credenciado *</span>
@@ -1567,6 +1574,7 @@
       <!-- ABA 2: FORMULÁRIO DE CADASTRO / CRIAR CONTA -->
       <div id="portal-view-register" style="display: none;">
         <form id="portal-register-form">
+          <input type="text" name="b_company_trap" id="portal-reg-trap" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
           <div class="form-group-b2b">
             <label class="form-label-b2b">Nome Completo do Responsável</label>
             <input type="text" id="portal-reg-name" class="form-input-b2b" placeholder="Ex: Roberto Silva" required />

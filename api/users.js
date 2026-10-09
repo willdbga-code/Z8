@@ -14,6 +14,7 @@ import {
   checkRateLimit,
   sanitizeUserOutput,
   sanitizeInputString,
+  isValidEmail,
   getClientIp,
   validateAdminAuth,
   setSecureCorsHeaders,
@@ -120,6 +121,7 @@ const rawInitialAccounts = [
 let globalUsersStore = rawInitialAccounts.map(u => ({
   ...u,
   phone: encryptField(u.phone),
+  company: encryptField(u.company),
   password: u.password.startsWith('pbkdf2$') ? u.password : hashPassword(u.password)
 }));
 
@@ -140,10 +142,11 @@ async function getStoredUsersFromCloud() {
             const map = new Map();
             globalUsersStore.forEach(u => map.set(u.email.toLowerCase(), u));
             parsed.forEach(u => {
-              // Garante que senhas lidas do KV estejam com hash
+              // Garante que senhas lidas do KV estejam com hash e PII criptografada
               const safeUser = {
                 ...u,
                 phone: encryptField(u.phone),
+                company: encryptField(u.company),
                 password: u.password?.startsWith('pbkdf2$') ? u.password : hashPassword(u.password || 'Z8@2026')
               };
               map.set(u.email.toLowerCase(), safeUser);
@@ -161,7 +164,12 @@ async function getStoredUsersFromCloud() {
 }
 
 async function saveUsersToCloud(users) {
-  globalUsersStore = [...users];
+  const encryptedUsers = users.map(u => ({
+    ...u,
+    phone: encryptField(u.phone),
+    company: encryptField(u.company)
+  }));
+  globalUsersStore = [...encryptedUsers];
 
   const kvUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
   const kvToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -174,7 +182,7 @@ async function saveUsersToCloud(users) {
           Authorization: `Bearer ${kvToken}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(users)
+        body: JSON.stringify(encryptedUsers)
       });
     } catch (e) {
       console.warn('KV users save notice:', e.message);
@@ -198,7 +206,7 @@ export default async function handler(req, res) {
     users.unshift({
       id: 'user_admin_01',
       name: 'Christian Hideyuki (Admin Master)',
-      company: 'Z8 E-Motion Brasil (Matriz)',
+      company: encryptField('Z8 E-Motion Brasil (Matriz)'),
       city: 'São Paulo - SP',
       email: MASTER_ADMIN_EMAIL,
       phone: encryptField('(12) 99800-8818'),
@@ -244,6 +252,12 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+
+      // Anti-Bot & Anti-Invasion Honeypot Trap
+      if (body.b_company_trap || body.b_trap || body['b_company_trap']) {
+        return res.status(400).json({ success: false, error: 'Requisição inválida.' });
+      }
+
       const email = sanitizeInputString(body.email || '').toLowerCase();
       const action = body.action;
 
@@ -252,6 +266,10 @@ export default async function handler(req, res) {
         const lookupEmail = (email === 'admin' || email === MASTER_ADMIN_EMAIL.toLowerCase())
           ? MASTER_ADMIN_EMAIL.toLowerCase()
           : email;
+
+        if (email !== 'admin' && !isValidEmail(lookupEmail)) {
+          return res.status(400).json({ success: false, error: 'Formato de e-mail inválido ou domínio não reconhecido.' });
+        }
 
         const rateLimitKey = `login_${clientIp}_${lookupEmail}`;
         const rateCheck = checkRateLimit(rateLimitKey, 5, 900); // 5 tentativas em 15 minutos
@@ -317,8 +335,8 @@ export default async function handler(req, res) {
 
       // 2. Ação de Login / Sincronização via Google OAuth Oficial
       if (action === 'google_auth') {
-        if (!email || !email.includes('@')) {
-          return res.status(400).json({ success: false, error: 'E-mail inválido fornecido.' });
+        if (!isValidEmail(email)) {
+          return res.status(400).json({ success: false, error: 'Formato de e-mail inválido ou domínio não reconhecido.' });
         }
 
         const isMaster = email === MASTER_ADMIN_EMAIL.toLowerCase();
@@ -380,16 +398,15 @@ export default async function handler(req, res) {
         });
       }
 
-      if (!email || !email.includes('@')) {
-        return res.status(400).json({ success: false, error: 'E-mail inválido fornecido.' });
+      if (!isValidEmail(email)) {
+        return res.status(400).json({ success: false, error: 'Formato de e-mail inválido ou domínio não reconhecido.' });
       }
 
       const existing = users.find(u => (u.email || '').toLowerCase() === email);
       if (existing) {
         return res.status(409).json({
           success: false,
-          error: 'Este e-mail já está cadastrado no sistema.',
-          user: sanitizeUserOutput(existing, false)
+          error: 'Este e-mail já está cadastrado no sistema.'
         });
       }
 
@@ -442,6 +459,12 @@ export default async function handler(req, res) {
 
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+
+      // Anti-Bot & Anti-Invasion Honeypot Trap
+      if (body.b_company_trap || body.b_trap || body['b_company_trap']) {
+        return res.status(400).json({ success: false, error: 'Requisição inválida.' });
+      }
+
       const target = (body.email || body.id || '').trim().toLowerCase();
       const newStatus = body.status;
 
@@ -497,9 +520,19 @@ export default async function handler(req, res) {
 
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+
+      // Anti-Bot & Anti-Invasion Honeypot Trap
+      if (body.b_company_trap || body.b_trap || body['b_company_trap']) {
+        return res.status(400).json({ success: false, error: 'Requisição inválida.' });
+      }
+
       const email = sanitizeInputString(body.email || '').toLowerCase();
       const newPassword = String(body.password || '').trim();
       const isAdmin = validateAdminAuth(req);
+
+      if (!isValidEmail(email)) {
+        return res.status(400).json({ success: false, error: 'Formato de e-mail inválido ou domínio não reconhecido.' });
+      }
 
       if (!email || !newPassword) {
         return res.status(400).json({ success: false, error: 'E-mail e nova senha são obrigatórios.' });

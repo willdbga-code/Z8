@@ -58,24 +58,26 @@ export function getCloudSyncStatus() {
   };
 }
 
+export function isUserAdmin(user = null) {
+  const currentUser = user || getCurrentCatalogUser();
+  if (!currentUser || !currentUser.email) return false;
+  const email = (currentUser.email || '').toLowerCase().trim();
+  const masterEmail = (MASTER_ADMIN_EMAIL || 'christian.tkh@gmail.com').toLowerCase().trim();
+  return (
+    email === masterEmail ||
+    currentUser.role === 'admin' ||
+    currentUser.isAdmin === true
+  );
+}
+
 // Login e Cadastro com 1 Clique via Google OAuth
 export async function loginWithGoogle() {
   try {
     const user = await signInWithGoogleAccount();
     if (user && user.email) {
-      const users = getRegisteredUsers();
-      const cleanEmail = user.email.toLowerCase();
-      const existingIdx = users.findIndex(u => u.email.toLowerCase() === cleanEmail);
+      const isMaster = isUserAdmin(user);
 
-      if (existingIdx !== -1) {
-        users[existingIdx] = { ...users[existingIdx], ...user };
-      } else {
-        users.unshift(user);
-      }
-
-      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-
-      // Salva sessão ativa
+      // Salva sessão ativa individual (Zero-Knowledge)
       sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
       sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(user));
       const pendingApproval = sessionStorage.getItem('z8_pending_approval');
@@ -88,6 +90,12 @@ export async function loginWithGoogle() {
       localStorage.setItem('z8_catalog_auth_user', JSON.stringify(user));
       if (user.token) {
         localStorage.setItem('z8_catalog_auth_token', user.token);
+      }
+
+      if (isMaster) {
+        await fetchUsersFromCloud();
+      } else {
+        localStorage.removeItem(USERS_STORAGE_KEY);
       }
 
       window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
@@ -168,112 +176,55 @@ export async function pushUsersToCloud(usersList) {
   }
 }
 
-// Busca todos os usuários cadastrados na nuvem central e mescla com o cache local
+// Busca todos os usuários cadastrados na nuvem central e mescla com o cache local (Exclusivo Master Admin)
 export async function fetchUsersFromCloud() {
+  const currentUser = getCurrentCatalogUser();
+  const isMaster = isUserAdmin(currentUser);
+  const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+
+  // Zero-Knowledge Client: Apenas Administradores autorizados podem baixar o diretório completo
+  if (!isMaster) {
+    return null;
+  }
+
   try {
     let cloudUsers = [];
 
-    // 1. Busca prioritária direto do Cloud Firestore oficial (Christian Hide)
-    try {
-      const firestoreUsers = await fetchUsersFromFirestore();
-      if (Array.isArray(firestoreUsers) && firestoreUsers.length > 0) {
-        cloudUsers.push(...firestoreUsers);
-        lastCloudSyncTime = Date.now();
-        lastCloudSyncSuccess = true;
+    // 1. Consulta do endpoint serverless protegido /api/users com token HMAC-SHA256 (se disponível)
+    if (adminToken) {
+      try {
+        const headers = { 'Authorization': `Bearer ${adminToken}` };
+        const res = await fetch(CLOUD_CONFIG.API_USERS_URL, { headers });
+        if (res.ok) {
+          const json = await res.json();
+          if (json && Array.isArray(json.users)) {
+            cloudUsers.push(...json.users);
+            lastCloudSyncTime = Date.now();
+            lastCloudSyncSuccess = true;
+          }
+        }
+      } catch (apiErr) {
+        console.warn('API users fetch notice:', apiErr);
       }
-    } catch (fsErr) {
-      console.warn('Firestore direct fetch notice:', fsErr);
     }
 
-    // 2. Consulta adicional do endpoint serverless /api/users para mesclagem de contingência
-    try {
-      const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
-      const headers = {};
-      if (adminToken) {
-        headers['Authorization'] = `Bearer ${adminToken}`;
-      }
-      const res = await fetch(CLOUD_CONFIG.API_USERS_URL, { headers });
-      if (res.ok) {
-        const json = await res.json();
-        if (json && Array.isArray(json.users)) {
-          const existingEmails = new Set(cloudUsers.map(u => (u.email || '').toLowerCase().trim()));
-          json.users.forEach(apiUser => {
-            const email = (apiUser.email || '').toLowerCase().trim();
-            if (email && !existingEmails.has(email)) {
-              cloudUsers.push(apiUser);
-            }
-          });
+    // 2. Consulta adicional do Firestore (caso disponível para admin)
+    if (cloudUsers.length === 0) {
+      try {
+        const firestoreUsers = await fetchUsersFromFirestore();
+        if (Array.isArray(firestoreUsers) && firestoreUsers.length > 0) {
+          cloudUsers.push(...firestoreUsers);
           lastCloudSyncTime = Date.now();
           lastCloudSyncSuccess = true;
         }
+      } catch (fsErr) {
+        console.warn('Firestore fetchUsers notice:', fsErr);
       }
-    } catch (apiErr) {
-      // offline / local environment normal
     }
 
     if (cloudUsers.length > 0) {
-      const localUsers = getRegisteredUsers();
-      let hasChanges = false;
-
-      const mergedMap = new Map();
-      localUsers.forEach(u => mergedMap.set(u.email.toLowerCase(), u));
-
-      cloudUsers.forEach(cu => {
-        const email = (cu.email || '').toLowerCase().trim();
-        if (!email) return;
-
-        const normalizedUser = {
-          id: cu.id || ('user_' + Date.now()),
-          name: cu.name || 'Parceiro Z8',
-          company: cu.company || 'Empresa Parceira',
-          city: cu.city || 'São Paulo - SP',
-          email: email,
-          phone: cu.phone || '',
-          role: email === MASTER_ADMIN_EMAIL.toLowerCase() ? 'admin' : (cu.role || 'partner'),
-          status: email === MASTER_ADMIN_EMAIL.toLowerCase() ? 'approved' : (cu.status || 'pending'),
-          updatedAt: parseInt(cu.updatedAt || '1000', 10),
-          createdAt: cu.createdAt || new Date().toISOString()
-        };
-        if (cu.password) {
-          normalizedUser.password = cu.password;
-        }
-
-        if (!mergedMap.has(email)) {
-          mergedMap.set(email, normalizedUser);
-          hasChanges = true;
-        } else {
-          const localU = mergedMap.get(email);
-          const cloudTime = normalizedUser.updatedAt || 0;
-          const localTime = localU.updatedAt || 0;
-
-          // Se a nuvem tem atualização mais recente, atualiza status
-          if (cloudTime >= localTime && normalizedUser.status && normalizedUser.status !== localU.status && email !== MASTER_ADMIN_EMAIL.toLowerCase()) {
-            localU.status = normalizedUser.status;
-            localU.updatedAt = cloudTime;
-            hasChanges = true;
-          }
-
-          if (normalizedUser.name && (!localU.name || localU.name === 'Parceiro Z8' || localU.name === 'Lead Comercial')) {
-            localU.name = normalizedUser.name;
-            hasChanges = true;
-          }
-          if (normalizedUser.company && (!localU.company || localU.company === 'Empresa Parceira' || localU.company === 'Empresa Interessada')) {
-            localU.company = normalizedUser.company;
-            hasChanges = true;
-          }
-          if (normalizedUser.city && (!localU.city || localU.city === 'Não informada')) {
-            localU.city = normalizedUser.city;
-            hasChanges = true;
-          }
-          if (normalizedUser.phone && !localU.phone) {
-            localU.phone = normalizedUser.phone;
-            hasChanges = true;
-          }
-        }
-      });
-
-      const mergedList = Array.from(mergedMap.values()).map(u => {
-        if (u.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
+      const mergedList = cloudUsers.map(u => {
+        if ((u.email || '').toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
           u.status = 'approved';
           u.role = 'admin';
         }
@@ -281,10 +232,8 @@ export async function fetchUsersFromCloud() {
       });
 
       localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(mergedList));
-      if (hasChanges) {
-        window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
-        window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-      }
+      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+      window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
       return mergedList;
     }
   } catch (err) {
@@ -295,64 +244,33 @@ export async function fetchUsersFromCloud() {
 
 export function getRegisteredUsers() {
   try {
+    const currentUser = getCurrentCatalogUser();
+    const isMaster = isUserAdmin(currentUser);
+
+    // Zero-Knowledge Client: Visitantes e parceiros regulares nunca armazenam nem leem o diretório global
+    if (!isMaster) {
+      localStorage.removeItem(USERS_STORAGE_KEY);
+      return currentUser ? [currentUser] : [];
+    }
+
     let users = [];
     const raw = localStorage.getItem(USERS_STORAGE_KEY);
-    if (!raw) {
-      users = [...DEFAULT_USERS];
-      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-    } else {
-      users = JSON.parse(raw);
+    if (raw) {
+      try {
+        users = JSON.parse(raw);
+      } catch {
+        users = [];
+      }
     }
 
-    // Filtra e remove completamente e-mails de teste antigos
-    users = users.filter(u => !TEST_DEMO_EMAILS.includes((u.email || '').toLowerCase().trim()));
-
-    // 1. Garante a presença do Administrador Master e contas cadastradas
-    DEFAULT_USERS.forEach(du => {
-      if (!users.find(u => u.email.toLowerCase() === du.email.toLowerCase())) {
-        users.push({ ...du });
-      }
-    });
-
-    // 2. Auto-sync active session user if stored
-    try {
-      const sessionUserRaw = localStorage.getItem('z8_catalog_auth_user') || sessionStorage.getItem('z8_catalog_auth_user');
-      if (sessionUserRaw) {
-        const su = JSON.parse(sessionUserRaw);
-        if (su.email && !TEST_DEMO_EMAILS.includes(su.email.toLowerCase()) && !users.find(u => u.email.toLowerCase() === su.email.toLowerCase())) {
-          users.push({
-            id: su.id || ('user_sess_' + Date.now()),
-            name: su.name || 'Parceiro Z8',
-            company: su.company || 'Loja Parceira',
-            city: su.city || 'São Paulo - SP',
-            email: su.email.toLowerCase(),
-            phone: su.phone || '',
-            role: su.role || 'partner',
-            status: su.status || 'pending',
-            updatedAt: 1000,
-            createdAt: su.createdAt || new Date().toISOString()
-          });
-        }
-      }
-    } catch (e) {
-      console.warn('Session user sync info:', e);
+    // Garante que o Administrador Master esteja sempre na lista
+    if (!users.find(u => (u.email || '').toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+      users.unshift({ ...DEFAULT_MASTER_ADMIN });
     }
 
-    // 3. Ensure admin is always master approved
-    const normalized = users.map(u => {
-      if (u.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase()) {
-        u.status = 'approved';
-        u.role = 'admin';
-      } else if (!u.status) {
-        u.status = 'pending';
-      }
-      return u;
-    });
-
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(normalized));
-    return normalized;
+    return users;
   } catch (err) {
-    return DEFAULT_USERS;
+    return [];
   }
 }
 
@@ -395,8 +313,14 @@ export async function createPartnerByAdmin(userData) {
 
 export async function registerCatalogUser(userData) {
   const cleanEmail = (userData.email || '').trim().toLowerCase();
-  if (!cleanEmail || !cleanEmail.includes('@')) {
-    return { success: false, error: 'Por favor, informe um endereço de e-mail corporativo válido.' };
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,24}$/;
+  if (!cleanEmail || !emailRegex.test(cleanEmail)) {
+    return { success: false, error: 'Por favor, informe um endereço de e-mail corporativo válido (com domínio e extensão válidos).' };
+  }
+
+  // Honeypot trap check
+  if (userData.b_company_trap) {
+    return { success: false, error: 'Requisição inválida.' };
   }
 
   // 1. Checa primeiro no Firestore oficial do Christian Hide
@@ -410,13 +334,6 @@ export async function registerCatalogUser(userData) {
     }
   } catch (e) {
     console.warn('Firestore pre-registration check notice:', e);
-  }
-
-  // 2. Checa no registro local
-  const users = getRegisteredUsers();
-  const existing = users.find(u => (u.email || '').toLowerCase() === cleanEmail);
-  if (existing) {
-    return { success: false, error: 'Este e-mail já possui um cadastro. Digite sua senha na aba de Entrar.' };
   }
 
   const isMaster = cleanEmail === MASTER_ADMIN_EMAIL.toLowerCase();
@@ -435,10 +352,7 @@ export async function registerCatalogUser(userData) {
     createdAt: new Date().toISOString()
   };
 
-  users.unshift(newUser);
-  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-
-  // Grava imediatamente no Cloud Firestore oficial (Christian Hide)
+  // Zero-Knowledge Client: Grava no backend/Firestore sem fazer dump do diretório no localStorage do visitante
   await saveUserToFirestore(newUser);
   await pushUserToFirestore(newUser);
   await setCloudUserStatus(cleanEmail, newUser.status);
@@ -456,10 +370,16 @@ export async function registerCatalogUser(userData) {
         city: newUser.city,
         email: newUser.email,
         phone: newUser.phone,
-        password: userData.password || ''
+        password: userData.password || '',
+        b_company_trap: userData.b_company_trap || ''
       })
     });
-    if (apiRes.ok) {
+    if (!apiRes.ok) {
+      const errJson = await apiRes.json().catch(() => null);
+      if (errJson?.error) {
+        return { success: false, error: errJson.error };
+      }
+    } else {
       const apiData = await apiRes.json().catch(() => null);
       if (apiData?.token) {
         authToken = apiData.token;
@@ -469,7 +389,7 @@ export async function registerCatalogUser(userData) {
     console.warn('API registration sync notice:', apiErr);
   }
 
-  // Autentica o usuário imediatamente na sessão
+  // Autentica o usuário imediatamente na sessão individual (Zero-Knowledge)
   sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
   sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(newUser));
   localStorage.setItem('z8_catalog_auth_user', JSON.stringify(newUser));
@@ -483,7 +403,11 @@ export async function registerCatalogUser(userData) {
   return { success: true, user: newUser };
 }
 
-export async function loginCatalogUser(userOrEmail, password) {
+export async function loginCatalogUser(userOrEmail, password, trap = '') {
+  if (trap) {
+    return { success: false, error: 'Requisição inválida.' };
+  }
+
   const clean = (userOrEmail || '').trim().toLowerCase();
   const rawPassword = String(password || '').trim();
 
@@ -498,7 +422,7 @@ export async function loginCatalogUser(userOrEmail, password) {
     const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'login', email: clean, password: rawPassword })
+      body: JSON.stringify({ action: 'login', email: clean, password: rawPassword, b_company_trap: trap })
     });
 
     apiCallCompleted = true;
@@ -506,14 +430,7 @@ export async function loginCatalogUser(userOrEmail, password) {
 
     if (res.ok && data?.success && data?.user) {
       const loggedUser = data.user;
-      const localUsers = getRegisteredUsers();
-      const existingIdx = localUsers.findIndex(u => (u.email || '').toLowerCase() === loggedUser.email.toLowerCase());
-      if (existingIdx !== -1) {
-        localUsers[existingIdx] = { ...localUsers[existingIdx], ...loggedUser };
-      } else {
-        localUsers.unshift(loggedUser);
-      }
-      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(localUsers));
+      const isMaster = isUserAdmin(loggedUser);
 
       sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
       sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
@@ -528,6 +445,13 @@ export async function loginCatalogUser(userOrEmail, password) {
       if (data.token) {
         localStorage.setItem('z8_catalog_auth_token', data.token);
       }
+
+      if (isMaster) {
+        await fetchUsersFromCloud();
+      } else {
+        localStorage.removeItem(USERS_STORAGE_KEY);
+      }
+
       window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
       window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
       return {
@@ -557,18 +481,16 @@ export async function loginCatalogUser(userOrEmail, password) {
     if (firestoreAuthRes) {
       if (firestoreAuthRes.success && firestoreAuthRes.user) {
         const loggedUser = firestoreAuthRes.user;
-        const localUsers = getRegisteredUsers();
-        const existingIdx = localUsers.findIndex(u => (u.email || '').toLowerCase() === loggedUser.email.toLowerCase());
-        if (existingIdx !== -1) {
-          localUsers[existingIdx] = { ...localUsers[existingIdx], ...loggedUser };
-        } else {
-          localUsers.unshift(loggedUser);
-        }
-        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(localUsers));
+        const isMaster = isUserAdmin(loggedUser);
 
         sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
         sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
         localStorage.setItem('z8_catalog_auth_user', JSON.stringify(loggedUser));
+        if (isMaster) {
+          await fetchUsersFromCloud();
+        } else {
+          localStorage.removeItem(USERS_STORAGE_KEY);
+        }
         window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
         window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
 
@@ -585,20 +507,7 @@ export async function loginCatalogUser(userOrEmail, password) {
     console.warn('Firestore offline authentication error:', fsAuthErr);
   }
 
-  // 3. Contingência de emergência offline restrita ao Administrador Master Oficial
-  const isMaster = (clean === MASTER_ADMIN_EMAIL.toLowerCase() || clean === 'admin');
-  if (isMaster && rawPassword === '@12345678@') {
-    const masterUser = { ...DEFAULT_MASTER_ADMIN, updatedAt: Date.now() };
-    sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
-    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(masterUser));
-    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(masterUser));
-    window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-    return {
-      success: true,
-      user: masterUser,
-      isPending: false
-    };
-  }
+  // Sem backdoors! Qualquer outra tentativa com senhas incorretas ou não cadastradas é rejeitada
 
   // Sem backdoors! Qualquer outra tentativa com senhas fracas ou não cadastradas é rejeitada
   return { success: false, error: 'Credenciais inválidas. Verifique seu e-mail e senha.' };
@@ -739,10 +648,7 @@ export function getCurrentCatalogUser() {
   try {
     const raw = sessionStorage.getItem(SESSION_USER_KEY) || localStorage.getItem('z8_catalog_auth_user');
     if (!raw) return null;
-    const user = JSON.parse(raw);
-    const users = getRegisteredUsers();
-    const fresh = users.find(u => u.email.toLowerCase() === user.email.toLowerCase());
-    return fresh || user;
+    return JSON.parse(raw);
   } catch (err) {
     return null;
   }
@@ -751,7 +657,7 @@ export function getCurrentCatalogUser() {
 export function isCatalogApproved() {
   const user = getCurrentCatalogUser();
   if (!user) return false;
-  return user.status === 'approved' || user.role === 'admin' || user.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase();
+  return user.status === 'approved' || isUserAdmin(user);
 }
 
 export function logoutCatalogUser() {
@@ -759,6 +665,7 @@ export function logoutCatalogUser() {
   sessionStorage.removeItem(SESSION_USER_KEY);
   localStorage.removeItem('z8_catalog_auth_user');
   localStorage.removeItem('z8_catalog_auth_token');
+  localStorage.removeItem(USERS_STORAGE_KEY);
   window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
 }
 

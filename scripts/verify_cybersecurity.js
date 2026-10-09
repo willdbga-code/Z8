@@ -14,9 +14,21 @@ import {
   verifySecureToken,
   validateAdminAuth,
   checkRateLimit,
-  resetRateLimit
+  resetRateLimit,
+  encryptField,
+  decryptField,
+  isValidEmail
 } from '../api/security-utils.js';
 import usersHandler from '../api/users.js';
+import leadsHandler from '../api/leads.js';
+import ordersHandler from '../api/orders.js';
+import { SEED_REGISTERED_USERS } from '../site-principal/data/cloud-config.js';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 console.log('🔒 INICIANDO BATERIA DE TESTES DE CIBERSEGURANÇA Z8 E-MOTION...\n');
 
@@ -409,6 +421,385 @@ await runAsyncTest('PATCH de senha do Master Admin via endpoint público deve se
   assert.strictEqual(res.statusCode, 403);
   assert.strictEqual(res.body.success, false);
   assert.ok(res.body.error.includes('A senha master não pode ser alterada'));
+});
+
+await runAsyncTest('Cadastro no /api/users com e-mail duplicado (409) NÃO deve retornar objeto user (Anti-Enumeração)', async () => {
+  const req = {
+    method: 'POST',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      name: 'Impostor Test',
+      company: 'Evil Corp',
+      email: 'christian.tkh@gmail.com',
+      password: 'AttemptPassword@2026'
+    }
+  };
+  const res = createMockRes();
+  await usersHandler(req, res);
+
+  assert.strictEqual(res.statusCode, 409);
+  assert.strictEqual(res.body.success, false);
+  assert.strictEqual(res.body.user, undefined, 'Objeto user jamais deve ser retornado em 409 Conflict para evitar enumeração de contas');
+});
+
+
+// --------------------------------------------------------------------------
+// 5. TESTES DE ARMADILHA HONEYPOT ANTI-ROBÔ (b_company_trap)
+// --------------------------------------------------------------------------
+console.log('\n--- 5. Defesa Ativa: Honeypot Anti-Bot (b_company_trap) ---');
+
+await runAsyncTest('Cadastro no /api/users com honeypot b_company_trap preenchido deve retornar 400 Bad Request', async () => {
+  const req = {
+    method: 'POST',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      name: 'Bot Spammer',
+      email: 'bot@spam.com',
+      password: 'StrongPass@2026',
+      b_company_trap: 'valor_injetado_por_crawler'
+    }
+  };
+  const res = createMockRes();
+  await usersHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+});
+
+await runAsyncTest('Login no /api/users com honeypot b_company_trap preenchido deve retornar 400 Bad Request', async () => {
+  const req = {
+    method: 'POST',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      action: 'login',
+      email: 'christian.tkh@gmail.com',
+      password: '@12345678@',
+      b_company_trap: 'bot_exploit'
+    }
+  };
+  const res = createMockRes();
+  await usersHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+});
+
+await runAsyncTest('PUT no /api/users com honeypot b_company_trap preenchido deve retornar 400 Bad Request', async () => {
+  const adminToken = generateSecureAdminToken('christian.tkh@gmail.com');
+  const req = {
+    method: 'PUT',
+    headers: {
+      origin: 'https://z8emotion.com',
+      authorization: `Bearer ${adminToken}`
+    },
+    body: {
+      email: 'willdbga@gmail.com',
+      status: 'approved',
+      b_company_trap: 'bot_exploit'
+    }
+  };
+  const res = createMockRes();
+  await usersHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+});
+
+await runAsyncTest('PATCH no /api/users com honeypot b_company_trap preenchido deve retornar 400 Bad Request', async () => {
+  const req = {
+    method: 'PATCH',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      email: 'willdbga@gmail.com',
+      password: 'NewPassword@2026',
+      b_company_trap: 'bot_exploit'
+    }
+  };
+  const res = createMockRes();
+  await usersHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+});
+
+await runAsyncTest('POST no /api/leads com honeypot b_company_trap preenchido deve retornar 400 Bad Request', async () => {
+  const req = {
+    method: 'POST',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      name: 'Spam Lead Bot',
+      email: 'bot@spamleads.com',
+      b_company_trap: 'hidden_honeypot_triggered'
+    }
+  };
+  const res = createMockRes();
+  await leadsHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+});
+
+await runAsyncTest('POST no /api/orders com honeypot b_company_trap preenchido deve retornar 400 Bad Request', async () => {
+  const req = {
+    method: 'POST',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      clientName: 'Bot Order',
+      clientEmail: 'bot@spam.com',
+      b_company_trap: 'order_honeypot_trap'
+    }
+  };
+  const res = createMockRes();
+  await ordersHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+});
+
+await runAsyncTest('PUT no /api/orders com honeypot b_company_trap preenchido deve retornar 400 Bad Request', async () => {
+  const adminToken = generateSecureAdminToken('christian.tkh@gmail.com');
+  const req = {
+    method: 'PUT',
+    headers: {
+      origin: 'https://z8emotion.com',
+      authorization: `Bearer ${adminToken}`
+    },
+    body: {
+      id: 'OS-2026-0101',
+      status: 'approved',
+      b_company_trap: 'order_honeypot_trap'
+    }
+  };
+  const res = createMockRes();
+  await ordersHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+});
+
+
+// --------------------------------------------------------------------------
+// 6. TESTES DE VALIDAÇÃO ESTRITA DE E-MAIL (RFC-5322 & TLD ALFABÉTICO)
+// --------------------------------------------------------------------------
+console.log('\n--- 6. Validação Estrita de E-mail (RFC-5322 & Rejeição .com21) ---');
+
+runTest('isValidEmail deve aceitar e-mails legítimos', () => {
+  assert.strictEqual(isValidEmail('christian.tkh@gmail.com'), true);
+  assert.strictEqual(isValidEmail('willdbga@gmail.com'), true);
+  assert.strictEqual(isValidEmail('contato@empresa.com.br'), true);
+  assert.strictEqual(isValidEmail('lojista@sub.dominio.ind.br'), true);
+});
+
+runTest('isValidEmail deve REJEITAR e-mail com TLD numérico malformado (.com21)', () => {
+  assert.strictEqual(isValidEmail('brevesvinicius50@gmail.com21'), false);
+  assert.strictEqual(isValidEmail('teste@gmail.com123'), false);
+  assert.strictEqual(isValidEmail('usuario@dominio.c0m'), false);
+});
+
+runTest('isValidEmail deve REJEITAR e-mails sem domínio ou estrutura inválida', () => {
+  assert.strictEqual(isValidEmail('teste@gmail'), false);
+  assert.strictEqual(isValidEmail('@dominio.com'), false);
+  assert.strictEqual(isValidEmail('usuario@.com'), false);
+  assert.strictEqual(isValidEmail('usuario@dominio..com'), false);
+  assert.strictEqual(isValidEmail(''), false);
+  assert.strictEqual(isValidEmail(null), false);
+});
+
+await runAsyncTest('Cadastro no /api/users com e-mail malformado (.com21) deve ser REJEITADO (400)', async () => {
+  const req = {
+    method: 'POST',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      name: 'Vinicius Breves Injected',
+      company: 'Breves Test',
+      city: 'São Paulo - SP',
+      email: 'brevesvinicius50@gmail.com21',
+      password: 'SenhaSegura@2026'
+    }
+  };
+  const res = createMockRes();
+  await usersHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+  assert.match(res.body.error, /e-mail inválido/i);
+});
+
+await runAsyncTest('Captura de Lead no /api/leads com e-mail malformado (.com21) deve ser REJEITADA (400)', async () => {
+  const req = {
+    method: 'POST',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      name: 'Lead Com TLD Malformado',
+      company: 'Empresa Teste',
+      email: 'brevesvinicius50@gmail.com21',
+      phone: '(12) 99999-8888'
+    }
+  };
+  const res = createMockRes();
+  await leadsHandler(req, res);
+  assert.strictEqual(res.statusCode, 400);
+  assert.strictEqual(res.body.success, false);
+  assert.match(res.body.error, /e-mail inválido/i);
+});
+
+// --------------------------------------------------------------------------
+// 7. CRIPTOGRAFIA AES-256-GCM & ZERO-KNOWLEDGE CLIENT BUNDLE
+// --------------------------------------------------------------------------
+console.log('\n--- 7. Criptografia AES-256-GCM em Repouso & Zero-Knowledge ---');
+
+runTest('Campos sensíveis de PII (phone, company) devem ser criptografados com AES-256-GCM', () => {
+  const plainPhone = '(12) 98813-0316';
+  const encryptedPhone = encryptField(plainPhone);
+  assert.ok(encryptedPhone.startsWith('enc$aes256gcm$'));
+  assert.notStrictEqual(encryptedPhone, plainPhone);
+
+  const decryptedPhone = decryptField(encryptedPhone);
+  assert.strictEqual(decryptedPhone, plainPhone);
+});
+
+runTest('SEED_REGISTERED_USERS no bundle de cliente deve estar VAZIO (Zero Partner PII Leak)', () => {
+  assert.ok(Array.isArray(SEED_REGISTERED_USERS));
+  assert.strictEqual(SEED_REGISTERED_USERS.length, 0, 'SEED_REGISTERED_USERS deve ser um array vazio para blindar dados de parceiros no bundle');
+});
+
+await runAsyncTest('GET /api/users sem token administrativo deve retornar 401 Unauthorized', async () => {
+  const req = {
+    method: 'GET',
+    headers: { origin: 'https://z8emotion.com' }
+  };
+  const res = createMockRes();
+  await usersHandler(req, res);
+  assert.strictEqual(res.statusCode, 401);
+  assert.strictEqual(res.body.success, false);
+  assert.strictEqual(res.body.users, undefined);
+});
+
+await runAsyncTest('GET /api/leads sem token administrativo deve retornar 401 Unauthorized', async () => {
+  const req = {
+    method: 'GET',
+    headers: { origin: 'https://z8emotion.com' }
+  };
+  const res = createMockRes();
+  await leadsHandler(req, res);
+  assert.strictEqual(res.statusCode, 401);
+  assert.strictEqual(res.body.success, false);
+  assert.strictEqual(res.body.leads, undefined);
+});
+
+await runAsyncTest('GET /api/leads com token legítimo do Master Admin deve retornar leads com PII descriptografada', async () => {
+  const adminToken = generateSecureAdminToken('christian.tkh@gmail.com');
+  const req = {
+    method: 'GET',
+    headers: {
+      origin: 'https://z8emotion.com',
+      authorization: `Bearer ${adminToken}`
+    }
+  };
+  const res = createMockRes();
+  await leadsHandler(req, res);
+  assert.strictEqual(res.statusCode, 200);
+  assert.strictEqual(res.body.success, true);
+  assert.ok(Array.isArray(res.body.leads));
+  assert.ok(res.body.leads.length > 0);
+  assert.ok(!res.body.leads[0].phone.startsWith('enc$'));
+});
+
+// --------------------------------------------------------------------------
+// 8. TESTES DE BLINDAGEM FORT KNOX (firestore.rules & Zero Senhas no Client)
+// --------------------------------------------------------------------------
+console.log('\n--- 8. Blindagem Estrita Fort Knox (firestore.rules & Zero Client Leak) ---');
+
+runTest('firestore.rules deve exigir estritamente isMasterAdmin() para criação em catalog_users, leads e service_orders', () => {
+  const rulesPath = path.resolve(__dirname, '..', 'firestore.rules');
+  const content = fs.readFileSync(rulesPath, 'utf8');
+
+  // Verifica que catalog_users exige isMasterAdmin() para create (sem brecha para role == partner)
+  const userCreateMatch = content.match(/match\s+\/catalog_users\/\{userEmail\}\s*\{[\s\S]*?allow\s+create:\s*if\s*([^;]+);/);
+  assert.ok(userCreateMatch, 'Regra allow create não encontrada em catalog_users');
+  assert.strictEqual(userCreateMatch[1].trim(), 'isMasterAdmin()', 'catalog_users create deve ser estritamente isMasterAdmin()');
+
+  // Verifica que leads exige isMasterAdmin() para create (sem brecha para formulários sem validação)
+  const leadCreateMatch = content.match(/match\s+\/leads\/\{leadId\}\s*\{[\s\S]*?allow\s+create:\s*if\s*([^;]+);/);
+  assert.ok(leadCreateMatch, 'Regra allow create não encontrada em leads');
+  assert.strictEqual(leadCreateMatch[1].trim(), 'isMasterAdmin()', 'leads create deve ser estritamente isMasterAdmin()');
+
+  // Verifica que service_orders exige isMasterAdmin() para create
+  const orderCreateMatch = content.match(/match\s+\/service_orders\/\{orderId\}\s*\{[\s\S]*?allow\s+create:\s*if\s*([^;]+);/);
+  assert.ok(orderCreateMatch, 'Regra allow create não encontrada em service_orders');
+  assert.strictEqual(orderCreateMatch[1].trim(), 'isMasterAdmin()', 'service_orders create deve ser estritamente isMasterAdmin()');
+});
+
+runTest('Fontes front-end (vendas/auth.js e cloud-config.js) não devem conter senhas em texto puro nem vazamento PII', () => {
+  const authPath = path.resolve(__dirname, '..', 'vendas', 'auth.js');
+  const authContent = fs.readFileSync(authPath, 'utf8');
+  assert.ok(!authContent.includes('@12345678@'), 'vendas/auth.js não deve conter senha mestre em texto puro');
+  assert.ok(!authContent.includes('(12) 99800-8818'), 'vendas/auth.js não deve conter telefones em DEFAULT_USERS');
+
+  const cloudConfigPath = path.resolve(__dirname, '..', 'site-principal', 'data', 'cloud-config.js');
+  const cloudConfigContent = fs.readFileSync(cloudConfigPath, 'utf8');
+  assert.ok(!cloudConfigContent.includes('@12345678@'), 'cloud-config.js não deve conter senha mestre');
+});
+
+await runAsyncTest('Persistência KV em api/leads: saveLeadsToCloud persiste novos leads com sucesso', async () => {
+  const req = {
+    method: 'POST',
+    headers: { origin: 'https://z8emotion.com' },
+    body: {
+      name: 'Investidor Teste Seguro',
+      company: 'Empresa Segura Ltda',
+      email: 'investidor.seguro@empresa.com.br',
+      phone: '(12) 98888-7777',
+      paymentMethod: 'PIX Reserva'
+    }
+  };
+  const res = createMockRes();
+  await leadsHandler(req, res);
+  assert.strictEqual(res.statusCode, 201);
+  assert.strictEqual(res.body.success, true);
+});
+
+runTest('Varredura em dist/: Zero vazamento de PII de parceiros ou senhas em texto puro nos arquivos gerados', () => {
+  const distDir = path.resolve(__dirname, '..', 'dist');
+  if (!fs.existsSync(distDir)) {
+    console.warn('    [Aviso] Diretório dist/ não encontrado.');
+    return;
+  }
+
+  function walk(dir) {
+    let results = [];
+    const list = fs.readdirSync(dir);
+    list.forEach(file => {
+      file = path.join(dir, file);
+      const stat = fs.statSync(file);
+      if (stat && stat.isDirectory()) {
+        results = results.concat(walk(file));
+      } else {
+        results.push(file);
+      }
+    });
+    return results;
+  }
+
+  const files = walk(distDir);
+  const targetExts = ['.js', '.html', '.css', '.json', '.md', '.txt', '.csv'];
+  const leakPatterns = [
+    '98898-6148', '988986148',
+    '98813-0316', '988130316',
+    '99106-4106', '991064106',
+    '98198-6760', '981986760',
+    '99666-7031', '996667031',
+    '99223-6440', '992236440',
+    '98123-4567', '981234567',
+    'fabriciopolocruzeiro', 'derik.dws', 'christian.hide@', 'willdbga@', 'zejda@', 'viniciusortizdovale',
+    '@12345678@'
+  ];
+
+  let detectedLeaks = [];
+  files.forEach(f => {
+    const ext = path.extname(f).toLowerCase();
+    if (!targetExts.includes(ext)) return;
+    const content = fs.readFileSync(f, 'utf8');
+    leakPatterns.forEach(pattern => {
+      if (content.includes(pattern)) {
+        detectedLeaks.push({ file: path.relative(distDir, f), pattern });
+      }
+    });
+  });
+
+  assert.strictEqual(detectedLeaks.length, 0, `Vazamento de PII/credenciais detectado em dist: ${JSON.stringify(detectedLeaks)}`);
 });
 
 console.log(`\n======================================================`);

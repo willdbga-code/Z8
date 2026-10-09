@@ -241,6 +241,33 @@ export function sanitizeInputString(str, maxLength = 255) {
     .slice(0, maxLength);
 }
 
+// Strict RFC 5322 & ICANN compliant email validator:
+// Rejects malformed TLDs like .com21, double dots, spaces, or numeric TLDs
+export function isValidEmail(email) {
+  if (!email || typeof email !== 'string') return false;
+  const clean = email.trim().toLowerCase();
+  if (clean.length < 6 || clean.length > 254) return false;
+
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,24}$/;
+  if (!emailRegex.test(clean)) return false;
+
+  const parts = clean.split('@');
+  if (parts.length !== 2) return false;
+  const [localPart, domainPart] = parts;
+  if (!localPart || !domainPart) return false;
+  if (localPart.length > 64) return false;
+  if (localPart.startsWith('.') || localPart.endsWith('.') || localPart.includes('..')) return false;
+
+  const domainSegments = domainPart.split('.');
+  if (domainSegments.length < 2) return false;
+  const tld = domainSegments[domainSegments.length - 1];
+
+  // TLD must only contain alphabetical characters (ICANN standard, strictly no numbers like .com21)
+  if (!/^[a-zA-Z]{2,24}$/.test(tld)) return false;
+
+  return true;
+}
+
 // --------------------------------------------------------------------------
 // 5. AUTENTICAÇÃO DE ADMIN & HEADERS HTTP DE SEGURANÇA
 // --------------------------------------------------------------------------

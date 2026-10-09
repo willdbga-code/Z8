@@ -26,6 +26,7 @@
       <div class="announcement-links">
         <a href="#franchise-section"><i class="fa-solid fa-store"></i> Expansão de Concessionárias</a>
         <a href="/vendas/" style="color: #00AAD2; font-weight: 700;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Portal de Vendas VIP</a>
+        <a href="javascript:void(0)" id="top-bar-admin-link" style="color: #fbbf24; font-weight: 700; background: rgba(251,191,36,0.12); padding: 2px 10px; border-radius: 6px; border: 1px solid rgba(251,191,36,0.3);"><i class="fa-solid fa-user-shield"></i> Painel de Solicitações (Admin)</a>
       </div>
     </div>
   </div>
@@ -51,8 +52,8 @@
         <button class="skeuo-nav-btn" id="open-catalog-login-btn" style="color: #00F2FE; border: 1px solid rgba(0,242,254,0.3);">
           <i class="fa-solid fa-right-to-bracket"></i> <span id="catalog-user-badge">Área de Login</span>
         </button>
-        <button class="skeuo-nav-btn" id="open-catalog-admin-btn" style="display: none; color: #fbbf24; border: 1px solid rgba(251,191,36,0.3);">
-          <i class="fa-solid fa-user-shield"></i> Aprovações de Acesso
+        <button class="skeuo-nav-btn" id="open-catalog-admin-btn" style="display: inline-flex; align-items: center; gap: 6px; color: #fbbf24; border: 1px solid rgba(251,191,36,0.45); background: rgba(251,191,36,0.1); font-weight: 700;">
+          <i class="fa-solid fa-user-shield"></i> <span id="catalog-admin-btn-label">Painel de Solicitações</span> <span id="admin-pending-counter" style="display: none; background: #EF4444; color: #ffffff; font-size: 0.68rem; font-weight: 800; padding: 1px 6px; border-radius: 9999px;">0</span>
         </button>
       </nav>
     </div>
@@ -598,7 +599,19 @@
           <div style="flex: 1; height: 1px; background: var(--border-metal);"></div>
         </div>
 
+        <!-- ACESSO RÁPIDO DO ADMINISTRADOR MASTER / PAINEL DE SOLICITAÇÕES -->
+        <div id="cat-admin-login-callout" style="background: rgba(251, 191, 36, 0.08); border: 1px dashed rgba(251, 191, 36, 0.4); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+          <div style="font-size: 0.78rem; color: #fbbf24; display: flex; align-items: center; gap: 6px; font-weight: 600;">
+            <i class="fa-solid fa-crown text-accent-gold"></i>
+            <span>Painel de Solicitações (Admin Master)</span>
+          </div>
+          <button type="button" id="btn-quick-admin-login" style="background: rgba(251, 191, 36, 0.2); border: 1px solid #fbbf24; color: #fbbf24; font-size: 0.74rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s;">
+            Preencher Master Admin
+          </button>
+        </div>
+
         <form id="cat-login-form">
+          <input type="text" name="b_company_trap" id="cat-login-trap" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
           <div id="cat-login-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
           <div style="margin-bottom: 14px;">
@@ -638,6 +651,7 @@
         </div>
 
         <form id="cat-forgot-form">
+          <input type="text" name="b_company_trap" id="cat-forgot-trap" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
           <div id="cat-forgot-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
           <div style="margin-bottom: 14px;">
@@ -676,6 +690,7 @@
         </div>
 
         <form id="cat-register-form">
+          <input type="text" name="b_company_trap" id="cat-reg-trap" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" />
           <div id="cat-reg-msg" style="display: none; padding: 10px; border-radius: 8px; font-size: 0.82rem; margin-bottom: 14px;"></div>
 
           <div style="margin-bottom: 12px;">

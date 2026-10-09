@@ -23,6 +23,7 @@ import {
   deleteCatalogUser,
   getCurrentCatalogUser,
   isCatalogApproved,
+  isUserAdmin,
   logoutCatalogUser,
   checkUrlApproval,
   fetchUsersFromCloud,
@@ -69,8 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
   }
 
-  // Sincronização em nuvem oficial Z8 (Firebase de Christian Hideyuki)
-  fetchUsersFromCloud().catch(e => console.warn('Cloud sync init info:', e));
+  // Sincronização em nuvem oficial Z8 (Zero-Knowledge: diretório restrito a Master Admin)
   if (getCurrentCatalogUser()) {
     fetchWarrantyOrdersFromFirestore();
   }
@@ -880,6 +880,15 @@ const OFFICIAL_MANUALS = [
     title: 'Parecer Regulatório Resolução CONTRAN 996/2023',
     desc: 'Dossiê jurídico detalhado atestando a legalidade da circulação dos veículos elétricos leves autopropelidos em ciclovias e vias públicas no território nacional.',
     pdfUrl: '/docs/juridico/PARECER_REGULATORIO_CONTRAN_996.pdf'
+  },
+  {
+    badge: 'Contrato Executivo ABNT',
+    badgeClass: 'gold',
+    icon: 'fa-file-signature',
+    iconColor: 'text-gold',
+    title: 'Contrato Definitivo de Compra e Adesão de Franquia (ABNT)',
+    desc: 'Instrumento empresarial paritário de concessão territorial (~55k hab), reserva de domínio no 1º lote de 10 motos (Arts. 521-528 CC) e força de título executivo extrajudicial (Art. 784 CPC).',
+    pdfUrl: '/docs/juridico/CONTRATO_DEFINITIVO_DE_COMPRA_E_ADESAO_DE_FRANQUIA_Z8.pdf'
   }
 ];
 
@@ -1051,6 +1060,10 @@ function initCatalogAuth() {
   const adminModal = document.getElementById('catalog-admin-modal');
   const openLoginBtn = document.getElementById('open-catalog-login-btn');
   const openAdminBtn = document.getElementById('open-catalog-admin-btn');
+  const catalogAdminBtnLabel = document.getElementById('catalog-admin-btn-label');
+  const adminPendingCounter = document.getElementById('admin-pending-counter');
+  const topBarAdminLink = document.getElementById('top-bar-admin-link');
+  const btnQuickAdminLogin = document.getElementById('btn-quick-admin-login');
   const closeAdminBtn = document.getElementById('close-catalog-admin-btn');
   const closeLoginModalBtn = document.getElementById('close-catalog-login-btn') || document.getElementById('close-cat-login-modal');
   const closeLoginBottomBtn = document.getElementById('close-cat-modal-bottom-btn');
@@ -1070,17 +1083,42 @@ function initCatalogAuth() {
   function updateHeaderAuth() {
     const user = getCurrentCatalogUser();
     const approved = isCatalogApproved();
+    const isAdmin = isUserAdmin(user);
     const pendingBanner = document.getElementById('pending-approval-banner');
     const pendingName = document.getElementById('pending-user-name');
     const pendingCta = document.getElementById('pending-whatsapp-cta');
 
     if (mainContent) mainContent.style.display = 'block';
 
-    if (user) {
-      if (openAdminBtn) {
-        openAdminBtn.style.display = (user.email.toLowerCase() === 'christian.tkh@gmail.com') ? 'inline-flex' : 'none';
-      }
+    // O botão de Painel de Solicitações permanece sempre visível e acessível
+    if (openAdminBtn) {
+      openAdminBtn.style.display = 'inline-flex';
+      if (isAdmin) {
+        openAdminBtn.style.borderColor = 'rgba(251,191,36,0.7)';
+        openAdminBtn.style.background = 'rgba(251,191,36,0.18)';
+        if (catalogAdminBtnLabel) catalogAdminBtnLabel.textContent = 'Painel de Solicitações';
 
+        try {
+          const registeredUsers = getRegisteredUsers();
+          const pendingCount = registeredUsers.filter(u => u.status === 'pending' && !isUserAdmin(u)).length;
+          if (adminPendingCounter) {
+            if (pendingCount > 0) {
+              adminPendingCounter.textContent = String(pendingCount);
+              adminPendingCounter.style.display = 'inline-block';
+            } else {
+              adminPendingCounter.style.display = 'none';
+            }
+          }
+        } catch (_) {}
+      } else {
+        openAdminBtn.style.borderColor = 'rgba(251,191,36,0.45)';
+        openAdminBtn.style.background = 'rgba(251,191,36,0.1)';
+        if (catalogAdminBtnLabel) catalogAdminBtnLabel.textContent = 'Painel de Solicitações';
+        if (adminPendingCounter) adminPendingCounter.style.display = 'none';
+      }
+    }
+
+    if (user) {
       if (approved) {
         if (badgeText) badgeText.textContent = `Sair (${(user.name || user.email).split(' ')[0]})`;
         if (pendingBanner) pendingBanner.style.display = 'none';
@@ -1105,7 +1143,6 @@ function initCatalogAuth() {
       }
     } else {
       if (badgeText) badgeText.textContent = 'Área de Login';
-      if (openAdminBtn) openAdminBtn.style.display = 'none';
       if (pendingBanner) pendingBanner.style.display = 'none';
     }
   }
@@ -1126,17 +1163,22 @@ function initCatalogAuth() {
       userDocUnsubscribe = subscribeToUserDocRealtime(currentUser.email, (cloudUser) => {
         if (cloudUser && cloudUser.status && cloudUser.status !== 'pending') {
           // Status mudou na nuvem para approved ou blocked!
-          const localUsers = getRegisteredUsers();
-          const idx = localUsers.findIndex(u => (u.email || '').toLowerCase() === cloudUser.email.toLowerCase());
-          if (idx !== -1) {
-            localUsers[idx] = { ...localUsers[idx], ...cloudUser };
+          const isMaster = isUserAdmin(currentUser);
+          if (isMaster) {
+            const localUsers = getRegisteredUsers();
+            const idx = localUsers.findIndex(u => (u.email || '').toLowerCase() === cloudUser.email.toLowerCase());
+            if (idx !== -1) {
+              localUsers[idx] = { ...localUsers[idx], ...cloudUser };
+            } else {
+              localUsers.push(cloudUser);
+            }
+            localStorage.setItem('z8_registered_users_directory', JSON.stringify(localUsers));
           } else {
-            localUsers.push(cloudUser);
+            localStorage.removeItem('z8_registered_users_directory');
           }
-          localStorage.setItem('z8_registered_users_directory', JSON.stringify(localUsers));
 
           const sessionObj = { ...currentUser, ...cloudUser };
-          sessionStorage.setItem('z8_catalog_session_user_data', JSON.stringify(sessionObj));
+          sessionStorage.setItem('z8_catalog_auth_user', JSON.stringify(sessionObj));
           localStorage.setItem('z8_catalog_auth_user', JSON.stringify(sessionObj));
 
           window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
@@ -1211,8 +1253,10 @@ function initCatalogAuth() {
   }
 
   let unsubscribeRealtime = null;
-  if (openAdminBtn) {
-    openAdminBtn.addEventListener('click', async () => {
+
+  async function openAdminPanelFlow() {
+    const user = getCurrentCatalogUser();
+    if (isUserAdmin(user)) {
       renderAdminUsersList();
       renderAdminLeadsList();
       if (adminModal) adminModal.classList.remove('hidden');
@@ -1229,8 +1273,55 @@ function initCatalogAuth() {
             cloudUsers.forEach(u => map.set((u.email || '').toLowerCase(), u));
             localStorage.setItem('z8_registered_users_directory', JSON.stringify(Array.from(map.values())));
             renderAdminUsersList();
+            updateHeaderAuth();
           }
         });
+      }
+    } else {
+      // Abre o modal de login preparado para o Administrador Master
+      if (loginModal) loginModal.classList.remove('hidden');
+      if (tabLoginBtn) tabLoginBtn.click();
+      const userInput = document.getElementById('cat-login-user');
+      const passInput = document.getElementById('cat-login-pass');
+      if (userInput) userInput.value = 'christian.tkh@gmail.com';
+      if (passInput) passInput.focus();
+      if (loginMsg) {
+        loginMsg.style.display = 'block';
+        loginMsg.style.background = 'rgba(251, 191, 36, 0.15)';
+        loginMsg.style.border = '1px solid rgba(251, 191, 36, 0.4)';
+        loginMsg.style.color = '#fde68a';
+        loginMsg.innerHTML = '<i class="fa-solid fa-crown text-accent-gold"></i> <strong>Acesso ao Painel de Solicitações</strong><br><span style="font-size:0.78rem;">Digite a senha do Administrador Master para abrir a tela de solicitações e aprovações.</span>';
+      }
+      sessionStorage.setItem('z8_open_admin_after_login', 'true');
+    }
+  }
+
+  if (openAdminBtn) {
+    openAdminBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openAdminPanelFlow();
+    });
+  }
+
+  if (topBarAdminLink) {
+    topBarAdminLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      openAdminPanelFlow();
+    });
+  }
+
+  if (btnQuickAdminLogin) {
+    btnQuickAdminLogin.addEventListener('click', () => {
+      const userInput = document.getElementById('cat-login-user');
+      const passInput = document.getElementById('cat-login-pass');
+      if (userInput) userInput.value = 'christian.tkh@gmail.com';
+      if (passInput) passInput.focus();
+      if (loginMsg) {
+        loginMsg.style.display = 'block';
+        loginMsg.style.background = 'rgba(251, 191, 36, 0.15)';
+        loginMsg.style.border = '1px solid rgba(251, 191, 36, 0.4)';
+        loginMsg.style.color = '#fde68a';
+        loginMsg.innerHTML = '<i class="fa-solid fa-crown text-accent-gold"></i> <strong>Administrador Master Z8</strong><br><span style="font-size:0.78rem;">Digite a senha de administrador para gerenciar o catálogo e aprovações.</span>';
       }
     });
   }
@@ -1244,6 +1335,22 @@ function initCatalogAuth() {
       }
     });
   }
+
+  // Disparo automático via URL param ou Hash (?admin=1, ?solicitacoes=1, ?painel=1, #admin, #solicitacoes)
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (
+      urlParams.has('admin') ||
+      urlParams.has('solicitacoes') ||
+      urlParams.has('painel') ||
+      window.location.hash === '#admin' ||
+      window.location.hash === '#solicitacoes'
+    ) {
+      setTimeout(() => {
+        openAdminPanelFlow();
+      }, 350);
+    }
+  } catch (_) {}
 
   // Google 1-Click Authentication Handlers & Inline Cyber Notices
   const btnGoogleLogin = document.getElementById('btn-google-login');
@@ -1416,6 +1523,8 @@ function initCatalogAuth() {
   if (forgotForm) {
     forgotForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const trapVal = document.getElementById('cat-forgot-trap')?.value || '';
+      if (trapVal) return;
       const email = document.getElementById('cat-forgot-email')?.value || '';
       const submitBtn = document.getElementById('btn-submit-forgot-email');
 
@@ -1539,6 +1648,9 @@ function initCatalogAuth() {
       e.preventDefault();
       if (checkLockoutState()) return;
 
+      const trapVal = document.getElementById('cat-login-trap')?.value || '';
+      if (trapVal) return;
+
       const userVal = document.getElementById('cat-login-user')?.value || '';
       const passVal = document.getElementById('cat-login-pass')?.value || '';
 
@@ -1547,7 +1659,7 @@ function initCatalogAuth() {
         loginSubmitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Autenticando com segurança...';
       }
 
-      const res = await loginCatalogUser(userVal, passVal);
+      const res = await loginCatalogUser(userVal, passVal, trapVal);
 
       if (res.success) {
         failedLoginCount = 0;
@@ -1564,6 +1676,15 @@ function initCatalogAuth() {
         renderShowroom();
         fetchUsersFromCloud();
         fetchWarrantyOrdersFromFirestore();
+
+        if (sessionStorage.getItem('z8_open_admin_after_login') === 'true') {
+          sessionStorage.removeItem('z8_open_admin_after_login');
+          if (isUserAdmin(res.user)) {
+            setTimeout(() => {
+              openAdminPanelFlow();
+            }, 300);
+          }
+        }
       } else {
         failedLoginCount += 1;
         sessionStorage.setItem('z8_login_failed_attempts', String(failedLoginCount));
@@ -1596,6 +1717,9 @@ function initCatalogAuth() {
   if (regForm) {
     regForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const trapVal = document.getElementById('cat-reg-trap')?.value || '';
+      if (trapVal) return;
+
       const name = document.getElementById('cat-reg-name')?.value || '';
       const company = document.getElementById('cat-reg-company')?.value || '';
       const city = document.getElementById('cat-reg-city')?.value || '';
@@ -1612,7 +1736,8 @@ function initCatalogAuth() {
         city: locationStr,
         email,
         phone,
-        password
+        password,
+        b_company_trap: trapVal
       });
       if (res.success) {
         regForm.reset();
@@ -1781,8 +1906,8 @@ function initCatalogAuth() {
 
     // Stats calculations
     const totalCount = users.length;
-    const pendingCount = users.filter(u => u.status === 'pending' && u.email.toLowerCase() !== 'christian.tkh@gmail.com').length;
-    const approvedCount = users.filter(u => (u.status === 'approved' || !u.status) || u.email.toLowerCase() === 'christian.tkh@gmail.com').length;
+    const pendingCount = users.filter(u => u.status === 'pending' && !isUserAdmin(u)).length;
+    const approvedCount = users.filter(u => (u.status === 'approved' || !u.status) || isUserAdmin(u)).length;
     const blockedCount = users.filter(u => u.status === 'blocked').length;
 
     if (statTotal) statTotal.textContent = totalCount;
@@ -1797,7 +1922,7 @@ function initCatalogAuth() {
 
     // Filter by search & status
     const filtered = users.filter(u => {
-      const isMaster = u.email.toLowerCase() === 'christian.tkh@gmail.com';
+      const isMaster = isUserAdmin(u);
       let matchStatus = true;
       if (currentAdminFilter === 'pending') matchStatus = (u.status === 'pending' && !isMaster);
       else if (currentAdminFilter === 'approved') matchStatus = (u.status === 'approved' || isMaster || !u.status);
@@ -1831,7 +1956,7 @@ function initCatalogAuth() {
     }
 
     adminUsersList.innerHTML = filtered.map(u => {
-      const isMaster = u.email.toLowerCase() === 'christian.tkh@gmail.com';
+      const isMaster = isUserAdmin(u);
       const statusBadge = isMaster
         ? '<span style="color: #00F2FE; font-weight: 700;"><i class="fa-solid fa-crown"></i> Admin Master</span>'
         : u.status === 'approved'
@@ -1988,165 +2113,32 @@ function initCatalogAuth() {
   let currentLeadTempFilter = 'all';
   let currentLeadSearch = '';
 
-  const SEED_CRM_LEADS = [
-    {
-      id: 'lead_1787790262588',
-      name: 'Fabrício Daniel de Oliveira Castro',
-      company: 'JF Mobilidade',
-      city: 'Pindamonhangaba',
-      state: 'SP',
-      email: 'fabriciopolocruzeiro@gmail.com',
-      phone: '12991064106',
-      whatsappVerified: true,
-      paymentMethod: 'Candidatura Concessão Franquia',
-      status: 'fechado',
-      temperature: 'quente',
-      score: 95,
-      estimatedRevenue: 150000.00,
-      investorProfile: {
-        capitalLabel: 'R$ 60.000 a R$ 150.000',
-        experienceLabel: 'Empresário com loja ativa',
-        timelineLabel: 'Imediato (em até 30 dias)',
-        involvementLabel: 'Sócio-Operador'
-      },
-      createdAt: '2026-08-27T00:24:22.588Z'
-    },
-    {
-      id: 'lead_1788402155815',
-      name: 'Derik Silva',
-      company: 'DWS E-Motors',
-      city: 'Jacareí',
-      state: 'SP',
-      email: 'derik.dws@gmail.com',
-      phone: '12981986760',
-      whatsappVerified: true,
-      paymentMethod: 'Candidatura Concessão Franquia',
-      status: 'novo',
-      temperature: 'possivel',
-      score: 65,
-      estimatedRevenue: 60000.00,
-      investorProfile: {
-        capitalLabel: 'R$ 30.000 a R$ 60.000',
-        experienceLabel: 'Investidor em outros mercados',
-        timelineLabel: 'Curto Prazo (30 a 60 dias)',
-        involvementLabel: 'Investidor Estratégico'
-      },
-      createdAt: '2026-09-03T21:02:35.815Z'
-    },
-    {
-      id: 'lead_SC4CB308HVchdVPXMEt5',
-      name: 'Carlos Alberto Moreira',
-      company: 'Litoral E-Scooter',
-      city: 'Santos',
-      state: 'SP',
-      email: 'carlos.litoraleletrico@gmail.com',
-      phone: '12992236440',
-      whatsappVerified: true,
-      paymentMethod: 'Candidatura Concessão Franquia',
-      status: 'em_contato',
-      temperature: 'quente',
-      score: 90,
-      estimatedRevenue: 250000.00,
-      investorProfile: {
-        capitalLabel: 'Acima de R$ 150.000',
-        experienceLabel: 'Empresário / Rede de Lojas',
-        timelineLabel: 'Imediato (em até 30 dias)',
-        involvementLabel: 'Sócio-Operador'
-      },
-      createdAt: '2026-08-26T03:26:25.345Z'
-    },
-    {
-      id: 'lead_zejda_01',
-      name: 'Jose da Silva',
-      company: 'Alpha E-Bikes',
-      city: 'Santana de Parnaíba',
-      state: 'SP',
-      email: 'zejda@gmail.com',
-      phone: '12988130316',
-      whatsappVerified: true,
-      paymentMethod: 'Candidatura Concessão Franquia',
-      status: 'proposta',
-      temperature: 'quente',
-      score: 85,
-      estimatedRevenue: 120000.00,
-      investorProfile: {
-        capitalLabel: 'R$ 60.000 a R$ 150.000',
-        experienceLabel: 'Empresário ativo',
-        timelineLabel: 'Imediato (em até 30 dias)',
-        involvementLabel: 'Sócio-Operador'
-      },
-      createdAt: '2026-09-04T12:00:00.000Z'
-    },
-    {
-      id: 'lead_vinicius_01',
-      name: 'Vinicius Ortiz',
-      company: 'Vale Mobilidade',
-      city: 'Taubaté',
-      state: 'SP',
-      email: 'viniciusortizdovale@gmail.com',
-      phone: '12996667031',
-      whatsappVerified: true,
-      paymentMethod: 'Candidatura Concessão Franquia',
-      status: 'em_contato',
-      temperature: 'possivel',
-      score: 60,
-      estimatedRevenue: 50000.00,
-      investorProfile: {
-        capitalLabel: 'R$ 30.000 a R$ 60.000',
-        experienceLabel: 'Primeiro negócio próprio',
-        timelineLabel: 'Curto Prazo (30 a 60 dias)',
-        involvementLabel: 'Sócio-Operador'
-      },
-      createdAt: '2026-09-04T12:00:00.000Z'
-    },
-    {
-      id: 'lead_demo_frio_01',
-      name: 'Marcos Paulo Ribeiro',
-      company: 'Pesquisa Individual',
-      city: 'Campinas',
-      state: 'SP',
-      email: 'marcos.ribeiro.pesquisa@outlook.com',
-      phone: '19981234567',
-      whatsappVerified: true,
-      paymentMethod: 'Candidatura Concessão Franquia',
-      status: 'novo',
-      temperature: 'frio',
-      score: 30,
-      estimatedRevenue: 20000.00,
-      investorProfile: {
-        capitalLabel: 'Menos de R$ 30.000',
-        experienceLabel: 'Pesquisa de mercado',
-        timelineLabel: 'Médio/Longo Prazo (> 60 dias)',
-        involvementLabel: 'Ainda avaliando'
-      },
-      createdAt: '2026-09-10T14:30:00.000Z'
-    }
-  ];
+  const SEED_CRM_LEADS = [];
 
   function getAdminLeads() {
     try {
       const raw = localStorage.getItem('z8_crm_leads_data');
       if (!raw) {
-        localStorage.setItem('z8_crm_leads_data', JSON.stringify(SEED_CRM_LEADS));
-        return SEED_CRM_LEADS;
+        return [];
       }
       const parsed = JSON.parse(raw);
-      if (!Array.isArray(parsed) || parsed.length === 0) {
-        localStorage.setItem('z8_crm_leads_data', JSON.stringify(SEED_CRM_LEADS));
-        return SEED_CRM_LEADS;
+      if (!Array.isArray(parsed)) {
+        return [];
       }
       return parsed;
     } catch (e) {
-      return SEED_CRM_LEADS;
+      return [];
     }
   }
 
   async function fetchAdminLeadsFromCloud() {
     try {
-      const res = await fetch('/api/leads');
+      const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+      const headers = adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {};
+      const res = await fetch('/api/leads', { headers });
       if (res.ok) {
         const json = await res.json();
-        if (Array.isArray(json?.leads) && json.leads.length > 0) {
+        if (Array.isArray(json?.leads)) {
           const current = getAdminLeads();
           const map = new Map();
           current.forEach(l => map.set(l.id || l.email, l));
@@ -2532,7 +2524,7 @@ function initWarrantyPortal() {
   function renderOSSessionBar() {
     if (!sessionBar) return;
     const user = getCurrentCatalogUser();
-    const isMaster = user && (user.role === 'admin' || user.email?.toLowerCase() === 'christian.tkh@gmail.com');
+    const isMaster = isUserAdmin(user);
     const allOrders = getStoredWarrantyOrders();
 
     if (!user) {
@@ -2655,7 +2647,7 @@ function initWarrantyPortal() {
     renderOSSessionBar();
 
     const user = getCurrentCatalogUser();
-    const isMaster = user && (user.role === 'admin' || user.email?.toLowerCase() === 'christian.tkh@gmail.com');
+    const isMaster = isUserAdmin(user);
 
     // Recupera somente as OS permitidas para este usuário
     const userOrders = getWarrantyOrdersForUser(user, currentAdminUnitFilter);
@@ -2951,7 +2943,7 @@ function openOSDetailModal(osId, focusAdmin = false) {
   }
 
   const user = getCurrentCatalogUser();
-  const isMaster = user && (user.role === 'admin' || user.email?.toLowerCase() === 'christian.tkh@gmail.com');
+  const isMaster = isUserAdmin(user);
 
   const createdStr = os.createdAt ? new Date(os.createdAt).toLocaleString('pt-BR') : 'N/A';
   const slaStr = os.slaDeadline ? new Date(os.slaDeadline).toLocaleString('pt-BR') : '48 horas';

@@ -1191,11 +1191,20 @@ function initInvestorLeadModal() {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      const trapVal = document.getElementById('investor-lead-trap')?.value || '';
+      if (trapVal) return;
+
       const name = document.getElementById('investor-name')?.value.trim() || 'Investidor Z8';
       const company = document.getElementById('investor-company')?.value.trim() || 'Investidor Individual';
       const email = (document.getElementById('investor-email')?.value.trim() || '').toLowerCase();
       const phone = document.getElementById('investor-phone')?.value.trim() || '';
       const city = document.getElementById('investor-city')?.value.trim() || 'São Paulo - SP';
+
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/;
+      if (email && !emailRegex.test(email)) {
+        showVendasToast('Por favor, informe um endereço de e-mail corporativo válido (ex: contato@empresa.com.br).', 'warning');
+        return;
+      }
 
       const capital = form.querySelector('input[name="investor_capital"]:checked')?.value || '60k-150k';
       const experience = form.querySelector('input[name="investor_experience"]:checked')?.value || 'empresa';
@@ -1294,6 +1303,7 @@ function initInvestorLeadModal() {
         temperature,
         score,
         estimatedRevenue: estimatedRevenues[capital] || 50000,
+        b_company_trap: trapVal,
         investorProfile: {
           capital,
           capitalLabel: capitalLabels[capital],
@@ -1324,7 +1334,8 @@ function initInvestorLeadModal() {
           phone,
           password: 'Z8@' + Math.floor(1000 + Math.random() * 9000),
           role: 'partner',
-          status: 'pending'
+          status: 'pending',
+          b_company_trap: trapVal
         });
       } catch (err) {
         console.warn('Catalog registration fallback:', err);
@@ -1531,12 +1542,22 @@ function initCheckoutModal() {
   if (checkoutForm) {
     checkoutForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const trapVal = document.getElementById('checkout-lead-trap')?.value || '';
+      if (trapVal) return;
+
       const name = document.getElementById('input-name') ? document.getElementById('input-name').value.trim() : 'Parceiro Z8';
       const company = document.getElementById('input-company') ? document.getElementById('input-company').value.trim() : 'Sua Empresa';
       const city = document.getElementById('input-city') ? document.getElementById('input-city').value.trim() : 'Sua Cidade';
       const email = document.getElementById('input-email') ? document.getElementById('input-email').value.trim().toLowerCase() : '';
       const phone = document.getElementById('input-phone') ? document.getElementById('input-phone').value.trim() : '';
       const paymentMethod = 'Passaporte VIP Exclusividade';
+
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/;
+      if (email && !emailRegex.test(email)) {
+        alert('Por favor, informe um endereço de e-mail corporativo válido (ex: contato@empresa.com.br).');
+        return;
+      }
 
       // 1. Grava no banco de dados central de Usuários e Firestore (catalog_users)
       const userData = {
@@ -1547,7 +1568,8 @@ function initCheckoutModal() {
         phone,
         password: 'Z8@' + Math.floor(1000 + Math.random() * 9000),
         role: 'partner',
-        status: 'pending'
+        status: 'pending',
+        b_company_trap: trapVal
       };
 
       try {
@@ -1565,7 +1587,8 @@ function initCheckoutModal() {
           state: city.includes('-') ? city.split('-').pop().trim() : 'SP',
           email,
           phone,
-          paymentMethod
+          paymentMethod,
+          b_company_trap: trapVal
         });
       } catch (err) {
         console.warn('Lead storage fallback:', err);
@@ -1786,10 +1809,13 @@ function initPortalLoginModal() {
   if (loginForm) {
     loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const trapVal = document.getElementById('portal-login-trap')?.value || '';
+      if (trapVal) return;
+
       const userVal = document.getElementById('portal-input-user').value.trim();
       const passVal = document.getElementById('portal-input-pass').value.trim();
 
-      const res = await loginCatalogUser(userVal, passVal);
+      const res = await loginCatalogUser(userVal, passVal, trapVal);
 
       if (res.success) {
         showPortalMessage(`🎉 Login efetuado com sucesso! Redirecionando para o painel de atacado...`, 'success');
@@ -1813,14 +1839,23 @@ function initPortalLoginModal() {
   if (registerForm) {
     registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const trapVal = document.getElementById('portal-reg-trap')?.value || '';
+      if (trapVal) return;
+
       const name = document.getElementById('portal-reg-name').value.trim();
       const company = document.getElementById('portal-reg-company').value.trim();
       const city = document.getElementById('portal-reg-city').value.trim();
-      const email = document.getElementById('portal-reg-email').value.trim();
+      const email = document.getElementById('portal-reg-email').value.trim().toLowerCase();
       const phone = document.getElementById('portal-reg-phone').value.trim();
       const password = document.getElementById('portal-reg-pass').value.trim();
 
-      const userData = { name, company, city, email, phone, password };
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/;
+      if (!emailRegex.test(email)) {
+        showPortalMessage('Por favor, informe um endereço de e-mail corporativo válido (ex: contato@empresa.com.br).', 'error');
+        return;
+      }
+
+      const userData = { name, company, city, email, phone, password, b_company_trap: trapVal };
 
       // Salva no sistema de autenticação e no Firestore
       const res = await registerCatalogUser(userData);
@@ -1838,7 +1873,7 @@ function initPortalLoginModal() {
 
       // Salva no Firebase Leads
       try {
-        saveLead({ name, company, city, email, phone, paymentMethod: 'Cadastro Direto Portal' });
+        saveLead({ name, company, city, email, phone, paymentMethod: 'Cadastro Direto Portal', b_company_trap: trapVal });
       } catch(e) {}
 
       showPortalMessage(`🎉 <strong>Conta criada com sucesso!</strong><br/>Entrando no seu Portal Z8...`, 'success');

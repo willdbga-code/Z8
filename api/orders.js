@@ -149,6 +149,12 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+
+      // Anti-Bot & Anti-Invasion Honeypot Trap
+      if (body.b_company_trap || body.b_trap || body['b_company_trap']) {
+        return res.status(400).json({ success: false, error: 'Requisição inválida.' });
+      }
+
       const email = sanitizeInputString(body.clientEmail || body.userEmail || requesterEmail || '').toLowerCase();
 
       if (!email) {
@@ -203,6 +209,12 @@ export default async function handler(req, res) {
 
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
+
+      // Anti-Bot & Anti-Invasion Honeypot Trap
+      if (body.b_company_trap || body.b_trap || body['b_company_trap']) {
+        return res.status(400).json({ success: false, error: 'Requisição inválida.' });
+      }
+
       const orderId = body.id;
 
       const idx = globalOrdersStore.findIndex(o => o.id === orderId);

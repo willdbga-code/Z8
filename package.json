@@ -13,6 +13,7 @@
     "veo:harley": "node scripts/generate_veo.js --preset harley-carvalhopinto",
     "veo:list": "node scripts/generate_veo.js --list",
     "pdf": "node scripts/generate_pdf.js",
+    "render:inauguracao": "node scripts/render_inauguracao_pack.js",
     "audit": "unlighthouse --site http://localhost:3000",
     "audit:desktop": "unlighthouse --site http://localhost:3000 --desktop",
     "audit:prod": "unlighthouse --site https://z8emotion.com.br"

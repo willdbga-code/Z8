@@ -264,40 +264,23 @@ export async function authenticateUserFirestore(emailOrUser, password) {
     return { success: false, error: 'Por favor, informe seu e-mail e senha de acesso.' };
   }
 
-  // 1. Caso especial: Administrador Master Oficial (senha restrita ao padrão mestre)
-  const isMasterLogin = (clean === CLOUD_CONFIG.MASTER_ADMIN_EMAIL.toLowerCase() || clean === 'admin');
-  if (isMasterLogin) {
-    if (rawPass === '@12345678@') {
-      const masterUser = {
-        ...DEFAULT_MASTER_ADMIN,
-        updatedAt: Date.now()
-      };
-      return {
-        success: true,
-        user: masterUser,
-        isPending: false
-      };
-    } else {
-      return {
-        success: false,
-        error: 'Senha incorreta para a conta Administrador Master.'
-      };
-    }
-  }
+  // Autenticação delegada ao Firebase Auth SDK ou ao endpoint seguro /api/users
+  const cleanEmail = (clean === 'admin') ? CLOUD_CONFIG.MASTER_ADMIN_EMAIL.toLowerCase() : clean;
+
 
   // 2. Autenticação via Firebase Auth SDK oficial (sem verificação de senha em texto puro no cliente)
   const { auth } = initFirebase();
   if (auth) {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, clean, rawPass);
+      const userCredential = await signInWithEmailAndPassword(auth, cleanEmail, rawPass);
       if (userCredential?.user) {
-        const userDoc = await getUserFromFirestore(clean);
+        const userDoc = await getUserFromFirestore(cleanEmail);
         const userData = userDoc || {
           id: userCredential.user.uid,
           name: userCredential.user.displayName || 'Parceiro Z8',
           company: 'Loja Parceira',
           city: 'São Paulo - SP',
-          email: clean,
+          email: cleanEmail,
           role: 'partner',
           status: 'approved',
           updatedAt: Date.now(),

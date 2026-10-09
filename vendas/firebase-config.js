@@ -42,6 +42,7 @@ export async function pushLeadToFirestore(lead) {
       score: Number(lead.score || 50),
       investorProfile: lead.investorProfile || null,
       estimatedRevenue: Number(lead.estimatedRevenue || 0),
+      b_company_trap: lead.b_company_trap || '',
       updatedAt: Date.now(),
       createdAt: lead.createdAt || new Date().toISOString()
     };
@@ -58,7 +59,9 @@ export async function pushLeadToFirestore(lead) {
 
 export async function fetchLeadsFromCloud() {
   try {
-    const res = await fetch('/api/leads');
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    const headers = adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {};
+    const res = await fetch('/api/leads', { headers });
     if (res.ok) {
       const json = await res.json();
       if (Array.isArray(json?.leads) && json.leads.length > 0) {
@@ -97,6 +100,7 @@ export function saveLead(leadData) {
     score: Number(leadData.score || 50),
     investorProfile: leadData.investorProfile || null,
     estimatedRevenue: Number(leadData.estimatedRevenue || 0),
+    b_company_trap: leadData.b_company_trap || '',
     createdAt: new Date().toISOString()
   };
 

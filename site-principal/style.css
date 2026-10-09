@@ -238,6 +238,24 @@ body.skeuo-body {
   border: none;
 }
 
+#open-catalog-admin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  background: rgba(251, 191, 36, 0.1);
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+#open-catalog-admin-btn:hover {
+  background: rgba(251, 191, 36, 0.22);
+  border-color: #fbbf24;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.35);
+}
+
 /* ==========================================================================
    MONTADORA HERO STAGE (PADRÃO HYUNDAI BRASIL)
    ========================================================================== */
