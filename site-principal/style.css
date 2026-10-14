@@ -3038,7 +3038,7 @@ html, body {
 
 /* Touch Targets >= 44px (with explicit exception for micro-swatches & utility buttons) */
 button:not(.swatch-dot):not(.color-swatch-btn):not(.btn-card-zoom-trigger):not(.modal-close-btn), 
-a, 
+a:not(.top-announcement-bar a):not(.announcement-links a), 
 .skeuo-nav-btn, 
 .mobile-bar-btn {
   min-height: 44px;

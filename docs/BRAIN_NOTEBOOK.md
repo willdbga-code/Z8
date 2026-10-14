@@ -937,3 +937,19 @@
      - Botão 'PAINEL ADMIN' calibrado com `height: 34px; padding: 0 14px;` e `justify-content: center;`, nivelando perfeitamente a linha de base de todos os elementos do navbar.
   3. **Compilação**:
      - `npm run build` executado com 100% de sucesso.
+
+### 8.29 Alinhamento Ótico e Centralização Vertical do Botão da Barra de Anúncios (/vendas/ e /site-principal/)
+
+- **Solicitação do Usuário**: 'alinhe aqui tambem' (com captura de tela exibindo o botão 'Validar Disponibilidade da Minha Cidade' com o texto colado na borda superior e ~25px de espaço em branco vazio abaixo do texto).
+- **Causa Raiz Identificada**:
+  1. A regra responsiva global `a { min-height: 44px; }` impunha altura mínima de 44px na tag `<a>` do botão `.announcement-link`.
+  2. Como `.announcement-link` possuía display inline padrão e padding de apenas `3px 10px`, o texto ficava ancorado no topo do botão enquanto a caixa expandia para 44px, deixando a metade inferior desproporcionalmente ociosa.
+- **Implementações & Solução**:
+  1. **Centralização Vertical e Dimensões Óticas (`vendas/style.css`)**:
+     - `.announcement-link` configurado com `display: inline-flex; align-items: center; justify-content: center; text-align: center; height: 32px; min-height: 32px !important; line-height: 1; padding: 0 14px; border-radius: var(--radius-sm); text-decoration: none; vertical-align: middle; box-sizing: border-box;`.
+     - Mobile breakpoint (`@media (max-width: 640px)`) ajustado com `height: 28px; min-height: 28px !important; padding: 0 10px; font-size: 0.62rem;`.
+     - Exceção adicionada na regra touch target de 44px: `a:not(.nav-link):not(.header-brand):not(.brand-logo-link):not(.announcement-link)`.
+  2. **Blindagem em `/site-principal/` (`site-principal/style.css`)**:
+     - Exceção correspondente aplicada na regra de 44px: `a:not(.top-announcement-bar a):not(.announcement-links a)`.
+  3. **Compilação e Validação**:
+     - `npm run build` executado com 100% de sucesso (dist sincronizado).

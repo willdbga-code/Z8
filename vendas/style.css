@@ -194,15 +194,25 @@ button {
 }
 
 .announcement-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   color: #fff;
   border: 1px solid rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.12);
-  padding: 3px 10px;
+  padding: 0 14px;
+  height: 32px;
+  min-height: 32px !important;
+  line-height: 1;
   border-radius: var(--radius-sm);
   font-size: 0.68rem;
   font-weight: 600;
   white-space: nowrap;
+  text-decoration: none;
+  vertical-align: middle;
   transition: all var(--transition-fast);
+  box-sizing: border-box;
 }
 
 .announcement-link:hover {
@@ -227,7 +237,9 @@ button {
     font-size: 0.65rem;
   }
   .announcement-link {
-    padding: 2px 8px;
+    height: 28px;
+    min-height: 28px !important;
+    padding: 0 10px;
     font-size: 0.62rem;
   }
 }
@@ -4237,7 +4249,7 @@ html, body {
 
 /* Touch Targets >= 44px (with explicit exception for micro-swatches & navbar links) */
 button:not(.color-swatch-btn):not(.lightbox-swatch-btn):not(.btn-card-zoom-trigger):not(.lightbox-close-btn):not(.lightbox-tool-btn):not(.swatch-dot), 
-a:not(.nav-link):not(.header-brand):not(.brand-logo-link), 
+a:not(.nav-link):not(.header-brand):not(.brand-logo-link):not(.announcement-link), 
 .skeuo-nav-btn, 
 .mobile-bar-btn {
   min-height: 44px;
