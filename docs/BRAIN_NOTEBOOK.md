@@ -885,3 +885,38 @@
      - O estado `:hover` e `.active` agora escala perfeitamente em escala 1:1 (`transform: scale(1.22)`), mantendo contorno e anel de seleção 100% circulares.
   3. **Validação & Compilação**:
      - `npm run build` executado com 100% de sucesso gerando os bundles de produção sem erros.
+
+### 8.27 Proibição Absoluta de Botões Redondos / Aspecto Pílula / Cápsula em Todo o Ecossistema
+
+- **Solicitação do Usuário**: '*não permita que nenhum botão do site tenha esse aspecto redondo *' (com print anexado do botão de cabeçalho 'PAINEL ADMIN' em formato de cápsula arredondada `border-radius: 9999px`).
+- **Diagnóstico & Causa Raiz**:
+  1. O botão 'PAINEL ADMIN' em `vendas/index.html` possuía estilo inline residual com `border-radius: 9999px`, conferindo um aspecto arredondado de cápsula / pílula que colide com a linguagem Bauhaus e estética executiva de montadora automotiva.
+  2. Em `vendas/app.js`, botões de cidades vizinhas (`.btn-neighbor-cep`) possuíam `border-radius: 20px`.
+  3. Em `site-principal/franquias.css` e `n95c/style.css`, múltiplos botões e seletores possuíam raios de 20px a 50px (`.btn-frq-primary`, `.btn-frq-secondary`, `.btn-frq-cta`, `.tab-btn`, `.btn-radian-pill`, `.radian-btn-action`, `.filter-btn`).
+- **Implementações & Solução**:
+  1. **Remoção de Todos os Raios Pílula (HTML & JS)**:
+     - `vendas/index.html`: Botão 'PAINEL ADMIN' ajustado de `border-radius: 9999px` para `border-radius: 6px`.
+     - `vendas/app.js`: Botões `.btn-neighbor-cep` ajustados de `border-radius: 20px` para `border-radius: 4px`.
+     - `site-principal/index.html`: Contador de pendências e badges de status do Cloud Firestore ajustados de `9999px`/`20px` para `border-radius: 4px`.
+     - `index.html` (Hub Principal): Badges ajustadas de `9999px` para `border-radius: 4px`.
+  2. **Refatoração no CSS Global de Todas as Páginas**:
+     - `site-principal/style.css`: `.filter-btn`, `.os-filter-pill`, `.skeuo-badge`, `.comparator-badge-pill`, `.embossed-badge` atualizados para 4px-6px.
+     - `site-principal/franquias.css`: `.btn-frq-primary`, `.btn-frq-secondary`, `.btn-frq-cta`, `.tab-btn`, `.btn-insta-follow`, `.section-tag`, `.frq-tag` atualizados para 4px-6px.
+     - `n95c/style.css`: `.radian-btn-action`, `.btn-radian-pill`, `.radian-nav-link`, `.radian-nav-left`, `.feature-headline-item` atualizados para 4px-6px.
+     - `apresentacao/style.css`: `.hero-chip`, `.deck-title-tracker` atualizados para 4px.
+  3. **Diretiva Global Mandatória em `vendas/style.css` e `site-principal/style.css`**:
+     - Injetada regra com especificidade forçada:
+       ```css
+       button:not(.color-swatch-btn):not(.swatch-dot):not(.badge-dot):not(.pulse-dot),
+       a[class*="btn"],
+       .btn-header-login,
+       .btn-header-cta,
+       .btn-tripwire-action,
+       .btn-action,
+       .skeuo-nav-btn,
+       .admin-main-nav-btn {
+         border-radius: 6px !important;
+       }
+       ```
+  4. **Validação**:
+     - `npm run build` executado com 100% de sucesso.

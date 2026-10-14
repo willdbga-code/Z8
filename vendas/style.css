@@ -4319,3 +4319,22 @@ a,
 .swatch-label-active {
   font-size: 0.7rem !important;
 }
+
+/* ==========================================================================
+   PADRONIZAÇÃO GEOMÉTRICA DE BOTÕES Z8 (ESTRITAMENTE RETANGULAR / ZERO PILL)
+   Proíbe terminantemente qualquer aspecto de botão oval, redondo ou cápsula.
+   Todos os botões de ação adotam cantos retos/sutis (border-radius: 4px a 6px).
+   ========================================================================== */
+button:not(.color-swatch-btn):not(.swatch-dot):not(.badge-dot):not(.pulse-dot),
+a[class*="btn"],
+.btn-header-login,
+.btn-header-cta,
+.btn-tripwire-action,
+.btn-action,
+.btn-step-back,
+.btn-card-reserve,
+.btn-primary-pill,
+.btn-secondary-pill,
+.btn-neighbor-cep {
+  border-radius: 6px !important;
+}

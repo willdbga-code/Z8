@@ -79,7 +79,7 @@ body {
   letter-spacing: 0.5px;
   background: rgba(0, 0, 0, 0.06);
   padding: 4px 12px;
-  border-radius: 20px;
+  border-radius: 4px;
 }
 
 .radian-brand-logo {
@@ -103,7 +103,7 @@ body {
   font-weight: 600;
   opacity: 0.9;
   padding: 6px 14px;
-  border-radius: 20px;
+  border-radius: 4px;
   transition: all 0.2s ease;
 }
 
@@ -118,7 +118,7 @@ body {
   color: #041d10;
   font-weight: 800;
   padding: 11px 24px;
-  border-radius: 30px;
+  border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -238,7 +238,7 @@ body {
   color: #0f172a;
   font-weight: 700;
   padding: 12px 26px;
-  border-radius: 30px;
+  border-radius: 6px;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -520,7 +520,7 @@ body {
     white-space: nowrap;
     padding: 7px 14px;
     background: rgba(0, 0, 0, 0.06);
-    border-radius: 20px;
+    border-radius: 4px;
     line-height: 1.2;
     letter-spacing: 0;
     transform: none !important;

@@ -90,6 +90,7 @@
   - **Desktop (> 1024px)**: Structured multi-column luxury layouts, master flagships, and max-width containers (`1200px` - `1400px`) centered with `margin: 0 auto`.
 - **Modals & Overlays**:
   - Max height `90vh` or `92dvh` with internal scroll (`overflow-y: auto`), accessible sticky close buttons, `max-width: min(95vw, <desktopWidth>)`, and safe margins on mobile.
+- **Button Geometry Protocol (MANDATORY & PERMANENT)**: NO buttons across the Z8 ecosystem (`/`, `/site-principal/`, `/vendas/`, `/n95c/`, `/apresentacao/`) may have a pill, round, or capsule appearance (`border-radius: 9999px` or `border-radius > 8px` is STRICTLY FORBIDDEN on buttons, CTAs, links, tabs, and filter buttons). All buttons MUST follow architectural automotive Bauhaus styling with subtle rectangular corners (`border-radius: 4px` to `6px`). The only exceptions are explicit circular color swatches (`.color-swatch-btn`, `.swatch-dot`) and 7px indicator dots (`.badge-dot`, `.pulse-dot`).
 - **Tables & Data Grids (CRM / OS / Admin)**:
   - Always wrapped in dedicated responsive containers (`overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%;`) with visible badges, clear headers, and touch-friendly controls.
 ## Bauhaus Visual Scheme & Regional Advertising Protocol (MANDATORY & PERMANENT)

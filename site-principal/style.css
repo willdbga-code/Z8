@@ -122,7 +122,7 @@ body.skeuo-body {
   gap: 8px;
   padding: 6px 14px;
   background: #EBF3FA;
-  border-radius: 20px;
+  border-radius: 4px;
   font-size: 0.76rem;
   font-weight: 700;
   color: var(--accent-navy);
@@ -280,7 +280,7 @@ body.skeuo-body {
   padding: 6px 14px;
   background: #EBF3FA;
   color: var(--accent-navy);
-  border-radius: 30px;
+  border-radius: 4px;
   font-size: clamp(0.64rem, 2.2vw, 0.76rem);
   font-weight: 800;
   letter-spacing: 0.5px;
@@ -764,7 +764,7 @@ body.skeuo-body {
   border: 1px solid var(--border-metal);
   color: var(--text-muted);
   padding: 9px 22px;
-  border-radius: 30px;
+  border-radius: 6px;
   font-weight: 700;
   font-size: 0.84rem;
   cursor: pointer;
@@ -822,7 +822,7 @@ body.skeuo-body {
   font-size: 0.72rem;
   font-weight: 800;
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   background: #EBF3FA;
@@ -2311,7 +2311,7 @@ html, body.skeuo-body {
   border: 1px solid var(--border-metal);
   color: var(--text-muted);
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: 6px;
   font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
@@ -2881,7 +2881,7 @@ html, body.skeuo-body {
 .comparator-badge-pill {
   display: inline-block;
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: 4px;
   font-size: 0.74rem;
   font-weight: 700;
   background: var(--bg-inset);
@@ -3113,4 +3113,23 @@ a,
 }
 .swatch-label-active {
   font-size: 0.7rem !important;
+}
+
+/* ==========================================================================
+   PADRONIZAÇÃO GEOMÉTRICA DE BOTÕES Z8 (ESTRITAMENTE RETANGULAR / ZERO PILL)
+   Proíbe terminantemente qualquer aspecto de botão oval, redondo ou cápsula.
+   Todos os botões de ação adotam cantos retos/sutis (border-radius: 4px a 6px).
+   ========================================================================== */
+button:not(.swatch-dot):not(.color-swatch-btn):not(.badge-dot):not(.pulse-dot),
+a[class*="btn"],
+.skeuo-nav-btn,
+.admin-main-nav-btn,
+.admin-filter-pill,
+.admin-lead-filter-pill,
+.filter-btn,
+.os-filter-pill,
+.btn-frq-primary,
+.btn-frq-secondary,
+.btn-frq-cta {
+  border-radius: 6px !important;
 }

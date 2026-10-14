@@ -106,7 +106,7 @@ function initCepChecker() {
               </span>
               <div style="display: flex; flex-wrap: wrap; gap: 6px;">
                 ${availability.neighbors.map(n => `
-                  <button type="button" class="btn-neighbor-cep" data-city="${n}" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #0F172A; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; font-family: inherit; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+                  <button type="button" class="btn-neighbor-cep" data-city="${n}" style="background: #FFFFFF; border: 1px solid #CBD5E1; color: #0F172A; padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-family: inherit; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
                     <i class="fa-solid fa-plus" style="color: #10B981;"></i> ${n}
                   </button>
                 `).join('')}
