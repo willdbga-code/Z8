@@ -58,7 +58,7 @@
     }
     .header-logo h1 {
       font-family: 'Outfit', sans-serif;
-      font-size: 2.6rem;
+      font-size: clamp(2rem, 5vw, 2.8rem);
       font-weight: 900;
       letter-spacing: -0.02em;
       color: var(--accent-navy);
@@ -66,12 +66,12 @@
     }
     .header-logo p {
       color: var(--text-muted);
-      font-size: 1.05rem;
+      font-size: clamp(0.92rem, 1.4vw, 1.05rem);
     }
     .grid-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      gap: clamp(1rem, 2.5vw, 2rem);
       max-width: 1200px;
       width: 100%;
     }
@@ -79,7 +79,7 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 2.2rem;
+      padding: clamp(1.4rem, 3vw, 2.2rem);
       text-decoration: none;
       color: inherit;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);

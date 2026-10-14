@@ -1806,28 +1806,40 @@ button, a, .skeuo-nav-btn, .mobile-bar-btn {
   margin: auto;
 }
 
-@media (max-width: 480px) {
-  /* Single-column grids */
-  .models-grid, 
-  .franchise-cards-wrap, 
-  .admin-dashboard-grid {
-    grid-template-columns: 1fr !important;
-  }
-  
-  /* Tables wrapper with touch scrolling */
-  .table-responsive-wrapper,
-  .orderdesk-table-wrapper,
-  .comparator-table-wrap {
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    width: 100% !important;
-  }
+/* Grids Fluidos sem Saltos Rígidos */
+.models-grid, 
+.franchise-cards-wrap, 
+.admin-dashboard-grid,
+.features-grid,
+.pillars-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important;
+  gap: clamp(14px, 2.5vw, 24px) !important;
+  width: 100% !important;
 }
 
-@media (min-width: 481px) and (max-width: 1024px) {
-  /* Fluid auto-fit grids */
-  .models-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+/* Tabelas e Wrappers de Dados com Rolagem Touch Suave */
+.table-responsive-wrapper,
+.orderdesk-table-wrapper,
+.comparator-table-wrap,
+.data-table-wrap {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  scrollbar-width: thin;
+}
+
+/* Prevenção de Auto-Zoom Indesejado no iOS Safari */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
   }
 }
 
@@ -1839,6 +1851,7 @@ button, a, .skeuo-nav-btn, .mobile-bar-btn {
     margin-right: auto;
   }
 }
+
 /* Fix Swatch Buttons */
 .swatch-dot {
   width: 20px !important;
@@ -1846,4 +1859,11 @@ button, a, .skeuo-nav-btn, .mobile-bar-btn {
   min-height: 20px !important;
   min-width: 20px !important;
   padding: 0 !important;
+  border-radius: 50% !important;
+}
+
+/* Padronização Geométrica de Botões Z8 (Bauhaus Retangular) */
+button:not(.swatch-dot):not(.color-swatch-btn),
+a[class*="btn"] {
+  border-radius: 6px !important;
 }

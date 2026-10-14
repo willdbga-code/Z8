@@ -953,3 +953,41 @@
      - Exceção correspondente aplicada na regra de 44px: `a:not(.top-announcement-bar a):not(.announcement-links a)`.
   3. **Compilação e Validação**:
      - `npm run build` executado com 100% de sucesso (dist sincronizado).
+
+### 8.30 Calibração de Responsividade Fluida Universal e Contínua (Z8 Fluid Responsive Engine)
+
+- **Solicitação do Usuário**: 'ajuste a responsividade para todos os tamanhos de tela e faça com que a responsividade fique fluida'.
+- **Conceito & Diretriz Técnica**:
+  Eliminação de saltos bruscos e quebras rígidas de breakpoints (`@media`) através da adoção de funções matemáticas contínuas em CSS (`clamp()`, `min()`, `max()`, e grids com `repeat(auto-fit/auto-fill, minmax(min(100%, 280px), 1fr))`), garantindo transição imperceptível e perfeita desde smartphones compactos (320px–360px) até monitores 4K (2560px).
+- **Implementações em Todos os Módulos do Ecossistema**:
+  1. **Tipografia Fluida e Escalonamento Proporcional**:
+     - Títulos monumentais (`h1`, `.hero-stage-title`, `.montadora-headline`, `.radian-title`): `font-size: clamp(1.85rem, 5vw, 3.8rem); line-height: 1.1; word-break: break-word;`.
+     - Headlines de seção (`h2`, `.section-headline`, `.section-title`): `font-size: clamp(1.5rem, 3.5vw, 2.8rem); line-height: 1.18;`.
+     - Subtítulos e parágrafos guia: `font-size: clamp(0.92rem, 1.3vw, 1.18rem); line-height: 1.68;`.
+     - Badges e micro-telemetria: `font-size: clamp(0.58rem, 0.8vw, 0.65rem);`.
+  2. **Espaçamento e Containers Fluidos**:
+     - `.site-container`, `.main-content`: substituição de múltiplos media queries escalonados (16px -> 20px -> 32px -> 40px) por padding contínuo: `padding: 0 clamp(14px, 3.5vw, 40px);`.
+     - Seções e cards: paddings fluidos com `clamp(32px, 5.5vw, 64px)` vertical e `clamp(14px, 3vw, 32px)` interno.
+  3. **Grids Auto-Fit / Auto-Fill Contínuos (Zero Breakpoint Snapping)**:
+     - `.models-grid`, `.catalog-grid`, `.franchise-cards-wrap`, `.admin-dashboard-grid`, `.features-grid`, `.pillars-grid`: `grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)) !important; gap: clamp(14px, 2.5vw, 24px) !important;`.
+     - Adaptação natural: 1 coluna em telas < 600px, 2 colunas em 600–900px, 3 colunas em 900–1200px, 4 colunas em > 1200px.
+  4. **Cabeçalho Flutuante e Ações Mobile-Ready**:
+     - `.top-announcement-bar`: padding, gaps e font-size com `clamp()`, quebra fluida no centro sem transbordamento.
+     - `.header-inner`: altura fluida `clamp(52px, 6vw, 62px)`.
+     - `.header-nav`: ativação em `min-width: 1120px` com `gap: clamp(8px, 1.4vw, 22px)` e `.nav-link` com padding proporcional `clamp(4px, 0.6vw, 8px)`.
+     - `.btn-header-admin`: em telas `< 768px`, oculta o texto extenso mantendo o ícone dourado de escudo `[ 🛡️ ]`, evitando estrangulamento da barra.
+     - Botões `.btn-header-login` e `.btn-header-cta`: alturas e paddings calibrados via `clamp()`.
+  5. **Prevenção de Auto-Zoom no iOS Safari & Wrappers de Tabelas**:
+     - Inputs, selects e textareas fixados em `font-size: 16px !important;` em telas `< 768px`, eliminando o zoom indesejado e desajuste de viewport no iPhone/Safari.
+     - Tabelas de CRM, Ordens de Serviço (OS) e comparativos encapsuladas em containers com `overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; width: 100% !important;`.
+  6. **Padronização Geométrica Bauhaus**:
+     - Botões mantidos rigorosamente em `border-radius: 6px !important;` (zero efeito pílula/cápsula).
+  7. **Arquivos Atualizados**:
+     - `vendas/style.css`, `vendas/index.html`
+     - `site-principal/style.css`
+     - `n95c/style.css`
+     - `apresentacao/style.css`
+     - `index.html` (Hub Portal)
+  8. **Validação**:
+     - `npm run build` executado com 100% de sucesso.
+
