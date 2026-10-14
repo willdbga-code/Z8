@@ -299,8 +299,10 @@ button {
 .header-nav {
   display: none;
   align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
+  justify-content: center;
+  gap: 22px;
+  height: 100%;
+  margin: 0 auto;
 }
 
 @media (min-width: 992px) {
@@ -310,16 +312,28 @@ button {
 }
 
 .nav-link {
-  font-size: 0.8rem;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  min-height: 34px !important;
+  max-height: 34px;
+  line-height: 34px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
   color: var(--text-muted);
   white-space: nowrap;
-  transition: color var(--transition-fast);
+  text-decoration: none;
+  padding: 0 4px;
+  border-radius: 4px;
+  vertical-align: middle;
+  transition: color var(--transition-fast), background var(--transition-fast);
 }
 
 .nav-link:hover {
   color: var(--accent-navy);
-  font-weight: 600;
+  background: rgba(0, 44, 95, 0.04);
 }
 
 .header-actions {
@@ -4221,9 +4235,9 @@ html, body {
   width: 100%;
 }
 
-/* Touch Targets >= 44px (with explicit exception for micro-swatches & utility buttons) */
+/* Touch Targets >= 44px (with explicit exception for micro-swatches & navbar links) */
 button:not(.color-swatch-btn):not(.lightbox-swatch-btn):not(.btn-card-zoom-trigger):not(.lightbox-close-btn):not(.lightbox-tool-btn):not(.swatch-dot), 
-a, 
+a:not(.nav-link):not(.header-brand):not(.brand-logo-link), 
 .skeuo-nav-btn, 
 .mobile-bar-btn {
   min-height: 44px;

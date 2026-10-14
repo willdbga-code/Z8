@@ -920,3 +920,20 @@
        ```
   4. **Validação**:
      - `npm run build` executado com 100% de sucesso.
+
+### 8.28 Alinhamento Ótico e Geométrico dos Links de Navegação do Navbar (/vendas/)
+
+- **Solicitação do Usuário**: 'alinhe esses textos no navbar' (com print anexado evidenciando os links 'Pilares da Concessão', 'Catálogo Direct-Factory', 'Simulador B2B', 'Exclusividade de Cidade' e 'FAQ Atacado' flutuando verticalmente desalinhados no topo do cabeçalho).
+- **Causa Raiz Identificada**:
+  1. A regra responsiva global `a { min-height: 44px; }` impunha altura de 44px nas tags `<a>` dos links de navegação (`.nav-link`), que não possuíam `display: inline-flex; align-items: center;` nem `line-height` sincronizado.
+  2. Como consequência, o texto de cada link renderizava no topo da sua caixa de 44px, criando um salto visual de aproximadamente 12px para cima em relação ao centro vertical do logo e dos botões de ação ('PAINEL ADMIN', 'JÃO', 'GARANTIR CIDADE').
+  3. A ausência de `margin: 0 auto` em `.header-nav` deixava a distribuição horizontal assimétrica entre a marca e as ações da direita.
+- **Implementações & Solução**:
+  1. **Alinhamento Vertical Dead-Center (`vendas/style.css`)**:
+     - `.nav-link` configurado com `display: inline-flex; align-items: center; justify-content: center; height: 34px; min-height: 34px !important; line-height: 34px; font-weight: 600;`.
+     - `.header-nav` configurado com `height: 100%; margin: 0 auto; align-items: center; justify-content: center; gap: 22px;`.
+     - Exceção adicionada na regra touch target: `a:not(.nav-link):not(.header-brand):not(.brand-logo-link)`.
+  2. **Harmonização de Alturas dos Botões (`vendas/index.html`)**:
+     - Botão 'PAINEL ADMIN' calibrado com `height: 34px; padding: 0 14px;` e `justify-content: center;`, nivelando perfeitamente a linha de base de todos os elementos do navbar.
+  3. **Compilação**:
+     - `npm run build` executado com 100% de sucesso.
