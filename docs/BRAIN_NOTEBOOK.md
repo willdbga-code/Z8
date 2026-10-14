@@ -863,3 +863,25 @@
      - Adicionado botão `"PAINEL ADMIN"` no header de `/vendas/` e `"👑 Painel de Solicitações"` no header de `/site-principal/catalogo.html`;
      - Implementado gatilho automático por URL (`?admin=1`, `?solicitacoes=1`, `?painel=1`, `#admin`, `#solicitacoes`).
 
+
+### 8.26 Correção Geométrica dos Seletores de Cores dos Cards (Geometria 1:1 Estritamente Circular)
+
+- **Solicitação do Usuário**: 'gem esse simbolo de cores, deve ficar circular e não oval' (com print anexado evidenciando os botões de cores esticados verticalmente em formato oval nos cards de modelos de `/vendas/`).
+- **Causa Raiz Identificada**:
+  1. A regra de acessibilidade responsiva global (`button, a { min-height: 44px; }`) injetada no protocolo cross-device estava sobrepondo a altura dos botões de amostra de cores (`.color-swatch-btn`), que possuíam `width: 20px; height: 20px;`.
+  2. Com largura em 20px e altura mínima herdada de 44px, o `border-radius: 50%` calculava um raio horizontal de 10px e vertical de 22px, transformando os círculos em ovais alongados verticais.
+  3. No final de `vendas/style.css`, o bloco de correção continha apenas a classe legada `.swatch-dot` (de `site-principal`), não aplicando o override para a classe `.color-swatch-btn` utilizada nos cards editoriais de vendas.
+- **Implementações & Solução**:
+  1. **Exceção Seletiva no Protocolo Touch Target (`vendas/style.css` e `site-principal/style.css`)**:
+     - `button:not(.color-swatch-btn):not(.lightbox-swatch-btn):not(.btn-card-zoom-trigger):not(.lightbox-close-btn):not(.lightbox-tool-btn):not(.swatch-dot)` preserva o touch target de 44px para botões de ação e navegação sem distorcer micro-botões e amostras de cores.
+  2. **Travamento Geométrico Estrito 1:1 (`vendas/style.css` e `site-principal/style.css`)**:
+     - Aplicadas regras de geometria inviolável para `.color-swatch-btn` e `.swatch-dot`:
+       - `width: 20px !important; height: 20px !important;`
+       - `min-width: 20px !important; min-height: 20px !important;`
+       - `max-width: 20px !important; max-height: 20px !important;`
+       - `aspect-ratio: 1 / 1 !important;`
+       - `border-radius: 50% !important;`
+       - `flex-shrink: 0 !important; box-sizing: border-box !important; display: inline-block !important;`
+     - O estado `:hover` e `.active` agora escala perfeitamente em escala 1:1 (`transform: scale(1.22)`), mantendo contorno e anel de seleção 100% circulares.
+  3. **Validação & Compilação**:
+     - `npm run build` executado com 100% de sucesso gerando os bundles de produção sem erros.

@@ -1898,17 +1898,28 @@ button {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
 }
 
 .color-swatch-btn {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid #FFFFFF;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
+  border: 2px solid #FFFFFF !important;
   outline: 1.5px solid rgba(0, 44, 95, 0.2);
   cursor: pointer;
-  padding: 0;
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 0 !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  line-height: 0 !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), outline-color 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
@@ -4210,8 +4221,11 @@ html, body {
   width: 100%;
 }
 
-/* Touch Targets >= 44px */
-button, a, .skeuo-nav-btn, .mobile-bar-btn {
+/* Touch Targets >= 44px (with explicit exception for micro-swatches & utility buttons) */
+button:not(.color-swatch-btn):not(.lightbox-swatch-btn):not(.btn-card-zoom-trigger):not(.lightbox-close-btn):not(.lightbox-tool-btn):not(.swatch-dot), 
+a, 
+.skeuo-nav-btn, 
+.mobile-bar-btn {
   min-height: 44px;
 }
 
@@ -4256,14 +4270,44 @@ button, a, .skeuo-nav-btn, .mobile-bar-btn {
     margin-right: auto;
   }
 }
-/* Fix Swatch Buttons */
+/* Fix Swatch Buttons & Micro-Elements (Guaranteed 1:1 Circular Geometry) */
+.color-swatch-btn,
 .swatch-dot {
   width: 20px !important;
   height: 20px !important;
-  min-height: 20px !important;
   min-width: 20px !important;
+  min-height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
   padding: 0 !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  line-height: 0 !important;
 }
+
+.lightbox-swatch-btn {
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px !important;
+  min-height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 4px !important;
+  padding: 0 !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.btn-card-zoom-trigger {
+  min-height: unset !important;
+  height: auto !important;
+}
+
 .model-swatch-box {
   padding: 6px 10px !important;
   margin: 8px 0 12px 0 !important;

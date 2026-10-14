@@ -3036,8 +3036,11 @@ html, body {
   width: 100%;
 }
 
-/* Touch Targets >= 44px */
-button, a, .skeuo-nav-btn, .mobile-bar-btn {
+/* Touch Targets >= 44px (with explicit exception for micro-swatches & utility buttons) */
+button:not(.swatch-dot):not(.color-swatch-btn):not(.btn-card-zoom-trigger):not(.modal-close-btn), 
+a, 
+.skeuo-nav-btn, 
+.mobile-bar-btn {
   min-height: 44px;
 }
 
@@ -3082,13 +3085,23 @@ button, a, .skeuo-nav-btn, .mobile-bar-btn {
     margin-right: auto;
   }
 }
-/* Fix Swatch Buttons */
-.swatch-dot {
+/* Fix Swatch Buttons (Guaranteed 1:1 Circular Geometry) */
+.swatch-dot,
+.color-swatch-btn {
   width: 20px !important;
   height: 20px !important;
   min-height: 20px !important;
   min-width: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50% !important;
   padding: 0 !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  line-height: 0 !important;
 }
 .model-swatch-box {
   padding: 6px 10px !important;
