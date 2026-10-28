@@ -6219,7 +6219,13 @@ blockquote {
 .nav-menu-link-w {
   cursor: pointer;
   position: relative;
-  overflow: clip;
+  overflow: clip !important;
+  white-space: nowrap !important;
+  height: 5.25rem !important;
+  max-width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .nav-menu-link-w:hover {
@@ -6235,12 +6241,18 @@ blockquote {
 .text-nav-link {
   font-variation-settings: "wght" 660, "wdth" 93;
   text-transform: uppercase;
-  text-shadow: 0 5.25rem;
+  text-shadow: 0 5.25rem !important;
   font-size: 5.25rem;
-  line-height: .94;
+  line-height: .94 !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
   transition-property: color;
   transition-duration: .6s;
   transition-timing-function: cubic-bezier(.19, 1, .22, 1);
+}
+
+#nav-menu-link-login .text-nav-link {
+  font-size: 4.5rem !important;
 }
 
 .nav-menu-social-w {
@@ -9667,8 +9679,17 @@ blockquote {
     height: 100svh;
   }
 
+  .nav-menu-link-w {
+    height: 4.3rem !important;
+  }
+
   .text-nav-link {
-    font-size: 3.7rem;
+    font-size: 2.5rem !important;
+    text-shadow: 0 4.3rem !important;
+  }
+
+  #nav-menu-link-login .text-nav-link {
+    font-size: 2.15rem !important;
   }
 
   .text-on-t-hero-heading-mona.margin {
@@ -12853,9 +12874,19 @@ canvas[data-rive-primary],
     align-items: center !important;
     text-align: center !important;
   }
+  .nav-menu-link-w {
+    height: 4.3rem !important;
+    white-space: nowrap !important;
+    overflow: clip !important;
+  }
   .text-nav-link {
-    font-size: clamp(2rem, 8vw, 2.75rem) !important;
-    line-height: 1.15 !important;
+    font-size: clamp(2rem, 7vw, 2.8rem) !important;
+    line-height: .94 !important;
+    white-space: nowrap !important;
+    text-shadow: 0 4.3rem !important;
+  }
+  #nav-menu-link-login .text-nav-link {
+    font-size: clamp(1.8rem, 6vw, 2.35rem) !important;
   }
   .nav-menu-social-w {
     margin-top: 2rem !important;

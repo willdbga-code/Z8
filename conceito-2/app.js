@@ -40,7 +40,7 @@ const MODEL_COLORS_MAP = {
     { name: 'Stealth Black', hex: '#15171A', img: '/assets/models/z8_fx10_black.jpg' },
     { name: 'Glacier White', hex: '#F0F2F5', img: '/assets/models/z8_fx10_white.jpg' }
   ],
-  'z8-harley-x21': [
+  'z8-harley-x12': [
     { name: 'Crimson Red', hex: '#8B1E28', img: '/assets/models/z8_harley_red.jpg' },
     { name: 'Brushed Silver', hex: '#A8AFB7', img: '/assets/models/z8_harley_silver.jpg' }
   ],
@@ -65,7 +65,7 @@ const MODEL_COLORS_MAP = {
     { name: 'Titanium Grey', hex: '#63686E', img: '/assets/models/z8_diamond_grey.jpg' },
     { name: 'Gloss White', hex: '#F4F5F7', img: '/assets/models/z8_diamond_white.jpg' }
   ],
-  'z8-n7': [
+  'z8-h26': [
     { name: 'Midnight Blue', hex: '#1E2D4A', img: '/assets/models/z8_n7_blue.jpg' },
     { name: 'Charcoal Black', hex: '#212328', img: '/assets/models/z8_n7_black.jpg' }
   ],
@@ -97,7 +97,65 @@ const fmtBRL = (val) =>
 // ==========================================================================
 // 2. CORE REACTIVE AUTH STATE ENGINE
 // ==========================================================================
-export function syncAuthState() {
+export function updateNavMenuAuthText(text) {
+  const txtEl = document.getElementById('nav-menu-link-login-text');
+  const linkEl = document.getElementById('nav-menu-link-login');
+  if (!txtEl || !linkEl) return;
+
+  if (txtEl.getAttribute('data-current-text') === text && txtEl.querySelectorAll('.char').length > 0) {
+    return;
+  }
+  txtEl.setAttribute('data-current-text', text);
+
+  txtEl.innerHTML = '';
+  const chars = [];
+  for (let ch of text) {
+    if (ch === ' ') {
+      txtEl.appendChild(document.createTextNode(' '));
+    } else {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.setAttribute('aria-hidden', 'true');
+      span.style.position = 'relative';
+      span.style.display = 'inline-block';
+      span.textContent = ch;
+      txtEl.appendChild(span);
+      chars.push(span);
+    }
+  }
+
+  const srClone = linkEl.querySelector('[screen-reader]');
+  if (srClone) srClone.textContent = text;
+
+  const getShift = () => window.innerWidth < 480 ? "-4.3rem" : "-5.25rem";
+  linkEl.onmouseenter = () => {
+    if (window.gsap) {
+      window.gsap.to(chars, { y: getShift(), duration: 0.6, stagger: 0.02, ease: "power3.out", overwrite: true });
+    }
+  };
+  linkEl.onmouseleave = () => {
+    if (window.gsap) {
+      window.gsap.to(chars, { y: 0, duration: 0.6, stagger: 0.02, ease: "power3.out", overwrite: true });
+    }
+  };
+}
+
+window.openZ8MenuAuth = function() {
+  const user = getCurrentCatalogUser();
+  const admin = isUserAdmin(user);
+  if (user && admin && window.openAdminModal) {
+    window.openAdminModal();
+  } else if (user) {
+    if (confirm(`Conectado como ${user.name || user.email || 'Parceiro'}.\nDeseja sair da conta?`)) {
+      logoutCatalogUser();
+      syncAuthState();
+    }
+  } else {
+    window.openAuthModal && window.openAuthModal('login');
+  }
+};
+
+function syncAuthState() {
   const user = getCurrentCatalogUser();
   const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
@@ -109,14 +167,7 @@ export function syncAuthState() {
   const loginBtn = document.getElementById('btn-header-login');
   const logoutBtn = document.getElementById('btn-header-logout');
   const adminBtn = document.getElementById('btn-header-admin');
-  const menuLoginText = document.getElementById('nav-menu-link-login-text');
-  if (menuLoginText) {
-    if (user) {
-      menuLoginText.textContent = admin ? 'Painel Master (Admin)' : `${user.company || user.name || 'Parceiro'} // Sair`;
-    } else {
-      menuLoginText.textContent = 'Área do Parceiro';
-    }
-  }
+updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
   const pendingBanner = document.getElementById('pending-approval-banner');
 
   if (user) {

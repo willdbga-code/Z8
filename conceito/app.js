@@ -72,7 +72,7 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-harley',
-    name: 'Z8 Harley X21 Cruiser',
+    name: 'Z8 Harley X12 Cruiser',
     tag: '+37,5%',
     marginPct: '27,3%',
     wholesale: 8000,
@@ -124,7 +124,7 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-q10',
-    name: 'Z8 Mini Q10 Retro',
+    name: 'Z8 Q11 Pastel Design',
     tag: '+45,6%',
     marginPct: '31,3%',
     wholesale: 5150,
@@ -141,7 +141,7 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-q11',
-    name: 'Z8 Q11 Pastel Design',
+    name: 'Z8 Mini Q10 Retro',
     tag: '+46,2%',
     marginPct: '31,6%',
     wholesale: 5200,
@@ -169,7 +169,7 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-n7',
-    name: 'Z8 N7 Compact',
+    name: 'Z8 H26 Compact',
     tag: '+45,8%',
     marginPct: '31,4%',
     wholesale: 4800,
@@ -767,22 +767,74 @@ export function closeZ8AuthModal() {
 window.openZ8AuthModal = openZ8AuthModal;
 window.closeZ8AuthModal = closeZ8AuthModal;
 
+function updateNavMenuAuthText(text) {
+  const txtEl = document.getElementById('nav-menu-link-login-text');
+  const linkEl = document.getElementById('nav-menu-link-login');
+  if (!txtEl || !linkEl) return;
+
+  if (txtEl.getAttribute('data-current-text') === text && txtEl.querySelectorAll('.char').length > 0) {
+    return;
+  }
+  txtEl.setAttribute('data-current-text', text);
+
+  // Clear and rebuild .char spans
+  txtEl.innerHTML = '';
+  const chars = [];
+  for (let ch of text) {
+    if (ch === ' ') {
+      txtEl.appendChild(document.createTextNode(' '));
+    } else {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.setAttribute('aria-hidden', 'true');
+      span.style.position = 'relative';
+      span.style.display = 'inline-block';
+      span.textContent = ch;
+      txtEl.appendChild(span);
+      chars.push(span);
+    }
+  }
+
+  const srClone = linkEl.querySelector('[screen-reader]');
+  if (srClone) srClone.textContent = text;
+
+  // Bind GSAP hover animation
+  const getShift = () => window.innerWidth < 480 ? "-4.3rem" : "-5.25rem";
+  linkEl.onmouseenter = () => {
+    if (window.gsap) {
+      window.gsap.to(chars, { y: getShift(), duration: 0.6, stagger: 0.02, ease: "power3.out", overwrite: true });
+    }
+  };
+  linkEl.onmouseleave = () => {
+    if (window.gsap) {
+      window.gsap.to(chars, { y: 0, duration: 0.6, stagger: 0.02, ease: "power3.out", overwrite: true });
+    }
+  };
+}
+
+window.openZ8MenuAuth = function() {
+  const user = getCurrentCatalogUser();
+  const admin = isUserAdmin(user);
+  if (user && admin && window.openAdminModal) {
+    window.openAdminModal();
+  } else if (user) {
+    if (confirm(`Conectado como ${user.name || user.email || 'Parceiro'}.\nDeseja sair da conta?`)) {
+      logoutCatalogUser();
+      syncConceitoAuthState();
+    }
+  } else {
+    window.openZ8AuthModal && window.openZ8AuthModal('login');
+  }
+};
+
 function syncConceitoAuthState() {
   const user = getCurrentCatalogUser();
   const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
 
-  const menuLoginText = document.getElementById('nav-menu-link-login-text');
-  if (menuLoginText) {
-    if (user) {
-      menuLoginText.textContent = admin ? 'Painel Master (Admin)' : `${user.company || user.name || 'Parceiro'} // Sair`;
-    } else {
-      menuLoginText.textContent = 'Área do Parceiro';
-    }
-  }
+  updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
 
-  // Update cards in conceito/ if approved
-  document.querySelectorAll('.helmet-grid-item-w[data-model-id]').forEach(card => {
+    document.querySelectorAll('.helmet-grid-item-w[data-model-id]').forEach(card => {
     const modelId = card.getAttribute('data-model-id');
     const model = Z8_FLEET.find(m => m.id === modelId);
     if (!model) return;
