@@ -8,7 +8,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-const edgePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+function getBrowserPath() {
+  const candidates = [
+    'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+    'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+    'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'
+  ];
+  for (const c of candidates) {
+    if (fs.existsSync(c)) return c;
+  }
+  return 'msedge';
+}
+const edgePath = getBrowserPath();
 const pagesDir = path.resolve(rootDir, 'scratch', 'wholesale_catalog_html_pages');
 const outputImgDir = path.resolve(rootDir, 'public', 'assets', 'catalogo_atacado');
 
@@ -805,12 +819,6 @@ function buildCoverHtml() {
       </div>
     </div>
   </div>
-
-      <div style="position: absolute; bottom: 80px; left: 0; width: 100%; text-align: center; z-index: 999;">
-        <div style="display: inline-block; background: #FF0055; color: #FFF; padding: 20px 40px; font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; border-radius: 12px; letter-spacing: 2px; text-transform: uppercase; box-shadow: 0 10px 30px rgba(255,0,85,0.4); border: 2px solid rgba(255,255,255,0.2);">
-          ⚠️ PROMOÇÃO VÁLIDA SOMENTE NESSE MÊS DE OUTUBRO ⚠️
-        </div>
-      </div>
 </body>
 </html>`;
 }
@@ -1356,6 +1364,8 @@ root_dir = r"${rootDir.replace(/\\/g, '\\\\')}"
 img_dir = os.path.join(root_dir, "public", "assets", "catalogo_atacado")
 pdf_docs = os.path.join(root_dir, "docs", "TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf")
 pdf_public = os.path.join(root_dir, "public", "docs", "TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf")
+pdf_dist = os.path.join(root_dir, "dist", "docs", "TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf")
+pdf_atacado = os.path.join(root_dir, "catalogo_atacado_pdf", "TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf")
 
 doc = fitz.open()
 
@@ -1370,14 +1380,17 @@ for f in img_files:
     doc.insert_pdf(img_pdf)
     print(f"  + Inserida: {f}")
 
-doc.save(pdf_docs)
-doc.save(pdf_public)
-print(f"[OK] PDF de Atacado gravado com {len(doc)} paginas:")
-print(f"   -> {pdf_docs} ({os.path.getsize(pdf_docs)/1024/1024:.2f} MB)")
-print(f"   -> {pdf_public} ({os.path.getsize(pdf_public)/1024/1024:.2f} MB)")
+for target in [pdf_docs, pdf_public, pdf_dist, pdf_atacado]:
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    try:
+        doc.save(target)
+        print(f"[OK] PDF gravado em: {target} ({os.path.getsize(target)/1024/1024:.2f} MB)")
+    except Exception as e:
+        print(f"[AVISO] {target} bloqueado/aberto: {e}")
 `, 'utf8');
 
-  execSync(`python3 "${pythonMergeScript}"`, { stdio: 'inherit' });
+  const pyCmd = process.platform === 'win32' ? 'python' : 'python3';
+  execSync(`${pyCmd} "${pythonMergeScript}"`, { stdio: 'inherit' });
   console.log('[FINALIZADO] PDF de Atacado e Revenda gerado com sucesso!');
 }
 

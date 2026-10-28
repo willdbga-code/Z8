@@ -2,10 +2,13 @@
 import fitz
 import os
 
-root_dir = r"/Users/apple/Desktop/Z8"
+root_dir = r"C:\\Users\\LENOVO\\Desktop\\Z8"
 img_dir = os.path.join(root_dir, "public", "assets", "catalogo")
 pdf_docs = os.path.join(root_dir, "docs", "CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf")
 pdf_public = os.path.join(root_dir, "public", "docs", "CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf")
+pdf_dist = os.path.join(root_dir, "dist", "docs", "CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf")
+pdf_cat = os.path.join(root_dir, "catalogo_pdf", "CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf")
+pdf_scratch = os.path.join(root_dir, "scratch", "CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf")
 
 doc = fitz.open()
 
@@ -21,8 +24,7 @@ for f in img_files:
     doc.insert_pdf(img_pdf)
     print(f"  + Inserida: {f}")
 
-doc.save(pdf_docs)
-doc.save(pdf_public)
-print(f"[OK] PDF Oficial gravado com {len(doc)} paginas:")
-print(f"   -> {pdf_docs} ({os.path.getsize(pdf_docs)/1024/1024:.2f} MB)")
-print(f"   -> {pdf_public} ({os.path.getsize(pdf_public)/1024/1024:.2f} MB)")
+for target in [pdf_docs, pdf_public, pdf_dist, pdf_cat, pdf_scratch]:
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    doc.save(target)
+    print(f"[OK] PDF gravado em: {target} ({os.path.getsize(target)/1024/1024:.2f} MB)")

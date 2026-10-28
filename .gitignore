@@ -12,7 +12,11 @@ dist
 !.env.example
 
 .vercel
+/assets/
+*.psd
 scripts/*.jpg
+scripts/*.png
+scripts/*.json
 studing/
 .unlighthouse
 scratch/

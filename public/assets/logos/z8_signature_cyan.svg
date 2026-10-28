@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 418 220" fill="none">
+  <defs>
+    <linearGradient id="z8CyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#67F9FF"/>
+      <stop offset="45%" stop-color="#00F0FF"/>
+      <stop offset="100%" stop-color="#00A8CC"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#z8CyanGrad)" fill-rule="evenodd" clip-rule="evenodd" d="M110 37 L243 37 L121 119 L201 119 L185 145 L84 146 L68 159 L8 161 L153 61 L73 60 Z M300 8 L395 8 L409 25 L388 59 L365 74 L377 87 L356 126 L322 146 L215 146 L204 132 L227 89 L251 74 L241 61 L260 29 Z M307 34 L356 34 L358 38 L347 54 L333 62 L288 62 L283 57 L293 42 Z M276 89 L327 89 L331 93 L319 112 L305 120 L256 120 L253 115 L263 98 Z"/>
+  <text x="218" y="198" text-anchor="middle" fill="#00F0FF" font-family="'Space Grotesk', 'Mona Sans Variable', sans-serif" font-weight="600" font-size="24" letter-spacing="14">E-MOTION</text>
+</svg>

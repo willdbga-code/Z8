@@ -129,13 +129,13 @@ export const z8Models = [
     brakes: 'Duplo Disco Hidráulico 180mm',
     tires: '300-10 Pneu Vácuo',
     chassis: 'Estrutura Aço Leve e Resistente',
-    features: ['Sistema Anti-Furto com Alarme Sonoro', 'Controle Remoto Keyless', 'Faróis LED Mecha Automáticos', 'Porta-Objetos sob o Banco'],
+    features: ['Farol LED DRL Quadrangular', 'Sistema Anti-Furto Keyless', 'Painel Digital LCD', 'Estrutura Aço Leve e Resistente'],
     wholesalePrice: 5500,
     retailPrice: 9500,
     profit: 4000,
     markupPct: 72.7,
     marginPct: 42.1,
-    description: 'O modelo coringa da linha Z8 E-motion. Motor de 1000W, velocidade limitada a 32 km/h, frenagem a disco dupla e alto volume de giro no varejo.'
+    description: 'O modelo coringa da linha Z8 E-motion. Motor de 1000W, velocidade limitada a 32 km/h, farol quadrangular DRL e alto volume de giro no varejo.'
   },
   {
     id: 'z8-q10',
@@ -152,13 +152,13 @@ export const z8Models = [
     brakes: 'Disco Dianteiro / Tambor Traseiro',
     tires: '300-10 Pneu Vácuo',
     chassis: 'Aço Carbono Estilo Italiano',
-    features: ['Farol Circular LED Halo Vintage', 'Manoplas em Couro Sintético', 'Painel Analógico-Digital Retrô', 'Opções de Cores Pastel Vibrantes'],
+    features: ['Baú Traseiro Integrado na Cor da Moto', 'Amortecedor Hidráulico Dianteiro 27 Núcleos', 'Painel Digital LCD Integrado', 'Cores Pastel Candy Style'],
     wholesalePrice: 5800,
     retailPrice: 9800,
     profit: 4000,
     markupPct: 69.0,
     marginPct: 40.8,
-    description: 'Scooter clássica inspirada nas lendárias vespas europeias. Motor de 1000W, velocidade limitada a 32 km/h e altíssima procura para o dia a dia.'
+    description: 'Scooter clássica inspirada no design retrô europeu com baú traseiro integrado. Motor de 1000W, velocidade limitada a 32 km/h e altíssima procura para o dia a dia.'
   },
   {
     id: 'z8-n710',
@@ -175,13 +175,13 @@ export const z8Models = [
     brakes: 'Disco Hidráulico Dianteiro / Traseiro',
     tires: '300-10 Pneu de Vácuo',
     chassis: 'Aço Carbono Reforçado Urban',
-    features: ['Painel Digital LCD Integrado', 'Sistema Anti-Furto Keyless', 'Farol LED DRL High Output', 'Suspensão Hidráulica'],
+    features: ['Faróis LED Mecha Automáticos', 'Duplo Disco Hidráulico 180mm', 'Suspensão Hidráulica Dianteira e Traseira', 'Porta-Objetos sob o Banco'],
     wholesalePrice: 5300,
     retailPrice: 9500,
     profit: 4200,
     markupPct: 79.2,
     marginPct: 44.2,
-    description: 'Nova geração da linha urbana Z8 N710. Motor de 1000W, velocidade limitada a 32 km/h, design moderno e chassi reforçado.'
+    description: 'Nova geração da linha urbana Z8 N710. Motor de 1000W, velocidade limitada a 32 km/h, grafismo esportivo e chassi reforçado.'
   },
   {
     id: 'z8-q11',
@@ -198,13 +198,13 @@ export const z8Models = [
     brakes: 'Disco Dianteiro 180mm / Tambor Traseiro',
     tires: '300-10 Pneu Vácuo',
     chassis: 'Aço Carbono Compacto',
-    features: ['Amortecedor Hidráulico Dianteiro 27 Núcleos', 'Baú Traseiro Integrado na Cor da Moto', 'Rodagem Silenciosa', 'Cores Pastel Candy Style'],
+    features: ['Farol Circular LED Halo Vintage', 'Assento Anatômico em Couro Sintético', 'Painel Analógico-Digital Retrô', 'Rodagem Silenciosa'],
     wholesalePrice: 5200,
     retailPrice: 9300,
     profit: 4100,
     markupPct: 78.8,
     marginPct: 44.1,
-    description: 'Compacta, leve e graciosa. Motor de 1000W, velocidade limitada a 32 km/h, facilidade de pilotagem e baixo consumo energético.'
+    description: 'Compacta, leve e graciosa. Motor de 1000W, velocidade limitada a 32 km/h, assento anatômico acabamento caramelo, facilidade de pilotagem e baixo consumo energético.'
   },
   {
     id: 'z8-gs005',

@@ -206,18 +206,18 @@ const MODEL_COLORS = {
     { name: 'Preto Ônix', hex: '#0F172A', img: '/assets/models/z8_n95c_black.jpg' }
   ],
   'z8-n7': [
-    { name: 'Preto Metropolitano', hex: '#18181B', img: '/assets/models/z8_n7_studio.jpg' }
+    { name: 'Verde Esmeralda Standard', hex: '#059669', img: '/assets/models/z8_n7_studio.jpg' }
   ],
   'z8-q10': [
+    { name: 'Rosa Pastel Candy', hex: '#F472B6', img: '/assets/models/z8_q10_studio.jpg' },
     { name: 'Verde Madalena Retrô', hex: '#365314', img: '/assets/models/z8_q10_green.jpg' },
-    { name: 'Preto Vintage Ônix', hex: '#18181B', img: '/assets/models/z8_q10_black.jpg' },
-    { name: 'Amarelo Retrô', hex: '#EAB308', img: '/assets/models/z8_q10_studio.jpg' }
+    { name: 'Preto Vintage Ônix', hex: '#18181B', img: '/assets/models/z8_q10_black.jpg' }
   ],
   'z8-n710': [
-    { name: 'Verde Esmeralda Urban', hex: '#059669', img: '/assets/models/z8_n710_studio.jpg' }
+    { name: 'Branco Sport Urban', hex: '#F8FAFC', img: '/assets/models/z8_n710_studio.jpg' }
   ],
   'z8-q11': [
-    { name: 'Prata Compacto', hex: '#94A3B8', img: '/assets/models/z8_q11_studio.jpg' }
+    { name: 'Amarelo Retrô Vintage', hex: '#EAB308', img: '/assets/models/z8_q11_studio.jpg' }
   ],
   'z8-gs005': [
     { name: 'Preto Utilitário', hex: '#18181B', img: '/assets/models/z8_gs005_studio.jpg' }

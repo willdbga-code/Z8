@@ -1,0 +1,637 @@
+/**
+ * Z8 E-MOTION // CONCEITO B2B INTERACTIVE CONTROLLER
+ * Works alongside /assets/lando/lando-engine.js (Three.js WebGL + Rive + Lenis + GSAP)
+ */
+import { doc, setDoc } from 'firebase/firestore';
+import { initFirebase } from '../site-principal/services/firebase-service.js';
+
+const Z8_FLEET = [
+  {
+    id: 'z8-tank',
+    name: 'Z8 Tank High-Speed',
+    tag: '+39,1%',
+    wholesale: 9554,
+    retail: 13290,
+    profit: 3736,
+    power: '3000W High-Torque Brushless',
+    range: 'Até 110 km (72V Lítio)',
+    cnh: 'CNH A // Emplacável',
+    baseImg: '/assets/models/z8_tank_studio.jpg',
+    colors: [
+      { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank_amber.jpg' },
+      { name: 'Midnight Black', hex: '#181A1D', img: '/assets/models/z8_tank_black.jpg' },
+      { name: 'Titanium Matte', hex: '#7C8288', img: '/assets/models/z8_tank_titanium.jpg' }
+    ]
+  },
+  {
+    id: 'z8-n95c',
+    name: 'Z8 N95C Executive',
+    tag: '+38,9%',
+    wholesale: 6690,
+    retail: 9290,
+    profit: 2600,
+    power: '2000W Brushless FOC',
+    range: 'Até 90 km (72V)',
+    cnh: 'CONTRAN 996 // Urbano',
+    baseImg: '/assets/models/z8_n95c_studio.jpg',
+    colors: [
+      { name: 'Graphite Orange', hex: '#484C52', img: '/assets/models/z8_n95c_studio.jpg' },
+      { name: 'Obsidian Black', hex: '#141518', img: '/assets/models/z8_n95c_black.jpg' },
+      { name: 'Pearl White', hex: '#EAECEF', img: '/assets/models/z8_n95c_white.jpg' }
+    ]
+  },
+  {
+    id: 'z8-fx10',
+    name: 'Z8 FX-10 Sport',
+    tag: '+38,6%',
+    wholesale: 8650,
+    retail: 11990,
+    profit: 3340,
+    power: '2500W Sport Hub',
+    range: 'Até 100 km (72V)',
+    cnh: 'Autopropelido // Urbano',
+    baseImg: '/assets/models/z8_fx10_studio.jpg',
+    colors: [
+      { name: 'Cyber Silver', hex: '#8A929A', img: '/assets/models/z8_fx10_studio.jpg' },
+      { name: 'Stealth Black', hex: '#15171A', img: '/assets/models/z8_fx10_black.jpg' },
+      { name: 'Glacier White', hex: '#F0F2F5', img: '/assets/models/z8_fx10_white.jpg' }
+    ]
+  },
+  {
+    id: 'z8-harley',
+    name: 'Z8 Harley X21 Cruiser',
+    tag: '+37,5%',
+    wholesale: 8000,
+    retail: 11000,
+    profit: 3000,
+    power: '2000W Fat-Tire',
+    range: 'Até 85 km (60V/72V)',
+    cnh: 'Isento CNH // CONTRAN 996',
+    baseImg: '/assets/models/z8_harley_studio.jpg',
+    colors: [
+      { name: 'Crimson Red', hex: '#A6192E', img: '/assets/models/z8_harley_crimson.jpg' },
+      { name: 'Brushed Silver', hex: '#B4B9BE', img: '/assets/models/z8_harley_silver.jpg' }
+    ]
+  },
+  {
+    id: 'z8-u2',
+    name: 'Z8 U2 Delivery Cargo',
+    tag: '+39,2%',
+    wholesale: 7900,
+    retail: 11000,
+    profit: 3100,
+    power: '2500W Heavy Duty',
+    range: 'Até 115 km (Frota B2B)',
+    cnh: 'Frota Logística // B2B',
+    baseImg: '/assets/models/z8_u2_studio.jpg',
+    colors: [
+      { name: 'Cargo Black', hex: '#1A1C1E', img: '/assets/models/z8_u2_black.jpg' },
+      { name: 'Fleet White', hex: '#F3F5F7', img: '/assets/models/z8_u2_white.jpg' }
+    ]
+  },
+  {
+    id: 'z8-n710',
+    name: 'Z8 N710 Faria Lima',
+    tag: '+46,8%',
+    wholesale: 5450,
+    retail: 8000,
+    profit: 2550,
+    power: '1000W Smart CONTRAN',
+    range: 'Até 75 km (R$ 1,80/carga)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_n710_studio.jpg',
+    colors: [
+      { name: 'British Emerald', hex: '#1E4D3B', img: '/assets/models/z8_n710_green.jpg' },
+      { name: 'Piano Black', hex: '#141619', img: '/assets/models/z8_n710_black.jpg' },
+      { name: 'Pearl White', hex: '#F2F4F7', img: '/assets/models/z8_n710_white.jpg' }
+    ]
+  },
+  {
+    id: 'z8-q10',
+    name: 'Z8 Mini Q10 Retro',
+    tag: '+45,6%',
+    wholesale: 5150,
+    retail: 7500,
+    profit: 2350,
+    power: '1000W Euro Retro',
+    range: 'Até 70 km (R$ 1,80/carga)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_q10_studio.jpg',
+    colors: [
+      { name: 'Sage Mint', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
+      { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
+    ]
+  },
+  {
+    id: 'z8-q11',
+    name: 'Z8 Q11 Pastel Design',
+    tag: '+46,2%',
+    wholesale: 5200,
+    retail: 7600,
+    profit: 2400,
+    power: '1000W Boutique',
+    range: 'Até 70 km (R$ 1,80/carga)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_q11_studio.jpg',
+    colors: [{ name: 'Pastel Cream', hex: '#E5DEC9', img: '/assets/models/z8_q11_studio.jpg' }]
+  },
+  {
+    id: 'z8-diamond',
+    name: 'Z8 Diamond Luxury',
+    tag: '+44,0%',
+    wholesale: 5000,
+    retail: 7200,
+    profit: 2200,
+    power: '1000W LED Matrix',
+    range: 'Até 70 km (R$ 1,80/carga)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_diamond_studio.jpg',
+    colors: [{ name: 'Diamond Silver', hex: '#D0D5DD', img: '/assets/models/z8_diamond_studio.jpg' }]
+  },
+  {
+    id: 'z8-n7',
+    name: 'Z8 N7 Compact',
+    tag: '+45,8%',
+    wholesale: 4800,
+    retail: 7000,
+    profit: 2200,
+    power: '800W Compact Urban',
+    range: 'Até 65 km (R$ 1,50/carga)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_n7_studio.jpg',
+    colors: [{ name: 'Urban Grey', hex: '#667085', img: '/assets/models/z8_n7_studio.jpg' }]
+  },
+  {
+    id: 'z8-gs005',
+    name: 'Z8 GS-005 Entry',
+    tag: '+46,7%',
+    wholesale: 4500,
+    retail: 6600,
+    profit: 2100,
+    power: '800W Giro Rápido',
+    range: 'Até 60 km (R$ 1,50/carga)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_gs005_studio.jpg',
+    colors: [{ name: 'Matte Graphite', hex: '#344054', img: '/assets/models/z8_gs005_studio.jpg' }]
+  }
+];
+
+const fmtBRL = (val) =>
+  Number(val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+
+let currentLeadOrigin = 'Conceito Lando 1:1';
+
+// 1. Safety Fallback for Page Transition Overlay
+function initTransitionSafety() {
+  const unlockPage = () => {
+    const pageW = document.querySelector('.page-w');
+    if (pageW && pageW.getAttribute('data-start') === 'hidden') {
+      pageW.removeAttribute('data-start');
+      pageW.style.opacity = '1';
+      pageW.style.visibility = 'visible';
+    }
+    const transW = document.querySelector('.transition-w');
+    if (transW) {
+      transW.style.transition = 'opacity 0.55s ease';
+      transW.style.opacity = '0';
+      transW.style.pointerEvents = 'none';
+      setTimeout(() => {
+        transW.style.display = 'none';
+      }, 600);
+    }
+  };
+
+  const transBtn = document.querySelector('.transition-btn');
+  if (transBtn) {
+    transBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      unlockPage();
+    });
+  }
+
+  setTimeout(unlockPage, 2600);
+}
+
+// 2. Z8 Motorcycle Spec & Color Drawer
+window.openZ8ModelDrawer = function (modelId) {
+  const model = Z8_FLEET.find((m) => m.id === modelId) || Z8_FLEET[0];
+  const drawer = document.getElementById('z8-model-drawer');
+  const body = document.getElementById('z8-drawer-body');
+  if (!drawer || !body) return;
+
+  const firstImg = model.colors?.[0]?.img || model.baseImg;
+  const swatchesHtml = (model.colors || [])
+    .map(
+      (c, i) => `
+      <button type="button" class="z8-swatch-btn ${i === 0 ? 'is-active' : ''}" data-img="${c.img}">
+        <span class="swatch-dot" style="background:${c.hex}"></span>
+        <span>${c.name}</span>
+      </button>`
+    )
+    .join('');
+
+  body.innerHTML = `
+    <div class="z8-drawer-grid">
+      <div>
+        <div class="z8-drawer-img-wrap">
+          <img id="z8-drawer-main-img" src="${firstImg}" alt="${model.name}" />
+        </div>
+        <div class="z8-drawer-swatches">${swatchesHtml}</div>
+      </div>
+      <div>
+        <div class="z8-modal-badge">${model.cnh}</div>
+        <h2 class="z8-modal-title">${model.name}</h2>
+        <p class="z8-modal-subtitle">${model.power} — ${model.range}</p>
+        <div class="z8-drawer-kpis">
+          <div class="z8-drawer-kpi">
+            <span>CUSTO ATACADO B2B</span>
+            <strong>${fmtBRL(model.wholesale)}</strong>
+          </div>
+          <div class="z8-drawer-kpi">
+            <span>PREÇO VAREJO SUG.</span>
+            <strong>${fmtBRL(model.retail)}</strong>
+          </div>
+          <div class="z8-drawer-kpi is-lime">
+            <span>LUCRO LÍQUIDO / UN</span>
+            <strong>+${fmtBRL(model.profit)}</strong>
+          </div>
+          <div class="z8-drawer-kpi is-lime">
+            <span>MARKUP COMERCIAL</span>
+            <strong>${model.tag}</strong>
+          </div>
+        </div>
+        <button type="button" class="z8-drawer-cta" id="z8-drawer-reserve-btn">
+          SOLICITAR TABELA DESTE MODELO &amp; RESERVAR CIDADE ↱
+        </button>
+      </div>
+    </div>
+  `;
+
+  body.querySelectorAll('.z8-swatch-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      body.querySelectorAll('.z8-swatch-btn').forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      const mainImg = document.getElementById('z8-drawer-main-img');
+      if (mainImg && btn.dataset.img) mainImg.src = btn.dataset.img;
+    });
+  });
+
+  const reserveBtn = document.getElementById('z8-drawer-reserve-btn');
+  if (reserveBtn) {
+    reserveBtn.addEventListener('click', () => {
+      window.closeZ8ModelDrawer();
+      window.openLeadModal(`Drawer Modelo: ${model.name}`);
+    });
+  }
+
+  drawer.classList.add('is-open');
+  drawer.setAttribute('aria-hidden', 'false');
+};
+
+window.closeZ8ModelDrawer = function () {
+  const drawer = document.getElementById('z8-model-drawer');
+  if (drawer) {
+    drawer.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+  }
+};
+
+// 3. Interactive B2B DRE Profit Simulator
+function initB2BSimulator() {
+  const volInput = document.getElementById('z8-sim-volume');
+  const volLabel = document.getElementById('z8-sim-volume-val');
+  const modelSelect = document.getElementById('z8-sim-model');
+  const revEl = document.getElementById('z8-sim-revenue');
+  const workEl = document.getElementById('z8-sim-workshop');
+  const profEl = document.getElementById('z8-sim-profit');
+  const annEl = document.getElementById('z8-sim-annual');
+  const presetBtns = document.querySelectorAll('.z8-preset-btn');
+
+  if (!volInput || !modelSelect) return;
+
+  const updateDRE = () => {
+    const vol = parseInt(volInput.value, 10) || 15;
+    const opt = modelSelect.options[modelSelect.selectedIndex];
+    const unitProfit = parseInt(modelSelect.value, 10) || 2850;
+    const unitRetail = parseInt(opt?.dataset?.retail || '9600', 10);
+    const workshopNet = Math.round(3800 + vol * 175);
+    const grossRevenue = vol * unitRetail + workshopNet;
+    const monthlyProfit = vol * unitProfit + workshopNet;
+    const annualProfit = monthlyProfit * 12;
+
+    if (volLabel) volLabel.textContent = `${vol} MOTOS / MÊS`;
+    if (revEl) revEl.textContent = fmtBRL(grossRevenue);
+    if (workEl) workEl.textContent = `+${fmtBRL(workshopNet)}/mês`;
+    if (profEl) profEl.textContent = fmtBRL(monthlyProfit);
+    if (annEl) annEl.textContent = fmtBRL(annualProfit);
+
+    presetBtns.forEach((b) => {
+      b.classList.toggle('is-active', parseInt(b.dataset.vol, 10) === vol);
+    });
+  };
+
+  volInput.addEventListener('input', updateDRE);
+  modelSelect.addEventListener('change', updateDRE);
+  presetBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      volInput.value = btn.dataset.vol;
+      updateDRE();
+    });
+  });
+
+  updateDRE();
+}
+
+// 4. Territorial Exclusivity Radar (Até 50km)
+function initTerritoryRadar() {
+  const input = document.getElementById('z8-city-input');
+  const btn = document.getElementById('z8-city-btn');
+  const res = document.getElementById('z8-city-result');
+  if (!input || !btn || !res) return;
+
+  const occupiedBases = ['sao jose dos campos', 'pindamonhangaba', 'taubate', 'santana de parnaiba'];
+
+  const checkCity = () => {
+    const raw = input.value.trim();
+    if (!raw) {
+      input.focus();
+      return;
+    }
+    const norm = raw
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+    const isOccupied = occupiedBases.some((city) => norm.includes(city));
+    const leadCityInput = document.getElementById('lead-city');
+    if (leadCityInput) leadCityInput.value = raw;
+
+    if (isOccupied) {
+      res.innerHTML = `
+        <div class="z8-city-status-dot" style="background:#eab308;box-shadow:0 0 0 4px rgba(234,179,8,0.25)"></div>
+        <div class="z8-city-status-text">
+          <strong>UNIDADE ATIVA // CONSULTAR COTA REGIONAL EM ${raw.toUpperCase()}</strong>
+          <span>Já possuímos operação credenciada nesta microrregião. Solicite avaliação de segundo polígono ou cidade adjacente.</span>
+        </div>
+      `;
+    } else {
+      res.innerHTML = `
+        <div class="z8-city-status-dot" style="background:#16a34a;box-shadow:0 0 0 4px rgba(22,163,74,0.25)"></div>
+        <div class="z8-city-status-text">
+          <strong>DISPONÍVEL // RAIO DE ATÉ 50 KM LIVRE EM ${raw.toUpperCase()}</strong>
+          <span>Praça apta para bloqueio contratual imediato (Art. 784, III CPC). Clique abaixo para receber a COF e reservar.</span>
+        </div>
+      `;
+    }
+  };
+
+  btn.addEventListener('click', checkCity);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      checkCity();
+    }
+  });
+}
+
+// 5. Instagram Impact Lead Modal (#investor-lead-modal)
+window.openLeadModal = function (origin = 'Conceito Direct CTA') {
+  currentLeadOrigin = origin;
+  const modal = document.getElementById('investor-lead-modal');
+  if (!modal) return;
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
+  sessionStorage.setItem('z8_conceito_modal_shown', '1');
+};
+
+window.closeLeadModal = function () {
+  const modal = document.getElementById('investor-lead-modal');
+  if (!modal) return;
+  modal.classList.remove('is-open');
+  modal.setAttribute('aria-hidden', 'true');
+};
+
+function initLeadModal() {
+  const modal = document.getElementById('investor-lead-modal');
+  const drawer = document.getElementById('z8-model-drawer');
+  const form = document.getElementById('investor-lead-form');
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) window.closeLeadModal();
+    });
+  }
+  if (drawer) {
+    drawer.addEventListener('click', (e) => {
+      if (e.target === drawer) window.closeZ8ModelDrawer();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      window.closeLeadModal();
+      window.closeZ8ModelDrawer();
+    }
+  });
+
+  // Check URL params (?lead=1 or ?igm=1) or 18-second Instagram impact timer
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('lead') === '1' || params.get('igm') === '1') {
+    setTimeout(() => window.openLeadModal('Instagram Ad Deep-Link'), 1500);
+  } else if (!sessionStorage.getItem('z8_conceito_modal_shown')) {
+    setTimeout(() => {
+      const isDrawerOpen = drawer?.classList.contains('is-open');
+      if (!isDrawerOpen && !sessionStorage.getItem('z8_conceito_modal_shown')) {
+        window.openLeadModal('Instagram Impact Timer 18s');
+      }
+    }, 18000);
+  }
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('lead-submit-btn');
+      const name = document.getElementById('lead-name')?.value?.trim() || '';
+      const whatsapp = document.getElementById('lead-whatsapp')?.value?.trim() || '';
+      const city = document.getElementById('lead-city')?.value?.trim() || '';
+      const capital = document.getElementById('lead-capital')?.value || '';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SINCRONIZANDO DOSSIÊ COM A MATRIZ Z8...';
+      }
+
+      const payload = {
+        name,
+        whatsapp,
+        city,
+        capital,
+        source: `Conceito Lando 1:1 (${currentLeadOrigin})`,
+        createdAt: new Date().toISOString()
+      };
+
+      try {
+        const { db } = initFirebase();
+        if (db) {
+          const leadId = 'lead_conceito_' + Date.now();
+          await Promise.race([
+            setDoc(doc(db, 'leads', leadId), { id: leadId, ...payload }),
+            new Promise((r) => setTimeout(r, 2500))
+          ]);
+        }
+      } catch (_) {}
+
+      try {
+        fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => {});
+      } catch (_) {}
+
+      const msg = encodeURIComponent(
+        `Olá, Christian! Estive conhecendo a proposta da Z8 E-Motion através da página Conceito.\n\n` +
+          `*Nome:* ${name}\n` +
+          `*Cidade / Região de Interesse:* ${city}\n` +
+          `*Capital Previsto para Implantação:* ${capital}\n` +
+          `*WhatsApp de Contato:* ${whatsapp}\n\n` +
+          `Gostaria de receber o estudo de viabilidade territorial, a Circular de Oferta de Franquia (COF) e conversar sobre os planos para a minha comarca.`
+      );
+
+      window.closeLeadModal();
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'SOLICITAR ESTUDO DE VIABILIDADE TERRITORIAL ↱';
+      }
+      window.open(`https://wa.me/5512998008818?text=${msg}`, '_blank');
+    });
+  }
+}
+
+function initMarqueeSignatureScroll() {
+  const sigTarget = document.querySelector('.marquee-gl-rive-target');
+  if (!sigTarget) return;
+  const onScroll = () => {
+    const threshold = window.innerHeight * 0.42;
+    sigTarget.classList.toggle('is-sig-visible', window.scrollY > threshold);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+}
+
+/**
+ * Continuous Viewport & Scroll Physics Engine: 1.6x Motorcycle Dynamic Approach Animation
+ * Advances left & right motorcycles inward toward the text as the user scrolls down
+ */
+function initOtotBikesAnimation() {
+  const section = document.querySelector('.s.is-otot-home');
+  const leftWrap = document.querySelector('.otot-home-img-w.is-1');
+  const rightWrap = document.querySelector('.otot-home-img-w.is-2');
+
+  if (!section || !leftWrap || !rightWrap) return;
+
+  // Lock solid opacity and hardware-accelerated transforms
+  leftWrap.style.opacity = '1';
+  rightWrap.style.opacity = '1';
+  leftWrap.style.willChange = 'transform';
+  rightWrap.style.willChange = 'transform';
+
+  let isNear = true;
+  let lastLeftX = null;
+  let lastRightX = null;
+
+  const updateBikes = () => {
+    if (!isNear) return;
+    const rect = section.getBoundingClientRect();
+    const vh = window.innerHeight || 800;
+
+    // Start advancing when top of section enters 95% of viewport
+    const startY = vh * 0.95;
+    // Finish when bottom of section approaches top of viewport
+    const endY = -rect.height * 0.15;
+
+    const totalDistance = startY - endY;
+    const currentDistance = startY - rect.top;
+
+    // Clamp progress between 0 and 1
+    const p = Math.max(0, Math.min(1, currentDistance / totalDistance));
+
+    // Smooth quadratic ease-out deceleration: rapid dynamic entrance, smooth resting clamp
+    const ease = 1 - Math.pow(1 - p, 2.0);
+
+    const isMobile = window.innerWidth <= 768;
+    const isTablet = window.innerWidth <= 991;
+
+    // Calibrated travel distances:
+    // Advance dynamically from the outer flanks and rest cleanly before touching the copy
+    const startOffset = isMobile ? 26 : (isTablet ? 18 : 24);
+    const endOffset = isMobile ? 19 : (isTablet ? 9 : 14.5);
+
+    // Left bike: travels from -startOffset to -endOffset (framing ON SHOWROOM without touching text)
+    const leftX = (-startOffset + (-endOffset - (-startOffset)) * ease).toFixed(2);
+    // Right bike: travels from +startOffset to +endOffset (framing OFF OFICINA without touching text)
+    const rightX = (startOffset + (endOffset - startOffset) * ease).toFixed(2);
+
+    if (leftX !== lastLeftX || rightX !== lastRightX) {
+      lastLeftX = leftX;
+      lastRightX = rightX;
+      leftWrap.style.transform = `translate3d(${leftX}vw, 0px, 0px)`;
+      rightWrap.style.transform = `translate3d(${rightX}vw, 0px, 0px)`;
+    }
+  };
+
+  // Continuous frame loop when in view for guaranteed smooth 60fps/120fps motion
+  let rafId = null;
+  const tickLoop = () => {
+    updateBikes();
+    rafId = requestAnimationFrame(tickLoop);
+  };
+
+  // Optimize performance: only run the RAF loop when section is near the viewport
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isNear = entry.isIntersecting;
+          if (isNear) {
+            updateBikes();
+            if (!rafId) rafId = requestAnimationFrame(tickLoop);
+          } else if (rafId) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+        });
+      },
+      { rootMargin: '300px 0px 300px 0px' }
+    );
+    observer.observe(section);
+  } else {
+    rafId = requestAnimationFrame(tickLoop);
+  }
+
+  // Also hook into scroll, Lenis, and resize events
+  window.addEventListener('scroll', updateBikes, { passive: true });
+  window.addEventListener('resize', updateBikes, { passive: true });
+
+  const pollLenis = () => {
+    if (window.lenis && typeof window.lenis.on === 'function') {
+      window.lenis.on('scroll', updateBikes);
+    } else {
+      setTimeout(pollLenis, 150);
+    }
+  };
+  pollLenis();
+
+  // Initial render
+  updateBikes();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initTransitionSafety();
+  initMarqueeSignatureScroll();
+  initOtotBikesAnimation();
+  initB2BSimulator();
+  initTerritoryRadar();
+  initLeadModal();
+});
+

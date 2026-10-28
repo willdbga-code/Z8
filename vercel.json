@@ -56,6 +56,8 @@
     { "src": "/N95C/", "dest": "/n95c/index.html" },
     { "src": "/vendas", "dest": "/vendas/index.html" },
     { "src": "/vendas/", "dest": "/vendas/index.html" },
+    { "src": "/conceito", "dest": "/conceito/index.html" },
+    { "src": "/conceito/", "dest": "/conceito/index.html" },
     { "src": "/site-principal", "dest": "/site-principal/index.html" },
     { "src": "/site-principal/", "dest": "/site-principal/index.html" }
   ]

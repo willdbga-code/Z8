@@ -991,3 +991,267 @@
   8. **Validação**:
      - `npm run build` executado com 100% de sucesso.
 
+
+
+### 8.31 Fotografia Oficial da Oficina Homologada com Modelos Reais Z8 (Z8 Tank High-Speed + FX-10 Sport)
+
+- **Solicitação do Usuário**: "use motos que nós temos para gerar outra imagem como essa" (após envio de imagem da oficina técnica com moto de corrida genérica '01').
+- **Diretriz de Fidelidade da Marca**:
+  Substituir motos genéricas pela frota oficial e autêntica da montadora Z8 E-Motion.
+- **Modelos Integrados na Composição**:
+  1. **Elevador Principal (Trabalho Ativo)**: **Z8 Tank High-Speed** (DB018) na icônica pintura Desert Amber Gold & Satin Black, farol duplo circular de LED com DRLs em halo translúcido, chassi tubular scrambler exposto, pneus de uso misto/off-road (dual-sport knobby tires), bagageiro traseiro de aço e conjunto de bateria de lítio 72V central integrado.
+  2. **Elevador Secundário**: **Z8 FX-10 Sport** (DB043) em Cyber Silver com farol angular duplo afilado e visual esportivo urbano.
+- **Ambiente & Detalhes da Oficina**:
+  - Exatamente 2 elevadores pantográficos/hidráulicos lado a lado (Twin Bay) com faixas amarelas de sinalização de segurança.
+  - Piso autonivelante em resina epóxi cinza médio com acabamento espelhado de alta reflexão.
+  - Painel de ferramentas elétricas isoladas 1000V (cabos laranjas de segurança) e torquímetros digitais de precisão.
+  - Estação de diagnóstico articulada com monitor exibindo gráficos de telemetria de células BMS e tensão 72V.
+  - Letreiro arquitetônico de parede: "Z8 E-MOTION // OFICINA TÉCNICA HOMOLOGADA".
+  - Ausência total de pessoas/humanos (clean vehicle hero).
+- **Destino e Sincronização dos Arquivos**:
+  - Base: `public/assets/arquitetura/oficina_2_elevadores.jpg`
+  - Backup Cria: `public/assets/cria/posters/oficina_2_elevadores_z8.jpg`
+  - Sincronizado para `dist/assets/arquitetura/` via `npm run build`.
+
+
+### 8.32 Configuração Twin Z8 Tank High-Speed na Oficina Homologada (2 Elevadores)
+
+- **Solicitação do Usuário**: "gem coloque nessa imagem 2 tank da z8" (solicitando que ambos os elevadores pantográficos exibam o modelo Z8 Tank High-Speed).
+- **Execução Visual & Composição**:
+  1. **Elevador 1 (Esquerda)**: **Z8 Tank High-Speed** (DB018) na cor **Desert Amber Gold** & Satin Black com farol duplo circular de LED projetor com halos brancos DRL, chassi tubular scrambler exposto, pneus knobby mistos e rack traseiro.
+  2. **Elevador 2 (Direita)**: **Z8 Tank High-Speed** (DB018) na cor **Matte Midnight Black / Satin Titanium**, também equipado com a assinatura óptica frontal de faróis duplos circulares em LED com halos DRL, chassi scrambler tubular e pneus knobby.
+- **Ambiente Técnico**:
+  - Twin Bay perfeitamente alinhada com 2 elevadores pantográficos em laranja industrial e marcações de segurança no piso em amarelo/preto.
+  - Sinalização luminosa central: "Z8 E-MOTION // OFICINA TÉCNICA HOMOLOGADA".
+  - Monitor articulado de telemetria BMS, carregador de parede, estação de ferramentas 1000V.
+- **Destino e Sincronização dos Arquivos**:
+  - `public/assets/arquitetura/oficina_2_elevadores.jpg`
+  - `public/assets/cria/posters/oficina_2_elevadores_duas_z8_tank.jpg`
+  - Sincronizado para `dist/assets/arquitetura/` via `npm run build`.
+
+
+### 8.33 Integração do Interior do Showroom Flagship & Lounge VIP Oficial
+
+- **Solicitação do Usuário**: "gem subistitua por essa imagem" (upload de render fotográfico ultra-moderno do interior do Showroom / Lounge VIP Z8).
+- **Características da Imagem Integrada**:
+  - Painel de destaque lateral em madeira clara com nicho iluminado em halo Ciano Z8 e logotipo metálico 3D "Z8 E-motion".
+  - Piso e paredes com acabamento em microcimento cinza claro acetinado e painel ripado acústico cinza.
+  - Lounge de atendimento com poltronas executivas minimalistas em couro cinza claro.
+  - Palanque elevado central com iluminação perimétrica embutida destacando a scooter elétrica Z8 em pedestal de vidro/espelhado.
+  - Iluminação linear contínua em LED no teto de padrão arquitetônico internacional.
+- **Destino e Sincronização**:
+  - `public/assets/arquitetura/showroom_interior_flagship.jpg`
+  - `public/assets/arquitetura/interior_showroom_flagship.jpg`
+  - `public/assets/cria/posters/showroom_interior_lounge_z8.jpg`
+  - Sincronizado para `dist/assets/arquitetura/` via `npm run build`.
+
+
+### 8.34 Fotografia 100% Fiel do Modelo Z8 Tank High-Speed na Oficina Técnica Homologada
+
+- **Solicitação do Usuário**: "gem consulte os modelos de motos na pasta models, e refaça essa imagem com os elevadores com um modelo nosso sendo 100% fiel a ele".
+- **Auditoria dos Modelos Oficiais (`public/assets/models/`)**:
+  - Consulta realizada aos arquivos reais: `Originais/z8_tank_offroad.jpg`, `z8_tank_studio.jpg`, `z8_tank_black.jpg` e `cutouts/z8_tank_cutout.png`.
+  - **Identificação Crucial**: A Z8 Tank High-Speed (DB018) possui arquitetura de **Adventure Scooter Elétrica** (step-through com assoalho plano onde os pés apoiam, e NÃO uma moto convencional de tanque alto entre as pernas).
+  - **Elementos Oficiais 100% Fidelizados**:
+    1. **Frente Vertical Cônica**: Faróis duplos circulares projetores em LED com halo ring DRL branco aceso.
+    2. **Mini Bagageiro Frontal**: Grade tubular metálica preta posicionada diretamente acima do bloco óptico.
+    3. **Bico Adventure (Front Beak)**: Paralama elevado tipo motocross na cor Desert Amber Gold (elevador da esquerda) e Matte Black (elevador da direita).
+    4. **Cockpit**: Protetores de mão nos punhos com piscas integrados, mini para-brisa fumê de proteção e retrovisores circulares.
+    5. **Chassi & Assoalho**: Plataforma plana step-through com piso emborrachado texturizado.
+    6. **Assento & Traseira**: Assento duplo em dois níveis, bagageiro traseiro tubular reforçado, duplo amortecedor traseiro com molas aparentes e balança traseira carenada com motor de cubo de alto torque.
+    7. **Rodas**: Aros 12" pretos de liga leve calçados com pneus todo-terreno de cravos (knobby adventure tires).
+- **Ambiente Técnico**:
+  - 2 elevadores pantográficos individuais em baia dupla com piso epóxi espelhado e sinalização de segurança amarela.
+  - Painel de ferramentas elétricas isoladas 1000V (cabos laranjas), bancada modular preta e monitor de telemetria BMS.
+  - Letreiro oficial iluminado: "Z8 E-MOTION // OFICINA TÉCNICA HOMOLOGADA".
+  - Foco exclusivo nos produtos e infraestrutura (sem figuras humanas).
+- **Destino e Sincronização**:
+  - `public/assets/arquitetura/oficina_2_elevadores.jpg`
+  - `public/assets/cria/posters/oficina_2_elevadores_fiel_z8_tank.jpg`
+  - Sincronizado para `dist/assets/arquitetura/` via `npm run build`.
+
+### [2026-10-17 14:10] - Correção e Recorte Ultra-Fiel dos Cards Z8 (Diamond, N710 Urban e Harley X21)
+- **Diagnóstico de Falhas Anteriores**:
+  1. **Harley X21**: O arquivo anterior (`z8_harley_cutout.png`) havia tido o guidão alto, o farol redondo e os retrovisores totalmente decepados na altura da mesa da suspensão (y=254).
+  2. **N710 Urban**: O arquivo anterior (`z8_n710_cutout.png`) possuía um artefato de esfumaçamento branco/fumaça no topo do escudo, apagando os espelhos retrovisores e desfocando a traseira, além de deslocamento excessivo para a direita (cx=840).
+  3. **Diamond**: O guidão e painel estavam apagados e a cesta aramada dianteira sofria sangria e corte na borda esquerda do card.
+- **Engenharia de Correção Executada**:
+  - Remascamento completo via `rembg` em alta fidelidade a partir dos estúdios originais: `z8_diamond_studio.jpg`, `z8_n710_studio.jpg` e `z8_harley_crimson.jpg`.
+  - Recalibração de enquadramento e escala óptica (Lanczos):
+    * **Diamond**: Guidão alto, manetes, velocímetro, cesto aramado e farol recuperados; centralizado em `cx=688.5, cy=387.5` com margem de 47px da borda do card, eliminando corte de cesto.
+    * **N710 Urban**: Retrovisores aerodinâmicos e carenagem 100% nítidos; centralizado em `cx=687.5, cy=380.0`.
+    * **Harley X21**: Retrovisor alto chopper, guidão ape hanger, farol canhão e cavalete 100% íntegros; centralizado em `cx=687.0, cy=384.5` com respiro para chips superiores e entalhe inferior.
+  - Arquivos atualizados em `public/assets/models/cutouts/` e espelhados em `dist/assets/models/cutouts/`.
+
+### [2026-10-17 14:38] - Remoção do Card 'Lote 10 Motos' na Página Conceito
+- **Ação**: Removido o 12º item da grade (`z8-lote10` / "Lote 10 Motos + 2 Elevadores") em [conceito/index.html](file:///c:/Users/LENOVO/Desktop/Z8/conceito/index.html) e no array `z8CatalogModels` em [conceito/app.js](file:///c:/Users/LENOVO/Desktop/Z8/conceito/app.js).
+- **Consistência do Ecossistema**: O catálogo agora exibe exclusivamente os 11 modelos de veículos reais individuais da linha Z8 E-Motion. Build de produção validada com sucesso.
+
+### [2026-10-17 15:50] - Escala Monumental 1.6x, Z-Index Acima do Fundo e Efeito de Aproximação Contínua ao Rolar
+- **Solicitação do Usuário**: "coloque as motos no index acima do fundo, e crie um efeito delas se aproximando do texto de ambos os lados conforme eu deslizo pra baixo".
+- **Diagnóstico da Linha de Contorno Sobreposta**:
+  - As linhas topográficas WebGL do Three.js (`.gl-wrap`) estavam transpassando a carenagem e pneus das motos porque:
+    1. O contêiner `.otot-home-bg` possuía `z-index: 1`, enquanto o canvas `.gl-wrap.on-track` atuava em `z-index: 5`.
+    2. A interpolação de entrada utilizava `opacity: 0.15 → 1.0`, mantendo as motos translúcidas (50% transparentes) durante a rolagem e permitindo que as linhas de fundo vazassem pelo corpo do veículo.
+- **Engenharia de Stacking & Opacidade 100% Sólida**:
+  - `z-index: 8 !important` aplicado em `.s.is-otot-home`, `.otot-home-bg` e `.otot-home-img-w`.
+  - `z-index: 12 !important` aplicado em `.otot-home-inner` (colunas de texto e botões).
+  - Trava estrita de `opacity: 1 !important` em `.otot-home-img-w` e nos elementos de imagem `.z8-otot-left-bike` e `.z8-otot-right-bike`.
+  - Resultado: Motos 100% opacas, sólidas e nítidas, com as linhas de contorno do fundo passando exclusivamente por trás das motocicletas.
+- **Efeito de Aproximação Contínua Conforme Rolagem para Baixo**:
+  - **Diagnóstico da Falha com ScrollTrigger**: O carregamento assíncrono tardio do Rive e do Three.js em `lando-engine.js` acionava uma rotina de reset que desvinculava instâncias externas de `ScrollTrigger` registradas no `DOMContentLoaded`, deixando os elementos parados no valor estático inicial (`-22vw`).
+  - **Implementação do Motor Contínuo via RAF + Lenis ([conceito/app.js](file:///c:/Users/LENOVO/Desktop/Z8/conceito/app.js))**:
+    * Substituído o gatilho estático por um **loop contínuo `requestAnimationFrame`** ativado por `IntersectionObserver` sempre que a seção estiver a menos de 300px da tela (consumo zero de CPU nas outras seções).
+    * Cálculo direto da distância em pixels reais: `rect = section.getBoundingClientRect()`.
+    * **Moto da Esquerda (Z8 Tank Verde Esmeralda)**: Desliza fluidamente de `-24vw` (margem externa) até `+9vw` (ao lado de "ON SHOWROOM").
+    * **Moto da Direita (Z8 Tank Amber Gold)**: Desliza fluidamente de `+24vw` (margem externa) até `-9vw` (ao lado de "OFF OFICINA").
+    * Desaceleração suave por curva quadrática inversa: `ease = 1 - Math.pow(1 - p, 2.0)`.
+    * Vinculação a eventos nativos de `scroll`, `resize` e gancho direto no `lenis.on('scroll')`.
+- **Validação com Dados em Tempo Real**: Teste de rolagem automatizado confirmou a progressão dinâmica milímetro a milímetro (`offset 0px`: `-24vw` / `offset 200px`: `-14.53vw` / `offset 400px`: `-4.69vw` / `offset 600px`: `+2.51vw`). Build de produção Vite concluída em 5.66s.
+
+### [2026-10-17 18:45] - Recalibração do Ponto de Parada da Aproximação das Motos (Zero Invasão de Texto)
+- **Solicitação do Usuário**: "maravilha, mas elas estão avançando pra dentro do texto, faça parar antes" (com screenshot comprovando guidão e pneus invadindo os títulos e parágrafos de SHOWROOM e OFICINA).
+- **Diagnóstico Geométrico**:
+  - No viewport desktop (1440px), o bloco central de texto (`.otot-home-inner` / `.otot-home-layout`) ocupa de `X = 362px` a `X = 1078px` ($25,14\text{vw}$ a $74,86\text{vw}$).
+  - Com a escala 1.6x (`width: calc(var(--vh, 1vh) * 62)` ~ 558px), quando o endpoint da animação estava em `+9vw` (esquerda) e `-9vw` (direita), os veículos transpassavam $~120\text{px}$ para dentro das colunas de texto.
+- **Recalibração Matemática das Trajetórias ([conceito/app.js](file:///c:/Users/LENOVO/Desktop/Z8/conceito/app.js))**:
+  - **Desktop (> 991px)**:
+    * Ponto inicial (ao entrar na viewport): `leftX = -24vw`, `rightX = +24vw` (flancos externos).
+    * Ponto de repouso / parada final: `leftX = -14.5vw`, `rightX = +14.5vw`.
+    * Distância percorrida: $9.5\text{vw}$ de avanço cinemático contínuo.
+    * Respiro obtido: Margem de respiro limpa de mais de 40px entre os manetes/espelhos e as letras "S" de "SHOWROOM" e "A" de "OFICINA", bem como folga total dos parágrafos explicativos.
+  - **Tablet (769px a 991px)**:
+    * Trajetória: `-18vw → -9vw` (esquerda) e `+18vw → +9vw` (direita).
+  - **Mobile (≤ 768px)**:
+    * Trajetória: `-14vw → -5vw` (esquerda) e `+14vw → +5vw` (direita), garantindo enquadramento inferior harmonioso e sem colisão com o texto empilhado.
+- **Validação Visual Multidispositivo**:
+  - Testes com renderização real via Puppeteer (`fine_tuned_mid.png`, `fine_tuned_max.png`, `fine_tuned_tablet.png`, `fine_tuned_mobile.png`):
+    * Verificado clearance de 100% sobre todos os caracteres dos títulos "ON SHOWROOM" e "OFF OFICINA".
+    * Preservação da presença imponente das duas motos em escala 1.6x com faróis duplos acesos e textura metálica.
+    * Build de produção Vite (`npm run build`) compilada e validada sem erros.
+
+### [2026-10-19 02:05] - Responsividade Mobile Pura Baseada em REA (Lando Norris) com Blindagem 100% Intocada do Desktop
+- **Solicitação do Usuário**: "gem, Sem mudar nada o design da versão Desktop, Utilize novamente o REA no https://landonorris.com/ e entenda como foi feito a responsividade na versão celular, e aplique no nosso site, de forma descriminada, entre versão desktop ( que esta proibida a modificação do design) e versão celular".
+- **Reverse Engineering Analysis (REA) em Modo Mobile (390 × 844)**:
+  - Puppeteer deep inspection de `https://landonorris.com/` em modo mobile (`scripts/rea_landonorris_deep_mobile.js` e `scripts/lando_mobile_deep_audit.json`).
+  - **Descobertas Chave da Arquitetura do Lando**:
+    1. **Notched Footer Re-architecture**: No desktop, `.footer-statement-w` flutua de modo absoluto no centro do card (`inset: 12rem 0 auto;`), enquanto `.footer-links-w` ocupa as bordas inferiores. No mobile (390px), como não há espaço horizontal para 3 blocos paralelos, o Lando Norris quebra o card em **fluxo flexível vertical** com `order` CSS:
+       * `order: 1`: `.footer-statement-w` (Emblema no arco + Headline).
+       * `order: 2`: `.footer-bg-helmet-w` (Veículo Hero + Botão CTA de conversão).
+       * `order: 3`: `.footer-links-w` (Colunas de Navegação e Dossiê Jurídico).
+       * `order: 4`: `.footer-marquee` (Ticker rodando na base do card).
+    2. **Eliminação da Trava de Proporção (Aspect Ratio)**: A regra original `.footer-layout-clip { aspect-ratio: 381.94 / 627.49; }` aprisionava o card em ~627px de altura, provocando sobreposição de textos. A remoção para `aspect-ratio: auto !important; height: auto !important; min-height: 640px !important;` permitiu respiração vertical fluida.
+    3. **OTOT Section (Showroom vs Oficina)**: Grid compacta de 2 colunas (`1fr 1fr`), com textos de título em `clamp(1.6rem, 5.8vw, 2.2rem)` para acomodar palavras longas ("SHOWROOM" de 8 letras) e motos ancoradas nas laterais inferiores (`left: -9.5rem` / `right: -9.5rem`).
+- **Implementações Isoladas em [conceito/style.css](file:///c:/Users/LENOVO/Desktop/Z8/conceito/style.css) (Linhas 12624–13000+)**:
+  - **Blindagem Estrita do Desktop**: Zero alterações acima de 991px (`> 991px`), mantendo o design desktop 100% idêntico, congelado e intocado. O logo `.footer-rive-w` no desktop foi ajustado pontualmente para `top: -9.6rem` descolando do "O FUTURO".
+  - **Protocolo Bauhaus Permanente de Geometria de Botões**: Todos os botões receberam cantos sutilmente retangulares (`border-radius: 4px !important`), proibindo formatos pílula/cápsula.
+  - **Barra de Navegação Topo (Mobile)**: Altura de 68px, botão FRANQUIA compacto e botão de hambúrguer estilizado com borda ciano Z8 e fundo blur escuro.
+  - **Menu Gaveta (Drawer Hamburger)**: Visual centralizado com tipografia monumental, links de alta conversão e atalhos diretos para os PDFs jurídicos.
+  - **Hero Section Mobile**: Título `"Z8 E-MOTION"` com `white-space: nowrap !important; font-size: clamp(2rem, 8.5vw, 2.75rem);`, eliminando quebra de linha inadequada. Card flutuante de KPI ajustado para `max-width: 360px` com cantos Bauhaus de 6px.
+  - **OTOT Mobile**: Desativado o canvas Rive superdimensionado (`.otot-home-text-rive { display: none !important; }`) que sobrepunha os parágrafos, resultando em tipografia 100% nítida e legível.
+  - **Card Notched do Rodapé (Mobile)**: Layout reestruturado em coluna vertical limpa: Emblema Z8 centralizado no arco -> Frase de impacto -> Z8 Tank -> Botão CTA centralizado -> Links de Navegação e Dossiê Jurídico -> Marquee ticker.
+- **Validação Fotográfica & Build de Produção**:
+  - Capturadas e validadas screenshots reais em 390x844 via Puppeteer: `conceito_mobile_hero.png`, `conceito_mobile_otot.png`, `conceito_mobile_models.png`, `conceito_mobile_architecture.png`, `conceito_mobile_footer.png` e `conceito_mobile_menu_open.png`.
+  - Capturada screenshot desktop `conceito_desktop_footer.png` confirmando zero alterações indesejadas no desktop.
+  - Compilação de produção Vite (`npm run build`) concluída com sucesso em 4.88s.
+
+### [2026-10-19 02:55] - Encaixe e Calibração Geométrica do Botão Hamburger no Navbar Mobile
+- **Solicitação do Usuário**: "encaixe no local correto o botão para o nav bar de hamburger," acompanhado de captura de tela evidenciando o ícone do canvas Rive deslocado para cima e vazando da borda superior do botão, com caixa dupla.
+- **Diagnóstico da Causa Raiz**:
+  - O canvas do Rive (`data-rive-nav-hamburger`) desenha nativamente todo o contorno vetorial do botão (retângulo arredondado com as duas barras horizontais animadas).
+  - A estilização anterior atribuía uma caixa CSS artificial (`background: rgba(17, 17, 18, 0.85); border: 1px solid rgba(0, 240, 255, 0.35); width: 44px; height: 44px;`) e reduzia o canvas para `24x24px`. Como o container intermediário `.nav-rive-w` mantinha `50.9px`, o canvas ficava no topo superior esquerdo, transpassando a borda superior do botão e criando um efeito indesejado de "caixa dentro de caixa desalinhada".
+- **Resolução & Calibração de Precisão**:
+  - Removidos o fundo e borda artificiais de `.nav-ham`: `background: transparent !important; border: none !important; backdrop-filter: none !important;`.
+  - Dimensões perfeitamente sincronizadas em 48px:
+    * `.btn-w.is-nav` (FRANQUIA à esquerda): `height: 48px !important; display: flex; align-items: center; justify-content: center;`.
+    * `.nav-ham` (à direita): `width: 48px !important; height: 48px !important; padding: 0 !important; margin: 0 !important;`.
+    * `.nav-ham .nav-rive-w`: `width: 48px !important; height: 48px !important; flex: none !important;`.
+    * `.nav-ham canvas`: `width: 48px !important; height: 48px !important; display: block !important;`.
+- **Validação com Captura Real no Viewport Mobile (390×844)**:
+  - `ham_close_live.png`: Botão único, nítido, perfeitamente centrado e sem sobreposição ou vazamento.
+  - `btn_layout_live.png`: Alinhamento axial impecável na linha central do navbar entre o botão de Franquia e o Hamburger.
+  - `conceito_mobile_menu_open_fixed.png`: Transição dinâmica para o botão de fechar (`✕`) em ciano Z8 preservada com 100% de responsividade.
+  - Build Vite de produção (`npm run build`) concluída em 5.46s.
+
+
+### [2026-10-26 19:30] - Destroca e Correção Definitiva dos Modelos N7/N710 e Q10/Q11 nos Catálogos e PDFs Oficiais 2026
+- **Solicitação do Usuário**: "gem eu preciso de uma alteração nos pdfs que feram criados, os modelos n710 Urban plus e N7 standart estão invertidos, vc consegue destrocar? e tambem acontece o mesmo com os modelos Q10 e Q11 por favor faça a modificação e crie outro pdf"
+- **Alinhamento e Diagnóstico Visual**:
+  1. **N7 Standard vs N710 Urban Plus**:
+     - `z8-n7` (Z8 N7 Standard): Scooter na cor Verde Esmeralda com grafismo frontal "STD" e "S" lateral, farol DRL quadrangular.
+     - `z8-n710` (Z8 N710 Urban Plus): Scooter esportiva branca com grafismos mecha amarelos/pretos, farol circular no escudo frontal e duplo freio a disco.
+  2. **Q10 Vintage vs Q11 Compact**:
+     - `z8-q10` (Z8 Q10 Vintage): Scooter retrô na cor Rosa Pastel com decalque "Love" e baú traseiro integrado na cor da moto.
+     - `z8-q11` (Z8 Q11 Compact): Scooter compacta na cor Amarelo Retrô com inscrição "XIAO Q", banco em couro sintético caramelo e farol circular halo LED no guidão.
+- **Ações Executadas**:
+  1. **Inversão dos Ativos Físicos (`public/assets/models/` e cutouts)**:
+     - `z8_n7_studio.jpg` <-> `z8_n710_studio.jpg` e respectivos cutouts transparentes.
+     - `z8_q10_studio.jpg` <-> `z8_q11_studio.jpg` e respectivos cutouts transparentes.
+     - Espelhados para `dist/assets/models/` e `dist/assets/models/cutouts/`.
+  2. **Calibração Semântica e Técnica em [site-principal/data/models.js](file:///c:/Users/LENOVO/Desktop/Z8/site-principal/data/models.js)**:
+     - `z8-n7`: Features e descrição ajustadas para destacar o Farol LED DRL Quadrangular e Maior Giro Comercial.
+     - `z8-n710`: Features e descrição ajustadas para destacar Faróis LED Mecha Automáticos, Duplo Disco e Chassi Reforçado.
+     - `z8-q10`: Features ajustadas com Baú Traseiro Integrado na Cor da Moto, Amortecedor 27 Núcleos e Cores Pastel Candy Style.
+     - `z8-q11`: Features ajustadas com Farol Circular LED Halo Vintage, Assento Anatômico em Couro Sintético e Rodagem Silenciosa.
+  3. **Calibração das Amostras de Cor em [site-principal/main.js](file:///c:/Users/LENOVO/Desktop/Z8/site-principal/main.js)**:
+     - `z8-n7`: Verde Esmeralda Standard (`#059669`).
+     - `z8-n710`: Branco Sport Urban (`#F8FAFC`).
+     - `z8-q10`: Rosa Pastel Candy (`#F472B6`).
+     - `z8-q11`: Amarelo Retrô Vintage (`#EAB308`).
+  4. **Scripts de Automação de Renderização e Unificação de PDF**:
+     - Atualizados `scripts/build_wholesale_catalog.js` e `scripts/build_full_catalog.js` com localizador dinâmico de navegadores (`getBrowserPath()`) compatível com Edge e Chrome no Windows.
+     - `scripts/build_wholesale_catalog.js` gerou as 13 páginas PNG em `public/assets/catalogo_atacado/` e unificou o PDF de Atacado (`TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf`, 12.20 MB) sincronizado em `docs/`, `public/docs/`, `dist/docs/` e `catalogo_atacado_pdf/`.
+     - `scripts/build_full_catalog.js` gerou as 13 páginas PNG em `public/assets/catalogo/` e unificou o Catálogo Oficial (`CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf`, 12.39 MB) sincronizado em `docs/`, `public/docs/`, `dist/docs/` e `catalogo_pdf/`.
+  5. **Auditoria Visual & Verificação das Páginas**:
+     - Inspecionadas as páginas 07 (N7 Standard Verde), 08 (Q10 Vintage Rosa c/ baú), 09 (N710 Urban Plus Branca Sport) e 10 (Q11 Compact Amarela Xiao Q), confirmando correspondência foto/especificação/preço de 100%.
+  6. **Build de Produção**:
+     - `npm run build` executado com êxito em 6.39s.
+
+
+### [2026-10-27 21:18] - Auditoria e Recalibração 100% Precisa dos PDFs do Catálogo Oficial e Tabela de Atacado 2026
+- **Contexto & Diagnóstico Fino**:
+  Identificou-se que na tentativa anterior de destroca, a inversão dos arquivos físicos no disco (`z8_n7_studio.jpg` <-> `z8_n710_studio.jpg` e `z8_q10_studio.jpg` <-> `z8_q11_studio.jpg`) ocorreu simultaneamente com a troca das propriedades `image:` e da ordem em `site-principal/data/models.js` e amostras de cores em `site-principal/main.js`, causando um cancelamento mútuo (espelhamento cruzado). Além disso, os arquivos PNG antigos renomeados ainda residiam nas pastas, gerando 17 páginas indevidas.
+- **Ações Corretivas Executadas**:
+  1. **Vinculação Canônica Estrita em [site-principal/data/models.js](file:///c:/Users/LENOVO/Desktop/Z8/site-principal/data/models.js)**:
+     - `z8-n7` (Z8 N7 Standard, DB001): Apontamento direto para `/assets/models/z8_n7_studio.jpg` (Scooter Verde Esmeralda, farol DRL quadrangular, R$ 5.500 / R$ 9.500).
+     - `z8-q10` (Z8 Q10 Vintage, DB038): Apontamento direto para `/assets/models/z8_q10_studio.jpg` (Scooter Rosa Pastel com baú integrado na cor da moto, R$ 5.800 / R$ 9.800).
+     - `z8-n710` (Z8 N710 Urban Plus, DB045-N710): Apontamento direto para `/assets/models/z8_n710_studio.jpg` (Scooter Branca Sport Mecha com duplo disco, R$ 5.300 / R$ 9.500).
+     - `z8-q11` (Z8 Q11 Compact, DB043-Q11): Apontamento direto para `/assets/models/z8_q11_studio.jpg` (Scooter Amarela retrô "Xiao Q" com assento em couro caramelo, R$ 5.200 / R$ 9.300).
+  2. **Harmonização do Seletor de Cores em [site-principal/main.js](file:///c:/Users/LENOVO/Desktop/Z8/site-principal/main.js)**:
+     - `z8-n7`: Verde Esmeralda Standard (`#059669`).
+     - `z8-q10`: Rosa Pastel Candy (`#F472B6`).
+     - `z8-n710`: Branco Sport Urban (`#F8FAFC`).
+     - `z8-q11`: Amarelo Retrô Vintage (`#EAB308`).
+  3. **Limpeza de Artefatos Obsoletos & Re-renderização Completa**:
+     - Excluídos arquivos legados e reorganizadas as 13 páginas exatas em `public/assets/catalogo/` e `public/assets/catalogo_atacado/`.
+     - Regenerados com Microsoft Edge Headless (1754x1240) e unificados via PyMuPDF:
+       * [docs/CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf](file:///c:/Users/LENOVO/Desktop/Z8/docs/CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf) (12.37 MB, 13 páginas)
+       * [docs/TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf](file:///c:/Users/LENOVO/Desktop/Z8/docs/TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf) (12.27 MB, 13 páginas)
+     - Espelhamento automático para `public/docs/`, `dist/docs/` e pastas raiz de distribuição.
+  4. **Build de Produção**:
+     - `npm run build` executado e validado em 6.57s com 100% de sucesso.
+
+
+### [2026-10-27 21:30] - Remoção do Aviso de Promoção da Capa dos Catálogos Oficiais
+- **Solicitação do Usuário**: "remova o aviso de promoção"
+- **Ações Executadas**:
+  1. Identificado e removido o bloco de aviso promocional (`⚠️ PROMOÇÃO VÁLIDA SOMENTE NESSE MÊS DE OUTUBRO ⚠️`) em [scripts/build_full_catalog.js](file:///c:/Users/LENOVO/Desktop/Z8/scripts/build_full_catalog.js) e [scripts/build_wholesale_catalog.js](file:///c:/Users/LENOVO/Desktop/Z8/scripts/build_wholesale_catalog.js).
+  2. Re-renderizada a capa limpa (`pagina_01_capa.png` e `pagina_01_capa_atacado.png`) via Edge Headless, sem o box de promoção.
+  3. Recompilado o [docs/CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf](file:///c:/Users/LENOVO/Desktop/Z8/docs/CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf) (12.31 MB, 13 páginas) e atualizadas as cópias em `public/docs/`, `dist/docs/` e `catalogo_atacado_pdf/`.
+  4. Build Vite de produção executado em 3.92s com sucesso.
+
+
+### [2026-10-27 21:45] - Auditoria e Harmonização dos Modelos no Ecossistema Web (/site-principal/ e /vendas/)
+- **Solicitação do Usuário**: "verifique esses modelos no site tambem"
+- **Auditoria Realizada**:
+  1. **Landing Page Exclusiva B2B (`/vendas/index.html`)**:
+     - **Z8 N710 Urban Plus** (Card 4): Calibrado seletor e etiqueta de cor para `Branco Sport Urban` (`#F8FAFC`, borda cinza sutil) associado à imagem real `/assets/models/z8_n710_studio.jpg`.
+     - **Z8 Q10 Vintage** (Card 5): Imagem principal definida como `/assets/models/z8_q10_studio.jpg` (Rosa Pastel Candy com baú integrado), com amostras ativas: Rosa Pastel Candy (`#F472B6`), Verde Madalena Retrô (`#365314`) e Preto Vintage (`#18181B`).
+     - **Z8 N7 Standard** (Card 7): Calibrado seletor e etiqueta de cor para `Verde Esmeralda Standard` (`#059669`) associado à imagem `/assets/models/z8_n7_studio.jpg`.
+     - **Z8 Q11 Compact** (Card 8): Calibrado seletor e etiqueta de cor para `Amarelo Retrô Vintage` (`#EAB308`) associado à imagem `/assets/models/z8_q11_studio.jpg`.
+  2. **Portal Concessionário / Site Principal (`/site-principal/`)**:
+     - `site-principal/data/models.js`: 100% canônico e sincronizado com os 11 modelos, preços de atacado/varejo, margens e especificações técnicas.
+     - `site-principal/main.js`: `MODEL_COLORS` verificado com 23 amostras de cores ativas e fotos existentes no diretório público.
+     - `site-principal/index.html`: Harmonizado o menu seletor de mix de investimento com a ordenação oficial e faixas de preços homologadas (1º Tank até 11º Diamond Luxe).
+  3. **Validação de Compilação**:
+     - `npm run build` executado com êxito em 4.07s (50 módulos transformados, `dist/` sincronizado).
