@@ -12,11 +12,11 @@
 | # | Modelo | Código | Categoria | Preço Atacado | Preço Varejo | Lucro Bruto | Markup | Margem |
 |---|---|---|---|---|---|---|---|---|
 | 1 | **Z8 Tank High-Speed** | `DB018` | alta-velocidade | **R$ 7.500,00** | R$ 9.500,00 | + R$ .000,00 | 26.7% | 21.1%% |
-| 2 | **Z8 FX-10 Sport** | `DB043` | alta-velocidade | **R$ 7.000,00** | R$ 9.000,00 | + R$ .000,00 | 28.6% | 22.2%% |
-| 3 | **Z8 Harley X21 Custom** | `XB-024` | custom | **R$ 6.500,00** | R$ 8.000,00 | + R$ .500,00 | 23.1% | 18.8%% |
+| 2 | **Z8 FX-10 Sport** | `DB043` | alta-velocidade | **R$ 6.200,00** | R$ 9.000,00 | + R$ 2.800,00 | 45.2% | 31.1% |
+| 3 | **Z8 Harley X12 Custom** | `XB-024` | custom | **R$ 6.500,00** | R$ 8.000,00 | + R$ .500,00 | 23.1% | 18.8%% |
 | 4 | **Z8 U2 Delivery Cargo** | `XB-026` | utilitaria | **R$ 6.000,00** | R$ 7.500,00 | + R$ .500,00 | 25.0% | 20.0%% |
 | 5 | **Z8 N95C Max Comfort** | `DB039` | urbana | **R$ 6.500,00** | R$ 8.000,00 | + R$ .500,00 | 23.1% | 18.8%% |
-| 6 | **Z8 N7 Standard** | `DB001` | urbana | **R$ 5.500,00** | R$ 7.500,00 | + R$ .000,00 | 36.4% | 26.7%% |
+| 6 | **Z8 H26 Standard** | `DB001` | urbana | **R$ 5.500,00** | R$ 7.500,00 | + R$ .000,00 | 36.4% | 26.7%% |
 | 7 | **Z8 Q10 Vintage** | `DB038` | vintage | **R$ 5.800,00** | R$ 7.800,00 | + R$ .000,00 | 34.5% | 25.6%% |
 | 8 | **Z8 N710 Urban Plus** | `DB045-N710` | urbana | **R$ 5.300,00** | R$ 9.500,00 | + R$ 4.200,00 | 79.2% | 44.2% |
 | 9 | **Z8 Q11 Compact** | `DB043-Q11` | urbana | **R$ 5.200,00** | R$ 9.300,00 | + R$ 4.100,00 | 78.8% | 44.1% |
@@ -43,8 +43,8 @@
 
 ### Modelo 02: Z8 FX-10 Sport (DB043)
 - **Categoria:** ALTA-VELOCIDADE • **Tag:** Linha Exclusiva Franquia
-- **Preço de Atacado:** **R$ 7.000,00**
-- **Preço Sugerido Varejo:** **R$ 11.000,00** (Lucro por unidade: + R$ 4.000,00 • Markup: 57.1%)
+- **Preço de Atacado:** **R$ 6.200,00**
+- **Preço Sugerido Varejo:** **R$ 9.000,00** (Lucro por unidade: + R$ 2.800,00 • Markup: 45.2%)
 - **Motorização:** 1000W High Performance
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)

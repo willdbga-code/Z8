@@ -797,7 +797,7 @@ function buildCoverHtml() {
           <img src="${heroFx10}" alt="Z8 FX-10">
           <div class="cover-card-label">
             <span>Z8 FX-10 SPORT</span>
-            <span class="profit">+ R$ 4.000 LUCRO</span>
+            <span class="profit">+ R$ 2.800 LUCRO</span>
           </div>
         </div>
         <div class="cover-card">

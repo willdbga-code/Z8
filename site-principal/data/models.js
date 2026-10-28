@@ -38,11 +38,11 @@ export const z8Models = [
     tires: '130/60/10 Pneu de Vácuo',
     chassis: 'Quadro Aço Carbono Esportivo',
     features: ['Carenagem Aerodinâmica', 'Suspensão Amortecedora Hidráulica', 'Painel Digital Futurista', 'Entrada USB Fast Charge'],
-    wholesalePrice: 7000,
+    wholesalePrice: 6200,
     retailPrice: 9000,
-    profit: 2000,
-    markupPct: 28.6,
-    marginPct: 22.2,
+    profit: 2800,
+    markupPct: 45.2,
+    marginPct: 31.1,
     description: 'Scooter esportiva com motor de 1000W, velocidade limitada a 32 km/h e visual agressivo. Modelo de alto apelo comercial para o público jovem e urbano.'
   },
   {
