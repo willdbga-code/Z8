@@ -803,7 +803,7 @@ function buildCoverHtml() {
         <div class="cover-card">
           <img src="${heroHarley}" alt="Z8 Harley">
           <div class="cover-card-label">
-            <span>Z8 HARLEY X21</span>
+            <span>Z8 HARLEY X12</span>
             <span class="profit">+ R$ 3.500 LUCRO</span>
           </div>
         </div>

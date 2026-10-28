@@ -79,8 +79,8 @@ Vagas limitadas para novas concessões no estado.
     region: 'Sul',
     regionCode: 'SUL',
     cityState: 'Curitiba - PR',
-    modelId: 'z8-n7',
-    modelName: 'Z8 N7 Standard',
+    modelId: 'z8-h26',
+    modelName: 'Z8 H26 Standard',
     modelCategory: 'Campeão de Vendas',
     image: '/assets/stories_franquias/story_sul_01_curitiba_fx10.jpg',
     franchiseHeadline: 'ABRA SUA CONCESSIONÁRIA Z8 NO PARANÁ: ALTO GIRO COMERCIAL',
@@ -248,7 +248,7 @@ Decida antes que o mercado decida por você.
     regionCode: 'CO',
     cityState: 'Brasília - DF',
     modelId: 'z8-harley',
-    modelName: 'Z8 Harley X21 Custom',
+    modelName: 'Z8 Harley X12 Custom',
     modelCategory: 'Linha Chopper Custom',
     image: '/assets/stories_franquias/story_centroeste_01_brasilia_harley.jpg',
     franchiseHeadline: 'FRANQUIA MASTER BRASÍLIA: EXCLUSIVIDADE TERRITORIAL NO DF',
@@ -264,7 +264,7 @@ Decida antes que o mercado decida por você.
 
 O Distrito Federal possui a maior renda per capita do Brasil e busca veículos elétricos potentes, imponentes e exclusivos:
 
-✅ Modelo Z8 Harley X21 com pneu largo chopper, som Bluetooth nativo e NFC
+✅ Modelo Z8 Harley X12 com pneu largo chopper, som Bluetooth nativo e NFC
 ✅ Margens brutas de até 65% no formato Concessionária Master Flagship
 ✅ Fachada monumental homologada de 10m a 15m em ACM Aço Escovado e Platina #284
 ✅ 2 Elevadores técnicos Master e bancada de diagnóstico de baterias
@@ -311,8 +311,8 @@ Goiânia e cidades polo de Goiás vivem um boom de logística urbana e delivery.
     region: 'Centro-Oeste',
     regionCode: 'CO',
     cityState: 'Mato Grosso - MT',
-    modelId: 'z8-n7',
-    modelName: 'Z8 N7 Standard',
+    modelId: 'z8-h26',
+    modelName: 'Z8 H26 Standard',
     modelCategory: 'Eficiência Solar',
     image: '/assets/stories_franquias/story_centroeste_03_agro_tank.jpg',
     franchiseHeadline: 'FRANQUIA Z8 MATO GROSSO: A FORÇA DA ENERGIA LIMPA',
@@ -328,7 +328,7 @@ Goiânia e cidades polo de Goiás vivem um boom de logística urbana e delivery.
 
 O interior de Mato Grosso e Mato Grosso do Sul lidera a geração de energia fotovoltaica própria. O custo para rodar com uma moto Z8 é praticamente zero:
 
-✅ Modelo Z8 N7 com duplo freio a disco hidráulico e estrutura resistente
+✅ Modelo Z8 H26 com duplo freio a disco hidráulico e estrutura resistente
 ✅ Margem de R$ 4.000 por unidade no varejo (72,7% markup)
 ✅ Demanda em alta em condomínios rurais, fazendas tecnológicas e centros urbanos
 ✅ 2 Elevadores de oficina inclusos no pacote da franquia

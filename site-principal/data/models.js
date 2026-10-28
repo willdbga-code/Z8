@@ -46,8 +46,8 @@ export const z8Models = [
     description: 'Scooter esportiva com motor de 1000W, velocidade limitada a 32 km/h e visual agressivo. Modelo de alto apelo comercial para o público jovem e urbano.'
   },
   {
-    id: 'z8-harley-x21',
-    name: 'Z8 Harley X21 Custom',
+    id: 'z8-harley-x12',
+    name: 'Z8 Harley X12 Custom',
     code: 'XB-024',
     category: 'custom',
     tag: 'Alta Performance',
@@ -115,8 +115,8 @@ export const z8Models = [
     description: 'Scooter executiva com assento duplo macio, motor 1000W, velocidade limitada a 32 km/h e pneus alargados de 130mm para estabilidade impecável.'
   },
   {
-    id: 'z8-n7',
-    name: 'Z8 N7 Standard',
+    id: 'z8-h26',
+    name: 'Z8 H26 Standard',
     code: 'DB001',
     category: 'urbana',
     tag: 'Mais Vendido',
@@ -138,9 +138,9 @@ export const z8Models = [
     description: 'O modelo coringa da linha Z8 E-motion. Motor de 1000W, velocidade limitada a 32 km/h, farol quadrangular DRL e alto volume de giro no varejo.'
   },
   {
-    id: 'z8-q10',
-    name: 'Z8 Q10 Vintage',
-    code: 'DB038',
+    id: 'z8-q11',
+    name: 'Z8 Q11 Compact',
+    code: 'DB043-Q11',
     category: 'vintage',
     tag: 'Estilo Clássico / Retro',
     isExclusiveFranchise: false,
@@ -153,11 +153,11 @@ export const z8Models = [
     tires: '300-10 Pneu Vácuo',
     chassis: 'Aço Carbono Estilo Italiano',
     features: ['Baú Traseiro Integrado na Cor da Moto', 'Amortecedor Hidráulico Dianteiro 27 Núcleos', 'Painel Digital LCD Integrado', 'Cores Pastel Candy Style'],
-    wholesalePrice: 5800,
-    retailPrice: 9800,
-    profit: 4000,
-    markupPct: 69.0,
-    marginPct: 40.8,
+    wholesalePrice: 5200,
+    retailPrice: 9300,
+    profit: 4100,
+    markupPct: 78.8,
+    marginPct: 44.1,
     description: 'Scooter clássica inspirada no design retrô europeu com baú traseiro integrado. Motor de 1000W, velocidade limitada a 32 km/h e altíssima procura para o dia a dia.'
   },
   {
@@ -184,9 +184,9 @@ export const z8Models = [
     description: 'Nova geração da linha urbana Z8 N710. Motor de 1000W, velocidade limitada a 32 km/h, grafismo esportivo e chassi reforçado.'
   },
   {
-    id: 'z8-q11',
-    name: 'Z8 Q11 Compact',
-    code: 'DB043-Q11',
+    id: 'z8-q10',
+    name: 'Z8 Q10 Vintage',
+    code: 'DB038',
     category: 'urbana',
     tag: 'Leve & Ágil',
     isExclusiveFranchise: false,
@@ -199,11 +199,11 @@ export const z8Models = [
     tires: '300-10 Pneu Vácuo',
     chassis: 'Aço Carbono Compacto',
     features: ['Farol Circular LED Halo Vintage', 'Assento Anatômico em Couro Sintético', 'Painel Analógico-Digital Retrô', 'Rodagem Silenciosa'],
-    wholesalePrice: 5200,
-    retailPrice: 9300,
-    profit: 4100,
-    markupPct: 78.8,
-    marginPct: 44.1,
+    wholesalePrice: 5800,
+    retailPrice: 9800,
+    profit: 4000,
+    markupPct: 69.0,
+    marginPct: 40.8,
     description: 'Compacta, leve e graciosa. Motor de 1000W, velocidade limitada a 32 km/h, assento anatômico acabamento caramelo, facilidade de pilotagem e baixo consumo energético.'
   },
   {

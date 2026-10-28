@@ -190,6 +190,11 @@ const MODEL_COLORS = {
     { name: 'Preto Noturno SJC', hex: '#0F172A', img: '/assets/models/z8_fx10_black.jpg' },
     { name: 'Branco Studio', hex: '#F1F5F9', img: '/assets/models/z8_fx10_white.jpg' }
   ],
+  'z8-harley-x12': [
+    { name: 'Preto Midnight', hex: '#0F172A', img: '/assets/models/z8_harley_studio.jpg' },
+    { name: 'Vinho Bordeaux', hex: '#881337', img: '/assets/models/z8_harley_crimson.jpg' },
+    { name: 'Prata Titânio Líquido', hex: '#CBD5E1', img: '/assets/models/z8_harley_silver.jpg' }
+  ],
   'z8-harley-x21': [
     { name: 'Preto Midnight', hex: '#0F172A', img: '/assets/models/z8_harley_studio.jpg' },
     { name: 'Vinho Bordeaux', hex: '#881337', img: '/assets/models/z8_harley_crimson.jpg' },
@@ -205,10 +210,13 @@ const MODEL_COLORS = {
     { name: 'Branco Platina', hex: '#F8FAFC', img: '/assets/models/z8_n95c_white.jpg' },
     { name: 'Preto Ônix', hex: '#0F172A', img: '/assets/models/z8_n95c_black.jpg' }
   ],
+  'z8-h26': [
+    { name: 'Verde Esmeralda Standard', hex: '#059669', img: '/assets/models/z8_n7_studio.jpg' }
+  ],
   'z8-n7': [
     { name: 'Verde Esmeralda Standard', hex: '#059669', img: '/assets/models/z8_n7_studio.jpg' }
   ],
-  'z8-q10': [
+  'z8-q11': [
     { name: 'Rosa Pastel Candy', hex: '#F472B6', img: '/assets/models/z8_q10_studio.jpg' },
     { name: 'Verde Madalena Retrô', hex: '#365314', img: '/assets/models/z8_q10_green.jpg' },
     { name: 'Preto Vintage Ônix', hex: '#18181B', img: '/assets/models/z8_q10_black.jpg' }
@@ -216,7 +224,7 @@ const MODEL_COLORS = {
   'z8-n710': [
     { name: 'Branco Sport Urban', hex: '#F8FAFC', img: '/assets/models/z8_n710_studio.jpg' }
   ],
-  'z8-q11': [
+  'z8-q10': [
     { name: 'Amarelo Retrô Vintage', hex: '#EAB308', img: '/assets/models/z8_q11_studio.jpg' }
   ],
   'z8-gs005': [

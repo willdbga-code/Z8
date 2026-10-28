@@ -50,7 +50,7 @@ export function recommendModel({ primaryUse, stylePreference }) {
   } else if (stylePreference === 'RETRO_VINTAGE') {
     matchedModel = z8Models.find(m => m.id === 'z8-diamond') || z8Models.find(m => m.id === 'z8-q10');
   } else if (stylePreference === 'CUSTOM_CHOPPER') {
-    matchedModel = z8Models.find(m => m.id === 'z8-harley-x21');
+    matchedModel = z8Models.find(m => m.id === 'z8-harley-x12' || m.id === 'z8-harley-x21');
   } else if (stylePreference === 'ESPORTIVA_AGRESSIVA') {
     matchedModel = z8Models.find(m => m.id === 'z8-fx10');
   } else {

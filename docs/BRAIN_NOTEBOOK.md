@@ -25,11 +25,11 @@
 | 2º | **Z8 GS-005 Base Norte** | GS-005 | Utilitária | R$ 3.200,00 | R$ 6.200,00 | R$ 3.000,00 | 93.75% | 48.39% |
 | 3º | **Z8 N710 Urban Plus** | DB045-N710 | Urbana | R$ 5.300,00 | R$ 9.500,00 | R$ 4.200,00 | 79.25% | 44.21% |
 | 4º | **Z8 Q11 Compact** | DB043-Q11 | Urbana | R$ 5.200,00 | R$ 9.300,00 | R$ 4.100,00 | 78.85% | 44.09% |
-| 5º | **Z8 N7 Standard** | DB001 | Urbana | R$ 5.500,00 | R$ 9.500,00 | R$ 4.000,00 | 72.73% | 42.11% |
+| 5º | **Z8 H26 Standard** | DB001 | Urbana | R$ 5.500,00 | R$ 9.500,00 | R$ 4.000,00 | 72.73% | 42.11% |
 | 6º | **Z8 Q10 Vintage** | DB038 | Vintage | R$ 5.800,00 | R$ 9.800,00 | R$ 4.000,00 | 68.97% | 40.82% |
 | 7º | **Z8 U2 Delivery Cargo** | XB-026 | Utilitária | R$ 6.000,00 | R$ 9.500,00 | R$ 3.500,00 | 58.33% | 36.84% |
 | 8º | **Z8 FX-10 Sport** | DB043 | Esportiva | R$ 7.000,00 | R$ 11.000,00 | R$ 4.000,00 | 57.14% | 36.36% |
-| 9º | **Z8 Harley X21 Custom** | XB-024 | Custom | R$ 6.500,00 | R$ 10.000,00 | R$ 3.500,00 | 53.85% | 35.00% |
+| 9º | **Z8 Harley X12 Custom** | XB-024 | Custom | R$ 6.500,00 | R$ 10.000,00 | R$ 3.500,00 | 53.85% | 35.00% |
 | 10º | **Z8 N95C Max Comfort** | DB039 | Urbana | R$ 6.500,00 | R$ 10.000,00 | R$ 3.500,00 | 53.85% | 35.00% |
 | 11º | **Z8 Tank High-Speed** | DB018 | Performance | R$ 7.500,00 | R$ 11.500,00 | R$ 4.000,00 | 53.33% | 34.78% |
 
@@ -1383,6 +1383,31 @@
   - Screenshot capturado em viewport mobile (390 × 844 @2x Retina) em `verified_hero_no_z8_text.png`.
   - Confirmação visual: texto "Z8 E-MOTION" removido por completo, sem quebras ou interferências no desktop.
   - `npm run build` aprovado com 0 erros.
+
+### [2026-10-28 17:15] - Atualização Oficial de Nomenclaturas de Modelos e Regeneração dos Catálogos PDF
+- **Diretriz do Usuário**:
+  1. A antiga **Harley X21** passa a se chamar oficialmente **Z8 Harley X12 Custom** (`X12`).
+  2. Inversão dos modelos compactos **Q10** e **Q11**:
+     - O modelo com baú traseiro integrado e cores pastel (`z8_q10_studio.jpg`) passa a se chamar **Z8 Q11 Compact** (DB043-Q11, Atacado: R$ 5.200, Varejo: R$ 9.300).
+     - O modelo retrô clássico amarelo compacto (`z8_q11_studio.jpg`) passa a se chamar **Z8 Q10 Vintage** (DB038, Atacado: R$ 5.800, Varejo: R$ 9.800).
+  3. A antiga **N7** passa a se chamar oficialmente **Z8 H26 Standard** (`H26`).
+  4. O modelo **N710** permanece inalterado como **Z8 N710 Urban Plus** (DB045-N710).
+- **Escopo de Alterações Implementadas**:
+  - `site-principal/data/models.js`: Atualizados os IDs, nomes, códigos e descrições técnicas dos 11 modelos.
+  - `site-principal/main.js`: Atualizado `MODEL_COLORS` com aliases retrocompatíveis para evitar quebras em sessões locais.
+  - `site-principal/index.html`: Seletor Hero Dock, dropdown de mix e seletor de Ordens de Serviço (OS) atualizados para X12, H26, Q11 e Q10.
+  - `vendas/index.html`: Dock switcher, cards do catálogo (cards 5, 7, 8) e dados estruturados JSON-LD alinhados.
+  - `apresentacao/index.html`: Textos de lifestyle e referências institucionais atualizados para Harley X12, H26 e Q11.
+  - `conceito/app.js` e `conceito/index.html`: Nomes e marcadores dos veículos atualizados.
+  - `conceito-2/app.js` e `conceito-2/index.html`: IDs e títulos de modelos atualizados.
+  - `site-principal/data/franchiseInfo.js` & `site-principal/data/franchisePostersData.js`: Atualizados para Harley X12 e H26.
+  - `scripts/concierge_b2c_engine.js` & `scripts/legal_counsel_engine.js`: Recomendações e minutas contratuais sincronizadas.
+  - `scripts/build_full_catalog.js` & `scripts/build_wholesale_catalog.js`: Overlays, cards de capa e mapeamentos atualizados.
+- **Regeneração e Validação dos Catálogos em PDF**:
+  - `docs/CATALOGO_OFICIAL_Z8_EMOTION_2026.pdf` (12.33 MB) gerado com 13 páginas de alta resolução (1754x1240) via Edge Headless e PyMuPDF.
+  - `docs/TABELA_DE_PRECOS_ATACADO_REVENDEDORES_Z8_2026.pdf` (12.29 MB) gerado com 13 páginas de atacado.
+  - Espelhamento realizado com sucesso para `public/docs/`, `dist/docs/` e pastas raiz dos catálogos.
+  - `npm run build` executado e aprovado com zero erros em 7.03s.
 
 ### [2026-10-28 02:08] - Ampliação e Emparelhamento Preciso do Logo Z8 na Barra Superior Mobile (/conceito/)
 - **Solicitação do Usuário**:

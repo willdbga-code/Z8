@@ -24,3 +24,6 @@ catalogo_pdf/
 catalogo_atacado_pdf/
 docs/laf_extracted/
 docs/catalogo_z8_2026_temp.html
+
+*.tmp
+~*

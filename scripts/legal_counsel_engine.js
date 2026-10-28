@@ -94,10 +94,10 @@ export function generatePurchaseFranchiseContract(investor, options = {}) {
   const mix = options.mix || [
     { model: 'Z8 Tank High-Speed', code: 'DB018', qty: 2, wholesale: 7500, retail: 11500 },
     { model: 'Z8 FX-10 Sport', code: 'DB043', qty: 2, wholesale: 6200, retail: 11000 },
-    { model: 'Z8 Harley X21 Custom', code: 'XB-024', qty: 1, wholesale: 6400, retail: 10000 },
+    { model: 'Z8 Harley X12 Custom', code: 'XB-024', qty: 1, wholesale: 6400, retail: 10000 },
     { model: 'Z8 U2 Delivery Cargo', code: 'XB-026', qty: 1, wholesale: 6000, retail: 9500 },
     { model: 'Z8 N95C Max Comfort', code: 'DB039', qty: 1, wholesale: 6500, retail: 10000 },
-    { model: 'Z8 N7 Standard', code: 'DB001', qty: 1, wholesale: 5500, retail: 9500 },
+    { model: 'Z8 H26 Standard', code: 'DB001', qty: 1, wholesale: 5500, retail: 9500 },
     { model: 'Z8 Q10 Vintage', code: 'DB038', qty: 1, wholesale: 5800, retail: 9800 },
     { model: 'Z8 N710 Urban Plus', code: 'DB045-N710', qty: 1, wholesale: 5300, retail: 9500 }
   ];

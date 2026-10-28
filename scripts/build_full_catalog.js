@@ -40,9 +40,11 @@ const logoMainUrl = toFileUrl('public/assets/logos/logo_z8_main.png');
 const modelOverlays = {
   'z8-tank': 'CHASSI TUBULAR DUPLO // OFF-ROAD READY',
   'z8-fx10': 'AERODINÂMICA ESPORTIVA // URBAN SPORT',
+  'z8-harley-x12': 'SOM BLUETOOTH NATIVO // CHOPPER CUSTOM',
   'z8-harley-x21': 'SOM BLUETOOTH NATIVO // CHOPPER CUSTOM',
   'z8-u2-delivery': 'BASE REFORÇADA P/ BAÚ // HEAVY-DUTY CARGA',
   'z8-n95c': 'ASSENTO DUPLO MACIO // PNEUS LARGOS 130MM',
+  'z8-h26': 'MAIOR GIRO COMERCIAL // FÁCIL PILOTAGEM',
   'z8-n7': 'MAIOR GIRO COMERCIAL // FÁCIL PILOTAGEM',
   'z8-q10': 'INSPIRAÇÃO ITALIANA // COMPACTA & ÁGIL',
   'z8-n710': 'LANÇAMENTO 2026 // TECNOLOGIA INTEGRADA',
@@ -742,7 +744,7 @@ function buildCoverHtml() {
         </div>
         <div class="cover-card">
           <img src="${heroHarley}" alt="Z8 Harley">
-          <div class="cover-card-label">Z8 HARLEY X21 CUSTOM</div>
+          <div class="cover-card-label">Z8 HARLEY X12 CUSTOM</div>
         </div>
       </div>
     </div>
