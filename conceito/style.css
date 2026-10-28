@@ -2751,7 +2751,7 @@ blockquote {
   background-color: var(--color--lime);
   height: 3rem;
   color: var(--color--dark-green);
-  border-radius: .54rem;
+  border-radius: 4px;
   flex: none;
   justify-content: center;
   align-items: center;
@@ -2836,7 +2836,7 @@ blockquote {
   width: 3.75rem;
   height: 3.75rem;
   color: var(--color--black);
-  border-radius: .74rem;
+  border-radius: 4px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -7676,13 +7676,25 @@ blockquote {
     padding-right: 3vw;
   }
 
+  .horizontal-pin-sticky {
+    position: static !important;
+    height: auto !important;
+  }
+
   .horizontal-track {
-    width: 100%;
-    padding-left: var(--gap);
-    grid-column-gap: 5rem;
-    grid-row-gap: 5rem;
-    flex-flow: column;
-    height: auto;
+    width: 100% !important;
+    padding-left: var(--gap) !important;
+    padding-right: var(--gap) !important;
+    grid-column-gap: 3.5rem !important;
+    grid-row-gap: 3.5rem !important;
+    flex-flow: column !important;
+    height: auto !important;
+    transform: none !important;
+  }
+
+  .horizontal-item-w {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .horizontal-grid-col {
@@ -8317,10 +8329,11 @@ blockquote {
 
   .btn-w.is-nav {
     height: 4.7rem;
+    border-radius: 4px !important;
   }
 
   .btn-w.is-touch-swipe {
-    border-radius: .75rem;
+    border-radius: 4px;
     width: min(4rem, 60px);
     height: auto;
     padding-left: 0;
@@ -8401,6 +8414,7 @@ blockquote {
     pointer-events: auto;
     width: 4.7rem;
     height: 4.7rem;
+    border-radius: 4px !important;
   }
 
   .eyebrow-w.c-dark-green-tint-2.is-m-offset {
@@ -8460,7 +8474,16 @@ blockquote {
     height: calc(var(--vh, 1vh) * 80);
   }
 
+  .horizontal-pin-sticky {
+    position: static !important;
+    height: auto !important;
+  }
+
   .horizontal-track {
+    width: 100% !important;
+    flex-flow: column !important;
+    height: auto !important;
+    transform: none !important;
     padding-top: calc(var(--vh, 1vh) * 0);
     padding-bottom: calc(var(--gap) * 0);
   }
@@ -13058,6 +13081,148 @@ canvas[data-rive-primary],
     width: 100% !important;
   }
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS & ANIMATION COORDINATION (REA landonorris.com AUDIT)
+   ========================================================================== */
+
+/* 1. Viewport & Horizontal Overflow Lock */
+html, body {
+  overflow-x: clip !important;
+  max-width: 100vw !important;
+}
+
+/* 2. Body Scroll Lock when Menu Active */
+body.nav-menu-active {
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
+/* 3. Mobile Rive & Canvas Resolution Clamping */
+canvas[data-rive-nav-hamburger],
+canvas[data-rive-ln4],
+canvas[data-rive-object] {
+  touch-action: manipulation;
+}
+
+/* 4. Bauhaus Geometry Protocol (Strict 4px - 6px corners across all viewports) */
+.btn-w,
+.btn-w.is-nav,
+.btn-w.is-touch-swipe,
+.nav-ham,
+.z8-modal-submit,
+.z8-modal-close,
+.z8-drawer-close,
+.z8-drawer-cta {
+  border-radius: 4px !important;
+}
+
+/* ==========================================================================
+   MOBILE-ONLY REFINEMENTS (MAX-WIDTH: 479PX)
+   Strictly scoped to mobile viewport - Desktop & Tablet 100% untouched
+   ========================================================================== */
+@media screen and (max-width: 479px) {
+  /* 1. Opening Transition: Centered Z8 Logo & Positioned Button */
+  .transition-w {
+    position: fixed !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .transition-rive {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: none !important;
+  }
+  .z8-transition-logo-svg {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: min(240px, 68vw) !important;
+    height: auto !important;
+    margin: 0 !important;
+  }
+  .transition-btn {
+    position: absolute !important;
+    bottom: calc(var(--gap) * 1.5) !important;
+    right: var(--gap) !important;
+    z-index: 20 !important;
+  }
+
+  /* 2. Hero Section: Remove Overlapping Subtitle Text */
+  .home-hero-tablet-hero-text [data-hero-anim="mob2"] {
+    display: none !important;
+  }
+
+  /* 3. Hero Section: Remove Floating KPI Grid */
+  .z8-hero-floating-kpi {
+    display: none !important;
+  }
+
+  /* 4. Top Navbar: Enlarge Z8 Emblem and Align to Top */
+  .page-ln4-pos {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 72px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: auto !important;
+  }
+  .page-ln4-pos .nav-middle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.5rem !important;
+  }
+  .page-ln4-pos .ln4-logo,
+  .page-ln4-pos .z8-nav-center-svg,
+  .page-ln4-svg .z8-nav-center-svg {
+    width: 4.8rem !important;
+    height: auto !important;
+    max-height: 2.2rem !important;
+    transform: translateY(-2px) !important;
+    display: block !important;
+  }
+
+  /* 5. Motorcycle Showcase Card (Z8 Tank, etc.): Continuous Perimetral Border */
+  [data-helmet-item] {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+  .helmet-grid-frame-w {
+    display: none !important;
+  }
+  .helmet-grid-item-img-w {
+    clip-path: none !important;
+    border-radius: 8px !important;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .helmet-grid-item {
+    border: 1.5px solid rgba(0, 240, 255, 0.45) !important;
+    border-radius: 8px !important;
+    background: rgba(10, 22, 40, 0.6) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    position: relative !important;
+    transition: border-color var(--animation-default, 0.3s ease) !important;
+  }
+  .helmet-grid-item-w:hover .helmet-grid-item,
+  .helmet-grid-item-w:active .helmet-grid-item {
+    border-color: var(--color--lime, #00F0FF) !important;
+  }
+}
+
 
 
 

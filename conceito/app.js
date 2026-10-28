@@ -626,6 +626,34 @@ function initOtotBikesAnimation() {
   updateBikes();
 }
 
+// 8. Mobile Menu Body Scroll Lock & Touch Coordination
+function initMobileMenuScrollLock() {
+  const navMenu = document.querySelector('[data-nav-m]');
+  const navHam = document.querySelector('[data-nav-ham]');
+  if (!navMenu || !navHam) return;
+
+  const syncMenuLock = () => {
+    const isExpanded = navHam.getAttribute('aria-expanded') === 'true';
+    const isDisplayFlex = window.getComputedStyle(navMenu).display === 'flex';
+    const isOpen = isExpanded || isDisplayFlex;
+
+    if (isOpen) {
+      document.body.classList.add('nav-menu-active');
+    } else {
+      document.body.classList.remove('nav-menu-active');
+    }
+  };
+
+  const observer = new MutationObserver(syncMenuLock);
+  observer.observe(navHam, { attributes: true, attributeFilter: ['aria-expanded', 'aria-label'] });
+  observer.observe(navMenu, { attributes: true, attributeFilter: ['style', 'class'] });
+
+  navHam.addEventListener('click', () => {
+    setTimeout(syncMenuLock, 50);
+    setTimeout(syncMenuLock, 350);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initTransitionSafety();
   initMarqueeSignatureScroll();
@@ -633,5 +661,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initB2BSimulator();
   initTerritoryRadar();
   initLeadModal();
+  initMobileMenuScrollLock();
 });
 

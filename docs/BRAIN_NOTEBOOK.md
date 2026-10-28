@@ -1255,3 +1255,66 @@
      - `site-principal/index.html`: Harmonizado o menu seletor de mix de investimento com a ordenação oficial e faixas de preços homologadas (1º Tank até 11º Diamond Luxe).
   3. **Validação de Compilação**:
      - `npm run build` executado com êxito em 4.07s (50 módulos transformados, `dist/` sincronizado).
+
+
+### [2026-10-27 22:45] - Engenharia Reversa (REA no landonorris.com) e Calibração de Animações na Responsividade Mobile da Página Conceito
+- **Contexto & Solicitação**:
+  O usuário solicitou analisar o site oficial de Lando Norris (`https://landonorris.com/`) utilizando a ferramenta REA (Reverse Engineer Anything) para extrair as melhores práticas de animações e responsividade para dispositivos móveis, e aplicar com perfeição essa etapa na página Conceito (`/conceito/`).
+- **Descobertas Cruciais do REA no landonorris.com**:
+  1. **Fluid Typography & `--design-unit: 48`**: Para mobile portrait (`max-width: 479px`), o `--design-unit` é ampliado de 16 para 48, compensando a redução da largura da tela (`~390px`) e mantendo `1rem` em `~10.8px` a `13.3px`. Uso de `100svh`/`100dvh` para blindar contra saltos da barra de navegação mobile.
+  2. **Menu Orgânico com GSAP `clip-path`**:
+     O menu fullscreen (`.nav-menu-w`) transita via `clip-path: ellipse(120% 0% at 50% 0%)` -> `ellipse(120% 100% at 50% 20%)` em 0.65s com alternância dinâmica do tema da barra (`data-nav-theme="light"` / `"dark"`) e máquina de estados no Rive hamburger (`canvas[data-rive-nav-hamburger]`).
+  3. **Desativação do Pin Lateral no Mobile**:
+     No desktop, `.horizontal-track` e `.horizontal-pin-sticky` prendem a tela e rolam lateralmente. No mobile ($\le 991px$ e $\le 479px$), o CSS converte a trilha em `flex-flow: column; height: auto; width: 100%`, enquanto o script detecta $W - \text{innerWidth} \le 0$ e libera a rolagem vertical nativa sem travamentos.
+  4. **Performance Three.js & Rive Retina**:
+     Buffer clamping em `Math.min(window.devicePixelRatio, 2)` para dispositivos móveis de alta densidade, e pausa de animações fora da viewport via `IntersectionObserver`.
+- **Implementações Executadas na Página Conceito (`/conceito/`)**:
+  1. **HTML & Viewport (`conceito/index.html`)**:
+     Meta tag atualizada para `width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5`.
+  2. **Estilos & Geometria Bauhaus (`conceito/style.css`)**:
+     - Reset de `.horizontal-pin-sticky { position: static !important; height: auto !important; }` e `.horizontal-track { flex-flow: column !important; width: 100% !important; transform: none !important; }` nos breakpoints $\le 991px$ e $\le 479px$.
+     - Adicionada blindagem `html, body { overflow-x: clip !important; max-width: 100vw !important; }`.
+     - Calibrados `.btn-w`, `.nav-ham`, `.btn-w.is-touch-swipe`, `.z8-modal-submit` e `.z8-drawer-cta` para cantos retangulares estritos de 4px (`border-radius: 4px !important;`), eliminando qualquer pílula conforme o protocolo visual da Z8.
+  3. **JavaScript & Scroll Lock (`conceito/app.js`)**:
+     - Criada a rotina `initMobileMenuScrollLock()` com `MutationObserver` monitorando `[data-nav-ham]` e `[data-nav-m]`, aplicando `body.nav-menu-active { overflow: hidden !important; touch-action: none !important; }` para garantir rolagem de menu fluida sem mover a página de fundo.
+  4. **Validação Técnica**:
+     - Cenário automatizado via REA `capture_browser_scenario` executado com sucesso no Edge Headless (390x844): abertura de menu, fechamento, rolagem e verificação de 19 canvases Rive e WebGL Three.js r174 ativos.
+     - `npm run build` executado e validado em 5.46s (50 módulos transformados, 0 erros).
+
+
+
+### [2026-10-28 00:30] - Refinamentos Visuais Críticos Exclusivos para Mobile na Página Conceito (/conceito/)
+- **Contexto & Solicitação do Usuário**:
+  Na versão para celular e **apenas na versão para celular** (`@media screen and (max-width: 479px)`):
+  1. Centralizar o logo no momento de abertura.
+  2. Remover o texto sobreposto à moto no hero (`CONCESSÃO OFICIAL // ATÉ 50 KM`).
+  3. Remover o grid flutuante no hero (`.z8-hero-floating-kpi`) que cobria a moto.
+  4. Aumentar a área do Z8 e alinhá-lo no topo da barra de navegação.
+  5. Arrumar as áreas onde as linhas desapareciam na box dos modelos (Z8 Tank, etc.).
+- **Diagnóstico das Falhas Visuais no Mobile**:
+  1. *Abertura Deslocada*: No desktop, `.transition-w` usava `align-items: flex-end;` para acomodar o botão inferior. No mobile, o logo ficava deslocado para baixo.
+  2. *Sobreposição no Hero*: O subtítulo `.home-hero-tablet-hero-text [data-hero-anim="mob2"]` colidia diretamente contra o guidão da moto.
+  3. *Badge Flutuante Oclusivo*: `.z8-hero-floating-kpi` projetava um card KPI sobre o corpo da motocicleta em viewports estreitas (< 480px).
+  4. *Logo Pequeno e Afundado na Barra*: `.page-ln4-pos` tinha tamanho reduzido (`3.5rem`) e ficava rebaixado no cabeçalho mobile.
+  5. *Linhas Desaparecendo na Box dos Modelos*: Múltiplos fatores conflitantes ocorriam em `< 480px`:
+     - `[data-helmet-item]` aplicava `--mask-url` com SVG externo do Webflow CDN recortando o canto inferior.
+     - `.helmet-grid-item-img-w` aplicava `clip-path: polygon(...)` com corte em ângulo diferente.
+     - `.helmet-grid-frame-w.destop` forçado a `display: flex !important` em `< 540px` usava viewBox 407x411 com caminho SVG chanfrado aberto (`H263.329 a23.999...`), deixando o perímetro incompleto no mobile.
+- **Soluções Implementadas em `conceito/style.css` (Strict `@media screen and (max-width: 479px)`)**:
+  1. `.transition-w`: `position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;`. Logo `.z8-transition-logo-svg` ancorado ao centro absoluto (`top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(240px, 68vw);`), mantendo `.transition-btn` fixado ao rodapé seguro.
+  2. `.home-hero-tablet-hero-text [data-hero-anim="mob2"] { display: none !important; }`.
+  3. `.z8-hero-floating-kpi { display: none !important; }`.
+  4. `.page-ln4-pos`: `top: 0; height: 72px; display: flex; align-items: center; justify-content: center;`. Logo ampliado para `4.8rem` (`max-height: 2.2rem; transform: translateY(-2px);`).
+  5. Box dos Modelos:
+     - `[data-helmet-item] { mask-image: none !important; -webkit-mask-image: none !important; }`.
+     - `.helmet-grid-frame-w { display: none !important; }`.
+     - `.helmet-grid-item-img-w { clip-path: none !important; border-radius: 8px !important; }`.
+     - `.helmet-grid-item { border: 1.5px solid rgba(0, 240, 255, 0.45) !important; border-radius: 8px !important; background: rgba(10, 22, 40, 0.6) !important; }`.
+- **Validação Automatizada com Edge Headless & CDP**:
+  - Testes executados em viewport mobile estrito (390 × 844 @2x Retina).
+  - Análise pixel a pixel confirmou:
+    - Logo de abertura no centro exato (X: 389.5 / 390.0; Y: 835.5 / 844.0).
+    - Hero 100% limpo, com silhueta do veículo em primeiro plano.
+    - Barra superior com Z8 proeminente e alinhado no topo.
+    - Contorno da box dos modelos com 12.323 pixels de borda sólida e contínua nos 4 lados (Top Y: 202-203, Bottom Y: 884-885, Left X: 32-33, Right X: 706-707), sem nenhuma linha desaparecendo.
+  - `npm run build` validado com sucesso em 5.24s (0 erros).
