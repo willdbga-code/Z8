@@ -109,6 +109,14 @@ export function syncAuthState() {
   const loginBtn = document.getElementById('btn-header-login');
   const logoutBtn = document.getElementById('btn-header-logout');
   const adminBtn = document.getElementById('btn-header-admin');
+  const menuLoginText = document.getElementById('nav-menu-link-login-text');
+  if (menuLoginText) {
+    if (user) {
+      menuLoginText.textContent = admin ? 'Painel Master (Admin)' : `${user.company || user.name || 'Parceiro'} // Sair`;
+    } else {
+      menuLoginText.textContent = 'Área do Parceiro';
+    }
+  }
   const pendingBanner = document.getElementById('pending-approval-banner');
 
   if (user) {
@@ -703,6 +711,8 @@ window.rejectUser = async (idOrEmail) => {
 window.openAdminModal = openAdminModal;
 window.closeAdminModal = closeAdminModal;
 window.openAuthModal = openAuthModal;
+window.openZ8AuthModal = openAuthModal;
+window.closeZ8AuthModal = closeAuthModal;
 window.closeAuthModal = closeAuthModal;
 window.openZ8ModelDrawer = openZ8ModelDrawer;
 window.closeZ8ModelDrawer = closeZ8ModelDrawer;

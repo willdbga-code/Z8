@@ -1,3 +1,13 @@
+import {
+  loginCatalogUser,
+  loginWithGoogle,
+  registerCatalogUser,
+  requestPasswordResetEmail,
+  getCurrentCatalogUser,
+  isCatalogApproved,
+  isUserAdmin,
+  logoutCatalogUser
+} from '../site-principal/catalog-auth.js';
 /**
  * Z8 E-MOTION // CONCEITO B2B INTERACTIVE CONTROLLER
  * Works alongside /assets/lando/lando-engine.js (Three.js WebGL + Rive + Lenis + GSAP)
@@ -718,6 +728,239 @@ function initMobileMenuScrollLock() {
   });
 }
 
+
+// ==========================================================================
+// 9. MENU-STYLED AUTH CONTROLLER & REACTIVE PERMISSIONS
+// ==========================================================================
+function switchAuthTab(tabName) {
+  document.querySelectorAll('#z8-auth-modal .z8-auth-tab').forEach((tab) => {
+    tab.classList.toggle('is-active', tab.dataset.tab === tabName);
+  });
+  const boxLogin = document.getElementById('z8-auth-box-login');
+  const boxRegister = document.getElementById('z8-auth-box-register');
+  const boxForgot = document.getElementById('z8-auth-box-forgot');
+
+  if (boxLogin) boxLogin.style.display = tabName === 'login' ? 'block' : 'none';
+  if (boxRegister) boxRegister.style.display = tabName === 'register' ? 'block' : 'none';
+  if (boxForgot) boxForgot.style.display = tabName === 'forgot' ? 'block' : 'none';
+}
+
+export function openZ8AuthModal(tabName = 'login') {
+  const modal = document.getElementById('z8-auth-modal');
+  if (!modal) return;
+  modal.classList.add('is-active');
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('z8-modal-active');
+  if (window.lenis) window.lenis.stop();
+  switchAuthTab(tabName);
+}
+
+export function closeZ8AuthModal() {
+  const modal = document.getElementById('z8-auth-modal');
+  if (!modal) return;
+  modal.classList.remove('is-active');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('z8-modal-active');
+  if (window.lenis) window.lenis.start();
+}
+
+window.openZ8AuthModal = openZ8AuthModal;
+window.closeZ8AuthModal = closeZ8AuthModal;
+
+function syncConceitoAuthState() {
+  const user = getCurrentCatalogUser();
+  const approved = isCatalogApproved();
+  const admin = isUserAdmin(user);
+
+  const menuLoginText = document.getElementById('nav-menu-link-login-text');
+  if (menuLoginText) {
+    if (user) {
+      menuLoginText.textContent = admin ? 'Painel Master (Admin)' : `${user.company || user.name || 'Parceiro'} // Sair`;
+    } else {
+      menuLoginText.textContent = 'Área do Parceiro';
+    }
+  }
+
+  // Update cards in conceito/ if approved
+  document.querySelectorAll('.helmet-grid-item-w[data-model-id]').forEach(card => {
+    const modelId = card.getAttribute('data-model-id');
+    const model = Z8_FLEET.find(m => m.id === modelId);
+    if (!model) return;
+    const pricePill = card.querySelector('.z8-tel-profit');
+    if (pricePill) {
+      pricePill.textContent = approved ? `+R$ ${model.profit.toLocaleString('pt-BR')}/un` : `${model.tag} Markup`;
+    }
+  });
+}
+
+function initConceitoAuthEvents() {
+  // Tabs
+  document.querySelectorAll('#z8-auth-modal .z8-auth-tab').forEach((tab) => {
+    tab.addEventListener('click', () => switchAuthTab(tab.dataset.tab));
+  });
+
+  // Close buttons & Backdrop
+  document.querySelectorAll('#z8-auth-modal [data-close-auth]').forEach((btn) => {
+    btn.addEventListener('click', closeZ8AuthModal);
+  });
+  const modal = document.getElementById('z8-auth-modal');
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeZ8AuthModal();
+    });
+  }
+
+  // Quick Admin Pre-fill
+  document.getElementById('btn-quick-admin-login')?.addEventListener('click', () => {
+    const userField = document.getElementById('auth-login-user');
+    const passField = document.getElementById('auth-login-pass');
+    if (userField) userField.value = 'christian.tkh@gmail.com';
+    if (passField) passField.value = '123456';
+  });
+
+  // Switch to forgot tab
+  document.getElementById('btn-goto-forgot')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchAuthTab('forgot');
+  });
+  document.getElementById('btn-forgot-back')?.addEventListener('click', (e) => {
+    e.preventDefault();
+    switchAuthTab('login');
+  });
+
+  // Toggle Password visibility
+  document.querySelectorAll('#z8-auth-modal .z8-pass-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      const input = document.getElementById(targetId);
+      if (input) {
+        input.type = input.type === 'password' ? 'text' : 'password';
+      }
+    });
+  });
+
+  // 1-Click Google Login
+  const handleGoogleAuth = async () => {
+    try {
+      const res = await loginWithGoogle();
+      if (res && res.success) {
+        closeZ8AuthModal();
+        syncConceitoAuthState();
+      } else {
+        alert(res?.error || res?.message || 'Não foi possível concluir o login com o Google.');
+      }
+    } catch (err) {
+      alert('Erro na autenticação Google: ' + err.message);
+    }
+  };
+  document.getElementById('btn-google-login')?.addEventListener('click', handleGoogleAuth);
+  document.getElementById('btn-google-reg')?.addEventListener('click', handleGoogleAuth);
+
+  // Form Submissions
+  const loginForm = document.getElementById('z8-auth-form-login');
+  if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userVal = document.getElementById('auth-login-user')?.value;
+      const passVal = document.getElementById('auth-login-pass')?.value;
+      const msgBox = document.getElementById('auth-login-msg');
+
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'z8-auth-msg';
+        msgBox.textContent = 'Verificando credenciais...';
+      }
+
+      const res = await loginCatalogUser(userVal, passVal);
+      if (res.success) {
+        if (msgBox) {
+          msgBox.className = 'z8-auth-msg is-success';
+          msgBox.textContent = 'Acesso validado com sucesso! Redirecionando...';
+        }
+        setTimeout(() => {
+          closeZ8AuthModal();
+          syncConceitoAuthState();
+        }, 500);
+      } else {
+        if (msgBox) {
+          msgBox.className = 'z8-auth-msg is-error';
+          msgBox.textContent = res.error || res.message || 'Usuário ou senha inválidos.';
+        }
+      }
+    });
+  }
+
+  const regForm = document.getElementById('z8-auth-form-register');
+  if (regForm) {
+    regForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('auth-reg-name')?.value;
+      const company = document.getElementById('auth-reg-company')?.value;
+      const city = document.getElementById('auth-reg-city')?.value;
+      const state = document.getElementById('auth-reg-state')?.value;
+      const email = document.getElementById('auth-reg-email')?.value;
+      const phone = document.getElementById('auth-reg-phone')?.value;
+      const password = document.getElementById('auth-reg-pass')?.value;
+      const msgBox = document.getElementById('auth-reg-msg');
+
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'z8-auth-msg';
+        msgBox.textContent = 'Enviando proposta de credenciamento...';
+      }
+
+      const res = await registerCatalogUser({ name, company, city, state, email, phone, password });
+      if (res.success) {
+        if (msgBox) {
+          msgBox.className = 'z8-auth-msg is-success';
+          msgBox.textContent = 'Cadastro enviado! Sua solicitação está em análise pela diretoria de expansão.';
+        }
+        setTimeout(() => {
+          closeZ8AuthModal();
+          syncConceitoAuthState();
+        }, 1200);
+      } else {
+        if (msgBox) {
+          msgBox.className = 'z8-auth-msg is-error';
+          msgBox.textContent = res.error || res.message || 'Erro ao registrar usuário.';
+        }
+      }
+    });
+  }
+
+  const forgotForm = document.getElementById('z8-auth-form-forgot');
+  if (forgotForm) {
+    forgotForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('auth-forgot-email')?.value;
+      const msgBox = document.getElementById('auth-forgot-msg');
+
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'z8-auth-msg';
+        msgBox.textContent = 'Enviando link de recuperação...';
+      }
+
+      const res = await requestPasswordResetEmail(email);
+      if (res.success) {
+        if (msgBox) {
+          msgBox.className = 'z8-auth-msg is-success';
+          msgBox.textContent = 'E-mail de recuperação enviado com sucesso!';
+        }
+      } else {
+        if (msgBox) {
+          msgBox.className = 'z8-auth-msg is-error';
+          msgBox.textContent = res.error || 'Erro ao enviar e-mail de recuperação.';
+        }
+      }
+    });
+  }
+
+  // Initial Sync
+  syncConceitoAuthState();
+  window.addEventListener('z8-catalog-auth-changed', syncConceitoAuthState);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initTransitionSafety();
   initMarqueeSignatureScroll();
@@ -726,5 +969,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initTerritoryRadar();
   initLeadModal();
   initMobileMenuScrollLock();
+  initConceitoAuthEvents();
 });
 

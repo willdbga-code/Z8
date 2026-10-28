@@ -157,6 +157,14 @@
                     </svg>
                   </div>
                 </a>
+                <a data-anim="text-hover" href="#login" data-taxi-ignore="true" id="nav-menu-link-login" class="nav-menu-link-w w-inline-block" onclick="event.preventDefault(); document.querySelector('[data-nav-ham]')?.click(); window.openZ8AuthModal && window.openZ8AuthModal('login');">
+                  <div split-text="chars" class="text-nav-link" id="nav-menu-link-login-text">Área do Parceiro</div>
+                  <div class="nav-menu-link-current-svg w-embed">
+                    <svg width="100%" height="100%" viewBox="0 0 412 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 2h73.539c5.858 0 11.47 2.35 15.58 6.525l8.565 8.7a21.863 21.863 0 0 0 15.58 6.525h72.678c6.045 0 11.82-2.503 15.954-6.914l6.485-6.922A21.865 21.865 0 0 1 224.336 3h76.752a21.864 21.864 0 0 1 16.806 7.88l4.362 5.24A21.864 21.864 0 0 0 339.063 24H412" stroke="currentColor" stroke-width="3.28"/>
+                    </svg>
+                  </div>
+                </a>
               </div>
               <div class="nav-helmet-rive-w">
                 <div class="base-helmet-rive-w">
@@ -1752,5 +1760,225 @@ lei 13.966/19</div>
   </div>
 
   <script type="module" src="./app.js"></script>
+
+
+  <!-- ==================== MENU-STYLED SPLIT AUTH MODAL ==================== -->
+  <div id="z8-auth-modal" class="z8-auth-menu-modal lenis-prevent" data-lenis-prevent="true" aria-hidden="true">
+    <div class="z8-auth-menu-dialog lenis-prevent" data-lenis-prevent="true" role="dialog" aria-modal="true">
+      
+      <!-- LEFT COLUMN: 2x2 VEHICLE SHOWCASE & OFFICIAL BRANDING -->
+      <div class="z8-auth-menu-visual">
+        <div class="z8-auth-visual-top">
+          <div class="z8-auth-visual-logo">
+            <svg width="140" height="42" viewBox="0 0 418 172" fill="none" class="z8-auth-logo-svg">
+              <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M110 37 L243 37 L121 119 L201 119 L185 145 L84 146 L68 159 L8 161 L153 61 L73 60 Z M300 8 L395 8 L409 25 L388 59 L365 74 L377 87 L356 126 L322 146 L215 146 L204 132 L227 89 L251 74 L241 61 L260 29 Z M307 34 L356 34 L358 38 L347 54 L333 62 L288 62 L283 57 L293 42 Z M276 89 L327 89 L331 93 L319 112 L305 120 L256 120 L253 115 L263 98 Z"/>
+            </svg>
+            <span class="z8-auth-visual-brand-sub">BRASIL // E-MOTION</span>
+          </div>
+          <span class="z8-auth-visual-tag">ECOSSISTEMA B2B</span>
+        </div>
+
+        <!-- 2x2 Grid of Motorcycles (Identical to Menu in Screenshot) -->
+        <div class="z8-auth-visual-grid">
+          <div class="z8-auth-moto-tile">
+            <img src="/assets/models/z8_tank_paulista_wide.jpg" alt="Z8 Tank High-Speed" loading="lazy" class="z8-auth-moto-img"/>
+            <div class="z8-auth-moto-meta">
+              <strong>Z8 TANK</strong>
+              <span>3000W // CNH A</span>
+            </div>
+          </div>
+          <div class="z8-auth-moto-tile">
+            <img src="/assets/models/z8_n710_farialima_wide.jpg" alt="Z8 N710" loading="lazy" class="z8-auth-moto-img"/>
+            <div class="z8-auth-moto-meta">
+              <strong>Z8 N710</strong>
+              <span>URBANA // AUTONOMIA</span>
+            </div>
+          </div>
+          <div class="z8-auth-moto-tile">
+            <img src="/assets/models/z8_fx10_sjc_wide.jpg" alt="Z8 FX-10 Sport" loading="lazy" class="z8-auth-moto-img"/>
+            <div class="z8-auth-moto-meta">
+              <strong>Z8 FX-10</strong>
+              <span>SPORT // LÍTIO</span>
+            </div>
+          </div>
+          <div class="z8-auth-moto-tile">
+            <img src="/assets/models/z8_harley_carvalho_wide.jpg" alt="Z8 Harley X21" loading="lazy" class="z8-auth-moto-img"/>
+            <div class="z8-auth-moto-meta">
+              <strong>Z8 HARLEY</strong>
+              <span>CUSTOM // CONTRAN</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="z8-auth-visual-footer">
+          <div class="z8-auth-visual-footer-text">
+            <span>DISTRIBUIÇÃO DIRETA DE FÁBRICA</span>
+            <strong>LOTE MÍNIMO: 10 MOTOS // 2 ELEVADORES DE OFICINA</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: MONUMENTAL FORM CONTROLS & AUTH TABS -->
+      <div class="z8-auth-menu-form-col lenis-prevent" data-lenis-prevent="true">
+        <!-- Top bar with close button identical to the menu -->
+        <div class="z8-auth-form-top">
+          <div class="z8-auth-top-badge">
+            <span class="pulse-dot"></span>
+            PORTAL DO PARCEIRO // CONCESSÃO OFICIAL
+          </div>
+          <button type="button" class="z8-auth-menu-close" data-close-auth aria-label="Fechar Modal">
+            ✕
+          </button>
+        </div>
+
+        <!-- Monumental Title with Cyan Underline -->
+        <div class="z8-auth-form-hero">
+          <div class="z8-auth-eyebrow">ÁREA EXCLUSIVA DE GOVERNANÇA</div>
+          <h2 class="z8-auth-monumental-title">
+            ACESSO DO PARCEIRO
+            <div class="z8-auth-title-line"></div>
+          </h2>
+          <p class="z8-auth-form-desc">
+            Acesso confidencial com margens de atacado, mesa de pedidos diretos de montadora e dossiês técnicos para lojistas credenciados.
+          </p>
+        </div>
+
+        <!-- Kinetic Tabs in Menu Style -->
+        <div class="z8-auth-tabs">
+          <button type="button" class="z8-auth-tab is-active" data-tab="login">Entrar</button>
+          <button type="button" class="z8-auth-tab" data-tab="register">Cadastrar Loja</button>
+          <button type="button" class="z8-auth-tab" data-tab="forgot">Recuperar Senha</button>
+        </div>
+
+        <!-- TAB 1: LOGIN -->
+        <div id="z8-auth-box-login">
+          <!-- 1-Click Google OAuth -->
+          <button type="button" id="btn-google-login" class="z8-google-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            Entrar com Conta Google (1 Clique)
+          </button>
+
+          <div class="z8-auth-divider"><span>ou com e-mail cadastrado</span></div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem;">
+            <span style="font-size: 0.72rem; color: rgba(244,244,237,0.5);">Ambiente de Testes / Diretoria:</span>
+            <button type="button" id="btn-quick-admin-login" class="z8-quick-admin-btn"><i class="fa-solid fa-bolt"></i> Preencher Admin</button>
+          </div>
+
+          <form id="z8-auth-form-login">
+            <div id="auth-login-msg" style="display: none;"></div>
+            <div class="z8-form-group">
+              <label class="z8-form-label" for="auth-login-user"><i class="fa-solid fa-envelope"></i> E-mail Corporativo:</label>
+              <input type="text" id="auth-login-user" class="z8-input" placeholder="seuemail@empresa.com.br" required autocomplete="username"/>
+            </div>
+            <div class="z8-form-group">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+                <label class="z8-form-label" for="auth-login-pass" style="margin:0;"><i class="fa-solid fa-lock"></i> Senha de Acesso:</label>
+                <a href="#forgot" id="btn-goto-forgot" style="font-size:0.75rem; color:#00F0FF; text-decoration:none;">Esqueceu?</a>
+              </div>
+              <div style="position:relative;">
+                <input type="password" id="auth-login-pass" class="z8-input" placeholder="••••••••" required autocomplete="current-password"/>
+                <button type="button" class="z8-pass-toggle" data-target="auth-login-pass" aria-label="Ver senha"><i class="fa-solid fa-eye"></i></button>
+              </div>
+            </div>
+            <button type="submit" class="z8-auth-submit">ENTRAR NO CATÁLOGO B2B →</button>
+          </form>
+        </div>
+
+        <!-- TAB 2: REGISTER -->
+        <div id="z8-auth-box-register" style="display: none;">
+          <button type="button" id="btn-google-reg" class="z8-google-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            Cadastrar com Conta Google
+          </button>
+          <div class="z8-auth-divider"><span>ou preencha a ficha cadastral</span></div>
+          <form id="z8-auth-form-register">
+            <div id="auth-reg-msg" style="display: none;"></div>
+            <div class="z8-form-group">
+              <label class="z8-form-label" for="auth-reg-name">Nome do Responsável *</label>
+              <input type="text" id="auth-reg-name" class="z8-input" placeholder="Ex: Carlos Silveira" required/>
+            </div>
+            <div class="z8-form-group">
+              <label class="z8-form-label" for="auth-reg-company">Razão Social / Loja *</label>
+              <input type="text" id="auth-reg-company" class="z8-input" placeholder="Ex: Mega Motos Elétricas Ltda" required/>
+            </div>
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.75rem;">
+              <div class="z8-form-group">
+                <label class="z8-form-label" for="auth-reg-city">Cidade *</label>
+                <input type="text" id="auth-reg-city" class="z8-input" placeholder="Ex: Ribeirão Preto" required/>
+              </div>
+              <div class="z8-form-group">
+                <label class="z8-form-label" for="auth-reg-state">UF *</label>
+                <select id="auth-reg-state" class="z8-input" required>
+                  <option value="SP">SP</option><option value="RJ">RJ</option><option value="MG">MG</option>
+                  <option value="PR">PR</option><option value="SC">SC</option><option value="RS">RS</option>
+                  <option value="GO">GO</option><option value="BA">BA</option><option value="PE">PE</option>
+                  <option value="CE">CE</option><option value="DF">DF</option><option value="Outro">Outro</option>
+                </select>
+              </div>
+            </div>
+            <div class="z8-form-group">
+              <label class="z8-form-label" for="auth-reg-email">E-mail Corporativo *</label>
+              <input type="email" id="auth-reg-email" class="z8-input" placeholder="contato@megamotos.com.br" required/>
+            </div>
+            <div class="z8-form-group">
+              <label class="z8-form-label" for="auth-reg-phone">WhatsApp com DDD *</label>
+              <input type="tel" id="auth-reg-phone" class="z8-input" placeholder="(16) 99999-9999" required/>
+            </div>
+            <div class="z8-form-group">
+              <label class="z8-form-label" for="auth-reg-pass">Criar Senha de Acesso *</label>
+              <div style="position:relative;">
+                <input type="password" id="auth-reg-pass" class="z8-input" placeholder="Mínimo 6 caracteres" required minlength="6"/>
+                <button type="button" class="z8-pass-toggle" data-target="auth-reg-pass" aria-label="Ver senha"><i class="fa-solid fa-eye"></i></button>
+              </div>
+            </div>
+            <button type="submit" class="z8-auth-submit" style="background:#10B981; color:#0A0B0E;">
+              SOLICITAR CREDENCIAMENTO B2B →
+            </button>
+          </form>
+        </div>
+
+        <!-- TAB 3: FORGOT -->
+        <div id="z8-auth-box-forgot" style="display: none;">
+          <form id="z8-auth-form-forgot">
+            <div id="auth-forgot-msg" style="display: none;"></div>
+            <p style="color: rgba(244,244,237,0.7); font-size:0.85rem; margin-bottom: 1.25rem;">
+              Informe o e-mail cadastrado na sua loja. Você receberá um link automático para redefinir sua senha com segurança.
+            </p>
+            <div class="z8-form-group">
+              <label class="z8-form-label" for="auth-forgot-email">E-mail Cadastrado *</label>
+              <input type="email" id="auth-forgot-email" class="z8-input" placeholder="seuemail@empresa.com.br" required/>
+            </div>
+            <button type="submit" class="z8-auth-submit">ENVIAR LINK DE REDEFINIÇÃO →</button>
+            <div style="margin-top: 1rem; text-align: center;">
+              <button type="button" id="btn-forgot-back" style="background:none; border:none; color:#00F0FF; font-size:0.8rem; cursor:pointer; text-decoration:underline;">
+                Voltar para a tela de Login
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Bottom Accreditation (Matching Menu in Screenshot) -->
+        <div class="z8-auth-menu-footer">
+          <div class="z8-auth-menu-emblem">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #00F0FF;">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+              <path d="M2 12h20"/>
+            </svg>
+            <span>Z8 EMOTION LTDA // SÃO JOSÉ DOS CAMPOS</span>
+          </div>
+          <div class="z8-auth-menu-legal-links">
+            <a href="https://wa.me/5512998008818" target="_blank">WHATSAPP</a>
+            <a href="/docs/juridico/CIRCULAR_DE_OFERTA_DE_FRANQUIA_COF.pdf" target="_blank">CIRCULAR COF</a>
+            <a href="/docs/juridico/CONTRATO_PADRAO_DE_FRANQUIA.pdf" target="_blank">MINUTA CONTRATO</a>
+            <a href="/docs/juridico/PARECER_REGULATORIO_CONTRAN_996.pdf" target="_blank">CONTRAN 996</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
