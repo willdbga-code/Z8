@@ -12076,21 +12076,38 @@ html {
 }
 
 /* 7. Z8 Motorcycle Spec & Color Drawer */
+body.z8-modal-active,
+html.z8-modal-active {
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
 .z8-drawer-overlay,
 .z8-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(17, 17, 18, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 11, 14, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
+}
+
+@media screen and (max-height: 860px) {
+  .z8-drawer-overlay,
+  .z8-modal-overlay {
+    align-items: flex-start !important;
+  }
 }
 
 .z8-drawer-overlay.is-open,
@@ -12102,15 +12119,43 @@ html {
 .z8-drawer-panel {
   width: 100%;
   max-width: min(95vw, 880px);
-  max-height: 90dvh;
-  overflow-y: auto;
+  max-height: calc(100dvh - 3rem);
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
   background: #0A0B0E;
   color: #F4F5F7;
   border: 1.5px solid rgba(0, 240, 255, 0.45);
   border-radius: 6px;
   padding: 2rem;
   position: relative;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75);
+}
+
+/* Explicit Visible Cyan Scrollbar for Drawer & Modal Panels */
+.z8-drawer-panel::-webkit-scrollbar,
+.z8-modal-dialog::-webkit-scrollbar,
+.z8-drawer-overlay::-webkit-scrollbar,
+.z8-modal-overlay::-webkit-scrollbar {
+  display: block !important;
+  width: 6px !important;
+}
+.z8-drawer-panel::-webkit-scrollbar-track,
+.z8-modal-dialog::-webkit-scrollbar-track {
+  background: rgba(10, 22, 40, 0.6) !important;
+  border-radius: 3px !important;
+}
+.z8-drawer-panel::-webkit-scrollbar-thumb,
+.z8-modal-dialog::-webkit-scrollbar-thumb {
+  background: var(--color--lime, #00F0FF) !important;
+  border-radius: 3px !important;
+}
+.z8-drawer-panel,
+.z8-modal-dialog {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--color--lime, #00F0FF) rgba(10, 22, 40, 0.6) !important;
 }
 
 .z8-drawer-close {
@@ -12241,8 +12286,12 @@ html {
 .z8-modal-dialog {
   width: 100%;
   max-width: min(95vw, 620px);
-  max-height: 92dvh;
-  overflow-y: auto;
+  max-height: calc(100dvh - 3rem);
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  touch-action: pan-y !important;
   background: #0A0B0E;
   color: #F4F5F7;
   border: 1.5px solid var(--color--lime, #00F0FF);
@@ -13220,6 +13269,30 @@ canvas[data-rive-object] {
   .helmet-grid-item-w:hover .helmet-grid-item,
   .helmet-grid-item-w:active .helmet-grid-item {
     border-color: var(--color--lime, #00F0FF) !important;
+  }
+
+  /* 6. Modal & Spec Drawer Mobile Viewport & Scrolling Ergonomics */
+  .z8-drawer-overlay,
+  .z8-modal-overlay {
+    padding: 0.5rem !important;
+    align-items: flex-start !important;
+  }
+  .z8-drawer-panel,
+  .z8-modal-dialog {
+    max-height: calc(100dvh - 1rem) !important;
+    max-height: calc(100vh - 1rem) !important;
+    padding: 1.25rem 1rem !important;
+    margin: auto 0 !important;
+  }
+  .z8-drawer-close {
+    top: -0.25rem !important;
+    margin-bottom: 0.5rem !important;
+    padding: 0.35rem 0.65rem !important;
+    font-size: 0.68rem !important;
+  }
+  .z8-drawer-cta {
+    margin-top: 1.25rem !important;
+    padding: 1rem 0.85rem !important;
   }
 }
 

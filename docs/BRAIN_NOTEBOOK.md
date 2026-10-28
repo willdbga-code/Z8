@@ -1318,3 +1318,28 @@
     - Barra superior com Z8 proeminente e alinhado no topo.
     - Contorno da box dos modelos com 12.323 pixels de borda sólida e contínua nos 4 lados (Top Y: 202-203, Bottom Y: 884-885, Left X: 32-33, Right X: 706-707), sem nenhuma linha desaparecendo.
   - `npm run build` validado com sucesso em 5.24s (0 erros).
+
+
+### [2026-10-28 00:55] - Correção Crítica de Rolagem (Scroll) nos Modais e Drawer de Modelos da Página Conceito (/conceito/)
+- **Problema Reportado**:
+  Ao abrir o drawer de detalhes do modelo (`#z8-model-drawer`), a box não rolava verticalmente para baixo no celular/desktop, cortando o botão inferior de CTA (`SOLICITAR TABELA DESTE MODELO & RESERVAR CIDADE ↱`).
+- **Causas Raízes Identificadas**:
+  1. *Intercepção Global do Lenis*: O motor de smooth scroll `window.lenis` mantinha listeners globais de `wheel` e `touchmove` chamando `e.preventDefault()`, sequestrando qualquer rolagem dentro do painel do modal.
+  2. *Falta de Atributo de Prevenção*: Nem o overlay nem o painel continham `data-lenis-prevent="true"`.
+  3. *Scrollbar Oculta Globalmente*: Regras herdadas (`body ::-webkit-scrollbar { display: none; }` e `scrollbar-width: none;`) suprimiam visualmente a barra de rolagem em todos os elementos.
+  4. *Falta de Scroll Lock no Body*: Ao tentar rolar, o fundo podia mover ou travar enquanto o modal ficava imóvel.
+- **Correções Aplicadas**:
+  1. **HTML (`conceito/index.html`)**:
+     - Injetadas as classes e atributos `lenis-prevent` e `data-lenis-prevent="true"` em `#z8-model-drawer`, `.z8-drawer-panel`, `#investor-lead-modal` e `.z8-modal-dialog`.
+  2. **JavaScript (`conceito/app.js`)**:
+     - `window.openZ8ModelDrawer` e `window.openLeadModal`: chamam `window.lenis?.stop()` / `window.lenisStop?.()`, adicionam a classe `z8-modal-active` ao `body` e `html`, e resetam o `scrollTop = 0` do painel.
+     - `window.closeZ8ModelDrawer` e `window.closeLeadModal`: retomam `window.lenis?.start()` / `window.lenisStart?.()` e removem `z8-modal-active`.
+     - Isolamento de eventos: ouvintes de `wheel` e `touchmove` em `.z8-drawer-panel` e `.z8-modal-dialog` com `e.stopPropagation()` para blindar contra qualquer captura externa.
+  3. **CSS (`conceito/style.css`)**:
+     - Aplicado `overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; overscroll-behavior: contain !important; touch-action: pan-y !important;` tanto nos overlays quanto nos painéis.
+     - Barra de rolagem ciano explícita restaurada para os modais (`::-webkit-scrollbar { display: block !important; width: 6px; }`, trilha dark blue e thumb ciano `#00F0FF`).
+     - Alinhamento de topo em telas baixas (`@media (max-height: 860px) { align-items: flex-start !important; }`) e ergonomia mobile aprimorada (`max-height: calc(100dvh - 1rem)`).
+- **Validação Automatizada com Edge Headless & CDP**:
+  - Testes em viewport 390x844 confirmaram: `scrollHeight = 868px`, `clientHeight = 459px`, `maxScroll = 409px`.
+  - Rolagem executada com sucesso (`scrollTop = 409px`), revelando 100% do botão CTA `SOLICITAR TABELA DESTE MODELO & RESERVAR CIDADE ↱` (56.513 pixels ciano visíveis no screenshot).
+  - `npm run build` executado e aprovado com 0 erros.

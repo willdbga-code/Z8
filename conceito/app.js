@@ -219,6 +219,12 @@ window.openZ8ModelDrawer = function (modelId) {
   const body = document.getElementById('z8-drawer-body');
   if (!drawer || !body) return;
 
+  // Pause smooth scroll engine so modal has full native scroll control
+  if (window.lenis && typeof window.lenis.stop === 'function') window.lenis.stop();
+  if (typeof window.lenisStop === 'function') window.lenisStop();
+  document.body.classList.add('z8-modal-active');
+  document.documentElement.classList.add('z8-modal-active');
+
   const firstImg = model.colors?.[0]?.img || model.baseImg;
   const swatchesHtml = (model.colors || [])
     .map(
@@ -286,6 +292,10 @@ window.openZ8ModelDrawer = function (modelId) {
 
   drawer.classList.add('is-open');
   drawer.setAttribute('aria-hidden', 'false');
+
+  // Reset scroll to top of panel
+  const panel = drawer.querySelector('.z8-drawer-panel');
+  if (panel) panel.scrollTop = 0;
 };
 
 window.closeZ8ModelDrawer = function () {
@@ -293,6 +303,14 @@ window.closeZ8ModelDrawer = function () {
   if (drawer) {
     drawer.classList.remove('is-open');
     drawer.setAttribute('aria-hidden', 'true');
+  }
+  const leadModal = document.getElementById('investor-lead-modal');
+  const isLeadOpen = leadModal?.classList.contains('is-open');
+  if (!isLeadOpen) {
+    if (window.lenis && typeof window.lenis.start === 'function') window.lenis.start();
+    if (typeof window.lenisStart === 'function') window.lenisStart();
+    document.body.classList.remove('z8-modal-active');
+    document.documentElement.classList.remove('z8-modal-active');
   }
 };
 
@@ -399,22 +417,51 @@ window.openLeadModal = function (origin = 'Conceito Direct CTA') {
   currentLeadOrigin = origin;
   const modal = document.getElementById('investor-lead-modal');
   if (!modal) return;
+
+  if (window.lenis && typeof window.lenis.stop === 'function') window.lenis.stop();
+  if (typeof window.lenisStop === 'function') window.lenisStop();
+  document.body.classList.add('z8-modal-active');
+  document.documentElement.classList.add('z8-modal-active');
+
   modal.classList.add('is-open');
   modal.setAttribute('aria-hidden', 'false');
   sessionStorage.setItem('z8_conceito_modal_shown', '1');
+
+  const dialog = modal.querySelector('.z8-modal-dialog');
+  if (dialog) dialog.scrollTop = 0;
 };
 
 window.closeLeadModal = function () {
   const modal = document.getElementById('investor-lead-modal');
-  if (!modal) return;
-  modal.classList.remove('is-open');
-  modal.setAttribute('aria-hidden', 'true');
+  if (modal) {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+  const drawer = document.getElementById('z8-model-drawer');
+  const isDrawerOpen = drawer?.classList.contains('is-open');
+  if (!isDrawerOpen) {
+    if (window.lenis && typeof window.lenis.start === 'function') window.lenis.start();
+    if (typeof window.lenisStart === 'function') window.lenisStart();
+    document.body.classList.remove('z8-modal-active');
+    document.documentElement.classList.remove('z8-modal-active');
+  }
 };
 
 function initLeadModal() {
   const modal = document.getElementById('investor-lead-modal');
   const drawer = document.getElementById('z8-model-drawer');
   const form = document.getElementById('investor-lead-form');
+
+  // Isolate wheel & touchmove bubbling so Lenis/window never intercepts modal scrolls
+  const stopScrollBubbling = (el) => {
+    if (!el) return;
+    el.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true });
+    el.addEventListener('touchmove', (e) => e.stopPropagation(), { passive: true });
+  };
+  stopScrollBubbling(drawer);
+  stopScrollBubbling(modal);
+  stopScrollBubbling(drawer?.querySelector('.z8-drawer-panel'));
+  stopScrollBubbling(modal?.querySelector('.z8-modal-dialog'));
 
   if (modal) {
     modal.addEventListener('click', (e) => {
