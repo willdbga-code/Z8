@@ -1381,3 +1381,22 @@
   - Screenshot capturado em viewport mobile (390 × 844 @2x Retina) em `verified_hero_no_z8_text.png`.
   - Confirmação visual: texto "Z8 E-MOTION" removido por completo, sem quebras ou interferências no desktop.
   - `npm run build` aprovado com 0 erros.
+
+### [2026-10-28 02:08] - Ampliação e Emparelhamento Preciso do Logo Z8 na Barra Superior Mobile (/conceito/)
+- **Solicitação do Usuário**:
+  Aumentar e emparelhar o logotipo da Z8 com os ícones que compõem a área da barra superior (botão "Franquia" e botão "Menu Hamburger"), exclusivamente na versão para celular.
+- **Diagnóstico Técnico**:
+  - Medição computada via CDP revelou que o botão "Franquia" e o botão "Menu" possuíam centro vertical em `Y = 36px` (`top: 12px`, `bottom: 60px`, `height: 48px`).
+  - O logo Z8 (`.page-ln4-pos .nav-middle`) sofria um deslocamento inline injetado pelo motor de animação (`transform: translate(0px, 3.5rem)`), jogando seu centro para `Y = 70.3px` (34px abaixo da linha dos botões), além de ter sua largura espremida para apenas `27px` devido ao container herdado `.page-ln4-svg` (`2.5rem x 2.5rem`).
+- **Implementações em `conceito/style.css` (Strict `@media screen and (max-width: 767px)` & `@media screen and (max-width: 479px)`)**:
+  - `.page-ln4-pos`: `position: absolute !important; inset: 0 !important; height: 100% !important; display: flex !important; align-items: center !important; justify-content: center !important; pointer-events: none !important; z-index: 10 !important;`.
+  - `.page-ln4-pos .nav-middle`: `display: flex !important; align-items: center !important; justify-content: center !important; transform: none !important; translate: none !important; pointer-events: auto !important; margin: 0 !important; padding: 0 !important;`.
+  - `.page-ln4-pos .page-ln4-svg`: `width: auto !important; height: auto !important; display: flex !important; align-items: center !important; justify-content: center !important;`.
+  - `.page-ln4-pos .z8-nav-center-svg`: ampliado de 27px para `width: 72px !important; height: 30px !important; max-height: 30px !important; display: block !important; transform: none !important;`.
+- **Validação Automatizada com Edge Headless & CDP**:
+  - Coordenadas pixel-a-pixel confirmadas em viewport 390 × 844:
+    - Botão Franquia: Center Y = `36.0px`
+    - Botão Hamburger: Center Y = `36.0px`
+    - Emblema Z8: Center Y = `36.0px`, Left: `159.0px`, Right: `231.0px` (centralização horizontal simétrica perfeita: 159px de margem em ambos os lados).
+  - Screenshots capturados em `verified_navbar_paired_logo.png` e `verified_navbar_paired_hero.png`.
+  - `npm run build` executado e aprovado com 0 erros em 6.60s.
