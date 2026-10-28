@@ -12830,19 +12830,7 @@ canvas[data-rive-primary],
 /* 4. Hero Section & Floating KPI Card on Mobile */
 @media screen and (max-width: 767px) {
   .home-hero-tablet-hero-text {
-    top: 5.5rem !important;
-    padding: 0 1rem !important;
-  }
-  .home-hero-tablet-text-w div {
-    font-size: clamp(2rem, 8.5vw, 2.75rem) !important;
-    line-height: 0.95 !important;
-    white-space: nowrap !important;
-    letter-spacing: -0.02em !important;
-  }
-  .hero-next-race .text-eyebrow {
-    font-size: 0.68rem !important;
-    letter-spacing: 0.05em !important;
-    white-space: nowrap !important;
+    display: none !important;
   }
   .z8-hero-floating-kpi {
     position: absolute !important;
@@ -13242,7 +13230,10 @@ canvas[data-rive-object] {
     z-index: 20 !important;
   }
 
-  /* 2. Hero Section: Remove Overlapping Subtitle Text */
+  /* 2. Hero Section: Remove Z8 E-MOTION Hero Text on Mobile */
+  .home-hero-tablet-hero-text,
+  .home-hero-tablet-text-w,
+  .home-hero-tablet-hero-text [data-hero-anim="mob1"],
   .home-hero-tablet-hero-text [data-hero-anim="mob2"] {
     display: none !important;
   }

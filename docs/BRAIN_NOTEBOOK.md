@@ -1369,3 +1369,15 @@
     - `verified_card_margins.png`: exibe cards dos modelos com badges `+39,1% MARKUP` e `+38,9% MARKUP` perfeitamente alinhados no topo direito.
     - `verified_hidden_prices_modal.png`: exibe o drawer aberto da Z8 Harley com `[🔒 Sob Consulta]` em ouro âmbar, `27,3%` de margem líquida e `+37,5%` de markup em ciano, e o botão CTA intacto.
   - `npm run build` executado e aprovado com 0 erros em 6.56s.
+
+### [2026-10-28 01:34] - Remoção do Texto 'Z8 E-MOTION' no Hero na Versão Mobile (/conceito/)
+- **Solicitação do Usuário**:
+  Remoção definitiva do texto `"Z8 E-MOTION"` centralizado no hero na versão para celular, que sobrepunha o guidão, espelhos e faróis da moto.
+- **Implementação em `conceito/style.css`**:
+  - `@media screen and (max-width: 767px)` e `@media screen and (max-width: 479px)`:
+    - Ocultado `.home-hero-tablet-hero-text`, `.home-hero-tablet-text-w`, `[data-hero-anim="mob1"]` e `[data-hero-anim="mob2"]` com `display: none !important;`.
+  - O hero em celulares fica 100% limpo, com a moto em destaque estético e fotográfico absoluto, mantendo a barra de topo com o emblema Z8 e o botão de Franquia.
+- **Validação Automatizada com Edge Headless & CDP**:
+  - Screenshot capturado em viewport mobile (390 × 844 @2x Retina) em `verified_hero_no_z8_text.png`.
+  - Confirmação visual: texto "Z8 E-MOTION" removido por completo, sem quebras ou interferências no desktop.
+  - `npm run build` aprovado com 0 erros.
