@@ -1343,3 +1343,29 @@
   - Testes em viewport 390x844 confirmaram: `scrollHeight = 868px`, `clientHeight = 459px`, `maxScroll = 409px`.
   - Rolagem executada com sucesso (`scrollTop = 409px`), revelando 100% do botão CTA `SOLICITAR TABELA DESTE MODELO & RESERVAR CIDADE ↱` (56.513 pixels ciano visíveis no screenshot).
   - `npm run build` executado e aprovado com 0 erros.
+
+### [2026-10-28 01:25] - Ocultação de Valores Brutos e Destaque Exclusivo de Margens Comerciais no Catálogo B2B (/conceito/)
+- **Solicitação do Usuário**:
+  Assim como na página de vendas original (`/vendas/`) e no portal de parceiros (`/site-principal/`), manter os valores brutos confidenciais ("Sob Consulta"), exibindo e destacando exclusivamente as margens comerciais e markups nos cards da vitrine e no modal/drawer de detalhes.
+- **Motivação Estratégica B2B**:
+  No modelo de atacado e concessão de franquias direto de fábrica, expor preços brutos de atacado e varejo para visitantes desautenticados quebra a barreira de exclusividade B2B e reduz a curiosidade do investidor. Ao apresentar os preços de atacado e varejo como confidenciais (*Sob Consulta* com cadeado dourado âmbar `#F59E0B`) e estampar com orgulho as margens de lucro agressivas (+37,5% a +46,8% de markup e 27,3% a 31,9% de margem líquida), gera-se forte atratividade comercial e incentivo para o lead clicar em "SOLICITAR TABELA DESTE MODELO & RESERVAR CIDADE ↱".
+- **Implementações Executadas**:
+  1. **Vitrine dos 11 Modelos (`conceito/index.html`)**:
+     - Badges de telemetria nos cards (`.z8-tel-profit`): substituído o lucro bruto em reais (`+R$ .../un`) pelo markup comercial correspondente (ex: `+39,1% Markup`, `+38,9% Markup`, `+37,5% Markup`, `+46,8% Markup`).
+     - HUD interativo ao passar o mouse (`.z8-helmet-hover-hud`):
+       - `ATACADO B2B`: Ícone de cadeado + `Sob Consulta` em tom dourado âmbar (`#F59E0B`).
+       - `VAREJO SUG.`: Ícone de cadeado + `Sob Consulta` em tom dourado âmbar (`#F59E0B`).
+       - `MARKUP COMERCIAL`: Destaque em ciano Z8 com markup e margem líquida percentual (ex: `+39,1% (Margem 28,1%)`).
+     - Simulador de Rentabilidade (`#z8-sim-model`): opções do menu dropdown higienizadas para exibir nome do modelo + markup percentual, preservando os cálculos matemáticos dos atributos `data-` no backend JavaScript.
+  2. **Drawer / Modal de Especificações do Modelo (`conceito/app.js` & `conceito/style.css`)**:
+     - Grade de 4 KPIs reestruturada:
+       - Card 1 (`CUSTO ATACADO B2B`): `[🔒 Sob Consulta]` estilizado com badge `.is-confidential` (`#F59E0B`).
+       - Card 2 (`PREÇO VAREJO SUG.`): `[🔒 Sob Consulta]` estilizado com badge `.is-confidential` (`#F59E0B`).
+       - Card 3 (`MARGEM LÍQUIDA ESTIMADA`): Destaque em Ciano Elétrico (`27,3%` a `31,9%`).
+       - Card 4 (`MARKUP COMERCIAL`): Destaque em Ciano Elétrico (`+37,5%` a `+46,8%`).
+     - SVG do cadeado calibrado com `width: 14px; height: 14px; flex-shrink: 0; display: inline-block;` e `white-space: nowrap;` para alinhamento horizontal impecável sem quebra de linha.
+- **Validação Automatizada com Edge Headless & CDP**:
+  - Capturadas evidências em alta resolução em viewport mobile (390 × 844 @2x Retina):
+    - `verified_card_margins.png`: exibe cards dos modelos com badges `+39,1% MARKUP` e `+38,9% MARKUP` perfeitamente alinhados no topo direito.
+    - `verified_hidden_prices_modal.png`: exibe o drawer aberto da Z8 Harley com `[🔒 Sob Consulta]` em ouro âmbar, `27,3%` de margem líquida e `+37,5%` de markup em ciano, e o botão CTA intacto.
+  - `npm run build` executado e aprovado com 0 erros em 6.56s.

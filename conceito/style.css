@@ -11656,6 +11656,23 @@ html {
   color: var(--color--lime, #00F0FF);
 }
 
+.z8-hud-row strong.is-confidential {
+  color: #F59E0B;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.z8-hud-row strong.is-confidential svg {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
 .z8-hud-cta {
   margin-top: 0.35rem;
   text-align: center;
@@ -12266,6 +12283,28 @@ html.z8-modal-active {
 
 .z8-drawer-kpi.is-lime strong {
   color: var(--color--lime, #00F0FF);
+}
+
+.z8-drawer-kpi.is-confidential {
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.z8-drawer-kpi.is-confidential strong {
+  color: #F59E0B;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.z8-drawer-kpi.is-confidential svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  display: inline-block;
 }
 
 .z8-drawer-cta {

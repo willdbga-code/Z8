@@ -10,6 +10,7 @@ const Z8_FLEET = [
     id: 'z8-tank',
     name: 'Z8 Tank High-Speed',
     tag: '+39,1%',
+    marginPct: '28,1%',
     wholesale: 9554,
     retail: 13290,
     profit: 3736,
@@ -27,6 +28,7 @@ const Z8_FLEET = [
     id: 'z8-n95c',
     name: 'Z8 N95C Executive',
     tag: '+38,9%',
+    marginPct: '28,0%',
     wholesale: 6690,
     retail: 9290,
     profit: 2600,
@@ -44,6 +46,7 @@ const Z8_FLEET = [
     id: 'z8-fx10',
     name: 'Z8 FX-10 Sport',
     tag: '+38,6%',
+    marginPct: '27,9%',
     wholesale: 8650,
     retail: 11990,
     profit: 3340,
@@ -61,6 +64,7 @@ const Z8_FLEET = [
     id: 'z8-harley',
     name: 'Z8 Harley X21 Cruiser',
     tag: '+37,5%',
+    marginPct: '27,3%',
     wholesale: 8000,
     retail: 11000,
     profit: 3000,
@@ -77,6 +81,7 @@ const Z8_FLEET = [
     id: 'z8-u2',
     name: 'Z8 U2 Delivery Cargo',
     tag: '+39,2%',
+    marginPct: '28,2%',
     wholesale: 7900,
     retail: 11000,
     profit: 3100,
@@ -93,6 +98,7 @@ const Z8_FLEET = [
     id: 'z8-n710',
     name: 'Z8 N710 Faria Lima',
     tag: '+46,8%',
+    marginPct: '31,9%',
     wholesale: 5450,
     retail: 8000,
     profit: 2550,
@@ -110,6 +116,7 @@ const Z8_FLEET = [
     id: 'z8-q10',
     name: 'Z8 Mini Q10 Retro',
     tag: '+45,6%',
+    marginPct: '31,3%',
     wholesale: 5150,
     retail: 7500,
     profit: 2350,
@@ -126,6 +133,7 @@ const Z8_FLEET = [
     id: 'z8-q11',
     name: 'Z8 Q11 Pastel Design',
     tag: '+46,2%',
+    marginPct: '31,6%',
     wholesale: 5200,
     retail: 7600,
     profit: 2400,
@@ -139,6 +147,7 @@ const Z8_FLEET = [
     id: 'z8-diamond',
     name: 'Z8 Diamond Luxury',
     tag: '+44,0%',
+    marginPct: '30,6%',
     wholesale: 5000,
     retail: 7200,
     profit: 2200,
@@ -152,6 +161,7 @@ const Z8_FLEET = [
     id: 'z8-n7',
     name: 'Z8 N7 Compact',
     tag: '+45,8%',
+    marginPct: '31,4%',
     wholesale: 4800,
     retail: 7000,
     profit: 2200,
@@ -165,6 +175,7 @@ const Z8_FLEET = [
     id: 'z8-gs005',
     name: 'Z8 GS-005 Entry',
     tag: '+46,7%',
+    marginPct: '31,8%',
     wholesale: 4500,
     retail: 6600,
     profit: 2100,
@@ -249,17 +260,23 @@ window.openZ8ModelDrawer = function (modelId) {
         <h2 class="z8-modal-title">${model.name}</h2>
         <p class="z8-modal-subtitle">${model.power} — ${model.range}</p>
         <div class="z8-drawer-kpis">
-          <div class="z8-drawer-kpi">
+          <div class="z8-drawer-kpi is-confidential">
             <span>CUSTO ATACADO B2B</span>
-            <strong>${fmtBRL(model.wholesale)}</strong>
+            <strong>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Sob Consulta
+            </strong>
           </div>
-          <div class="z8-drawer-kpi">
+          <div class="z8-drawer-kpi is-confidential">
             <span>PREÇO VAREJO SUG.</span>
-            <strong>${fmtBRL(model.retail)}</strong>
+            <strong>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Sob Consulta
+            </strong>
           </div>
           <div class="z8-drawer-kpi is-lime">
-            <span>LUCRO LÍQUIDO / UN</span>
-            <strong>+${fmtBRL(model.profit)}</strong>
+            <span>MARGEM LÍQUIDA ESTIMADA</span>
+            <strong>${model.marginPct || 'Até 31,9%'}</strong>
           </div>
           <div class="z8-drawer-kpi is-lime">
             <span>MARKUP COMERCIAL</span>
