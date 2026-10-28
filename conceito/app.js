@@ -772,12 +772,18 @@ function updateNavMenuAuthText(text) {
   const linkEl = document.getElementById('nav-menu-link-login');
   if (!txtEl || !linkEl) return;
 
-  if (txtEl.getAttribute('data-current-text') === text && txtEl.querySelectorAll('.char').length > 0) {
+  // If text already matches or unauthenticated on page load, do not touch DOM so lando-engine handles it cleanly
+  const currentText = txtEl.getAttribute('data-current-text') || 'Área do Parceiro';
+  if (currentText === text && txtEl.querySelector('.char')) {
+    return;
+  }
+  if (!txtEl.hasAttribute('data-current-text') && text === 'Área do Parceiro') {
+    txtEl.setAttribute('data-current-text', text);
     return;
   }
   txtEl.setAttribute('data-current-text', text);
 
-  // Clear and rebuild .char spans
+  // Rebuild only upon authenticated state transition
   txtEl.innerHTML = '';
   const chars = [];
   for (let ch of text) {
@@ -787,8 +793,6 @@ function updateNavMenuAuthText(text) {
       const span = document.createElement('span');
       span.className = 'char';
       span.setAttribute('aria-hidden', 'true');
-      span.style.position = 'relative';
-      span.style.display = 'inline-block';
       span.textContent = ch;
       txtEl.appendChild(span);
       chars.push(span);
@@ -798,7 +802,6 @@ function updateNavMenuAuthText(text) {
   const srClone = linkEl.querySelector('[screen-reader]');
   if (srClone) srClone.textContent = text;
 
-  // Bind GSAP hover animation
   const getShift = () => window.innerWidth < 480 ? "-4.3rem" : "-5.25rem";
   linkEl.onmouseenter = () => {
     if (window.gsap) {
