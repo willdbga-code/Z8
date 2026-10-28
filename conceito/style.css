@@ -13351,34 +13351,20 @@ canvas[data-rive-object] {
     transform: none !important;
   }
 
-  /* 5. Motorcycle Showcase Card (Z8 Tank, etc.): Continuous Perimetral Border */
-  [data-helmet-item] {
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
+  /* 5. Motorcycle Showcase Card (Z8 Tank, etc.): Preserve Sleek Desktop Aesthetic & No Square Border */
+  .helmet-grid-frame-w.destop {
+    display: flex !important;
   }
-  .helmet-grid-frame-w {
+  .helmet-grid-frame-w.mobile {
     display: none !important;
   }
   .helmet-grid-item-img-w {
-    clip-path: none !important;
-    border-radius: 8px !important;
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 90.2%, 60.5% 90.2%, 51.8% 100%, 0% 100%) !important;
+    border-radius: 7.5px !important;
   }
   .helmet-grid-item {
-    border: 1.5px solid rgba(0, 240, 255, 0.45) !important;
-    border-radius: 8px !important;
-    background: rgba(10, 22, 40, 0.6) !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-    position: relative !important;
-    transition: border-color var(--animation-default, 0.3s ease) !important;
-  }
-  .helmet-grid-item-w:hover .helmet-grid-item,
-  .helmet-grid-item-w:active .helmet-grid-item {
-    border-color: var(--color--lime, #00F0FF) !important;
+    border: none !important;
+    background: transparent !important;
   }
 
   /* 6. Modal & Spec Drawer Mobile Viewport & Scrolling Ergonomics */

@@ -1443,3 +1443,32 @@
   4. **Pós-Login (Pendente)**: Banner elegante informando solicitação em análise pela diretoria com botão VIP de 1 clique para WhatsApp.
   5. **Pós-Login (Admin Master Christian Hideyuki)**: Botão exclusivo `ADMIN` no cabeçalho com abertura do `#z8-admin-modal`, sincronizado em tempo real via snapshot do Firestore com a coleção `catalog_users`.
   6. **Geometria de Botões & Bauhaus**: Todos os botões e CTAs seguem `border-radius: 4px` a `6px`, sem botões pílula (> 8px) ou efeitos neon, e responsividade perfeita em 390px (mobile) a 1400px (desktop).
+
+
+### [2026-10-28 18:15] - Catálogo Minimalista de Vendas Z8 (14 Páginas A4 Paisagem) & Skill Adobe Illustrator
+- **Solicitação do Usuário**: Criação de um catálogo de vendas minimalista e limpo com breve apresentação da marca, integrado ao fluxo do Adobe Illustrator e com entrega em PDF editorial de alta fidelidade e script editável `.jsx` para Illustrator.
+- **Entregáveis Criados**:
+  1. **PDF de Alta Resolução (14 páginas, A4 Paisagem 297x210 mm, 9.94 MB)**:
+     - `docs/CATALOGO_MINIMALISTA_VENDAS_Z8_2026.pdf` (e espelhado em `public/docs/` e `dist/docs/`).
+     - Estrutura das 14 Páginas:
+       * Pág. 01: Capa Minimalista com tipografia monumental e vitrine dos 3 modelos ícones.
+       * Pág. 02: Apresentação da Marca, Manifesto Z8, 3 métricas em destaque (R$ 1,80/recarga, +90% economia, 100% CONTRAN 996) e 4 Pilares de Engenharia e Pós-Venda.
+       * Págs. 03 a 13: As 11 máquinas da linha Z8 (Tank, FX-10, Harley X12, U2 Delivery, N95C Max, H26 Standard, Q11 Compact com baú, N710 Urban Plus, Q10 Vintage Xiao Q, GS-005 e Diamond Luxe) com fotografias em alta resolução, ficha técnica completa, itens de série e caixa de vendas comercial.
+       * Pág. 14: Contracapa Oficial com matriz corporativa de São José dos Campos - SP, canais diretos de atendimento e selos de homologação.
+  2. **Script Mestre do Adobe Illustrator 2026**:
+     - `scripts/GERAR_CATALOGO_ILUSTRATOR_Z8.jsx`: Script em ExtendScript que cria nativamente as 14 pranchetas A4 Paisagem, 5 camadas profissionais (`01_Background`, `02_Cards_Molduras`, `03_Imagens_Veiculos`, `04_Tipografia`, `05_Precos_CTA`), importa as imagens de estúdio em alta resolução e salva automaticamente como `.ai` e `.pdf`.
+  3. **Nova Skill de Automação para Adobe Illustrator**:
+     - Registrada em `.agents/skills/adobe_illustrator/SKILL.md` com arquitetura completa para criação de vetores, manipulação de pranchetas e exportação direta no Illustrator 2026.
+  4. **Build de Produção**:
+     - `npm run build` executado com êxito em 6.35s sem erros.
+
+### [2026-10-28 18:55] - Correção e Preenchimento Completo das 14 Pranchetas no Adobe Illustrator (.jsx)
+- **Problema Relatado**: Na primeira versão do script do Illustrator, o loop de geração cobria apenas as pranchetas das motocicletas (pranchetas 3 a 13), deixando a Prancheta 1 (Capa), Prancheta 2 (Apresentação da Marca) e Prancheta 14 (Contracapa) em branco apenas com as bordas estruturais.
+- **Solução Implementada**:
+  - `scripts/GERAR_CATALOGO_ILUSTRATOR_Z8.jsx` totalmente reescrito e calibrado com renderização nativa de:
+    * **Prancheta 01 (Capa Minimalista)**: Tag kicker `MOBILIDADE URBANA 100% ELÉTRICA`, headline monumental `ENGENHARIA, ESTILO E LIBERDADE.`, subtítulo explicativo e 3 vitrines completas de modelos (Z8 N95C Max, Z8 Tank High-Speed e Z8 Q10 Vintage) com imagens, tags, specs e preços.
+    * **Prancheta 02 (Apresentação da Marca & Manifesto)**: Layout em 2 colunas com Kicker `MANIFESTO DE ENGENHARIA`, headline `O FUTURO NÃO ESPERA. ELE ANDA EM SILÊNCIO.`, parágrafos institucionais de chassi, bateria de lítio BMS e motor brushless, grid de 3 métricas de destaque (`R$ 1,80` recarga, `+90%` economia, `100%` CONTRAN 996) e os 4 Pilares da marca (Tecnologia de Bateria & BMS, Pós-Venda Oficina Padrão com 2 Elevadores, Segurança Urbana e Sustentabilidade).
+    * **Pranchetas 03 a 13**: Os 11 modelos Z8 com ficha técnica, fotos de estúdio, tags oficiais e caixa de venda direta.
+    * **Prancheta 14 (Contracapa & Contato)**: Headline `SUA LIBERDADE COMEÇA COM UM TEST-RIDE.`, 3 cards corporativos (Matriz Corporativa de São José dos Campos - SP, Canais Diretos WhatsApp e Segurança Jurídica/CONTRAN 996) e rodapé legal oficial.
+- **Validação de Sintaxe**: Verificado com node e compatibilidade com ExtendScript do Adobe Illustrator 2026.
+

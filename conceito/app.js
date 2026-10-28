@@ -55,11 +55,11 @@ const Z8_FLEET = [
   {
     id: 'z8-fx10',
     name: 'Z8 FX-10 Sport',
-    tag: '+38,6%',
-    marginPct: '27,9%',
-    wholesale: 8650,
-    retail: 11990,
-    profit: 3340,
+    tag: '+45,2%',
+    marginPct: '31,1%',
+    wholesale: 6200,
+    retail: 9000,
+    profit: 2800,
     power: '2500W Sport Hub',
     range: 'Até 100 km (72V)',
     cnh: 'Autopropelido // Urbano',
@@ -124,7 +124,7 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-q10',
-    name: 'Z8 Q11 Pastel Design',
+    name: 'Z8 Mini Q10 Retro',
     tag: '+45,6%',
     marginPct: '31,3%',
     wholesale: 5150,
@@ -133,15 +133,12 @@ const Z8_FLEET = [
     power: '1000W Euro Retro',
     range: 'Até 70 km (R$ 1,80/carga)',
     cnh: '100% Isento CNH // 996',
-    baseImg: '/assets/models/z8_q10_studio.jpg',
-    colors: [
-      { name: 'Sage Mint', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
-      { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
-    ]
+    baseImg: '/assets/models/z8_q11_studio.jpg',
+    colors: [{ name: 'Pastel Cream', hex: '#E5DEC9', img: '/assets/models/z8_q11_studio.jpg' }]
   },
   {
     id: 'z8-q11',
-    name: 'Z8 Mini Q10 Retro',
+    name: 'Z8 Q11 Pastel Design',
     tag: '+46,2%',
     marginPct: '31,6%',
     wholesale: 5200,
@@ -150,8 +147,11 @@ const Z8_FLEET = [
     power: '1000W Boutique',
     range: 'Até 70 km (R$ 1,80/carga)',
     cnh: '100% Isento CNH // 996',
-    baseImg: '/assets/models/z8_q11_studio.jpg',
-    colors: [{ name: 'Pastel Cream', hex: '#E5DEC9', img: '/assets/models/z8_q11_studio.jpg' }]
+    baseImg: '/assets/models/z8_q10_studio.jpg',
+    colors: [
+      { name: 'Sage Mint', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
+      { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
+    ]
   },
   {
     id: 'z8-diamond',
