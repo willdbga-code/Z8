@@ -13482,7 +13482,7 @@ canvas[data-rive-object] {
 }
 
 .z8-auth-brand-code {
-  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -13506,7 +13506,7 @@ canvas[data-rive-object] {
   background: rgba(0, 240, 255, 0.06);
   border: 1px solid rgba(0, 240, 255, 0.2);
   border-radius: 4px;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.65rem;
   font-weight: 700;
   color: #00F0FF;
@@ -13555,7 +13555,7 @@ canvas[data-rive-object] {
   position: absolute;
   top: 0.65rem;
   left: 0.75rem;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.65rem;
   font-weight: 800;
   color: rgba(255, 255, 255, 0.6);
@@ -13571,7 +13571,7 @@ canvas[data-rive-object] {
   position: absolute;
   top: 0.65rem;
   right: 0.75rem;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.58rem;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -13613,7 +13613,7 @@ canvas[data-rive-object] {
 }
 
 .z8-auth-moto-meta strong {
-  font-family: 'Outfit', 'Space Grotesk', sans-serif;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.82rem;
   font-weight: 800;
   color: #FFFFFF;
@@ -13622,7 +13622,7 @@ canvas[data-rive-object] {
 }
 
 .z8-auth-moto-meta span {
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.62rem;
   font-weight: 700;
   color: #00F0FF;
@@ -13637,7 +13637,7 @@ canvas[data-rive-object] {
 }
 
 .z8-spec-strip-header {
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.62rem;
   font-weight: 700;
   color: rgba(244, 244, 237, 0.45);
@@ -13669,7 +13669,7 @@ canvas[data-rive-object] {
 
 .z8-spec-pill-val {
   display: block;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.72rem;
   font-weight: 800;
   color: #00F0FF;
@@ -13700,7 +13700,7 @@ canvas[data-rive-object] {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.68rem;
   font-weight: 700;
   color: rgba(244, 244, 237, 0.7);
@@ -13724,7 +13724,7 @@ canvas[data-rive-object] {
   height: 38px;
   padding: 0 0.85rem;
   border-radius: 4px;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -13754,7 +13754,7 @@ canvas[data-rive-object] {
 }
 
 .z8-auth-eyebrow {
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.7rem;
   font-weight: 800;
   color: #00F0FF;
@@ -13764,7 +13764,7 @@ canvas[data-rive-object] {
 }
 
 .z8-auth-monumental-title {
-  font-family: 'Outfit', 'Space Grotesk', sans-serif;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: clamp(2rem, 3.5vw, 2.85rem);
   font-weight: 900;
   color: #FFFFFF;
@@ -13825,7 +13825,7 @@ canvas[data-rive-object] {
   background: transparent;
   border: none;
   color: #94A3B8;
-  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.74rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -13841,7 +13841,7 @@ canvas[data-rive-object] {
 }
 
 .z8-auth-tab .tab-index {
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.62rem;
   opacity: 0.6;
 }
@@ -13921,7 +13921,7 @@ canvas[data-rive-object] {
 }
 
 .z8-google-auth-title {
-  font-family: 'Space Grotesk', 'Outfit', sans-serif;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.82rem;
   font-weight: 800;
   color: #FFFFFF;
@@ -13943,7 +13943,7 @@ canvas[data-rive-object] {
   background: rgba(0, 240, 255, 0.1);
   border: 1px solid rgba(0, 240, 255, 0.25);
   border-radius: 2px;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.62rem;
   font-weight: 800;
   color: #00F0FF;
@@ -13965,7 +13965,7 @@ canvas[data-rive-object] {
   text-align: center;
   margin: 1.15rem 0;
   color: rgba(244, 244, 237, 0.35);
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -13998,7 +13998,7 @@ canvas[data-rive-object] {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.68rem;
   font-weight: 700;
   color: rgba(244, 244, 237, 0.7);
@@ -14010,7 +14010,7 @@ canvas[data-rive-object] {
   background: rgba(0, 240, 255, 0.12);
   border: 1px solid rgba(0, 240, 255, 0.35);
   color: #00F0FF;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -14044,7 +14044,7 @@ canvas[data-rive-object] {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.68rem;
   font-weight: 800;
   color: rgba(244, 244, 237, 0.85);
@@ -14058,7 +14058,7 @@ canvas[data-rive-object] {
 }
 
 .z8-form-label-row .label-tag {
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.6rem;
   color: rgba(244, 244, 237, 0.4);
   letter-spacing: 0.08em;
@@ -14066,7 +14066,7 @@ canvas[data-rive-object] {
 }
 
 .z8-forgot-link {
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.68rem;
   font-weight: 700;
   color: #00F0FF;
@@ -14108,7 +14108,7 @@ canvas[data-rive-object] {
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 4px;
   color: #FFFFFF;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.88rem;
   transition: all 0.2s ease;
   outline: none;
@@ -14149,7 +14149,7 @@ canvas[data-rive-object] {
   color: #07080B;
   border: none;
   border-radius: 4px;
-  font-family: 'Outfit', 'Space Grotesk', sans-serif;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.88rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -14210,7 +14210,7 @@ canvas[data-rive-object] {
   background: none;
   border: none;
   color: #94A3B8;
-  font-family: 'Space Grotesk', monospace;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -14250,38 +14250,77 @@ canvas[data-rive-object] {
 .z8-auth-menu-emblem {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
 }
 
-.z8-auth-menu-emblem span {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: rgba(244, 244, 237, 0.5);
-  text-transform: uppercase;
+.z8-auth-footer-logo {
+  height: 26px !important;
+  max-height: 26px !important;
+  width: auto !important;
+  max-width: 80px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+  display: block !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 240, 255, 0.28));
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.z8-auth-menu-emblem:hover .z8-auth-footer-logo {
+  transform: scale(1.05);
+}
+
+.z8-auth-menu-emblem svg {
+  width: 24px !important;
+  height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  flex-shrink: 0 !important;
+}
+
+.z8-auth-menu-emblem span,
+.z8-auth-footer-corp {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif) !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  color: rgba(244, 244, 237, 0.7) !important;
+  text-transform: uppercase !important;
+  line-height: 1.4 !important;
 }
 
 .z8-auth-menu-legal-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.15rem;
+  align-items: center;
+  gap: 1.25rem;
 }
 
+.z8-auth-legal-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none !important;
+  position: relative;
+}
+
+.z8-auth-legal-link .btn-text.is-footer-legal,
 .z8-auth-menu-legal-links a {
-  font-family: 'Space Grotesk', monospace;
-  font-size: 0.64rem;
-  font-weight: 800;
-  color: rgba(244, 244, 237, 0.4);
-  text-decoration: none;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  transition: color 0.2s ease;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif) !important;
+  font-size: 0.68rem !important;
+  font-weight: 800 !important;
+  font-variation-settings: "wdth" 86 !important;
+  letter-spacing: 0.09em !important;
+  text-transform: uppercase !important;
+  color: rgba(244, 244, 237, 0.5) !important;
+  line-height: 1.2 !important;
+  transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.z8-auth-legal-link:hover .btn-text.is-footer-legal,
 .z8-auth-menu-legal-links a:hover {
-  color: #00F0FF;
+  color: #00F0FF !important;
+  transform: translateY(-1px);
 }
 
 /* Responsive: Tablet & Mobile */
