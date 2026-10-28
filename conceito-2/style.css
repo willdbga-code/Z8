@@ -1,0 +1,668 @@
+/* ==========================================================================
+   Z8 E-MOTION // CONCEITO 2 — INTEGRATED AUTH & ADVANCED MOTION ENGINE
+   Inherits full 1:1 Lando Norris Engine + Adds Reactive Auth Architecture
+   ========================================================================== */
+
+@import "../conceito/style.css";
+
+/* ==========================================================================
+   1. TOP NAVBAR AUTH EXTENSIONS
+   ========================================================================== */
+.z8-partner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(10, 22, 40, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  border-radius: 4px;
+  padding: 0.4rem 0.75rem;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #F4F5F7;
+  backdrop-filter: blur(12px);
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.z8-partner-badge .badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  flex-shrink: 0;
+}
+
+.z8-partner-badge.is-pending .badge-dot {
+  background: #F59E0B;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+}
+
+.btn-w.is-nav.is-auth-trigger {
+  background: rgba(0, 240, 255, 0.12) !important;
+  border: 1px solid rgba(0, 240, 255, 0.5) !important;
+  color: var(--color--lime, #00F0FF) !important;
+}
+
+.btn-w.is-nav.is-admin-trigger {
+  background: rgba(245, 158, 11, 0.15) !important;
+  border: 1px solid rgba(245, 158, 11, 0.6) !important;
+  color: #F59E0B !important;
+}
+
+.btn-w.is-nav.is-logout-trigger {
+  background: rgba(244, 244, 237, 0.08) !important;
+  border: 1px solid rgba(244, 244, 237, 0.2) !important;
+  color: rgba(244, 244, 237, 0.8) !important;
+}
+
+/* ==========================================================================
+   2. PENDING APPROVAL NOTIFICATION BANNER
+   ========================================================================== */
+.z8-pending-banner {
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.18), rgba(245, 158, 11, 0.08));
+  border-bottom: 1px solid rgba(245, 158, 11, 0.4);
+  padding: 0.65rem 1rem;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.8rem;
+  color: #F59E0B;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  z-index: 45;
+}
+
+.z8-pending-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+}
+
+.z8-pending-banner-btn {
+  background: #F59E0B;
+  color: #0A0B0E;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   3. FLUID ANIMATED AUTH MODAL (LANDO NORRIS / REA STYLE)
+   ========================================================================== */
+.z8-auth-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 11, 14, 0.88);
+  backdrop-filter: blur(28px) saturate(180%);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.z8-auth-modal.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.z8-auth-dialog {
+  background: rgba(10, 22, 40, 0.95);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  border-radius: 6px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+  max-width: 490px;
+  width: 100%;
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  padding: 2rem;
+  position: relative;
+  transform: scale(0.96) translateY(12px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #F4F5F7;
+  font-family: 'Mona Sans Variable', sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: #00F0FF rgba(10, 22, 40, 0.6);
+}
+
+.z8-auth-modal.is-active .z8-auth-dialog {
+  transform: scale(1) translateY(0);
+}
+
+.z8-auth-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.z8-auth-logo-svg {
+  width: 140px;
+  height: auto;
+  margin-bottom: 0.75rem;
+}
+
+.z8-auth-title {
+  font-family: 'Space Grotesk', 'Mona Sans Variable', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin: 0 0 0.35rem 0;
+  color: #F4F5F7;
+}
+
+.z8-auth-subtitle {
+  font-size: 0.78rem;
+  color: rgba(244, 244, 237, 0.65);
+  margin: 0;
+}
+
+.z8-auth-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(244, 244, 237, 0.08);
+  border: 1px solid rgba(244, 244, 237, 0.15);
+  color: #F4F5F7;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.z8-auth-close:hover {
+  background: rgba(0, 240, 255, 0.2);
+  border-color: #00F0FF;
+}
+
+/* Kinetic Tab Switcher */
+.z8-auth-tabs {
+  display: flex;
+  background: rgba(10, 11, 14, 0.6);
+  border: 1px solid rgba(244, 244, 237, 0.12);
+  border-radius: 4px;
+  padding: 3px;
+  margin-bottom: 1.5rem;
+  gap: 3px;
+}
+
+.z8-auth-tab {
+  flex: 1;
+  padding: 0.65rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: rgba(244, 244, 237, 0.6);
+  border-radius: 4px;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: center;
+}
+
+.z8-auth-tab.is-active {
+  background: var(--color--lime, #00F0FF);
+  color: #0A0B0E;
+  box-shadow: 0 2px 10px rgba(0, 240, 255, 0.25);
+}
+
+/* Google OAuth Button */
+.z8-google-btn {
+  width: 100%;
+  background: #FFFFFF;
+  color: #1F2937;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  margin-bottom: 1rem;
+}
+
+.z8-google-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.z8-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.z8-auth-divider::before,
+.z8-auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(244, 244, 237, 0.12);
+}
+
+.z8-auth-divider span {
+  font-size: 0.68rem;
+  color: rgba(244, 244, 237, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Quick Master Admin Helper */
+.z8-quick-admin-pill {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px dashed rgba(245, 158, 11, 0.4);
+  border-radius: 4px;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.z8-quick-admin-pill span {
+  font-size: 0.72rem;
+  color: #F59E0B;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.z8-quick-admin-btn {
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid #F59E0B;
+  color: #F59E0B;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+/* Form Fields */
+.z8-form-group {
+  margin-bottom: 1rem;
+}
+
+.z8-form-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgba(244, 244, 237, 0.75);
+  margin-bottom: 0.35rem;
+}
+
+.z8-input {
+  width: 100%;
+  background: rgba(10, 11, 14, 0.7);
+  border: 1px solid rgba(244, 244, 237, 0.15);
+  border-radius: 4px;
+  padding: 0.75rem 0.95rem;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.86rem;
+  color: #F4F5F7;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.z8-input:focus {
+  outline: none;
+  border-color: #00F0FF;
+  box-shadow: 0 0 0 2px rgba(0, 240, 255, 0.2);
+}
+
+.z8-input-wrap {
+  position: relative;
+}
+
+.z8-pass-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(244, 244, 237, 0.5);
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.z8-auth-submit {
+  width: 100%;
+  background: var(--color--lime, #00F0FF);
+  color: #0A0B0E;
+  border: none;
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
+  margin-top: 0.5rem;
+}
+
+.z8-auth-submit:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.z8-auth-msg {
+  padding: 0.65rem 0.85rem;
+  border-radius: 4px;
+  font-size: 0.76rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.z8-auth-msg.is-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #FCA5A5;
+}
+
+.z8-auth-msg.is-success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #6EE7B7;
+}
+
+/* ==========================================================================
+   4. MESA DE OPERAÇÕES B2B (ORDER DESK) & SIMULADOR
+   ========================================================================== */
+.z8-orderdesk-section {
+  padding: 4rem 1.5rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.z8-orderdesk-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.z8-orderdesk-eyebrow {
+  color: var(--color--lime, #00F0FF);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.z8-orderdesk-title {
+  font-family: 'Space Grotesk', 'Mona Sans Variable', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  color: #F4F5F7;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.65rem 0;
+}
+
+.z8-orderdesk-card {
+  background: rgba(10, 22, 40, 0.75);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  border-radius: 6px;
+  padding: 1.75rem;
+  backdrop-filter: blur(16px);
+}
+
+.z8-orderdesk-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.75rem;
+}
+
+.z8-orderdesk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.z8-orderdesk-table th {
+  background: rgba(0, 240, 255, 0.08);
+  color: var(--color--lime, #00F0FF);
+  padding: 0.75rem 1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+  white-space: nowrap;
+}
+
+.z8-orderdesk-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(244, 244, 237, 0.08);
+  color: #F4F5F7;
+  white-space: nowrap;
+}
+
+.z8-orderdesk-table tr:hover td {
+  background: rgba(244, 244, 237, 0.03);
+}
+
+.z8-orderdesk-teaser-box {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px dashed rgba(245, 158, 11, 0.4);
+  border-radius: 6px;
+}
+
+.z8-orderdesk-teaser-icon {
+  font-size: 2.2rem;
+  color: #F59E0B;
+  margin-bottom: 0.85rem;
+}
+
+/* ==========================================================================
+   5. COMPARADOR TÉCNICO LADO A LADO
+   ========================================================================== */
+.z8-comparator-section {
+  padding: 4rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.z8-comparator-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.z8-comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(10, 22, 40, 0.6);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.z8-comp-table th,
+.z8-comp-table td {
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid rgba(244, 244, 237, 0.08);
+  font-size: 0.82rem;
+}
+
+.z8-comp-table th {
+  background: rgba(0, 240, 255, 0.08);
+  color: #00F0FF;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   6. CENTRAL DE MANUAIS & DOWNLOADS
+   ========================================================================== */
+.z8-downloads-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.z8-download-card {
+  background: rgba(10, 22, 40, 0.7);
+  border: 1px solid rgba(244, 244, 237, 0.12);
+  border-radius: 6px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none;
+  color: #F4F5F7;
+  transition: all 0.2s;
+}
+
+.z8-download-card:hover {
+  border-color: #00F0FF;
+  background: rgba(0, 240, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.z8-download-icon {
+  font-size: 1.6rem;
+  color: #00F0FF;
+  flex-shrink: 0;
+}
+
+.z8-download-card.is-locked .z8-download-icon {
+  color: #F59E0B;
+}
+
+.z8-download-card.is-locked {
+  border-style: dashed;
+  border-color: rgba(245, 158, 11, 0.4);
+}
+
+/* ==========================================================================
+   7. PAINEL ADMIN MASTER (CHRISTIAN HIDEYUKI)
+   ========================================================================== */
+.z8-admin-modal .z8-auth-dialog {
+  max-width: 960px;
+}
+
+.z8-admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.z8-admin-stat-card {
+  background: rgba(10, 11, 14, 0.6);
+  border: 1px solid rgba(244, 244, 237, 0.12);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+}
+
+.z8-admin-stat-card strong {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #00F0FF;
+  margin-top: 0.25rem;
+}
+
+.z8-admin-stat-card.is-amber strong {
+  color: #F59E0B;
+}
+
+.z8-admin-stat-card.is-green strong {
+  color: #10B981;
+}
+
+.z8-admin-users-list {
+  display: flex;
+  flex-flow: column;
+  gap: 0.65rem;
+}
+
+.z8-admin-user-row {
+  background: rgba(10, 11, 14, 0.7);
+  border: 1px solid rgba(244, 244, 237, 0.1);
+  border-radius: 4px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.z8-admin-btn-approve {
+  background: #10B981;
+  color: #0A0B0E;
+  border: none;
+  border-radius: 4px;
+  font-weight: 800;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+.z8-admin-btn-reject {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #EF4444;
+  color: #FCA5A5;
+  border-radius: 4px;
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE BREAKPOINTS CALIBRATION
+   ========================================================================== */
+@media screen and (max-width: 767px) {
+  .z8-comparator-selectors {
+    grid-template-columns: 1fr;
+  }
+  .z8-auth-dialog {
+    padding: 1.25rem;
+  }
+  .z8-pending-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -10,6 +10,8 @@
 | :--- | :--- | :--- | :--- |
 | **Portal Hub** | `/` | `index.html`, `vite.config.js` | Navegação central para todas as aplicações |
 | **Site Principal** | `/site-principal/` | `index.html`, `main.js`, `style.css`, `data/models.js` | Portal da marca, catálogo completo de 11 modelos, comparativo de lucros e formulário de parceria |
+| **Conceito (Motion)** | `/conceito/` | `index.html`, `app.js`, `style.css` | Página conceito com motor cinemático inspirado em landonorris.com |
+| **Conceito 2 (Auth Integrado)** | `/conceito-2/` | `index.html`, `app.js`, `style.css` | Página conceito definitiva com pré/pós login reativo, mesa de atacado, modais fluidos e dados técnicos |
 | **Vendas (B2B)** | `/vendas/` | `index.html`, `app.js`, `style.css` | Landing page de alta conversão para atacadistas e franqueados. Página 100% isolada e sem links de retorno |
 | **N95C Executive** | `/n95c/` | `index.html`, `app.js`, `style.css` | Página premium focada na Scooter Executiva N95C E-Motion |
 
@@ -1400,3 +1402,19 @@
     - Emblema Z8: Center Y = `36.0px`, Left: `159.0px`, Right: `231.0px` (centralização horizontal simétrica perfeita: 159px de margem em ambos os lados).
   - Screenshots capturados em `verified_navbar_paired_logo.png` e `verified_navbar_paired_hero.png`.
   - `npm run build` executado e aprovado com 0 erros em 6.60s.
+
+
+---
+
+## 8. ⚡ Página Conceito 2 (Substituta Oficial do Site Principal — Outubro/2026)
+
+- **Diretório**: `/conceito-2/` (`index.html`, `app.js`, `style.css`)
+- **Rota Vite**: `conceito2` mapeada em `vite.config.js`
+- **Conceito & UX**: Motor cinemático de alto padrão (inspirado em `landonorris.com`) unificado com a arquitetura de autenticação segura, controle de permissões e catálogo técnico oficial.
+- **Diferenciais Implementados**:
+  1. **Pré-Login**: Valores monetários confidenciais (`[🔒 Sob Consulta]`), markups transparentes e destacados, teaser da Mesa de Atacado (Order Desk), downloads de PDI/Garantia restritos e botão de autenticação no navbar.
+  2. **Modal Fluido Lando Norris**: Vidro escuro espelhado (`backdrop-filter: blur(28px)`), alternância cinética de 3 abas (**Entrar**, **Cadastrar Loja**, **Recuperar**), autenticação Google 1-Click (`loginWithGoogle`) e botão demo para teste rápido de Admin Master.
+  3. **Pós-Login (Aprovado)**: Preços de fábrica FOB/CIF revelados em todos os 11 modelos, lucro líquido unitário exibido, Mesa de Atacado interativa com slider de lotes (MOQ 10 motos oficiais, 15 ou 20 motos), cálculo automático de margem da oficina dos 2 elevadores, gerador de proposta em WhatsApp para Christian Hideyuki e desbloqueio dos manuais técnicos.
+  4. **Pós-Login (Pendente)**: Banner elegante informando solicitação em análise pela diretoria com botão VIP de 1 clique para WhatsApp.
+  5. **Pós-Login (Admin Master Christian Hideyuki)**: Botão exclusivo `ADMIN` no cabeçalho com abertura do `#z8-admin-modal`, sincronizado em tempo real via snapshot do Firestore com a coleção `catalog_users`.
+  6. **Geometria de Botões & Bauhaus**: Todos os botões e CTAs seguem `border-radius: 4px` a `6px`, sem botões pílula (> 8px) ou efeitos neon, e responsividade perfeita em 390px (mobile) a 1400px (desktop).

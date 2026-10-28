@@ -27,7 +27,8 @@ export default defineConfig({
         n95c: resolve(import.meta.dirname, 'n95c/index.html'),
         posters: resolve(import.meta.dirname, 'posters/index.html'),
         apresentacao: resolve(import.meta.dirname, 'apresentacao/index.html'),
-        conceito: resolve(import.meta.dirname, 'conceito/index.html')
+        conceito: resolve(import.meta.dirname, 'conceito/index.html'),
+        conceito2: resolve(import.meta.dirname, 'conceito-2/index.html')
       }
     }
   }
