@@ -1472,3 +1472,27 @@
     * **Prancheta 14 (Contracapa & Contato)**: Headline `SUA LIBERDADE COMEÇA COM UM TEST-RIDE.`, 3 cards corporativos (Matriz Corporativa de São José dos Campos - SP, Canais Diretos WhatsApp e Segurança Jurídica/CONTRAN 996) e rodapé legal oficial.
 - **Validação de Sintaxe**: Verificado com node e compatibilidade com ExtendScript do Adobe Illustrator 2026.
 
+
+### [2026-10-29 21:28] - Calibração de Responsividade para Tablet (480px a 991px) com Preservação Estrita do Desktop
+- **Contexto & Solicitação**: O usuário solicitou ajustar a responsividade para tablet seguindo rigorosamente os mesmos padrões de excelência aplicados no modo celular (sem bordas quadradas, preservação da estética chanfrada desktop, carrossel 3D WebGL desobstruído e tipografia equilibrada), com a restrição explícita de NÃO alterar o modo desktop (>= 992px).
+- **Implementação & Arquitetura**:
+  1. **Isolamento de Breakpoint Tablet**: Implementado bloco @media screen and (min-width: 480px) and (max-width: 991px) em conceito/style.css e herdado via @import por conceito-2/style.css, garantindo que o modo Desktop (>= 992px) e o modo Celular (< 480px) permaneçam 100% protegidos.
+  2. **Vitrine de Modelos (Hall of Fame // .helmet-grid)**:
+     - Erradicada qualquer borda quadrada residual (order: none !important; background: transparent !important; box-shadow: none !important;).
+     - Preservada a moldura SVG chanfrada oficial desktop (.helmet-grid-frame-w.destop { display: flex !important; } e .helmet-grid-frame-w.mobile { display: none !important; }).
+     - Alinhamento de recorte de imagem clip-path: polygon(0% 0%, 100% 0%, 100% 90.2%, 60.5% 90.2%, 51.8% 100%, 0% 100%) !important; border-radius: 7.5px !important;.
+     - Grid balanceado de 2 colunas com gap: 1.5rem e max-width: 860px centralizado.
+     - Telemetria de topo (.z8-helmet-top-telemetry) com chips de lucro e categoria em linha sem quebra indevida.
+  3. **Hero & Carrossel 3D WebGL**:
+     - Ocultado o texto colidente .home-hero-tablet-hero-text que poluía o fundo do carrossel 3D no tablet.
+     - Ocultado o card flutuante .z8-hero-floating-kpi que colidia com os controles touch .home-hero-touch-controls-w, liberando o palco para rotação 3D interativa limpa.
+  4. **Barra de Navegação**:
+     - Emblema central Z8 devidamente dimensionado (82px x 34px) e centralizado na viga, pareado perfeitamente com os botões de Franquia e Área do Parceiro.
+  5. **Modal de Acesso Cockpit & Spec Drawer**:
+     - Visualização fluida e rolagem ergonômica sem travamento, grade de especificações em 2 colunas no tablet, botões de ação com padding e toque confortáveis.
+  6. **Seções Exclusivas do Conceito 2**:
+     - Módulos arquitetônicos de fachada/planta em grid 2 colunas.
+     - Comparador técnico e mesa de pedidos com container deslizante (overflow-x: auto; -webkit-overflow-scrolling: touch;).
+     - Central de manuais e dossiê jurídico em 2 colunas simétricas.
+- **Validação**: Build executado com 
+pm run build (5.64s), testes de resposta HTTP 200 OK no servidor local (/conceito/ e /conceito-2/) e commit cdf4e3f sincronizado no repositório remoto.
