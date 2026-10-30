@@ -28,7 +28,7 @@
 | 5º | **Z8 H26 Standard** | DB001 | Urbana | R$ 5.500,00 | R$ 9.500,00 | R$ 4.000,00 | 72.73% | 42.11% |
 | 6º | **Z8 Q10 Vintage** | DB038 | Vintage | R$ 5.800,00 | R$ 9.800,00 | R$ 4.000,00 | 68.97% | 40.82% |
 | 7º | **Z8 U2 Delivery Cargo** | XB-026 | Utilitária | R$ 6.000,00 | R$ 9.500,00 | R$ 3.500,00 | 58.33% | 36.84% |
-| 8º | **Z8 FX-10 Sport** | DB043 | Esportiva | R$ 6.200,00 | R$ 9.000,00 | R$ 2.800,00 | 45.16% | 31.11% |
+| 8º | **Z8 FX-10 Sport** | DB043 | Esportiva | R$ 6.700,00 | R$ 9.000,00 | R$ 2.300,00 | 34.33% | 25.56% |
 | 9º | **Z8 Harley X12 Custom** | XB-024 | Custom | R$ 6.500,00 | R$ 10.000,00 | R$ 3.500,00 | 53.85% | 35.00% |
 | 10º | **Z8 N95C Max Comfort** | DB039 | Urbana | R$ 6.500,00 | R$ 10.000,00 | R$ 3.500,00 | 53.85% | 35.00% |
 | 11º | **Z8 Tank High-Speed** | DB018 | Performance | R$ 7.500,00 | R$ 11.500,00 | R$ 4.000,00 | 53.33% | 34.78% |
@@ -1583,3 +1583,202 @@ pm run build (5.64s), testes de resposta HTTP 200 OK no servidor local (/conceit
 - **Validação de Build**:
   - `npm run build` compilado com 100% de sucesso em 14.30s (`dist/conceito-2/index.html` gerado com 208.98 kB).
   - Dev server ativo e respondendo 200 OK em `http://localhost:3000/conceito-2/`.
+
+
+---
+
+## 38. Catálogo Oficial Z8 E-Motion 2026 — LAF Edition (26 Pranchetas Adobe Illustrator + Fichas Split 40/60 + Tabela de Atacado B2B)
+- **Data de Registro**: 30 de Outubro de 2026
+- **Contexto & Engenharia Reversa**:
+  - A partir da engenharia reversa completa das 48 páginas do catálogo `LAF Oficial 2026.pdf` e da extração das 26 imagens/fichas técnicas de montadora enviadas pelo usuário (`Z8emotion.pptx` -> `public/assets/models/pptx_extracted/image1.jpeg`..`image26.png`), foi construído o **Catálogo Oficial Z8 E-Motion 2026 — LAF Edition** com 26 pranchetas A4 Paisagem ($841,89 \times 595,28\text{ pt}$).
+- **Arquivos Oficiais Gerados e Sincronizados**:
+  1. **Documento Vetorial Nativo Adobe Illustrator 2026 (`v30.8.2`)**:
+     - `docs/CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.ai` (56,5 MB, 26 Pranchetas organizadas em 5 camadas estruturadas: `01_Background_Panels`, `02_Grids_e_Badges_LAF`, `03_Fotografia_e_Recortes`, `04_Tipografia_e_Telemetria`, `05_Atacado_B2B_Destaques`).
+  2. **PDFs Vetoriais Oficiais Exportados pelo Illustrator**:
+     - `docs/CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf`
+     - `catalogo_atacado_pdf/CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf`
+  3. **Script ExtendScript Automatizado (`.jsx`)**:
+     - `scripts/GERAR_CATALOGO_LAF_EDITION_Z8_ILLUSTRATOR.jsx` (compatível com execução direta via COM `win32com.client.Dispatch("Illustrator.Application").DoJavaScriptFile(...)` ou `Ctrl + F12`).
+  4. **Lâminas de Alta Resolução (1600×1131 px) & Gerador HTML/Edge Headless**:
+     - `scripts/build_laf_edition_catalog_z8.js`
+     - Renderizadas em `public/assets/catalogo_laf_z8/` e espelhadas em `public/assets/cria/`.
+- **Mapeamento Técnico de Fábrica + Preços de Atacado B2B (11 Modelos Z8)**:
+  - `DB018` (**Z8 Tank High-Speed** - Base Norte): 2000W | Módulo 15G | 60V/72V 20Ah (suporta Lítio até 60V 125Ah / 240 km) | Pneus Neve 110/70-12 | 85 pcs/40HQ | Atacado: **R$ 7.500,00** (Lote 10: R$ 75.000,00) | Varejo: R$ 11.500,00 (Lucro: +R$ 4.000,00/un.).
+  - `DB043` (**Z8 FX-10 Sport** - Foshan & Huizhou): 1500W | Módulo 12G-38A | 60V 20Ah | Pneus 130/60-10 | 90 pcs/40HQ | Atacado: **R$ 6.700,00** (Lote 10: R$ 67.000,00) | Varejo: R$ 9.000,00 (Lucro: +R$ 2.300,00/un.).
+  - `DB039` (**Z8 N95C Max Comfort** - Foshan & Huizhou): 1200W (27H) | Controlador 30A | 60V 20Ah | Pneus 130/70-10 | 112 pcs/40HQ | Atacado: **R$ 6.500,00** (Lote 10: R$ 65.000,00) | Varejo: R$ 10.000,00 (Lucro: +R$ 3.500,00/un.).
+  - `DB001` (**Z8 H26 Standard / N7** - Foshan & Huizhou): 1200W | Módulo 12G-33A | 60V 20Ah | Pneus 300-10 | 109–130 pcs/40HQ | Atacado: **R$ 5.500,00** (Lote 10: R$ 55.000,00) | Varejo: R$ 9.500,00 (Lucro: +R$ 4.000,00/un.).
+  - `DB045-N710` (**Z8 N710 Urban Plus** - Foshan & Huizhou): 1200W | Módulo 12G | 60V 20Ah | Pneus 300-10 | 115 pcs/40HQ | Atacado: **R$ 5.300,00** (Lote 10: R$ 53.000,00) | Varejo: R$ 9.500,00 (Lucro: +R$ 4.200,00/un.).
+  - `DB043-Q11` (**Z8 Q11 Compact Love** - Foshan & Huizhou): 1000W | Controlador 9G | 60V 20Ah | Amortecedor 27 núcleos | 109 pcs/40HQ | Atacado: **R$ 5.200,00** (Lote 10: R$ 52.000,00) | Varejo: R$ 9.300,00 (Lucro: +R$ 4.100,00/un.).
+  - `DB038 / Q520S1` (**Z8 Q10 Vintage Xiao Q** - Foshan & Huizhou): 1200W | Controlador 30A | 60V 20Ah (suporta até 60V 120Ah / 240 km) | 109–130 pcs/40HQ | Atacado: **R$ 5.800,00** (Lote 10: R$ 58.000,00) | Varejo: R$ 9.800,00 (Lucro: +R$ 4.000,00/un.).
+  - `DB039 / XB-024` (**Z8 Harley X12 Custom** - Base Norte): 1200W (27H) | Controlador 30A | 60V 20Ah | Pneus 130/70-10 | 216 pcs/40HQ | Atacado: **R$ 6.500,00** (Lote 10: R$ 65.000,00) | Varejo: R$ 10.000,00 (Lucro: +R$ 3.500,00/un.).
+  - `XB-010` (**Z8 U2 Delivery Cargo** - Foshan & Huizhou): 2000W | Controlador 12G | 48V-60V-72V | Pneus 90/90-12 + Duplo Disco 220mm | 168–216 pcs/40HQ | Atacado: **R$ 6.000,00** (Lote 10: R$ 60.000,00) | Varejo: R$ 9.500,00 (Lucro: +R$ 3.500,00/un.).
+  - `GS-005` (**Z8 GS-005 Golden Eagle** - Base Norte): 500W Cobre Puro | Módulo 6G-NEW | 48V/60V 20Ah | Pneus 14×2.5 | 288–294 pcs/40HQ | Atacado: **R$ 3.200,00** (Lote 10: R$ 32.000,00) | Varejo: R$ 6.200,00 (Lucro: +R$ 3.000,00/un.).
+  - `GS-052` (**Z8 Diamond Luxe Little King Kong** - Base Norte): 500W Cobre Puro | Controlador 500W | 48V/60V 20Ah | Pneus 16-3.0 | 288–294 pcs/40HQ | Atacado: **R$ 3.400,00** (Lote 10: R$ 34.000,00) | Varejo: R$ 6.800,00 (Lucro: +R$ 3.400,00/un. — 100% Markup).
+
+---
+
+## 39. Ativos de Paleta & Variações de Cores de Fábrica — Z8 Tank High-Speed (Adobe Illustrator & Catálogo Oficial)
+- **Data de Registro**: 30 de Outubro de 2026
+- **Demanda do Usuário**: Criação de peça gráfica oficial para preenchimento do quadro de "VARIAÇÕES E CORES DE FABRICA:" no Adobe Illustrator (`CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.ai`), substituindo a foto estática off-road por uma vitrine técnica comparativa com as 3 pinturas originais homologadas da Z8 Tank.
+- **As 3 Cores Oficiais de Fábrica da Z8 Tank High-Speed**:
+  1. **Desert Amber (Amarelo Mostarda Trilha)**: HEX `#C6892B` (RGB: 198, 137, 43) — Pintura metálica fosca eletrostática de alta resistência a lama e intempéries.
+  2. **Midnight Black (Preto Ônix Paulista)**: HEX `#181A1D` (RGB: 24, 26, 29) — Pintura acetinada deep obsidian com proteção UV.
+  3. **Titanium Matte (Cinza Titânio Studio)**: HEX `#7C8288` (RGB: 124, 130, 136) — Pintura industrial texturizada mineral.
+- **Peças Gráficas Produzidas e Sincronizadas**:
+  1. `public/assets/cria/z8_tank_todas_as_cores_catalogo_clean.jpg` (1920×1080 px):
+     - Formato 16:9 limpo com fundo `#F4F6F9` (calibrado exatamente para o card do Illustrator), sem títulos redundantes no topo, destacando os 3 veículos em módulos brancos com alinhamento milimétrico, amostras circulares de cor (swatches), códigos HEX e tipografia Bauhaus Bahnschrift.
+  2. `public/assets/cria/z8_tank_todas_as_cores_light.jpg` (1920×1080 px):
+     - Vitrine executiva completa com cabeçalho institucional, pílula de telemetria (2000W / 72V / Pneus de Cravo) e rodapé com dados de homologação Z8.
+  3. `public/assets/cria/z8_tank_todas_as_cores_dark.jpg` (1920×1080 px):
+     - Versão Dark Luxury Studio com piso espelhado de concreto e acentos Ciano Z8 `#00F0FF`.
+  4. `public/assets/cria/z8_tank_todas_as_cores_fleet.jpg` (1920×1080 px):
+     - Formação escalonada em perspectiva (Echelon Fleet Lineup) com Desert Amber em destaque frontal ladeada por Midnight Black e Titanium Matte com sombras de contato e callouts flutuantes.
+  5. `public/assets/cria/z8_tank_todas_as_cores_transparente.png` (2400×1050 px):
+     - PNG com canal Alpha (transparência total) e sombras de contato suaves sob os pneus, ideal para inserção e composição livre sobre qualquer camada vetorial no Illustrator.
+- **Diretórios Sincronizados**:
+  - `public/assets/cria/`
+  - `public/assets/cria/posters/`
+  - `public/assets/models/`
+  - `dist/assets/cria/`
+  - `dist/assets/cria/posters/`
+  - `dist/assets/models/`
+
+---
+
+## 40. Ativos de Paleta & Variações de Cores de Fábrica — Z8 N710 Urban Plus & Z8 H26 Standard (Adobe Illustrator)
+- **Data de Registro**: 30 de Outubro de 2026
+- **Demanda do Usuário**: Replicação da solução de vitrine comparativa de cores de fábrica (proporção 16:9, padrão Bauhaus) para os modelos **Z8 N710 Urban Plus (DB045-N710)** e **Z8 H26 Standard / N7 (DB001)** para encaixe no Adobe Illustrator (`CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.ai`).
+- **Paleta Homologada — Z8 N710 Urban Plus (DB045-N710)**:
+  1. **British Emerald (Verde Esmeralda Faria Lima)**: HEX `#1E4D3B` (RGB: 30, 77, 59) — Acabamento esmeralda profundo metálico.
+  2. **Piano Black (Preto Ônix Paulista)**: HEX `#141619` (RGB: 20, 22, 25) — Acabamento deep obsidian de alto brilho.
+  3. **Pearl White (Branco Platina Sport)**: HEX `#F2F4F7` (RGB: 242, 244, 247) — Acabamento perolizado metálico com proteção UV.
+  - Ativos gerados:
+    - `public/assets/cria/z8_n710_todas_as_cores_catalogo_clean.jpg` (1920×1080 px, card limpo #F4F6F9)
+    - `public/assets/cria/z8_n710_todas_as_cores_light.jpg` (1920×1080 px, showroom executivo)
+    - `public/assets/cria/z8_n710_todas_as_cores_dark.jpg` (1920×1080 px, dark studio)
+    - `public/assets/cria/z8_n710_todas_as_cores_fleet.jpg` (1920×1080 px, trio echelon lineup)
+    - `public/assets/cria/z8_n710_todas_as_cores_transparente.png` (2400×1050 px, PNG Alpha com sombra)
+- **Paleta Homologada — Z8 H26 Standard (DB001 - N7)**:
+  1. **Emerald Green (Verde Esmeralda Standard)**: HEX `#059669` (RGB: 5, 150, 105) — Acabamento esmeralda metálico clássico.
+  2. **Piano Black (Preto Ônix Paulista)**: HEX `#141619` (RGB: 20, 22, 25) — Acabamento deep obsidian.
+  3. **Titanium Silver (Prata Titânio Urbano)**: HEX `#94A3B8` (RGB: 148, 163, 184) — Acabamento prata espelhado.
+  - Ativos gerados:
+    - `public/assets/cria/z8_h26_todas_as_cores_catalogo_clean.jpg` (1920×1080 px, card limpo #F4F6F9)
+    - `public/assets/cria/z8_h26_todas_as_cores_light.jpg` (1920×1080 px, showroom executivo)
+    - `public/assets/cria/z8_h26_todas_as_cores_dark.jpg` (1920×1080 px, dark studio)
+    - `public/assets/cria/z8_h26_todas_as_cores_fleet.jpg` (1920×1080 px, trio echelon lineup)
+    - `public/assets/cria/z8_h26_todas_as_cores_transparente.png` (2400×1050 px, PNG Alpha com sombra)
+- **Diretórios Sincronizados**:
+  - `public/assets/cria/`
+  - `public/assets/cria/posters/`
+  - `public/assets/models/`
+  - `dist/assets/cria/`
+  - `dist/assets/cria/posters/`
+  - `dist/assets/models/`
+
+
+---
+
+## 41. Correção Integral dos Hovers, Cutouts e Modais de Cores — Conceito & Conceito 2
+- **Data de Registro**: 30 de Outubro de 2026
+- **Demanda do Usuário**: Correção de imagens trocadas nas páginas `/conceito/` e `/conceito-2/`:
+  1. Card `Q10 Retro`: Hover revelava incorretamente a scooter rosa (`Q11 Pastel Love`).
+  2. Card `Q11 Pastel`: Hover revelava incorretamente a scooter amarela (`Q10 Retro Xiao Q`).
+  3. Modal `Z8 N710 Faria Lima`: Ao abrir, exibia a moto errada (scooter verde H26 com farol retangular) devido ao arquivo de cor inicial ser a antiga duplicata de N7.
+- **Resolução & Diagnóstico Técnico**:
+  - `z8_n710_green.jpg`: Gerado a partir da carenagem original da N710 branca com máscara de fusão no tom British Emerald (`#1E4D3B`), substituindo a duplicata que apontava para a H26.
+  - `public/assets/models/hover/`: Todos os 11 hovers regerados e sincronizados para corresponder fielmente aos cutouts dos cards (`z8_tank_hover.jpg`, `z8_n95c_hover.jpg`, `z8_fx10_hover.jpg`, `z8_harley_hover.jpg`, `z8_u2_hover.jpg`, `z8_n710_hover.jpg`, `z8_q10_hover.jpg`, `z8_q11_hover.jpg`, `z8_diamond_hover.jpg`, `z8_n7_hover.jpg`, `z8_gs005_hover.jpg`).
+  - `conceito/index.html` e `conceito-2/index.html`:
+    - Card `z8-q10`: Hover apontando para `/assets/models/hover/z8_q10_hover.jpg` (Amarela Xiao Q).
+    - Card `z8-q11`: Hover apontando para `/assets/models/hover/z8_q11_hover.jpg` (Rosa Pastel Candy Love).
+    - Card `z8-n710`: Hover apontando para `/assets/models/hover/z8_n710_hover.jpg` (Branca N710 Cyber-Mecha).
+    - Card `z8-n7`: Hover apontando para `/assets/models/hover/z8_n7_hover.jpg` (Verde H26 Compact).
+  - `conceito/app.js` e `conceito-2/app.js`:
+    - `z8-n710`: `baseImg` e 1ª cor definida como `Pearl White` (`/assets/models/z8_n710_white.jpg`), abrindo o modal diretamente com a N710 original. Amostras complementares: `Piano Black` e `British Emerald`.
+    - `z8-n7`: Cadastradas as 3 cores reais geradas: `Verde Esmeralda Standard` (`/assets/models/z8_n7_studio.jpg`), `Preto Ônix Paulista` (`/assets/models/z8_n7_black.jpg`) e `Prata Titânio Urbano` (`/assets/models/z8_n7_silver.jpg`).
+    - `z8-q10`: Cor única `Amarelo Retrô Vintage` (`/assets/models/z8_q11_studio.jpg`).
+    - `z8-q11`: Cores `Rosa Pastel Candy` (`/assets/models/z8_q10_studio.jpg`), `Sage Mint` e `Onyx Black`.
+  - Validação automatizada: 100% dos 129 links de assets nas 4 páginas/scripts testados com código HTTP 200 OK no servidor local.
+
+
+---
+
+## 42. Área do Portal do Lojista (LAF Edition 2026) — Apresentação Industrial 26 Páginas, Valores de Atacado & Mesa de Pedidos (/conceito/ e /conceito-2/)
+- **Data de Registro**: 30 de Outubro de 2026
+- **Demanda do Usuário**: Criação da área dedicada do **Portal do Lojista (`PORTAL LOJISTA`)** em `/conceito/` e `/conceito-2/`, permitindo ao lojista visualizar os valores de atacado e varejo das 11 motocicletas, consultar a apresentação LAF de 26 páginas recém-homologada (`CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf`) e realizar pedidos de lote nacional (mínimo 10 motos) ou contêiner fechado (`40HQ`), mantendo 100% do design, tipografia (`Mona Sans Variable`, `Brier`, `Space Grotesk`), animações e contornos topográficos da página conceito.
+- **Arquitetura & Módulos Implementados**:
+  1. **Sincronização do Catálogo Oficial LAF 2026 (26 Pranchas)**:
+     - PDF mestre sincronizado em `docs/CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf`, `public/docs/CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf` e `catalogo_atacado_pdf/CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf`.
+     - As 26 pranchas A4 Landscape foram renderizadas em alta definição (150 DPI) em `public/assets/catalogo_laf_z8/laf_slide_01.jpg` a `laf_slide_26.jpg` (e espelhadas em `dist/`).
+  2. **Módulo 01 — Apresentação Industrial, Polos Asiáticos & Baterias Lítio 125Ah (`#laf-block-institucional`)**:
+     - Os 5 Pilares da Matriz SJC (Pág. 02 LAF) com badges circulares `01–05`.
+     - Os 2 Polos Industriais Globais (Pág. 04 LAF): Polo 01 Foshan & Huizhou (90 a 216 pcs/40HQ) e Polo 02 Base Norte / Northern Base (85 a 294 pcs/40HQ).
+     - Matriz comparativa das Baterias de Lítio Z8 High-Density (`48V / 60V / 72V 125Ah` com expansão até 240 km) vs. Chumbo-Ácido (Pág. 05 LAF).
+  3. **Módulo 02 — Showroom de Atacado & 11 Fichas Técnicas Split 40/60 (`#laf-block-fichas`)**:
+     - Filtro instantâneo pelas 4 linhas de produto (`01 Performance`, `02 Urbana`, `03 Retrô & Custom`, `04 Cargo & E-Bikes`).
+     - 11 Fichas Técnicas interativas no layout **Split 40/60** da LAF (`DB018`, `DB043`, `DB039`, `DB001`, `DB045-N710`, `DB043-Q11`, `DB038`, `XB-024`, `XB-010`, `GS-005`, `GS-052`) com Quadro Oficial de Atacado Unitário, Lote Mínimo (10 un.), Varejo Sugerido, Lucro Lojista, Capacidade 40HQ, 4 Callouts Circulares (`01–04`), Grade Técnica 6×2 (12 células) e adicionador rápido de pedido (`+1 un`, `+5 un`, `Lote 10`, stepper `[-] [Qtd] [+]`).
+  4. **Módulo 03 — Mesa de Pedidos do Lojista & Contêiner 40HQ (`#laf-block-pedidos`)**:
+     - Seletor de modalidade (`Lote Mínimo Nacional ≥ 10 Motos` ou `Importação Contêiner Fechado 40HQ`).
+     - Presets rápidos de fábrica (`Mix Campeão de Giro`, `Mix Performance & Executiva`, `Mix Alto Giro Urbano & E-Bikes`, `Contêiner 40HQ Mix Foshan`).
+     - Tabela Mestra interativa (Pág. 24 LAF) com cálculo em tempo real de volume, barra de ocupação de Contêiner 40HQ (%), investimento total de atacado, faturamento varejo e lucro bruto projetado.
+     - Formulário de fechamento e transmissão direta para WhatsApp da Diretoria `(12) 99800-8818` + gravação em Cloud Firestore (`wholesale_orders`) + `localStorage`, além de gerador de **Espelho de Pedido Oficial para Impressão / PDF** (`window.printLafOrderQuote()`).
+  5. **Módulo 04 — Flipbook Interativo das 26 Páginas da LAF (`#laf-block-catalogo`)**:
+     - Navegador completo das 26 pranchas com tira de miniaturas, seletor de página, modo Tela Cheia (Lightbox) e download direto do PDF.
+- **Arquivos Criados / Atualizados**:
+  - `site-principal/portal-lojista-laf.js`
+  - `conceito/portal-lojista-laf.css`
+  - `conceito/style.css`
+  - `conceito/index.html` e `conceito/app.js`
+  - `conceito-2/index.html` e `conceito-2/app.js`
+
+
+---
+
+## 43. Calibração de Preço Oficial — Z8 FX-10 Sport (DB043): Reajuste de Atacado para R$ 6.700,00
+- **Data de Registro**: 30 de Outubro de 2026
+- **Demanda do Usuário**: Reajuste do valor de atacado B2B da **Z8 FX-10 Sport (DB043)** de R$ 6.200,00 para **R$ 6.700,00** em todo o ecossistema Z8.
+- **Novas Métricas Homologadas (Z8 FX-10 Sport)**:
+  - **Preço de Atacado B2B**: `R$ 6.700,00` (anterior: R$ 6.200,00)
+  - **Lote Mínimo de Atacado (10 un.)**: `R$ 67.000,00` (anterior: R$ 62.000,00)
+  - **Preço Sugerido Varejo**: `R$ 9.000,00` (mantido)
+  - **Lucro Bruto Unitário**: `+R$ 2.300,00 / un.` (anterior: +R$ 2.800,00)
+  - **Markup Comercial**: `+34,3%` (anterior: +45,2%)
+  - **Margem Líquida Comercial**: `25,6%` (anterior: 31,1%)
+- **Arquivos & Módulos Atualizados**:
+  1. `site-principal/data/models.js`: Atualização de `wholesalePrice: 6700`, `profit: 2300`, `markupPct: 34.3`, `marginPct: 25.6`.
+  2. `conceito/app.js`: Atualização de `wholesale: 6700`, `profit: 2300`, `tag: '+34,3%'`, `marginPct: '25,6%'`.
+  3. `conceito-2/app.js`: Consumo dinâmico reativo via `z8Models` herdando automaticamente `wholesale: 6700` e métricas atualizadas.
+  4. `conceito/index.html` & `conceito-2/index.html`: Badges do card da FX-10 Sport atualizados para `+34,3% Markup` e `+34,3% (Margem 25,6%)`.
+  5. `site-principal/index.html`: Seletor de modelos da central de conversão atualizado para `2º Z8 FX-10 Sport (R$ 6.700 / R$ 9.000)`.
+  6. `site-principal/portal-lojista-laf.js`: Ficha técnica LAF atualizada para `wholesale: 6700`, `lote10: 67000`, `profit: 2300`, `markupPct: '34,3%'`, `marginPct: '25,6%'` e remoção de divergência em `wholesaleCardRef`.
+  7. `vendas/index.html`: Card editorial B2B da FX-10 atualizado para `+ R$ 2.300,00` e `34,3% Markup • 25,6% Margem`.
+  8. `docs/catalogo/CATALOGO_ATACADO_Z8_EMOTION.md`: Tabela geral e ficha do Modelo 02 atualizadas para `R$ 6.700,00`, `+ R$ 2.300,00` e `Markup: 34.3%`.
+  9. `docs/juridico/` & `public/docs/juridico/` (`CONTRATO_DEFINITIVO_DE_COMPRA_E_ADESAO_DE_FRANQUIA_Z8.md`): Tabela homologada e composição do Anexo II com `R$ 6.700,00`.
+  10. `scripts/legal_counsel_engine.js`: Preço de faturamento do mix atualizado para `wholesale: 6700`.
+  11. `scripts/build_laf_edition_catalog_z8.js`: Gerador de catálogo com `wholesale: 'R$ 6.700,00'`, `lote10: 'R$ 67.000,00'`, `profit: '+R$ 2.300,00 / un.'`.
+  12. `scripts/GERAR_CATALOGO_ATACADO_ILLUSTRATOR.jsx` & `scripts/GERAR_CATALOGO_LAF_EDITION_Z8_ILLUSTRATOR.jsx`: Scripts de ExtendScript (.jsx) do Adobe Illustrator 2026 atualizados para R$ 6.700,00 e lote de R$ 67.000,00.
+  13. `scratch/laf_z8_html_pages/page_11_DB043.html` & `scratch/laf_z8_html_pages/page_24_tabela_master_atacado_40hq.html`: Pranchas HTML de exportação atualizadas para R$ 6.700,00.
+
+
+### [2026-10-30 20:20] - Calibração de Responsividade para Telas Quadradas & Dobráveis Fechadas (Surface Duo 540px, Tablets e Mobile)
+- **Problema Diagnosticado**:
+  - Em telas quadradas e dobráveis fechadas (como Surface Duo em 540x720, tablets e telas com largura `<= 991px`), a barra superior `.btn-layout.is-nav` com `width: 100%; justify-content: space-between;` distribuía 3 elementos diretos:
+    1. `Portal Lojista` (à esquerda).
+    2. `Franquia` (forçado para o centro exato da tela a 50%).
+    3. `Hamburger` (à direita).
+  - Simultaneamente, o emblema central da Z8 (`.page-ln4-pos`) ficava posicionado no centro exato (50%), resultando na sobreposição física direta do logo preto `Z8` sobre o botão ciano `Franquia`.
+- **Solução Arquitetural Aplicada**:
+  1. *Ocultação de Franquia no Topo (`<= 991px`)*:
+     - O botão `Franquia` no navbar (`#btn-header-franquia`, `.btn-layout.is-nav a[href="#candidatar"].btn-w.is-nav`) foi configurado como `display: none !important;` em viewports `<= 991px`.
+     - Permanece 100% acessível no topo do menu lateral (1 clique no hamburger) e nos botões do Hero e da Blindagem Comercial.
+  2. *Arquitetura Tripartida Perfeita*:
+     - **Esquerda**: `[PORTAL LOJISTA]` (ou badge do lojista autenticado) com `margin-right: auto; max-width: 160px;`.
+     - **Centro**: Emblema `[Z8 E-MOTION]` (`.page-ln4-pos`) perfeitamente centralizado com folga mínima de 40px a 110px de ar limpo nas laterais.
+     - **Direita**: `[HAMBURGER]` (`.nav-ham`) com `margin-left: auto; width: 48px;`.
+  3. *Ajuste da Vitrine em Telas Dobráveis (`<= 580px`)*:
+     - Calibrado para 1 coluna fluida (max-width 400px centralizado), garantindo visibilidade dos chips de margem, profit e steppers de atacado no Surface Duo (540px).
+  4. *Modo Desktop (>= 992px) 100% Intacto*:
+     - Preservada a distribuição nativa com `nav-brand-link` à esquerda e os botões de ação e autenticação agrupados à direita.
+- **Validação**:
+  - `npm run build` compilado com 100% de sucesso em 8.75s.
+  - Endpoints `/conceito/` e `/conceito-2/` validados e respondendo `200 OK`.

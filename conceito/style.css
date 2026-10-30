@@ -1,3 +1,4 @@
+@import "./portal-lojista-laf.css";
 /* === LANDO CORE CSS === */
 html {
   -webkit-text-size-adjust: 100%;
@@ -12774,6 +12775,11 @@ canvas[data-rive-primary],
 
 /* 2. Top Navigation Bar on Mobile */
 @media screen and (max-width: 767px) {
+  /* Prevent center collision between Franquia and Z8 Logo */
+  .btn-layout.is-nav a[href="#candidatar"].btn-w.is-nav,
+  #btn-header-franquia {
+    display: none !important;
+  }
   .nav {
     height: 72px !important;
     padding: 0 1rem !important;
@@ -12991,8 +12997,8 @@ canvas[data-rive-primary],
   }
 }
 
-/* 6. Models Catalog Grid (Hall of Fame) on Mobile */
-@media screen and (max-width: 540px) {
+/* 6. Models Catalog Grid (Hall of Fame) on Mobile & Square Foldable Screens (e.g. Surface Duo 540px) */
+@media screen and (max-width: 580px) {
   .helmet-grid {
     grid-template-columns: 1fr !important;
     gap: 2rem !important;
@@ -13442,13 +13448,73 @@ canvas[data-rive-object] {
     display: none !important;
   }
 
-  /* 4. Top Navbar: Centered & Well-Proportioned Z8 Emblem */
+  /* 4. Top Navbar: Centered & Well-Proportioned Z8 Emblem + Zero Overlap Architecture */
+  /* Hide Franquia button in top navbar on tablets, square screens (e.g. Surface Duo 540px) and mobile.
+     Prevents center collision with Z8 emblem. Accessible via 1-click hamburger menu & hero CTAs. */
+  .btn-layout.is-nav a[href="#candidatar"].btn-w.is-nav,
+  #btn-header-franquia {
+    display: none !important;
+  }
+
+  .nav {
+    height: 72px !important;
+    padding: 0 clamp(0.75rem, 2.5vw, 1.5rem) !important;
+  }
+
+  .nav-inner {
+    position: relative !important;
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .btn-layout.is-nav {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    pointer-events: auto !important;
+    gap: 0.5rem !important;
+  }
+
+  /* Left button: Portal Lojista */
+  .btn-layout.is-nav a[href="#portal-lojista"],
+  .btn-layout.is-nav > .btn-w.is-nav:first-child {
+    margin-right: auto !important;
+    max-width: 160px !important;
+    height: 44px !important;
+    padding: 0 0.85rem !important;
+    font-size: 0.74rem !important;
+    white-space: nowrap !important;
+    z-index: 20 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Right button: Hamburger */
+  .nav-ham {
+    margin-left: auto !important;
+    width: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 20 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Central Z8 Logo Emblem: Protected Centered Flight Path */
   .page-ln4-pos {
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
+    width: 100% !important;
     height: 100% !important;
     display: flex !important;
     align-items: center !important;
@@ -13464,7 +13530,7 @@ canvas[data-rive-object] {
     translate: none !important;
     pointer-events: auto !important;
     padding: 0 !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
   }
   .page-ln4-pos .page-ln4-svg {
     width: auto !important;
@@ -13476,9 +13542,9 @@ canvas[data-rive-object] {
   .page-ln4-pos .ln4-logo,
   .page-ln4-pos .z8-nav-center-svg,
   .page-ln4-svg .z8-nav-center-svg {
-    width: 82px !important;
-    height: 34px !important;
-    max-height: 34px !important;
+    width: clamp(68px, 12vw, 82px) !important;
+    height: auto !important;
+    max-height: 32px !important;
     display: block !important;
     transform: none !important;
   }

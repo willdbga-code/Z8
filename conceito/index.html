@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <script>
     if (window.location.protocol === 'file:') {
-      window.location.replace('http://localhost:3004/conceito/' + window.location.search + window.location.hash);
+      window.location.replace('http://localhost:3000/conceito/' + window.location.search + window.location.hash);
     }
   </script>
   <title>Z8 E-Motion — Concessão Oficial &amp; Distribuição Direct-Factory</title>
@@ -30,6 +30,13 @@
         </div>
       </a>
       <div data-nav-group="btns" class="btn-layout is-nav">
+        <a data-theme="dark" data-anim="text-hover" href="#portal-lojista" data-taxi-ignore="true" onclick="event.preventDefault(); window.openPortalLojista && window.openPortalLojista('all');" class="btn-w is-nav w-inline-block" style="border:1px solid rgba(0,240,255,0.45); background:rgba(10,22,40,0.88); color:#00F0FF;">
+          <div class="btn-inner">
+            <div class="btn-inner-text-w is-nav">
+              <div split-text="chars" class="btn-text is-nav is-sm">Portal Lojista</div>
+            </div>
+          </div>
+        </a>
         <a data-theme="lime" data-anim="text-hover" href="#candidatar" data-taxi-ignore="true" onclick="event.preventDefault(); window.openLeadModal && window.openLeadModal('Navbar Store CTA');" class="btn-w is-nav w-inline-block">
           <div class="btn-inner">
             <div class="btn-icon-w">
@@ -157,8 +164,8 @@
                     </svg>
                   </div>
                 </a>
-                <a data-anim="text-hover" href="#login" data-taxi-ignore="true" id="nav-menu-link-login" class="nav-menu-link-w w-inline-block" onclick="event.preventDefault(); document.querySelector('[data-nav-ham]')?.click(); window.openZ8MenuAuth && window.openZ8MenuAuth();">
-                  <div split-text="chars" class="text-nav-link" id="nav-menu-link-login-text">Área do Parceiro</div>
+                <a data-anim="text-hover" href="#portal-lojista" data-taxi-ignore="true" id="nav-menu-link-login" class="nav-menu-link-w w-inline-block" onclick="event.preventDefault(); document.querySelector('[data-nav-ham]')?.click(); window.openZ8MenuAuth && window.openZ8MenuAuth();">
+                  <div split-text="chars" class="text-nav-link" id="nav-menu-link-login-text">Portal Lojista</div>
                   <div class="nav-menu-link-current-svg w-embed">
                     <svg width="100%" height="100%" viewBox="0 0 412 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M0 2h73.539c5.858 0 11.47 2.35 15.58 6.525l8.565 8.7a21.863 21.863 0 0 0 15.58 6.525h72.678c6.045 0 11.82-2.503 15.954-6.914l6.485-6.922A21.865 21.865 0 0 1 224.336 3h76.752a21.864 21.864 0 0 1 16.806 7.88l4.362 5.24A21.864 21.864 0 0 0 339.063 24H412" stroke="currentColor" stroke-width="3.28"/>
@@ -795,19 +802,19 @@ lei 13.966/19</div>
       </div>
       <div class="z8-helmet-top-telemetry">
         <span class="z8-tel-chip">Autopropelido // Urbano</span>
-        <span class="z8-tel-profit">+45,2% Markup</span>
+        <span class="z8-tel-profit">+34,3% Markup</span>
       </div>
       <div class="z8-helmet-hover-hud">
         <div class="z8-hud-row"><span>ATACADO B2B</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong></div>
         <div class="z8-hud-row"><span>VAREJO SUG.</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong></div>
-        <div class="z8-hud-row is-lime"><span>MARKUP COMERCIAL</span><strong>+45,2% (Margem 31,1%)</strong></div>
+        <div class="z8-hud-row is-lime"><span>MARKUP COMERCIAL</span><strong>+34,3% (Margem 25,6%)</strong></div>
         <div class="z8-hud-cta">INSPECIONAR FICHA &amp; CORES ↱</div>
       </div>
     </div>
     <div class="helmet-grid-item-text-w">
       <h3 class="text-title-small-label text">FX-10 Sport</h3>
       <div class="helmet-grid-item-date-w">
-        <div class="text-title-small-label date">+45,2%</div>
+        <div class="text-title-small-label date">+34,3%</div>
       </div>
       <div class="helmet-grid-extender">
         <img src="https://cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67e41c00f127bc68e2462635_ln4-2-helm-mask-extender-grey-fade.png" loading="lazy" alt="" class="helmet-grid-extender-img"/>
@@ -1019,7 +1026,7 @@ lei 13.966/19</div>
         <div class="helmet-grid-item-img-helmet-w">
           <img src="/assets/models/cutouts/z8_q11_cutout.png" loading="lazy" alt="Z8 Mini Q10 Retro" class="helmet-grid-item-img-helmet z8-card-fit"/>
         </div>
-        <img src="/assets/models/hover/z8_q11_hover.jpg" loading="lazy" alt="Z8 Mini Q10 Retro Hover" class="helmet-grid-item-reveal-img z8-card-fit-cover"/>
+        <img src="/assets/models/hover/z8_q10_hover.jpg" loading="lazy" alt="Z8 Mini Q10 Retro Hover" class="helmet-grid-item-reveal-img z8-card-fit-cover"/>
       </div>
       <div class="z8-helmet-top-telemetry">
         <span class="z8-tel-chip">100% Isento CNH // 996</span>
@@ -1076,7 +1083,7 @@ lei 13.966/19</div>
         <div class="helmet-grid-item-img-helmet-w">
           <img src="/assets/models/cutouts/z8_q10_cutout.png" loading="lazy" alt="Z8 Q11 Pastel Design" class="helmet-grid-item-img-helmet z8-card-fit"/>
         </div>
-        <img src="/assets/models/hover/z8_q10_hover.jpg" loading="lazy" alt="Z8 Q11 Pastel Design Hover" class="helmet-grid-item-reveal-img z8-card-fit-cover"/>
+        <img src="/assets/models/hover/z8_q11_hover.jpg" loading="lazy" alt="Z8 Q11 Pastel Design Hover" class="helmet-grid-item-reveal-img z8-card-fit-cover"/>
       </div>
       <div class="z8-helmet-top-telemetry">
         <span class="z8-tel-chip">100% Isento CNH // 996</span>
@@ -1285,11 +1292,11 @@ lei 13.966/19</div>
                     <canvas data-rive-object data-rive-file="reef" data-rive-artboard="helmet-reef" data-rive-state-machine="helmet-reef_scroll" data-rive-input="color_lime" data-rive-fit="contain" data-rive-scrolltrigger-target=".c.is-callout" data-rive-scrolltrigger-start="top bottom" data-rive-scrolltrigger-end="bottom center"></canvas>
                   </div>
                 </div>
-                <h2 data-anim-high="right, lime" split-text="lines" class="text-title-reg-brier">Simule o lucro mensal da sua concessão e consulte a disponibilidade do seu raio de 50 km</h2>
-                <a data-btn-rive-rotate="false" data-anim="text-hover" data-btn-rive-hover="" data-theme="lime" data-wf--button-primary--variant="base" href="#simulador-b2b" data-taxi-ignore="true" class="btn-w w-inline-block">
+                <h2 data-anim-high="right, lime" split-text="lines" class="text-title-reg-brier">Acesse o Portal do Lojista LAF 2026: veja os valores de atacado das 11 motos e monte seu pedido</h2>
+                <a data-btn-rive-rotate="false" data-anim="text-hover" data-btn-rive-hover="" data-theme="lime" data-wf--button-primary--variant="base" href="#portal-lojista" data-taxi-ignore="true" onclick="event.preventDefault(); window.openPortalLojista && window.openPortalLojista('all');" class="btn-w w-inline-block">
                   <div class="btn-inner">
                     <div class="btn-inner-text-w">
-                      <div split-text="chars" class="btn-text">Simular DRE &amp; Território</div>
+                      <div split-text="chars" class="btn-text">Abrir Portal do Lojista &amp; Valores</div>
                     </div>
                     <div class="btn-icon-w">
                       <div class="btn-rive-w w-embed">
@@ -1302,6 +1309,9 @@ lei 13.966/19</div>
             </div>
           </section>
         </div>
+
+        <!-- ==================== PORTAL DO LOJISTA // APRESENTAÇÃO LAF 2026, VALORES DE ATACADO & MESA DE PEDIDOS ==================== -->
+        <section id="portal-lojista" data-nav-theme-target="dark" class="s z8-laf-portal-section"></section>
 
         <!-- ==================== SECTION 9: EXE SECTION + INTERACTIVE B2B SIMULATOR & 50KM RADAR ==================== -->
         <section id="simulador-b2b" data-exe-section="" data-nav-theme-target="dark" data-designmode-white="" class="s is-lando-exe">

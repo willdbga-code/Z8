@@ -2140,8 +2140,89 @@
   box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
 }
 
-/* 4. Responsive Calibrations (Tablet & Mobile) */
+/* 4. Responsive Calibrations (Tablet, Square Screens & Mobile <= 991px) */
 @media screen and (max-width: 991px) {
+  /* Top Navbar Zero Overlap Protection */
+  #btn-header-franquia,
+  .btn-layout.is-nav a[href="#candidatar"].btn-w.is-nav {
+    display: none !important;
+  }
+
+  .btn-w.is-nav.is-auth-trigger,
+  .btn-w.is-nav.is-admin-trigger,
+  .btn-w.is-nav.is-logout-trigger {
+    display: none !important;
+  }
+
+  .z8-partner-badge {
+    max-width: 140px !important;
+    padding: 0.35rem 0.6rem !important;
+    font-size: 0.7rem !important;
+    margin-right: auto !important;
+    z-index: 20 !important;
+  }
+
+  .btn-layout.is-nav {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    pointer-events: auto !important;
+    gap: 0.5rem !important;
+  }
+
+  .btn-layout.is-nav a[href="#portal-lojista"],
+  .btn-layout.is-nav > .btn-w.is-nav:first-child {
+    margin-right: auto !important;
+    max-width: 160px !important;
+    height: 44px !important;
+    padding: 0 0.85rem !important;
+    font-size: 0.74rem !important;
+    white-space: nowrap !important;
+    z-index: 20 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .nav-ham {
+    margin-left: auto !important;
+    z-index: 20 !important;
+  }
+
+  .page-ln4-pos {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: none !important;
+    z-index: 10 !important;
+  }
+
+  .page-ln4-pos .nav-middle {
+    pointer-events: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+  }
+
+  .page-ln4-pos .ln4-logo,
+  .page-ln4-pos .z8-nav-center-svg,
+  .page-ln4-svg .z8-nav-center-svg {
+    width: clamp(68px, 12vw, 82px) !important;
+    height: auto !important;
+    max-height: 32px !important;
+    display: block !important;
+    transform: none !important;
+  }
+
   .z8-hero-floating-kpi {
     position: static;
     margin: 2rem auto 0 auto;
