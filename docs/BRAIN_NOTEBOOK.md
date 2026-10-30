@@ -1496,3 +1496,35 @@
      - Central de manuais e dossiê jurídico em 2 colunas simétricas.
 - **Validação**: Build executado com 
 pm run build (5.64s), testes de resposta HTTP 200 OK no servidor local (/conceito/ e /conceito-2/) e commit cdf4e3f sincronizado no repositório remoto.
+
+### [2026-10-29 22:25] - Unificação Definitiva do Conceito 2: Motor Lando Norris REA + Arquitetura Pré e Pós-Login do Site Principal
+- **Contexto & Solicitação**: O usuário determinou concentrar os esforços na página **Conceito 2** (`/conceito-2/`), reconstruindo-a integralmente sobre a fundação cinematográfica e interativa do Lando Norris extraída via REA (`/conceito/`), e injetando todo o ecossistema de conteúdo pré-login e pós-login do site principal.
+- **Implementação & Arquitetura Realizada**:
+  1. **Herança 100% Autêntica do Motor Lando Norris REA**:
+     - Clonada a estrutura de `conceito/index.html` (trabalhada com Three.js WebGL 3D, carrossel de motocicletas com pedestal físico, shaders de estúdio, iluminação direcional, animações Rive interativas no hambúrguer e abertura, e motor de áudio cinemático).
+  2. **Camada de Autenticação Reativa Pré e Pós-Login**:
+     - **Navbar Superior**:
+       * *Pré-login*: Botão "Franquia" com link modal de estudo territorial + Botão "Entrar" com ícone de chave.
+       * *Pós-login*: Badge do Concessionário com bolinha verde e nome da empresa homologada (`#header-partner-badge`), botão "Admin" com coroa dourada exclusivo para a conta diretora (`christian.tkh@gmail.com`) e botão "Sair" para logout seguro.
+     - **Banner de Homologação Pendente** (`#pending-approval-banner`): Alerta institucional elegante exibido quando o lojista está cadastrado mas com status `pending` no Firestore, com botão 1-clique para agilizar aprovação via WhatsApp com Christian Hideyuki.
+     - **Menu Fullscreen Lando Norris**: Atualizado com 9 âncoras dinâmicas (Início, Frota 11 Motos, Comparador Técnico, Simulador B2B, Mesa de Atacado, Pós-Venda & OS, Manuais & Dossiê, Arquitetura Z8 e Área do Parceiro/Admin).
+  3. **Showroom 11 Motos (Hall of Fame // `.helmet-grid`)**:
+     - Preços de atacado B2B e lucro líquido protegidos por cadeado no pré-login ("Sob Consulta") e revelados automaticamente em tempo real no pós-login (`+R$ 4.200/un`, `+R$ 3.500/un`, etc.).
+  4. **Comparador Técnico Lado a Lado (`#comparador`)**:
+     - Seletores dinâmicos de Modelo A e Modelo B com motorização, capacidade de bateria, autonomia em teste real, velocidade e enquadramento CONTRAN 996, com linha de atacado protegida pré-login e revelada pós-login.
+  5. **Mesa de Operações B2B // Order Desk (`#orderdesk`)**:
+     - Painel teaser com cadeado no pré-login convidando ao login/cadastro de CNPJ.
+     - Mesa interativa no pós-login com steppers `[-] [qty] [+]`, validação de lote mínimo obrigatório (10 motos), cálculo dinâmico de investimento de atacado e lucro bruto projetado, e botão de transmissão executiva direta para a Matriz Z8 via WhatsApp.
+  6. **Central Técnica, PDI & Ordens de Serviço (`#pos-venda`)**:
+     - Visão geral dos 2 elevadores, garantia nacional e protocolo PDI no pré-login.
+     - Gerenciador de Ordens de Serviço (OS) em tempo real no pós-login: busca por chassi/código, tabela com badges de status, visualizador de laudo técnico, abertura de nova OS (`#new-os-modal`) conectada a `site-principal/data/warranty-db.js` e aprovação master para o administrador.
+  7. **Central de Manuais & Dossiê Jurídico (`#manuais`)**:
+     - 3 documentos públicos liberados para consulta (Circular COF, Parecer CONTRAN 996, Catálogo Minimalista 2026).
+     - 4 documentos restritos a concessionários credenciados (Minuta Contrato Padrão CPC, Termo PDI, Manual de Arquitetura e Tabela de Atacado 2026) com desbloqueio automático pós-login.
+  8. **Painel Master Admin Modal (`#admin-master-modal`)**:
+     - Acessível exclusivamente para Christian Hideyuki, com contadores de lojistas pendentes, ativos e ordens de serviço, e botões de aprovação em 1 clique conectados ao Firestore em tempo real.
+  9. **Cockpit Auth Modal (`#z8-auth-modal`)**:
+     - Totalmente depurado com logotipo oficial da Z8 E-Motion no rodapé (eliminado o ícone de globo gigante), tipografia Mona Sans e efeitos cinéticos de texto, com Google Auth em 1 clique, login e solicitação de recuperação de senha.
+- **Validação & Entrega**:
+  - `npm run build` executado com êxito sem erros em 8.31s (`dist/conceito-2/index.html` gerado com 194.42 kB).
+  - Dev server respondendo 200 OK em `http://localhost:3000/conceito-2/` e `http://localhost:3000/conceito/`.

@@ -1,10 +1,17 @@
 /**
  * Z8 E-MOTION // CONCEITO 2 — INTEGRATED AUTH & ADVANCED MOTION ENGINE
- * Replaces Main Site with Integrated Pre/Post Login + Full Technical Data
+ * Combines 1:1 Authentic Lando Norris REA Motion Experience with Full Pre/Post Login Architecture
  */
 
 import { z8Models } from '../site-principal/data/models.js';
 import { franchiseTiers, complianceInfo } from '../site-principal/data/franchiseInfo.js';
+import {
+  getStoredWarrantyOrders,
+  getWarrantyOrdersForUser,
+  saveWarrantyOrder,
+  updateWarrantyOrderStatus,
+  fetchWarrantyOrdersFromFirestore
+} from '../site-principal/data/warranty-db.js';
 import {
   loginCatalogUser,
   loginWithGoogle,
@@ -75,6 +82,16 @@ const MODEL_COLORS_MAP = {
   ]
 };
 
+// Aliases dictionary for drawers
+const MODEL_ID_ALIASES = {
+  'z8-harley': 'z8-harley-x12',
+  'z8-u2': 'z8-u2-delivery',
+  'z8-n7': 'z8-h26',
+  'z8-h26': 'z8-h26',
+  'z8-harley-x12': 'z8-harley-x12',
+  'z8-u2-delivery': 'z8-u2-delivery'
+};
+
 const Z8_FLEET = z8Models.map((m) => {
   const profit = m.profit ?? (m.retailPrice - m.wholesalePrice);
   const markup = m.markupPct ?? (((m.retailPrice - m.wholesalePrice) / m.wholesalePrice) * 100).toFixed(1);
@@ -94,6 +111,12 @@ const Z8_FLEET = z8Models.map((m) => {
 const fmtBRL = (val) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
 
+// Order Desk Quantities state
+const orderQuantities = {};
+Z8_FLEET.forEach((m, idx) => {
+  orderQuantities[m.id] = idx === 0 ? 5 : (idx === 1 ? 5 : 0); // Default to 10 total
+});
+
 // ==========================================================================
 // 2. CORE REACTIVE AUTH STATE ENGINE
 // ==========================================================================
@@ -102,7 +125,6 @@ export function updateNavMenuAuthText(text) {
   const linkEl = document.getElementById('nav-menu-link-login');
   if (!txtEl || !linkEl) return;
 
-  // If text already matches or unauthenticated on page load, do not touch DOM so lando-engine handles it cleanly
   const currentText = txtEl.getAttribute('data-current-text') || 'Área do Parceiro';
   if (currentText === text && txtEl.querySelector('.char')) {
     return;
@@ -113,7 +135,6 @@ export function updateNavMenuAuthText(text) {
   }
   txtEl.setAttribute('data-current-text', text);
 
-  // Rebuild only upon authenticated state transition
   txtEl.innerHTML = '';
   const chars = [];
   for (let ch of text) {
@@ -160,7 +181,12 @@ window.openZ8MenuAuth = function() {
   }
 };
 
-function syncAuthState() {
+window.handleLogout = function() {
+  logoutCatalogUser();
+  syncAuthState();
+};
+
+export function syncAuthState() {
   const user = getCurrentCatalogUser();
   const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
@@ -172,8 +198,9 @@ function syncAuthState() {
   const loginBtn = document.getElementById('btn-header-login');
   const logoutBtn = document.getElementById('btn-header-logout');
   const adminBtn = document.getElementById('btn-header-admin');
-updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
   const pendingBanner = document.getElementById('pending-approval-banner');
+
+  updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
 
   if (user) {
     if (franquiaBtn) franquiaBtn.style.display = 'none';
@@ -205,31 +232,27 @@ updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Áre
   }
 
   // 2. Update Vitrine Showcase Cards
-  document.querySelectorAll('.helmet-grid-item-w[data-model-id]').forEach((card) => {
-    const modelId = card.getAttribute('data-model-id');
-    const model = Z8_FLEET.find((m) => m.id === modelId);
+  document.querySelectorAll('.helmet-grid-item-w[data-model-index]').forEach((card) => {
+    const idx = parseInt(card.getAttribute('data-model-index'), 10);
+    const model = Z8_FLEET[idx];
     if (!model) return;
 
     const profitChip = card.querySelector('.z8-tel-profit');
-    const hudWholesale = card.querySelector('.z8-hud-wholesale');
-    const hudRetail = card.querySelector('.z8-hud-retail');
-    const hudProfit = card.querySelector('.z8-hud-profit');
+    const hudRows = card.querySelectorAll('.z8-hud-row');
 
-    if (approved) {
-      if (profitChip) profitChip.textContent = `+${fmtBRL(model.profit)}/un`;
-      if (hudWholesale) hudWholesale.innerHTML = `<span>ATACADO B2B</span><strong>${fmtBRL(model.wholesale)}</strong>`;
-      if (hudRetail) hudRetail.innerHTML = `<span>VAREJO SUG.</span><strong>${fmtBRL(model.retail)}</strong>`;
-      if (hudProfit) hudProfit.innerHTML = `<span>LUCRO LÍQUIDO</span><strong>+${fmtBRL(model.profit)} (${model.tag})</strong>`;
-    } else {
-      if (profitChip) profitChip.textContent = `${model.tag} Markup`;
-      if (hudWholesale) {
-        hudWholesale.innerHTML = `<span>ATACADO B2B</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong>`;
-      }
-      if (hudRetail) {
-        hudRetail.innerHTML = `<span>VAREJO SUG.</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong>`;
-      }
-      if (hudProfit) {
-        hudProfit.innerHTML = `<span>MARKUP COMERCIAL</span><strong>${model.tag} (Margem ${model.marginPct}%)</strong>`;
+    if (profitChip) {
+      profitChip.textContent = approved ? `+${fmtBRL(model.profit)}/un` : `${model.tag} Markup`;
+    }
+
+    if (hudRows && hudRows.length >= 3) {
+      if (approved) {
+        hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong>${fmtBRL(model.wholesale)}</strong>`;
+        hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong>${fmtBRL(model.retail)}</strong>`;
+        hudRows[2].innerHTML = `<span>LUCRO LÍQUIDO</span><strong>+${fmtBRL(model.profit)} (${model.tag})</strong>`;
+      } else {
+        hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong>`;
+        hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong>`;
+        hudRows[2].innerHTML = `<span>MARKUP COMERCIAL</span><strong>${model.tag} (Margem ${model.marginPct}%)</strong>`;
       }
     }
   });
@@ -241,6 +264,7 @@ updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Áre
     if (approved) {
       lockedTeaser.style.display = 'none';
       unlockedCard.style.display = 'block';
+      renderOrderDeskRows();
       updateOrderDeskCalculations();
     } else {
       lockedTeaser.style.display = 'block';
@@ -248,24 +272,47 @@ updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Áre
     }
   }
 
-  // 4. Update Comparador Técnico Row
-  const compWholesaleRow = document.getElementById('comp-wholesale-row');
-  if (compWholesaleRow) {
-    updateComparatorTable();
+  // 4. Update Comparador Técnico
+  updateComparatorTable();
+
+  // 5. Update Pós-Venda & OS Section
+  const posPreGrid = document.getElementById('posvenda-prelogin-grid');
+  const posPostCard = document.getElementById('posvenda-postlogin-card');
+  if (posPreGrid && posPostCard) {
+    if (approved) {
+      posPreGrid.style.display = 'none';
+      posPostCard.style.display = 'block';
+      loadOSTable();
+    } else {
+      posPreGrid.style.display = 'grid';
+      posPostCard.style.display = 'none';
+    }
   }
 
-  // 5. Update Downloads Section
-  document.querySelectorAll('.z8-download-card.requires-auth').forEach((card) => {
+  // 6. Update Downloads Section
+  document.querySelectorAll('.z8-download-card.z8-restricted-doc').forEach((card) => {
+    const badge = card.querySelector('.z8-doc-badge');
+    const icon = card.querySelector('.z8-doc-icon');
     if (approved) {
-      card.classList.remove('is-locked');
-      const badge = card.querySelector('.z8-download-badge');
-      if (badge) badge.textContent = 'Liberado';
+      card.style.opacity = '1';
       card.removeAttribute('onclick');
+      if (badge) {
+        badge.style.color = '#10B981';
+        badge.innerHTML = '<i class="fa-solid fa-check"></i> Acesso Liberado';
+      }
+      if (icon) {
+        icon.style.color = '#10B981';
+      }
     } else {
-      card.classList.add('is-locked');
-      const badge = card.querySelector('.z8-download-badge');
-      if (badge) badge.textContent = 'Restrito (Franqueado)';
-      card.setAttribute('onclick', 'event.preventDefault(); window.openAuthModal && window.openAuthModal("login");');
+      card.style.opacity = '0.75';
+      card.setAttribute('onclick', 'event.preventDefault(); window.openZ8AuthModal && window.openZ8AuthModal("login");');
+      if (badge) {
+        badge.style.color = '#F59E0B';
+        badge.innerHTML = '<i class="fa-solid fa-lock"></i> Restrito Concessionário';
+      }
+      if (icon) {
+        icon.style.color = '#F59E0B';
+      }
     }
   });
 }
@@ -322,15 +369,13 @@ function initAuthModalEvents() {
       closeAuthModal();
       window.closeZ8ModelDrawer?.();
       window.closeAdminModal?.();
+      window.closeNewOSModal?.();
     }
   });
 
   // Header Triggers
   document.getElementById('btn-header-login')?.addEventListener('click', () => openAuthModal('login'));
-  document.getElementById('btn-header-logout')?.addEventListener('click', () => {
-    logoutCatalogUser();
-    syncAuthState();
-  });
+  document.getElementById('btn-header-logout')?.addEventListener('click', window.handleLogout);
   document.getElementById('btn-header-admin')?.addEventListener('click', () => openAdminModal());
 
   // Quick Admin Pre-fill for Testing
@@ -483,7 +528,8 @@ function initAuthModalEvents() {
 // ==========================================================================
 // 4. MODEL DRAWER / SPECS CONTROLLER (REACTIVE TO AUTH)
 // ==========================================================================
-export function openZ8ModelDrawer(modelId) {
+export function openZ8ModelDrawer(rawModelId) {
+  const modelId = MODEL_ID_ALIASES[rawModelId] || rawModelId;
   const model = Z8_FLEET.find((m) => m.id === modelId) || Z8_FLEET[0];
   const drawer = document.getElementById('z8-model-drawer');
   const body = document.getElementById('z8-drawer-body');
@@ -610,44 +656,146 @@ export function closeZ8ModelDrawer() {
 }
 
 // ==========================================================================
-// 5. MESA DE ATACADO (ORDER DESK) SIMULATOR
+// 5. MESA DE ATACADO (ORDER DESK) CONTROLLER
 // ==========================================================================
-function updateOrderDeskCalculations() {
-  const slider = document.getElementById('orderdesk-lot-slider');
-  const lotSize = parseInt(slider?.value || '10', 10);
-  const lotSizeDisplay = document.getElementById('orderdesk-lot-size');
-  if (lotSizeDisplay) lotSizeDisplay.textContent = `${lotSize} Motos`;
-
+function renderOrderDeskRows() {
   const tbody = document.getElementById('orderdesk-table-body');
-  if (tbody) {
-    tbody.innerHTML = Z8_FLEET.map((m) => {
-      const lotWholesale = m.wholesale * lotSize;
-      const lotRetail = m.retail * lotSize;
-      const lotProfit = m.profit * lotSize;
-      return `
-        <tr>
-          <td><strong>${m.name}</strong></td>
-          <td>${m.tag}</td>
-          <td>${fmtBRL(m.wholesale)}</td>
-          <td>${fmtBRL(m.retail)}</td>
-          <td><strong style="color:#00F0FF;">+${fmtBRL(m.profit)}</strong></td>
-          <td><strong style="color:#10B981;">+${fmtBRL(lotProfit)}</strong></td>
-        </tr>
-      `;
-    }).join('');
+  if (!tbody) return;
+
+  tbody.innerHTML = Z8_FLEET.map((m) => {
+    const qty = orderQuantities[m.id] || 0;
+    const subtotal = m.wholesale * qty;
+    return `
+      <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+        <td style="padding: 0.85rem 1rem;">
+          <strong style="color: #F4F5F7; display: block;">${m.name}</strong>
+          <span style="font-size: 0.72rem; color: rgba(244,244,237,0.6);">${m.cnh || m.category}</span>
+        </td>
+        <td style="padding: 0.85rem 1rem; color: #00F0FF; font-weight: 700;">${fmtBRL(m.wholesale)}</td>
+        <td style="padding: 0.85rem 1rem; color: rgba(244,244,237,0.8);">${fmtBRL(m.retail)}</td>
+        <td style="padding: 0.85rem 1rem; color: #10B981; font-weight: 700;">+${fmtBRL(m.profit)}</td>
+        <td style="padding: 0.85rem 1rem; text-align: center;">
+          <div style="display: inline-flex; align-items: center; gap: 0.35rem; background: #06080D; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 2px;">
+            <button type="button" onclick="window.changeOrderQty('${m.id}', -1)" style="background: none; border: none; color: #00F0FF; width: 26px; height: 26px; font-weight: 900; font-size: 0.9rem; cursor: pointer;">-</button>
+            <input type="number" min="0" max="99" value="${qty}" id="order-qty-${m.id}" onchange="window.setOrderQty('${m.id}', this.value)" style="width: 38px; text-align: center; background: none; border: none; color: #FFF; font-weight: 800; font-size: 0.85rem;"/>
+            <button type="button" onclick="window.changeOrderQty('${m.id}', 1)" style="background: none; border: none; color: #00F0FF; width: 26px; height: 26px; font-weight: 900; font-size: 0.9rem; cursor: pointer;">+</button>
+          </div>
+        </td>
+        <td id="order-subtotal-${m.id}" style="padding: 0.85rem 1rem; text-align: right; color: #F4F5F7; font-weight: 800;">${fmtBRL(subtotal)}</td>
+      </tr>
+    `;
+  }).join('');
+}
+
+window.changeOrderQty = function(modelId, delta) {
+  const current = orderQuantities[modelId] || 0;
+  const next = Math.max(0, Math.min(99, current + delta));
+  orderQuantities[modelId] = next;
+  const input = document.getElementById(`order-qty-${modelId}`);
+  if (input) input.value = next;
+  const model = Z8_FLEET.find((m) => m.id === modelId);
+  if (model) {
+    const subtotalEl = document.getElementById(`order-subtotal-${modelId}`);
+    if (subtotalEl) subtotalEl.textContent = fmtBRL(model.wholesale * next);
+  }
+  updateOrderDeskCalculations();
+};
+
+window.setOrderQty = function(modelId, val) {
+  const next = Math.max(0, Math.min(99, parseInt(val, 10) || 0));
+  orderQuantities[modelId] = next;
+  const model = Z8_FLEET.find((m) => m.id === modelId);
+  if (model) {
+    const subtotalEl = document.getElementById(`order-subtotal-${modelId}`);
+    if (subtotalEl) subtotalEl.textContent = fmtBRL(model.wholesale * next);
+  }
+  updateOrderDeskCalculations();
+};
+
+function updateOrderDeskCalculations() {
+  let totalBikes = 0;
+  let totalWholesale = 0;
+  let totalProfit = 0;
+
+  Z8_FLEET.forEach((m) => {
+    const qty = orderQuantities[m.id] || 0;
+    totalBikes += qty;
+    totalWholesale += m.wholesale * qty;
+    totalProfit += m.profit * qty;
+  });
+
+  const badgeEl = document.getElementById('orderdesk-total-bikes-badge');
+  const wholesaleEl = document.getElementById('orderdesk-res-total-wholesale');
+  const profitEl = document.getElementById('orderdesk-res-total-profit');
+  const submitBtn = document.getElementById('btn-submit-orderdesk');
+  const alertEl = document.getElementById('orderdesk-moq-alert');
+
+  if (badgeEl) {
+    badgeEl.textContent = `${totalBikes} / 10 Motos`;
+    if (totalBikes >= 10) {
+      badgeEl.style.background = 'rgba(16, 185, 129, 0.2)';
+      badgeEl.style.color = '#10B981';
+      badgeEl.style.borderColor = 'rgba(16, 185, 129, 0.5)';
+    } else {
+      badgeEl.style.background = 'rgba(245, 158, 11, 0.15)';
+      badgeEl.style.color = '#F59E0B';
+      badgeEl.style.borderColor = 'rgba(245, 158, 11, 0.5)';
+    }
   }
 
-  // Monthly summary (assuming average profit per bike R$ 2.850 + workshop R$ 6.400)
-  const avgProfitPerUnit = 2850;
-  const workshopMonthly = 6400;
-  const totalMonthlyNet = (lotSize * avgProfitPerUnit) + workshopMonthly;
-  const totalAnnualNet = totalMonthlyNet * 12;
+  if (wholesaleEl) wholesaleEl.textContent = fmtBRL(totalWholesale);
+  if (profitEl) profitEl.textContent = `+ ${fmtBRL(totalProfit)}`;
 
-  const elMonthly = document.getElementById('orderdesk-res-monthly');
-  const elAnnual = document.getElementById('orderdesk-res-annual');
-  if (elMonthly) elMonthly.textContent = fmtBRL(totalMonthlyNet);
-  if (elAnnual) elAnnual.textContent = fmtBRL(totalAnnualNet);
+  const isValidMOQ = totalBikes >= 10;
+  if (submitBtn) {
+    submitBtn.style.opacity = isValidMOQ ? '1' : '0.45';
+    submitBtn.style.cursor = isValidMOQ ? 'pointer' : 'not-allowed';
+  }
+  if (alertEl) {
+    alertEl.style.display = isValidMOQ ? 'none' : 'block';
+  }
 }
+
+window.submitOrderDesk = function() {
+  let totalBikes = 0;
+  let summary = [];
+  let totalWholesale = 0;
+  let totalProfit = 0;
+
+  Z8_FLEET.forEach((m) => {
+    const qty = orderQuantities[m.id] || 0;
+    if (qty > 0) {
+      totalBikes += qty;
+      totalWholesale += m.wholesale * qty;
+      totalProfit += m.profit * qty;
+      summary.push(`• ${qty}x ${m.name} (${fmtBRL(m.wholesale * qty)})`);
+    }
+  });
+
+  if (totalBikes < 10) {
+    alert(`O lote mínimo de fábrica é de 10 motos. Quantidade atual selecionada: ${totalBikes} motos.`);
+    return;
+  }
+
+  const user = getCurrentCatalogUser();
+  const partnerName = user?.name || 'Parceiro Z8';
+  const company = user?.company || 'Concessionária';
+  const city = user?.city || 'Brasil';
+
+  const text = encodeURIComponent(
+    `*PEDIDO DE LOTE DE ATACADO B2B // Z8 E-MOTION*\n` +
+    `Parceiro: ${partnerName}\n` +
+    `Empresa: ${company}\n` +
+    `Praça: ${city}\n\n` +
+    `*COMPOSIÇÃO DO LOTE (${totalBikes} MOTOS):*\n` +
+    summary.join('\n') +
+    `\n\n*INVESTIMENTO TOTAL:* ${fmtBRL(totalWholesale)}\n` +
+    `*LUCRO BRUTO ESTIMADO:* +${fmtBRL(totalProfit)}\n\n` +
+    `Solicito a emissão da Minuta Executiva e prazo de despacho direto de fábrica.`
+  );
+
+  window.open(`https://wa.me/5512998008818?text=${text}`, '_blank');
+};
 
 // ==========================================================================
 // 6. COMPARADOR TÉCNICO LADO A LADO
@@ -685,37 +833,175 @@ function updateComparatorTable() {
     fillCell('comp-profit-a', `<strong style="color:#00F0FF;">+${fmtBRL(modelA.profit)} (${modelA.tag})</strong>`);
     fillCell('comp-profit-b', `<strong style="color:#00F0FF;">+${fmtBRL(modelB.profit)} (${modelB.tag})</strong>`);
   } else {
-    fillCell('comp-wholesale-a', `<span style="color:#F59E0B;">🔒 Sob Consulta</span>`);
-    fillCell('comp-wholesale-b', `<span style="color:#F59E0B;">🔒 Sob Consulta</span>`);
+    fillCell('comp-wholesale-a', `<span style="color:#F59E0B;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>`);
+    fillCell('comp-wholesale-b', `<span style="color:#F59E0B;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>`);
     fillCell('comp-profit-a', `<strong style="color:#00F0FF;">${modelA.tag} Markup</strong>`);
     fillCell('comp-profit-b', `<strong style="color:#00F0FF;">${modelB.tag} Markup</strong>`);
   }
 }
 
 // ==========================================================================
-// 7. ADMIN MASTER MODAL CONTROLLER (CHRISTIAN HIDEYUKI)
+// 7. PÓS-VENDA & GESTÃO DE ORDENS DE SERVIÇO (OS)
+// ==========================================================================
+export function loadOSTable(searchTerm = '') {
+  const tbody = document.getElementById('posvenda-os-table-body');
+  if (!tbody) return;
+
+  const user = getCurrentCatalogUser();
+  const isMaster = isUserAdmin(user);
+  let orders = isMaster ? getStoredWarrantyOrders() : getWarrantyOrdersForUser(user);
+
+  if (searchTerm) {
+    const term = searchTerm.toLowerCase().trim();
+    orders = orders.filter((o) =>
+      (o.id && o.id.toLowerCase().includes(term)) ||
+      (o.chassi && o.chassi.toLowerCase().includes(term)) ||
+      (o.model && o.model.toLowerCase().includes(term)) ||
+      (o.company && o.company.toLowerCase().includes(term))
+    );
+  }
+
+  if (orders.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="padding: 2rem; text-align: center; color: rgba(244,244,237,0.5);">
+          Nenhuma Ordem de Serviço encontrada. Clique em "ABRIR NOVA ORDEM DE SERVIÇO" para registrar um chamado técnico.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = orders.map((o) => {
+    let statusBg = 'rgba(245,158,11,0.15)';
+    let statusColor = '#F59E0B';
+    let statusText = o.statusText || 'Em Análise';
+
+    if (o.status === 'approved') {
+      statusBg = 'rgba(16,185,129,0.15)';
+      statusColor = '#10B981';
+      statusText = 'Aprovado / Expedição';
+    } else if (o.status === 'completed') {
+      statusBg = 'rgba(0,240,255,0.15)';
+      statusColor = '#00F0FF';
+      statusText = 'Concluído';
+    } else if (o.status === 'rejected') {
+      statusBg = 'rgba(239,68,68,0.15)';
+      statusColor = '#EF4444';
+      statusText = 'Reprovado';
+    }
+
+    const adminActionBtn = isMaster && o.status !== 'approved'
+      ? `<button type="button" onclick="window.approveOS('${o.id}')" style="background:#10B981; color:#0A0B0E; border:none; border-radius:3px; padding:3px 8px; font-weight:800; font-size:0.72rem; cursor:pointer;">Aprovar</button>`
+      : '';
+
+    return `
+      <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+        <td style="padding: 0.75rem 1rem; font-weight: 800; color: #00F0FF;">${o.id}</td>
+        <td style="padding: 0.75rem 1rem; color: #FFF;">${o.model}</td>
+        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.7); font-family: monospace;">${o.chassi || '-'}</td>
+        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.85);">${o.company || 'Matriz'}</td>
+        <td style="padding: 0.75rem 1rem; text-align: center;">
+          <span style="background:${statusBg}; color:${statusColor}; padding:3px 8px; border-radius:4px; font-size:0.72rem; font-weight:700;">
+            ${statusText}
+          </span>
+        </td>
+        <td style="padding: 0.75rem 1rem; text-align: right;">
+          <button type="button" onclick="alert('Laudo Técnico OS ${o.id}:\\n\\nComponente: ${o.component || 'N/A'}\\nDiagnóstico: ${o.diagnosis || 'N/A'}\\nObservações: ${o.adminNotes || 'N/A'}')" style="background:rgba(255,255,255,0.08); color:#FFF; border:1px solid rgba(255,255,255,0.15); border-radius:3px; padding:3px 8px; font-size:0.72rem; cursor:pointer; margin-right:4px;">
+            Ver Laudo
+          </button>
+          ${adminActionBtn}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+window.approveOS = function(osId) {
+  updateWarrantyOrderStatus(osId, 'approved', 'Aprovado - Peça Despachada');
+  loadOSTable();
+  alert(`OS ${osId} aprovada com sucesso! Peça de reposição liberada para despacho.`);
+};
+
+export function openNewOSModal() {
+  const modal = document.getElementById('new-os-modal');
+  if (!modal) return;
+
+  const modelSelect = document.getElementById('os-form-model');
+  if (modelSelect) {
+    modelSelect.innerHTML = Z8_FLEET.map((m) => `<option value="${m.name}">${m.name} (${m.cnh || m.category})</option>`).join('');
+  }
+
+  modal.classList.add('is-active');
+  modal.style.display = 'flex';
+  window.lenis?.stop();
+}
+
+export function closeNewOSModal() {
+  const modal = document.getElementById('new-os-modal');
+  if (!modal) return;
+  modal.classList.remove('is-active');
+  modal.style.display = 'none';
+  window.lenis?.start();
+}
+
+window.openNewOSModal = openNewOSModal;
+window.closeNewOSModal = closeNewOSModal;
+
+window.handleCreateOS = function(event) {
+  event.preventDefault();
+  const user = getCurrentCatalogUser();
+  if (!user) {
+    alert('É necessário estar conectado como concessionário para registrar uma Ordem de Serviço.');
+    return;
+  }
+
+  const model = document.getElementById('os-form-model')?.value;
+  const chassi = document.getElementById('os-form-chassis')?.value;
+  const km = document.getElementById('os-form-km')?.value;
+  const type = document.getElementById('os-form-type')?.value;
+  const desc = document.getElementById('os-form-desc')?.value;
+
+  const orderData = {
+    model,
+    chassi,
+    odometer: km,
+    component: type === 'pdi' ? 'Revisão Técnica PDI' : (type === 'garantia' ? 'Bateria 72V / Módulo FOC' : 'Revisão Preventiva'),
+    diagnosis: desc
+  };
+
+  saveWarrantyOrder(orderData, user);
+  closeNewOSModal();
+  loadOSTable();
+  alert(`Ordem de Serviço aberta com sucesso para o chassi ${chassi}! O protocolo técnico foi transmitido à Matriz.`);
+};
+
+// ==========================================================================
+// 8. ADMIN MASTER MODAL CONTROLLER (CHRISTIAN HIDEYUKI)
 // ==========================================================================
 export function openAdminModal() {
-  const modal = document.getElementById('z8-admin-modal');
+  const modal = document.getElementById('admin-master-modal');
   if (!modal) return;
   modal.classList.add('is-active');
+  modal.style.display = 'flex';
   window.lenis?.stop();
   loadAdminUsersList();
 }
 
 export function closeAdminModal() {
-  const modal = document.getElementById('z8-admin-modal');
+  const modal = document.getElementById('admin-master-modal');
   if (!modal) return;
   modal.classList.remove('is-active');
+  modal.style.display = 'none';
   window.lenis?.start();
 }
 
 function loadAdminUsersList() {
   subscribeToUsersRealtime((users) => {
-    const listEl = document.getElementById('admin-users-container');
-    const totalEl = document.getElementById('admin-stat-total');
+    const listEl = document.getElementById('admin-users-table-body');
     const pendingEl = document.getElementById('admin-stat-pending');
     const approvedEl = document.getElementById('admin-stat-approved');
+    const osEl = document.getElementById('admin-stat-os');
 
     if (!listEl) return;
 
@@ -727,30 +1013,36 @@ function loadAdminUsersList() {
       if (u.status === 'approved') approvedCount++;
     });
 
-    if (totalEl) totalEl.textContent = users.length;
+    const orders = getStoredWarrantyOrders();
+
     if (pendingEl) pendingEl.textContent = pendingCount;
     if (approvedEl) approvedEl.textContent = approvedCount;
+    if (osEl) osEl.textContent = orders.length;
 
     listEl.innerHTML = users
       .map((u) => {
         const isApp = u.status === 'approved';
         return `
-        <div class="z8-admin-user-row">
-          <div>
-            <strong>${u.name || 'Sem Nome'}</strong> (${u.company || 'Empresa'}) — ${u.city || 'SP'}/${u.state || 'SP'}
-            <div style="font-size:0.72rem; color:rgba(244,244,237,0.6);">${u.email} • WhatsApp: ${u.phone || 'N/A'}</div>
-          </div>
-          <div style="display:flex; gap:6px; align-items:center;">
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 0.75rem 1rem;">
+            <strong style="color: #FFF; display: block;">${u.name || 'Sem Nome'}</strong>
+            <span style="font-size: 0.72rem; color: rgba(244,244,237,0.6);">${u.company || 'Empresa'} • ${u.email}</span>
+          </td>
+          <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.8);">${u.city || 'SP'}/${u.state || 'SP'}</td>
+          <td style="padding: 0.75rem 1rem; color: #00F0FF;">${u.phone || 'N/A'}</td>
+          <td style="padding: 0.75rem 1rem;">
             <span style="font-size:0.72rem; padding:2px 8px; border-radius:4px; font-weight:700; ${isApp ? 'background:rgba(16,185,129,0.15); color:#10B981;' : 'background:rgba(245,158,11,0.15); color:#F59E0B;'}">
               ${isApp ? 'Aprovado' : 'Pendente'}
             </span>
+          </td>
+          <td style="padding: 0.75rem 1rem; text-align: right;">
             ${
               !isApp
-                ? `<button type="button" class="z8-admin-btn-approve" onclick="window.approveUser && window.approveUser('${u.id || u.email}')">Aprovar</button>`
-                : `<button type="button" class="z8-admin-btn-reject" onclick="window.rejectUser && window.rejectUser('${u.id || u.email}')">Suspender</button>`
+                ? `<button type="button" onclick="window.approveUser && window.approveUser('${u.id || u.email}')" style="background:#10B981; color:#0A0B0E; border:none; padding:4px 10px; border-radius:4px; font-weight:800; font-size:0.74rem; cursor:pointer;">Aprovar 1-Clique</button>`
+                : `<button type="button" onclick="window.rejectUser && window.rejectUser('${u.id || u.email}')" style="background:rgba(239,68,68,0.2); color:#EF4444; border:1px solid rgba(239,68,68,0.4); padding:4px 10px; border-radius:4px; font-weight:700; font-size:0.74rem; cursor:pointer;">Suspender</button>`
             }
-          </div>
-        </div>
+          </td>
+        </tr>
       `;
       })
       .join('');
@@ -760,9 +1052,11 @@ function loadAdminUsersList() {
 // Expose Admin Actions to window
 window.approveUser = async (idOrEmail) => {
   await updateUserStatus(idOrEmail, 'approved');
+  syncAuthState();
 };
 window.rejectUser = async (idOrEmail) => {
   await updateUserStatus(idOrEmail, 'pending');
+  syncAuthState();
 };
 window.openAdminModal = openAdminModal;
 window.closeAdminModal = closeAdminModal;
@@ -774,7 +1068,7 @@ window.openZ8ModelDrawer = openZ8ModelDrawer;
 window.closeZ8ModelDrawer = closeZ8ModelDrawer;
 
 // ==========================================================================
-// 8. INITIALIZATION ON DOM READY
+// 9. INITIALIZATION ON DOM READY
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
   initAuthModalEvents();
@@ -791,21 +1085,17 @@ document.addEventListener('DOMContentLoaded', () => {
     updateComparatorTable();
   }
 
-  // Order Desk Slider Event
-  const slider = document.getElementById('orderdesk-lot-slider');
-  slider?.addEventListener('input', updateOrderDeskCalculations);
-
-  // Proposal Button on Order Desk
-  document.getElementById('btn-orderdesk-whatsapp')?.addEventListener('click', () => {
-    const lotSize = document.getElementById('orderdesk-lot-slider')?.value || '10';
-    const user = getCurrentCatalogUser();
-    const text = encodeURIComponent(
-      `Olá Christian! Sou o parceiro credenciado ${user?.name || ''} (${user?.company || ''} - ${user?.city || ''}) e gostaria de fechar a minuta de encomenda de um lote inicial de fábrica de *${lotSize} motocicletas elétricas Z8*.`
-    );
-    window.open(`https://wa.me/5512998008818?text=${text}`, '_blank');
+  // Live search for OS
+  const searchInput = document.getElementById('os-search-input');
+  searchInput?.addEventListener('input', (e) => {
+    loadOSTable(e.target.value);
   });
 
   // Drawer Close Button
   document.getElementById('z8-drawer-close-btn')?.addEventListener('click', closeZ8ModelDrawer);
-  document.getElementById('close-admin-modal-btn')?.addEventListener('click', closeAdminModal);
+
+  // Sync OS updates
+  window.addEventListener('z8-warranty-os-updated', () => {
+    loadOSTable();
+  });
 });

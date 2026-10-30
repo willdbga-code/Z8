@@ -1847,3 +1847,31 @@
     gap: 1rem !important;
   }
 }
+
+
+/* ==========================================================================
+   ADMIN MASTER & NEW SERVICE ORDER (OS) MODAL CENTERING
+   ========================================================================== */
+#admin-master-modal,
+#new-os-modal {
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1.5rem !important;
+}
+
+#admin-master-modal > div,
+#new-os-modal > div {
+  margin: auto !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 240, 255, 0.12) !important;
+}
+
+/* Table styling for Order Desk and OS Portal */
+.z8-orderdesk-table th,
+.z8-orderdesk-table td {
+  padding: 0.85rem 1rem !important;
+  vertical-align: middle !important;
+}
+
+.z8-orderdesk-table tbody tr:hover {
+  background: rgba(0, 240, 255, 0.04) !important;
+}
