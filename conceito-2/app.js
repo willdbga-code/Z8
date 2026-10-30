@@ -1,6 +1,7 @@
 /**
  * Z8 E-MOTION // CONCEITO 2 — INTEGRATED AUTH & ADVANCED MOTION ENGINE
  * Combines 1:1 Authentic Lando Norris REA Motion Experience with Full Pre/Post Login Architecture
+ * Converted into Wholesale Selling Machine (Lote 10 Motos // Raio de Até 50 km)
  */
 
 import { z8Models } from '../site-principal/data/models.js';
@@ -111,10 +112,36 @@ const Z8_FLEET = z8Models.map((m) => {
 const fmtBRL = (val) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
 
+// High-Tech Mechanical Synthesizer (Web Audio API)
+function playHighTechTick(type = 'up') {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    const startFreq = type === 'up' ? 980 : 720;
+    const endFreq = type === 'up' ? 1420 : 360;
+    osc.frequency.setValueAtTime(startFreq, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(endFreq, ctx.currentTime + 0.04);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.04);
+  } catch (e) {
+    // Audio context may require user gesture
+  }
+}
+
 // Order Desk Quantities state
 const orderQuantities = {};
 Z8_FLEET.forEach((m, idx) => {
-  orderQuantities[m.id] = idx === 0 ? 5 : (idx === 1 ? 5 : 0); // Default to 10 total
+  // Pre-fill a balanced sample lote of 10 motos
+  if (m.id === 'z8-tank') orderQuantities[m.id] = 3;
+  else if (m.id === 'z8-n710') orderQuantities[m.id] = 4;
+  else if (m.id === 'z8-fx10') orderQuantities[m.id] = 3;
+  else orderQuantities[m.id] = 0;
 });
 
 // ==========================================================================
@@ -199,6 +226,7 @@ export function syncAuthState() {
   const logoutBtn = document.getElementById('btn-header-logout');
   const adminBtn = document.getElementById('btn-header-admin');
   const pendingBanner = document.getElementById('pending-approval-banner');
+  const stickyBar = document.getElementById('z8-sticky-order-bar');
 
   updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
 
@@ -222,6 +250,25 @@ export function syncAuthState() {
       const pendingUserName = document.getElementById('pending-user-name');
       if (pendingUserName) pendingUserName.textContent = user.name || 'Parceiro';
     }
+
+    // Hero Floating KPI: Reactive Cockpit
+    const heroEyebrow = document.getElementById('hero-kpi-eyebrow');
+    const heroTitle = document.getElementById('hero-kpi-title');
+    const heroBtn = document.getElementById('hero-kpi-cta-btn');
+    if (heroEyebrow) {
+      heroEyebrow.innerHTML = `<span style="color:#00F0FF; font-weight:800;">CONCESSÃO HOMOLOGADA // ${user.city || 'SÃO PAULO'} - ${user.state || 'SP'}</span>`;
+    }
+    if (heroTitle) {
+      heroTitle.innerHTML = `MONOPÓLIO TERRITORIAL: <span>RAIO DE ATÉ 50 KM</span>`;
+    }
+    if (heroBtn) {
+      heroBtn.textContent = 'MONTAR LOTE DE ATACADO (10 MOTOS) ↱';
+      heroBtn.onclick = () => document.getElementById('frota-z8')?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (stickyBar) {
+      stickyBar.style.display = approved ? 'flex' : 'none';
+    }
   } else {
     if (franquiaBtn) franquiaBtn.style.display = 'inline-flex';
     if (loginBtn) loginBtn.style.display = 'inline-flex';
@@ -229,6 +276,18 @@ export function syncAuthState() {
     if (adminBtn) adminBtn.style.display = 'none';
     if (partnerBadge) partnerBadge.style.display = 'none';
     if (pendingBanner) pendingBanner.style.display = 'none';
+    if (stickyBar) stickyBar.style.display = 'none';
+
+    // Hero Floating KPI: Public Teaser
+    const heroEyebrow = document.getElementById('hero-kpi-eyebrow');
+    const heroTitle = document.getElementById('hero-kpi-title');
+    const heroBtn = document.getElementById('hero-kpi-cta-btn');
+    if (heroEyebrow) heroEyebrow.textContent = 'EXPANSÃO INSTITUCIONAL // 2026';
+    if (heroTitle) heroTitle.innerHTML = 'RAIO PROTEGIDO <span>ATÉ 50 KM</span>';
+    if (heroBtn) {
+      heroBtn.textContent = 'CONHECER DISPONIBILIDADE NA MINHA REGIÃO ↗';
+      heroBtn.onclick = () => window.openLeadModal && window.openLeadModal('Hero Floating KPI');
+    }
   }
 
   // 2. Update Vitrine Showcase Cards
@@ -239,6 +298,8 @@ export function syncAuthState() {
 
     const profitChip = card.querySelector('.z8-tel-profit');
     const hudRows = card.querySelectorAll('.z8-hud-row');
+    const stepperBox = card.querySelector('.z8-hud-order-stepper');
+    const stepQty = card.querySelector(`#card-qty-${model.id}`);
 
     if (profitChip) {
       profitChip.textContent = approved ? `+${fmtBRL(model.profit)}/un` : `${model.tag} Markup`;
@@ -254,6 +315,13 @@ export function syncAuthState() {
         hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong>`;
         hudRows[2].innerHTML = `<span>MARKUP COMERCIAL</span><strong>${model.tag} (Margem ${model.marginPct}%)</strong>`;
       }
+    }
+
+    if (stepperBox) {
+      stepperBox.style.display = approved ? 'flex' : 'none';
+    }
+    if (stepQty) {
+      stepQty.textContent = orderQuantities[model.id] || 0;
     }
   });
 
@@ -599,7 +667,7 @@ export function openZ8ModelDrawer(rawModelId) {
   }
 
   const ctaBtnText = approved
-    ? 'RESERVAR LOTE DESTE MODELO VIA WHATSAPP ↱'
+    ? 'ENCOMENDAR ESTE MODELO NO WHATSAPP ↱'
     : 'SOLICITAR TABELA DESTE MODELO &amp; RESERVAR CIDADE ↱';
 
   body.innerHTML = `
@@ -628,6 +696,7 @@ export function openZ8ModelDrawer(rawModelId) {
       btn.classList.add('is-active');
       const mainImg = document.getElementById('z8-drawer-main-img');
       if (mainImg && btn.dataset.img) mainImg.src = btn.dataset.img;
+      playHighTechTick('up');
     });
   });
 
@@ -656,7 +725,7 @@ export function closeZ8ModelDrawer() {
 }
 
 // ==========================================================================
-// 5. MESA DE ATACADO (ORDER DESK) CONTROLLER
+// 5. MESA DE ATACADO (ORDER DESK) & PERSISTENT HUD CONTROLLER
 // ==========================================================================
 function renderOrderDeskRows() {
   const tbody = document.getElementById('orderdesk-table-body');
@@ -691,24 +760,42 @@ window.changeOrderQty = function(modelId, delta) {
   const current = orderQuantities[modelId] || 0;
   const next = Math.max(0, Math.min(99, current + delta));
   orderQuantities[modelId] = next;
-  const input = document.getElementById(`order-qty-${modelId}`);
-  if (input) input.value = next;
+
+  // Sound feedback
+  playHighTechTick(delta > 0 ? 'up' : 'down');
+
+  // Update card stepper display
+  const cardQty = document.getElementById(`card-qty-${modelId}`);
+  if (cardQty) cardQty.textContent = next;
+
+  // Update table input display
+  const tableInput = document.getElementById(`order-qty-${modelId}`);
+  if (tableInput) tableInput.value = next;
+
   const model = Z8_FLEET.find((m) => m.id === modelId);
   if (model) {
     const subtotalEl = document.getElementById(`order-subtotal-${modelId}`);
     if (subtotalEl) subtotalEl.textContent = fmtBRL(model.wholesale * next);
   }
+
   updateOrderDeskCalculations();
 };
 
 window.setOrderQty = function(modelId, val) {
   const next = Math.max(0, Math.min(99, parseInt(val, 10) || 0));
   orderQuantities[modelId] = next;
+
+  playHighTechTick('up');
+
+  const cardQty = document.getElementById(`card-qty-${modelId}`);
+  if (cardQty) cardQty.textContent = next;
+
   const model = Z8_FLEET.find((m) => m.id === modelId);
   if (model) {
     const subtotalEl = document.getElementById(`order-subtotal-${modelId}`);
     if (subtotalEl) subtotalEl.textContent = fmtBRL(model.wholesale * next);
   }
+
   updateOrderDeskCalculations();
 };
 
@@ -722,8 +809,12 @@ function updateOrderDeskCalculations() {
     totalBikes += qty;
     totalWholesale += m.wholesale * qty;
     totalProfit += m.profit * qty;
+
+    const cardQty = document.getElementById(`card-qty-${m.id}`);
+    if (cardQty) cardQty.textContent = qty;
   });
 
+  // 1. Table elements
   const badgeEl = document.getElementById('orderdesk-total-bikes-badge');
   const wholesaleEl = document.getElementById('orderdesk-res-total-wholesale');
   const profitEl = document.getElementById('orderdesk-res-total-profit');
@@ -754,6 +845,22 @@ function updateOrderDeskCalculations() {
   if (alertEl) {
     alertEl.style.display = isValidMOQ ? 'none' : 'block';
   }
+
+  // 2. Persistent Bottom HUD Bar
+  const stickyLot = document.getElementById('sticky-lot-badge');
+  const stickyWholesale = document.getElementById('sticky-wholesale-total');
+  const stickyProfit = document.getElementById('sticky-profit-total');
+  const stickyCta = document.getElementById('sticky-cta-btn');
+
+  if (stickyLot) {
+    stickyLot.textContent = `${totalBikes} / 10 Motos`;
+    stickyLot.className = `z8-sticky-value ${isValidMOQ ? 'is-lime' : 'is-amber'}`;
+  }
+  if (stickyWholesale) stickyWholesale.textContent = fmtBRL(totalWholesale);
+  if (stickyProfit) stickyProfit.textContent = `+ ${fmtBRL(totalProfit)}`;
+  if (stickyCta) {
+    stickyCta.style.background = isValidMOQ ? '#10B981' : '#00F0FF';
+  }
 }
 
 window.submitOrderDesk = function() {
@@ -780,20 +887,27 @@ window.submitOrderDesk = function() {
   const user = getCurrentCatalogUser();
   const partnerName = user?.name || 'Parceiro Z8';
   const company = user?.company || 'Concessionária';
-  const city = user?.city || 'Brasil';
+  const city = user?.city || 'São Paulo';
+  const state = user?.state || 'SP';
 
   const text = encodeURIComponent(
-    `*PEDIDO DE LOTE DE ATACADO B2B // Z8 E-MOTION*\n` +
-    `Parceiro: ${partnerName}\n` +
-    `Empresa: ${company}\n` +
-    `Praça: ${city}\n\n` +
-    `*COMPOSIÇÃO DO LOTE (${totalBikes} MOTOS):*\n` +
+    `*MINUTA DE PEDIDO DE ATACADO B2B // Z8 E-MOTION*\n` +
+    `========================================\n` +
+    `*Concessionário:* ${partnerName}\n` +
+    `*Empresa / CNPJ:* ${company}\n` +
+    `*Praça Protegida:* ${city}/${state} (Raio de até 50 km)\n` +
+    `========================================\n\n` +
+    `*COMPOSIÇÃO DO LOTE FATURADO (${totalBikes} MOTOS):*\n` +
     summary.join('\n') +
-    `\n\n*INVESTIMENTO TOTAL:* ${fmtBRL(totalWholesale)}\n` +
-    `*LUCRO BRUTO ESTIMADO:* +${fmtBRL(totalProfit)}\n\n` +
-    `Solicito a emissão da Minuta Executiva e prazo de despacho direto de fábrica.`
+    `\n\n----------------------------------------\n` +
+    `*INVESTIMENTO TOTAL ATACADO:* ${fmtBRL(totalWholesale)}\n` +
+    `*LUCRO BRUTO NA REVENDA:* +${fmtBRL(totalProfit)}\n` +
+    `*EXPEDIÇÃO DIRETA:* Matriz São José dos Campos (D+2)\n` +
+    `----------------------------------------\n\n` +
+    `Solicito a validação do espelho de faturamento e agendamento de despacho.`
   );
 
+  playHighTechTick('up');
   window.open(`https://wa.me/5512998008818?text=${text}`, '_blank');
 };
 
@@ -1080,8 +1194,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (selA && selB) {
     selA.innerHTML = Z8_FLEET.map((m, i) => `<option value="${m.id}" ${i === 0 ? 'selected' : ''}>${m.name}</option>`).join('');
     selB.innerHTML = Z8_FLEET.map((m, i) => `<option value="${m.id}" ${i === 1 ? 'selected' : ''}>${m.name}</option>`).join('');
-    selA.addEventListener('change', updateComparatorTable);
-    selB.addEventListener('change', updateComparatorTable);
+    selA.addEventListener('change', () => {
+      updateComparatorTable();
+      playHighTechTick('up');
+    });
+    selB.addEventListener('change', () => {
+      updateComparatorTable();
+      playHighTechTick('up');
+    });
     updateComparatorTable();
   }
 

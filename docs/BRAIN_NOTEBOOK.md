@@ -1528,3 +1528,58 @@ pm run build (5.64s), testes de resposta HTTP 200 OK no servidor local (/conceit
 - **Validação & Entrega**:
   - `npm run build` executado com êxito sem erros em 8.31s (`dist/conceito-2/index.html` gerado com 194.42 kB).
   - Dev server respondendo 200 OK em `http://localhost:3000/conceito-2/` e `http://localhost:3000/conceito/`.
+
+
+### [2026-10-29 22:30] - Engenharia Reversa do Catálogo LAF Oficial 2026 (48 Páginas) & Benchmark Z8
+- **Contexto & Escopo**: Engenharia reversa e decomposição visual e técnica de todas as 48 páginas do catálogo oficial da LAF Veículos Elétricos 2026 (`LAF Oficial 2026.pdf`), extraindo as 5 linhas comerciais, 33 modelos de veículos e as matrizes de telemetria para harmonização com o ecossistema Z8 E-Motion.
+- **Estrutura das 48 Páginas Mapeada**:
+  1. *Funil Institucional (P.01 a 08)*: Capa, Matriz ES, Prova Social (+25 modelos), Parceria Global LVJU (Zhejiang, 3M veículos/ano desde 1999), Baterias LiFePO4 (2.000-5.000 ciclos), Pós-Venda e Filosofia "Life and Freedom".
+  2. *5 Linhas de Veículos (P.09 a 46 - 33 Modelos)*:
+     - **Linha Performance (3 modelos)**: SKYLEGE, X-ONE Q, THUNDER (1000W, 72V 20Ah LiFePO4, duplo freio a disco, 32 km/h, até 100 km).
+     - **Linha Urbana (10 modelos)**: MAX, BLITZ, DRIFT, T5, SPEED, NAVIGATOR, COWBOY, GT-S, VISIONARY, STORM.
+     - **Linha Retrô (3 modelos)**: CLOUD, MILKSHAKE, RIVIERA (Design clássico, farol redondo, alinhado à plataforma Z8 Q10/Q11).
+     - **Linha Triciclos (2 modelos)**: QQ III (compacto 58 kg) e Q STAR III (mobilidade sênior 140 kg).
+     - **Linha Bikes (15 modelos)**: L10 MAX/S, L20 CROSS, L40 PLUS, S20 PRO, HAPPY, STREET/S/PLUS, URBAN/S, STAR, V20 ULTRA/S, CONFORT (Fat-tire scramblers 20x4.0, Shimano 7v, opções Dual Battery até 120 km).
+  3. *Fechamento (P.47 e 48)*: "Por Que a LAF?" e Contracapa minimalista.
+- **Template Revertido (Split 40/60)**:
+  - Painel Esquerdo (40%): Foto atmosférica, tag da categoria, tipografia condensada monumental.
+  - Painel Direito (60%): Estúdio 3/4 frontal, 4 badges macro de zoom circular (Farol, Baú, Freio/Motor, Amortecedor), QR Code para manual técnico e grade de telemetria em 2 linhas (13 campos em scooters, 12 campos em bikes).
+- **Benchmark Estratégico Z8**:
+  - *Potência Superior*: Z8 lidera com motores de 1200W, 1500W e 2000W High Torque (Z8 Tank e U2 Delivery) contra o teto de 1000W da LAF.
+  - *Exclusividade Custom & B2B Cargo*: Z8 domina com Harley X12 (Custom Chopper) e U2 Delivery (Baú central 2000W).
+  - *Oportunidade Mapeada*: Lançamento da linha Z8 Scrambler Fat-Tire (concorrendo com V20 Ultra / Street-S) e Triciclos elétricos urbanos.
+- **Artefatos Gerados**: `scratch/laf_models_parsed.json`, `scratch/laf_pages/all_model_headers.png`, e o dossiê detalhado no brain do assistente.
+
+
+### [2026-10-30 00:00] - Implementação do Catálogo de Atacado B2B em /conceito-2/ (Mesa de Operações, HUD Steppers & Blindagem Comercial)
+- **Contexto & Escopo**: Transformação integral de `/conceito-2/` em uma plataforma de faturamento e montagem de lote de atacado pós-login, combinando o motor 3D/WebGL autêntico da Lando Norris com psicologia de conversão de concessionários B2B.
+- **Novos Componentes e Mecânicas Implementadas**:
+  1. *Hero Cockpit Executivo (`#hero-floating-kpi-box`)*:
+     - Badge flutuante aero-espacial com exclusividade territorial estrita: **"RAIO DE ATÉ 50 KM"** (destacado em ciano matte `#00F0FF`).
+     - Telemetria de entrada: Lote mínimo de 10 motos, Margem média de +R$ 42.000 por lote, e Expedição expressa D+2 da Matriz em São José dos Campos.
+     - Botão de ancoragem direta para a Mesa de Operações (`#orderdesk`).
+  2. *Showroom com Mini-Steppers Diretos nos Cards (`.z8-hud-order-stepper`)*:
+     - Integrado diretamente no HUD de cada um dos 11 veículos oficiais (`z8-tank`, `z8-n95c`, `z8-fx10`, `z8-harley`, `z8-u2`, etc.).
+     - Controles `[-] [qty] [+]` com cantos retangulares automotivos Bauhaus (`border-radius: 4px`), isolamento de clique (`stopPropagation`) e áudio sintético tátil (`playHighTechTick()` via Web Audio API).
+     - Sincronização bidirecional em tempo real entre os cards do showroom, a tabela da Mesa de Atacado e a barra fixa no rodapé.
+  3. *Barra Fixa Persistente de Pedido (`#z8-sticky-order-bar` / `.z8-sticky-order-hud`)*:
+     - HUD inferior fixo com backdrop blur de 20px, apresentando:
+       * Contador de motos do lote (com alerta dinâmico âmbar para `< 10 motos` e verde esmeralda para `>= 10 motos`).
+       * Investimento total de faturamento no atacado em R$.
+       * Lucro bruto projetado na revenda das unidades.
+       * CTA direto para revisão do pedido na mesa com botão Bauhaus retangular.
+  4. *Mesa de Operações B2B (`#orderdesk`)*:
+     - Estado duplo: Teaser bloqueado pré-login com convite para autenticação de CNPJ, e Painel operacional completo pós-login.
+     - Tabela dinâmica de faturamento com colunas técnicas (Preço Atacado, Varejo Sugerido, Lucro por unidade, Seletor de Quantidade e Subtotal).
+     - Validação estrita de MOQ de 10 motos com trava visual no botão de envio.
+     - Despacho 1-clique via WhatsApp para Christian Hideyuki (`5512998008818`) com minuta formatada em texto executivo de faturamento.
+  5. *Bloco Tríplice de Blindagem Comercial (`#blindagem-comercial`)*:
+     - Pilar 1: Monopólio Territorial com **Raio de ATÉ 50 km** fundamentado na Lei 13.966/2019 e Art. 784, III do CPC (Título Executivo).
+     - Pilar 2: Oficina Técnica padronizada para 2 Elevadores e Reposição de peças de giro/baterias 72V em até 24 horas úteis.
+     - Pilar 3: Aceleração de Giro com repasse qualificado de leads locais originados pelo tráfego pago da Matriz.
+- **Protocolo Bauhaus & Responsividade**:
+  - Proibição absoluta de botões arredondados ou em cápsula/pílula mantida com rigor (`border-radius: 4px` a `6px`).
+  - Totalmente responsivo para Mobile (< 480px), Tablet (768px - 991px) e Desktop (>= 992px), com safe padding para barras de navegação de smartphones.
+- **Validação de Build**:
+  - `npm run build` compilado com 100% de sucesso em 14.30s (`dist/conceito-2/index.html` gerado com 208.98 kB).
+  - Dev server ativo e respondendo 200 OK em `http://localhost:3000/conceito-2/`.

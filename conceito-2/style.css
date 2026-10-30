@@ -1875,3 +1875,317 @@
 .z8-orderdesk-table tbody tr:hover {
   background: rgba(0, 240, 255, 0.04) !important;
 }
+
+
+/* ==========================================================================
+   CONCEITO 2: WHOLESALE DEALERSHIP COCKPIT & ORDER ENGINE
+   ========================================================================== */
+
+/* 1. Hero Floating KPI Badge */
+.z8-hero-floating-kpi {
+  position: absolute;
+  top: 15%;
+  right: 4%;
+  z-index: 10;
+  background: rgba(8, 12, 18, 0.88);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  max-width: 360px;
+  width: 90%;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 24px rgba(0, 240, 255, 0.15);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.z8-hero-floating-kpi:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 240, 255, 0.25);
+}
+
+.z8-hero-kpi-eyebrow {
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #00F0FF;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.z8-hero-kpi-title {
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  line-height: 1.25;
+  margin-bottom: 0.85rem;
+}
+
+.z8-hero-kpi-title span {
+  color: #00F0FF;
+  font-weight: 900;
+}
+
+.z8-hero-kpi-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  margin-bottom: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+.z8-hero-kpi-metrics span {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: rgba(244, 244, 237, 0.6);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.z8-hero-kpi-metrics strong {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: #F4F5F7;
+  letter-spacing: 0.02em;
+}
+
+.z8-hero-kpi-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  color: #00F0FF;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.z8-hero-kpi-btn:hover {
+  background: #00F0FF;
+  color: #06080D;
+  box-shadow: 0 4px 16px rgba(0, 240, 255, 0.3);
+}
+
+/* 2. Card HUD Wholesale Steppers */
+.z8-hud-order-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.45rem;
+  padding-top: 0.45rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.z8-stepper-label {
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: rgba(244, 244, 237, 0.7);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.z8-stepper-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(6, 8, 13, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.z8-card-step-btn {
+  width: 26px;
+  height: 26px;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  background: rgba(0, 240, 255, 0.12);
+  color: #00F0FF;
+  font-family: 'Mona Sans Variable', monospace, sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.z8-card-step-btn:hover {
+  background: #00F0FF;
+  color: #06080D;
+  border-color: #00F0FF;
+  transform: scale(1.08);
+}
+
+.z8-card-step-btn:active {
+  transform: scale(0.95);
+}
+
+.z8-card-step-qty {
+  min-width: 28px;
+  text-align: center;
+  font-family: 'Mona Sans Variable', monospace, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 3. Sticky Bottom Order HUD Bar */
+.z8-sticky-order-hud {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9998;
+  background: rgba(6, 9, 14, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(0, 240, 255, 0.35);
+  box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.75);
+  transform: translateY(0);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+.z8-sticky-hud-inner {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.z8-sticky-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.z8-sticky-label {
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: rgba(244, 244, 237, 0.65);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.z8-sticky-value {
+  font-family: 'Mona Sans Variable', monospace, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: 0.02em;
+}
+
+.z8-sticky-value.is-amber {
+  color: #F59E0B;
+}
+
+.z8-sticky-value.is-lime {
+  color: #10B981;
+}
+
+.z8-sticky-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+.z8-sticky-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #00F0FF;
+  color: #06080D;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.4rem;
+  border-radius: 4px;
+  text-decoration: none;
+  border: 1px solid #00F0FF;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.z8-sticky-cta-btn:hover {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #06080D;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);
+}
+
+/* 4. Responsive Calibrations (Tablet & Mobile) */
+@media screen and (max-width: 991px) {
+  .z8-hero-floating-kpi {
+    position: static;
+    margin: 2rem auto 0 auto;
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+  }
+
+  .z8-sticky-hud-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .z8-sticky-divider {
+    display: none;
+  }
+
+  .z8-sticky-cta-btn {
+    grid-column: span 2;
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem;
+    font-size: 0.8rem;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .z8-sticky-order-hud {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .z8-sticky-hud-inner {
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .z8-sticky-value {
+    font-size: 0.95rem;
+  }
+
+  .z8-sticky-label {
+    font-size: 0.6rem;
+  }
+}

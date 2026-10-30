@@ -105,7 +105,40 @@ def build():
     assert top_marker_target in c1, "top_marker_target not found!"
     c1 = c1.replace(top_marker_target, pending_banner_html, 1)
 
-    # 4. Update Hamburger Menu Links to include all new sections
+    # 4. Hero Section: Make Floating Callout KPI reactive (pre-login vs post-login)
+    kpi_old_target = """                <!-- Floating Hero Callout Badge (Right side desktop / bottom mobile) -->
+                <div class="z8-hero-floating-kpi">
+                  <div class="z8-hero-kpi-eyebrow">EXPANSÃO INSTITUCIONAL // 2026</div>
+                  <div class="z8-hero-kpi-title">RAIO PROTEGIDO <span>ATÉ 50 KM</span></div>
+                  <div class="z8-hero-kpi-metrics">
+                    <div><span>MARGEM BRUTA</span><strong>ATÉ 46,8%</strong></div>
+                    <div><span>ROYALTIES</span><strong>ISENTO (0%)</strong></div>
+                    <div><span>EQUILÍBRIO</span><strong>4 MOTOS/MÊS</strong></div>
+                  </div>
+                  <button type="button" class="z8-hero-kpi-btn" onclick="window.openLeadModal && window.openLeadModal('Hero Floating KPI')">
+                    CONHECER DISPONIBILIDADE NA MINHA REGIÃO ↗
+                  </button>
+                </div>"""
+
+    # If accented chars differ due to encoding in c1, find by regex
+    m_kpi = re.search(r'<!-- Floating Hero Callout Badge.*?<button type="button" class="z8-hero-kpi-btn".*?</button>\s*</div>', c1, re.DOTALL)
+    if m_kpi:
+        kpi_replacement = """<!-- Floating Hero Callout Badge (Right side desktop / bottom mobile) -->
+                <div class="z8-hero-floating-kpi" id="hero-floating-kpi-box">
+                  <div class="z8-hero-kpi-eyebrow" id="hero-kpi-eyebrow">EXPANSÃO INSTITUCIONAL // 2026</div>
+                  <div class="z8-hero-kpi-title" id="hero-kpi-title">MONOPÓLIO TERRITORIAL: <span>RAIO DE ATÉ 50 KM</span></div>
+                  <div class="z8-hero-kpi-metrics">
+                    <div><span>LOTE MÍNIMO</span><strong id="hero-kpi-m1">10 MOTOS</strong></div>
+                    <div><span>MARGEM MÉDIA</span><strong id="hero-kpi-m2">+R$ 42.000</strong></div>
+                    <div><span>EXPEDIÇÃO</span><strong id="hero-kpi-m3">D+2 MATRIZ</strong></div>
+                  </div>
+                  <button type="button" class="z8-hero-kpi-btn" id="hero-kpi-cta-btn" onclick="document.getElementById('orderdesk')?.scrollIntoView({ behavior: 'smooth' })">
+                    MONTAR LOTE DE ATACADO ↱
+                  </button>
+                </div>"""
+        c1 = c1[:m_kpi.start()] + kpi_replacement + c1[m_kpi.end():]
+
+    # 5. Update Hamburger Menu Links to include all new sections
     idx_menu_start = c1.find('<div class="nav-menu-links-list">')
     idx_menu_end = c1.find('<div class="nav-helmet-rive-w">')
     assert idx_menu_start != -1 and idx_menu_end != -1, "Menu links landmarks not found!"
@@ -123,20 +156,20 @@ def build():
                     <svg width="100%" height="100%" viewBox="0 0 412 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 2h73.539c5.858 0 11.47 2.35 15.58 6.525l8.565 8.7a21.863 21.863 0 0 0 15.58 6.525h72.678c6.045 0 11.82-2.503 15.954-6.914l6.485-6.922A21.865 21.865 0 0 1 224.336 3h76.752a21.864 21.864 0 0 1 16.806 7.88l4.362 5.24A21.864 21.864 0 0 0 339.063 24H412" stroke="currentColor" stroke-width="3.28"/></svg>
                   </div>
                 </a>
-                <a data-anim="text-hover" href="#comparador" data-taxi-ignore="true" class="nav-menu-link-w w-inline-block" onclick="document.querySelector('[data-nav-ham]')?.click()">
-                  <div split-text="chars" class="text-nav-link">Comparador Técnico</div>
-                  <div class="nav-menu-link-current-svg w-embed">
-                    <svg width="100%" height="100%" viewBox="0 0 412 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 2h73.539c5.858 0 11.47 2.35 15.58 6.525l8.565 8.7a21.863 21.863 0 0 0 15.58 6.525h72.678c6.045 0 11.82-2.503 15.954-6.914l6.485-6.922A21.865 21.865 0 0 1 224.336 3h76.752a21.864 21.864 0 0 1 16.806 7.88l4.362 5.24A21.864 21.864 0 0 0 339.063 24H412" stroke="currentColor" stroke-width="3.28"/></svg>
-                  </div>
-                </a>
-                <a data-anim="text-hover" href="#simulador-b2b" data-taxi-ignore="true" class="nav-menu-link-w w-inline-block" onclick="document.querySelector('[data-nav-ham]')?.click()">
-                  <div split-text="chars" class="text-nav-link">Simulador B2B</div>
-                  <div class="nav-menu-link-current-svg w-embed">
-                    <svg width="100%" height="100%" viewBox="0 0 412 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 2h73.539c5.858 0 11.47 2.35 15.58 6.525l8.565 8.7a21.863 21.863 0 0 0 15.58 6.525h72.678c6.045 0 11.82-2.503 15.954-6.914l6.485-6.922A21.865 21.865 0 0 1 224.336 3h76.752a21.864 21.864 0 0 1 16.806 7.88l4.362 5.24A21.864 21.864 0 0 0 339.063 24H412" stroke="currentColor" stroke-width="3.28"/></svg>
-                  </div>
-                </a>
                 <a data-anim="text-hover" href="#orderdesk" data-taxi-ignore="true" class="nav-menu-link-w w-inline-block" onclick="document.querySelector('[data-nav-ham]')?.click()">
                   <div split-text="chars" class="text-nav-link">Mesa de Atacado</div>
+                  <div class="nav-menu-link-current-svg w-embed">
+                    <svg width="100%" height="100%" viewBox="0 0 412 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 2h73.539c5.858 0 11.47 2.35 15.58 6.525l8.565 8.7a21.863 21.863 0 0 0 15.58 6.525h72.678c6.045 0 11.82-2.503 15.954-6.914l6.485-6.922A21.865 21.865 0 0 1 224.336 3h76.752a21.864 21.864 0 0 1 16.806 7.88l4.362 5.24A21.864 21.864 0 0 0 339.063 24H412" stroke="currentColor" stroke-width="3.28"/></svg>
+                  </div>
+                </a>
+                <a data-anim="text-hover" href="#blindagem-comercial" data-taxi-ignore="true" class="nav-menu-link-w w-inline-block" onclick="document.querySelector('[data-nav-ham]')?.click()">
+                  <div split-text="chars" class="text-nav-link">Blindagem Comercial</div>
+                  <div class="nav-menu-link-current-svg w-embed">
+                    <svg width="100%" height="100%" viewBox="0 0 412 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 2h73.539c5.858 0 11.47 2.35 15.58 6.525l8.565 8.7a21.863 21.863 0 0 0 15.58 6.525h72.678c6.045 0 11.82-2.503 15.954-6.914l6.485-6.922A21.865 21.865 0 0 1 224.336 3h76.752a21.864 21.864 0 0 1 16.806 7.88l4.362 5.24A21.864 21.864 0 0 0 339.063 24H412" stroke="currentColor" stroke-width="3.28"/></svg>
+                  </div>
+                </a>
+                <a data-anim="text-hover" href="#comparador" data-taxi-ignore="true" class="nav-menu-link-w w-inline-block" onclick="document.querySelector('[data-nav-ham]')?.click()">
+                  <div split-text="chars" class="text-nav-link">Comparador Técnico</div>
                   <div class="nav-menu-link-current-svg w-embed">
                     <svg width="100%" height="100%" viewBox="0 0 412 26" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 2h73.539c5.858 0 11.47 2.35 15.58 6.525l8.565 8.7a21.863 21.863 0 0 0 15.58 6.525h72.678c6.045 0 11.82-2.503 15.954-6.914l6.485-6.922A21.865 21.865 0 0 1 224.336 3h76.752a21.864 21.864 0 0 1 16.806 7.88l4.362 5.24A21.864 21.864 0 0 0 339.063 24H412" stroke="currentColor" stroke-width="3.28"/></svg>
                   </div>
@@ -170,73 +203,57 @@ def build():
 
     c1 = c1[:idx_menu_start] + menu_links_replacement + c1[idx_menu_end:]
 
-    # 5. Insert New Sections: Comparador, Order Desk, Pós-Venda, Manuais
+    # 6. Inject Card Steppers into each of the 11 models in `#frota-z8`
+    model_mapping = {
+        'z8-tank': 'z8-tank',
+        'z8-n95c': 'z8-n95c',
+        'z8-fx10': 'z8-fx10',
+        'z8-harley': 'z8-harley-x12',
+        'z8-u2': 'z8-u2-delivery',
+        'z8-n710': 'z8-n710',
+        'z8-q10': 'z8-q10',
+        'z8-q11': 'z8-q11',
+        'z8-diamond': 'z8-diamond',
+        'z8-n7': 'z8-h26',
+        'z8-gs005': 'z8-gs005'
+    }
+
+    for raw_id, real_id in model_mapping.items():
+        # Target the card CTA inside the card
+        # <div class="z8-hud-cta">INSPECIONAR FICHA &amp; CORES ↗</div>
+        card_marker = f"openZ8ModelDrawer('{raw_id}')"
+        idx_card = c1.find(card_marker)
+        if idx_card != -1:
+            idx_cta = c1.find('<div class="z8-hud-cta">', idx_card)
+            if idx_cta != -1:
+                idx_cta_end = c1.find('</div>', idx_cta) + len('</div>')
+                stepper_html = f"""\n        <div class="z8-hud-order-stepper" onclick="event.stopPropagation()">
+          <span class="z8-stepper-label">ADICIONAR AO LOTE:</span>
+          <div class="z8-stepper-controls">
+            <button type="button" class="z8-card-step-btn" onclick="window.changeOrderQty('{real_id}', -1)" title="Diminuir">-</button>
+            <span class="z8-card-step-qty" id="card-qty-{real_id}">0</span>
+            <button type="button" class="z8-card-step-btn" onclick="window.changeOrderQty('{real_id}', 1)" title="Aumentar">+</button>
+          </div>
+        </div>"""
+                c1 = c1[:idx_cta_end] + stepper_html + c1[idx_cta_end:]
+
+    # 7. Insert New Sections: Comparador, Order Desk, Blindagem Comercial, Pós-Venda, Manuais
     # Insert right after `#simulador-b2b` section ends!
     sim_idx = c1.find('id="simulador-b2b"')
     assert sim_idx != -1, "id=simulador-b2b not found!"
     sim_end = c1.find('</section>', sim_idx)
     assert sim_end != -1, "Closing section of simulador-b2b not found!"
 
-    # Split right after </section>
     insert_pos = sim_end + len('</section>')
 
     new_sections_html = """
 
-    <!-- ==================== SECTION: COMPARADOR TÉCNICO DE MODELOS ==================== -->
-    <section id="comparador" class="z8-comparator-section" style="padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto;">
-      <div style="text-align: center; margin-bottom: 3rem;">
-        <div style="color: var(--color--lime, #00F0FF); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem;">ENGENHARIA COMPARATIVA // 11 MODELOS</div>
-        <h2 style="font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: #F4F5F7; margin: 0 0 0.75rem 0;">COMPARADOR TÉCNICO LADO A LADO</h2>
-        <p style="color: rgba(244, 244, 237, 0.7); max-width: 680px; margin: 0 auto; font-size: 0.9rem; line-height: 1.5;">Compare motorização, capacidade de bateria, autonomia em teste real, velocidade CONTRAN 996 e viabilidade comercial entre quaisquer dois modelos da frota.</p>
-      </div>
-
-      <div class="z8-comparator-selectors" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
-        <div style="background: rgba(10, 22, 40, 0.6); padding: 1rem 1.25rem; border: 1px solid rgba(0, 240, 255, 0.25); border-radius: 6px;">
-          <label style="display: block; font-size: 0.72rem; color: #00F0FF; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">SELECIONAR MODELO A</label>
-          <select id="comp-select-a" class="z8-input" style="width: 100%; background: #06080D; border: 1px solid rgba(255, 255, 255, 0.12); color: #F4F5F7; padding: 0.75rem; border-radius: 4px; font-weight: 700;"></select>
-        </div>
-        <div style="background: rgba(10, 22, 40, 0.6); padding: 1rem 1.25rem; border: 1px solid rgba(0, 240, 255, 0.25); border-radius: 6px;">
-          <label style="display: block; font-size: 0.72rem; color: #00F0FF; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">SELECIONAR MODELO B</label>
-          <select id="comp-select-b" class="z8-input" style="width: 100%; background: #06080D; border: 1px solid rgba(255, 255, 255, 0.12); color: #F4F5F7; padding: 0.75rem; border-radius: 4px; font-weight: 700;"></select>
-        </div>
-      </div>
-
-      <div class="z8-comp-table-wrap" style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 6px; border: 1px solid rgba(0, 240, 255, 0.25); background: rgba(10, 22, 40, 0.65);">
-        <table class="z8-comp-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
-          <thead>
-            <tr style="background: rgba(0, 240, 255, 0.08); border-bottom: 1px solid rgba(0, 240, 255, 0.25);">
-              <th style="padding: 1rem 1.25rem; color: #00F0FF; font-weight: 800; width: 30%;">ESPECIFICAÇÃO</th>
-              <th id="comp-name-a" style="padding: 1rem 1.25rem; color: #F4F5F7; font-weight: 800; width: 35%;">MODELO A</th>
-              <th id="comp-name-b" style="padding: 1rem 1.25rem; color: #F4F5F7; font-weight: 800; width: 35%;">MODELO B</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Motorização</td><td id="comp-motor-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-motor-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
-            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Bateria &amp; Voltagem</td><td id="comp-battery-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-battery-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
-            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Velocidade Máxima</td><td id="comp-speed-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-speed-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
-            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Autonomia Real</td><td id="comp-range-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-range-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
-            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Enquadramento Legal</td><td id="comp-cnh-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-cnh-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
-            <tr id="comp-wholesale-row" style="background: rgba(0, 240, 255, 0.04);">
-              <td style="padding: 0.85rem 1.25rem; color: #00F0FF; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.06);">Preço Atacado B2B</td>
-              <td id="comp-wholesale-a" style="padding: 0.85rem 1.25rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.06);">Sob Consulta</td>
-              <td id="comp-wholesale-b" style="padding: 0.85rem 1.25rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.06);">Sob Consulta</td>
-            </tr>
-            <tr>
-              <td style="padding: 0.85rem 1.25rem; color: #10B981; font-weight: 800;">Margem / Lucro</td>
-              <td id="comp-profit-a" style="padding: 0.85rem 1.25rem; color: #10B981; font-weight: 800;">-</td>
-              <td id="comp-profit-b" style="padding: 0.85rem 1.25rem; color: #10B981; font-weight: 800;">-</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
     <!-- ==================== SECTION: MESA DE OPERAÇÕES B2B (ORDER DESK) ==================== -->
     <section id="orderdesk" class="z8-orderdesk-section" style="padding: 5rem 1.5rem; max-width: 1250px; margin: 0 auto;">
       <div style="text-align: center; margin-bottom: 3rem;">
-        <div style="color: var(--color--lime, #00F0FF); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem;">DISTRIBUIÇÃO DIRECT-FACTORY // PEDIDO B2B</div>
+        <div style="color: var(--color--lime, #00F0FF); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem;">DISTRIBUIÇÃO DIRECT-FACTORY // FATURAMENTO PJ</div>
         <h2 style="font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: #F4F5F7; margin: 0 0 0.75rem 0;">MESA DE OPERAÇÕES &amp; PEDIDO DE LOTE</h2>
-        <p style="color: rgba(244, 244, 237, 0.7); max-width: 680px; margin: 0 auto; font-size: 0.9rem; line-height: 1.5;">Faturamento direto de fábrica com margens de até 69% para concessionárias homologadas. Lote mínimo de 10 motos com suporte logístico e expedição direta.</p>
+        <p style="color: rgba(244, 244, 237, 0.7); max-width: 680px; margin: 0 auto; font-size: 0.9rem; line-height: 1.5;">Monte seu lote de atacado direto de fábrica com margens de até 50% para concessionárias homologadas. Lote mínimo de 10 motos com suporte logístico e expedição direta de São José dos Campos.</p>
       </div>
 
       <!-- Locked Pre-Login Teaser Panel -->
@@ -290,11 +307,128 @@ def build():
           </div>
           <div>
             <button type="button" id="btn-submit-orderdesk" onclick="window.submitOrderDesk && window.submitOrderDesk()" style="width: 100%; padding: 1.1rem; background: #00F0FF; color: #07080B; border: none; border-radius: 4px; font-weight: 900; font-size: 0.9rem; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; transition: all 0.2s;">
-              <i class="fa-solid fa-paper-plane" style="margin-right: 6px;"></i> TRANSMITIR PEDIDO À MATRIZ
+              <i class="fa-solid fa-paper-plane" style="margin-right: 6px;"></i> TRANSMITIR MINUTA DE PEDIDO À MATRIZ Z8
             </button>
             <span id="orderdesk-moq-alert" style="display: block; text-align: center; font-size: 0.72rem; color: #F59E0B; margin-top: 0.5rem;">Selecione pelo menos 10 motos para liberar a transmissão</span>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION: BLINDAGEM COMERCIAL Z8 (ATÉ 50 KM) ==================== -->
+    <section id="blindagem-comercial" class="z8-blindagem-section" style="padding: 5rem 1.5rem; max-width: 1250px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
+        <div style="color: var(--color--lime, #00F0FF); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 0.5rem;">SEGURANÇA JURÍDICA &amp; ACELERAÇÃO DE GIRO // MATRIZ SJC</div>
+        <h2 style="font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: #F4F5F7; margin: 0 0 0.75rem 0;">BLINDAGEM COMERCIAL DO CONCESSIONÁRIO</h2>
+        <p style="color: rgba(244, 244, 237, 0.7); max-width: 720px; margin: 0 auto; font-size: 0.92rem; line-height: 1.55;">Três pilares inegociáveis para assegurar que cada lote faturado na fábrica gere liquidez rápida, margem alta e proteção territorial absoluta para o seu negócio.</p>
+      </div>
+
+      <div class="z8-blindagem-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+        <!-- Card 1: Monopólio Territorial -->
+        <div style="background: rgba(10, 22, 40, 0.7); border: 1px solid rgba(0, 240, 255, 0.35); border-radius: 8px; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+              <div style="width: 48px; height: 48px; border-radius: 6px; background: rgba(0, 240, 255, 0.12); display: flex; align-items: center; justify-content: center; color: #00F0FF; font-size: 1.4rem;">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <span style="font-size: 0.7rem; color: #00F0FF; font-weight: 800; letter-spacing: 0.08em; background: rgba(0, 240, 255, 0.08); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(0, 240, 255, 0.25);">LEI 13.966 // ART. 784 CPC</span>
+            </div>
+            <h3 style="font-size: 1.35rem; font-weight: 900; color: #F4F5F7; margin: 0 0 0.75rem 0;">Monopólio Territorial (Raio de ATÉ 50 km)</h3>
+            <p style="font-size: 0.85rem; color: rgba(244,244,237,0.7); line-height: 1.5; margin: 0 0 1.25rem 0;">
+              Sua concessão possui exclusividade territorial estrita com raio de <strong>ATÉ 50 km</strong>, garantida em Contrato Padrão com força de Título Executivo Judicial. Nenhuma outra concessionária ou representante Z8 poderá comercializar na sua praça.
+            </p>
+          </div>
+          <div style="padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #10B981; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-circle-check"></i> Proteção total contra canibalização de vendas
+          </div>
+        </div>
+
+        <!-- Card 2: Oficina de 2 Elevadores & Peças 24h -->
+        <div style="background: rgba(10, 22, 40, 0.7); border: 1px solid rgba(16, 185, 129, 0.35); border-radius: 8px; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+              <div style="width: 48px; height: 48px; border-radius: 6px; background: rgba(16, 185, 129, 0.12); display: flex; align-items: center; justify-content: center; color: #10B981; font-size: 1.4rem;">
+                <i class="fa-solid fa-wrench"></i>
+              </div>
+              <span style="font-size: 0.7rem; color: #10B981; font-weight: 800; letter-spacing: 0.08em; background: rgba(16, 185, 129, 0.08); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.25);">2 ELEVADORES // EXPEDIÇÃO 24H</span>
+            </div>
+            <h3 style="font-size: 1.35rem; font-weight: 900; color: #F4F5F7; margin: 0 0 0.75rem 0;">Oficina Técnica &amp; Reposição Imediata</h3>
+            <p style="font-size: 0.85rem; color: rgba(244,244,237,0.7); line-height: 1.5; margin: 0 0 1.25rem 0;">
+              Infraestrutura oficial padronizada para 2 elevadores hidráulicos com suprimento garantido de baterias de lítio 72V/60V, módulos FOC e peças de giro com expedição em até 24 horas úteis diretamente da fábrica de São José dos Campos.
+            </p>
+          </div>
+          <div style="padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #10B981; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-circle-check"></i> Estoque fabril e atendimento de garantia por chassi
+          </div>
+        </div>
+
+        <!-- Card 3: Repasse de Leads da Matriz -->
+        <div style="background: rgba(10, 22, 40, 0.7); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 8px; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden;">
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+              <div style="width: 48px; height: 48px; border-radius: 6px; background: rgba(245, 158, 11, 0.12); display: flex; align-items: center; justify-content: center; color: #F59E0B; font-size: 1.4rem;">
+                <i class="fa-solid fa-bullhorn"></i>
+              </div>
+              <span style="font-size: 0.7rem; color: #F59E0B; font-weight: 800; letter-spacing: 0.08em; background: rgba(245, 158, 11, 0.08); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.25);">TRÁFEGO PAGO // CLIENTES LOCAIS</span>
+            </div>
+            <h3 style="font-size: 1.35rem; font-weight: 900; color: #F4F5F7; margin: 0 0 0.75rem 0;">Giro Acelerado &amp; Repasse de Leads</h3>
+            <p style="font-size: 0.85rem; color: rgba(244,244,237,0.7); line-height: 1.5; margin: 0 0 1.25rem 0;">
+              Todo cliente final que demonstra interesse em comprar uma moto elétrica na sua cidade através do marketing nacional da Z8 é transferido em tempo real para o WhatsApp da sua concessionária para test-ride e fechamento imediato.
+            </p>
+          </div>
+          <div style="padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.78rem; color: #10B981; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-circle-check"></i> Fila de compradores pronta para o seu lote
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION: COMPARADOR TÉCNICO DE MODELOS ==================== -->
+    <section id="comparador" class="z8-comparator-section" style="padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <div style="color: var(--color--lime, #00F0FF); font-size: 0.74rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.5rem;">ENGENHARIA COMPARATIVA // 11 MODELOS</div>
+        <h2 style="font-family: var(--font-family--mona, 'Mona Sans Variable', Arial, sans-serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: #F4F5F7; margin: 0 0 0.75rem 0;">COMPARADOR TÉCNICO LADO A LADO</h2>
+        <p style="color: rgba(244, 244, 237, 0.7); max-width: 680px; margin: 0 auto; font-size: 0.9rem; line-height: 1.5;">Compare motorização, capacidade de bateria, autonomia em teste real, velocidade CONTRAN 996 e viabilidade comercial entre quaisquer dois modelos da frota.</p>
+      </div>
+
+      <div class="z8-comparator-selectors" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+        <div style="background: rgba(10, 22, 40, 0.6); padding: 1rem 1.25rem; border: 1px solid rgba(0, 240, 255, 0.25); border-radius: 6px;">
+          <label style="display: block; font-size: 0.72rem; color: #00F0FF; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">SELECIONAR MODELO A</label>
+          <select id="comp-select-a" class="z8-input" style="width: 100%; background: #06080D; border: 1px solid rgba(255, 255, 255, 0.12); color: #F4F5F7; padding: 0.75rem; border-radius: 4px; font-weight: 700;"></select>
+        </div>
+        <div style="background: rgba(10, 22, 40, 0.6); padding: 1rem 1.25rem; border: 1px solid rgba(0, 240, 255, 0.25); border-radius: 6px;">
+          <label style="display: block; font-size: 0.72rem; color: #00F0FF; font-weight: 800; text-transform: uppercase; margin-bottom: 0.5rem;">SELECIONAR MODELO B</label>
+          <select id="comp-select-b" class="z8-input" style="width: 100%; background: #06080D; border: 1px solid rgba(255, 255, 255, 0.12); color: #F4F5F7; padding: 0.75rem; border-radius: 4px; font-weight: 700;"></select>
+        </div>
+      </div>
+
+      <div class="z8-comp-table-wrap" style="overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 6px; border: 1px solid rgba(0, 240, 255, 0.25); background: rgba(10, 22, 40, 0.65);">
+        <table class="z8-comp-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+          <thead>
+            <tr style="background: rgba(0, 240, 255, 0.08); border-bottom: 1px solid rgba(0, 240, 255, 0.25);">
+              <th style="padding: 1rem 1.25rem; color: #00F0FF; font-weight: 800; width: 30%;">ESPECIFICAÇÃO</th>
+              <th id="comp-name-a" style="padding: 1rem 1.25rem; color: #F4F5F7; font-weight: 800; width: 35%;">MODELO A</th>
+              <th id="comp-name-b" style="padding: 1rem 1.25rem; color: #F4F5F7; font-weight: 800; width: 35%;">MODELO B</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Motorização</td><td id="comp-motor-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-motor-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
+            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Bateria &amp; Voltagem</td><td id="comp-battery-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-battery-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
+            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Velocidade Máxima</td><td id="comp-speed-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-speed-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
+            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Autonomia Real</td><td id="comp-range-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-range-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
+            <tr><td style="padding: 0.85rem 1.25rem; color: rgba(244,244,237,0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">Enquadramento Legal</td><td id="comp-cnh-a" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td><td id="comp-cnh-b" style="padding: 0.85rem 1.25rem; color: #F4F5F7; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.06);">-</td></tr>
+            <tr id="comp-wholesale-row" style="background: rgba(0, 240, 255, 0.04);">
+              <td style="padding: 0.85rem 1.25rem; color: #00F0FF; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.06);">Preço Atacado B2B</td>
+              <td id="comp-wholesale-a" style="padding: 0.85rem 1.25rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.06);">Sob Consulta</td>
+              <td id="comp-wholesale-b" style="padding: 0.85rem 1.25rem; font-weight: 800; border-bottom: 1px solid rgba(255,255,255,0.06);">Sob Consulta</td>
+            </tr>
+            <tr>
+              <td style="padding: 0.85rem 1.25rem; color: #10B981; font-weight: 800;">Margem / Lucro</td>
+              <td id="comp-profit-a" style="padding: 0.85rem 1.25rem; color: #10B981; font-weight: 800;">-</td>
+              <td id="comp-profit-b" style="padding: 0.85rem 1.25rem; color: #10B981; font-weight: 800;">-</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -403,7 +537,7 @@ def build():
           <div class="z8-doc-icon" style="font-size: 1.8rem; color: #F59E0B;"><i class="fa-solid fa-file-contract"></i></div>
           <div style="flex: 1;">
             <strong style="color: #F4F5F7; font-size: 0.88rem; display: block;">Minuta Contrato Padrão</strong>
-            <span style="font-size: 0.74rem; color: rgba(244,244,237,0.6);">Título Executivo CPC // 50 km</span>
+            <span style="font-size: 0.74rem; color: rgba(244,244,237,0.6);">Título Executivo CPC // Raio até 50 km</span>
             <span class="z8-doc-badge" style="font-size: 0.68rem; color: #F59E0B; font-weight: 800; display: block; margin-top: 0.25rem;"><i class="fa-solid fa-lock"></i> Restrito Concessionário</span>
           </div>
         </a>
@@ -443,11 +577,35 @@ def build():
 
     c1 = c1[:insert_pos] + new_sections_html + c1[insert_pos:]
 
-    # 6. Add Master Admin Modal and New OS Modal right before closing </body>
+    # 8. Add Master Admin Modal, New OS Modal, and Persistent Bottom HUD Bar right before closing </body>
     closing_body_idx = c1.find('</body>')
     assert closing_body_idx != -1, "closing </body> not found!"
 
-    modals_html = """  <!-- ==================== MASTER ADMIN DASHBOARD MODAL (CHRISTIAN HIDEYUKI) ==================== -->
+    modals_html = """  <!-- ==================== PERSISTENT BOTTOM HUD ORDER BAR ==================== -->
+  <aside id="z8-sticky-order-bar" class="z8-sticky-order-hud" style="display: none;">
+    <div class="z8-sticky-hud-inner">
+      <div class="z8-sticky-metric">
+        <span class="z8-sticky-label">LOTE DE ATACADO</span>
+        <strong id="sticky-lot-badge" class="z8-sticky-value is-amber">0 / 10 Motos</strong>
+      </div>
+      <div class="z8-sticky-divider"></div>
+      <div class="z8-sticky-metric">
+        <span class="z8-sticky-label">INVESTIMENTO TOTAL</span>
+        <strong id="sticky-wholesale-total" class="z8-sticky-value">R$ 0,00</strong>
+      </div>
+      <div class="z8-sticky-divider"></div>
+      <div class="z8-sticky-metric">
+        <span class="z8-sticky-label">LUCRO BRUTO ESTIMADO</span>
+        <strong id="sticky-profit-total" class="z8-sticky-value is-lime">+ R$ 0,00</strong>
+      </div>
+      <a href="#orderdesk" class="z8-sticky-cta-btn" id="sticky-cta-btn">
+        <span>REVISAR PEDIDO NA MESA</span>
+        <i class="fa-solid fa-arrow-down"></i>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ==================== MASTER ADMIN DASHBOARD MODAL (CHRISTIAN HIDEYUKI) ==================== -->
   <div id="admin-master-modal" class="z8-auth-menu-modal lenis-prevent" data-lenis-prevent="true" style="display: none;">
     <div style="background: #080B10; border: 1px solid rgba(245, 158, 11, 0.4); max-width: 900px; width: 95vw; margin: auto; padding: 2rem; border-radius: 8px; max-height: 90vh; overflow-y: auto;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
