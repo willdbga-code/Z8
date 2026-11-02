@@ -1,14 +1,3 @@
-window.handleLogout = function() {
-  logoutCatalogUser();
-  document.documentElement.classList.remove('is-poslogin-direct');
-  document.body.classList.remove('is-poslogin-direct');
-  syncConceitoAuthState();
-  if (window.lenis) {
-    window.lenis.scrollTo(0, { immediate: true });
-  } else {
-    window.scrollTo(0, 0);
-  }
-};
 import {
   loginCatalogUser,
   loginWithGoogle,
@@ -19,33 +8,25 @@ import {
   isUserAdmin,
   logoutCatalogUser
 } from '../site-principal/catalog-auth.js';
-import {
-  getStoredWarrantyOrders,
-  getWarrantyOrdersForUser,
-  saveWarrantyOrder,
-  updateWarrantyOrderStatus,
-  fetchWarrantyOrdersFromFirestore
-} from '../site-principal/data/warranty-db.js';
 /**
  * Z8 E-MOTION // CONCEITO B2B INTERACTIVE CONTROLLER
  * Works alongside /assets/lando/lando-engine.js (Three.js WebGL + Rive + Lenis + GSAP)
  */
 import { doc, setDoc } from 'firebase/firestore';
 import { initFirebase } from '../site-principal/services/firebase-service.js';
-import { renderPortalLojistaLAF, syncPortalLojistaUser } from '../site-principal/portal-lojista-laf.js';
 
 const Z8_FLEET = [
   {
     id: 'z8-tank',
-    name: 'Z8 Tank High-Speed (DB018)',
-    tag: '+53,3%',
-    marginPct: '34,8%',
-    wholesale: 7500,
-    retail: 11500,
-    profit: 4000,
-    power: '2000W High-Torque Brushless',
-    range: 'Até 120-240 km (Lítio 72V 125Ah)',
-    cnh: 'CONTRAN 996 // High-Speed',
+    name: 'Z8 Tank High-Speed',
+    tag: '+39,1%',
+    marginPct: '28,1%',
+    wholesale: 9554,
+    retail: 13290,
+    profit: 3736,
+    power: '3000W High-Torque Brushless',
+    range: 'Até 110 km (72V Lítio)',
+    cnh: 'CNH A // Emplacável',
     baseImg: '/assets/models/z8_tank_studio.jpg',
     colors: [
       { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank_amber.jpg' },
@@ -54,33 +35,15 @@ const Z8_FLEET = [
     ]
   },
   {
-    id: 'z8-tank-2',
-    name: 'Z8 Tank 2 Expedition (DB018-T2)',
-    tag: '+47,1%',
-    marginPct: '32,0%',
-    wholesale: 8500,
-    retail: 12500,
-    profit: 4000,
-    power: '2000W High-Torque + Controlador 15G',
-    range: 'Até 70-240 km (Lítio 60V/72V 125Ah)',
-    cnh: 'CONTRAN 996 // GPS + NFC + Baú',
-    baseImg: '/assets/models/z8_tank2_studio.jpg',
-    colors: [
-      { name: 'Pearl White Trail', hex: '#F1F5F9', img: '/assets/models/z8_tank2_studio.jpg' },
-      { name: 'Midnight Black', hex: '#181A1D', img: '/assets/models/z8_tank2_black.jpg' },
-      { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank2_amber.jpg' }
-    ]
-  },
-  {
     id: 'z8-n95c',
-    name: 'Z8 N95C Max Executive (DB039)',
-    tag: '+53,8%',
-    marginPct: '35,0%',
-    wholesale: 6500,
-    retail: 10000,
-    profit: 3500,
-    power: '1000W a 1200W Brushless FOC',
-    range: 'Até 70-100 km (Lítio 60V/72V 125Ah)',
+    name: 'Z8 N95C Executive',
+    tag: '+38,9%',
+    marginPct: '28,0%',
+    wholesale: 6690,
+    retail: 9290,
+    profit: 2600,
+    power: '2000W Brushless FOC',
+    range: 'Até 90 km (72V)',
     cnh: 'CONTRAN 996 // Urbano',
     baseImg: '/assets/models/z8_n95c_studio.jpg',
     colors: [
@@ -91,14 +54,14 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-fx10',
-    name: 'Z8 FX-10 Sport (DB043)',
-    tag: '+34,3%',
-    marginPct: '25,6%',
-    wholesale: 6700,
+    name: 'Z8 FX-10 Sport',
+    tag: '+45,2%',
+    marginPct: '31,1%',
+    wholesale: 6200,
     retail: 9000,
-    profit: 2300,
-    power: '1500W Sport Hub + 12G-38A',
-    range: 'Até 100 km (Lítio 60V/72V 125Ah)',
+    profit: 2800,
+    power: '2500W Sport Hub',
+    range: 'Até 100 km (72V)',
     cnh: 'Autopropelido // Urbano',
     baseImg: '/assets/models/z8_fx10_studio.jpg',
     colors: [
@@ -108,33 +71,15 @@ const Z8_FLEET = [
     ]
   },
   {
-    id: 'z8-fx12',
-    name: 'Z8 FX-12 Sport (DB043-FX12)',
-    tag: '+35,9%',
-    marginPct: '26,4%',
-    wholesale: 7800,
-    retail: 10600,
-    profit: 2800,
-    power: '2000W Brushless + Módulo 12G-38A',
-    range: 'Até 50-60 km (Lítio 60V 125Ah)',
-    cnh: 'CONTRAN 996 // Gaiola + Baú + GPS',
-    baseImg: '/assets/models/z8_fx12_studio.jpg',
-    colors: [
-      { name: 'Titanium Silver', hex: '#94A3B8', img: '/assets/models/z8_fx12_studio.jpg' },
-      { name: 'Sunset Copper', hex: '#EA580C', img: '/assets/models/z8_fx12_orange.jpg' },
-      { name: 'Obsidian Black', hex: '#181A1D', img: '/assets/models/z8_fx12_black.jpg' }
-    ]
-  },
-  {
     id: 'z8-harley',
-    name: 'Z8 Harley X12 Cruiser (XB-024)',
-    tag: '+53,8%',
-    marginPct: '35,0%',
-    wholesale: 6500,
-    retail: 10000,
-    profit: 3500,
-    power: '2000W Fat-Tire Chopper',
-    range: 'Até 85 km (Lítio 60V 125Ah)',
+    name: 'Z8 Harley X12 Cruiser',
+    tag: '+37,5%',
+    marginPct: '27,3%',
+    wholesale: 8000,
+    retail: 11000,
+    profit: 3000,
+    power: '2000W Fat-Tire',
+    range: 'Até 85 km (60V/72V)',
     cnh: 'Isento CNH // CONTRAN 996',
     baseImg: '/assets/models/z8_harley_studio.jpg',
     colors: [
@@ -144,14 +89,14 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-u2',
-    name: 'Z8 U2 Delivery Cargo (XB-010)',
-    tag: '+58,3%',
-    marginPct: '36,8%',
-    wholesale: 6000,
-    retail: 9500,
-    profit: 3500,
-    power: '2000W Heavy Duty + 12G',
-    range: 'Até 115 km (Lítio 60V 125Ah)',
+    name: 'Z8 U2 Delivery Cargo',
+    tag: '+39,2%',
+    marginPct: '28,2%',
+    wholesale: 7900,
+    retail: 11000,
+    profit: 3100,
+    power: '2500W Heavy Duty',
+    range: 'Até 115 km (Frota B2B)',
     cnh: 'Frota Logística // B2B',
     baseImg: '/assets/models/z8_u2_studio.jpg',
     colors: [
@@ -161,96 +106,91 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-n710',
-    name: 'Z8 N710 Plus Urban (DB045)',
-    tag: '+79,2%',
-    marginPct: '44,2%',
-    wholesale: 5300,
-    retail: 9500,
-    profit: 4200,
-    power: '1000W Smart CONTRAN + NFC',
-    range: 'Até 75 km (Lítio 60V 125Ah)',
+    name: 'Z8 N710 Faria Lima',
+    tag: '+46,8%',
+    marginPct: '31,9%',
+    wholesale: 5450,
+    retail: 8000,
+    profit: 2550,
+    power: '1000W Smart CONTRAN',
+    range: 'Até 75 km (R$ 1,80/carga)',
     cnh: '100% Isento CNH // 996',
-    baseImg: '/assets/models/z8_n710_white.jpg',
+    baseImg: '/assets/models/z8_n710_studio.jpg',
     colors: [
-      { name: 'Pearl White', hex: '#F2F4F7', img: '/assets/models/z8_n710_white.jpg' },
+      { name: 'British Emerald', hex: '#1E4D3B', img: '/assets/models/z8_n710_green.jpg' },
       { name: 'Piano Black', hex: '#141619', img: '/assets/models/z8_n710_black.jpg' },
-      { name: 'British Emerald', hex: '#1E4D3B', img: '/assets/models/z8_n710_green.jpg' }
+      { name: 'Pearl White', hex: '#F2F4F7', img: '/assets/models/z8_n710_white.jpg' }
     ]
   },
   {
     id: 'z8-q10',
-    name: 'Z8 Q10 Xiao Q Retro (DB038)',
-    tag: '+69,0%',
-    marginPct: '40,8%',
-    wholesale: 5800,
-    retail: 9800,
-    profit: 4000,
-    power: '1000W Euro Retro + NFC',
-    range: 'Até 70-120 km (Lítio 60V 125Ah)',
+    name: 'Z8 Mini Q10 Retro',
+    tag: '+45,6%',
+    marginPct: '31,3%',
+    wholesale: 5150,
+    retail: 7500,
+    profit: 2350,
+    power: '1000W Euro Retro',
+    range: 'Até 70 km (R$ 1,80/carga)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_q11_studio.jpg',
-    colors: [{ name: 'Amarelo Retrô Vintage', hex: '#DFB847', img: '/assets/models/z8_q11_studio.jpg' }]
+    colors: [{ name: 'Pastel Cream', hex: '#E5DEC9', img: '/assets/models/z8_q11_studio.jpg' }]
   },
   {
     id: 'z8-q11',
-    name: 'Z8 Q11 Love Boutique (DB043-Q11)',
-    tag: '+78,8%',
-    marginPct: '44,1%',
+    name: 'Z8 Q11 Pastel Design',
+    tag: '+46,2%',
+    marginPct: '31,6%',
     wholesale: 5200,
-    retail: 9300,
-    profit: 4100,
-    power: '1000W Boutique + 12G',
-    range: 'Até 70 km (Lítio 60V 125Ah)',
+    retail: 7600,
+    profit: 2400,
+    power: '1000W Boutique',
+    range: 'Até 70 km (R$ 1,80/carga)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_q10_studio.jpg',
     colors: [
-      { name: 'Rosa Pastel Candy', hex: '#EAA9BA', img: '/assets/models/z8_q10_studio.jpg' },
       { name: 'Sage Mint', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
       { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
     ]
   },
   {
     id: 'z8-diamond',
-    name: 'Z8 Diamond King Kong (GS-052)',
-    tag: '+100,0%',
-    marginPct: '50,0%',
-    wholesale: 3400,
-    retail: 6800,
-    profit: 3400,
-    power: '500W Cobre Puro + Tela LCD',
-    range: 'Até 50 km (Lítio 48V/60V 125Ah)',
+    name: 'Z8 Diamond Luxury',
+    tag: '+44,0%',
+    marginPct: '30,6%',
+    wholesale: 5000,
+    retail: 7200,
+    profit: 2200,
+    power: '1000W LED Matrix',
+    range: 'Até 70 km (R$ 1,80/carga)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_diamond_studio.jpg',
     colors: [{ name: 'Diamond Silver', hex: '#D0D5DD', img: '/assets/models/z8_diamond_studio.jpg' }]
   },
   {
     id: 'z8-n7',
-    name: 'Z8 H26 (N7) Compact (DB001)',
-    tag: '+72,7%',
-    marginPct: '42,1%',
-    wholesale: 5500,
-    retail: 9500,
-    profit: 4000,
-    power: '1000W Compact Urban + NFC',
-    range: 'Até 65 km (Lítio 60V 125Ah)',
+    name: 'Z8 H26 Compact',
+    tag: '+45,8%',
+    marginPct: '31,4%',
+    wholesale: 4800,
+    retail: 7000,
+    profit: 2200,
+    power: '800W Compact Urban',
+    range: 'Até 65 km (R$ 1,50/carga)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_n7_studio.jpg',
-    colors: [
-      { name: 'Verde Esmeralda Standard', hex: '#1B4D3E', img: '/assets/models/z8_n7_studio.jpg' },
-      { name: 'Preto Ônix Paulista', hex: '#141619', img: '/assets/models/z8_n7_black.jpg' },
-      { name: 'Prata Titânio Urbano', hex: '#C0C5CA', img: '/assets/models/z8_n7_silver.jpg' }
-    ]
+    colors: [{ name: 'Urban Grey', hex: '#667085', img: '/assets/models/z8_n7_studio.jpg' }]
   },
   {
     id: 'z8-gs005',
-    name: 'Z8 GS-005 Golden Eagle',
-    tag: '+93,8%',
-    marginPct: '48,4%',
-    wholesale: 3200,
-    retail: 6200,
-    profit: 3000,
-    power: '500W Cobre Puro Pedelec',
-    range: 'Até 50 km (Lítio 48V/60V 125Ah)',
+    name: 'Z8 GS-005 Entry',
+    tag: '+46,7%',
+    marginPct: '31,8%',
+    wholesale: 4500,
+    retail: 6600,
+    profit: 2100,
+    power: '800W Giro Rápido',
+    range: 'Até 60 km (R$ 1,50/carga)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_gs005_studio.jpg',
     colors: [{ name: 'Matte Graphite', hex: '#344054', img: '/assets/models/z8_gs005_studio.jpg' }]
@@ -330,28 +270,31 @@ window.openZ8ModelDrawer = function (modelId) {
         <h2 class="z8-modal-title">${model.name}</h2>
         <p class="z8-modal-subtitle">${model.power} — ${model.range}</p>
         <div class="z8-drawer-kpis">
-          <div class="z8-drawer-kpi is-lime">
-            <span>VALOR ATACADO UNITÁRIO (LAF)</span>
-            <strong>${fmtBRL(model.wholesale)}</strong>
+          <div class="z8-drawer-kpi is-confidential">
+            <span>CUSTO ATACADO B2B</span>
+            <strong>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Sob Consulta
+            </strong>
           </div>
-          <div class="z8-drawer-kpi">
+          <div class="z8-drawer-kpi is-confidential">
             <span>PREÇO VAREJO SUG.</span>
-            <strong>${fmtBRL(model.retail)}</strong>
+            <strong>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Sob Consulta
+            </strong>
           </div>
           <div class="z8-drawer-kpi is-lime">
-            <span>LUCRO LOJISTA / UN.</span>
-            <strong>+${fmtBRL(model.profit)} (${model.marginPct})</strong>
+            <span>MARGEM LÍQUIDA ESTIMADA</span>
+            <strong>${model.marginPct || 'Até 31,9%'}</strong>
           </div>
           <div class="z8-drawer-kpi is-lime">
             <span>MARKUP COMERCIAL</span>
             <strong>${model.tag}</strong>
           </div>
         </div>
-        <button type="button" class="z8-drawer-cta" id="z8-drawer-order-portal-btn" style="margin-bottom:0.5rem;">
-          VER FICHA LAF COMPLETA &amp; ADICIONAR AO PEDIDO ↱
-        </button>
-        <button type="button" class="z8-drawer-cta" id="z8-drawer-reserve-btn" style="background:rgba(255,255,255,0.08); color:#F4F5F7; border:1px solid rgba(255,255,255,0.2);">
-          RESERVAR EXCLUSIVIDADE DESTA PRAÇA (RAIO 50 KM) ↱
+        <button type="button" class="z8-drawer-cta" id="z8-drawer-reserve-btn">
+          SOLICITAR TABELA DESTE MODELO &amp; RESERVAR CIDADE ↱
         </button>
       </div>
     </div>
@@ -365,16 +308,6 @@ window.openZ8ModelDrawer = function (modelId) {
       if (mainImg && btn.dataset.img) mainImg.src = btn.dataset.img;
     });
   });
-
-  const portalOrderBtn = document.getElementById('z8-drawer-order-portal-btn');
-  if (portalOrderBtn) {
-    portalOrderBtn.addEventListener('click', () => {
-      window.closeZ8ModelDrawer();
-      if (window.adjustLafQty) window.adjustLafQty(model.id, 1);
-      const sheetEl = document.getElementById(`laf-sheet-${model.id}`) || document.getElementById('portal-lojista');
-      if (sheetEl) sheetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  }
 
   const reserveBtn = document.getElementById('z8-drawer-reserve-btn');
   if (reserveBtn) {
@@ -883,10 +816,17 @@ function updateNavMenuAuthText(text) {
 }
 
 window.openZ8MenuAuth = function() {
-  if (window.openPortalLojista) {
-    window.openPortalLojista('all');
+  const user = getCurrentCatalogUser();
+  const admin = isUserAdmin(user);
+  if (user && admin && window.openAdminModal) {
+    window.openAdminModal();
+  } else if (user) {
+    if (confirm(`Conectado como ${user.name || user.email || 'Parceiro'}.\nDeseja sair da conta?`)) {
+      logoutCatalogUser();
+      syncConceitoAuthState();
+    }
   } else {
-    document.getElementById('portal-lojista')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.openZ8AuthModal && window.openZ8AuthModal('login');
   }
 };
 
@@ -895,69 +835,15 @@ function syncConceitoAuthState() {
   const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
 
-  // 1. Header Buttons & Partner Badge
-  const franquiaBtn = document.getElementById('btn-header-franquia');
-  const partnerBadge = document.getElementById('header-partner-badge');
-  const partnerName = document.getElementById('header-partner-name');
-  const loginBtn = document.getElementById('btn-header-login');
-  const logoutBtn = document.getElementById('btn-header-logout');
-  const adminBtn = document.getElementById('btn-header-admin');
+  updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
 
-  if (user) {
-    document.documentElement.classList.add('is-poslogin-direct');
-    document.body.classList.add('is-poslogin-direct');
-
-    const transitionW = document.querySelector('.transition-w');
-    if (transitionW) {
-      transitionW.style.display = 'none';
-      transitionW.style.pointerEvents = 'none';
-      transitionW.style.opacity = '0';
-    }
-    const pageW = document.querySelector('.page-w');
-    if (pageW) {
-      pageW.removeAttribute('data-start');
-      pageW.style.opacity = '1';
-      pageW.style.visibility = 'visible';
-    }
-
-    if (franquiaBtn) franquiaBtn.style.display = 'none';
-    if (loginBtn) loginBtn.style.display = 'none';
-    if (logoutBtn) logoutBtn.style.display = 'inline-flex';
-
-    if (partnerBadge) { partnerBadge.style.display = "none"; }
-
-    if (adminBtn) {
-      adminBtn.style.display = admin ? 'inline-flex' : 'none';
-    }
-  } else {
-    document.documentElement.classList.remove('is-poslogin-direct');
-    document.body.classList.remove('is-poslogin-direct');
-
-    if (franquiaBtn) franquiaBtn.style.display = 'inline-flex';
-    if (loginBtn) loginBtn.style.display = 'inline-flex';
-    if (logoutBtn) logoutBtn.style.display = 'none';
-    if (adminBtn) adminBtn.style.display = 'none';
-    if (partnerBadge) partnerBadge.style.display = 'none';
-  }
-
-  updateNavMenuAuthText(admin ? 'Portal Lojista' : 'Portal Lojista');
-  syncPortalLojistaUser();
-
-  document.querySelectorAll('.helmet-grid-item-w[data-model-index]').forEach((card) => {
-    const idx = parseInt(card.getAttribute('data-model-index'), 10);
-    const model = Z8_FLEET[idx];
+    document.querySelectorAll('.helmet-grid-item-w[data-model-id]').forEach(card => {
+    const modelId = card.getAttribute('data-model-id');
+    const model = Z8_FLEET.find(m => m.id === modelId);
     if (!model) return;
-
     const pricePill = card.querySelector('.z8-tel-profit');
     if (pricePill) {
-      pricePill.textContent = `Atacado ${fmtBRL(model.wholesale)}`;
-    }
-
-    const hudRows = card.querySelectorAll('.z8-hud-row');
-    if (hudRows && hudRows.length >= 3) {
-      hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong style="color:#00F0FF;">${fmtBRL(model.wholesale)}</strong>`;
-      hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong>${fmtBRL(model.retail)}</strong>`;
-      hudRows[2].innerHTML = `<span>LUCRO LOJISTA</span><strong>+${fmtBRL(model.profit)} (${model.tag})</strong>`;
+      pricePill.textContent = approved ? `+R$ ${model.profit.toLocaleString('pt-BR')}/un` : `${model.tag} Markup`;
     }
   });
 }
@@ -1015,7 +901,6 @@ function initConceitoAuthEvents() {
       if (res && res.success) {
         closeZ8AuthModal();
         syncConceitoAuthState();
-        window.openPortalLojista && window.openPortalLojista('all');
       } else {
         alert(res?.error || res?.message || 'Não foi possível concluir o login com o Google.');
       }
@@ -1050,7 +935,6 @@ function initConceitoAuthEvents() {
         setTimeout(() => {
           closeZ8AuthModal();
           syncConceitoAuthState();
-          window.openPortalLojista && window.openPortalLojista('all');
         }, 500);
       } else {
         if (msgBox) {
@@ -1132,243 +1016,8 @@ function initConceitoAuthEvents() {
   window.addEventListener('z8-catalog-auth-changed', syncConceitoAuthState);
 }
 
-// 7. PÓS-VENDA & GESTÃO DE ORDENS DE SERVIÇO (OS)
-// ==========================================================================
-export function loadOSTable(searchTerm = '') {
-  const tbody = document.getElementById('posvenda-os-table-body');
-  if (!tbody) return;
-
-  const user = getCurrentCatalogUser();
-  const isMaster = isUserAdmin(user);
-  let orders = isMaster ? getStoredWarrantyOrders() : getWarrantyOrdersForUser(user);
-
-  if (searchTerm) {
-    const term = searchTerm.toLowerCase().trim();
-    orders = orders.filter((o) =>
-      (o.id && o.id.toLowerCase().includes(term)) ||
-      (o.chassi && o.chassi.toLowerCase().includes(term)) ||
-      (o.model && o.model.toLowerCase().includes(term)) ||
-      (o.company && o.company.toLowerCase().includes(term))
-    );
-  }
-
-  if (orders.length === 0) {
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="6" style="padding: 2rem; text-align: center; color: rgba(244,244,237,0.5);">
-          Nenhuma Ordem de Serviço encontrada. Clique em "ABRIR NOVA ORDEM DE SERVIÇO" para registrar um chamado técnico.
-        </td>
-      </tr>
-    `;
-    return;
-  }
-
-  tbody.innerHTML = orders.map((o) => {
-    let statusBg = 'rgba(245,158,11,0.15)';
-    let statusColor = '#F59E0B';
-    let statusText = o.statusText || 'Em Análise';
-
-    if (o.status === 'approved') {
-      statusBg = 'rgba(16,185,129,0.15)';
-      statusColor = '#10B981';
-      statusText = 'Aprovado / Expedição';
-    } else if (o.status === 'completed') {
-      statusBg = 'rgba(0,240,255,0.15)';
-      statusColor = '#00F0FF';
-      statusText = 'Concluído';
-    } else if (o.status === 'rejected') {
-      statusBg = 'rgba(239,68,68,0.15)';
-      statusColor = '#EF4444';
-      statusText = 'Reprovado';
-    }
-
-    const adminActionBtn = isMaster && o.status !== 'approved'
-      ? `<button type="button" onclick="window.approveOS('${o.id}')" style="background:#10B981; color:#0A0B0E; border:none; border-radius:3px; padding:3px 8px; font-weight:800; font-size:0.72rem; cursor:pointer;">Aprovar</button>`
-      : '';
-
-    return `
-      <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-        <td style="padding: 0.75rem 1rem; font-weight: 800; color: #00F0FF;">${o.id}</td>
-        <td style="padding: 0.75rem 1rem; color: #FFF;">${o.model}</td>
-        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.7); font-family: monospace;">${o.chassi || '-'}</td>
-        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.85);">${o.company || 'Matriz'}</td>
-        <td style="padding: 0.75rem 1rem; text-align: center;">
-          <span style="background:${statusBg}; color:${statusColor}; padding:3px 8px; border-radius:4px; font-size:0.72rem; font-weight:700;">
-            ${statusText}
-          </span>
-        </td>
-        <td style="padding: 0.75rem 1rem; text-align: right;">
-          <button type="button" onclick="alert('Laudo Técnico OS ${o.id}:\\n\\nComponente: ${o.component || 'N/A'}\\nDiagnóstico: ${o.diagnosis || 'N/A'}\\nObservações: ${o.adminNotes || 'N/A'}')" style="background:rgba(255,255,255,0.08); color:#FFF; border:1px solid rgba(255,255,255,0.15); border-radius:3px; padding:3px 8px; font-size:0.72rem; cursor:pointer; margin-right:4px;">
-            Ver Laudo
-          </button>
-          ${adminActionBtn}
-        </td>
-      </tr>
-    `;
-  }).join('');
-}
-
-window.approveOS = function(osId) {
-  updateWarrantyOrderStatus(osId, 'approved', 'Aprovado - Peça Despachada');
-  loadOSTable();
-  alert(`OS ${osId} aprovada com sucesso! Peça de reposição liberada para despacho.`);
-};
-
-export function openNewOSModal() {
-  const modal = document.getElementById('new-os-modal');
-  if (!modal) return;
-
-  const modelSelect = document.getElementById('os-form-model');
-  if (modelSelect) {
-    modelSelect.innerHTML = Z8_FLEET.map((m) => `<option value="${m.name}">${m.name} (${m.cnh || m.category})</option>`).join('');
-  }
-
-  modal.classList.add('is-active');
-  modal.style.display = 'flex';
-  window.lenis?.stop();
-}
-
-export function closeNewOSModal() {
-  const modal = document.getElementById('new-os-modal');
-  if (!modal) return;
-  modal.classList.remove('is-active');
-  modal.style.display = 'none';
-  window.lenis?.start();
-}
-
-window.openNewOSModal = openNewOSModal;
-window.closeNewOSModal = closeNewOSModal;
-
-window.handleCreateOS = function(event) {
-  event.preventDefault();
-  const user = getCurrentCatalogUser();
-  if (!user) {
-    alert('É necessário estar conectado como concessionário para registrar uma Ordem de Serviço.');
-    return;
-  }
-
-  const model = document.getElementById('os-form-model')?.value;
-  const chassi = document.getElementById('os-form-chassis')?.value;
-  const km = document.getElementById('os-form-km')?.value;
-  const type = document.getElementById('os-form-type')?.value;
-  const desc = document.getElementById('os-form-desc')?.value;
-
-  const orderData = {
-    model,
-    chassi,
-    odometer: km,
-    component: type === 'pdi' ? 'Revisão Técnica PDI' : (type === 'garantia' ? 'Bateria 72V / Módulo FOC' : 'Revisão Preventiva'),
-    diagnosis: desc
-  };
-
-  saveWarrantyOrder(orderData, user);
-  closeNewOSModal();
-  loadOSTable();
-  alert(`Ordem de Serviço aberta com sucesso para o chassi ${chassi}! O protocolo técnico foi transmitido à Matriz.`);
-};
-
-// ==========================================================================
-// 8. ADMIN MASTER MODAL CONTROLLER (CHRISTIAN HIDEYUKI)
-// ==========================================================================
-export function openAdminModal() {
-  const modal = document.getElementById('admin-master-modal');
-  if (!modal) return;
-  modal.classList.add('is-active');
-  modal.style.display = 'flex';
-  window.lenis?.stop();
-  loadAdminUsersList();
-}
-
-export function closeAdminModal() {
-  const modal = document.getElementById('admin-master-modal');
-  if (!modal) return;
-  modal.classList.remove('is-active');
-  modal.style.display = 'none';
-  window.lenis?.start();
-}
-
-function loadAdminUsersList() {
-  subscribeToUsersRealtime((users) => {
-    const listEl = document.getElementById('admin-users-table-body');
-    const pendingEl = document.getElementById('admin-stat-pending');
-    const approvedEl = document.getElementById('admin-stat-approved');
-    const osEl = document.getElementById('admin-stat-os');
-
-    if (!listEl) return;
-
-    let pendingCount = 0;
-    let approvedCount = 0;
-
-    users.forEach((u) => {
-      if (u.status === 'pending') pendingCount++;
-      if (u.status === 'approved') approvedCount++;
-    });
-
-    const orders = getStoredWarrantyOrders();
-
-    if (pendingEl) pendingEl.textContent = pendingCount;
-    if (approvedEl) approvedEl.textContent = approvedCount;
-    if (osEl) osEl.textContent = orders.length;
-
-    listEl.innerHTML = users
-      .map((u) => {
-        const isApp = u.status === 'approved';
-        return `
-        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-          <td style="padding: 0.75rem 1rem;">
-            <strong style="color: #FFF; display: block;">${u.name || 'Sem Nome'}</strong>
-            <span style="font-size: 0.72rem; color: rgba(244,244,237,0.6);">${u.company || 'Empresa'} • ${u.email}</span>
-          </td>
-          <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.8);">${u.city || 'SP'}/${u.state || 'SP'}</td>
-          <td style="padding: 0.75rem 1rem; color: #00F0FF;">${u.phone || 'N/A'}</td>
-          <td style="padding: 0.75rem 1rem;">
-            <span style="font-size:0.72rem; padding:2px 8px; border-radius:4px; font-weight:700; ${isApp ? 'background:rgba(16,185,129,0.15); color:#10B981;' : 'background:rgba(245,158,11,0.15); color:#F59E0B;'}">
-              ${isApp ? 'Aprovado' : 'Pendente'}
-            </span>
-          </td>
-          <td style="padding: 0.75rem 1rem; text-align: right;">
-            ${
-              !isApp
-                ? `<button type="button" onclick="window.approveUser && window.approveUser('${u.id || u.email}')" style="background:#10B981; color:#0A0B0E; border:none; padding:4px 10px; border-radius:4px; font-weight:800; font-size:0.74rem; cursor:pointer;">Aprovar 1-Clique</button>`
-                : `<button type="button" onclick="window.rejectUser && window.rejectUser('${u.id || u.email}')" style="background:rgba(239,68,68,0.2); color:#EF4444; border:1px solid rgba(239,68,68,0.4); padding:4px 10px; border-radius:4px; font-weight:700; font-size:0.74rem; cursor:pointer;">Suspender</button>`
-            }
-          </td>
-        </tr>
-      `;
-      })
-      .join('');
-  });
-}
-
-
 document.addEventListener('DOMContentLoaded', () => {
-  // Direct URL parameter for instant Post-Login evaluation: ?poslogin=1 or ?auth=admin
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('poslogin') === '1' || urlParams.get('auth') === 'admin' || urlParams.get('admin') === '1') {
-    const adminUser = {
-      id: 'user_admin_01',
-      name: 'Christian Hideyuki (Admin Master)',
-      company: 'Z8 E-Motion Brasil (Matriz)',
-      city: 'São Paulo - SP',
-      email: 'christian.tkh@gmail.com',
-      phone: '(12) 99800-8818',
-      role: 'admin',
-      status: 'approved',
-      updatedAt: Date.now(),
-      createdAt: '2026-08-25T16:08:04.281Z'
-    };
-    sessionStorage.setItem('z8_catalog_auth_session', 'authenticated_active_catalog');
-    sessionStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
-    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
-  } else if (urlParams.get('logout') === '1') {
-    sessionStorage.removeItem('z8_catalog_auth_session');
-    sessionStorage.removeItem('z8_catalog_auth_user');
-    localStorage.removeItem('z8_catalog_auth_user');
-    localStorage.removeItem('z8_catalog_auth_token');
-  }
-
   initTransitionSafety();
-  renderPortalLojistaLAF();
   initMarqueeSignatureScroll();
   initOtotBikesAnimation();
   initB2BSimulator();
@@ -1376,55 +1025,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initLeadModal();
   initMobileMenuScrollLock();
   initConceitoAuthEvents();
-  // Live search for OS
-  const searchInput = document.getElementById('os-search-input');
-  searchInput?.addEventListener('input', (e) => {
-    loadOSTable(e.target.value);
-  });
-  loadOSTable();
-  window.openNewOSModal = openNewOSModal;
-  window.closeNewOSModal = closeNewOSModal;
-  window.handleCreateOS = handleCreateOS;
-
-
-  if (urlParams.get('login') === '1' || urlParams.get('modal') === '1' || urlParams.get('auth') === '1') {
-    const intro = document.querySelector('.intro');
-    if (intro) intro.style.display = 'none';
-    unlockPage();
-    const modal = document.getElementById('z8-auth-modal');
-    if (modal) {
-      modal.classList.add('is-active');
-      modal.style.display = 'flex';
-      modal.style.opacity = '1';
-      modal.style.visibility = 'visible';
-    }
-    if (typeof switchAuthTab === 'function') switchAuthTab('login');
-  }
-
-  if (urlParams.get('scrollto')) {
-    const targetId = urlParams.get('scrollto');
-    setTimeout(() => {
-      const el = document.getElementById(targetId);
-      if (el) {
-        if (window.lenis) {
-          window.lenis.scrollTo(el, { immediate: true });
-        } else {
-          el.scrollIntoView({ behavior: 'instant', block: 'start' });
-        }
-      }
-    }, 150);
-  }
-
-  if (getCurrentCatalogUser()) {
-    setTimeout(() => {
-      if (!urlParams.get('scrollto')) {
-        if (window.lenis) {
-          window.lenis.scrollTo(0, { immediate: true });
-        } else {
-          window.scrollTo(0, 0);
-        }
-      }
-    }, 50);
-  }
 });
 
