@@ -8,7 +8,9 @@
 /* ==========================================================================
    1. TOP NAVBAR AUTH EXTENSIONS
    ========================================================================== */
-.z8-partner-badge {
+.z8-partner-badge,
+#header-partner-badge {
+  display: none !important;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -2154,7 +2156,9 @@
     display: none !important;
   }
 
-  .z8-partner-badge {
+  .z8-partner-badge,
+#header-partner-badge {
+  display: none !important;
     max-width: 140px !important;
     padding: 0.35rem 0.6rem !important;
     font-size: 0.7rem !important;

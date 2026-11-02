@@ -272,11 +272,7 @@ export function syncAuthState() {
     if (loginBtn) loginBtn.style.display = 'none';
     if (logoutBtn) logoutBtn.style.display = 'inline-flex';
 
-    if (partnerBadge && partnerName) {
-      partnerBadge.style.display = 'inline-flex';
-      partnerName.textContent = user.company || user.name || 'Parceiro Z8';
-      partnerBadge.classList.toggle('is-pending', !approved);
-    }
+    if (partnerBadge) { partnerBadge.style.display = "none"; }
 
     if (adminBtn) {
       adminBtn.style.display = admin ? 'inline-flex' : 'none';
