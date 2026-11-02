@@ -19,6 +19,13 @@ import {
   isUserAdmin,
   logoutCatalogUser
 } from '../site-principal/catalog-auth.js';
+import {
+  getStoredWarrantyOrders,
+  getWarrantyOrdersForUser,
+  saveWarrantyOrder,
+  updateWarrantyOrderStatus,
+  fetchWarrantyOrdersFromFirestore
+} from '../site-principal/data/warranty-db.js';
 /**
  * Z8 E-MOTION // CONCEITO B2B INTERACTIVE CONTROLLER
  * Works alongside /assets/lando/lando-engine.js (Three.js WebGL + Rive + Lenis + GSAP)
@@ -44,6 +51,24 @@ const Z8_FLEET = [
       { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank_amber.jpg' },
       { name: 'Midnight Black', hex: '#181A1D', img: '/assets/models/z8_tank_black.jpg' },
       { name: 'Titanium Matte', hex: '#7C8288', img: '/assets/models/z8_tank_titanium.jpg' }
+    ]
+  },
+  {
+    id: 'z8-tank-2',
+    name: 'Z8 Tank 2 Expedition (DB018-T2)',
+    tag: '+47,1%',
+    marginPct: '32,0%',
+    wholesale: 8500,
+    retail: 12500,
+    profit: 4000,
+    power: '2000W High-Torque + Controlador 15G',
+    range: 'Até 70-240 km (Lítio 60V/72V 125Ah)',
+    cnh: 'CONTRAN 996 // GPS + NFC + Baú',
+    baseImg: '/assets/models/z8_tank2_studio.jpg',
+    colors: [
+      { name: 'Pearl White Trail', hex: '#F1F5F9', img: '/assets/models/z8_tank2_studio.jpg' },
+      { name: 'Midnight Black', hex: '#181A1D', img: '/assets/models/z8_tank2_black.jpg' },
+      { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank2_amber.jpg' }
     ]
   },
   {
@@ -80,6 +105,24 @@ const Z8_FLEET = [
       { name: 'Cyber Silver', hex: '#8A929A', img: '/assets/models/z8_fx10_studio.jpg' },
       { name: 'Stealth Black', hex: '#15171A', img: '/assets/models/z8_fx10_black.jpg' },
       { name: 'Glacier White', hex: '#F0F2F5', img: '/assets/models/z8_fx10_white.jpg' }
+    ]
+  },
+  {
+    id: 'z8-fx12',
+    name: 'Z8 FX-12 Sport (DB043-FX12)',
+    tag: '+35,9%',
+    marginPct: '26,4%',
+    wholesale: 7800,
+    retail: 10600,
+    profit: 2800,
+    power: '2000W Brushless + Módulo 12G-38A',
+    range: 'Até 50-60 km (Lítio 60V 125Ah)',
+    cnh: 'CONTRAN 996 // Gaiola + Baú + GPS',
+    baseImg: '/assets/models/z8_fx12_studio.jpg',
+    colors: [
+      { name: 'Titanium Silver', hex: '#94A3B8', img: '/assets/models/z8_fx12_studio.jpg' },
+      { name: 'Sunset Copper', hex: '#EA580C', img: '/assets/models/z8_fx12_orange.jpg' },
+      { name: 'Obsidian Black', hex: '#181A1D', img: '/assets/models/z8_fx12_black.jpg' }
     ]
   },
   {
@@ -849,7 +892,16 @@ window.openZ8MenuAuth = function() {
 
 function syncConceitoAuthState() {
   const user = getCurrentCatalogUser();
+  const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
+
+  // 1. Header Buttons & Partner Badge
+  const franquiaBtn = document.getElementById('btn-header-franquia');
+  const partnerBadge = document.getElementById('header-partner-badge');
+  const partnerName = document.getElementById('header-partner-name');
+  const loginBtn = document.getElementById('btn-header-login');
+  const logoutBtn = document.getElementById('btn-header-logout');
+  const adminBtn = document.getElementById('btn-header-admin');
 
   if (user) {
     document.documentElement.classList.add('is-poslogin-direct');
@@ -867,9 +919,29 @@ function syncConceitoAuthState() {
       pageW.style.opacity = '1';
       pageW.style.visibility = 'visible';
     }
+
+    if (franquiaBtn) franquiaBtn.style.display = 'none';
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+
+    if (partnerBadge && partnerName) {
+      partnerBadge.style.display = 'inline-flex';
+      partnerName.textContent = user.company || user.name || 'Parceiro Z8';
+      partnerBadge.classList.toggle('is-pending', !approved);
+    }
+
+    if (adminBtn) {
+      adminBtn.style.display = admin ? 'inline-flex' : 'none';
+    }
   } else {
     document.documentElement.classList.remove('is-poslogin-direct');
     document.body.classList.remove('is-poslogin-direct');
+
+    if (franquiaBtn) franquiaBtn.style.display = 'inline-flex';
+    if (loginBtn) loginBtn.style.display = 'inline-flex';
+    if (logoutBtn) logoutBtn.style.display = 'none';
+    if (adminBtn) adminBtn.style.display = 'none';
+    if (partnerBadge) partnerBadge.style.display = 'none';
   }
 
   updateNavMenuAuthText(admin ? 'Portal Lojista' : 'Portal Lojista');
@@ -1064,6 +1136,215 @@ function initConceitoAuthEvents() {
   window.addEventListener('z8-catalog-auth-changed', syncConceitoAuthState);
 }
 
+// 7. PÓS-VENDA & GESTÃO DE ORDENS DE SERVIÇO (OS)
+// ==========================================================================
+export function loadOSTable(searchTerm = '') {
+  const tbody = document.getElementById('posvenda-os-table-body');
+  if (!tbody) return;
+
+  const user = getCurrentCatalogUser();
+  const isMaster = isUserAdmin(user);
+  let orders = isMaster ? getStoredWarrantyOrders() : getWarrantyOrdersForUser(user);
+
+  if (searchTerm) {
+    const term = searchTerm.toLowerCase().trim();
+    orders = orders.filter((o) =>
+      (o.id && o.id.toLowerCase().includes(term)) ||
+      (o.chassi && o.chassi.toLowerCase().includes(term)) ||
+      (o.model && o.model.toLowerCase().includes(term)) ||
+      (o.company && o.company.toLowerCase().includes(term))
+    );
+  }
+
+  if (orders.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="padding: 2rem; text-align: center; color: rgba(244,244,237,0.5);">
+          Nenhuma Ordem de Serviço encontrada. Clique em "ABRIR NOVA ORDEM DE SERVIÇO" para registrar um chamado técnico.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = orders.map((o) => {
+    let statusBg = 'rgba(245,158,11,0.15)';
+    let statusColor = '#F59E0B';
+    let statusText = o.statusText || 'Em Análise';
+
+    if (o.status === 'approved') {
+      statusBg = 'rgba(16,185,129,0.15)';
+      statusColor = '#10B981';
+      statusText = 'Aprovado / Expedição';
+    } else if (o.status === 'completed') {
+      statusBg = 'rgba(0,240,255,0.15)';
+      statusColor = '#00F0FF';
+      statusText = 'Concluído';
+    } else if (o.status === 'rejected') {
+      statusBg = 'rgba(239,68,68,0.15)';
+      statusColor = '#EF4444';
+      statusText = 'Reprovado';
+    }
+
+    const adminActionBtn = isMaster && o.status !== 'approved'
+      ? `<button type="button" onclick="window.approveOS('${o.id}')" style="background:#10B981; color:#0A0B0E; border:none; border-radius:3px; padding:3px 8px; font-weight:800; font-size:0.72rem; cursor:pointer;">Aprovar</button>`
+      : '';
+
+    return `
+      <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+        <td style="padding: 0.75rem 1rem; font-weight: 800; color: #00F0FF;">${o.id}</td>
+        <td style="padding: 0.75rem 1rem; color: #FFF;">${o.model}</td>
+        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.7); font-family: monospace;">${o.chassi || '-'}</td>
+        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.85);">${o.company || 'Matriz'}</td>
+        <td style="padding: 0.75rem 1rem; text-align: center;">
+          <span style="background:${statusBg}; color:${statusColor}; padding:3px 8px; border-radius:4px; font-size:0.72rem; font-weight:700;">
+            ${statusText}
+          </span>
+        </td>
+        <td style="padding: 0.75rem 1rem; text-align: right;">
+          <button type="button" onclick="alert('Laudo Técnico OS ${o.id}:\\n\\nComponente: ${o.component || 'N/A'}\\nDiagnóstico: ${o.diagnosis || 'N/A'}\\nObservações: ${o.adminNotes || 'N/A'}')" style="background:rgba(255,255,255,0.08); color:#FFF; border:1px solid rgba(255,255,255,0.15); border-radius:3px; padding:3px 8px; font-size:0.72rem; cursor:pointer; margin-right:4px;">
+            Ver Laudo
+          </button>
+          ${adminActionBtn}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+window.approveOS = function(osId) {
+  updateWarrantyOrderStatus(osId, 'approved', 'Aprovado - Peça Despachada');
+  loadOSTable();
+  alert(`OS ${osId} aprovada com sucesso! Peça de reposição liberada para despacho.`);
+};
+
+export function openNewOSModal() {
+  const modal = document.getElementById('new-os-modal');
+  if (!modal) return;
+
+  const modelSelect = document.getElementById('os-form-model');
+  if (modelSelect) {
+    modelSelect.innerHTML = Z8_FLEET.map((m) => `<option value="${m.name}">${m.name} (${m.cnh || m.category})</option>`).join('');
+  }
+
+  modal.classList.add('is-active');
+  modal.style.display = 'flex';
+  window.lenis?.stop();
+}
+
+export function closeNewOSModal() {
+  const modal = document.getElementById('new-os-modal');
+  if (!modal) return;
+  modal.classList.remove('is-active');
+  modal.style.display = 'none';
+  window.lenis?.start();
+}
+
+window.openNewOSModal = openNewOSModal;
+window.closeNewOSModal = closeNewOSModal;
+
+window.handleCreateOS = function(event) {
+  event.preventDefault();
+  const user = getCurrentCatalogUser();
+  if (!user) {
+    alert('É necessário estar conectado como concessionário para registrar uma Ordem de Serviço.');
+    return;
+  }
+
+  const model = document.getElementById('os-form-model')?.value;
+  const chassi = document.getElementById('os-form-chassis')?.value;
+  const km = document.getElementById('os-form-km')?.value;
+  const type = document.getElementById('os-form-type')?.value;
+  const desc = document.getElementById('os-form-desc')?.value;
+
+  const orderData = {
+    model,
+    chassi,
+    odometer: km,
+    component: type === 'pdi' ? 'Revisão Técnica PDI' : (type === 'garantia' ? 'Bateria 72V / Módulo FOC' : 'Revisão Preventiva'),
+    diagnosis: desc
+  };
+
+  saveWarrantyOrder(orderData, user);
+  closeNewOSModal();
+  loadOSTable();
+  alert(`Ordem de Serviço aberta com sucesso para o chassi ${chassi}! O protocolo técnico foi transmitido à Matriz.`);
+};
+
+// ==========================================================================
+// 8. ADMIN MASTER MODAL CONTROLLER (CHRISTIAN HIDEYUKI)
+// ==========================================================================
+export function openAdminModal() {
+  const modal = document.getElementById('admin-master-modal');
+  if (!modal) return;
+  modal.classList.add('is-active');
+  modal.style.display = 'flex';
+  window.lenis?.stop();
+  loadAdminUsersList();
+}
+
+export function closeAdminModal() {
+  const modal = document.getElementById('admin-master-modal');
+  if (!modal) return;
+  modal.classList.remove('is-active');
+  modal.style.display = 'none';
+  window.lenis?.start();
+}
+
+function loadAdminUsersList() {
+  subscribeToUsersRealtime((users) => {
+    const listEl = document.getElementById('admin-users-table-body');
+    const pendingEl = document.getElementById('admin-stat-pending');
+    const approvedEl = document.getElementById('admin-stat-approved');
+    const osEl = document.getElementById('admin-stat-os');
+
+    if (!listEl) return;
+
+    let pendingCount = 0;
+    let approvedCount = 0;
+
+    users.forEach((u) => {
+      if (u.status === 'pending') pendingCount++;
+      if (u.status === 'approved') approvedCount++;
+    });
+
+    const orders = getStoredWarrantyOrders();
+
+    if (pendingEl) pendingEl.textContent = pendingCount;
+    if (approvedEl) approvedEl.textContent = approvedCount;
+    if (osEl) osEl.textContent = orders.length;
+
+    listEl.innerHTML = users
+      .map((u) => {
+        const isApp = u.status === 'approved';
+        return `
+        <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <td style="padding: 0.75rem 1rem;">
+            <strong style="color: #FFF; display: block;">${u.name || 'Sem Nome'}</strong>
+            <span style="font-size: 0.72rem; color: rgba(244,244,237,0.6);">${u.company || 'Empresa'} • ${u.email}</span>
+          </td>
+          <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.8);">${u.city || 'SP'}/${u.state || 'SP'}</td>
+          <td style="padding: 0.75rem 1rem; color: #00F0FF;">${u.phone || 'N/A'}</td>
+          <td style="padding: 0.75rem 1rem;">
+            <span style="font-size:0.72rem; padding:2px 8px; border-radius:4px; font-weight:700; ${isApp ? 'background:rgba(16,185,129,0.15); color:#10B981;' : 'background:rgba(245,158,11,0.15); color:#F59E0B;'}">
+              ${isApp ? 'Aprovado' : 'Pendente'}
+            </span>
+          </td>
+          <td style="padding: 0.75rem 1rem; text-align: right;">
+            ${
+              !isApp
+                ? `<button type="button" onclick="window.approveUser && window.approveUser('${u.id || u.email}')" style="background:#10B981; color:#0A0B0E; border:none; padding:4px 10px; border-radius:4px; font-weight:800; font-size:0.74rem; cursor:pointer;">Aprovar 1-Clique</button>`
+                : `<button type="button" onclick="window.rejectUser && window.rejectUser('${u.id || u.email}')" style="background:rgba(239,68,68,0.2); color:#EF4444; border:1px solid rgba(239,68,68,0.4); padding:4px 10px; border-radius:4px; font-weight:700; font-size:0.74rem; cursor:pointer;">Suspender</button>`
+            }
+          </td>
+        </tr>
+      `;
+      })
+      .join('');
+  });
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
   // Direct URL parameter for instant Post-Login evaluation: ?poslogin=1 or ?auth=admin
   const urlParams = new URLSearchParams(window.location.search);
@@ -1099,13 +1380,53 @@ document.addEventListener('DOMContentLoaded', () => {
   initLeadModal();
   initMobileMenuScrollLock();
   initConceitoAuthEvents();
+  // Live search for OS
+  const searchInput = document.getElementById('os-search-input');
+  searchInput?.addEventListener('input', (e) => {
+    loadOSTable(e.target.value);
+  });
+  loadOSTable();
+  window.openNewOSModal = openNewOSModal;
+  window.closeNewOSModal = closeNewOSModal;
+  window.handleCreateOS = handleCreateOS;
+
+
+  if (urlParams.get('login') === '1' || urlParams.get('modal') === '1' || urlParams.get('auth') === '1') {
+    const intro = document.querySelector('.intro');
+    if (intro) intro.style.display = 'none';
+    unlockPage();
+    const modal = document.getElementById('z8-auth-modal');
+    if (modal) {
+      modal.classList.add('is-active');
+      modal.style.display = 'flex';
+      modal.style.opacity = '1';
+      modal.style.visibility = 'visible';
+    }
+    if (typeof switchAuthTab === 'function') switchAuthTab('login');
+  }
+
+  if (urlParams.get('scrollto')) {
+    const targetId = urlParams.get('scrollto');
+    setTimeout(() => {
+      const el = document.getElementById(targetId);
+      if (el) {
+        if (window.lenis) {
+          window.lenis.scrollTo(el, { immediate: true });
+        } else {
+          el.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      }
+    }, 150);
+  }
 
   if (getCurrentCatalogUser()) {
     setTimeout(() => {
-      if (window.lenis) {
-        window.lenis.scrollTo(0, { immediate: true });
-      } else {
-        window.scrollTo(0, 0);
+      if (!urlParams.get('scrollto')) {
+        if (window.lenis) {
+          window.lenis.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo(0, 0);
+        }
       }
     }, 50);
   }

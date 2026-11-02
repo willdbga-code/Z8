@@ -34,6 +34,16 @@ import { renderPortalLojistaLAF, syncPortalLojistaUser } from '../site-principal
 // 1. DATA ENRICHMENT: 11 MODELS FLEET (TECH DATA + STUDIO COLOR SWATCHES)
 // ==========================================================================
 const MODEL_COLORS_MAP = {
+  'z8-tank-2': [
+    { name: 'Pearl White Trail', hex: '#F1F5F9', img: '/assets/models/z8_tank2_studio.jpg' },
+    { name: 'Midnight Black', hex: '#181A1D', img: '/assets/models/z8_tank2_black.jpg' },
+    { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank2_amber.jpg' }
+  ],
+  'z8-fx12': [
+    { name: 'Titanium Silver', hex: '#94A3B8', img: '/assets/models/z8_fx12_studio.jpg' },
+    { name: 'Sunset Copper', hex: '#EA580C', img: '/assets/models/z8_fx12_orange.jpg' },
+    { name: 'Obsidian Black', hex: '#181A1D', img: '/assets/models/z8_fx12_black.jpg' }
+  ],
   'z8-tank': [
     { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank_amber.jpg' },
     { name: 'Midnight Black', hex: '#181A1D', img: '/assets/models/z8_tank_black.jpg' },
@@ -136,14 +146,22 @@ function playHighTechTick(type = 'up') {
   }
 }
 
-// Order Desk Quantities state
-const orderQuantities = {};
-Z8_FLEET.forEach((m, idx) => {
-  // Pre-fill a balanced sample lote of 10 motos
-  if (m.id === 'z8-tank') orderQuantities[m.id] = 3;
-  else if (m.id === 'z8-n710') orderQuantities[m.id] = 4;
-  else if (m.id === 'z8-fx10') orderQuantities[m.id] = 3;
-  else orderQuantities[m.id] = 0;
+// Order Desk Quantities state - dynamically connected to unified wholesaleOrderStore
+const orderQuantities = new Proxy({}, {
+  get(target, prop) {
+    if (window.Z8_WHOLESALE_ORDER_STORE) {
+      return window.Z8_WHOLESALE_ORDER_STORE.getQty(prop);
+    }
+    return target[prop] || 0;
+  },
+  set(target, prop, val) {
+    if (window.Z8_WHOLESALE_ORDER_STORE) {
+      window.Z8_WHOLESALE_ORDER_STORE.setQty(prop, val);
+      return true;
+    }
+    target[prop] = val;
+    return true;
+  }
 });
 
 // ==========================================================================
@@ -779,130 +797,38 @@ function renderOrderDeskRows() {
 }
 
 window.changeOrderQty = function(modelId, delta) {
-  const current = orderQuantities[modelId] || 0;
-  const next = Math.max(0, Math.min(99, current + delta));
-  orderQuantities[modelId] = next;
-
-  // Sound feedback
   playHighTechTick(delta > 0 ? 'up' : 'down');
-
-  // Update card stepper display
-  const cardQty = document.getElementById(`card-qty-${modelId}`);
-  if (cardQty) cardQty.textContent = next;
-
-  // Update table input display
-  const tableInput = document.getElementById(`order-qty-${modelId}`);
-  if (tableInput) tableInput.value = next;
-
-  const model = Z8_FLEET.find((m) => m.id === modelId);
-  if (model) {
-    const subtotalEl = document.getElementById(`order-subtotal-${modelId}`);
-    if (subtotalEl) subtotalEl.textContent = fmtBRL(model.wholesale * next);
+  if (window.Z8_WHOLESALE_ORDER_STORE) {
+    window.Z8_WHOLESALE_ORDER_STORE.adjustQty(modelId, delta);
   }
-
-  updateOrderDeskCalculations();
 };
 
 window.setOrderQty = function(modelId, val) {
-  const next = Math.max(0, Math.min(99, parseInt(val, 10) || 0));
-  orderQuantities[modelId] = next;
-
   playHighTechTick('up');
-
-  const cardQty = document.getElementById(`card-qty-${modelId}`);
-  if (cardQty) cardQty.textContent = next;
-
-  const model = Z8_FLEET.find((m) => m.id === modelId);
-  if (model) {
-    const subtotalEl = document.getElementById(`order-subtotal-${modelId}`);
-    if (subtotalEl) subtotalEl.textContent = fmtBRL(model.wholesale * next);
+  if (window.Z8_WHOLESALE_ORDER_STORE) {
+    window.Z8_WHOLESALE_ORDER_STORE.setQty(modelId, val);
   }
-
-  updateOrderDeskCalculations();
 };
 
 function updateOrderDeskCalculations() {
-  let totalBikes = 0;
-  let totalWholesale = 0;
-  let totalProfit = 0;
-
-  Z8_FLEET.forEach((m) => {
-    const qty = orderQuantities[m.id] || 0;
-    totalBikes += qty;
-    totalWholesale += m.wholesale * qty;
-    totalProfit += m.profit * qty;
-
-    const cardQty = document.getElementById(`card-qty-${m.id}`);
-    if (cardQty) cardQty.textContent = qty;
-  });
-
-  // 1. Table elements
-  const badgeEl = document.getElementById('orderdesk-total-bikes-badge');
-  const wholesaleEl = document.getElementById('orderdesk-res-total-wholesale');
-  const profitEl = document.getElementById('orderdesk-res-total-profit');
-  const submitBtn = document.getElementById('btn-submit-orderdesk');
-  const alertEl = document.getElementById('orderdesk-moq-alert');
-
-  if (badgeEl) {
-    badgeEl.textContent = `${totalBikes} / 10 Motos`;
-    if (totalBikes >= 10) {
-      badgeEl.style.background = 'rgba(16, 185, 129, 0.2)';
-      badgeEl.style.color = '#10B981';
-      badgeEl.style.borderColor = 'rgba(16, 185, 129, 0.5)';
-    } else {
-      badgeEl.style.background = 'rgba(245, 158, 11, 0.15)';
-      badgeEl.style.color = '#F59E0B';
-      badgeEl.style.borderColor = 'rgba(245, 158, 11, 0.5)';
-    }
-  }
-
-  if (wholesaleEl) wholesaleEl.textContent = fmtBRL(totalWholesale);
-  if (profitEl) profitEl.textContent = `+ ${fmtBRL(totalProfit)}`;
-
-  const isValidMOQ = totalBikes >= 10;
-  if (submitBtn) {
-    submitBtn.style.opacity = isValidMOQ ? '1' : '0.45';
-    submitBtn.style.cursor = isValidMOQ ? 'pointer' : 'not-allowed';
-  }
-  if (alertEl) {
-    alertEl.style.display = isValidMOQ ? 'none' : 'block';
-  }
-
-  // 2. Persistent Bottom HUD Bar
-  const stickyLot = document.getElementById('sticky-lot-badge');
-  const stickyWholesale = document.getElementById('sticky-wholesale-total');
-  const stickyProfit = document.getElementById('sticky-profit-total');
-  const stickyCta = document.getElementById('sticky-cta-btn');
-
-  if (stickyLot) {
-    stickyLot.textContent = `${totalBikes} / 10 Motos`;
-    stickyLot.className = `z8-sticky-value ${isValidMOQ ? 'is-lime' : 'is-amber'}`;
-  }
-  if (stickyWholesale) stickyWholesale.textContent = fmtBRL(totalWholesale);
-  if (stickyProfit) stickyProfit.textContent = `+ ${fmtBRL(totalProfit)}`;
-  if (stickyCta) {
-    stickyCta.style.background = isValidMOQ ? '#10B981' : '#00F0FF';
+  if (window.Z8_WHOLESALE_ORDER_STORE) {
+    window.Z8_WHOLESALE_ORDER_STORE.syncAllUI();
   }
 }
+window.updateOrderDeskCalculations = updateOrderDeskCalculations;
+
+// Listen to store updates for reactive updates across components
+window.addEventListener('z8-wholesale-order-updated', () => {
+  // UI is synchronized automatically by the store
+});
 
 window.submitOrderDesk = function() {
-  let totalBikes = 0;
-  let summary = [];
-  let totalWholesale = 0;
-  let totalProfit = 0;
+  const store = window.Z8_WHOLESALE_ORDER_STORE;
+  const totals = store ? store.getTotals() : { totalBikes: 0, totalWholesale: 0, totalProfit: 0 };
+  const items = store ? store.getAllItems() : [];
 
-  Z8_FLEET.forEach((m) => {
-    const qty = orderQuantities[m.id] || 0;
-    if (qty > 0) {
-      totalBikes += qty;
-      totalWholesale += m.wholesale * qty;
-      totalProfit += m.profit * qty;
-      summary.push(`• ${qty}x ${m.name} (${fmtBRL(m.wholesale * qty)})`);
-    }
-  });
-
-  if (totalBikes < 10) {
-    alert(`O lote mínimo de fábrica é de 10 motos. Quantidade atual selecionada: ${totalBikes} motos.`);
+  if (totals.totalBikes < 10) {
+    alert(`O lote mínimo de fábrica é de 10 motos. Quantidade atual selecionada: ${totals.totalBikes} motos.`);
     return;
   }
 
@@ -912,6 +838,8 @@ window.submitOrderDesk = function() {
   const city = user?.city || 'São Paulo';
   const state = user?.state || 'SP';
 
+  const summary = items.map(it => `• ${it.qty}x ${it.fullName || it.name} (${fmtBRL(it.subtotalWholesale)})`);
+
   const text = encodeURIComponent(
     `*MINUTA DE PEDIDO DE ATACADO B2B // Z8 E-MOTION*\n` +
     `========================================\n` +
@@ -919,11 +847,11 @@ window.submitOrderDesk = function() {
     `*Empresa / CNPJ:* ${company}\n` +
     `*Praça Protegida:* ${city}/${state} (Raio de até 50 km)\n` +
     `========================================\n\n` +
-    `*COMPOSIÇÃO DO LOTE FATURADO (${totalBikes} MOTOS):*\n` +
+    `*COMPOSIÇÃO DO LOTE FATURADO (${totals.totalBikes} MOTOS):*\n` +
     summary.join('\n') +
     `\n\n----------------------------------------\n` +
-    `*INVESTIMENTO TOTAL ATACADO:* ${fmtBRL(totalWholesale)}\n` +
-    `*LUCRO BRUTO NA REVENDA:* +${fmtBRL(totalProfit)}\n` +
+    `*INVESTIMENTO TOTAL ATACADO:* ${fmtBRL(totals.totalWholesale)}\n` +
+    `*LUCRO BRUTO NA REVENDA:* +${fmtBRL(totals.totalProfit)}\n` +
     `*EXPEDIÇÃO DIRETA:* Matriz São José dos Campos (D+2)\n` +
     `----------------------------------------\n\n` +
     `Solicito a validação do espelho de faturamento e agendamento de despacho.`
@@ -1267,12 +1195,42 @@ document.addEventListener('DOMContentLoaded', () => {
   initAuthModalEvents();
   syncAuthState();
 
+  if (urlParams.get('login') === '1' || urlParams.get('modal') === '1' || urlParams.get('auth') === '1') {
+    const intro = document.querySelector('.intro');
+    if (intro) intro.style.display = 'none';
+    unlockPage();
+    const modal = document.getElementById('z8-auth-modal');
+    if (modal) {
+      modal.classList.add('is-active');
+      modal.style.display = 'flex';
+      modal.style.opacity = '1';
+      modal.style.visibility = 'visible';
+    }
+    if (typeof switchAuthTab === 'function') switchAuthTab('login');
+  }
+
+  if (urlParams.get('scrollto')) {
+    const targetId = urlParams.get('scrollto');
+    setTimeout(() => {
+      const el = document.getElementById(targetId);
+      if (el) {
+        if (window.lenis) {
+          window.lenis.scrollTo(el, { immediate: true });
+        } else {
+          el.scrollIntoView({ behavior: 'instant', block: 'start' });
+        }
+      }
+    }, 150);
+  }
+
   if (getCurrentCatalogUser()) {
     setTimeout(() => {
-      if (window.lenis) {
-        window.lenis.scrollTo(0, { immediate: true });
-      } else {
-        window.scrollTo(0, 0);
+      if (!urlParams.get('scrollto')) {
+        if (window.lenis) {
+          window.lenis.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo(0, 0);
+        }
       }
     }, 50);
   }
@@ -1303,8 +1261,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Drawer Close Button
   document.getElementById('z8-drawer-close-btn')?.addEventListener('click', closeZ8ModelDrawer);
 
-  // Sync OS updates
+  // Initial load of Service Orders table & live event listener
+  loadOSTable();
   window.addEventListener('z8-warranty-os-updated', () => {
     loadOSTable();
   });
 });
+
+window.scrollToOSFooter = function() {
+  const el = document.getElementById('rodape-os');
+  if (el) {
+    if (window.lenis) {
+      window.lenis.scrollTo(el);
+    } else {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+};

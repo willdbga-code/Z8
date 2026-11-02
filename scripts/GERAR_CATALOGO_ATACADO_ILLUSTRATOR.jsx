@@ -214,7 +214,7 @@ function main() {
         // 3 Cards de Destaque com Valores de Atacado
         var coverCards = [
             { tag: "TRAIL // PERFORMANCE MAXIMA", name: "Z8 TANK HIGH-SPEED", file: "z8_tank_studio.jpg", spec: "Motor 2000W - Chassi Tubular - NFC", precoAtacado: "R$ 7.500,00" },
-            { tag: "SPORT // LANCAMENTO ESPORTIVO", name: "Z8 FX-10 SPORT", file: "z8_fx10_studio.jpg", spec: "Motor 1500W - 130mm - Duplo Disco", precoAtacado: "R$ 6.200,00" },
+            { tag: "SPORT // LANCAMENTO ESPORTIVO", name: "Z8 FX-10 SPORT", file: "z8_fx10_studio.jpg", spec: "Motor 1500W - 130mm - Duplo Disco", precoAtacado: "R$ 6.700,00" },
             { tag: "CUSTOM // CHOPPER EXCLUSIVA", name: "Z8 HARLEY X12", file: "z8_harley_studio.jpg", spec: "Motor 1200W - Som Bluetooth - Confort", precoAtacado: "R$ 6.500,00" }
         ];
 
@@ -465,8 +465,8 @@ function main() {
             chassi: "Aco Carbono Esportivo",
             cores: "Prata Metalico, Laranja Lava, Verde Militar, Branco, Cinza",
             destaques: "Carenagem FX - Duplo Disco 180mm - USB Fast Charge",
-            precoAtacado: "R$ 6.200,00",
-            lote10: "R$ 62.000,00"
+            precoAtacado: "R$ 6.700,00",
+            lote10: "R$ 67.000,00"
         },
         {
             id: "z8-harley-x12",

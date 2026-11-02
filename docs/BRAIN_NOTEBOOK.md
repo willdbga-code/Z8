@@ -1814,3 +1814,23 @@ epairs, movements).
     - 
 un-wms.bat e 
 un-z8-wms.bat (Lançador 1-clique para Windows em modo janela nativa).
+
+
+### [2026-11-02] - Simplificação Pós-Fechamento de Pedido e Rodapé Dedicado de OS (Conceito & Conceito 2)
+- **Escopo Concluído**:
+  - **Eliminação de Seções Obsoletas pós-Fechamento**:
+    - Removidas todas as seções redundantes que ficavam após o fechamento de pedido (`#simulador-b2b`, `#orderdesk`, `#blindagem-comercial`, `#comparador`, antigo `#pos-venda`, `#manuais`, `.is-home-collabs`, `.is-callout-socials`, `.is-footer`) tanto em `conceito/index.html` quanto em `conceito-2/index.html`.
+    - No script `site-principal/portal-lojista-laf.js`, removido o bloco linear 04 (`#laf-block-catalogo`) que duplicava o flipbook de slides abaixo do formulário de pedidos, ajustando os seletores de tabs superiores para 01 (Apresentação & Fábricas), 02 (Fichas 40/60 das 11 Motos), 03 (Fechamento do Pedido Lote 10 / 40HQ) e 04 (Central de OS & Pós-Venda ↱ com scroll suave para o rodapé).
+  - **Rodapé Executivo Bauhaus de OS (`#rodape-os`)**:
+    - Injetado `<footer id="rodape-os" class="z8-os-footer">` diretamente após `<section id="portal-lojista">`.
+    - Cockpit Técnico: Botão "ABRIR NOVA ORDEM DE SERVIÇO (OS)" (abre modal de cadastro de OS), "BAIXAR TERMO DE GARANTIA NACIONAL (PDF)" e "SUPORTE TÉCNICO DIRETORIA SJC" (WhatsApp 1-clique).
+    - 3 Pilares Estruturais: Oficina com 2 Elevadores, Garantia Nacional por Chassi (125Ah/FOC/Brushless) e Protocolo PDI de Entrega Técnica (24 itens inspecionados).
+    - Tabela ao Vivo de Ordens de Serviço: Sincronizada em tempo real com `warranty-db.js`, campo de busca dinâmico por código de OS/chassi/concessionária, badges de status em alta visibilidade (`Aprovado / Expedição`, `Em Análise Técnica`, `Concluído`) e ações administrativas para diretoria.
+    - Faixa Legal Corporativa: Z8 EMOTION LTDA., CNPJ 68.774.164/0001-00, Sede em São José dos Campos - SP, e conformidade estrita com Lei 13.966/2019 e Resolução CONTRAN 996/2022.
+  - **Harmonização do Menu Lateral Slide-Out**:
+    - Links atualizados para refletir a nova esteira sem quebras: Início (`#top`), Apresentação & Fábricas (`#laf-block-institucional`), Fichas das 11 Motos (`#laf-block-fichas`), Fechamento do Pedido (`#laf-block-pedidos`), Central de OS & Pós-Venda (`#rodape-os`) e Área do Parceiro (`window.openZ8MenuAuth()`).
+  - **Blindagem do Modal de Login & Botão Google OAuth**:
+    - Garantida a geometria do ícone SVG Google dentro de caixa fixa de 34x34px (`.z8-google-icon-box`), `overflow: hidden !important`, prevenindo qualquer anomalia de ampliação gráfica.
+  - **Validação**:
+    - Compilação `npm run build` bem-sucedida em 7.17s com todos os 8 entrypoints gerados.
+    - Capturas automatizadas via Edge Headless CDP confirmando rendering 100% alinhado nos dois ambientes (`/conceito/` e `/conceito-2/`).
