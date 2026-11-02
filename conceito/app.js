@@ -19,13 +19,14 @@ const Z8_FLEET = [
   {
     id: 'z8-tank',
     name: 'Z8 Tank High-Speed',
-    tag: '+39,1%',
-    marginPct: '28,1%',
-    wholesale: 9554,
-    retail: 13290,
-    profit: 3736,
-    power: '3000W High-Torque Brushless',
-    range: 'Até 110 km (72V Lítio)',
+    code: 'DB018',
+    tag: '+53,3%',
+    marginPct: '34,8%',
+    wholesale: 7500,
+    retail: 11500,
+    profit: 4000,
+    power: '2000W High Torque (Controlador 15G)',
+    range: 'Até 60-70 km (Suporta até 60V 125Ah / 240 km)',
     cnh: 'CNH A // Emplacável',
     baseImg: '/assets/models/z8_tank_studio.jpg',
     colors: [
@@ -35,33 +36,35 @@ const Z8_FLEET = [
     ]
   },
   {
-    id: 'z8-n95c',
-    name: 'Z8 N95C Executive',
-    tag: '+38,9%',
-    marginPct: '28,0%',
-    wholesale: 6690,
-    retail: 9290,
-    profit: 2600,
-    power: '2000W Brushless FOC',
-    range: 'Até 90 km (72V)',
-    cnh: 'CONTRAN 996 // Urbano',
-    baseImg: '/assets/models/z8_n95c_studio.jpg',
+    id: 'z8-tank-2',
+    name: 'Z8 Tank 2 Expedition',
+    code: 'DB018-T2',
+    tag: '+47,1%',
+    marginPct: '32,0%',
+    wholesale: 8500,
+    retail: 12500,
+    profit: 4000,
+    power: '2000W High Torque Sem Escova (Controlador 15G)',
+    range: 'Até 70 km (Suporta até 60V 125Ah / 240 km)',
+    cnh: 'CNH A // Trail Expedition',
+    baseImg: '/assets/models/z8_tank2_studio.jpg',
     colors: [
-      { name: 'Graphite Orange', hex: '#484C52', img: '/assets/models/z8_n95c_studio.jpg' },
-      { name: 'Obsidian Black', hex: '#141518', img: '/assets/models/z8_n95c_black.jpg' },
-      { name: 'Pearl White', hex: '#EAECEF', img: '/assets/models/z8_n95c_white.jpg' }
+      { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank2_amber.jpg' },
+      { name: 'Midnight Black', hex: '#181A1D', img: '/assets/models/z8_tank2_black.jpg' },
+      { name: 'Glacier White', hex: '#F0F2F5', img: '/assets/models/z8_tank2_white.jpg' }
     ]
   },
   {
     id: 'z8-fx10',
     name: 'Z8 FX-10 Sport',
-    tag: '+45,2%',
-    marginPct: '31,1%',
-    wholesale: 6200,
+    code: 'DB043',
+    tag: '+34,3%',
+    marginPct: '25,6%',
+    wholesale: 6700,
     retail: 9000,
-    profit: 2800,
-    power: '2500W Sport Hub',
-    range: 'Até 100 km (72V)',
+    profit: 2300,
+    power: '1500W Brushless High Speed (Módulo 12G-38A)',
+    range: 'Até 40-50 km (Bateria 60V 20Ah)',
     cnh: 'Autopropelido // Urbano',
     baseImg: '/assets/models/z8_fx10_studio.jpg',
     colors: [
@@ -71,15 +74,35 @@ const Z8_FLEET = [
     ]
   },
   {
+    id: 'z8-fx12',
+    name: 'Z8 FX-12 Sport',
+    code: 'DB043-FX12',
+    tag: '+35,9%',
+    marginPct: '26,4%',
+    wholesale: 7800,
+    retail: 10600,
+    profit: 2800,
+    power: '2000W Brushless High Speed (Módulo 12G-38A)',
+    range: 'Até 50-60 km (Bateria Lítio 60V 125Ah)',
+    cnh: 'CNH A // Sport Touring',
+    baseImg: '/assets/models/z8_fx12_studio.jpg',
+    colors: [
+      { name: 'Lava Orange', hex: '#E65100', img: '/assets/models/z8_fx12_orange.jpg' },
+      { name: 'Cyber Silver', hex: '#8A929A', img: '/assets/models/z8_fx12_silver.jpg' },
+      { name: 'Stealth Black', hex: '#15171A', img: '/assets/models/z8_fx12_black.jpg' }
+    ]
+  },
+  {
     id: 'z8-harley',
-    name: 'Z8 Harley X12 Cruiser',
-    tag: '+37,5%',
-    marginPct: '27,3%',
-    wholesale: 8000,
-    retail: 11000,
-    profit: 3000,
-    power: '2000W Fat-Tire',
-    range: 'Até 85 km (60V/72V)',
+    name: 'Z8 Harley X12 Custom',
+    code: 'XB-024',
+    tag: '+53,8%',
+    marginPct: '35,0%',
+    wholesale: 6500,
+    retail: 10000,
+    profit: 3500,
+    power: '1200W 27H (Controlador 30A)',
+    range: 'Até 40 km (Lítio 60V 20Ah Removível)',
     cnh: 'Isento CNH // CONTRAN 996',
     baseImg: '/assets/models/z8_harley_studio.jpg',
     colors: [
@@ -90,13 +113,14 @@ const Z8_FLEET = [
   {
     id: 'z8-u2',
     name: 'Z8 U2 Delivery Cargo',
-    tag: '+39,2%',
-    marginPct: '28,2%',
-    wholesale: 7900,
-    retail: 11000,
-    profit: 3100,
-    power: '2500W Heavy Duty',
-    range: 'Até 115 km (Frota B2B)',
+    code: 'XB-010',
+    tag: '+58,3%',
+    marginPct: '36,8%',
+    wholesale: 6000,
+    retail: 9500,
+    profit: 3500,
+    power: '2000W Brushless Heavy-Duty (Módulo 12G)',
+    range: 'Até 40-50 km (Suporta 48V-60V-72V)',
     cnh: 'Frota Logística // B2B',
     baseImg: '/assets/models/z8_u2_studio.jpg',
     colors: [
@@ -105,15 +129,70 @@ const Z8_FLEET = [
     ]
   },
   {
+    id: 'z8-n95c',
+    name: 'Z8 N95C Max Comfort',
+    code: 'DB039',
+    tag: '+53,8%',
+    marginPct: '35,0%',
+    wholesale: 6500,
+    retail: 10000,
+    profit: 3500,
+    power: '1200W 27H (Controlador 30A)',
+    range: 'Até 40-50 km (Bateria 60V 20Ah)',
+    cnh: 'CONTRAN 996 // Executiva',
+    baseImg: '/assets/models/z8_n95c_studio.jpg',
+    colors: [
+      { name: 'Obsidian Black', hex: '#141518', img: '/assets/models/z8_n95c_black.jpg' },
+      { name: 'Pearl White', hex: '#EAECEF', img: '/assets/models/z8_n95c_white.jpg' }
+    ]
+  },
+  {
+    id: 'z8-n7',
+    name: 'Z8 H26 Standard',
+    code: 'DB001',
+    tag: '+72,7%',
+    marginPct: '42,1%',
+    wholesale: 5500,
+    retail: 9500,
+    profit: 4000,
+    power: '1200W sem escova (Controlador 12G-33A)',
+    range: 'Até 40-50 km (Bateria 60V 20Ah)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_n7_studio.jpg',
+    colors: [
+      { name: 'Onyx Black', hex: '#181A1D', img: '/assets/models/z8_n7_black.jpg' },
+      { name: 'Silver Mist', hex: '#8A929A', img: '/assets/models/z8_n7_silver.jpg' }
+    ]
+  },
+  {
+    id: 'z8-q11',
+    name: 'Z8 Q11 Compact',
+    code: 'DB043-Q11',
+    tag: '+78,8%',
+    marginPct: '44,1%',
+    wholesale: 5200,
+    retail: 9300,
+    profit: 4100,
+    power: '1000W (Controlador 9G)',
+    range: 'Até 40-50 km (Bateria 60V 20Ah)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_q10_studio.jpg',
+    colors: [
+      { name: 'Pastel Sage', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
+      { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
+    ]
+  },
+  {
     id: 'z8-n710',
-    name: 'Z8 N710 Faria Lima',
-    tag: '+46,8%',
-    marginPct: '31,9%',
-    wholesale: 5450,
-    retail: 8000,
-    profit: 2550,
-    power: '1000W Smart CONTRAN',
-    range: 'Até 75 km (R$ 1,80/carga)',
+    name: 'Z8 N710 Urban Plus',
+    code: 'DB045-N710',
+    tag: '+79,2%',
+    marginPct: '44,2%',
+    wholesale: 5300,
+    retail: 9500,
+    profit: 4200,
+    power: '1200W sem escova High Performance',
+    range: 'Até 40-50 km (Bateria 60V 20Ah)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_n710_studio.jpg',
     colors: [
@@ -124,76 +203,48 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-q10',
-    name: 'Z8 Mini Q10 Retro',
-    tag: '+45,6%',
-    marginPct: '31,3%',
-    wholesale: 5150,
-    retail: 7500,
-    profit: 2350,
-    power: '1000W Euro Retro',
-    range: 'Até 70 km (R$ 1,80/carga)',
+    name: 'Z8 Q10 Vintage',
+    code: 'DB038',
+    tag: '+69,0%',
+    marginPct: '40,8%',
+    wholesale: 5800,
+    retail: 9800,
+    profit: 4000,
+    power: '1200W (Controlador 30A)',
+    range: 'Até 40-50 km (Suporta até 60V 120Ah / 240 km)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_q11_studio.jpg',
     colors: [{ name: 'Pastel Cream', hex: '#E5DEC9', img: '/assets/models/z8_q11_studio.jpg' }]
   },
   {
-    id: 'z8-q11',
-    name: 'Z8 Q11 Pastel Design',
-    tag: '+46,2%',
-    marginPct: '31,6%',
-    wholesale: 5200,
-    retail: 7600,
-    profit: 2400,
-    power: '1000W Boutique',
-    range: 'Até 70 km (R$ 1,80/carga)',
-    cnh: '100% Isento CNH // 996',
-    baseImg: '/assets/models/z8_q10_studio.jpg',
-    colors: [
-      { name: 'Sage Mint', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
-      { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
-    ]
-  },
-  {
-    id: 'z8-diamond',
-    name: 'Z8 Diamond Luxury',
-    tag: '+44,0%',
-    marginPct: '30,6%',
-    wholesale: 5000,
-    retail: 7200,
-    profit: 2200,
-    power: '1000W LED Matrix',
-    range: 'Até 70 km (R$ 1,80/carga)',
-    cnh: '100% Isento CNH // 996',
-    baseImg: '/assets/models/z8_diamond_studio.jpg',
-    colors: [{ name: 'Diamond Silver', hex: '#D0D5DD', img: '/assets/models/z8_diamond_studio.jpg' }]
-  },
-  {
-    id: 'z8-n7',
-    name: 'Z8 H26 Compact',
-    tag: '+45,8%',
-    marginPct: '31,4%',
-    wholesale: 4800,
-    retail: 7000,
-    profit: 2200,
-    power: '800W Compact Urban',
-    range: 'Até 65 km (R$ 1,50/carga)',
-    cnh: '100% Isento CNH // 996',
-    baseImg: '/assets/models/z8_n7_studio.jpg',
-    colors: [{ name: 'Urban Grey', hex: '#667085', img: '/assets/models/z8_n7_studio.jpg' }]
-  },
-  {
     id: 'z8-gs005',
-    name: 'Z8 GS-005 Entry',
-    tag: '+46,7%',
-    marginPct: '31,8%',
-    wholesale: 4500,
-    retail: 6600,
-    profit: 2100,
-    power: '800W Giro Rápido',
-    range: 'Até 60 km (R$ 1,50/carga)',
+    name: 'Z8 GS-005 Base Norte',
+    code: 'GS-005',
+    tag: '+93,8%',
+    marginPct: '48,4%',
+    wholesale: 3200,
+    retail: 6200,
+    profit: 3000,
+    power: '500W Cobre Puro (Controlador 6G-NEW)',
+    range: 'Até 40-50 km (Bateria 48V 20Ah / Suporta 60V)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_gs005_studio.jpg',
     colors: [{ name: 'Matte Graphite', hex: '#344054', img: '/assets/models/z8_gs005_studio.jpg' }]
+  },
+  {
+    id: 'z8-diamond',
+    name: 'Z8 Diamond Luxe',
+    code: 'GS-052',
+    tag: '+100,0%',
+    marginPct: '50,0%',
+    wholesale: 3400,
+    retail: 6800,
+    profit: 3400,
+    power: '500W Cobre Puro (Controlador 500W)',
+    range: 'Até 40-50 km (Bateria 48V 20Ah / Suporta 60V)',
+    cnh: '100% Isento CNH // 996',
+    baseImg: '/assets/models/z8_diamond_studio.jpg',
+    colors: [{ name: 'Diamond Silver', hex: '#D0D5DD', img: '/assets/models/z8_diamond_studio.jpg' }]
   }
 ];
 
@@ -270,19 +321,13 @@ window.openZ8ModelDrawer = function (modelId) {
         <h2 class="z8-modal-title">${model.name}</h2>
         <p class="z8-modal-subtitle">${model.power} — ${model.range}</p>
         <div class="z8-drawer-kpis">
-          <div class="z8-drawer-kpi is-confidential">
+          <div class="z8-drawer-kpi">
             <span>CUSTO ATACADO B2B</span>
-            <strong>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              Sob Consulta
-            </strong>
+            <strong style="color:#00F0FF;">R$ ${(model.wholesale || model.wholesalePrice || 0).toLocaleString('pt-BR')}</strong>
           </div>
-          <div class="z8-drawer-kpi is-confidential">
+          <div class="z8-drawer-kpi">
             <span>PREÇO VAREJO SUG.</span>
-            <strong>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              Sob Consulta
-            </strong>
+            <strong>R$ ${(model.retail || model.retailPrice || 0).toLocaleString('pt-BR')}</strong>
           </div>
           <div class="z8-drawer-kpi is-lime">
             <span>MARGEM LÍQUIDA ESTIMADA</span>

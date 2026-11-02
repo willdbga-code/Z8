@@ -1,0 +1,2975 @@
+/* ==========================================================================
+   Z8 E-MOTION // PORTAL DO LOJISTA — LAF EDITION 2026
+   100% Baseado no Design da Página Conceito (Mona Sans Variable + Brier + Contornos Topográficos + Bauhaus 4px-6px)
+   ========================================================================== */
+
+.z8-laf-portal-section {
+  position: relative;
+  background: #06080D;
+  color: #F4F5F7;
+  padding: clamp(4rem, 7vw, 7rem) 0 clamp(5rem, 8vw, 8rem);
+  border-top: 2px solid rgba(0, 240, 255, 0.28);
+  border-bottom: 2px solid rgba(0, 240, 255, 0.28);
+  overflow: hidden;
+  z-index: 12;
+}
+
+.z8-laf-portal-wrapper {
+  position: relative;
+  width: 100%;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 88% 45%, rgba(56, 189, 248, 0.07) 0%, transparent 45%),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 44px 44px, 44px 44px;
+}
+
+.z8-laf-topo-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.z8-laf-topo-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: hue-rotate(140deg) saturate(160%);
+}
+
+.z8-laf-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1420px !important;
+  margin: 0 auto !important;
+  padding: 0 clamp(1rem, 2.5vw, 2.5rem) !important;
+}
+
+/* ==================== TOP PARTNER COCKPIT BAR ==================== */
+.z8-laf-partner-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background: rgba(10, 22, 40, 0.92);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 4px;
+  padding: 0.75rem 1.15rem;
+  margin-bottom: 2.25rem;
+}
+
+.z8-laf-partner-status {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.74rem;
+}
+
+.z8-laf-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00F0FF;
+  flex-shrink: 0;
+}
+
+.z8-laf-status-code {
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #00F0FF;
+  text-transform: uppercase;
+}
+
+.z8-laf-partner-identity {
+  color: rgba(244, 245, 247, 0.8);
+  padding-left: 0.85rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.z8-laf-partner-identity strong {
+  color: #FFFFFF;
+}
+
+.z8-laf-topbar-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.z8-laf-top-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #F4F5F7;
+  border-radius: 4px !important;
+  padding: 0.5rem 0.85rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.z8-laf-top-btn:hover {
+  background: #00F0FF;
+  border-color: #00F0FF;
+  color: #06080D;
+  transform: translateY(-1px);
+}
+
+.z8-laf-top-btn.is-cyan {
+  background: #00F0FF;
+  border-color: #00F0FF;
+  color: #06080D;
+}
+
+.z8-laf-top-btn.is-cyan:hover {
+  background: #FFFFFF;
+  border-color: #FFFFFF;
+  color: #06080D;
+}
+
+.z8-laf-top-btn.is-amber {
+  background: rgba(245, 158, 11, 0.16);
+  border-color: #F59E0B;
+  color: #FBBF24;
+}
+
+/* ==================== MONUMENTAL HERO HEADER ==================== */
+.z8-laf-hero-header {
+  margin-bottom: 3rem;
+}
+
+.z8-laf-monumental-title-row {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 2rem;
+  align-items: end;
+  margin-top: 0.65rem;
+  margin-bottom: 2rem;
+}
+
+.z8-laf-main-heading {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif) !important;
+  font-size: clamp(2.6rem, 6vw, 5.4rem) !important;
+  font-weight: 900 !important;
+  font-variation-settings: "wdth" 85, "wght" 850 !important;
+  line-height: 0.96 !important;
+  letter-spacing: -0.02em !important;
+  color: #DCE4F0 !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+}
+
+.z8-laf-brier-sub {
+  font-family: var(--font-family--brier, 'Brier', serif) !important;
+  color: #00F0FF !important;
+  font-size: 0.68em !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  margin-left: 0.25rem;
+}
+
+.z8-laf-stepped-wrap {
+  max-width: 440px;
+  color: #00F0FF;
+  margin-top: 0.65rem;
+}
+
+.z8-laf-hero-desc-box p {
+  color: rgba(244, 245, 247, 0.82);
+  font-size: 0.96rem;
+  line-height: 1.58;
+  margin: 0;
+}
+
+.z8-laf-hero-desc-box strong {
+  color: #00F0FF;
+}
+
+/* 4 HERO KPI CARDS */
+.z8-laf-hero-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.z8-laf-kpi-card {
+  background: #0B111E;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 3px solid #38BDF8;
+  border-radius: 4px;
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.z8-laf-kpi-card.is-highlight {
+  background: #0D1B2E;
+  border-color: rgba(0, 240, 255, 0.45);
+  border-top: 3px solid #00F0FF;
+}
+
+.z8-laf-kpi-idx {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #38BDF8;
+  text-transform: uppercase;
+}
+
+.z8-laf-kpi-card strong {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+.z8-laf-kpi-card.is-highlight strong {
+  color: #00F0FF;
+}
+
+.z8-laf-kpi-card small {
+  font-size: 0.76rem;
+  color: #94A3B8;
+  line-height: 1.4;
+}
+
+/* KINETIC MODULE NAVIGATION BAR */
+.z8-laf-module-nav {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  background: #090D16;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 6px;
+  padding: 6px;
+}
+
+.z8-laf-mod-tab {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px !important;
+  color: #CBD5E1;
+  padding: 0.8rem 0.65rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.z8-laf-mod-tab .mod-idx {
+  color: #00F0FF;
+  font-weight: 900;
+  font-size: 0.66rem;
+}
+
+.z8-laf-mod-tab:hover {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: rgba(0, 240, 255, 0.4);
+  color: #FFFFFF;
+}
+
+.z8-laf-mod-tab.is-active {
+  background: #00F0FF !important;
+  border-color: #00F0FF !important;
+  color: #06080D !important;
+}
+
+.z8-laf-mod-tab.is-active .mod-idx {
+  color: #06080D !important;
+}
+
+/* ==================== MODULE BLOCKS & SECTION HEADERS ==================== */
+.z8-laf-module-block {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.z8-laf-section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 1.85rem;
+}
+
+.z8-laf-eyebrow {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #00F0FF;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.z8-laf-sec-title {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif) !important;
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem) !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+  line-height: 1.05 !important;
+  margin: 0 !important;
+  text-transform: uppercase !important;
+}
+
+.z8-laf-sec-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid #00F0FF;
+  color: #00F0FF;
+  border-radius: 4px !important;
+  padding: 0.65rem 1.1rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.z8-laf-sec-action-btn:hover {
+  background: #00F0FF;
+  color: #06080D;
+}
+
+/* ==================== BLOCO 01: INSTITUCIONAL, POLOS & BATERIAS 125Ah ==================== */
+.z8-laf-pillars-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 1.75rem;
+}
+
+.z8-laf-pillar-card {
+  background: #0B111E;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 1.15rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.z8-laf-circle-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #38BDF8;
+  color: #06080D;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.z8-laf-pillar-card strong {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.z8-laf-pillar-card span {
+  font-size: 0.75rem;
+  color: #94A3B8;
+  line-height: 1.45;
+}
+
+.z8-laf-industrial-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 1.25rem;
+}
+
+.z8-laf-industrial-card {
+  background: #0B111E;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 4px;
+  padding: 1.5rem;
+}
+
+.z8-laf-card-kicker {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #38BDF8;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.z8-laf-card-heading {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0 0 0.65rem;
+  text-transform: uppercase;
+}
+
+.z8-laf-card-text {
+  font-size: 0.82rem;
+  color: #94A3B8;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.z8-laf-hubs-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.z8-laf-hub-box {
+  background: #070B13;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid #38BDF8;
+  border-radius: 4px;
+  padding: 0.95rem 1.1rem;
+}
+
+.z8-laf-hub-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+.z8-laf-hub-tag {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #38BDF8;
+  text-transform: uppercase;
+}
+
+.z8-laf-hub-top strong {
+  font-size: 0.74rem;
+  color: #10B981;
+}
+
+.z8-laf-hub-box p {
+  font-size: 0.76rem;
+  color: #CBD5E1;
+  margin: 0 0 0.6rem;
+  line-height: 1.45;
+}
+
+.z8-laf-hub-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.z8-laf-hub-chips span {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  color: #E2E8F0;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+
+.z8-laf-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.z8-laf-battery-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+  margin-top: 0.5rem;
+}
+
+.z8-laf-battery-table th {
+  background: #070B13;
+  color: #94A3B8;
+  text-align: left;
+  padding: 0.65rem 0.75rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.z8-laf-battery-table th.is-cyan {
+  color: #00F0FF;
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.z8-laf-battery-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: #CBD5E1;
+}
+
+.z8-laf-battery-table td.is-cyan {
+  color: #FFFFFF;
+  background: rgba(0, 240, 255, 0.04);
+}
+
+.z8-laf-battery-table td.is-cyan strong {
+  color: #00F0FF;
+}
+
+.z8-laf-battery-highlight {
+  margin-top: 0.9rem;
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  color: #F4F5F7;
+}
+
+.z8-laf-battery-highlight strong {
+  color: #00F0FF;
+}
+
+/* ==================== BLOCO 02: FICHAS TÉCNICAS LAF SPLIT 40/60 ==================== */
+.z8-laf-cat-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.z8-laf-filter-btn {
+  background: #0B111E;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #CBD5E1;
+  border-radius: 4px !important;
+  padding: 0.55rem 0.9rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.z8-laf-filter-btn:hover {
+  border-color: #00F0FF;
+  color: #FFFFFF;
+}
+
+.z8-laf-filter-btn.is-active {
+  background: #00F0FF !important;
+  border-color: #00F0FF !important;
+  color: #06080D !important;
+}
+
+.z8-laf-sheets-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.25rem;
+}
+
+/* 40/60 SPLIT PRODUCT SHEET CARD (EXACT LAF ARCHITECTURE) */
+.z8-laf-sheet-card {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  background: #0B111E;
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+}
+
+/* Left 40% Column */
+.z8-laf-col-40 {
+  background: linear-gradient(180deg, #0D182B 0%, #080E1A 100%);
+  border-right: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.z8-laf-sheet-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.z8-laf-cat-pill {
+  background: #38BDF8;
+  color: #06080D;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.z8-laf-pn-code {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #CBD5E1;
+  letter-spacing: 0.05em;
+}
+
+.z8-laf-page-tag {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.66rem;
+  font-weight: 800;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+
+.z8-laf-model-short {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: clamp(2rem, 3.2vw, 2.85rem);
+  font-weight: 900;
+  color: #FFFFFF;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.z8-laf-model-full {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #38BDF8;
+  letter-spacing: 0.08em;
+  margin: 0.3rem 0 0;
+  text-transform: uppercase;
+}
+
+.z8-laf-hero-img-box {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  aspect-ratio: 16 / 10;
+  background: #05070B;
+}
+
+.z8-laf-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.z8-laf-hero-overlay-bar {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  background: rgba(6, 8, 13, 0.88);
+  padding: 0.45rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #94A3B8;
+}
+
+.z8-laf-inspect-slide-btn {
+  background: #38BDF8;
+  color: #06080D;
+  border: none;
+  border-radius: 3px !important;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.62rem;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+/* Official Wholesale Panel */
+.z8-laf-wholesale-panel {
+  background: #060A12;
+  border: 1.5px solid #38BDF8;
+  border-radius: 4px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.z8-laf-wholesale-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #94A3B8;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.45rem;
+}
+
+.z8-laf-markup-tag {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #34D399;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+}
+
+.z8-laf-price-main-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.z8-laf-price-label {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #38BDF8;
+  letter-spacing: 0.06em;
+}
+
+.z8-laf-price-value {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: clamp(1.55rem, 2.4vw, 2.05rem);
+  font-weight: 900;
+  color: #00F0FF;
+  line-height: 1.05;
+}
+
+.z8-laf-price-note {
+  display: block;
+  font-size: 0.62rem;
+  color: #94A3B8;
+  margin-top: 0.15rem;
+}
+
+.z8-laf-price-lote-box {
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 4px;
+  padding: 0.45rem 0.75rem;
+  text-align: right;
+}
+
+.z8-laf-price-lote-box span {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #CBD5E1;
+}
+
+.z8-laf-price-lote-box strong {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #FFFFFF;
+}
+
+.z8-laf-price-sub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+}
+
+.z8-laf-sub-kpi {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 3px;
+  padding: 0.4rem 0.6rem;
+}
+
+.z8-laf-sub-kpi span {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 700;
+  color: #94A3B8;
+}
+
+.z8-laf-sub-kpi strong {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #F4F5F7;
+}
+
+.z8-laf-sub-kpi.is-profit strong {
+  color: #34D399;
+}
+
+.z8-laf-voltage-bar {
+  background: rgba(0, 240, 255, 0.06);
+  border-left: 3px solid #00F0FF;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.z8-laf-voltage-bar strong {
+  color: #00F0FF;
+}
+
+/* Direct Card Order Box */
+.z8-laf-card-order-box {
+  background: #0B1322;
+  border: 1px solid rgba(0, 240, 255, 0.28);
+  border-radius: 4px;
+  padding: 0.7rem;
+}
+
+.z8-laf-card-order-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  gap: 0.4rem;
+}
+
+.z8-laf-order-box-title {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.z8-laf-quick-qty-btns {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.z8-laf-quick-qty-btns button {
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  color: #00F0FF;
+  border-radius: 3px !important;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.z8-laf-quick-qty-btns button:hover {
+  background: #00F0FF;
+  color: #06080D;
+}
+
+.z8-laf-card-order-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.z8-laf-stepper {
+  display: inline-flex;
+  align-items: center;
+  background: #05070C;
+  border: 1px solid #00F0FF;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.z8-laf-step-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 240, 255, 0.14);
+  border: none;
+  border-radius: 3px !important;
+  color: #00F0FF;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.z8-laf-step-btn:hover {
+  background: #00F0FF;
+  color: #06080D;
+}
+
+.z8-laf-step-input {
+  width: 46px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+
+.z8-laf-card-subtotal {
+  text-align: right;
+  flex: 1;
+}
+
+.z8-laf-card-subtotal span {
+  display: block;
+  font-size: 0.58rem;
+  color: #94A3B8;
+  font-weight: 700;
+}
+
+.z8-laf-card-subtotal strong {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.86rem;
+  font-weight: 900;
+  color: #FFFFFF;
+}
+
+.z8-laf-card-subtotal small {
+  color: #34D399;
+  font-size: 0.72rem;
+}
+
+/* Right 60% Column */
+.z8-laf-col-60 {
+  padding: 1.5rem;
+  background: #0F172A;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.1rem;
+}
+
+.z8-laf-col60-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.65rem;
+}
+
+.z8-laf-col60-header span {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+.z8-laf-jump-order-btn {
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid #10B981;
+  color: #34D399;
+  border-radius: 4px !important;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.66rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.z8-laf-jump-order-btn:hover {
+  background: #10B981;
+  color: #06080D;
+}
+
+.z8-laf-visual-showcase-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 1rem;
+}
+
+.z8-laf-main-cutout-box {
+  background: #FFFFFF;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  border-radius: 4px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 220px;
+}
+
+.z8-laf-main-cutout-img {
+  max-height: 175px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: auto;
+}
+
+.z8-laf-color-swatches-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  justify-content: center;
+}
+
+.z8-laf-color-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: #0F172A;
+  border: 1px solid #CBD5E1;
+  color: #F8FAFC;
+  border-radius: 4px !important;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.64rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.z8-laf-color-chip.is-active {
+  background: #0284C7;
+  border-color: #00F0FF;
+  color: #FFFFFF;
+}
+
+.z8-laf-lineup-box {
+  background: #FFFFFF;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 4px;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.z8-laf-lineup-label {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.64rem;
+  font-weight: 900;
+  color: #0F172A;
+  text-transform: uppercase;
+}
+
+.z8-laf-lineup-img-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0.35rem 0;
+}
+
+.z8-laf-lineup-img {
+  max-height: 145px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.z8-laf-lineup-hint {
+  font-size: 0.6rem;
+  color: #475569;
+  text-align: center;
+}
+
+/* 4 Circular Feature Callouts (01 to 04) */
+.z8-laf-callouts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+}
+
+.z8-laf-callout-item {
+  background: #090F1C;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 4px;
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.z8-laf-callout-thumb-wrap {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+}
+
+.z8-laf-callout-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #38BDF8;
+}
+
+.z8-laf-callout-num {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #38BDF8;
+  color: #06080D;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.6rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.z8-laf-callout-text strong {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+  margin-bottom: 0.15rem;
+}
+
+.z8-laf-callout-text span {
+  display: block;
+  font-size: 0.62rem;
+  color: #94A3B8;
+  line-height: 1.3;
+}
+
+/* 12-Cell Technical Telemetry Matrix (6x2) */
+.z8-laf-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.45rem;
+}
+
+.z8-laf-spec-cell {
+  background: #080C15;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 2px solid #38BDF8;
+  border-radius: 3px;
+  padding: 0.45rem 0.55rem;
+}
+
+.z8-laf-spec-k {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.56rem;
+  font-weight: 800;
+  color: #38BDF8;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.z8-laf-spec-v1 {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.76rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0.12rem 0;
+}
+
+.z8-laf-spec-v2 {
+  display: block;
+  font-size: 0.6rem;
+  color: #94A3B8;
+  line-height: 1.2;
+}
+
+/* ==================== BLOCO 03: MESA DE PEDIDOS & CONTÊINER 40HQ (PÁG. 24 LAF) ==================== */
+.z8-laf-order-mode-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.z8-laf-mode-btn {
+  background: #0B111E;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #CBD5E1;
+  border-radius: 4px !important;
+  padding: 0.6rem 1rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.z8-laf-mode-btn.is-active {
+  background: #00F0FF !important;
+  border-color: #00F0FF !important;
+  color: #06080D !important;
+}
+
+.z8-laf-presets-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: #0A101D;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.z8-laf-presets-label {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #38BDF8;
+  margin-right: 0.35rem;
+}
+
+.z8-laf-preset-chip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #F4F5F7;
+  border-radius: 4px !important;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.z8-laf-preset-chip:hover {
+  border-color: #00F0FF;
+  color: #00F0FF;
+}
+
+.z8-laf-preset-chip.is-clear {
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #FCA5A5;
+}
+
+.z8-laf-master-table-card {
+  background: #0B111E;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 6px;
+  padding: 1.5rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.z8-laf-master-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 980px;
+}
+
+.z8-laf-master-table th {
+  background: #060911;
+  color: #38BDF8;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.85rem 0.75rem;
+  text-align: left;
+  border-bottom: 2px solid rgba(56, 189, 248, 0.35);
+}
+
+.z8-laf-order-row td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
+
+.z8-laf-order-row.is-selected {
+  background: rgba(0, 240, 255, 0.05);
+}
+
+.z8-laf-td-pn strong {
+  display: block;
+  color: #00F0FF;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+}
+
+.z8-laf-td-pn span {
+  font-size: 0.64rem;
+  color: #94A3B8;
+}
+
+.z8-laf-td-model {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.z8-laf-td-model img {
+  width: 48px;
+  height: 36px;
+  object-fit: contain;
+  background: #FFFFFF;
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.z8-laf-td-model strong {
+  display: block;
+  color: #FFFFFF;
+}
+
+.z8-laf-td-model span {
+  font-size: 0.66rem;
+  color: #94A3B8;
+}
+
+.z8-laf-td-wholesale {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-weight: 900;
+  color: #00F0FF;
+  font-size: 0.9rem !important;
+}
+
+.z8-laf-td-lote10 {
+  font-weight: 700;
+  color: #E2E8F0;
+}
+
+.z8-laf-td-profit strong {
+  display: block;
+  color: #FFFFFF;
+}
+
+.z8-laf-td-profit span {
+  font-size: 0.7rem;
+  color: #34D399;
+  font-weight: 700;
+}
+
+.z8-laf-color-select {
+  background: #060911;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #F4F5F7;
+  border-radius: 4px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.72rem;
+  max-width: 155px;
+}
+
+.z8-laf-table-stepper {
+  display: inline-flex;
+  align-items: center;
+  background: #060911;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  border-radius: 4px;
+  padding: 2px;
+}
+
+.z8-laf-table-stepper button {
+  width: 28px;
+  height: 28px;
+  background: rgba(0, 240, 255, 0.12);
+  border: none;
+  color: #00F0FF;
+  font-weight: 900;
+  border-radius: 3px !important;
+  cursor: pointer;
+}
+
+.z8-laf-table-stepper input {
+  width: 42px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-weight: 800;
+  font-size: 0.84rem;
+}
+
+.z8-laf-td-subtotal {
+  text-align: right;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-weight: 900;
+  color: #FFFFFF;
+  font-size: 0.92rem !important;
+}
+
+/* Summary HUD */
+.z8-laf-order-summary-hud {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.85rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.z8-laf-summary-kpi {
+  background: #060911;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 0.95rem 1rem;
+}
+
+.z8-laf-summary-kpi.is-cyan {
+  border-color: #00F0FF;
+  background: rgba(0, 240, 255, 0.06);
+}
+
+.z8-laf-summary-kpi.is-emerald {
+  border-color: #10B981;
+  background: rgba(16, 185, 129, 0.08);
+}
+
+.z8-laf-summary-kpi span {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #94A3B8;
+  letter-spacing: 0.08em;
+}
+
+.z8-laf-summary-kpi strong {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0.25rem 0;
+}
+
+.z8-laf-summary-kpi.is-cyan strong {
+  color: #00F0FF;
+}
+
+.z8-laf-summary-kpi.is-emerald strong {
+  color: #34D399;
+}
+
+.z8-laf-summary-kpi small {
+  font-size: 0.68rem;
+  color: #94A3B8;
+}
+
+.z8-laf-summary-kpi small.is-valid {
+  color: #34D399;
+  font-weight: 700;
+}
+
+.z8-laf-summary-kpi small.is-warning {
+  color: #FBBF24;
+  font-weight: 700;
+}
+
+.z8-laf-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 0.35rem;
+}
+
+.z8-laf-progress-fill {
+  height: 100%;
+  background: #00F0FF;
+  transition: width 0.3s ease;
+}
+
+/* Checkout Form */
+.z8-laf-checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.z8-laf-checkout-title {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #00F0FF;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.85rem;
+  text-transform: uppercase;
+}
+
+.z8-laf-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.z8-laf-field label {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.64rem;
+  font-weight: 800;
+  color: #CBD5E1;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+
+.z8-laf-field input,
+.z8-laf-field select {
+  width: 100%;
+  height: 42px;
+  background: #060911;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px !important;
+  color: #FFFFFF;
+  padding: 0 0.75rem;
+  font-size: 0.82rem;
+}
+
+.z8-laf-field input:focus,
+.z8-laf-field select:focus {
+  border-color: #00F0FF;
+  outline: none;
+}
+
+.z8-laf-checkout-actions {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.z8-laf-submit-order-btn {
+  height: 48px;
+  background: #10B981;
+  color: #06080D;
+  border: none;
+  border-radius: 4px !important;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.z8-laf-submit-order-btn:hover {
+  background: #34D399;
+  transform: translateY(-1px);
+}
+
+.z8-laf-print-order-btn {
+  height: 48px;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid #00F0FF;
+  color: #00F0FF;
+  border-radius: 4px !important;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.z8-laf-print-order-btn:hover {
+  background: #00F0FF;
+  color: #06080D;
+}
+
+.z8-laf-history-box {
+  margin-top: 1.25rem;
+  background: #060911;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.z8-laf-history-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #38BDF8;
+  margin-bottom: 0.65rem;
+}
+
+.z8-laf-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.z8-laf-history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+  font-size: 0.78rem;
+}
+
+.z8-laf-history-badge {
+  background: rgba(16, 185, 129, 0.18);
+  color: #34D399;
+  font-size: 0.64rem;
+  font-weight: 800;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  margin-left: 0.5rem;
+}
+
+/* ==================== BLOCO 04: FLIPBOOK 26 PÁGINAS LAF ==================== */
+.z8-laf-deck-controls-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.z8-laf-slide-select {
+  height: 40px;
+  background: #0B111E;
+  border: 1px solid #38BDF8;
+  color: #FFFFFF;
+  border-radius: 4px !important;
+  padding: 0 0.85rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.z8-laf-deck-viewer {
+  background: #0B111E;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 6px;
+  padding: 1.25rem;
+}
+
+.z8-laf-deck-stage {
+  display: grid;
+  grid-template-columns: 48px 1fr 48px;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.z8-laf-deck-nav {
+  height: 64px;
+  background: rgba(0, 240, 255, 0.12);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  color: #00F0FF;
+  border-radius: 4px !important;
+  font-size: 1.15rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.z8-laf-deck-nav:hover {
+  background: #00F0FF;
+  color: #06080D;
+}
+
+.z8-laf-deck-canvas-wrap {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #05070B;
+}
+
+.z8-laf-deck-canvas-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.z8-laf-deck-hud {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  background: rgba(6, 8, 13, 0.88);
+  padding: 0.55rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #00F0FF;
+}
+
+.z8-laf-deck-hud button {
+  background: #00F0FF;
+  color: #06080D;
+  border: none;
+  border-radius: 3px !important;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.z8-laf-thumbs-strip {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.z8-laf-thumb-btn {
+  flex: 0 0 110px;
+  background: #060911;
+  border: 2px solid transparent;
+  border-radius: 4px !important;
+  padding: 3px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.z8-laf-thumb-btn.is-active {
+  border-color: #00F0FF;
+}
+
+.z8-laf-thumb-btn img {
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  display: block;
+}
+
+.z8-laf-thumb-btn span {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #CBD5E1;
+  margin-top: 3px;
+}
+
+/* ==================== LIGHTBOX MODAL & STICKY ORDER BAR ==================== */
+.z8-laf-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 12, 0.95);
+  z-index: 100005;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.z8-laf-lightbox.is-open {
+  display: flex;
+}
+
+.z8-laf-lightbox-inner {
+  width: 100%;
+  max-width: 1280px;
+  max-height: 94vh;
+  background: #0B111E;
+  border: 1px solid #00F0FF;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.z8-laf-lightbox-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1.15rem;
+  background: #060911;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #00F0FF;
+}
+
+.z8-laf-lightbox-btns {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.z8-laf-lightbox-btns button {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  border-radius: 4px !important;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.z8-laf-lightbox-btns button.is-close {
+  background: #EF4444;
+  border-color: #EF4444;
+}
+
+.z8-laf-lightbox-body {
+  overflow: auto;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.z8-laf-lightbox-body img {
+  max-width: 100%;
+  max-height: 82vh;
+  object-fit: contain;
+}
+
+/* Sticky Bottom Order Bar */
+.z8-laf-sticky-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9990;
+  background: rgba(6, 9, 17, 0.96);
+  border-top: 2px solid #00F0FF;
+  padding: 0.65rem 1.25rem;
+  transform: translateY(110%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.8);
+}
+
+.z8-laf-sticky-bar.is-visible {
+  transform: translateY(0);
+}
+
+.z8-laf-sticky-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+.z8-laf-sticky-left {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.z8-laf-sticky-kicker {
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 800;
+  color: #38BDF8;
+  letter-spacing: 0.1em;
+}
+
+.z8-laf-sticky-left strong {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.82rem;
+  color: #FFFFFF;
+}
+
+.z8-laf-sticky-metrics {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.z8-laf-sticky-metrics span {
+  display: block;
+  font-size: 0.58rem;
+  color: #94A3B8;
+  font-weight: 700;
+}
+
+.z8-laf-sticky-metrics strong {
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: #00F0FF;
+}
+
+.z8-laf-sticky-metrics strong.is-emerald {
+  color: #34D399;
+}
+
+.z8-laf-sticky-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.z8-laf-sticky-btn {
+  border-radius: 4px !important;
+  padding: 0.55rem 1rem;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.z8-laf-sticky-btn.is-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+.z8-laf-sticky-btn.is-primary {
+  background: #10B981;
+  border: 1px solid #10B981;
+  color: #06080D;
+}
+
+/* ==================== PORTAL-ONLY PAGE MODE & SELECTED ITEMS GRID ==================== */
+body.is-portal-only .nav {
+  display: none !important;
+}
+
+body.is-portal-only .z8-laf-portal-wrapper {
+  padding-top: 1.75rem !important;
+}
+
+.z8-laf-callout-item {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.z8-laf-callout-item:hover,
+.z8-laf-callout-item.is-active {
+  border-color: #00F0FF !important;
+  background: rgba(0, 240, 255, 0.12) !important;
+  transform: translateY(-1px);
+}
+
+.z8-laf-selected-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.z8-laf-selected-chip-card {
+  background: #060911;
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.z8-laf-selected-chip-img {
+  width: 60px;
+  height: 46px;
+  object-fit: contain;
+  background: #FFFFFF;
+  border-radius: 4px;
+  padding: 3px;
+  flex-shrink: 0;
+}
+
+.z8-laf-selected-chip-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.z8-laf-selected-chip-pn {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #38BDF8;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.z8-laf-selected-chip-info strong {
+  display: block;
+  font-family: var(--font-family--mona, 'Mona Sans Variable', sans-serif);
+  font-size: 1rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0.1rem 0;
+}
+
+.z8-laf-selected-chip-info small {
+  display: block;
+  font-size: 0.72rem;
+  color: #34D399;
+  font-weight: 700;
+}
+
+.z8-laf-empty-cart {
+  grid-column: 1 / -1;
+  background: #060911;
+  border: 1px dashed rgba(0, 240, 255, 0.35);
+  border-radius: 4px;
+  padding: 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.z8-laf-empty-cart strong {
+  color: #FFFFFF;
+  font-size: 0.95rem;
+}
+
+.z8-laf-empty-cart span {
+  color: #94A3B8;
+  font-size: 0.84rem;
+}
+
+.z8-laf-sheet-card {
+  scroll-margin-top: 96px;
+}
+
+.btn-layout.is-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: nowrap;
+}
+
+.btn-layout.is-nav .z8-logout-btn {
+  padding: 0.5rem 0.9rem !important;
+  font-size: 0.72rem !important;
+  height: auto !important;
+  min-height: 36px !important;
+}
+
+/* ==================== RESPONSIVE BREAKPOINTS (MOBILE & TABLET) ==================== */
+@media screen and (max-width: 1024px) {
+  .z8-laf-monumental-title-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .z8-laf-hero-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .z8-laf-module-nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .z8-laf-pillars-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .z8-laf-industrial-grid {
+    grid-template-columns: 1fr;
+  }
+  .z8-laf-sheet-card {
+    grid-template-columns: 1fr;
+  }
+  .z8-laf-col-40 {
+    border-right: none;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+  }
+  .z8-laf-callouts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .z8-laf-specs-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .z8-laf-order-summary-hud {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .z8-laf-checkout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== MOBILE UI/UX: FINGER-SIZED BUTTONS & LARGE LEGIBLE TEXT ==================== */
+@media screen and (max-width: 768px) {
+  .btn-layout.is-nav > a[href="#portal-lojista"] {
+    display: none !important;
+  }
+
+  .z8-laf-portal-wrapper {
+    padding: 1.25rem 0 3.5rem !important;
+  }
+
+  .z8-laf-container {
+    padding: 0 0.85rem;
+  }
+
+  /* Top Cockpit Partner Bar */
+  .z8-laf-partner-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.05rem;
+    gap: 0.9rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .z8-laf-partner-status {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+  }
+
+  .z8-laf-status-code {
+    font-size: 0.84rem;
+    line-height: 1.35;
+  }
+
+  .z8-laf-partner-identity {
+    font-size: 0.92rem;
+    border-left: none;
+    padding-left: 0;
+    line-height: 1.4;
+  }
+
+  .z8-laf-topbar-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.6rem;
+  }
+
+  .z8-laf-top-btn {
+    width: 100%;
+    min-height: 50px;
+    padding: 0.85rem 1rem;
+    font-size: 0.88rem;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Hero Section */
+  .z8-laf-main-heading {
+    font-size: clamp(2.4rem, 10vw, 3.2rem);
+    line-height: 1;
+  }
+
+  .z8-laf-hero-desc-box p {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .z8-laf-hero-kpis {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .z8-laf-kpi-card {
+    padding: 1.15rem;
+  }
+
+  .z8-laf-kpi-idx {
+    font-size: 0.8rem;
+  }
+
+  .z8-laf-kpi-card strong {
+    font-size: 1.8rem;
+  }
+
+  .z8-laf-kpi-card small {
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+
+  /* Module Navigation Tabs (Finger-Sized) */
+  .z8-laf-module-nav {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .z8-laf-mod-tab {
+    min-height: 52px;
+    padding: 0.85rem 1.1rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .z8-laf-mod-tab .mod-idx {
+    font-size: 0.84rem;
+    background: rgba(0, 240, 255, 0.14);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+  }
+
+  .z8-laf-mod-tab.is-active .mod-idx {
+    background: rgba(6, 8, 13, 0.22);
+  }
+
+  /* Section Headers & Filters */
+  .z8-laf-section-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .z8-laf-eyebrow {
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .z8-laf-sec-title {
+    font-size: clamp(1.85rem, 8vw, 2.35rem);
+  }
+
+  .z8-laf-sec-action-btn {
+    width: 100%;
+    min-height: 50px;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .z8-laf-pillars-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .z8-laf-pillar-card {
+    padding: 1.15rem;
+  }
+
+  .z8-laf-pillar-card strong {
+    font-size: 1.06rem;
+  }
+
+  .z8-laf-pillar-card span {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .z8-laf-industrial-card {
+    padding: 1.25rem;
+  }
+
+  .z8-laf-card-kicker {
+    font-size: 0.78rem;
+  }
+
+  .z8-laf-card-heading {
+    font-size: 1.25rem;
+  }
+
+  .z8-laf-card-text {
+    font-size: 0.96rem;
+    line-height: 1.55;
+  }
+
+  .z8-laf-hub-box {
+    padding: 1rem;
+  }
+
+  .z8-laf-hub-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .z8-laf-hub-tag {
+    font-size: 0.78rem;
+  }
+
+  .z8-laf-hub-top strong {
+    font-size: 1rem;
+  }
+
+  .z8-laf-hub-box p {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+
+  .z8-laf-hub-chips span {
+    font-size: 0.82rem;
+    padding: 0.38rem 0.7rem;
+  }
+
+  /* Category Filter Buttons (Finger-Sized 2-Col Grid) */
+  .z8-laf-cat-filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+    width: 100%;
+  }
+
+  .z8-laf-cat-filters .z8-laf-filter-btn:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .z8-laf-filter-btn {
+    min-height: 50px;
+    padding: 0.75rem 0.65rem;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Split 40/60 Product Sheet Cards on Mobile */
+  .z8-laf-col-40,
+  .z8-laf-col-60 {
+    padding: 1.15rem;
+    gap: 1.15rem;
+  }
+
+  .z8-laf-cat-pill {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .z8-laf-pn-code {
+    font-size: 0.82rem;
+  }
+
+  .z8-laf-page-tag {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.65rem;
+  }
+
+  .z8-laf-model-short {
+    font-size: clamp(2.25rem, 9.5vw, 2.85rem);
+  }
+
+  .z8-laf-model-full {
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+
+  .z8-laf-hero-overlay-bar {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.78rem;
+    flex-wrap: wrap;
+  }
+
+  .z8-laf-inspect-slide-btn {
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+  }
+
+  /* Wholesale Panel & Pricing on Mobile */
+  .z8-laf-wholesale-panel {
+    padding: 1.1rem;
+    gap: 0.9rem;
+  }
+
+  .z8-laf-wholesale-header {
+    font-size: 0.78rem;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .z8-laf-markup-tag {
+    font-size: 0.82rem;
+    padding: 0.25rem 0.6rem;
+  }
+
+  .z8-laf-price-main-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .z8-laf-price-label {
+    font-size: 0.82rem;
+  }
+
+  .z8-laf-price-value {
+    font-size: clamp(2.2rem, 9.5vw, 2.65rem);
+  }
+
+  .z8-laf-price-note {
+    font-size: 0.8rem;
+  }
+
+  .z8-laf-price-lote-box {
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
+
+  .z8-laf-price-lote-box span {
+    font-size: 0.82rem;
+  }
+
+  .z8-laf-price-lote-box strong {
+    font-size: 1.25rem;
+  }
+
+  .z8-laf-price-sub-grid {
+    gap: 0.6rem;
+  }
+
+  .z8-laf-sub-kpi {
+    padding: 0.7rem 0.8rem;
+  }
+
+  .z8-laf-sub-kpi span {
+    font-size: 0.76rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .z8-laf-sub-kpi strong {
+    font-size: 1.04rem;
+  }
+
+  .z8-laf-voltage-bar {
+    font-size: 0.9rem;
+    padding: 0.7rem 0.85rem;
+  }
+
+  /* Finger-Sized Direct Order Box inside Product Card */
+  .z8-laf-card-order-box {
+    padding: 1rem;
+  }
+
+  .z8-laf-card-order-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .z8-laf-order-box-title {
+    font-size: 0.88rem;
+  }
+
+  .z8-laf-quick-qty-btns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .z8-laf-quick-qty-btns button {
+    min-height: 48px;
+    padding: 0.6rem 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .z8-laf-card-order-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .z8-laf-stepper {
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px;
+  }
+
+  .z8-laf-step-btn {
+    width: 56px;
+    height: 50px;
+    font-size: 1.45rem;
+  }
+
+  .z8-laf-step-input {
+    flex: 1;
+    width: auto;
+    height: 50px;
+    font-size: 1.25rem;
+  }
+
+  .z8-laf-card-subtotal {
+    text-align: center;
+    background: rgba(0, 240, 255, 0.06);
+    border: 1px solid rgba(0, 240, 255, 0.22);
+    border-radius: 4px;
+    padding: 0.7rem;
+  }
+
+  .z8-laf-card-subtotal span {
+    font-size: 0.78rem;
+  }
+
+  .z8-laf-card-subtotal strong {
+    font-size: 1.12rem;
+  }
+
+  .z8-laf-card-subtotal small {
+    display: block;
+    font-size: 0.92rem;
+    margin-top: 2px;
+  }
+
+  /* Right 60% Column on Mobile: Interactive Colors, Callouts & Specs */
+  .z8-laf-col60-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.65rem;
+  }
+
+  .z8-laf-col60-header span {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .z8-laf-jump-order-btn {
+    width: 100%;
+    min-height: 50px;
+    font-size: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .z8-laf-visual-showcase-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .z8-laf-main-cutout-box {
+    padding: 1rem;
+    min-height: 250px;
+  }
+
+  .z8-laf-main-cutout-img {
+    max-height: 210px;
+  }
+
+  .z8-laf-color-swatches-bar {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .z8-laf-color-chip {
+    min-height: 48px;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.86rem;
+    justify-content: flex-start;
+  }
+
+  .z8-laf-color-chip .swatch-dot {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .z8-laf-lineup-box {
+    padding: 1rem;
+  }
+
+  .z8-laf-lineup-label {
+    font-size: 0.84rem;
+  }
+
+  .z8-laf-lineup-img {
+    max-height: 185px;
+  }
+
+  .z8-laf-lineup-hint {
+    font-size: 0.8rem;
+    margin-top: 0.35rem;
+  }
+
+  /* 4 Interactive Callouts (01 to 04) on Mobile */
+  .z8-laf-callouts-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .z8-laf-callout-item {
+    min-height: 78px;
+    padding: 0.85rem 1rem;
+    gap: 0.85rem;
+  }
+
+  .z8-laf-callout-thumb-wrap,
+  .z8-laf-callout-thumb {
+    width: 62px;
+    height: 62px;
+  }
+
+  .z8-laf-callout-num {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+
+  .z8-laf-callout-text strong {
+    font-size: 0.96rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .z8-laf-callout-text span {
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  /* 12-Cell Telemetry Matrix on Mobile */
+  .z8-laf-specs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.55rem;
+  }
+
+  .z8-laf-spec-cell {
+    padding: 0.75rem 0.8rem;
+  }
+
+  .z8-laf-spec-k {
+    font-size: 0.76rem;
+  }
+
+  .z8-laf-spec-v1 {
+    font-size: 1.05rem;
+    margin: 0.2rem 0;
+  }
+
+  .z8-laf-spec-v2 {
+    font-size: 0.84rem;
+    line-height: 1.3;
+  }
+
+  /* Block 03: Checkout & Selected Items on Mobile */
+  .z8-laf-order-mode-switch {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .z8-laf-mode-btn {
+    width: 100%;
+    min-height: 50px;
+    font-size: 0.85rem;
+  }
+
+  .z8-laf-presets-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+  }
+
+  .z8-laf-presets-label {
+    font-size: 0.82rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .z8-laf-preset-chip {
+    min-height: 48px;
+    font-size: 0.86rem;
+    padding: 0.65rem 0.85rem;
+    text-align: left;
+  }
+
+  .z8-laf-master-table-card {
+    padding: 1.1rem;
+  }
+
+  .z8-laf-selected-items-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .z8-laf-selected-chip-card {
+    flex-wrap: wrap;
+    padding: 0.9rem;
+  }
+
+  .z8-laf-selected-chip-pn {
+    font-size: 0.8rem;
+  }
+
+  .z8-laf-selected-chip-info strong {
+    font-size: 1.15rem;
+  }
+
+  .z8-laf-selected-chip-info small {
+    font-size: 0.84rem;
+  }
+
+  .z8-laf-stepper.is-compact {
+    width: 100%;
+    margin-top: 0.35rem;
+  }
+
+  .z8-laf-order-summary-hud,
+  .z8-laf-form-row,
+  .z8-laf-checkout-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .z8-laf-summary-kpi span {
+    font-size: 0.78rem;
+  }
+
+  .z8-laf-summary-kpi strong {
+    font-size: 1.55rem;
+  }
+
+  .z8-laf-summary-kpi small {
+    font-size: 0.84rem;
+  }
+
+  .z8-laf-checkout-title {
+    font-size: 0.92rem;
+  }
+
+  .z8-laf-field label {
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .z8-laf-field input,
+  .z8-laf-field select {
+    height: 52px;
+    font-size: 1rem;
+    padding: 0 0.9rem;
+  }
+
+  .z8-laf-submit-order-btn,
+  .z8-laf-print-order-btn {
+    min-height: 54px;
+    height: auto;
+    padding: 0.9rem 1rem;
+    font-size: 0.88rem;
+  }
+
+  /* Block 04: 26-Page LAF Flipbook on Mobile */
+  .z8-laf-deck-controls-top {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .z8-laf-slide-select {
+    width: 100%;
+    height: 50px;
+    font-size: 0.9rem;
+  }
+
+  .z8-laf-deck-stage {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .z8-laf-deck-nav {
+    height: 48px;
+    font-size: 1.15rem;
+  }
+
+  .z8-laf-deck-hud {
+    position: static;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.75rem;
+    font-size: 0.84rem;
+    text-align: center;
+  }
+
+  .z8-laf-deck-hud button {
+    width: 100%;
+    min-height: 46px;
+    font-size: 0.86rem;
+  }
+
+  .z8-laf-thumb-btn {
+    flex: 0 0 125px;
+  }
+
+  .z8-laf-thumb-btn span {
+    font-size: 0.78rem;
+  }
+}
+
+
+/* ==========================================================================
+   EXTRA SMALL MOBILE CALIBRATION (< 480px / 360px - 414px)
+   Garante zero overflow horizontal, grids fluidos em 1 coluna e toque ergonomico
+   ========================================================================== */
+@media screen and (max-width: 480px) {
+  .z8-laf-portal-wrapper {
+    overflow-x: clip !important;
+  }
+
+  .z8-laf-container {
+    padding: 0 0.65rem !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
+  }
+
+  .z8-laf-partner-topbar {
+    padding: 0.85rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .z8-laf-status-code {
+    font-size: 0.76rem !important;
+  }
+
+  .z8-laf-partner-identity {
+    font-size: 0.82rem !important;
+  }
+
+  .z8-laf-main-heading {
+    font-size: clamp(2rem, 9vw, 2.6rem) !important;
+  }
+
+  .z8-laf-hero-desc-box {
+    padding: 1rem !important;
+  }
+
+  .z8-laf-kpi-card strong {
+    font-size: 1.6rem !important;
+  }
+
+  .z8-laf-mod-tab {
+    padding: 0.75rem 0.85rem !important;
+    font-size: 0.84rem !important;
+  }
+
+  .z8-laf-cat-filters {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.4rem !important;
+  }
+
+  .z8-laf-filter-btn {
+    min-height: 46px !important;
+    font-size: 0.78rem !important;
+    padding: 0.5rem 0.4rem !important;
+  }
+
+  .z8-laf-col-40,
+  .z8-laf-col-60 {
+    padding: 0.95rem !important;
+    gap: 0.95rem !important;
+  }
+
+  .z8-laf-model-short {
+    font-size: clamp(1.9rem, 8.5vw, 2.45rem) !important;
+  }
+
+  .z8-laf-price-value {
+    font-size: clamp(1.85rem, 8.5vw, 2.35rem) !important;
+  }
+
+  .z8-laf-price-lote-box strong {
+    font-size: 1.12rem !important;
+  }
+
+  .z8-laf-quick-qty-btns {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.35rem !important;
+  }
+
+  .z8-laf-quick-qty-btns button {
+    min-height: 44px !important;
+    font-size: 0.82rem !important;
+    padding: 0.45rem 0.25rem !important;
+  }
+
+  .z8-laf-stepper {
+    padding: 3px !important;
+  }
+
+  .z8-laf-step-btn {
+    width: 48px !important;
+    height: 46px !important;
+    font-size: 1.3rem !important;
+  }
+
+  .z8-laf-step-input {
+    height: 46px !important;
+    font-size: 1.15rem !important;
+  }
+
+  .z8-laf-color-swatches-bar {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.4rem !important;
+  }
+
+  .z8-laf-color-chip {
+    min-height: 44px !important;
+    padding: 0.5rem 0.6rem !important;
+    font-size: 0.78rem !important;
+  }
+
+  .z8-laf-specs-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.4rem !important;
+  }
+
+  .z8-laf-spec-cell {
+    padding: 0.6rem 0.65rem !important;
+  }
+
+  .z8-laf-spec-v1 {
+    font-size: 0.94rem !important;
+  }
+
+  .z8-laf-summary-kpi strong {
+    font-size: 1.35rem !important;
+  }
+
+  .z8-laf-master-table-card {
+    padding: 0.85rem !important;
+  }
+
+  .z8-laf-deck-stage {
+    gap: 0.5rem !important;
+  }
+
+  .z8-laf-deck-canvas-wrap {
+    min-height: 180px !important;
+  }
+}

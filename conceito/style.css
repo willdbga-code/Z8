@@ -11564,30 +11564,73 @@ html {
   pointer-events: none;
 }
 
-.helmet-grid-item-img-helmet.z8-card-fit {
+/* === ARCHITECTURAL LAYERED VEHICLE CARD HOVER === */
+.helmet-grid-item-img-w {
+  position: absolute !important;
+  inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  max-width: none !important;
-  object-fit: cover !important;
-  object-position: center center !important;
-  transform: scale(1) !important;
-  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.65));
-  transition: filter 0.45s ease;
+  overflow: hidden !important;
+  border-radius: 7.5px !important;
+  z-index: 2 !important;
 }
 
+/* 1. Behind: Scenic Atmospheric Background Image */
+.helmet-grid-item-reveal-img,
 .helmet-grid-item-reveal-img.z8-card-fit-cover {
+  position: absolute !important;
+  inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
   object-position: center center !important;
   background-image: none !important;
-  transform: scale(1) !important;
-  z-index: 1;
-  transition: clip-path 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  z-index: 1 !important;
+  opacity: 0 !important;
+  clip-path: ellipse(0% 0% at 50% 50%) !important;
+  transform: scale(1.15) !important;
+  transition: clip-path 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  pointer-events: none !important;
 }
 
-.helmet-grid-item-w:hover .helmet-grid-item-reveal-img.z8-card-fit-cover {
-  clip-path: ellipse(150% 150% at 50% 0%) !important;
+.helmet-grid-item-w:hover .helmet-grid-item-reveal-img,
+.helmet-grid-item-w:hover .helmet-grid-item-reveal-img.z8-card-fit-cover,
+[data-helmet-item]:hover .helmet-grid-item-reveal-img {
+  opacity: 1 !important;
+  clip-path: ellipse(150% 150% at 50% 50%) !important;
+  transform: scale(1) !important;
+}
+
+/* 2. In Front: Transparent Vehicle Cutout (Always Forefront & Floating) */
+.helmet-grid-item-img-helmet-w {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+.helmet-grid-item-img-helmet,
+.helmet-grid-item-img-helmet.z8-card-fit {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: scale(1) translateY(0) !important;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.65)) !important;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease !important;
+}
+
+.helmet-grid-item-w:hover .helmet-grid-item-img-helmet,
+.helmet-grid-item-w:hover .helmet-grid-item-img-helmet.z8-card-fit,
+[data-helmet-item]:hover .helmet-grid-item-img-helmet {
+  transform: scale(1.08) translateY(-4px) !important;
+  filter: drop-shadow(0 18px 32px rgba(0, 240, 255, 0.38)) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.85)) !important;
 }
 
 .z8-helmet-top-telemetry {
@@ -12657,7 +12700,7 @@ canvas[data-rive-primary],
   object-fit: contain !important;
 }
 .home-hero-logo-wrap .is-home-marquee-sig-img.is-ln4-logo {
-  height: 2.8rem !important;
+  height: 1.2em !important;
   width: auto !important;
   object-fit: contain !important;
   filter: drop-shadow(0 4px 14px rgba(0, 240, 255, 0.35));
@@ -12675,7 +12718,7 @@ canvas[data-rive-primary],
 .page-ln4-svg .z8-nav-center-svg {
   width: 4.6rem !important;
   height: auto !important;
-  max-height: 2.4rem !important;
+  max-height: 1.2em !important;
   display: block;
 }
 
@@ -14590,5 +14633,435 @@ canvas[data-rive-object] {
 
   .z8-auth-menu-legal-links {
     gap: 0.75rem 1rem;
+  }
+
+  /* Editorial Manifesto on Small Mobile (< 480px / 360px - 414px) */
+  .impact-content-w.is-home {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: 100% !important;
+    overflow-x: clip !important;
+  }
+
+  .impact-text-w {
+    max-width: 100% !important;
+    overflow-x: clip !important;
+  }
+
+  .text-impact-lg-mona {
+    font-size: clamp(1.75rem, 7.5vw, 2.45rem) !important;
+    line-height: 1.05 !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    letter-spacing: -0.03rem !important;
+  }
+
+  .text-impact-lg-mona .span-font-brier,
+  .text-impact-lg-brier {
+    font-size: clamp(1.9rem, 8vw, 2.6rem) !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Horizontal Marquee Items on Mobile: Centered & Contained without Side Bleed */
+  .horizontal-item-w.is-home-1,
+  .horizontal-item-w.is-home-6,
+  .horizontal-item-w.is-part-i-1,
+  .horizontal-item-w.is-part-i-6,
+  .horizontal-item-w.is-part-i-9 {
+    left: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+
+/* ==========================================================================
+   OFFICIAL Z8 RESPONSIVE & FLUID FULLSCREEN HAMBURGER NAVIGATION SYSTEM
+   Bauhaus Typography & Automotive Geometry (Desktop, Tablet, Mobile)
+   ========================================================================== */
+
+/* 1. Base Fullscreen Nav Menu Layer */
+.nav-menu-w {
+  z-index: 99 !important;
+  background-color: rgba(6, 8, 13, 0.98) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  width: 100vw !important;
+  color: #F4F4ED !important;
+  height: 100svh !important;
+  min-height: 100dvh !important;
+  position: fixed !important;
+  inset: 0 !important;
+  display: none;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+.nav-menu-inner,
+.nav-menu-inner.c {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: none !important;
+  margin: 0 auto !important;
+  padding: 5rem 2rem 2.5rem 2rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. Grid Architecture & Column Balance */
+.nav-menu-grid {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 400px) minmax(320px, 1fr) !important;
+  gap: clamp(2rem, 4vw, 4.5rem) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* 3. Left Studio Photographic Showcase */
+.nav-menu-images-w {
+  display: flex !important;
+  width: 100% !important;
+  max-width: 400px !important;
+  height: auto !important;
+  max-height: 68vh !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(10, 15, 25, 0.6) !important;
+  padding: 0.5rem !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.nav-menu-images-track {
+  display: flex !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.nav-menu-images-col {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.5rem !important;
+  flex: 1 !important;
+  height: 100% !important;
+}
+
+.nav-menu-img-w {
+  border-radius: 4px !important;
+  overflow: hidden !important;
+  position: relative !important;
+  height: 160px !important;
+  background: #000 !important;
+}
+
+.nav-menu-img-w img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* 4. Right Navigation Links & Monolithic Typography */
+.nav-menu-links-w {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  gap: 1.25rem !important;
+  box-sizing: border-box !important;
+}
+
+.nav-menu-spacer {
+  display: none !important;
+}
+
+.nav-menu-links-col {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  gap: 1.25rem !important;
+}
+
+.nav-menu-links-list {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  gap: clamp(0.35rem, 1vw, 0.75rem) !important;
+}
+
+.nav-menu-link-w {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 1.2em !important;
+  line-height: 1.2 !important;
+  max-width: 100% !important;
+  overflow: clip !important;
+  text-decoration: none !important;
+  color: rgba(244, 244, 237, 0.85) !important;
+  transition: color 0.3s ease !important;
+  padding: 0 0.5rem !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+}
+
+.nav-menu-link-w:hover {
+  color: #00F0FF !important;
+}
+
+.nav-menu-link-w.w--current {
+  color: #FFFFFF !important;
+  pointer-events: none !important;
+}
+
+.text-nav-link {
+  font-family: 'Mona Sans Variable', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: clamp(1.4rem, 2.2vw, 2.35rem) !important;
+  line-height: 1.05 !important;
+  font-weight: 850 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.02em !important;
+  white-space: nowrap !important;
+  display: inline-block !important;
+  text-shadow: 0 1.6em !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#nav-menu-link-login .text-nav-link {
+  font-size: clamp(1.35rem, 2.1vw, 2.2rem) !important;
+  color: #00F0FF !important;
+}
+
+/* Indicator line under active current link */
+.nav-menu-link-current-svg {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 0px !important;
+  top: auto !important;
+  transform: translateX(-50%) !important;
+  width: min(85%, 260px) !important;
+  height: 8px !important;
+  pointer-events: none !important;
+  color: #00F0FF !important;
+  display: none !important;
+}
+
+.nav-menu-link-w.w--current .nav-menu-link-current-svg {
+  display: block !important;
+}
+
+/* 5. Minimalist Helmet Badge & Corporate Authority */
+.nav-helmet-rive-w {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.4rem !important;
+  margin-top: 0.5rem !important;
+}
+
+.base-helmet-rive-w {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+.nav-helmet-rive-w .text-eyebrow {
+  font-family: 'Mona Sans Variable', sans-serif !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: rgba(244, 244, 237, 0.45) !important;
+}
+
+/* 6. Footer Callouts & Social Action Buttons */
+.nav-menu-social-w {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.75rem !important;
+  margin-top: 0.75rem !important;
+  width: 100% !important;
+}
+
+.nav-menu-social-w > .text-link-w {
+  background: rgba(0, 240, 255, 0.08) !important;
+  border: 1px solid rgba(0, 240, 255, 0.35) !important;
+  border-radius: 4px !important;
+  padding: 0.45rem 1.1rem !important;
+  font-size: 0.74rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  color: #00F0FF !important;
+  text-decoration: none !important;
+  transition: all 0.25s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.nav-menu-social-w > .text-link-w:hover {
+  background: #00F0FF !important;
+  color: #07080B !important;
+  border-color: #00F0FF !important;
+}
+
+.callout-socials-links-layout {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5rem !important;
+  width: 100% !important;
+}
+
+.callout-socials-links-layout .text-link-w {
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-radius: 4px !important;
+  padding: 0.35rem 0.75rem !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: rgba(244, 244, 237, 0.75) !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.callout-socials-links-layout .text-link-w:hover {
+  border-color: #00F0FF !important;
+  color: #00F0FF !important;
+  background: rgba(0, 240, 255, 0.1) !important;
+}
+
+/* ==================== BREAKPOINT: TABLET (<= 1024px) ==================== */
+@media screen and (max-width: 1024px) {
+  .nav-menu-inner,
+  .nav-menu-inner.c {
+    padding: 5rem 1.5rem 2rem 1.5rem !important;
+    align-items: flex-start !important;
+  }
+
+  .nav-menu-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    max-width: 600px !important;
+  }
+
+  .nav-menu-images-w {
+    display: none !important;
+  }
+
+  .nav-menu-link-w {
+    height: 1.2em !important;
+  }
+
+  .text-nav-link {
+    font-size: clamp(1.3rem, 2.8vw, 1.95rem) !important;
+  }
+
+  #nav-menu-link-login .text-nav-link {
+    font-size: clamp(1.2rem, 2.6vw, 1.8rem) !important;
+  }
+}
+
+/* ==================== BREAKPOINT: MOBILE (<= 767px) ==================== */
+@media screen and (max-width: 767px) {
+  .nav-menu-w {
+    clip-path: none !important;
+    padding: 0 !important;
+  }
+
+  .nav-menu-inner,
+  .nav-menu-inner.c {
+    padding: 4.5rem 1rem 2.5rem 1rem !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  .nav-menu-grid {
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 1.25rem !important;
+  }
+
+  .nav-menu-images-w {
+    display: none !important;
+  }
+
+  .nav-menu-links-list {
+    gap: 0.35rem !important;
+    width: 100% !important;
+  }
+
+  .nav-menu-link-w {
+    height: 1.2em !important;
+    width: 100% !important;
+  }
+
+  .text-nav-link {
+    font-size: clamp(1.02rem, 4.2vw, 1.35rem) !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  #nav-menu-link-login .text-nav-link {
+    font-size: clamp(1rem, 4.0vw, 1.25rem) !important;
+  }
+
+  .nav-helmet-rive-w {
+    margin-top: 0.35rem !important;
+  }
+
+  .base-helmet-rive-w {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .nav-helmet-rive-w .text-eyebrow {
+    font-size: 0.65rem !important;
+  }
+
+  .nav-menu-social-w {
+    margin-top: 0.5rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .callout-socials-links-layout {
+    gap: 0.4rem !important;
+  }
+
+  .callout-socials-links-layout .text-link-w {
+    padding: 0.35rem 0.65rem !important;
+    font-size: 0.68rem !important;
   }
 }

@@ -342,15 +342,9 @@ export function syncAuthState() {
     }
 
     if (hudRows && hudRows.length >= 3) {
-      if (approved) {
-        hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong>${fmtBRL(model.wholesale)}</strong>`;
-        hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong>${fmtBRL(model.retail)}</strong>`;
-        hudRows[2].innerHTML = `<span>LUCRO LÍQUIDO</span><strong>+${fmtBRL(model.profit)} (${model.tag})</strong>`;
-      } else {
-        hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong>`;
-        hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong class="is-confidential"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>Sob Consulta</strong>`;
-        hudRows[2].innerHTML = `<span>MARKUP COMERCIAL</span><strong>${model.tag} (Margem ${model.marginPct}%)</strong>`;
-      }
+      hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong>${fmtBRL(model.wholesale)}</strong>`;
+      hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong>${fmtBRL(model.retail)}</strong>`;
+      hudRows[2].innerHTML = `<span>LUCRO LÍQUIDO</span><strong>+${fmtBRL(model.profit)} (${model.tag})</strong>`;
     }
 
     if (stepperBox) {
@@ -677,19 +671,13 @@ export function openZ8ModelDrawer(rawModelId) {
     `;
   } else {
     kpisHtml = `
-      <div class="z8-drawer-kpi is-confidential">
+      <div class="z8-drawer-kpi">
         <span>CUSTO ATACADO B2B</span>
-        <strong>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          Sob Consulta
-        </strong>
+        <strong style="color:#00F0FF;">${fmtBRL(model.wholesale)}</strong>
       </div>
-      <div class="z8-drawer-kpi is-confidential">
+      <div class="z8-drawer-kpi">
         <span>PREÇO VAREJO SUG.</span>
-        <strong>
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          Sob Consulta
-        </strong>
+        <strong>${fmtBRL(model.retail)}</strong>
       </div>
       <div class="z8-drawer-kpi is-lime">
         <span>MARGEM LÍQUIDA ESTIMADA</span>
@@ -887,17 +875,10 @@ function updateComparatorTable() {
   fillCell('comp-cnh-a', modelA.cnh || modelA.category);
   fillCell('comp-cnh-b', modelB.cnh || modelB.category);
 
-  if (approved) {
-    fillCell('comp-wholesale-a', `<strong>${fmtBRL(modelA.wholesale)}</strong>`);
-    fillCell('comp-wholesale-b', `<strong>${fmtBRL(modelB.wholesale)}</strong>`);
-    fillCell('comp-profit-a', `<strong style="color:#00F0FF;">+${fmtBRL(modelA.profit)} (${modelA.tag})</strong>`);
-    fillCell('comp-profit-b', `<strong style="color:#00F0FF;">+${fmtBRL(modelB.profit)} (${modelB.tag})</strong>`);
-  } else {
-    fillCell('comp-wholesale-a', `<span style="color:#F59E0B;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>`);
-    fillCell('comp-wholesale-b', `<span style="color:#F59E0B;"><i class="fa-solid fa-lock"></i> Sob Consulta</span>`);
-    fillCell('comp-profit-a', `<strong style="color:#00F0FF;">${modelA.tag} Markup</strong>`);
-    fillCell('comp-profit-b', `<strong style="color:#00F0FF;">${modelB.tag} Markup</strong>`);
-  }
+  fillCell('comp-wholesale-a', `<strong>${fmtBRL(modelA.wholesale)}</strong>`);
+  fillCell('comp-wholesale-b', `<strong>${fmtBRL(modelB.wholesale)}</strong>`);
+  fillCell('comp-profit-a', `<strong style="color:#00F0FF;">+${fmtBRL(modelA.profit)} (${modelA.tag})</strong>`);
+  fillCell('comp-profit-b', `<strong style="color:#00F0FF;">+${fmtBRL(modelB.profit)} (${modelB.tag})</strong>`);
 }
 
 // ==========================================================================
@@ -1259,6 +1240,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial load of Service Orders table & live event listener
   loadOSTable();
+  if (typeof fetchWarrantyOrdersFromFirestore === 'function') {
+    fetchWarrantyOrdersFromFirestore().then((res) => {
+      if (res && res.length) {
+        console.log('[Z8 Conceito-2] Ordens de Serviço sincronizadas com Firestore:', res.length);
+        loadOSTable();
+      }
+    }).catch(err => console.warn('[Z8 Conceito-2] Erro na busca de OS do Firestore:', err));
+  }
   window.addEventListener('z8-warranty-os-updated', () => {
     loadOSTable();
   });

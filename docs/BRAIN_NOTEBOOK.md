@@ -1834,3 +1834,56 @@ un-z8-wms.bat (Lançador 1-clique para Windows em modo janela nativa).
   - **Validação**:
     - Compilação `npm run build` bem-sucedida em 7.17s com todos os 8 entrypoints gerados.
     - Capturas automatizadas via Edge Headless CDP confirmando rendering 100% alinhado nos dois ambientes (`/conceito/` e `/conceito-2/`).
+
+
+### [2026-11-02] - Auditoria em Tempo Real de Responsividade e Resgate do Portal do Lojista (Conceito & Conceito 2)
+- **Diagnostico de Engenharia & Codigo Perdido Recuperado**:
+  - **Resgate Critico do CSS do Portal do Lojista**: No commit e1db54b, ao restaurar a versao pristina do Conceito 1, o arquivo de estilos do Portal (portal-lojista-laf.css) foi acidentalmente deletado do repositorio, deixando a secao #portal-lojista (renderizada via 
+enderPortalLojistaLAF()) completamente desprovida de estilos (raw unstyled HTML) em Conceito 2 e no ecossistema.
+  - **Restauracao & Blindagem Estrutural**: O arquivo foi recuperado com precisao cirurgica, calibrado e persistido tanto em conceito-2/portal-lojista-laf.css quanto em site-principal/portal-lojista-laf.css, sendo importado via @import em conceito-2/style.css e linkado em conceito-2/index.html.
+- **Calibracao de Responsividade Cross-Device (< 480px, 768px, 1024px, Desktop)**:
+  - **Tabelas de Pedidos & Fichas Tecnicas**: Aplicado overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; box-sizing: border-box; na classe .z8-laf-master-table-card eliminando estouros de layout causados pela tabela de atacado (min-width: 980px).
+  - **Manifesto Editorial (Secao 3 - Grandes Negocios)**: Escalonamento tipografico fluido via clamp(1.75rem, 7.5vw, 2.45rem) com word-break: break-word e overflow-x: clip, eliminando overflow horizontal de spans de destaque Brier em smartphones pequenos (360px - 414px).
+  - **Itens da Marquee Horizontal em Mobile**: Resetados left: 0 e margin-left: 0 nas classes .is-home-1, .is-home-6, .is-part-i-* no breakpoint < 479px, impedindo que os cards fossem empurrados 40% para fora da tela no scroll vertical.
+  - **Barra Inferior Flutuante (Sticky Order HUD)**: Ajustado touch target minimo do CTA para min-height: 44px, distribuicao em grid 2x2 com gap: 0.5rem em telas < 480px e ocultacao segura de divisores verticais obsoletos.
+  - **Modais de Abertura de OS & Admin Master**: Grid colapsado para 1 coluna (grid-template-columns: 1fr !important), padding interno seguro de 1.25rem 1rem e max-width: 95vw.
+  - **Conformidade Estrita com Geometria Bauhaus Z8**: Botoes com raio de 4px a 6px maximo, proibicao de botoes capsula/pill, e touch targets >= 44px validados em 100% dos elementos.
+- **Validacao Automatizada via CDP (Microsoft Edge Headless)**:
+  - 8 Viewports testados: 360x740, 390x844, 414x896, 480x850, 768x1024, 1024x768, 1366x768, 1920x1080.
+  - Resultado: delta = 0px de overflow horizontal em 100% dos viewports avaliados.
+  - Suite de 14 interacoes do Portal do Lojista (steppers, presets lote 10/40HQ, filtros de categoria, troca de slides, modais de OS e Auth) executadas com 100% de sucesso e zero runtime errors.
+  - Build de producao 
+pm run build gerado com sucesso em 5.64s.
+
+
+---
+
+## 29. ⚡ Separação Definitiva Conceito 1 vs Conceito 2 & Atualização dos 13 Modelos com Hover em Camadas e Animações Responsivas (02/11/2026)
+
+### A. Papéis Claros e Distintos dos Ambientes
+1. **Conceito 1 (`/conceito/`) — Flagship Motion & Showroom Visual**:
+   - Experiência completa com WebGL 3D, Carrossel interativo dos 13 modelos, simulador de lucratividade DRE e design cinemático nativo inspirado em landonorris.com.
+   - Desvinculado do desvio forçado `is-poslogin-direct`, permitindo que investidores e visitantes explorem toda a visão da marca e a frota completa.
+2. **Conceito 2 (`/conceito-2/`) — Portal do Lojista & Mesa de Atacado LAF 2026**:
+   - Experiência pós-login de alta conversão B2B, motor de montagem de pedidos de lote (mínimo 10 motos), ocupação em tempo real de contêiner 40HQ (pág. 24 do catálogo oficial), espelho de faturamento e minuta WhatsApp 1-Clique.
+   - Central de Ordens de Serviço (OS) com tabela interativa, filtros, cadastro de OS e sincronização em tempo real com o Cloud Firestore (`service_orders` e `wholesale_orders`).
+
+### B. Integração dos 2 Novos Modelos (Total de 13 Motos)
+- **Z8 Tank 2 Expedition (`z8-tank-2`)**:
+  - Código: `DB018-T2` | Categoria: `alta-velocidade` | CNH: `CNH A // Trail Expedition`
+  - Atacado: **R$ 8.500,00** | Varejo Sugerido: **R$ 12.500,00** | Lucro Bruto: **R$ 4.000,00** (+47,1% Markup / 32,0% Margem)
+  - Cores: Desert Amber, Midnight Black, Glacier White
+  - Cutout: `/assets/models/cutouts/z8_tank2_cutout.png` | Hover: `/assets/models/hover/z8_tank2_hover.jpg`
+- **Z8 FX-12 Sport (`z8-fx12`)**:
+  - Código: `DB043-FX12` | Categoria: `alta-velocidade` | CNH: `CNH A // Sport Touring`
+  - Atacado: **R$ 7.800,00** | Varejo Sugerido: **R$ 10.600,00** | Lucro Bruto: **R$ 2.800,00** (+35,9% Markup / 26,4% Margem)
+  - Cores: Lava Orange, Cyber Silver, Stealth Black
+  - Cutout: `/assets/models/cutouts/z8_fx12_cutout.png` | Hover: `/assets/models/hover/z8_fx12_hover.jpg`
+
+### C. Arquitetura de Hover em Camadas (Imagem Atrás da Moto)
+- **Camada 1 (Fundo, z-index: 1)**: `.helmet-grid-item-reveal-img` contém a fotografia de cenário/lifestyle real da moto em estrada/cidade (`/assets/models/hover/z8_*.jpg`). Por padrão está oculta (`opacity: 0; clip-path: ellipse(0% 0% at 50% 50%)`). No hover, expande suavemente com `clip-path: ellipse(150% 150% at 50% 50%)` e `opacity: 1`.
+- **Camada 2 (Frente, z-index: 3)**: `.helmet-grid-item-img-helmet-w` mantém o recorte transparente PNG da moto (`/assets/models/cutouts/z8_*.png`) sempre visível em primeiro plano. No hover, o recorte da moto escala suavemente (`scale(1.08) translateY(-4px)`) e ganha projeção de sombra tridimensional com aura ciano Z8, flutuando à frente do cenário que se revela no fundo.
+
+### D. Animações Cinéticas de Texto no Scroll Desbloqueadas (Duo, Tablet e Mobile)
+- No motor `public/assets/lando/lando-engine.js`, foi removida a restrição `window.innerWidth >= 992` que bloqueava a execução de `D7()`, `E7()` e `k7()` em telas menores que 992px.
+- Agora, as transições cinéticas de revelação de linhas com tarjas coloridas (`data-anim-high`), o split-text e os scrolls ovais são executados com precisão matemática em smartphones, dobráveis (Surface Duo / iPhone Duo) e tablets.
