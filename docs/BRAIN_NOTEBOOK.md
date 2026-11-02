@@ -1887,3 +1887,71 @@ pm run build gerado com sucesso em 5.64s.
 ### D. Animações Cinéticas de Texto no Scroll Desbloqueadas (Duo, Tablet e Mobile)
 - No motor `public/assets/lando/lando-engine.js`, foi removida a restrição `window.innerWidth >= 992` que bloqueava a execução de `D7()`, `E7()` e `k7()` em telas menores que 992px.
 - Agora, as transições cinéticas de revelação de linhas com tarjas coloridas (`data-anim-high`), o split-text e os scrolls ovais são executados com precisão matemática em smartphones, dobráveis (Surface Duo / iPhone Duo) e tablets.
+
+
+---
+
+## 30. 🏭 Z8 WMS (Warehouse Management System) & Technical Service Engine (02/11/2026)
+
+### A. Visão Geral da Arquitetura & Infraestrutura
+- **Diretório**: `z8-wms/`
+- **Servidor Autônomo**: `server.cjs` (puro Node.js HTTP/fs/path, zero dependências externas npm, porta `3300`).
+- **Scripts de Inicialização**: `run-z8-wms.bat` e comando npm `npm run wms`.
+- **Rotas Ativas**:
+  - Desktop Web Cockpit: `http://localhost:3300`
+  - Mobile Scanner LAN: `http://<IP_LOCAL>:3300/mobile-scanner/` (com QR Code dinâmico no cabeçalho do cockpit).
+  - Endpoints REST: `/api/status`, `/api/network-info`, `/api/sync`, `/api/db`, `/api/save-pdi`, `/api/elevators`, `/api/upload-photo`, `/api/vehicle/:vin`, `/api/update-status`.
+- **Persistência Offline-First**: Dexie.js (IndexedDB `'Z8_WMS_DATABASE'`) sincronizado automaticamente com snapshot JSON físico em `z8-wms/data/wms-database.json`.
+- **Bilinguismo Nativo em Paridade Total**: Português (Brasil) e Chinês (中文 简体) alternáveis em 1 clique via `z8-wms/i18n.js` com re-renderização reativa em tempo real.
+
+### B. Cockpit de Elevadores da Oficina (Padrão Franquia Z8 - 2 Elevadores Twin-Bay)
+- **Atendimento Estrito aos Manuais Z8**: Conformidade total com o requisito de 2 elevadores hidráulicos/pneumáticos para motos elétricas obrigatórios em todas as concessionárias.
+- **Painel Visual Twin-Bay no Centro Técnico (`#pane-workshop`)**:
+  - **Elevador 01 (Bay A - Primário)** e **Elevador 02 (Bay B - Secundário)** com telemetria em tempo real.
+  - Indicador de status: `OCUPADO // EM SERVIÇO` (Ciano/Âmbar) ou `DISPONÍVEL // LIVRE` (Verde Esmeralda).
+  - Foto do veículo em elevação, Chassi VIN, Modelo, Técnico Mecânico alocado, Tipo de Intervenção e Cronômetro de Duração do Serviço em minutos.
+  - Ações operacionais: `+ Alocar Moto no Elevador` (abre modal de escolha filtrando motos do pátio/oficina) e `Descer & Liberar Elevador` (registra movimentação imutável e libera a baía).
+
+### C. Inspeção Técnica PDI 24 Pontos (Desktop + Companion Mobile Scanner)
+- **Protocolo de Entrega Técnica CONTRAN 996 (24 Itens em 4 Clusters)**:
+  1. *Bateria, BMS & Sistema Elétrico*: Tensão nominal 60V/72V, proteção BMS contra subtensão, display LCD/TFT, faróis Halo duplo, setas/buzina 12V, Keyless NFC/alarme.
+  2. *Chassi, Suspensão & Pneus*: Gravação VIN na coluna de direção, calibração PSI a frio, integridade das válvulas, aperto das porcas de eixo com torquímetro, garfos hidráulicos sem vazamentos, amortecedores duplo damping.
+  3. *Freios Hidráulicos & Segurança*: Visor de nível DOT4 nos manetes, sangria sem ar, discos sem empeno, pastilhas alinhadas, microswitches de corte elétrico, sensor de descanso lateral.
+  4. *Motor Brushless & Transmissão*: Acelerador Hall progressivo, rotação sem ruídos magnéticos, chicote trifásico estanque, modos Eco/Standard/Sport, carregador bivolt e kit de entrega.
+- **Integração no Mobile Scanner (`z8-wms/mobile-scanner/`)**:
+  - Modal expansível de tela cheia para vistoriador de pátio inspecionar a moto diretamente do celular no elevador.
+  - Botão de 1 toque *Marcar Todos Conformes* (100% de aprovação rápida).
+  - Contador de conformidade reativo: `24/24 (100% CONFORME)`.
+  - Botão *Salvar e Aprovar PDI* sincroniza via `/api/save-pdi`, grava laudo, gera movimentação e altera status para `in_stock`.
+  - Botão *Reprovar PDI* move a moto para `in_service` e abre chamado para oficina.
+  - Feedback sonoro háptico (bips em frequências diferenciadas para aprovação/alerta).
+
+### D. Romaneio Oficial de Desembaraço Aduaneiro & Importação (进口与关务清单)
+- **Modal Formal de Desembaraço (`#modal-customs-manifest`)**:
+  - Header oficial com logotipo Z8, Razão Social `Z8 EMOTION LTDA.`, CNPJ `68.774.164/0001-00`, Foro de São José dos Campos - SP.
+  - Dados do Conhecimento de Embarque (Bill of Lading - BL), Fatura Comercial (Invoice), Porto de Origem (Ningbo/Shenzhen) e Porto de Destino (Porto de Santos).
+  - **Classificações Fiscais Aduaneiras (NCM / TIPI)**:
+    - `NCM 8711.60.00`: Motocicletas e ciclomotores elétricos (II: 20%, IPI: 0%, PIS: 2.10%, COFINS: 9.65%).
+    - `NCM 8507.60.00`: Baterias de íons de lítio 60V/72V (II: 16%, IPI: 0%, PIS: 2.10%, COFINS: 9.65%).
+    - `NCM 8501.31.20`: Motores elétricos de corrente contínua Brushless 1200W a 3000W.
+  - **Declaração de Mercadorias Perigosas (ONU / OACI / IMO)**:
+    - `UN 3171 - BATTERY-POWERED VEHICLE - CLASSE 9`.
+    - `UN 3480 - LITHIUM ION BATTERIES - CLASSE 9` com certificação de teste UN 38.3.
+  - Métricas de Carga: Quantidade de unidades em gaiolas de aço, Peso Bruto (GW), Peso Líquido (NW) e Cubagem (CBM).
+  - Tabela completa de chassis VIN com motor, bateria e pneus.
+  - Campos oficiais para assinatura do Despachante Aduaneiro Credenciado (SDA / RFB) e Diretor Técnico Z8 (CREA).
+  - Impressão otimizada A4 via `@media print`.
+
+### E. Mapa Visual de Baías 2D & Ações em Lote
+- **Visualizador 2D do Pátio**: Quatro setores (`Setor A - Saída`, `Setor B - Estoque Geral`, `Setor C - Triagem PDI`, `Setor D - Oficina & Elevadores`).
+- **Barra Flutuante de Ações em Lote**: Permite selecionar múltiplos chassis via checkboxes na tabela e executar em bloco:
+  - Impressão contínua de etiquetas térmicas com quebras de página.
+  - Despacho/faturamento em lote com escolha de destino.
+  - Movimentação coletiva para fila de PDI.
+  - Exportação instantânea de relatório CSV em formato UTF-8 com BOM (`\uFEFF`) e delimitador `;`.
+
+### F. Distribuição como Programa Executável Nativo do Windows (.exe)
+- **Executável Standalone Empacotado**: `z8-wms/dist-app/Z8-WMS-win32-x64/Z8-WMS.exe` (~238MB), compilado via `@electron/packager` com runtime dedicado, menu customizado, ícone `.ico` oficial embutido e operação offline sem necessidade de abrir abas de navegadores.
+- **Executável Launcher Raiz**: `Z8-WMS.exe` na raiz do repositório (`C:\Users\LENOVO\Desktop\Z8\Z8-WMS.exe`) compilado em C# nativo (`csc.exe`) com o ícone oficial da Z8, iniciando o executável silenciosamente em 1 clique.
+- **Atalho da Área de Trabalho**: Criado `C:\Users\LENOVO\Desktop\Z8 WMS.lnk` apontando diretamente para o executável com o ícone embutido.
+- **Bat de Inicialização Rápida**: `INICIAR_Z8_WMS.bat` e script de criação de atalho `CRIAR_ATALHO_DESKTOP.bat`.
