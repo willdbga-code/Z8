@@ -1,0 +1,23 @@
+{
+  "name": "z8-wms",
+  "version": "1.0.0",
+  "description": "Z8 E-Motion Warehouse Management System (WMS) - Bilingual Supply Chain, Stock & Workshop Engine",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "node server.cjs",
+    "electron": "npx electron main.cjs",
+    "dev": "node server.cjs"
+  },
+  "keywords": [
+    "z8",
+    "wms",
+    "electric-motorcycles",
+    "supply-chain",
+    "chassis-vin",
+    "workshop",
+    "bilingual"
+  ],
+  "author": "Z8 EMOTION LTDA.",
+  "license": "UNLICENSED",
+  "private": true
+}

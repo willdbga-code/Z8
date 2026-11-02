@@ -1,0 +1,316 @@
+/* ==========================================================================
+   Z8 MOBILE SCANNER // COMPANION STYLESHEET
+   Tactile, High-Contrast Bauhaus Dark Mobile Cockpit (#080B10, #00F0FF)
+   ========================================================================== */
+
+:root {
+  --bg-cockpit: #080B10;
+  --bg-card: #0F141E;
+  --border-subtle: #1C2433;
+  --color-cyan: #00F0FF;
+  --color-emerald: #10B981;
+  --color-amber: #F59E0B;
+  --color-crimson: #EF4444;
+  --text-main: #FFFFFF;
+  --text-muted: #8E9BAE;
+  --font-mono: 'JetBrains Mono', Consolas, monospace;
+  --btn-radius: 4px;
+  --card-radius: 6px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-cockpit);
+  color: var(--text-main);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  padding-bottom: 40px;
+}
+
+.mobile-header {
+  background: #0B0E15;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.m-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.m-logo {
+  height: 28px;
+  width: auto;
+}
+
+.m-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.m-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--color-cyan);
+  letter-spacing: 0.5px;
+}
+
+.m-sub {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.m-lang-btn {
+  background: #141A24;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+}
+
+.mobile-main {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Scanner Viewport */
+.scanner-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  padding: 14px;
+  text-align: center;
+}
+
+.scanner-header {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+#camera-reader-viewport {
+  width: 100%;
+  min-height: 220px;
+  background: #06080C;
+  border: 1px dashed #2A3648;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanner-controls {
+  margin-top: 12px;
+}
+
+/* Manual Input Box */
+.manual-input-card {
+  display: flex;
+  gap: 8px;
+}
+
+.m-input {
+  flex: 1;
+  background: #141A24;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--btn-radius);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 10px 12px;
+  outline: none;
+}
+.m-input:focus {
+  border-color: var(--color-cyan);
+}
+
+/* Tactile Buttons (Bauhaus 4px) */
+.m-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.m-btn-primary {
+  background: var(--color-cyan);
+  color: #000000;
+}
+.m-btn-secondary {
+  background: #141A24;
+  color: var(--text-main);
+  border-color: var(--border-subtle);
+}
+.m-btn-emerald {
+  background: var(--color-emerald);
+  color: #000000;
+}
+.m-btn-amber {
+  background: var(--color-amber);
+  color: #000000;
+}
+
+/* Vehicle Result Card */
+.vehicle-result-card {
+  background: #0E131C;
+  border: 1px solid var(--color-cyan);
+  border-radius: var(--card-radius);
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0, 240, 255, 0.1);
+  animation: fadeInResult 0.2s ease-in-out;
+}
+
+@keyframes fadeInResult {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.result-vin {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-cyan);
+}
+
+.result-status-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--btn-radius);
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.result-model {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.result-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #080B10;
+  padding: 10px;
+  border-radius: var(--card-radius);
+  margin-bottom: 14px;
+}
+
+.rg-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.rg-k {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.rg-v {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.yard-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+/* Photo Inspection */
+.photo-upload-section {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 14px;
+}
+
+.photo-upload-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #141A24;
+  border: 1px dashed var(--color-cyan);
+  border-radius: var(--btn-radius);
+  padding: 12px;
+  color: var(--color-cyan);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.upload-status {
+  font-size: 11px;
+  margin-top: 6px;
+  text-align: center;
+  color: var(--color-emerald);
+}
+
+.photo-preview-grid {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.photo-preview-thumb {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: var(--btn-radius);
+  border: 1px solid var(--border-subtle);
+}

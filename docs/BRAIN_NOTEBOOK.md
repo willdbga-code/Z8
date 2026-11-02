@@ -1782,3 +1782,35 @@ pm run build (5.64s), testes de resposta HTTP 200 OK no servidor local (/conceit
 - **Validação**:
   - `npm run build` compilado com 100% de sucesso em 8.75s.
   - Endpoints `/conceito/` e `/conceito-2/` validados e respondendo `200 OK`.
+
+
+### [2026-11-02] - Implementação do Z8 WMS (Warehouse Management System & Technical Service Engine)
+- **Escopo Concluído**:
+  - Construção do software executável e autônomo z8-wms para coordenação de estoque de motos, entradas, saídas, cores oficiais, rastreamento de chassis/VIN, histórico de reparos/OS, modificações/tuning homologados, medidas de pneus e almoxarifado de peças sobressalentes.
+  - **Suporte Bilíngue Nativo**: 1-click toggle reativo entre **Português (BR)** e **Chinês (中文 - 简体)** cobrindo todos os módulos, cards de KPI, tabelas e etiquetas térmicas.
+  - **Cockpit Automotivo Bauhaus Industrial**: Tema escuro (#080B10), HUD Ciano (#00F0FF), acentos esmeralda/âmbar, botões com cantos retangulares de 4px a 6px (proibição estrita de botões pílula).
+  - **Algoritmos Matemáticos Industriais**:
+    - EOQ (Economic Order Quantity / 经济订购批量):  = \sqrt{2DS/H}$.
+    - Estoque de Segurança com Lead Time de 45 dias da China.
+    - Pátio Aging & DMR (Dias Médios de Retenção) com semáforos verde, âmbar e vermelho.
+    - Giro de Estoque (Turnover Ratio) anualizado.
+    - Curva ABC com faturamento e valor patrimonial em pátio.
+  - **Base de Dados Local Privada (Offline-First)**:
+    - IndexedDB ultraveloz via Dexie.js (tabelas: ehicles, models, parts, 
+epairs, movements).
+    - Sincronização automática em segundo plano com arquivo JSON físico local z8-wms/data/wms-database.json via /api/sync.
+  - **Catálogo Homologado 2026 (27 Páginas) Pré-Semeado**:
+    - 11 modelos oficiais + variações Tank 2 GPS e FX-12 Smart, com fotos de estúdio, códigos de fábrica (DB018, DB043, XB-024, XB-010, DB039, DB001, DB043-Q11, DB045-N710, DB038, GS-005, GS-052), pneus dianteiro/traseiro e catálogo de cores com hex.
+  - **Gerador de Etiquetas Térmicas (100x50mm e 80x40mm)**:
+    - Renderização de Código de Barras Code-128 via JsBarcode, QR Code 2D via qrcode.js, dados do chassi, motor, bateria, pneus e certificação CONTRAN 996 com acionamento de impressão térmico roll direto.
+  - **Mobile Companion Scanner (z8-wms/mobile-scanner/)**:
+    - Web app para smartphones na mesma rede Wi-Fi local.
+    - Leitor de código de barras e QR em tempo real via câmera (Html5Qrcode).
+    - Captura direta de fotos da câmera do smartphone anexadas ao Chassi para PDI e laudos de avarias, enviadas para /api/upload-photo.
+    - Descoberta automática de IP local da máquina (http://<ip-local>:3300/mobile-scanner/) com exibição de QR Code de conexão rápida na tela desktop.
+  - **Lançadores Executáveis**:
+    - server.cjs (Servidor HTTP nativo Node.js na porta 3300 sem dependências externas).
+    - main.cjs (Electron desktop runner com ícone oficial Z8 e título em tela cheia).
+    - 
+un-wms.bat e 
+un-z8-wms.bat (Lançador 1-clique para Windows em modo janela nativa).

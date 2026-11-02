@@ -12,7 +12,7 @@
 | # | Modelo | Código | Categoria | Preço Atacado | Preço Varejo | Lucro Bruto | Markup | Margem |
 |---|---|---|---|---|---|---|---|---|
 | 1 | **Z8 Tank High-Speed** | `DB018` | alta-velocidade | **R$ 7.500,00** | R$ 9.500,00 | + R$ .000,00 | 26.7% | 21.1%% |
-| 2 | **Z8 FX-10 Sport** | `DB043` | alta-velocidade | **R$ 6.200,00** | R$ 9.000,00 | + R$ 2.800,00 | 45.2% | 31.1% |
+| 2 | **Z8 FX-10 Sport** | `DB043` | alta-velocidade | **R$ 6.700,00** | R$ 9.000,00 | + R$ 2.300,00 | 34.3% | 25.6% |
 | 3 | **Z8 Harley X12 Custom** | `XB-024` | custom | **R$ 6.500,00** | R$ 8.000,00 | + R$ .500,00 | 23.1% | 18.8%% |
 | 4 | **Z8 U2 Delivery Cargo** | `XB-026` | utilitaria | **R$ 6.000,00** | R$ 7.500,00 | + R$ .500,00 | 25.0% | 20.0%% |
 | 5 | **Z8 N95C Max Comfort** | `DB039` | urbana | **R$ 6.500,00** | R$ 8.000,00 | + R$ .500,00 | 23.1% | 18.8%% |
@@ -43,8 +43,8 @@
 
 ### Modelo 02: Z8 FX-10 Sport (DB043)
 - **Categoria:** ALTA-VELOCIDADE • **Tag:** Linha Exclusiva Franquia
-- **Preço de Atacado:** **R$ 6.200,00**
-- **Preço Sugerido Varejo:** **R$ 9.000,00** (Lucro por unidade: + R$ 2.800,00 • Markup: 45.2%)
+- **Preço de Atacado:** **R$ 6.700,00**
+- **Preço Sugerido Varejo:** **R$ 9.000,00** (Lucro por unidade: + R$ 2.300,00 • Markup: 34.3%)
 - **Motorização:** 1000W High Performance
 - **Velocidade Homologada:** 32 km/h (Limitada CONTRAN)
 - **Autonomia Estimada:** Até 40 km (Bateria 60V 20Ah)

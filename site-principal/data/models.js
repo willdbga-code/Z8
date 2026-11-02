@@ -38,11 +38,11 @@ export const z8Models = [
     tires: '130/60/10 Pneu de Vácuo Esportivo',
     chassis: 'Quadro Aço Carbono Esportivo Reforçado',
     features: ['Carenagem Aerodinâmica com Assinatura FX', 'Duplo Disco Hidráulico 180mm', 'Suspensão Amortecedora com Mola Damping', 'Entrada USB Fast Charge'],
-    wholesalePrice: 6200,
+    wholesalePrice: 6700,
     retailPrice: 9000,
-    profit: 2800,
-    markupPct: 45.2,
-    marginPct: 31.1,
+    profit: 2300,
+    markupPct: 34.3,
+    marginPct: 25.6,
     description: 'Scooter esportiva de alta performance (Base Foshan DB043). Motor sem escova de 1500W, controlador 12G-38A, pneus largos 130mm e duplo freio a disco 180mm.'
   },
   {

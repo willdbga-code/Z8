@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Z8 Mobile Scanner // 扫码端</title>
+  <link rel="icon" type="image/png" href="../assets/logos/z8_minimal_cropped.png">
+  <link rel="stylesheet" href="mobile.css">
+  
+  <!-- Embedded libraries -->
+  <script src="../libs/html5-qrcode.min.js"></script>
+  <script src="../libs/dexie.min.js"></script>
+</head>
+<body>
+
+  <!-- Top Mobile Bar -->
+  <header class="mobile-header">
+    <div class="m-brand">
+      <img src="../assets/logos/z8_minimal_cropped.png" alt="Z8" class="m-logo">
+      <div class="m-brand-text">
+        <span class="m-title">Z8 MOBILE SCANNER</span>
+        <span class="m-sub">车间移动扫码与验车终端</span>
+      </div>
+    </div>
+    <button class="m-lang-btn" id="m-btn-lang">中文</button>
+  </header>
+
+  <main class="mobile-main">
+
+    <!-- Scanner Viewport Box -->
+    <div class="scanner-card">
+      <div class="scanner-header">
+        <span id="txt-scan-prompt">Aponte a câmera para o Chassi / QR Code:</span>
+      </div>
+
+      <div id="camera-reader-viewport"></div>
+
+      <div class="scanner-controls">
+        <button class="m-btn m-btn-primary" id="btn-toggle-camera">
+          <span id="icon-cam">📷</span>
+          <span id="txt-cam-action">Ativar Câmera</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Manual VIN Search Box -->
+    <div class="manual-input-card">
+      <input type="text" id="manual-chassis-input" placeholder="Ou digite o Chassi VIN manualmente..." class="m-input">
+      <button class="m-btn m-btn-secondary" id="btn-manual-search">Buscar</button>
+    </div>
+
+    <!-- Scanned Chassis Details Result Box -->
+    <div class="vehicle-result-card" id="vehicle-result-box" style="display: none;">
+      <div class="result-header">
+        <span class="result-vin" id="res-vin">Z8-DB018-2026-0001</span>
+        <span class="result-status-badge" id="res-status-badge">EM PÁTIO</span>
+      </div>
+
+      <div class="result-model" id="res-model-name">Z8 Tank High-Speed 2000W</div>
+      <div class="result-meta" id="res-code-base">PN: DB018 // Base Norte</div>
+
+      <div class="result-grid">
+        <div class="rg-item">
+          <span class="rg-k">PNEUS:</span>
+          <span class="rg-v" id="res-tires">110/70-12 / 110/70-12</span>
+        </div>
+        <div class="rg-item">
+          <span class="rg-k">COR:</span>
+          <span class="rg-v" id="res-color">Desert Sand</span>
+        </div>
+        <div class="rg-item">
+          <span class="rg-k">MOTOR:</span>
+          <span class="rg-v" id="res-motor">2000W 15G</span>
+        </div>
+        <div class="rg-item">
+          <span class="rg-k">BATERIA:</span>
+          <span class="rg-v" id="res-battery">60V 20Ah</span>
+        </div>
+      </div>
+
+      <!-- Quick Actions for Yard Operators -->
+      <div class="yard-actions">
+        <button class="m-btn m-btn-emerald" id="btn-quick-pdi">
+          ✓ PDI Aprovado
+        </button>
+        <button class="m-btn m-btn-amber" id="btn-quick-service">
+          ⚠️ Enviar p/ Oficina
+        </button>
+      </div>
+
+      <!-- Photo Inspection Upload Section -->
+      <div class="photo-upload-section">
+        <label class="photo-upload-btn">
+          <span>📸 Tirar Foto de Inspeção (PDI / Avaria)</span>
+          <input type="file" id="camera-file-input" accept="image/*" capture="environment" style="display: none;">
+        </label>
+        <div id="upload-status-text" class="upload-status"></div>
+        <div id="photo-preview-grid" class="photo-preview-grid"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="mobile.js"></script>
+</body>
+</html>

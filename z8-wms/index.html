@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Z8 WMS // WAREHOUSE MANAGEMENT SYSTEM // 仓储管理系统</title>
+  <link rel="icon" type="image/png" href="assets/logos/z8_minimal_cropped.png">
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Offline Embedded Client Libraries -->
+  <script src="libs/dexie.min.js"></script>
+  <script src="libs/JsBarcode.all.min.js"></script>
+  <script src="libs/qrcode.js"></script>
+</head>
+<body>
+
+  <!-- ================= TOP WMS COCKPIT HEADER ================= -->
+  <header class="wms-header">
+    <div class="header-left">
+      <img src="assets/logos/z8_official_cyan.png" alt="Z8 E-Motion" class="header-logo" onerror="this.src='assets/logos/logo_z8_main.png'">
+      <div class="brand-meta">
+        <span class="brand-title" data-i18n="cockpitOperational">Z8 WMS // COCKPIT OPERACIONAL</span>
+        <span class="brand-sub" data-i18n="appSubtitle">Sistema de Gestão de Estoque, Pátio, Chassi & Oficina Técnica</span>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="status-badge-live">
+        <span class="pulse-dot"></span>
+        <span data-i18n="storageStatus">BASE DE DADOS LOCAL OFFLINE // SINCRONIZADA</span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button class="btn-bauhaus btn-secondary btn-sm" id="btn-mobile-connect">
+        <span>📱</span>
+        <span data-i18n="connectedMobileLabel">CONECTAR SCANNER MOBILE</span>
+      </button>
+
+      <button class="btn-bauhaus btn-secondary btn-sm" id="btn-export-backup" data-i18n="btnExportBackup">
+        Exportar Backup JSON
+      </button>
+
+      <button class="btn-bauhaus btn-primary btn-sm" id="btn-lang-toggle">
+        中文 (简体)
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= NAVIGATION BAR ================= -->
+  <nav class="wms-nav">
+    <div class="nav-tabs">
+      <button class="nav-tab-btn active" data-tab="dashboard">
+        <span>📊</span>
+        <span data-i18n="tabDashboard">Painel & KPIs</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="vehicles">
+        <span>🏍️</span>
+        <span data-i18n="tabVehicles">Pátio & Chassis VIN</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="movements">
+        <span>📦</span>
+        <span data-i18n="tabMovements">Entradas & Saídas</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="workshop">
+        <span>🔧</span>
+        <span data-i18n="tabWorkshop">Oficina & Ordens de Serviço</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="parts">
+        <span>⚙️</span>
+        <span data-i18n="tabParts">Peças & Pneus</span>
+      </button>
+      <button class="nav-tab-btn" data-tab="new-model">
+        <span>🚀</span>
+        <span data-i18n="tabNewModel">Modelos & Lançamentos</span>
+      </button>
+    </div>
+
+    <div class="nav-quick-actions">
+      <button class="btn-bauhaus btn-emerald btn-sm" id="btn-quick-inflow" data-i18n="btnNewInflow">
+        + Nova Entrada
+      </button>
+      <button class="btn-bauhaus btn-secondary btn-sm" id="btn-quick-container" data-i18n="btnImportContainer">
+        Importar Container
+      </button>
+    </div>
+  </nav>
+
+  <!-- ================= MAIN CONTAINER ================= -->
+  <main class="wms-container">
+
+    <!-- ================= TAB 1: DASHBOARD & KPIS ================= -->
+    <section class="tab-pane active" id="pane-dashboard">
+      <!-- KPI Top Grid -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-highlight-cyan">
+          <div class="kpi-header">
+            <span class="kpi-title" data-i18n="kpiTotalVehicles">Motos em Pátio</span>
+            <span class="kpi-icon">🏍️</span>
+          </div>
+          <div class="kpi-value" id="kpi-total-vehicles">0</div>
+          <div class="kpi-sub">Total de unidades físicas</div>
+        </div>
+
+        <div class="kpi-card kpi-highlight-amber">
+          <div class="kpi-header">
+            <span class="kpi-title" data-i18n="kpiPdiQueue">Em Inspeção PDI</span>
+            <span class="kpi-icon">🔍</span>
+          </div>
+          <div class="kpi-value" id="kpi-pdi-count">0</div>
+          <div class="kpi-sub">Aguardando liberação técnica</div>
+        </div>
+
+        <div class="kpi-card kpi-highlight-crimson">
+          <div class="kpi-header">
+            <span class="kpi-title" data-i18n="kpiInWorkshop">Em Reparo / OS</span>
+            <span class="kpi-icon">⚙️</span>
+          </div>
+          <div class="kpi-value" id="kpi-service-count">0</div>
+          <div class="kpi-sub">Ordens de serviço abertas</div>
+        </div>
+
+        <div class="kpi-card kpi-highlight-emerald">
+          <div class="kpi-header">
+            <span class="kpi-title" data-i18n="kpiReadyToShip">Prontas p/ Saída</span>
+            <span class="kpi-icon">✅</span>
+          </div>
+          <div class="kpi-value" id="kpi-ready-count">0</div>
+          <div class="kpi-sub">Liberadas para concessionárias</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title" data-i18n="kpiTurnoverRate">Giro de Estoque</span>
+            <span class="kpi-icon">🔄</span>
+          </div>
+          <div class="kpi-value" id="kpi-turnover-rate">0.0x</div>
+          <div class="kpi-sub">Índice anualizado</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title" data-i18n="kpiAvgRetentionDays">Idade no Pátio (DMR)</span>
+            <span class="kpi-icon">⏱️</span>
+          </div>
+          <div class="kpi-value" id="kpi-avg-retention">0 dias</div>
+          <div class="kpi-sub">Tempo médio de permanência</div>
+        </div>
+
+        <div class="kpi-card kpi-highlight-cyan">
+          <div class="kpi-header">
+            <span class="kpi-title" data-i18n="kpiInventoryValue">Valor Patrimonial</span>
+            <span class="kpi-icon">💰</span>
+          </div>
+          <div class="kpi-value" id="kpi-inventory-value">R$ 0</div>
+          <div class="kpi-sub">Custo de aquisição atacado</div>
+        </div>
+      </div>
+
+      <!-- Inventory Breakdown by Model -->
+      <div class="cockpit-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="panel-title">DISTRIBUIÇÃO DE ESTOQUE POR MODELO // 车型库存分布</span>
+            <span class="panel-subtitle">Classificação Curva ABC & Capacidade de Container 40HQ</span>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-bauhaus btn-secondary btn-sm" id="btn-refresh-dashboard">
+              Atualizar Dados
+            </button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="wms-table" id="dashboard-models-table">
+            <thead>
+              <tr>
+                <th>Código Fábrica</th>
+                <th>Modelo Z8</th>
+                <th>Polo de Origem</th>
+                <th>Pneus Diant./Tras.</th>
+                <th>Em Pátio</th>
+                <th>PDI / OS</th>
+                <th>Disponível</th>
+                <th>Capacidade 40HQ</th>
+                <th>Preço Atacado</th>
+                <th>Valor em Pátio</th>
+                <th>Curva ABC</th>
+              </tr>
+            </thead>
+            <tbody id="dashboard-models-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 2: VEHICLES & CHASSIS ================= -->
+    <section class="tab-pane" id="pane-vehicles">
+      <div class="cockpit-panel">
+        <!-- Filter Toolbar -->
+        <div class="toolbar-grid">
+          <div class="search-input-box">
+            <span class="search-icon-pos">🔍</span>
+            <input type="text" class="search-input" id="search-chassis-input" placeholder="Buscar por Chassi VIN, Lote ou Motor..." data-i18n-placeholder="searchChassisPlaceholder">
+          </div>
+
+          <select class="filter-select" id="filter-model-select">
+            <option value="" data-i18n="filterAllModels">Todos os Modelos</option>
+          </select>
+
+          <select class="filter-select" id="filter-status-select">
+            <option value="" data-i18n="filterAllStatus">Todos os Status</option>
+            <option value="in_stock" data-i18n="statusInStock">Em Pátio (Livre)</option>
+            <option value="pdi_inspection" data-i18n="statusPdiInspection">Inspeção PDI</option>
+            <option value="in_service" data-i18n="statusInService">Oficina / Reparo</option>
+            <option value="ready_to_ship" data-i18n="statusReadyToShip">Liberado / Faturado</option>
+            <option value="delivered" data-i18n="statusDelivered">Expedido / Entregue</option>
+          </select>
+
+          <select class="filter-select" id="filter-color-select">
+            <option value="" data-i18n="filterAllColors">Todas as Cores</option>
+          </select>
+
+          <button class="btn-bauhaus btn-primary" id="btn-open-single-vehicle-modal" data-i18n="btnAddNewVehicle">
+            + Inserir Chassi
+          </button>
+        </div>
+
+        <!-- Table of Vehicles -->
+        <div class="table-responsive">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th data-i18n="thChassis">Chassi / VIN</th>
+                <th data-i18n="thModel">Modelo & Código Fábrica</th>
+                <th data-i18n="thColor">Cor de Fábrica</th>
+                <th data-i18n="thTires">Dimensões dos Pneus</th>
+                <th data-i18n="thBatteryMotor">Motor / Bateria</th>
+                <th data-i18n="thEntryDate">Data Entrada</th>
+                <th data-i18n="thAging">Idade no Pátio</th>
+                <th data-i18n="thStatus">Status Atual</th>
+                <th data-i18n="thActions">Ações Rápidas</th>
+              </tr>
+            </thead>
+            <tbody id="vehicles-table-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: MOVEMENTS & CONTAINER ================= -->
+    <section class="tab-pane" id="pane-movements">
+      <div class="cockpit-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="panel-title" data-i18n="movementsTitle">Livro Registro de Movimentações de Estoque</span>
+            <span class="panel-subtitle">Auditoria Imutável de Cargas, Desembaraço Aduaneiro e Faturamento</span>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-bauhaus btn-emerald btn-sm" id="btn-open-container-modal-2" data-i18n="btnImportContainer">
+              Importar Container 40HQ
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th data-i18n="thMovementId">ID Movimento</th>
+                <th data-i18n="thMovementType">Tipo Operação</th>
+                <th data-i18n="thMovementDate">Data & Hora</th>
+                <th data-i18n="thMovementChassis">Chassi VIN</th>
+                <th data-i18n="thMovementModel">Modelo</th>
+                <th data-i18n="thMovementDoc">Documento / Lote / Container</th>
+                <th data-i18n="thMovementDest">Origem / Destino</th>
+                <th data-i18n="thMovementUser">Responsável</th>
+              </tr>
+            </thead>
+            <tbody id="movements-table-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 4: WORKSHOP & SERVICE ORDERS ================= -->
+    <section class="tab-pane" id="pane-workshop">
+      <div class="cockpit-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="panel-title" data-i18n="workshopTitle">Centro Técnico & Gestão de Ordens de Serviço (OS)</span>
+            <span class="panel-subtitle" data-i18n="workshopSubtitle">Controle de falhas elétricas, pneus, balanceamento e peças sobressalentes</span>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-bauhaus btn-primary btn-sm" id="btn-create-os-trigger" data-i18n="btnCreateOs">
+              + Nova Ordem de Serviço (OS)
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th data-i18n="thOsNumber">OS Nº</th>
+                <th data-i18n="thOsChassis">Chassi / Modelo</th>
+                <th data-i18n="thOsFaultType">Tipo de Ocorrência</th>
+                <th data-i18n="thOsMechanic">Técnico Responsável</th>
+                <th data-i18n="thOsPartsDeducted">Peças Deduzidas</th>
+                <th data-i18n="thOsOpenedAt">Data de Abertura</th>
+                <th data-i18n="thOsStatus">Status da OS</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="repairs-table-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 5: SPARE PARTS & TIRES ================= -->
+    <section class="tab-pane" id="pane-parts">
+      <div class="cockpit-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="panel-title" data-i18n="partsTitle">Almoxarifado de Peças Sobressalentes & Pneus Oficiais</span>
+            <span class="panel-subtitle" data-i18n="partsSubtitle">BOM oficial da fábrica com cálculo de ponto de reposição (EOQ)</span>
+          </div>
+          <div class="panel-actions">
+            <button class="btn-bauhaus btn-primary btn-sm" id="btn-open-part-modal" data-i18n="btnAddNewPart">
+              + Nova Peça / Pneu
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table class="wms-table">
+            <thead>
+              <tr>
+                <th data-i18n="thPartNumber">Código da Peça (PN)</th>
+                <th data-i18n="thPartName">Descrição Técnica</th>
+                <th data-i18n="thPartCategory">Categoria</th>
+                <th data-i18n="thPartTireDim">Medida Pneu / Aro</th>
+                <th data-i18n="thPartCompatible">Modelos Compatíveis</th>
+                <th data-i18n="thPartStock">Estoque Atual</th>
+                <th data-i18n="thPartMinStock">Estoque Mínimo</th>
+                <th data-i18n="thPartEoq">Lote Econômico (EOQ)</th>
+                <th data-i18n="thPartCost">Custo Unitário</th>
+                <th data-i18n="thPartStatus">Situação</th>
+              </tr>
+            </thead>
+            <tbody id="parts-table-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 6: NEW MODEL MANAGER ================= -->
+    <section class="tab-pane" id="pane-new-model">
+      <div class="cockpit-panel">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="panel-title" data-i18n="newModelTitle">Gerenciador de Modelos Homologados Z8</span>
+            <span class="panel-subtitle" data-i18n="newModelSubtitle">Cadastre novas motos, versões e variações técnicas que venham da China</span>
+          </div>
+        </div>
+
+        <div style="padding: 24px;">
+          <form id="form-new-model" class="form-grid">
+            <div class="form-group">
+              <label data-i18n="lblModelName">Nome Comercial do Modelo:</label>
+              <input type="text" class="form-input" id="nm-name" required placeholder="ex: Z8 Tank 3 GT">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblModelNameCn">Nome Chinês (中文):</label>
+              <input type="text" class="form-input" id="nm-name-cn" placeholder="ex: Z8 坦克3代极速版">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblFactoryCode">Código de Fábrica (PN):</label>
+              <input type="text" class="form-input" id="nm-code" required placeholder="ex: DB018-GT">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblFactoryBase">Polo Industrial:</label>
+              <select class="form-select" id="nm-base">
+                <option value="Base Norte (Northern Base)">Base Norte (Northern Base)</option>
+                <option value="Bases de Foshan & Huizhou">Bases de Foshan & Huizhou</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblCategory">Categoria:</label>
+              <select class="form-select" id="nm-category">
+                <option value="alta-velocidade">Alta Velocidade / Trail</option>
+                <option value="urbana">Urbana / Scooter</option>
+                <option value="vintage">Vintage / Clássica</option>
+                <option value="custom">Custom / Chopper</option>
+                <option value="utilitaria">Utilitária / Carga</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblMotorSpec">Especificação do Motor:</label>
+              <input type="text" class="form-input" id="nm-motor" required placeholder="ex: 2000W High Torque Sem Escova">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblControllerSpec">Controlador FOC:</label>
+              <input type="text" class="form-input" id="nm-controller" placeholder="ex: 15G Módulo Reforçado">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblBatterySpec">Bateria Suportada:</label>
+              <input type="text" class="form-input" id="nm-battery" placeholder="ex: Lítio 60V 20Ah / Suporta 72V 125Ah">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblTireFront">Pneu Dianteiro:</label>
+              <input type="text" class="form-input" id="nm-tire-front" required placeholder="ex: 110/70-12">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblTireRear">Pneu Traseiro:</label>
+              <input type="text" class="form-input" id="nm-tire-rear" required placeholder="ex: 110/70-12">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblWholesalePrice">Preço Atacado (R$):</label>
+              <input type="number" class="form-input" id="nm-wholesale" required placeholder="7500">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblRetailPrice">Preço Varejo Sugerido (R$):</label>
+              <input type="number" class="form-input" id="nm-retail" required placeholder="11500">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblContainer40HQ">Capacidade 40HQ (pcs):</label>
+              <input type="number" class="form-input" id="nm-40hq" placeholder="85">
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="lblAvailableColors">Cores Disponíveis (separadas por vírgula):</label>
+              <input type="text" class="form-input" id="nm-colors" placeholder="Preto Fosco, Cinza Nardo, Desert Sand">
+            </div>
+
+            <div class="form-group form-group-full">
+              <label data-i18n="lblModelFeatures">Diferenciais Técnicos (1 por linha):</label>
+              <textarea class="form-textarea" id="nm-features" placeholder="Partida Keyless NFC&#10;Farol Duplo LED Halo&#10;GPS 4G Integrado"></textarea>
+            </div>
+
+            <div class="form-group form-group-full" style="display: flex; justify-content: flex-end; margin-top: 10px;">
+              <button type="submit" class="btn-bauhaus btn-emerald" data-i18n="btnSaveNewModel">
+                Salvar Modelo no Catálogo Homologado
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- 1. MODAL: CONTAINER 40HQ BATCH INFLOW -->
+  <div class="modal-overlay" id="modal-container-batch">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="modalContainerTitle">Entrada em Lote de Container 40HQ</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-container-batch" class="form-grid">
+          <div class="form-group">
+            <label data-i18n="lblContainerNumber">Número do Container / BL:</label>
+            <input type="text" class="form-input" id="cb-number" required placeholder="ex: CN-40HQ-2026-089">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblSelectModel">Modelo do Container:</label>
+            <select class="form-select" id="cb-model-select" required></select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblQuantity">Quantidade no Lote (pcs):</label>
+            <input type="number" class="form-input" id="cb-quantity" required min="1" max="500" value="10">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblChassisPrefix">Prefixo do Chassi (VIN):</label>
+            <input type="text" class="form-input" id="cb-prefix" required value="Z8-DB018-2026-">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblStartSequence">Número Inicial da Sequência:</label>
+            <input type="number" class="form-input" id="cb-start-seq" required value="1001">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblTireSpecification">Pneus Padrão de Montagem:</label>
+            <input type="text" class="form-input" id="cb-tire-spec" readonly>
+          </div>
+
+          <div class="form-group form-group-full">
+            <label data-i18n="lblEntryNotes">Observações de Importação / Vistoria:</label>
+            <textarea class="form-textarea" id="cb-notes" placeholder="Desembarque no porto, inspeção física de caixas de aço..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnCancel">Cancelar</button>
+        <button class="btn-bauhaus btn-emerald" id="btn-submit-container-batch" data-i18n="btnProcessContainerInflow">
+          Confirmar Entrada no Pátio
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MODAL: VEHICLE PASSPORT / DETAILS -->
+  <div class="modal-overlay" id="modal-vehicle-passport">
+    <div class="modal-box" style="max-width: 900px;">
+      <div class="modal-header">
+        <span class="modal-title" id="vp-modal-title">Ficha Técnica do Chassi</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body" id="vp-modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnClose">Fechar</button>
+        <button class="btn-bauhaus btn-primary" id="vp-btn-print-label" data-i18n="btnPrintSticker">Imprimir Etiqueta</button>
+        <button class="btn-bauhaus btn-emerald" id="vp-btn-open-os" data-i18n="btnOpenOs">Abrir OS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. MODAL: THERMAL LABEL PRINT -->
+  <div class="modal-overlay" id="modal-thermal-label">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="labelTitle">Impressão de Etiqueta Térmica</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 10px; margin-bottom: 14px; align-items: center;">
+          <label style="font-family: var(--font-mono); font-size: 11px; font-weight: 700;" data-i18n="labelSelectSize">Formato:</label>
+          <select class="form-select" id="thermal-size-select" style="width: auto;">
+            <option value="100x50" data-i18n="labelSize100x50">100 x 50 mm (Industrial)</option>
+            <option value="80x40" data-i18n="labelSize80x40">80 x 40 mm (Compacta)</option>
+          </select>
+        </div>
+
+        <div class="thermal-preview-container" id="thermal-preview-mount">
+          <!-- Thermal sticker rendered here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnClose">Fechar</button>
+        <button class="btn-bauhaus btn-primary" id="btn-trigger-print" data-i18n="btnPrintNow">
+          Imprimir Agora
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. MODAL: SERVICE ORDER (OS) CREATION -->
+  <div class="modal-overlay" id="modal-create-os">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="btnCreateOs">Nova Ordem de Serviço (OS)</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-create-os" class="form-grid">
+          <div class="form-group">
+            <label>Chassi VIN:</label>
+            <select class="form-select" id="os-chassis-select" required></select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="thOsMechanic">Técnico Responsável:</label>
+            <input type="text" class="form-input" id="os-mechanic" required value="Roberto Mecânico Chefe">
+          </div>
+
+          <div class="form-group form-group-full">
+            <label data-i18n="thOsFaultType">Tipo de Intervenção / Ocorrência:</label>
+            <select class="form-select" id="os-fault-type">
+              <option value="PDI Pré-Entrega Concessionária">PDI Pré-Entrega Concessionária</option>
+              <option value="Falha Elétrica / Módulo Controlador">Falha Elétrica / Módulo Controlador</option>
+              <option value="Ajuste / Substituição de Sensor Hall">Ajuste / Substituição de Sensor Hall</option>
+              <option value="Troca / Balanceamento de Pneus">Troca / Balanceamento de Pneus</option>
+              <option value="Instalação Módulo GPS 4G">Instalação Módulo GPS 4G</option>
+              <option value="Instalação Baú de Carga 120L">Instalação Baú de Carga 120L</option>
+              <option value="Sangria e Ajuste de Freios Hidráulicos">Sangria e Ajuste de Freios Hidráulicos</option>
+              <option value="Recall Preventivo Fábrica">Recall Preventivo Fábrica</option>
+            </select>
+          </div>
+
+          <div class="form-group form-group-full">
+            <label>Peça Sobressalente a Deduzir do Estoque:</label>
+            <select class="form-select" id="os-part-select">
+              <option value="">Nenhuma peça (Apenas mão de obra / inspeção)</option>
+            </select>
+          </div>
+
+          <div class="form-group form-group-full">
+            <label>Descrição do Diagnóstico & Reparo:</label>
+            <textarea class="form-textarea" id="os-description" placeholder="Detalhes dos testes de continuidade, voltagem da bateria..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnCancel">Cancelar</button>
+        <button class="btn-bauhaus btn-primary" id="btn-submit-create-os" data-i18n="btnConfirm">
+          Abrir Ordem de Serviço
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. MODAL: CONNECT MOBILE SCANNER -->
+  <div class="modal-overlay" id="modal-mobile-connect">
+    <div class="modal-box" style="max-width: 480px; text-align: center;">
+      <div class="modal-header">
+        <span class="modal-title">📱 SCANNER MOBILE Z8 // 手机扫码端</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body" style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+        <p style="font-size: 12px; color: var(--text-muted);">
+          Aponte a câmera do seu smartphone (iPhone ou Android) conectado ao mesmo Wi-Fi do galpão para abrir o Scanner Mobile em tempo real:
+        </p>
+
+        <div style="background: #FFFFFF; padding: 14px; border-radius: var(--card-radius); display: inline-block;">
+          <canvas id="qr-mobile-connect" width="180" height="180"></canvas>
+        </div>
+
+        <div style="background: #141A24; border: 1px solid var(--border-subtle); padding: 8px 14px; border-radius: var(--btn-radius); width: 100%;">
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--color-cyan); word-break: break-all;" id="mobile-scanner-url-text">
+            http://localhost:3300/mobile-scanner/
+          </span>
+        </div>
+      </div>
+      <div class="modal-footer" style="justify-content: center;">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnClose">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- App Core Module -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>

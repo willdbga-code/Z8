@@ -27,3 +27,7 @@ docs/catalogo_z8_2026_temp.html
 
 *.tmp
 ~*
+
+z8-wms/node_modules/
+z8-wms/uploads/*.jpg
+z8-wms/uploads/*.png

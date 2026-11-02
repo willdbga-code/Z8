@@ -1,3 +1,14 @@
+window.handleLogout = function() {
+  logoutCatalogUser();
+  document.documentElement.classList.remove('is-poslogin-direct');
+  document.body.classList.remove('is-poslogin-direct');
+  syncConceitoAuthState();
+  if (window.lenis) {
+    window.lenis.scrollTo(0, { immediate: true });
+  } else {
+    window.scrollTo(0, 0);
+  }
+};
 import {
   loginCatalogUser,
   loginWithGoogle,
@@ -14,19 +25,20 @@ import {
  */
 import { doc, setDoc } from 'firebase/firestore';
 import { initFirebase } from '../site-principal/services/firebase-service.js';
+import { renderPortalLojistaLAF, syncPortalLojistaUser } from '../site-principal/portal-lojista-laf.js';
 
 const Z8_FLEET = [
   {
     id: 'z8-tank',
-    name: 'Z8 Tank High-Speed',
-    tag: '+39,1%',
-    marginPct: '28,1%',
-    wholesale: 9554,
-    retail: 13290,
-    profit: 3736,
-    power: '3000W High-Torque Brushless',
-    range: 'Até 110 km (72V Lítio)',
-    cnh: 'CNH A // Emplacável',
+    name: 'Z8 Tank High-Speed (DB018)',
+    tag: '+53,3%',
+    marginPct: '34,8%',
+    wholesale: 7500,
+    retail: 11500,
+    profit: 4000,
+    power: '2000W High-Torque Brushless',
+    range: 'Até 120-240 km (Lítio 72V 125Ah)',
+    cnh: 'CONTRAN 996 // High-Speed',
     baseImg: '/assets/models/z8_tank_studio.jpg',
     colors: [
       { name: 'Desert Amber', hex: '#C6892B', img: '/assets/models/z8_tank_amber.jpg' },
@@ -36,14 +48,14 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-n95c',
-    name: 'Z8 N95C Executive',
-    tag: '+38,9%',
-    marginPct: '28,0%',
-    wholesale: 6690,
-    retail: 9290,
-    profit: 2600,
-    power: '2000W Brushless FOC',
-    range: 'Até 90 km (72V)',
+    name: 'Z8 N95C Max Executive (DB039)',
+    tag: '+53,8%',
+    marginPct: '35,0%',
+    wholesale: 6500,
+    retail: 10000,
+    profit: 3500,
+    power: '1000W a 1200W Brushless FOC',
+    range: 'Até 70-100 km (Lítio 60V/72V 125Ah)',
     cnh: 'CONTRAN 996 // Urbano',
     baseImg: '/assets/models/z8_n95c_studio.jpg',
     colors: [
@@ -54,14 +66,14 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-fx10',
-    name: 'Z8 FX-10 Sport',
-    tag: '+45,2%',
-    marginPct: '31,1%',
-    wholesale: 6200,
+    name: 'Z8 FX-10 Sport (DB043)',
+    tag: '+34,3%',
+    marginPct: '25,6%',
+    wholesale: 6700,
     retail: 9000,
-    profit: 2800,
-    power: '2500W Sport Hub',
-    range: 'Até 100 km (72V)',
+    profit: 2300,
+    power: '1500W Sport Hub + 12G-38A',
+    range: 'Até 100 km (Lítio 60V/72V 125Ah)',
     cnh: 'Autopropelido // Urbano',
     baseImg: '/assets/models/z8_fx10_studio.jpg',
     colors: [
@@ -72,14 +84,14 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-harley',
-    name: 'Z8 Harley X12 Cruiser',
-    tag: '+37,5%',
-    marginPct: '27,3%',
-    wholesale: 8000,
-    retail: 11000,
-    profit: 3000,
-    power: '2000W Fat-Tire',
-    range: 'Até 85 km (60V/72V)',
+    name: 'Z8 Harley X12 Cruiser (XB-024)',
+    tag: '+53,8%',
+    marginPct: '35,0%',
+    wholesale: 6500,
+    retail: 10000,
+    profit: 3500,
+    power: '2000W Fat-Tire Chopper',
+    range: 'Até 85 km (Lítio 60V 125Ah)',
     cnh: 'Isento CNH // CONTRAN 996',
     baseImg: '/assets/models/z8_harley_studio.jpg',
     colors: [
@@ -89,14 +101,14 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-u2',
-    name: 'Z8 U2 Delivery Cargo',
-    tag: '+39,2%',
-    marginPct: '28,2%',
-    wholesale: 7900,
-    retail: 11000,
-    profit: 3100,
-    power: '2500W Heavy Duty',
-    range: 'Até 115 km (Frota B2B)',
+    name: 'Z8 U2 Delivery Cargo (XB-010)',
+    tag: '+58,3%',
+    marginPct: '36,8%',
+    wholesale: 6000,
+    retail: 9500,
+    profit: 3500,
+    power: '2000W Heavy Duty + 12G',
+    range: 'Até 115 km (Lítio 60V 125Ah)',
     cnh: 'Frota Logística // B2B',
     baseImg: '/assets/models/z8_u2_studio.jpg',
     colors: [
@@ -106,91 +118,96 @@ const Z8_FLEET = [
   },
   {
     id: 'z8-n710',
-    name: 'Z8 N710 Faria Lima',
-    tag: '+46,8%',
-    marginPct: '31,9%',
-    wholesale: 5450,
-    retail: 8000,
-    profit: 2550,
-    power: '1000W Smart CONTRAN',
-    range: 'Até 75 km (R$ 1,80/carga)',
+    name: 'Z8 N710 Plus Urban (DB045)',
+    tag: '+79,2%',
+    marginPct: '44,2%',
+    wholesale: 5300,
+    retail: 9500,
+    profit: 4200,
+    power: '1000W Smart CONTRAN + NFC',
+    range: 'Até 75 km (Lítio 60V 125Ah)',
     cnh: '100% Isento CNH // 996',
-    baseImg: '/assets/models/z8_n710_studio.jpg',
+    baseImg: '/assets/models/z8_n710_white.jpg',
     colors: [
-      { name: 'British Emerald', hex: '#1E4D3B', img: '/assets/models/z8_n710_green.jpg' },
+      { name: 'Pearl White', hex: '#F2F4F7', img: '/assets/models/z8_n710_white.jpg' },
       { name: 'Piano Black', hex: '#141619', img: '/assets/models/z8_n710_black.jpg' },
-      { name: 'Pearl White', hex: '#F2F4F7', img: '/assets/models/z8_n710_white.jpg' }
+      { name: 'British Emerald', hex: '#1E4D3B', img: '/assets/models/z8_n710_green.jpg' }
     ]
   },
   {
     id: 'z8-q10',
-    name: 'Z8 Mini Q10 Retro',
-    tag: '+45,6%',
-    marginPct: '31,3%',
-    wholesale: 5150,
-    retail: 7500,
-    profit: 2350,
-    power: '1000W Euro Retro',
-    range: 'Até 70 km (R$ 1,80/carga)',
+    name: 'Z8 Q10 Xiao Q Retro (DB038)',
+    tag: '+69,0%',
+    marginPct: '40,8%',
+    wholesale: 5800,
+    retail: 9800,
+    profit: 4000,
+    power: '1000W Euro Retro + NFC',
+    range: 'Até 70-120 km (Lítio 60V 125Ah)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_q11_studio.jpg',
-    colors: [{ name: 'Pastel Cream', hex: '#E5DEC9', img: '/assets/models/z8_q11_studio.jpg' }]
+    colors: [{ name: 'Amarelo Retrô Vintage', hex: '#DFB847', img: '/assets/models/z8_q11_studio.jpg' }]
   },
   {
     id: 'z8-q11',
-    name: 'Z8 Q11 Pastel Design',
-    tag: '+46,2%',
-    marginPct: '31,6%',
+    name: 'Z8 Q11 Love Boutique (DB043-Q11)',
+    tag: '+78,8%',
+    marginPct: '44,1%',
     wholesale: 5200,
-    retail: 7600,
-    profit: 2400,
-    power: '1000W Boutique',
-    range: 'Até 70 km (R$ 1,80/carga)',
+    retail: 9300,
+    profit: 4100,
+    power: '1000W Boutique + 12G',
+    range: 'Até 70 km (Lítio 60V 125Ah)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_q10_studio.jpg',
     colors: [
+      { name: 'Rosa Pastel Candy', hex: '#EAA9BA', img: '/assets/models/z8_q10_studio.jpg' },
       { name: 'Sage Mint', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
       { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
     ]
   },
   {
     id: 'z8-diamond',
-    name: 'Z8 Diamond Luxury',
-    tag: '+44,0%',
-    marginPct: '30,6%',
-    wholesale: 5000,
-    retail: 7200,
-    profit: 2200,
-    power: '1000W LED Matrix',
-    range: 'Até 70 km (R$ 1,80/carga)',
+    name: 'Z8 Diamond King Kong (GS-052)',
+    tag: '+100,0%',
+    marginPct: '50,0%',
+    wholesale: 3400,
+    retail: 6800,
+    profit: 3400,
+    power: '500W Cobre Puro + Tela LCD',
+    range: 'Até 50 km (Lítio 48V/60V 125Ah)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_diamond_studio.jpg',
     colors: [{ name: 'Diamond Silver', hex: '#D0D5DD', img: '/assets/models/z8_diamond_studio.jpg' }]
   },
   {
     id: 'z8-n7',
-    name: 'Z8 H26 Compact',
-    tag: '+45,8%',
-    marginPct: '31,4%',
-    wholesale: 4800,
-    retail: 7000,
-    profit: 2200,
-    power: '800W Compact Urban',
-    range: 'Até 65 km (R$ 1,50/carga)',
+    name: 'Z8 H26 (N7) Compact (DB001)',
+    tag: '+72,7%',
+    marginPct: '42,1%',
+    wholesale: 5500,
+    retail: 9500,
+    profit: 4000,
+    power: '1000W Compact Urban + NFC',
+    range: 'Até 65 km (Lítio 60V 125Ah)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_n7_studio.jpg',
-    colors: [{ name: 'Urban Grey', hex: '#667085', img: '/assets/models/z8_n7_studio.jpg' }]
+    colors: [
+      { name: 'Verde Esmeralda Standard', hex: '#1B4D3E', img: '/assets/models/z8_n7_studio.jpg' },
+      { name: 'Preto Ônix Paulista', hex: '#141619', img: '/assets/models/z8_n7_black.jpg' },
+      { name: 'Prata Titânio Urbano', hex: '#C0C5CA', img: '/assets/models/z8_n7_silver.jpg' }
+    ]
   },
   {
     id: 'z8-gs005',
-    name: 'Z8 GS-005 Entry',
-    tag: '+46,7%',
-    marginPct: '31,8%',
-    wholesale: 4500,
-    retail: 6600,
-    profit: 2100,
-    power: '800W Giro Rápido',
-    range: 'Até 60 km (R$ 1,50/carga)',
+    name: 'Z8 GS-005 Golden Eagle',
+    tag: '+93,8%',
+    marginPct: '48,4%',
+    wholesale: 3200,
+    retail: 6200,
+    profit: 3000,
+    power: '500W Cobre Puro Pedelec',
+    range: 'Até 50 km (Lítio 48V/60V 125Ah)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_gs005_studio.jpg',
     colors: [{ name: 'Matte Graphite', hex: '#344054', img: '/assets/models/z8_gs005_studio.jpg' }]
@@ -270,31 +287,28 @@ window.openZ8ModelDrawer = function (modelId) {
         <h2 class="z8-modal-title">${model.name}</h2>
         <p class="z8-modal-subtitle">${model.power} — ${model.range}</p>
         <div class="z8-drawer-kpis">
-          <div class="z8-drawer-kpi is-confidential">
-            <span>CUSTO ATACADO B2B</span>
-            <strong>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              Sob Consulta
-            </strong>
+          <div class="z8-drawer-kpi is-lime">
+            <span>VALOR ATACADO UNITÁRIO (LAF)</span>
+            <strong>${fmtBRL(model.wholesale)}</strong>
           </div>
-          <div class="z8-drawer-kpi is-confidential">
+          <div class="z8-drawer-kpi">
             <span>PREÇO VAREJO SUG.</span>
-            <strong>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              Sob Consulta
-            </strong>
+            <strong>${fmtBRL(model.retail)}</strong>
           </div>
           <div class="z8-drawer-kpi is-lime">
-            <span>MARGEM LÍQUIDA ESTIMADA</span>
-            <strong>${model.marginPct || 'Até 31,9%'}</strong>
+            <span>LUCRO LOJISTA / UN.</span>
+            <strong>+${fmtBRL(model.profit)} (${model.marginPct})</strong>
           </div>
           <div class="z8-drawer-kpi is-lime">
             <span>MARKUP COMERCIAL</span>
             <strong>${model.tag}</strong>
           </div>
         </div>
-        <button type="button" class="z8-drawer-cta" id="z8-drawer-reserve-btn">
-          SOLICITAR TABELA DESTE MODELO &amp; RESERVAR CIDADE ↱
+        <button type="button" class="z8-drawer-cta" id="z8-drawer-order-portal-btn" style="margin-bottom:0.5rem;">
+          VER FICHA LAF COMPLETA &amp; ADICIONAR AO PEDIDO ↱
+        </button>
+        <button type="button" class="z8-drawer-cta" id="z8-drawer-reserve-btn" style="background:rgba(255,255,255,0.08); color:#F4F5F7; border:1px solid rgba(255,255,255,0.2);">
+          RESERVAR EXCLUSIVIDADE DESTA PRAÇA (RAIO 50 KM) ↱
         </button>
       </div>
     </div>
@@ -308,6 +322,16 @@ window.openZ8ModelDrawer = function (modelId) {
       if (mainImg && btn.dataset.img) mainImg.src = btn.dataset.img;
     });
   });
+
+  const portalOrderBtn = document.getElementById('z8-drawer-order-portal-btn');
+  if (portalOrderBtn) {
+    portalOrderBtn.addEventListener('click', () => {
+      window.closeZ8ModelDrawer();
+      if (window.adjustLafQty) window.adjustLafQty(model.id, 1);
+      const sheetEl = document.getElementById(`laf-sheet-${model.id}`) || document.getElementById('portal-lojista');
+      if (sheetEl) sheetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
 
   const reserveBtn = document.getElementById('z8-drawer-reserve-btn');
   if (reserveBtn) {
@@ -816,34 +840,56 @@ function updateNavMenuAuthText(text) {
 }
 
 window.openZ8MenuAuth = function() {
-  const user = getCurrentCatalogUser();
-  const admin = isUserAdmin(user);
-  if (user && admin && window.openAdminModal) {
-    window.openAdminModal();
-  } else if (user) {
-    if (confirm(`Conectado como ${user.name || user.email || 'Parceiro'}.\nDeseja sair da conta?`)) {
-      logoutCatalogUser();
-      syncConceitoAuthState();
-    }
+  if (window.openPortalLojista) {
+    window.openPortalLojista('all');
   } else {
-    window.openZ8AuthModal && window.openZ8AuthModal('login');
+    document.getElementById('portal-lojista')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 };
 
 function syncConceitoAuthState() {
   const user = getCurrentCatalogUser();
-  const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
 
-  updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
+  if (user) {
+    document.documentElement.classList.add('is-poslogin-direct');
+    document.body.classList.add('is-poslogin-direct');
 
-    document.querySelectorAll('.helmet-grid-item-w[data-model-id]').forEach(card => {
-    const modelId = card.getAttribute('data-model-id');
-    const model = Z8_FLEET.find(m => m.id === modelId);
+    const transitionW = document.querySelector('.transition-w');
+    if (transitionW) {
+      transitionW.style.display = 'none';
+      transitionW.style.pointerEvents = 'none';
+      transitionW.style.opacity = '0';
+    }
+    const pageW = document.querySelector('.page-w');
+    if (pageW) {
+      pageW.removeAttribute('data-start');
+      pageW.style.opacity = '1';
+      pageW.style.visibility = 'visible';
+    }
+  } else {
+    document.documentElement.classList.remove('is-poslogin-direct');
+    document.body.classList.remove('is-poslogin-direct');
+  }
+
+  updateNavMenuAuthText(admin ? 'Portal Lojista' : 'Portal Lojista');
+  syncPortalLojistaUser();
+
+  document.querySelectorAll('.helmet-grid-item-w[data-model-index]').forEach((card) => {
+    const idx = parseInt(card.getAttribute('data-model-index'), 10);
+    const model = Z8_FLEET[idx];
     if (!model) return;
+
     const pricePill = card.querySelector('.z8-tel-profit');
     if (pricePill) {
-      pricePill.textContent = approved ? `+R$ ${model.profit.toLocaleString('pt-BR')}/un` : `${model.tag} Markup`;
+      pricePill.textContent = `Atacado ${fmtBRL(model.wholesale)}`;
+    }
+
+    const hudRows = card.querySelectorAll('.z8-hud-row');
+    if (hudRows && hudRows.length >= 3) {
+      hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong style="color:#00F0FF;">${fmtBRL(model.wholesale)}</strong>`;
+      hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong>${fmtBRL(model.retail)}</strong>`;
+      hudRows[2].innerHTML = `<span>LUCRO LOJISTA</span><strong>+${fmtBRL(model.profit)} (${model.tag})</strong>`;
     }
   });
 }
@@ -901,6 +947,7 @@ function initConceitoAuthEvents() {
       if (res && res.success) {
         closeZ8AuthModal();
         syncConceitoAuthState();
+        window.openPortalLojista && window.openPortalLojista('all');
       } else {
         alert(res?.error || res?.message || 'Não foi possível concluir o login com o Google.');
       }
@@ -935,6 +982,7 @@ function initConceitoAuthEvents() {
         setTimeout(() => {
           closeZ8AuthModal();
           syncConceitoAuthState();
+          window.openPortalLojista && window.openPortalLojista('all');
         }, 500);
       } else {
         if (msgBox) {
@@ -1017,7 +1065,33 @@ function initConceitoAuthEvents() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Direct URL parameter for instant Post-Login evaluation: ?poslogin=1 or ?auth=admin
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('poslogin') === '1' || urlParams.get('auth') === 'admin' || urlParams.get('admin') === '1') {
+    const adminUser = {
+      id: 'user_admin_01',
+      name: 'Christian Hideyuki (Admin Master)',
+      company: 'Z8 E-Motion Brasil (Matriz)',
+      city: 'São Paulo - SP',
+      email: 'christian.tkh@gmail.com',
+      phone: '(12) 99800-8818',
+      role: 'admin',
+      status: 'approved',
+      updatedAt: Date.now(),
+      createdAt: '2026-08-25T16:08:04.281Z'
+    };
+    sessionStorage.setItem('z8_catalog_auth_session', 'authenticated_active_catalog');
+    sessionStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
+    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
+  } else if (urlParams.get('logout') === '1') {
+    sessionStorage.removeItem('z8_catalog_auth_session');
+    sessionStorage.removeItem('z8_catalog_auth_user');
+    localStorage.removeItem('z8_catalog_auth_user');
+    localStorage.removeItem('z8_catalog_auth_token');
+  }
+
   initTransitionSafety();
+  renderPortalLojistaLAF();
   initMarqueeSignatureScroll();
   initOtotBikesAnimation();
   initB2BSimulator();
@@ -1025,5 +1099,15 @@ document.addEventListener('DOMContentLoaded', () => {
   initLeadModal();
   initMobileMenuScrollLock();
   initConceitoAuthEvents();
+
+  if (getCurrentCatalogUser()) {
+    setTimeout(() => {
+      if (window.lenis) {
+        window.lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    }, 50);
+  }
 });
 

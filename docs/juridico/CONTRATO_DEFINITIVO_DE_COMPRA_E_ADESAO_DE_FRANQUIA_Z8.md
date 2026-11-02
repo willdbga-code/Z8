@@ -764,7 +764,7 @@ As 10 (dez) unidades do lote inaugural compulsório e as aquisições de reposi�
 | Nº | Modelo Homologado | Código | Categoria | Motorização / Potência | Velocidade Máx. | Autonomia Estimada | Preço Atacado (*Wholesale*) | Preço Varejo Recomendado | Lucro Unitário Bruto | Markup (%) | Margem Bruta (%) |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | **01** | **Z8 Tank High-Speed** | DB018 | Alta Velocidade (Trail) | 1000W High Torque | 32 km/h (Limit. CONTRAN) | Até 40 km (60V 20Ah) | **R$ 7.500,00** | **R$ 11.500,00** | R$ 4.000,00 | 53,3% | 34,8% |
-| **02** | **Z8 FX-10 Sport** | DB043 | Alta Velocidade (Sport) | 1000W High Performance | 32 km/h (Limit. CONTRAN) | Até 40 km (60V 20Ah) | **R$ 6.200,00** | **R$ 11.000,00** | R$ 4.800,00 | 77,4% | 43,6% |
+| **02** | **Z8 FX-10 Sport** | DB043 | Alta Velocidade (Sport) | 1000W High Performance | 32 km/h (Limit. CONTRAN) | Até 40 km (60V 20Ah) | **R$ 6.700,00** | **R$ 11.000,00** | R$ 4.300,00 | 64,2% | 39,1% |
 | **03** | **Z8 Harley X21 Custom** | XB-024 | Custom / Chopper | 1000W High Torque | 32 km/h (Limit. CONTRAN) | Até 40 km (60V 20Ah Lítio) | **R$ 6.400,00** | **R$ 10.000,00** | R$ 3.600,00 | 56,3% | 36,0% |
 | **04** | **Z8 U2 Delivery Cargo** | XB-026 | Utilitária / Frotas Carga | 1000W Heavy-Duty Carga | 32 km/h (Limit. CONTRAN) | Até 40 km (60V 20Ah) | **R$ 6.000,00** | **R$ 9.500,00** | R$ 3.500,00 | 58,3% | 36,8% |
 | **05** | **Z8 N95C Max Comfort** | DB039 | Executiva / Urbana VIP | 1000W 27H | 32 km/h (Limit. CONTRAN) | Até 40 km (60V 20Ah) | **R$ 6.500,00** | **R$ 10.000,00** | R$ 3.500,00 | 53,8% | 35,0% |
@@ -788,7 +788,7 @@ As 10 (dez) unidades do lote inaugural compulsório e as aquisições de reposi�
 | Item | Modelo Selecionado | Código | Cor / Acabamento | Preço Atacado Unitário | Quantidade | Subtotal Faturado (R$) | Lucro Unitário Projetado | Lucro Total Estimado |
 |:---:|:---|:---:|:---|:---:|:---:|:---:|:---:|:---:|
 | 01 | Z8 Tank High-Speed | DB018 | [Cor Selecionada] | R$ 7.500,00 | [Qtd] | R$ [Subtotal] | R$ 4.000,00 | R$ [Lucro] |
-| 02 | Z8 FX-10 Sport | DB043 | [Cor Selecionada] | R$ 6.200,00 | [Qtd] | R$ [Subtotal] | R$ 4.800,00 | R$ [Lucro] |
+| 02 | Z8 FX-10 Sport | DB043 | [Cor Selecionada] | R$ 6.700,00 | [Qtd] | R$ [Subtotal] | R$ 4.300,00 | R$ [Lucro] |
 | 03 | Z8 Harley X21 Custom | XB-024 | [Cor Selecionada] | R$ 6.400,00 | [Qtd] | R$ [Subtotal] | R$ 3.600,00 | R$ [Lucro] |
 | 04 | Z8 U2 Delivery Cargo | XB-026 | [Cor Selecionada] | R$ 6.000,00 | [Qtd] | R$ [Subtotal] | R$ 3.500,00 | R$ [Lucro] |
 | 05 | Z8 N95C Max Comfort | DB039 | [Cor Selecionada] | R$ 6.500,00 | [Qtd] | R$ [Subtotal] | R$ 3.500,00 | R$ [Lucro] |

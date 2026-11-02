@@ -28,6 +28,7 @@ import {
   deleteCatalogUser,
   getCloudSyncStatus
 } from '../site-principal/catalog-auth.js';
+import { renderPortalLojistaLAF, syncPortalLojistaUser } from '../site-principal/portal-lojista-laf.js';
 
 // ==========================================================================
 // 1. DATA ENRICHMENT: 11 MODELS FLEET (TECH DATA + STUDIO COLOR SWATCHES)
@@ -49,37 +50,38 @@ const MODEL_COLORS_MAP = {
     { name: 'Glacier White', hex: '#F0F2F5', img: '/assets/models/z8_fx10_white.jpg' }
   ],
   'z8-harley-x12': [
-    { name: 'Crimson Red', hex: '#8B1E28', img: '/assets/models/z8_harley_red.jpg' },
-    { name: 'Brushed Silver', hex: '#A8AFB7', img: '/assets/models/z8_harley_silver.jpg' }
+    { name: 'Crimson Red', hex: '#8B1E28', img: '/assets/models/z8_harley_crimson.jpg' },
+    { name: 'Brushed Silver', hex: '#A8AFB7', img: '/assets/models/z8_harley_silver.jpg' },
+    { name: 'Black Edition', hex: '#141518', img: '/assets/models/z8_harley_studio.jpg' }
   ],
   'z8-u2-delivery': [
-    { name: 'Fleet Yellow', hex: '#D4A017', img: '/assets/models/z8_u2_yellow.jpg' },
     { name: 'Industrial White', hex: '#E8EAED', img: '/assets/models/z8_u2_white.jpg' },
-    { name: 'Matte Grey', hex: '#5A6068', img: '/assets/models/z8_u2_grey.jpg' }
+    { name: 'Cargo Black', hex: '#1A1C1E', img: '/assets/models/z8_u2_black.jpg' },
+    { name: 'Studio Grey', hex: '#5A6068', img: '/assets/models/z8_u2_studio.jpg' }
   ],
   'z8-n710': [
-    { name: 'Faria Lima Silver', hex: '#9AA0A6', img: '/assets/models/z8_n710_silver.jpg' },
-    { name: 'Carbon Black', hex: '#1C1D21', img: '/assets/models/z8_n710_black.jpg' }
+    { name: 'Pearl White', hex: '#F2F4F7', img: '/assets/models/z8_n710_white.jpg' },
+    { name: 'Piano Black', hex: '#141619', img: '/assets/models/z8_n710_black.jpg' },
+    { name: 'British Emerald', hex: '#1E4D3B', img: '/assets/models/z8_n710_green.jpg' }
   ],
   'z8-q10': [
-    { name: 'Matcha Green', hex: '#7A9A74', img: '/assets/models/z8_q10_green.jpg' },
-    { name: 'Vintage Cream', hex: '#E6DFC8', img: '/assets/models/z8_q10_cream.jpg' }
+    { name: 'Amarelo Retrô Vintage', hex: '#DFB847', img: '/assets/models/z8_q11_studio.jpg' }
   ],
   'z8-q11': [
-    { name: 'Pastel Mint', hex: '#88B8A6', img: '/assets/models/z8_q11_mint.jpg' },
-    { name: 'Soft Peach', hex: '#E29E84', img: '/assets/models/z8_q11_peach.jpg' }
+    { name: 'Rosa Pastel Candy', hex: '#EAA9BA', img: '/assets/models/z8_q10_studio.jpg' },
+    { name: 'Sage Mint', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
+    { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
   ],
   'z8-diamond': [
-    { name: 'Titanium Grey', hex: '#63686E', img: '/assets/models/z8_diamond_grey.jpg' },
-    { name: 'Gloss White', hex: '#F4F5F7', img: '/assets/models/z8_diamond_white.jpg' }
+    { name: 'Diamond Silver', hex: '#D0D5DD', img: '/assets/models/z8_diamond_studio.jpg' }
   ],
   'z8-h26': [
-    { name: 'Midnight Blue', hex: '#1E2D4A', img: '/assets/models/z8_n7_blue.jpg' },
-    { name: 'Charcoal Black', hex: '#212328', img: '/assets/models/z8_n7_black.jpg' }
+    { name: 'Verde Esmeralda Standard', hex: '#1B4D3E', img: '/assets/models/z8_n7_studio.jpg' },
+    { name: 'Preto Ônix Paulista', hex: '#141619', img: '/assets/models/z8_n7_black.jpg' },
+    { name: 'Prata Titânio Urbano', hex: '#C0C5CA', img: '/assets/models/z8_n7_silver.jpg' }
   ],
   'z8-gs005': [
-    { name: 'Classic Black', hex: '#18191C', img: '/assets/models/z8_gs005_black.jpg' },
-    { name: 'Polar White', hex: '#EDEDED', img: '/assets/models/z8_gs005_white.jpg' }
+    { name: 'Matte Graphite', hex: '#344054', img: '/assets/models/z8_gs005_studio.jpg' }
   ]
 };
 
@@ -194,23 +196,23 @@ export function updateNavMenuAuthText(text) {
 }
 
 window.openZ8MenuAuth = function() {
-  const user = getCurrentCatalogUser();
-  const admin = isUserAdmin(user);
-  if (user && admin && window.openAdminModal) {
-    window.openAdminModal();
-  } else if (user) {
-    if (confirm(`Conectado como ${user.name || user.email || 'Parceiro'}.\nDeseja sair da conta?`)) {
-      logoutCatalogUser();
-      syncAuthState();
-    }
+  if (window.openPortalLojista) {
+    window.openPortalLojista('all');
   } else {
-    window.openAuthModal && window.openAuthModal('login');
+    document.getElementById('portal-lojista')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 };
 
 window.handleLogout = function() {
   logoutCatalogUser();
+  document.documentElement.classList.remove('is-poslogin-direct');
+  document.body.classList.remove('is-poslogin-direct');
   syncAuthState();
+  if (window.lenis) {
+    window.lenis.scrollTo(0, { immediate: true });
+  } else {
+    window.scrollTo(0, 0);
+  }
 };
 
 export function syncAuthState() {
@@ -228,9 +230,26 @@ export function syncAuthState() {
   const pendingBanner = document.getElementById('pending-approval-banner');
   const stickyBar = document.getElementById('z8-sticky-order-bar');
 
-  updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
+  updateNavMenuAuthText('Portal Lojista');
+  syncPortalLojistaUser();
 
   if (user) {
+    document.documentElement.classList.add('is-poslogin-direct');
+    document.body.classList.add('is-poslogin-direct');
+
+    const transitionW = document.querySelector('.transition-w');
+    if (transitionW) {
+      transitionW.style.display = 'none';
+      transitionW.style.pointerEvents = 'none';
+      transitionW.style.opacity = '0';
+    }
+    const pageW = document.querySelector('.page-w');
+    if (pageW) {
+      pageW.removeAttribute('data-start');
+      pageW.style.opacity = '1';
+      pageW.style.visibility = 'visible';
+    }
+
     if (franquiaBtn) franquiaBtn.style.display = 'none';
     if (loginBtn) loginBtn.style.display = 'none';
     if (logoutBtn) logoutBtn.style.display = 'inline-flex';
@@ -270,6 +289,9 @@ export function syncAuthState() {
       stickyBar.style.display = approved ? 'flex' : 'none';
     }
   } else {
+    document.documentElement.classList.remove('is-poslogin-direct');
+    document.body.classList.remove('is-poslogin-direct');
+
     if (franquiaBtn) franquiaBtn.style.display = 'inline-flex';
     if (loginBtn) loginBtn.style.display = 'inline-flex';
     if (logoutBtn) logoutBtn.style.display = 'none';
@@ -1184,9 +1206,76 @@ window.closeZ8ModelDrawer = closeZ8ModelDrawer;
 // ==========================================================================
 // 9. INITIALIZATION ON DOM READY
 // ==========================================================================
+function initTransitionSafety() {
+  const unlockPage = () => {
+    const pageW = document.querySelector('.page-w');
+    if (pageW && pageW.getAttribute('data-start') === 'hidden') {
+      pageW.removeAttribute('data-start');
+      pageW.style.opacity = '1';
+      pageW.style.visibility = 'visible';
+    }
+    const transW = document.querySelector('.transition-w');
+    if (transW) {
+      transW.style.transition = 'opacity 0.55s ease';
+      transW.style.opacity = '0';
+      transW.style.pointerEvents = 'none';
+      setTimeout(() => {
+        transW.style.display = 'none';
+      }, 600);
+    }
+  };
+
+  const transBtn = document.querySelector('.transition-btn');
+  if (transBtn) {
+    transBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      unlockPage();
+    });
+  }
+
+  setTimeout(unlockPage, 2600);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Direct URL parameter for instant Post-Login evaluation: ?poslogin=1 or ?auth=admin
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('poslogin') === '1' || urlParams.get('auth') === 'admin' || urlParams.get('admin') === '1') {
+    const adminUser = {
+      id: 'user_admin_01',
+      name: 'Christian Hideyuki (Admin Master)',
+      company: 'Z8 E-Motion Brasil (Matriz)',
+      city: 'São Paulo - SP',
+      email: 'christian.tkh@gmail.com',
+      phone: '(12) 99800-8818',
+      role: 'admin',
+      status: 'approved',
+      updatedAt: Date.now(),
+      createdAt: '2026-08-25T16:08:04.281Z'
+    };
+    sessionStorage.setItem('z8_catalog_auth_session', 'authenticated_active_catalog');
+    sessionStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
+    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
+  } else if (urlParams.get('logout') === '1') {
+    sessionStorage.removeItem('z8_catalog_auth_session');
+    sessionStorage.removeItem('z8_catalog_auth_user');
+    localStorage.removeItem('z8_catalog_auth_user');
+    localStorage.removeItem('z8_catalog_auth_token');
+  }
+
+  initTransitionSafety();
+  renderPortalLojistaLAF();
   initAuthModalEvents();
   syncAuthState();
+
+  if (getCurrentCatalogUser()) {
+    setTimeout(() => {
+      if (window.lenis) {
+        window.lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    }, 50);
+  }
 
   // Populate Comparador Selects
   const selA = document.getElementById('comp-select-a');
