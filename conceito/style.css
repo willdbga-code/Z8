@@ -7694,14 +7694,7 @@ blockquote {
   }
 
   .horizontal-track {
-    width: 100% !important;
-    padding-left: var(--gap) !important;
-    padding-right: var(--gap) !important;
-    grid-column-gap: 3.5rem !important;
-    grid-row-gap: 3.5rem !important;
-    flex-flow: column !important;
-    height: auto !important;
-    transform: none !important;
+    /* Mobile horizontal pinning enabled */
   }
 
   .horizontal-item-w {
@@ -8492,10 +8485,7 @@ blockquote {
   }
 
   .horizontal-track {
-    width: 100% !important;
-    flex-flow: column !important;
-    height: auto !important;
-    transform: none !important;
+    /* Mobile horizontal pinning enabled */
     padding-top: calc(var(--vh, 1vh) * 0);
     padding-bottom: calc(var(--gap) * 0);
   }
@@ -15156,4 +15146,337 @@ canvas[data-rive-object] {
   .high-line-reveal {
     pointer-events: none !important;
   }
+}
+
+/* ==========================================================================
+   MOBILE & TABLET PINNED HORIZONTAL SCROLL FOR ARCHITECTURE (SECTION 4)
+   Enables desktop-parity horizontal sliding on phones (< 992px)
+   ========================================================================== */
+@media screen and (max-width: 991px) {
+  .s.is-horizontal-track {
+    position: relative !important;
+    overflow: clip !important;
+    width: 100% !important;
+  }
+
+  .horizontal-pin-wrap,
+  .horizontal-pin-spacer {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .horizontal-pin-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    z-index: 5 !important;
+  }
+
+  .horizontal-track {
+    display: flex !important;
+    flex-flow: row nowrap !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    width: max-content !important;
+    will-change: transform !important;
+    align-items: center !important;
+    gap: 5vw !important;
+    padding-left: 10vw !important;
+    padding-right: 25vw !important;
+    padding-top: calc(var(--vh, 1vh) * 5) !important;
+    padding-bottom: calc(var(--vh, 1vh) * 5) !important;
+  }
+
+  .horizontal-grid-col {
+    display: flex !important;
+    flex-flow: column nowrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    width: 82vw !important;
+    max-width: 82vw !important;
+    height: 82vh !important;
+    max-height: 82vh !important;
+    gap: 2vh !important;
+    margin: 0 !important;
+    padding: 0 4px !important;
+  }
+
+  .horizontal-grid-col.large-img.is-home1,
+  .horizontal-grid-col.is-home-flip.neg-margin,
+  .horizontal-grid-col.neg-margin {
+    margin-top: 0 !important;
+  }
+
+  .horizontal-grid-spacer {
+    width: 4vw !important;
+    min-width: 4vw !important;
+    flex: 0 0 4vw !important;
+    display: block !important;
+  }
+
+  .horizontal-item-w {
+    width: 100% !important;
+    max-width: 100% !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    margin: 0 !important;
+    flex: 0 0 auto !important;
+  }
+
+  .horizontal-item-w.is-home-1,
+  .horizontal-item-w.is-home-2,
+  .horizontal-item-w.is-home3,
+  .horizontal-item-w.is-home-4,
+  .horizontal-item-w.is-5,
+  .horizontal-item-w.is-home-6,
+  .horizontal-item-w.is-home-7,
+  .horizontal-item-w.is-home8 {
+    margin: 0 !important;
+    left: auto !important;
+  }
+
+  .horizontal-item-layout {
+    display: flex !important;
+    flex-flow: column nowrap !important;
+    gap: 0.35rem !important;
+  }
+
+  .eyebrow-w {
+    margin-bottom: 0.25rem !important;
+  }
+
+  .text-eyebrow {
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: #CBD5E1 !important;
+  }
+
+  .horizontal-item-img-w {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 29vh !important;
+    max-height: 29vh !important;
+    aspect-ratio: 16 / 10 !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    background: #0A1628 !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .horizontal-item-img-w.is-home8,
+  .horizontal-item-img-w.is-home-8 {
+    width: 100% !important;
+    height: 29vh !important;
+    max-width: 100% !important;
+    max-height: 29vh !important;
+  }
+
+  .image.is-horizontal-scroll {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transform: none !important;
+  }
+
+  .horizontal-item-w.is-text-callout,
+  .horizontal-item-w.is-text-callout.callout-1,
+  .horizontal-item-w.is-text-callout.callout-2 {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  .horizontal-item-text {
+    font-size: clamp(1rem, 4.2vw, 1.25rem) !important;
+    line-height: 1.35 !important;
+    font-weight: 600 !important;
+    color: #F4F5F7 !important;
+  }
+
+  .horizontal-rive-placeholder {
+    width: 3.5rem !important;
+    height: auto !important;
+    margin-top: 0.4rem !important;
+  }
+}
+
+
+/* ==========================================================================
+   Z8 ALIGNMENT & SYMMETRY ENGINE (HERO TERRITORY, MANIFESTO & BRAND SEALS)
+   Eliminates legacy F1 helmet wireframes and crooked laurel artifacts.
+   Ensures 100% mathematical center alignment and authentic Z8 mobility crests.
+   ========================================================================== */
+.home-hero-next-race-w {
+  width: 120px !important;
+  height: 244px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 10px 8px 12px !important;
+  box-sizing: border-box !important;
+  backdrop-filter: blur(12px) !important;
+  background: rgba(10, 22, 40, 0.45) !important;
+  border-radius: 6px !important;
+  clip-path: none !important;
+}
+
+.home-hero-next-race-top {
+  width: 100% !important;
+  height: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.z8-territorio-title {
+  font-family: 'Mona Sans Variable', sans-serif !important;
+  font-size: 0.62rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: #00F0FF !important;
+  text-align: center !important;
+  line-height: 1 !important;
+}
+
+.home-hero-next-race-row.is-1,
+.home-hero-next-race-row.is-2 {
+  width: 100% !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 4px !important;
+  margin: 0 auto !important;
+}
+
+.home-hero-next-race-rive-w {
+  height: auto !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+.home-hero-next-race-rive {
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+.z8-race-tag {
+  font-family: 'Mona Sans Variable', sans-serif !important;
+  font-size: 0.62rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #F4F4ED !important;
+  text-align: center !important;
+  line-height: 1.15 !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+.home-hero-next-race-line {
+  width: 76% !important;
+  height: 1px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  margin: 4px auto !important;
+  display: block !important;
+}
+
+.base-franchise-seal-w {
+  width: 44px !important;
+  height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+}
+
+.z8-race-margin {
+  font-family: 'Mona Sans Variable', sans-serif !important;
+  font-size: 0.58rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+  color: #00F0FF !important;
+  text-align: center !important;
+  line-height: 1.25 !important;
+}
+
+.z8-race-margin span {
+  color: rgba(244, 244, 237, 0.65) !important;
+  font-weight: 600 !important;
+  font-size: 0.54rem !important;
+}
+
+/* SECTION 3 MANIFESTO SEAL FIX */
+.impact-icon-w {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  gap: 1.25rem !important;
+}
+
+.impact-icon-w .eyebrow-w {
+  justify-content: center !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.impact-icon-w .text-eyebrow {
+  text-align: center !important;
+  letter-spacing: 0.08em !important;
+}
+
+.z8-manifesto-seal-w {
+  width: 48px !important;
+  height: 48px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+  transition: transform 0.35s ease !important;
+}
+
+.z8-manifesto-seal-w:hover {
+  transform: scale(1.08) !important;
+}
+
+.callout-rive-w {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }

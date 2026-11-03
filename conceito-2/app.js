@@ -673,19 +673,25 @@ export function openZ8ModelDrawer(rawModelId) {
     kpisHtml = `
       <div class="z8-drawer-kpi">
         <span>CUSTO ATACADO B2B</span>
-        <strong style="color:#00F0FF;">${fmtBRL(model.wholesale)}</strong>
+        <strong style="color:#00F0FF; display:inline-flex; align-items:center; gap:0.35rem; font-size:0.92rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00F0FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          SOB CONSULTA
+        </strong>
       </div>
       <div class="z8-drawer-kpi">
         <span>PREÇO VAREJO SUG.</span>
-        <strong>${fmtBRL(model.retail)}</strong>
+        <strong style="display:inline-flex; align-items:center; gap:0.35rem; font-size:0.92rem;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          SOB CONSULTA
+        </strong>
       </div>
       <div class="z8-drawer-kpi is-lime">
-        <span>MARGEM LÍQUIDA ESTIMADA</span>
-        <strong>${model.marginPct}%</strong>
+        <span>MARGEM ESTIMADA</span>
+        <strong style="font-size:0.88rem; color:#00F0FF;">Exclusivo Credenciados</strong>
       </div>
       <div class="z8-drawer-kpi is-lime">
-        <span>MARKUP COMERCIAL</span>
-        <strong>${model.tag}</strong>
+        <span>DISPONIBILIDADE</span>
+        <strong style="font-size:0.88rem;">Lote Concessão 2026</strong>
       </div>
     `;
   }
@@ -1146,101 +1152,86 @@ function initTransitionSafety() {
 // KINETIC TEXT SCROLL REVEAL ENGINE FOR MOBILE, TABLET & DUO (< 992px)
 // ==========================================================================
 export function initKineticTextScrollMobile() {
+  if (window.innerWidth >= 992) return; // Desktop handled natively by lando-engine
+
+  // 1. Activate authentic Lando Norris text reveal, sweeps, and rich text engines on mobile
+  if (typeof window.D7 === 'function') window.D7();
+  if (typeof window.E7 === 'function') window.E7();
+  if (typeof window.HP === 'function') window.HP();
+  if (typeof window.rW === 'function') window.rW();
+
+  // 2. Kill and re-attach Section 4 Architecture pinned horizontal scroll on mobile
+  if (typeof window.o6 === 'function') window.o6();
+  if (typeof window.qp === 'function') window.qp();
+  if (typeof window.Gp === 'function') window.Gp();
+
+  // 3. Fallback sweep engine for any remaining [data-anim-high] elements
   const gsap = window.gsap;
   const ScrollTrigger = window.ScrollTrigger;
-  if (!gsap) return;
+  if (gsap) {
+    const elements = document.querySelectorAll('[data-anim-high]');
+    elements.forEach((W) => {
+      if (W._highLinesInstance) return;
+      const animAttr = W.getAttribute('data-anim-high') || 'right, lime, 0';
+      const [dir, colorName, delayMs] = animAttr.split(',').map((s) => s.trim());
+      const isRight = dir !== 'left';
+      const delay = parseFloat(delayMs || '0') / 1000;
+      const colorMap = {
+        lime: 'var(--color--lime, #00F0FF)',
+        'lime-off': 'var(--color--lime-off, #00D4FF)',
+        'dark-green': 'var(--color--dark-green, #0A1628)',
+        'dark-green-tint-1': 'var(--color--dark-green-tint-1, #1E293B)',
+        black: 'var(--color--black, #111112)',
+        white: 'var(--color--white, #F4F5F7)'
+      };
+      const barBg = colorMap[colorName] || 'var(--color--lime, #00F0FF)';
+      const lines = W.querySelectorAll('.line');
+      if (!lines.length) return;
 
-  const elements = document.querySelectorAll('[data-anim-high]');
-  if (!elements.length) return;
-
-  const Q = 0.6;
-  const Z = 0.6;
-  const stagger = 0.12;
-
-  elements.forEach((W) => {
-    // If desktop lando-engine already attached an instance, don't duplicate
-    if (W._highLinesInstance) return;
-
-    const animAttr = W.getAttribute('data-anim-high') || 'right, lime, 0';
-    const [dir, colorName, delayMs] = animAttr.split(',').map((s) => s.trim());
-    const isRight = dir !== 'left';
-    const delay = parseFloat(delayMs || '0') / 1000;
-
-    const colorMap = {
-      lime: 'var(--color--lime, #00F0FF)',
-      'lime-off': 'var(--color--lime-off, #00D4FF)',
-      'dark-green': 'var(--color--dark-green, #0A1628)',
-      'dark-green-tint-1': 'var(--color--dark-green-tint-1, #1E293B)',
-      black: 'var(--color--black, #111112)',
-      white: 'var(--color--white, #F4F5F7)'
-    };
-    const barBg = colorMap[colorName] || 'var(--color--lime, #00F0FF)';
-
-    const lines = W.querySelectorAll('.line');
-    if (!lines.length) return;
-
-    const tl = gsap.timeline({ paused: true, delay });
-
-    lines.forEach((M, idx) => {
-      M.style.position = 'relative';
-      if (isRight) {
-        gsap.set(M, { clipPath: 'inset(0 100% 0 0)', autoAlpha: 1 });
-      } else {
-        gsap.set(M, { clipPath: 'inset(0 0 0 100%)', autoAlpha: 1 });
-      }
-
-      let bar = M.querySelector('.high-line-reveal');
-      if (!bar) {
-        bar = document.createElement('div');
-        bar.className = 'high-line-reveal';
-        bar.style.position = 'absolute';
-        bar.style.top = '0';
-        bar.style.left = '0';
-        bar.style.width = '100%';
-        bar.style.height = '100%';
-        bar.style.backgroundColor = barBg;
-        bar.style.transformOrigin = isRight ? 'right center' : 'left center';
-        bar.style.zIndex = '5';
-        M.appendChild(bar);
-      }
-      gsap.set(bar, { scaleX: 1 });
-
-      const startTime = idx * stagger;
-      if (isRight) {
-        tl.to(M, { clipPath: 'inset(0 0% 0 0)', duration: Q, ease: 'power2.out' }, startTime);
-      } else {
-        tl.to(M, { clipPath: 'inset(0 0 0 0%)', duration: Q, ease: 'power2.out' }, startTime);
-      }
-      tl.to(bar, { scaleX: 0, duration: Z, ease: 'power2.inOut' }, startTime + Q / 2);
-    });
-
-    W._highLinesInstance = {
-      timeline: tl,
-      cleanup: () => { tl.kill(); }
-    };
-
-    if (ScrollTrigger) {
-      const st = ScrollTrigger.create({
-        trigger: W,
-        start: 'top 92%',
-        once: true,
-        onEnter: () => tl.play()
+      const tl = gsap.timeline({ paused: true, delay });
+      lines.forEach((M, idx) => {
+        M.style.position = 'relative';
+        if (isRight) {
+          gsap.set(M, { clipPath: 'inset(0 100% 0 0)', autoAlpha: 1 });
+        } else {
+          gsap.set(M, { clipPath: 'inset(0 0 0 100%)', autoAlpha: 1 });
+        }
+        let bar = M.querySelector('.high-line-reveal');
+        if (!bar) {
+          bar = document.createElement('div');
+          bar.className = 'high-line-reveal';
+          bar.style.position = 'absolute';
+          bar.style.top = '0';
+          bar.style.left = '0';
+          bar.style.width = '100%';
+          bar.style.height = '100%';
+          bar.style.backgroundColor = barBg;
+          bar.style.transformOrigin = isRight ? 'right center' : 'left center';
+          bar.style.zIndex = '5';
+          M.appendChild(bar);
+        }
+        gsap.set(bar, { scaleX: 1 });
+        const startTime = idx * 0.12;
+        if (isRight) {
+          tl.to(M, { clipPath: 'inset(0 0% 0 0)', duration: 0.6, ease: 'power2.out' }, startTime);
+        } else {
+          tl.to(M, { clipPath: 'inset(0 0 0 0%)', duration: 0.6, ease: 'power2.out' }, startTime);
+        }
+        tl.to(bar, { scaleX: 0, duration: 0.6, ease: 'power2.inOut' }, startTime + 0.3);
       });
-      W._highLinesInstance.scrollTrigger = st;
-    } else {
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            tl.play();
-            obs.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
-      obs.observe(W);
-    }
-  });
 
-  if (ScrollTrigger) ScrollTrigger.refresh();
+      W._highLinesInstance = { timeline: tl, cleanup: () => { tl.kill(); } };
+      if (ScrollTrigger) {
+        W._highLinesInstance.scrollTrigger = ScrollTrigger.create({
+          trigger: W,
+          start: 'top 92%',
+          once: true,
+          onEnter: () => tl.play()
+        });
+      }
+    });
+    if (ScrollTrigger) ScrollTrigger.refresh();
+  }
 }
 window.initKineticTextScrollMobile = initKineticTextScrollMobile;
 
@@ -1367,5 +1358,25 @@ window.scrollToOSFooter = function() {
   }
 };
 
-setTimeout(initKineticTextScrollMobile, 250);
-window.addEventListener('resize', () => { if (window.innerWidth < 992) initKineticTextScrollMobile(); });
+// Multi-tier initialization for mobile kinetic text & horizontal architecture scroll
+const runMobileMotion = () => {
+  if (window.innerWidth < 992 && typeof initKineticTextScrollMobile === 'function') {
+    initKineticTextScrollMobile();
+  }
+};
+
+runMobileMotion();
+setTimeout(runMobileMotion, 250);
+setTimeout(runMobileMotion, 600);
+setTimeout(runMobileMotion, 1200);
+
+window.addEventListener('load', () => {
+  runMobileMotion();
+  setTimeout(runMobileMotion, 300);
+});
+
+window.addEventListener('scroll', runMobileMotion, { passive: true, once: true });
+window.addEventListener('touchstart', runMobileMotion, { passive: true, once: true });
+window.addEventListener('resize', () => {
+  if (window.innerWidth < 992) runMobileMotion();
+});
