@@ -12670,6 +12670,88 @@ canvas[data-rive-primary],
     transform: scale(1) translateY(0);
   }
 }
+/* ==========================================================================
+   OFFICIAL Z8 INTRO BUTTON & TRANSITION TEXT HOVER ANIMATION RECOVERY
+   - Absolute positioning across all viewports (Mobile, Tablet, Desktop)
+   - Strict 4px Bauhaus rectangular geometry (NO pill/capsule)
+   - Solid Deep Navy (#0A1628) backdrop with Electric Cyan (#00F0FF) text
+   - Strict white-space: nowrap + 1-line height (1.1em) + line-height (1.1)
+   - Precision clip-path on .btn-text so text-shadow is 100% invisible at rest
+   - GSAP text-hover roll animation support with zero peeking or corruption
+   ========================================================================== */
+.transition-btn {
+  position: absolute !important;
+  bottom: clamp(1.25rem, 3vh, 2.5rem) !important;
+  right: clamp(1.25rem, 3vw, 2.5rem) !important;
+  z-index: 99999 !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+.transition-btn .btn-w {
+  width: auto !important;
+  min-width: 140px !important;
+  height: 3rem !important;
+  padding: 0 1.5rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: #0A1628 !important;
+  border: 1px solid #0A1628 !important;
+  color: #00F0FF !important;
+  border-radius: 4px !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 16px rgba(10, 22, 40, 0.25) !important;
+  white-space: nowrap !important;
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.transition-btn .btn-w:hover {
+  background-color: #050B14 !important;
+  border-color: #00F0FF !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 22px rgba(10, 22, 40, 0.35) !important;
+}
+
+.transition-btn .btn-inner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.transition-btn .btn-inner-text-w {
+  overflow: hidden !important;
+  height: 1.1em !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+  display: block !important;
+  position: relative !important;
+}
+
+.transition-btn .btn-text {
+  font-family: 'Mona Sans Variable', Arial, sans-serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  white-space: nowrap !important;
+  line-height: 1 !important;
+  height: 1em !important;
+  display: block !important;
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 92%) !important;
+  --text-offset: 1em !important;
+  text-shadow: 0px 1em #00F0FF !important;
+  color: #00F0FF !important;
+}
+
+.transition-btn .char {
+  display: inline-block !important;
+  line-height: 1 !important;
+  vertical-align: top !important;
+}
+
 .transition-btn .nav-btn-text:nth-child(2) {
   display: none !important;
 }
@@ -15063,5 +15145,15 @@ canvas[data-rive-object] {
   .callout-socials-links-layout .text-link-w {
     padding: 0.35rem 0.65rem !important;
     font-size: 0.68rem !important;
+  }
+}
+
+/* === MOBILE & DUO RESPONSIVENESS FIXES (OVERLAP PREVENTION & KINETIC TEXT) === */
+@media screen and (max-width: 991px) {
+  .home-hero-next-race-w {
+    display: none !important;
+  }
+  .high-line-reveal {
+    pointer-events: none !important;
   }
 }

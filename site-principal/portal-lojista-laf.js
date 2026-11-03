@@ -1646,6 +1646,61 @@ export function renderPortalLojistaLAF() {
             <!-- ITENS SELECIONADOS NO LOTE (SEM TABELA REDUNDANTE) -->
             <div id="laf-selected-items-grid" class="z8-laf-selected-items-grid"></div>
 
+            <!-- ==================== SELEÇÃO DE MODELOS & QUANTIDADES (MESA DE ATACADO MATRIZ SJC) ==================== -->
+            <div class="z8-laf-orderdesk-block" style="margin: 1.5rem 0; border-top: 1px solid rgba(0, 240, 255, 0.18); padding-top: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+                <div>
+                  <span style="font-size: 0.72rem; color: #00F0FF; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">MONTAGEM DE PEDIDO DE LOTE // MATRIZ SÃO JOSÉ DOS CAMPOS</span>
+                  <h4 style="font-size: 1.25rem; font-weight: 900; color: #F4F5F7; margin: 0.2rem 0 0 0; text-transform: uppercase;">SELEÇÃO DE MODELOS &amp; QUANTIDADES</h4>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span style="font-size: 0.82rem; color: rgba(244,244,237,0.7);">Lote Mínimo: <strong>10 motos</strong></span>
+                  <span id="orderdesk-total-bikes-badge" style="background: rgba(0, 240, 255, 0.15); color: #00F0FF; border: 1px solid rgba(0, 240, 255, 0.5); padding: 0.35rem 0.75rem; border-radius: 4px; font-weight: 800; font-size: 0.82rem;">0 / 10 Motos</span>
+                </div>
+              </div>
+
+              <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                <table class="z8-orderdesk-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.84rem;">
+                  <thead>
+                    <tr style="background: rgba(0, 240, 255, 0.08); border-bottom: 1px solid rgba(0, 240, 255, 0.25);">
+                      <th style="padding: 0.75rem 1rem; color: #00F0FF; font-weight: 800;">MODELO</th>
+                      <th style="padding: 0.75rem 1rem; color: #00F0FF; font-weight: 800;">PREÇO ATACADO</th>
+                      <th style="padding: 0.75rem 1rem; color: #00F0FF; font-weight: 800;">VAREJO SUG.</th>
+                      <th style="padding: 0.75rem 1rem; color: #00F0FF; font-weight: 800;">LUCRO / UN</th>
+                      <th style="padding: 0.75rem 1rem; color: #00F0FF; font-weight: 800; text-align: center;">QUANTIDADE</th>
+                      <th style="padding: 0.75rem 1rem; color: #00F0FF; font-weight: 800; text-align: right;">SUBTOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody id="orderdesk-table-body">
+                    ${LAF_MODELS.map((m) => {
+                      const canonical = normalizeModelId(m.id);
+                      const qty = lafOrderState.quantities[canonical] || 0;
+                      const subtotal = m.wholesale * qty;
+                      return `
+                        <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.06);">
+                          <td style="padding: 0.85rem 1rem;">
+                            <strong style="color: #F4F5F7; display: block;">${m.fullName}</strong>
+                            <span style="font-size: 0.72rem; color: rgba(244,244,237,0.6);">${m.categoryLabel || m.categoryKey || 'OFICIAL'} // ${m.pn}</span>
+                          </td>
+                          <td style="padding: 0.85rem 1rem; color: #00F0FF; font-weight: 700;">${fmtBRL(m.wholesale)}</td>
+                          <td style="padding: 0.85rem 1rem; color: rgba(244,244,237,0.8);">${fmtBRL(m.retail)}</td>
+                          <td style="padding: 0.85rem 1rem; color: #10B981; font-weight: 700;">+${fmtBRL(m.profit)}</td>
+                          <td style="padding: 0.85rem 1rem; text-align: center;">
+                            <div style="display: inline-flex; align-items: center; gap: 0.35rem; background: #06080D; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 2px;">
+                              <button type="button" onclick="window.adjustLafQty('${canonical}', -1)" style="background: none; border: none; color: #00F0FF; width: 26px; height: 26px; font-weight: 900; font-size: 0.9rem; cursor: pointer;" aria-label="Diminuir ${m.shortTitle}">-</button>
+                              <input type="number" min="0" max="500" value="${qty}" id="order-qty-${canonical}" onchange="window.setLafQty('${canonical}', this.value)" style="width: 44px; text-align: center; background: none; border: none; color: #FFF; font-weight: 800; font-size: 0.85rem;" aria-label="Quantidade ${m.shortTitle}"/>
+                              <button type="button" onclick="window.adjustLafQty('${canonical}', 1)" style="background: none; border: none; color: #00F0FF; width: 26px; height: 26px; font-weight: 900; font-size: 0.9rem; cursor: pointer;" aria-label="Aumentar ${m.shortTitle}">+</button>
+                            </div>
+                          </td>
+                          <td id="order-subtotal-${canonical}" style="padding: 0.85rem 1rem; text-align: right; color: #F4F5F7; font-weight: 800;">${fmtBRL(subtotal)}</td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
             <!-- RESUMO FINANCEIRO & OCUPAÇÃO DE CONTÊINER 40HQ -->
             <div class="z8-laf-order-summary-hud">
               <div class="z8-laf-summary-kpi">

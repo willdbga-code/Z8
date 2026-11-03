@@ -2973,3 +2973,31 @@ body.is-portal-only .z8-laf-portal-wrapper {
     min-height: 180px !important;
   }
 }
+
+/* === Z8 ORDER DESK TABLE STYLES (MESA DE ATACADO) === */
+.z8-orderdesk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Mona Sans Variable', sans-serif;
+  font-size: 0.84rem;
+  text-align: left;
+}
+.z8-orderdesk-table th {
+  background: rgba(0, 240, 255, 0.08);
+  color: var(--color--lime, #00F0FF);
+  padding: 0.75rem 1rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+  white-space: nowrap;
+}
+.z8-orderdesk-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(244, 244, 237, 0.08);
+  color: #F4F5F7;
+  white-space: nowrap;
+}
+.z8-orderdesk-table tr:hover td {
+  background: rgba(0, 240, 255, 0.04);
+}
