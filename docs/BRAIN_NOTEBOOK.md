@@ -2029,3 +2029,14 @@ pm run build gerado com sucesso em 5.64s.
 - **3. Textos Cinéticos com Varredura Ciano no Mobile (`D7`, `E7`, `HP`, `rW`)**:
   - O gatilho `initKineticTextScrollMobile` foi expandido e integrado a múltiplos disparos (`DOMContentLoaded`, `load`, após 250ms, 600ms, 1200ms, e no primeiro toque/scroll do usuário).
   - Ativa as animações nativas de varredura ciano (`[data-anim-high]`), texto monumental de manifesto (`[split-rich-text]`), revelação oval (`[data-oval-scroll]`) e revelação de imagens (`[data-img-highlight]`) em smartphones e tablets.
+
+
+### [2026-11-03] Calibração de Escala do Controle Touch Swipe Mobile no Hero de Conceito
+- **Problema**: O botão de alternância de toque/swipe (`.btn-w.is-touch-swipe` e `.home-hero-touch-controls-w`) na página `/conceito/` expandia-se desproporcionalmente para 302px x 302px em dispositivos móveis, cobrindo o centro do hero da motocicleta e o card translúcido com um quadrado ciano gigante e o ícone de mão de 3 dedos.
+- **Causa Raiz**: As regras globais de alinhamento de botões (`.btn-w` e `.btn-inner` com `width: auto !important`) combinadas à falta de restrição estrita no SVG vetorial (`:where(svg) { height: 100%; width: 100%; }`) forçavam o cálculo flex/aspect-ratio para a largura máxima da linha móvel. Além disso, a sobreposição `display: flex !important` impedia o mecanismo de alternância de estado (travado/destravado) do Lando Engine.
+- **Solução Implementada**:
+  1. Fixação dimensional estrita de 44px × 44px com `border-radius: 4px` no `.btn-w.is-touch-swipe` e ancoragem precisa no canto inferior direito (`bottom: 1rem; right: 1rem; z-index: 99`).
+  2. Calibração do SVG interno para 18px × 18px centralizado de forma absoluta.
+  3. Preservação do mecanismo JS do Lando Engine para alternar perfeitamente entre os ícones de toque destravado (mão) e travado (X).
+  4. Ocultação estrita no desktop (`display: none !important`) e adaptação harmoniosa no tablet.
+  5. Build de produção concluído com sucesso e deploy realizado no commit `50a3e16`.
