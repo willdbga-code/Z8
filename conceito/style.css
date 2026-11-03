@@ -15092,22 +15092,32 @@ canvas[data-rive-object] {
   }
 
   .nav-menu-links-list {
-    gap: 0.35rem !important;
+    gap: clamp(0.95rem, 2.5vh, 1.5rem) !important;
     width: 100% !important;
+    padding: 0.5rem 0 !important;
   }
 
   .nav-menu-link-w {
-    height: 1.2em !important;
+    height: 1.35em !important;
+    min-height: 44px !important;
     width: 100% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0.25rem 0.5rem !important;
   }
 
   .text-nav-link {
-    font-size: clamp(1.02rem, 4.2vw, 1.35rem) !important;
-    letter-spacing: -0.01em !important;
+    font-size: clamp(1.42rem, 5.8vw, 2.05rem) !important;
+    letter-spacing: 0.05em !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
   }
 
   #nav-menu-link-login .text-nav-link {
-    font-size: clamp(1rem, 4.0vw, 1.25rem) !important;
+    font-size: clamp(1.38rem, 5.5vw, 1.95rem) !important;
+    letter-spacing: 0.05em !important;
+    color: #00F0FF !important;
   }
 
   .nav-helmet-rive-w {
@@ -15129,7 +15139,13 @@ canvas[data-rive-object] {
   }
 
   .callout-socials-links-layout {
-    gap: 0.4rem !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+    max-width: 330px !important;
+    margin: 0 auto !important;
   }
 
   .callout-socials-links-layout .text-link-w {
@@ -15755,4 +15771,24 @@ canvas[data-rive-object] {
   .home-hero-touch-desc-w {
     display: none !important;
   }
+}
+
+
+/* Fix top navbar "Franquia" button icon sizing */
+.btn-w.is-nav .btn-icon-w,
+.btn-w.is-nav .btn-icon-svg,
+.btn-w.is-nav .btn-icon-svg.is-large {
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+  flex: none !important;
+}
+
+.btn-w.is-nav .btn-icon-svg svg {
+  width: 18px !important;
+  height: 18px !important;
+  max-width: 18px !important;
+  max-height: 18px !important;
+  display: block !important;
 }
