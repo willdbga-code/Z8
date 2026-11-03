@@ -2050,3 +2050,28 @@ pm run build gerado com sucesso em 5.64s.
   3. **Área de Toque (Touch Target)**: Aumentada para altura de ~60px entre centros de links (`min-height: 44px` por item + `gap: clamp(0.95rem, 2.5vh, 1.5rem)` vertical).
   4. **Pills de Documentos & Suporte**: Organizados em layout flexível com quebra de linha suave (`flex-wrap: wrap`) evitando corte de botões como `CONTRAN 996`.
   5. **Verificação & Deploy**: Validado via Puppeteer em viewport 390x844 e publicado no commit `ae857b1`.
+
+
+---
+
+### [2026-11-03] Sincronização e Alinhamento Oficial de Banco de Dados: /conceito/ e /conceito-2/ com Site Principal (Firestore z8-emotion-brasil)
+
+- **Objetivo**: Unificar 100% da arquitetura de backend, autenticação e dados entre as novas páginas `/conceito/` e `/conceito-2/` com o banco oficial do `site-principal/` (`z8-emotion-brasil`, database `default`) e as Serverless APIs (`/api/users`, `/api/leads`, `/api/orders`), preparando-as para a substituição definitiva das páginas anteriores.
+- **Implementações Realizadas**:
+  1. **Autenticação & Contas de Lojistas (`catalog_users` / `/api/users`)**:
+     - Integração de login Google 1-Click (`signInWithGoogleAccount`), e-mail/senha com validação PBKDF2/Firebase e recuperação de senha via e-mail corporativo (`sendPasswordResetEmail`).
+     - Gestão em tempo real de cadastros e aprovações (`approved` / `pending`) via `subscribeToUsersRealtime` e `fetchUsersFromCloud`.
+  2. **Pipeline de Leads de Investidores (`leads` / `/api/leads`)**:
+     - Em `conceito/app.js`, envio estruturado de leads com categorização automática: Temperatura (🔥 QUENTE / ⚡ POSSÍVEL), Score (75 a 92), Aporte Previsto, perfil de investidor e persistência tripla: Cloud Firestore, Serverless API e cache local sincronizado.
+  3. **Mesa de Pedidos Atacado LAF (`wholesale_orders`)**:
+     - Em `conceito-2/app.js`, trava de segurança do lote mínimo de 10 motos, geração de protocolo oficial de fábrica (`PED-LAF-2026-XXXX`), gravação no Cloud Firestore (`wholesale_orders`), histórico local e integração direta com WhatsApp da Diretoria.
+  4. **Ordens de Serviço de Garantia (`service_orders` / `/api/orders`)**:
+     - Em `site-principal/data/warranty-db.js`, persistência dual em Firestore `service_orders` e `/api/orders`, consulta e merge de tickets da rede autorizada.
+  5. **Cockpit Master Executivo 3-em-1 (Christian Hideyuki)**:
+     - Expansão de `admin-master-modal` em `conceito-2/index.html` e `conceito-2/app.js` com 3 abas ativas:
+       - **Aba 1 (Lojistas & Concessões)**: Aprovação e suspensão de lojas 1-clique.
+       - **Aba 2 (CRM de Leads & Investidores)**: Filtros por temperatura, busca em tempo real e botão de abordagem no padrão Dale Carnegie com script sob medida pronto para WhatsApp.
+       - **Aba 3 (Ordens de Serviço)**: Aprovação direta de garantias com liberação de part numbers para despacho D+2.
+  6. **Auditoria End-to-End via Puppeteer**:
+     - Script `scripts/verify_database_alignment.cjs` aprovado com 100% de sucesso em todos os fluxos.
+     - Deploy final executado no commit `c09587d` e sincronizado na branch `main`.
