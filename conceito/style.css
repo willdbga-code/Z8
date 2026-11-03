@@ -15328,10 +15328,12 @@ canvas[data-rive-object] {
   justify-content: space-between !important;
   padding: 10px 8px 12px !important;
   box-sizing: border-box !important;
-  backdrop-filter: blur(12px) !important;
-  background: rgba(10, 22, 40, 0.45) !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border-radius: 6px !important;
   clip-path: none !important;
+  color: #3B4B61 !important;
 }
 
 .home-hero-next-race-top {
@@ -15351,7 +15353,7 @@ canvas[data-rive-object] {
   font-weight: 800 !important;
   letter-spacing: 0.14em !important;
   text-transform: uppercase !important;
-  color: #00F0FF !important;
+  color: #3B4B61 !important;
   text-align: center !important;
   line-height: 1 !important;
 }
@@ -15393,7 +15395,7 @@ canvas[data-rive-object] {
   font-weight: 800 !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;
-  color: #F4F4ED !important;
+  color: #3B4B61 !important;
   text-align: center !important;
   line-height: 1.15 !important;
   margin: 0 !important;
@@ -15403,7 +15405,8 @@ canvas[data-rive-object] {
 .home-hero-next-race-line {
   width: 76% !important;
   height: 1px !important;
-  background: rgba(255, 255, 255, 0.15) !important;
+  background: #3B4B61 !important;
+  opacity: 0.25 !important;
   margin: 4px auto !important;
   display: block !important;
 }
@@ -15423,13 +15426,14 @@ canvas[data-rive-object] {
   font-weight: 800 !important;
   letter-spacing: 0.04em !important;
   text-transform: uppercase !important;
-  color: #00F0FF !important;
+  color: #3B4B61 !important;
   text-align: center !important;
   line-height: 1.25 !important;
 }
 
 .z8-race-margin span {
-  color: rgba(244, 244, 237, 0.65) !important;
+  color: #3B4B61 !important;
+  opacity: 0.8 !important;
   font-weight: 600 !important;
   font-size: 0.54rem !important;
 }
