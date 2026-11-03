@@ -2040,3 +2040,13 @@ pm run build gerado com sucesso em 5.64s.
   3. Preservação do mecanismo JS do Lando Engine para alternar perfeitamente entre os ícones de toque destravado (mão) e travado (X).
   4. Ocultação estrita no desktop (`display: none !important`) e adaptação harmoniosa no tablet.
   5. Build de produção concluído com sucesso e deploy realizado no commit `50a3e16`.
+
+
+### [2026-11-03] Calibração Ergonômica de Tipografia e Espaçamento no Menu Mobile
+- **Objetivo**: Aumentar a escala tipográfica e ampliar o espaçamento entre itens do menu mobile drawer em `/conceito/` e `/conceito-2/` para garantir clique fácil, confortável e à prova de erro (Touch Target WCAG AAA / HIG).
+- **Ajustes Implementados**:
+  1. **Escala Tipográfica**: Aumentada de `1.02rem` (~16px) para `clamp(1.42rem, 5.8vw, 2.05rem)` (~22.2px a 32px) com peso `font-weight: 800`, conferindo destaque monumental aos links de navegação.
+  2. **Espaçamento entre Letras (Tracking)**: Calibrado de `-0.01em` (comprimido) para `+0.05em` (arejado, elegante e arquitetônico Bauhaus).
+  3. **Área de Toque (Touch Target)**: Aumentada para altura de ~60px entre centros de links (`min-height: 44px` por item + `gap: clamp(0.95rem, 2.5vh, 1.5rem)` vertical).
+  4. **Pills de Documentos & Suporte**: Organizados em layout flexível com quebra de linha suave (`flex-wrap: wrap`) evitando corte de botões como `CONTRAN 996`.
+  5. **Verificação & Deploy**: Validado via Puppeteer em viewport 390x844 e publicado no commit `ae857b1`.
