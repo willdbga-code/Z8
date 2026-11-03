@@ -1993,3 +1993,15 @@ pm run build gerado com sucesso em 5.64s.
   - Exemplo verificado em teste automatizado: ao adicionar 1 unidade de FX-12 na ficha inicial e mais 1 unidade na tabela final, o sistema unifica em 2 unidades (R$ 15.600,00) em todas as áreas simultaneamente.
 - **Pós-Venda e Ordens de Serviço (OS)**:
   - Módulo 04 (`#rodape-os`) com gestão completa de chamados técnicos de garantia, 2 elevadores de oficina homologada e sincronização em tempo real com a coleção `service_orders` do Firestore oficial (`z8-emotion-brasil`).
+
+
+### 5. Recuperação da Animação Cinética do Botão "Iniciar Z8" (.transition-btn)
+- **Diagnóstico da Falha**: No canto inferior direito da cortina de transição (`.transition-w`), o botão "Iniciar Z8" apresentava texto duplo empilhado e corrompido (`INICIAR Z` sobreposto a `BNICIAR Z`), com perda do "8" e efeito fantasma.
+  - **Causa Raiz 1 (Quebra de Linha)**: No desktop, `.transition-btn` não possuía posicionamento absoluto global e tinha largura restrita a 82px. Como o texto "Iniciar Z8" necessita de ~70px úteis e a classe `[split-text]` herdava `white-space: pre-line`, o número "8" quebrava para a segunda linha.
+  - **Causa Raiz 2 (Colisão com Text-Shadow)**: A classe `[split-text].btn-text` projeta sombra de texto `text-shadow: 0px 1em currentColor` exatamente na linha inferior. Com a quebra, a sombra da letra "I" da primeira linha caiu exatamente sobre o "8" da segunda linha, gerando a fusão visual que parecia um "B" (`8` + `I` = `B`), formando `BNICIAR Z`.
+  - **Causa Raiz 3 (Falta de Clip-Path no Container)**: O elemento possuía `split-text="chars"` (sem criar spans de `.line`), perdendo o `clip-path: polygon(...)` padrão do template que ocultava a sombra de texto em repouso.
+- **Solução Implementada**:
+  - Posicionamento absoluto universal ancorado no canto inferior direito (`position: absolute; bottom: clamp(1.25rem, 3vh, 2.5rem); right: clamp(1.25rem, 3vw, 2.5rem); z-index: 99999;`).
+  - Botão com geometria Bauhaus estrita (cantos retangulares sutis de 4px, sem efeito pílula/cápsula), fundo sólido Deep Navy (`#0A1628`), borda fina e texto Ciano Elétrico Z8 (`#00F0FF`).
+  - Bloqueio estrito de quebra de linha (`white-space: nowrap !important;`), altura fixa de 1 linha (`height: 1.1em; line-height: 1.1; overflow: hidden;`) e `clip-path: polygon(0 0, 100% 0, 100% 92%, 0 92%) !important;` em `.btn-text`.
+  - Animação de roll hover GSAP recuperada com 100% de estabilidade: ao passar o mouse, as letras originais sobem `-100%` e a sombra ciano surge suavemente por baixo; ao retirar o cursor, o texto retorna com suavidade à posição inicial, sem qualquer resquício ou texto fantasma.
