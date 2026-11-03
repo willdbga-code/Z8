@@ -2005,3 +2005,27 @@ pm run build gerado com sucesso em 5.64s.
   - Botão com geometria Bauhaus estrita (cantos retangulares sutis de 4px, sem efeito pílula/cápsula), fundo sólido Deep Navy (`#0A1628`), borda fina e texto Ciano Elétrico Z8 (`#00F0FF`).
   - Bloqueio estrito de quebra de linha (`white-space: nowrap !important;`), altura fixa de 1 linha (`height: 1.1em; line-height: 1.1; overflow: hidden;`) e `clip-path: polygon(0 0, 100% 0, 100% 92%, 0 92%) !important;` em `.btn-text`.
   - Animação de roll hover GSAP recuperada com 100% de estabilidade: ao passar o mouse, as letras originais sobem `-100%` e a sombra ciano surge suavemente por baixo; ao retirar o cursor, o texto retorna com suavidade à posição inicial, sem qualquer resquício ou texto fantasma.
+
+
+### 6. Calibração Mobile: Blindagem de Preços no Drawer, Scroll Horizontal da Arquitetura e Textos Cinéticos
+- **1. Blindagem de Preços de Atacado no Drawer Mobile (`openZ8ModelDrawer`)**:
+  - **Problema**: Ao tocar em qualquer card de moto no celular em modo público/não logado, o drawer lateral `#z8-model-drawer` vazava os números brutos de custo atacado B2B (`R$ 7.800`, `R$ 10.600`, etc.), quebrando o protocolo de confidencialidade comercial da Z8.
+  - **Solução**: Implementada verificação estrita via `isCatalogApproved()`. Quando o visitante não está autenticado e aprovado:
+    - `CUSTO ATACADO B2B`: Exibe cadeado vetorizado ciano + badge `SOB CONSULTA`.
+    - `PREÇO VAREJO SUG.`: Exibe cadeado vetorizado branco + badge `SOB CONSULTA`.
+    - `MARGEM ESTIMADA`: Exibe `Exclusivo Credenciados`.
+    - `DISPONIBILIDADE`: Exibe `Lote Concessão 2026`.
+    - Botão CTA: `SOLICITAR TABELA DESTE MODELO & RESERVAR CIDADE ↱` (direciona para o formulário de reserva territorial `openLeadModal`).
+    - Para lojistas autenticados e aprovados, os valores reais e a encomenda direta continuam operacionais.
+- **2. Scroll Horizontal Paginado na Arquitetura no Mobile (Seção 4 `#arquitetura-z8`)**:
+  - **Problema**: Em telas `< 992px`, o CSS herdado do template forçava `.horizontal-track { flex-flow: column !important; transform: none !important; }` com margens negativas de `-7rem`, fazendo com que as fotos das fachadas (2m, 3m, 5m, Flagship, Oficina 2 Elevadores) colidissem e se sobrepusessem verticalmente em uma coluna confusa.
+  - **Causa Raiz Adicional (Engine GSAP)**: A variável de fechamento `UP` em `lando-engine.js` só era inicializada no carregamento do desktop. Ao chamar `qp()` no mobile, o engine disparava `TypeError: Cannot read properties of undefined (reading 'set')`, abortando a criação da timeline horizontal. Além disso, `transform: none !important;` no CSS impedia que qualquer translação GSAP fosse computada pelo browser.
+  - **Solução**:
+    - Removido `transform: none !important;` e `flex-flow: column !important;` de `.horizontal-track`.
+    - No CSS mobile, `.horizontal-pin-sticky` foi calibrado com `position: sticky; top: 0; height: 100vh; overflow: hidden;` e `.horizontal-track` mantido em `display: flex; flex-flow: row nowrap; width: max-content; gap: 5vw;`.
+    - Cada coluna `.horizontal-grid-col` foi modulada para `width: 82vw; height: 82vh;` com fotos em `29vh` e aspect-ratio `16/10` bem espaçadas.
+    - Em `lando-engine.js`, `UP` foi inicializado diretamente como `var UP = new Map();`, permitindo que `window.qp()` e `window.Gp()` vinculem o scroll horizontal perfeitamente em telas móveis.
+    - Ao rolar para baixo no celular, a Seção 4 trava no topo e desliza lateralmente ("de lado") exibindo Fachada 2m, Fachada 3m, Master Flagship, Fachada 5m, Oficina 2 Elevadores, Showroom Lounge e Sede Matriz, exatamente como no desktop.
+- **3. Textos Cinéticos com Varredura Ciano no Mobile (`D7`, `E7`, `HP`, `rW`)**:
+  - O gatilho `initKineticTextScrollMobile` foi expandido e integrado a múltiplos disparos (`DOMContentLoaded`, `load`, após 250ms, 600ms, 1200ms, e no primeiro toque/scroll do usuário).
+  - Ativa as animações nativas de varredura ciano (`[data-anim-high]`), texto monumental de manifesto (`[split-rich-text]`), revelação oval (`[data-oval-scroll]`) e revelação de imagens (`[data-img-highlight]`) em smartphones e tablets.
