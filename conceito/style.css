@@ -15632,3 +15632,127 @@ canvas[data-rive-object] {
     font-size: clamp(0.68rem, 3.2vw, 0.85rem) !important;
   }
 }
+
+
+/* ==========================================================================
+   HERO MOBILE TOUCH CONTROLS (SWIPE TOGGLE) CALIBRATION
+   Eliminates blown-up full-screen touch icon on mobile & ensures compact 44px Bauhaus control.
+   ========================================================================== */
+.home-hero-touch-controls-w {
+  display: none !important;
+}
+
+@media screen and (max-width: 991px) {
+  .home-hero-touch-controls-w {
+    display: flex !important;
+    align-items: center !important;
+    position: fixed !important;
+    bottom: 1.25rem !important;
+    right: 1.25rem !important;
+    z-index: 99 !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    pointer-events: auto !important;
+    gap: 0.5rem !important;
+  }
+
+  .btn-w.is-touch-swipe {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 4px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: var(--color--lime, #00F0FF) !important;
+    border: 1px solid var(--color--lime, #00F0FF) !important;
+    color: #0A1628 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 4px 16px rgba(0, 240, 255, 0.35) !important;
+    cursor: pointer !important;
+    overflow: hidden !important;
+    flex: none !important;
+  }
+
+  .btn-inner.is-touch-swipe {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    flex: none !important;
+  }
+
+  .btn-icon-w.is-touch-swipe {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    max-width: 22px !important;
+    min-height: 22px !important;
+    max-height: 22px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    flex: none !important;
+  }
+
+  .btn-rive-w.is-touch-swipe {
+    width: 20px !important;
+    height: 20px !important;
+    min-width: 20px !important;
+    max-width: 20px !important;
+    min-height: 20px !important;
+    max-height: 20px !important;
+    pointer-events: none !important;
+    flex: none !important;
+    position: absolute;
+    inset: 0;
+    margin: auto;
+  }
+
+  .btn-rive-w.is-touch-swipe.is-locked {
+    display: none;
+  }
+
+  .btn-rive-w.is-touch-swipe[style*="display: none"] {
+    display: none !important;
+  }
+
+  .btn-rive-w.is-touch-swipe svg {
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    min-height: 18px !important;
+    max-height: 18px !important;
+    display: block !important;
+    margin: auto !important;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .home-hero-touch-controls-w {
+    bottom: 1rem !important;
+    right: 1rem !important;
+  }
+  .home-hero-touch-desc-w {
+    display: none !important;
+  }
+}
