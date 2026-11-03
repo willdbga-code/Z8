@@ -618,32 +618,72 @@ function initLeadModal() {
         submitBtn.textContent = 'SINCRONIZANDO DOSSIÊ COM A MATRIZ Z8...';
       }
 
+      const isHighCapital = capital.includes('150k') || capital.includes('100k') || capital.includes('acima');
+      const cleanPhone = (whatsapp || '').replace(/\D/g, '');
+      const leadId = 'lead_conceito_' + Date.now();
+
       const payload = {
+        id: leadId,
         name,
-        whatsapp,
-        city,
+        company: name,
+        city: city || 'São Paulo',
+        state: 'SP',
+        whatsapp: whatsapp,
+        phone: whatsapp,
+        email: `${cleanPhone || Date.now()}@candidato.z8emotion.com`,
+        whatsappVerified: true,
         capital,
-        source: `Conceito Lando 1:1 (${currentLeadOrigin})`,
-        createdAt: new Date().toISOString()
+        investment: capital,
+        paymentMethod: 'Candidatura Concessão Franquia',
+        status: 'novo',
+        temperature: isHighCapital ? 'quente' : 'possivel',
+        score: isHighCapital ? 92 : 75,
+        estimatedRevenue: isHighCapital ? 150000.00 : 80000.00,
+        investorProfile: {
+          investmentRange: capital,
+          isInvestor: 'empresa',
+          timeline: 'imediato',
+          involvement: 'operador',
+          capitalLabel: capital,
+          experienceText: `Candidato qualificado via página Conceito (${currentLeadOrigin})`
+        },
+        source: `Página Conceito (${currentLeadOrigin})`,
+        createdAt: new Date().toISOString(),
+        updatedAt: Date.now()
       };
 
+      // 1. Grava no Cloud Firestore na collection 'leads'
       try {
         const { db } = initFirebase();
         if (db) {
-          const leadId = 'lead_conceito_' + Date.now();
           await Promise.race([
-            setDoc(doc(db, 'leads', leadId), { id: leadId, ...payload }),
+            setDoc(doc(db, 'leads', leadId), payload, { merge: true }),
             new Promise((r) => setTimeout(r, 2500))
           ]);
         }
       } catch (_) {}
 
+      // 2. Grava via API Serverless Oficial
       try {
-        fetch('/api/leads', {
+        await fetch('/api/leads', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
-        }).catch(() => {});
+        });
+      } catch (_) {}
+
+      // 3. Atualiza base local de CRM e notifica aplicação
+      try {
+        const rawLeads = localStorage.getItem('z8_crm_leads_data') || '[]';
+        const localLeads = JSON.parse(rawLeads);
+        const existingIdx = localLeads.findIndex(l => (l.phone && l.phone === whatsapp) || (l.id === leadId));
+        if (existingIdx >= 0) {
+          localLeads[existingIdx] = { ...localLeads[existingIdx], ...payload };
+        } else {
+          localLeads.unshift(payload);
+        }
+        localStorage.setItem('z8_crm_leads_data', JSON.stringify(localLeads));
+        window.dispatchEvent(new CustomEvent('z8-lead-added', { detail: payload }));
       } catch (_) {}
 
       const msg = encodeURIComponent(

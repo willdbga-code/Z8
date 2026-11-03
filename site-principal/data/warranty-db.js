@@ -4,6 +4,9 @@
 // Central Serverless & Cloud Database Integration
 // ==========================================================================
 
+import { initFirebase } from '../services/firebase-service.js';
+import { doc, setDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
+
 const OS_STORAGE_KEY = 'z8_warranty_service_orders_db';
 const API_ORDERS_URL = '/api/orders';
 
@@ -98,7 +101,7 @@ const DEFAULT_ORDERS = [
   }
 ];
 
-// Salva uma OS individual na Nuvem Serverless
+// Salva uma OS individual na Nuvem Serverless e Firestore
 export async function pushWarrantyOrderToFirestore(order, isUpdate = false) {
   if (!order || !order.id) return;
   try {
@@ -132,6 +135,17 @@ export async function pushWarrantyOrderToFirestore(order, isUpdate = false) {
       updatedAt: order.updatedAt || Date.now()
     };
 
+    // 1. Persistência direta no Cloud Firestore ('service_orders')
+    try {
+      const { db } = initFirebase();
+      if (db && payload.id) {
+        await setDoc(doc(db, 'service_orders', payload.id), payload, { merge: true });
+      }
+    } catch (fbErr) {
+      // Ignora erro de permissão direta do client, API serverless garante gravação
+    }
+
+    // 2. Persistência na API Serverless Oficial
     const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
     const headers = { 'Content-Type': 'application/json' };
     if (adminToken) headers['Authorization'] = `Bearer ${adminToken}`;
@@ -147,9 +161,16 @@ export async function pushWarrantyOrderToFirestore(order, isUpdate = false) {
   }
 }
 
-// Remove uma OS da Nuvem Serverless
+// Remove uma OS da Nuvem Serverless e Firestore
 export async function deleteWarrantyOrderFromFirestore(orderId) {
   if (!orderId) return;
+  try {
+    const { db } = initFirebase();
+    if (db && orderId) {
+      await deleteDoc(doc(db, 'service_orders', orderId));
+    }
+  } catch (_) {}
+
   try {
     const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
     const headers = { 'Content-Type': 'application/json' };
@@ -165,8 +186,37 @@ export async function deleteWarrantyOrderFromFirestore(orderId) {
   }
 }
 
-// Sincroniza todas as OS do Servidor com o banco local
+// Sincroniza todas as OS do Servidor e Firestore com o banco local
 export async function fetchWarrantyOrdersFromFirestore() {
+  const localOrders = getStoredWarrantyOrders();
+  const orderMap = new Map();
+  localOrders.forEach(o => orderMap.set(o.id, o));
+  let hasChanges = false;
+
+  // 1. Tenta buscar no Cloud Firestore direto ('service_orders')
+  try {
+    const { db } = initFirebase();
+    if (db) {
+      const snap = await getDocs(collection(db, 'service_orders'));
+      snap.forEach(d => {
+        const cloudOrder = d.data();
+        if (cloudOrder && cloudOrder.id) {
+          if (!orderMap.has(cloudOrder.id)) {
+            orderMap.set(cloudOrder.id, cloudOrder);
+            hasChanges = true;
+          } else {
+            const localO = orderMap.get(cloudOrder.id);
+            if ((cloudOrder.updatedAt || 0) > (localO.updatedAt || 0)) {
+              orderMap.set(cloudOrder.id, { ...localO, ...cloudOrder });
+              hasChanges = true;
+            }
+          }
+        }
+      });
+    }
+  } catch (fbErr) {}
+
+  // 2. Tenta buscar no endpoint Serverless /api/orders
   try {
     const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
     const rawUser = sessionStorage.getItem('z8_catalog_auth_user') || localStorage.getItem('z8_catalog_auth_user');
@@ -180,47 +230,36 @@ export async function fetchWarrantyOrdersFromFirestore() {
     if (user?.email) headers['x-user-email'] = user.email;
 
     const res = await fetch(API_ORDERS_URL, { headers });
-    if (!res.ok) return null;
-    const json = await res.json();
-    const ordersList = json?.orders;
-
-    if (Array.isArray(ordersList) && ordersList.length > 0) {
-      const localOrders = getStoredWarrantyOrders();
-      let hasChanges = false;
-
-      const orderMap = new Map();
-      localOrders.forEach(o => orderMap.set(o.id, o));
-
-      ordersList.forEach(cloudOrder => {
-        const id = cloudOrder.id;
-        if (!id) return;
-
-        if (!orderMap.has(id)) {
-          orderMap.set(id, cloudOrder);
-          hasChanges = true;
-        } else {
-          const localO = orderMap.get(id);
-          const cloudTime = cloudOrder.updatedAt || 0;
-          const localTime = localO.updatedAt || 0;
-
-          if (cloudTime > localTime) {
-            orderMap.set(id, { ...localO, ...cloudOrder });
+    if (res.ok) {
+      const json = await res.json();
+      const ordersList = json?.orders;
+      if (Array.isArray(ordersList) && ordersList.length > 0) {
+        ordersList.forEach(cloudOrder => {
+          const id = cloudOrder.id;
+          if (!id) return;
+          if (!orderMap.has(id)) {
+            orderMap.set(id, cloudOrder);
             hasChanges = true;
+          } else {
+            const localO = orderMap.get(id);
+            if ((cloudOrder.updatedAt || 0) > (localO.updatedAt || 0)) {
+              orderMap.set(id, { ...localO, ...cloudOrder });
+              hasChanges = true;
+            }
           }
-        }
-      });
-
-      const mergedOrders = Array.from(orderMap.values());
-      localStorage.setItem(OS_STORAGE_KEY, JSON.stringify(mergedOrders));
-      if (hasChanges) {
-        window.dispatchEvent(new CustomEvent('z8-warranty-os-updated'));
+        });
       }
-      return mergedOrders;
     }
   } catch (err) {
     console.warn('API OS fetch error:', err);
   }
-  return null;
+
+  const mergedOrders = Array.from(orderMap.values());
+  localStorage.setItem(OS_STORAGE_KEY, JSON.stringify(mergedOrders));
+  if (hasChanges) {
+    window.dispatchEvent(new CustomEvent('z8-warranty-os-updated'));
+  }
+  return mergedOrders;
 }
 
 export function getStoredWarrantyOrders() {

@@ -2127,45 +2127,163 @@
   </aside>
 
   <!-- ==================== MASTER ADMIN DASHBOARD MODAL (CHRISTIAN HIDEYUKI) ==================== -->
-  <div id="admin-master-modal" class="z8-auth-menu-modal lenis-prevent" data-lenis-prevent="true" style="display: none;">
-    <div style="background: #080B10; border: 1px solid rgba(245, 158, 11, 0.4); max-width: 900px; width: 95vw; margin: auto; padding: 2rem; border-radius: 8px; max-height: 90vh; overflow-y: auto;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08);">
+  <div id="admin-master-modal" class="z8-auth-menu-modal lenis-prevent" data-lenis-prevent="true" style="display: none; align-items: center; justify-content: center; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 10000; padding: 1rem;">
+    <div style="background: #080B10; border: 1px solid rgba(0, 240, 255, 0.4); max-width: 1050px; width: 100%; margin: auto; padding: 2rem; border-radius: 8px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.8);">
+      
+      <!-- Modal Topbar Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 1rem;">
         <div>
-          <span style="font-size: 0.72rem; color: #F59E0B; font-weight: 800; text-transform: uppercase;"><i class="fa-solid fa-crown"></i> DIRETORIA MATRIZ Z8 // COMANDO MASTER</span>
-          <h2 style="font-size: 1.5rem; color: #FFF; font-weight: 900; margin: 0.25rem 0 0 0;">PAINEL MASTER DE APROVAÇÃO DE LOJISTAS</h2>
+          <span style="font-size: 0.72rem; color: #F59E0B; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;"><i class="fa-solid fa-crown" style="margin-right: 5px;"></i> DIRETORIA MATRIZ Z8 // COMANDO MASTER EXECUTIVO</span>
+          <h2 style="font-size: 1.5rem; color: #FFF; font-weight: 900; margin: 0.25rem 0 0 0; letter-spacing: -0.01em;">COCKPIT CENTRAL DE GESTÃO, CRM & GARANTIAS</h2>
+          <span style="font-size: 0.76rem; color: #94A3B8;">Base de Dados Oficial: <strong>z8-emotion-brasil</strong> (Firestore + Serverless API)</span>
         </div>
-        <button type="button" onclick="window.closeAdminModal && window.closeAdminModal()" style="background: none; border: 1px solid rgba(255,255,255,0.2); color: #FFF; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer;">FECHAR [ESC]</button>
+        <button type="button" onclick="window.closeAdminModal && window.closeAdminModal()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: #FFF; padding: 0.45rem 0.9rem; border-radius: 4px; cursor: pointer; font-size: 0.78rem; font-weight: 700; transition: all 0.2s;">FECHAR [ESC]</button>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-        <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); padding: 1rem; border-radius: 6px;">
-          <span style="font-size: 0.72rem; color: #F59E0B; text-transform: uppercase;">LOJISTAS PENDENTES</span>
-          <strong id="admin-stat-pending" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+      <!-- Tab Selectors Bar -->
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.75rem; flex-wrap: wrap;">
+        <button type="button" id="tab-adm-users-btn" style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00F0FF; color: #00F0FF; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 800; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-users"></i> LOJISTAS & CONCESSÕES (<span id="admin-stat-users-tab-count">0</span>)
+        </button>
+        <button type="button" id="tab-adm-leads-btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94A3B8; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 800; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-bullseye"></i> CRM DE LEADS & INVESTIDORES (<span id="adm-leads-badge-count">0</span>)
+        </button>
+        <button type="button" id="tab-adm-os-btn" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94A3B8; padding: 0.6rem 1.2rem; border-radius: 4px; cursor: pointer; font-weight: 800; font-size: 0.8rem; display: inline-flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-wrench"></i> ORDENS DE SERVIÇO (<span id="admin-stat-os-badge">0</span>)
+        </button>
+      </div>
+
+      <!-- PANE 1: LOJISTAS & CONCESSÕES -->
+      <div id="adm-tab-pane-users" style="display: block;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #F59E0B; text-transform: uppercase; font-weight: 700;">LOJISTAS PENDENTES</span>
+            <strong id="admin-stat-pending" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #10B981; text-transform: uppercase; font-weight: 700;">CONCESSIONÁRIAS ATIVAS</span>
+            <strong id="admin-stat-approved" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+          <div style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #00F0FF; text-transform: uppercase; font-weight: 700;">TOTAL DE CONTAS</span>
+            <strong id="admin-stat-total-users" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
         </div>
-        <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1rem; border-radius: 6px;">
-          <span style="font-size: 0.72rem; color: #10B981; text-transform: uppercase;">CONCESSIONÁRIAS ATIVAS</span>
-          <strong id="admin-stat-approved" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
-        </div>
-        <div style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.3); padding: 1rem; border-radius: 6px;">
-          <span style="font-size: 0.72rem; color: #00F0FF; text-transform: uppercase;">ORDENS DE SERVIÇO</span>
-          <strong id="admin-stat-os" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+
+        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+          <table class="z8-orderdesk-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">
+            <thead>
+              <tr style="background: rgba(0, 240, 255, 0.08); border-bottom: 1px solid rgba(0, 240, 255, 0.2);">
+                <th style="padding: 0.75rem 1rem; color: #00F0FF;">LOJISTA / EMPRESA</th>
+                <th style="padding: 0.75rem 1rem; color: #00F0FF;">CIDADE / UF</th>
+                <th style="padding: 0.75rem 1rem; color: #00F0FF;">WHATSAPP</th>
+                <th style="padding: 0.75rem 1rem; color: #00F0FF;">STATUS</th>
+                <th style="padding: 0.75rem 1rem; color: #00F0FF; text-align: right;">AÇÃO 1-CLIQUE</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users-table-body"></tbody>
+          </table>
         </div>
       </div>
 
-      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-        <table class="z8-orderdesk-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">
-          <thead>
-            <tr style="background: rgba(245, 158, 11, 0.1); border-bottom: 1px solid rgba(245, 158, 11, 0.3);">
-              <th style="padding: 0.75rem 1rem; color: #F59E0B;">LOJISTA / EMPRESA</th>
-              <th style="padding: 0.75rem 1rem; color: #F59E0B;">CIDADE / UF</th>
-              <th style="padding: 0.75rem 1rem; color: #F59E0B;">WHATSAPP</th>
-              <th style="padding: 0.75rem 1rem; color: #F59E0B;">STATUS</th>
-              <th style="padding: 0.75rem 1rem; color: #F59E0B; text-align: right;">AÇÃO 1-CLIQUE</th>
-            </tr>
-          </thead>
-          <tbody id="admin-users-table-body"></tbody>
-        </table>
+      <!-- PANE 2: CRM DE LEADS & INVESTIDORES -->
+      <div id="adm-tab-pane-leads" style="display: none;">
+        <!-- Leads KPIs -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #94A3B8; text-transform: uppercase; font-weight: 700;">TOTAL DE LEADS</span>
+            <strong id="adm-leads-kpi-total" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+          <div style="background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #FCA5A5; text-transform: uppercase; font-weight: 700;">🔥 QUENTES (APORTE ALTO)</span>
+            <strong id="adm-leads-kpi-hot" style="font-size: 1.6rem; color: #EF4444; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #FCD34D; text-transform: uppercase; font-weight: 700;">⚡ POSSÍVEIS (EM QUALIFICAÇÃO)</span>
+            <strong id="adm-leads-kpi-warm" style="font-size: 1.6rem; color: #F59E0B; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+          <div style="background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #7DD3FC; text-transform: uppercase; font-weight: 700;">❄️ FRIOS / PESQUISA</span>
+            <strong id="adm-leads-kpi-cold" style="font-size: 1.6rem; color: #38BDF8; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+        </div>
+
+        <!-- Filter bar & Live Search -->
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap;">
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" class="admin-lead-filter-pill active" data-temp="all" style="background: rgba(0, 240, 255, 0.15); border: 1px solid #00F0FF; color: #00F0FF; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+              TODOS (<span id="adm-leads-pill-all">0</span>)
+            </button>
+            <button type="button" class="admin-lead-filter-pill" data-temp="quente" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94A3B8; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+              🔥 QUENTES (<span id="adm-leads-pill-hot">0</span>)
+            </button>
+            <button type="button" class="admin-lead-filter-pill" data-temp="possivel" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94A3B8; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+              ⚡ POSSÍVEIS (<span id="adm-leads-pill-warm">0</span>)
+            </button>
+            <button type="button" class="admin-lead-filter-pill" data-temp="frio" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); color: #94A3B8; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer;">
+              ❄️ FRIOS (<span id="adm-leads-pill-cold">0</span>)
+            </button>
+          </div>
+
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex: 1; max-width: 420px; justify-content: flex-end;">
+            <input type="text" id="adm-leads-search" placeholder="Buscar lead por nome, cidade ou telefone..." style="background: #0D1117; border: 1px solid rgba(255,255,255,0.15); color: #FFF; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; width: 100%;">
+            <button type="button" id="btn-sync-cloud-leads" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #FFF; padding: 6px 12px; border-radius: 4px; font-size: 0.78rem; font-weight: 700; cursor: pointer; white-space: nowrap;">
+              <i class="fa-solid fa-rotate"></i> Sincronizar
+            </button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+          <table class="z8-orderdesk-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">
+            <thead>
+              <tr style="background: rgba(245, 158, 11, 0.08); border-bottom: 1px solid rgba(245, 158, 11, 0.2);">
+                <th style="padding: 0.75rem 1rem; color: #F59E0B;">CANDIDATO / EMPRESA</th>
+                <th style="padding: 0.75rem 1rem; color: #F59E0B;">CIDADE / PRAÇA</th>
+                <th style="padding: 0.75rem 1rem; color: #F59E0B;">APORTE / PERFIL</th>
+                <th style="padding: 0.75rem 1rem; color: #F59E0B;">TEMPERATURA</th>
+                <th style="padding: 0.75rem 1rem; color: #F59E0B; text-align: center;">ABORDAGEM WHATSAPP</th>
+                <th style="padding: 0.75rem 1rem; color: #F59E0B; text-align: right;">STATUS & GESTÃO</th>
+              </tr>
+            </thead>
+            <tbody id="cat-admin-leads-list"></tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- PANE 3: ORDENS DE SERVIÇO (OS) -->
+      <div id="adm-tab-pane-os" style="display: none;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #F59E0B; text-transform: uppercase; font-weight: 700;">OS EM ANÁLISE / PENDENTES</span>
+            <strong id="adm-os-kpi-pending" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #10B981; text-transform: uppercase; font-weight: 700;">OS APROVADAS / DESPACHADAS</span>
+            <strong id="adm-os-kpi-approved" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+          <div style="background: rgba(0, 240, 255, 0.08); border: 1px solid rgba(0, 240, 255, 0.3); padding: 1rem; border-radius: 6px;">
+            <span style="font-size: 0.72rem; color: #00F0FF; text-transform: uppercase; font-weight: 700;">TOTAL DE ORDENS</span>
+            <strong id="adm-os-kpi-total" style="font-size: 1.6rem; color: #FFF; display: block; margin-top: 0.25rem;">0</strong>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+          <table class="z8-orderdesk-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.82rem;">
+            <thead>
+              <tr style="background: rgba(16, 185, 129, 0.08); border-bottom: 1px solid rgba(16, 185, 129, 0.2);">
+                <th style="padding: 0.75rem 1rem; color: #10B981;">NÚMERO OS / MODELO</th>
+                <th style="padding: 0.75rem 1rem; color: #10B981;">CHASSI / KM</th>
+                <th style="padding: 0.75rem 1rem; color: #10B981;">LOJISTA / CIDADE</th>
+                <th style="padding: 0.75rem 1rem; color: #10B981;">COMPONENTE / DIAGNÓSTICO</th>
+                <th style="padding: 0.75rem 1rem; color: #10B981;">STATUS</th>
+                <th style="padding: 0.75rem 1rem; color: #10B981; text-align: right;">AÇÃO MASTER</th>
+              </tr>
+            </thead>
+            <tbody id="admin-os-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 

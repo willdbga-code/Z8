@@ -26,9 +26,13 @@ import {
   subscribeToUsersRealtime,
   updateUserStatus,
   deleteCatalogUser,
-  getCloudSyncStatus
+  getCloudSyncStatus,
+  getRegisteredUsers,
+  fetchUsersFromCloud
 } from '../site-principal/catalog-auth.js';
 import { renderPortalLojistaLAF, syncPortalLojistaUser } from '../site-principal/portal-lojista-laf.js';
+import { initFirebase } from '../site-principal/services/firebase-service.js';
+import { doc, setDoc, getDocs, collection } from 'firebase/firestore';
 
 // ==========================================================================
 // 1. DATA ENRICHMENT: 11 MODELS FLEET (TECH DATA + STUDIO COLOR SWATCHES)
@@ -818,7 +822,7 @@ window.addEventListener('z8-wholesale-order-updated', () => {
   // UI is synchronized automatically by the store
 });
 
-window.submitOrderDesk = function() {
+window.submitOrderDesk = async function() {
   const store = window.Z8_WHOLESALE_ORDER_STORE;
   const totals = store ? store.getTotals() : { totalBikes: 0, totalWholesale: 0, totalProfit: 0 };
   const items = store ? store.getAllItems() : [];
@@ -833,15 +837,77 @@ window.submitOrderDesk = function() {
   const company = user?.company || 'Concessionária';
   const city = user?.city || 'São Paulo';
   const state = user?.state || 'SP';
+  const userEmail = (user?.email || '').toLowerCase().trim();
+  const phone = user?.phone || '';
 
-  const summary = items.map(it => `• ${it.qty}x ${it.fullName || it.name} (${fmtBRL(it.subtotalWholesale)})`);
+  const orderId = 'PED-LAF-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+
+  const orderPayload = {
+    id: orderId,
+    orderNumber: orderId,
+    userId: user?.id || ('user_' + userEmail.replace(/[^a-zA-Z0-9]/g, '_')),
+    userEmail: userEmail,
+    clientEmail: userEmail,
+    clientName: partnerName,
+    company: company,
+    city: city,
+    state: state,
+    phone: phone,
+    totalBikes: totals.totalBikes,
+    totalWholesale: totals.totalWholesale,
+    totalProfit: totals.totalProfit,
+    totalRetail: totals.totalWholesale + totals.totalProfit,
+    items: items.map(it => ({
+      id: it.id,
+      name: it.fullName || it.name,
+      qty: it.qty,
+      wholesalePrice: it.wholesalePrice,
+      retailPrice: it.retailPrice,
+      profit: it.profit,
+      subtotalWholesale: it.subtotalWholesale,
+      subtotalProfit: it.subtotalProfit
+    })),
+    status: 'novo',
+    statusText: 'Aguardando Validação de Faturamento',
+    createdAt: new Date().toISOString(),
+    updatedAt: Date.now()
+  };
+
+  // 1. Grava no Cloud Firestore na collection 'wholesale_orders'
+  try {
+    const { db } = initFirebase();
+    if (db) {
+      await Promise.race([
+        setDoc(doc(db, 'wholesale_orders', orderId), orderPayload),
+        new Promise(r => setTimeout(r, 2000))
+      ]);
+    }
+  } catch (err) {
+    console.warn('Firestore wholesale order notice:', err);
+  }
+
+  // 2. Grava no histórico local da sessão
+  try {
+    const rawHistory = localStorage.getItem('z8_wholesale_orders_history') || '[]';
+    const history = JSON.parse(rawHistory);
+    history.unshift(orderPayload);
+    localStorage.setItem('z8_wholesale_orders_history', JSON.stringify(history));
+  } catch (_) {}
+
+  // 3. Notifica a aplicação e outros componentes
+  window.dispatchEvent(new CustomEvent('z8-wholesale-order-placed', { detail: orderPayload }));
+
+  // 4. Monta resumo do pedido e mensagem WhatsApp de alta autoridade
+  const summary = items.map(it => `  ${it.qty}x ${it.fullName || it.name} (${fmtBRL(it.subtotalWholesale)})`);
 
   const text = encodeURIComponent(
     `*MINUTA DE PEDIDO DE ATACADO B2B // Z8 E-MOTION*\n` +
+    `*PROTOCOLO OFICIAL FÁBRICA:* ${orderId}\n` +
     `========================================\n` +
     `*Concessionário:* ${partnerName}\n` +
     `*Empresa / CNPJ:* ${company}\n` +
     `*Praça Protegida:* ${city}/${state} (Raio de até 50 km)\n` +
+    `*Contato:* ${phone}\n` +
     `========================================\n\n` +
     `*COMPOSIÇÃO DO LOTE FATURADO (${totals.totalBikes} MOTOS):*\n` +
     summary.join('\n') +
@@ -854,6 +920,7 @@ window.submitOrderDesk = function() {
   );
 
   playHighTechTick('up');
+  alert(`✅ PEDIDO DE ATACADO REGISTRADO COM SUCESSO!\n\nProtocolo: ${orderId}\nLote: ${totals.totalBikes} motos\nTotal Atacado: ${fmtBRL(totals.totalWholesale)}\n\nO pedido foi sincronizado no banco de dados da fábrica. Abrindo canal direto com a Diretoria no WhatsApp...`);
   window.open(`https://wa.me/5512998008818?text=${text}`, '_blank');
 };
 
@@ -1032,13 +1099,385 @@ window.handleCreateOS = function(event) {
 // ==========================================================================
 // 8. ADMIN MASTER MODAL CONTROLLER (CHRISTIAN HIDEYUKI)
 // ==========================================================================
+export // ==========================================================================
+// 8. COCKPIT MASTER DE GOVERNANÇA, CRM & GARANTIAS (CHRISTIAN HIDEYUKI)
+// ==========================================================================
+let currentLeadTempFilter = 'all';
+let currentLeadSearch = '';
+let adminTabsInitialized = false;
+
+export function getAdminLeads() {
+  try {
+    const raw = localStorage.getItem('z8_crm_leads_data');
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+export async function fetchAdminLeadsFromCloud() {
+  try {
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    const headers = adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {};
+
+    const current = getAdminLeads();
+    const map = new Map();
+    current.forEach(l => map.set(l.id || l.email || l.phone, l));
+
+    // 1. Tenta buscar no /api/leads
+    try {
+      const res = await fetch('/api/leads', { headers });
+      if (res.ok) {
+        const json = await res.json();
+        if (Array.isArray(json?.leads)) {
+          json.leads.forEach(cl => {
+            const key = cl.id || cl.email || cl.phone;
+            if (key) map.set(key, { ...map.get(key), ...cl });
+          });
+        }
+      }
+    } catch (e) {
+      console.warn('API leads fetch warning:', e);
+    }
+
+    // 2. Tenta buscar no Firestore 'leads'
+    try {
+      const { db } = initFirebase();
+      if (db) {
+        const snap = await getDocs(collection(db, 'leads'));
+        snap.forEach(d => {
+          const data = d.data();
+          const key = data.id || d.id || data.email || data.phone;
+          if (key) map.set(key, { ...map.get(key), ...data });
+        });
+      }
+    } catch (e) {
+      console.warn('Firestore leads fetch warning:', e);
+    }
+
+    const merged = Array.from(map.values());
+    localStorage.setItem('z8_crm_leads_data', JSON.stringify(merged));
+    return merged;
+  } catch (err) {
+    console.warn('fetchAdminLeadsFromCloud error:', err);
+  }
+  return getAdminLeads();
+}
+
+function initAdminCockpitTabs() {
+  if (adminTabsInitialized) return;
+  adminTabsInitialized = true;
+
+  const btnUsers = document.getElementById('tab-adm-users-btn');
+  const btnLeads = document.getElementById('tab-adm-leads-btn');
+  const btnOS = document.getElementById('tab-adm-os-btn');
+
+  const paneUsers = document.getElementById('adm-tab-pane-users');
+  const paneLeads = document.getElementById('adm-tab-pane-leads');
+  const paneOS = document.getElementById('adm-tab-pane-os');
+
+  const setTab = (activeBtn, activePane) => {
+    [btnUsers, btnLeads, btnOS].forEach(b => {
+      if (b) {
+        b.style.background = 'rgba(255,255,255,0.05)';
+        b.style.borderColor = 'rgba(255,255,255,0.15)';
+        b.style.color = '#94A3B8';
+      }
+    });
+    [paneUsers, paneLeads, paneOS].forEach(p => {
+      if (p) p.style.display = 'none';
+    });
+
+    if (activeBtn) {
+      if (activeBtn === btnUsers) {
+        activeBtn.style.background = 'rgba(0, 240, 255, 0.15)';
+        activeBtn.style.borderColor = '#00F0FF';
+        activeBtn.style.color = '#00F0FF';
+      } else if (activeBtn === btnLeads) {
+        activeBtn.style.background = 'rgba(245, 158, 11, 0.15)';
+        activeBtn.style.borderColor = '#F59E0B';
+        activeBtn.style.color = '#F59E0B';
+      } else if (activeBtn === btnOS) {
+        activeBtn.style.background = 'rgba(16, 185, 129, 0.15)';
+        activeBtn.style.borderColor = '#10B981';
+        activeBtn.style.color = '#10B981';
+      }
+    }
+    if (activePane) activePane.style.display = 'block';
+  };
+
+  btnUsers?.addEventListener('click', () => { setTab(btnUsers, paneUsers); loadAdminUsersList(); });
+  btnLeads?.addEventListener('click', () => { setTab(btnLeads, paneLeads); renderAdminLeadsList(); });
+  btnOS?.addEventListener('click', () => { setTab(btnOS, paneOS); renderAdminOSTable(); });
+
+  // Leads Filters
+  document.querySelectorAll('.admin-lead-filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.admin-lead-filter-pill').forEach(p => {
+        p.style.background = 'rgba(255,255,255,0.05)';
+        p.style.borderColor = 'rgba(255,255,255,0.15)';
+        p.style.color = '#94A3B8';
+      });
+      pill.style.background = 'rgba(0, 240, 255, 0.15)';
+      pill.style.borderColor = '#00F0FF';
+      pill.style.color = '#00F0FF';
+      currentLeadTempFilter = pill.getAttribute('data-temp') || 'all';
+      renderAdminLeadsList();
+    });
+  });
+
+  // Leads Search
+  const searchInput = document.getElementById('adm-leads-search');
+  searchInput?.addEventListener('input', (e) => {
+    currentLeadSearch = e.target.value.toLowerCase().trim();
+    renderAdminLeadsList();
+  });
+
+  // Sync Button
+  const syncBtn = document.getElementById('btn-sync-cloud-leads');
+  syncBtn?.addEventListener('click', async () => {
+    syncBtn.disabled = true;
+    syncBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sincronizando...';
+    await fetchAdminLeadsFromCloud();
+    renderAdminLeadsList();
+    syncBtn.disabled = false;
+    syncBtn.innerHTML = '<i class="fa-solid fa-check"></i> Sincronizado!';
+    setTimeout(() => {
+      syncBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sincronizar';
+    }, 1500);
+  });
+}
+
+export function renderAdminLeadsList() {
+  const tbody = document.getElementById('cat-admin-leads-list');
+  if (!tbody) return;
+
+  const leads = getAdminLeads();
+  const total = leads.length;
+  const hot = leads.filter(l => l.temperature === 'quente').length;
+  const warm = leads.filter(l => l.temperature === 'possivel' || !l.temperature).length;
+  const cold = leads.filter(l => l.temperature === 'frio').length;
+
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('adm-leads-kpi-total', total);
+  setEl('adm-leads-kpi-hot', hot);
+  setEl('adm-leads-kpi-warm', warm);
+  setEl('adm-leads-kpi-cold', cold);
+  setEl('adm-leads-badge-count', total);
+
+  setEl('adm-leads-pill-all', total);
+  setEl('adm-leads-pill-hot', hot);
+  setEl('adm-leads-pill-warm', warm);
+  setEl('adm-leads-pill-cold', cold);
+
+  const filtered = leads.filter(l => {
+    let matchTemp = true;
+    if (currentLeadTempFilter === 'quente') matchTemp = (l.temperature === 'quente');
+    else if (currentLeadTempFilter === 'possivel') matchTemp = (l.temperature === 'possivel' || !l.temperature);
+    else if (currentLeadTempFilter === 'frio') matchTemp = (l.temperature === 'frio');
+
+    let matchSearch = true;
+    if (currentLeadSearch) {
+      const q = currentLeadSearch;
+      matchSearch = (
+        (l.name || '').toLowerCase().includes(q) ||
+        (l.company || '').toLowerCase().includes(q) ||
+        (l.city || '').toLowerCase().includes(q) ||
+        (l.phone || '').toLowerCase().includes(q) ||
+        (l.whatsapp || '').toLowerCase().includes(q) ||
+        (l.capital || '').toLowerCase().includes(q)
+      );
+    }
+    return matchTemp && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 2rem; color: #64748B; font-style: italic;">
+          Nenhum lead encontrado com os filtros selecionados.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(lead => {
+    const cleanPhone = (lead.phone || lead.whatsapp || '').replace(/\D/g, '');
+    const firstName = (lead.name || 'Parceiro').split(' ')[0];
+    const cityName = lead.city || 'sua cidade';
+    const prof = lead.investorProfile || {};
+
+    let waMessage = '';
+    let tempBadge = '';
+
+    if (lead.temperature === 'quente') {
+      tempBadge = `<span style="background:rgba(239,68,68,0.2); border:1px solid #EF4444; color:#FCA5A5; padding:3px 8px; border-radius:4px; font-weight:800; font-size:0.72rem;"><i class="fa-solid fa-fire"></i> QUENTE (${lead.score || 92})</span>`;
+      waMessage = encodeURIComponent(
+        `Olá ${firstName}! Aqui é Christian Hideyuki, diretor de expansão da Z8 E-Motion Brasil.\n\n` +
+        `Analisei sua candidatura de franquia para ${cityName} e identifiquei seu perfil de alto potencial (${prof.capitalLabel || lead.capital || 'Aporte expressivo'}).\n\n` +
+        `Gostaria de apresentar com exclusividade a nossa Circular de Oferta de Franquia (COF Lei 13.966/2019) e o plano de implantação da sua concessionária com raio protegido de até 50 km.\n\n` +
+        `Podemos falar agora por 5 minutos?`
+      );
+    } else if (lead.temperature === 'frio') {
+      tempBadge = `<span style="background:rgba(56,189,248,0.2); border:1px solid #38BDF8; color:#7DD3FC; padding:3px 8px; border-radius:4px; font-weight:800; font-size:0.72rem;"><i class="fa-solid fa-snowflake"></i> FRIO (${lead.score || 50})</span>`;
+      waMessage = encodeURIComponent(
+        `Olá ${firstName}! Aqui é Christian da Z8 E-Motion.\n\n` +
+        `Agradecemos seu contato para ${cityName}. Segue o catálogo institucional da nossa frota elétrica.\n\n` +
+        `Fico à disposição para quando decidir dar o próximo passo!`
+      );
+    } else {
+      tempBadge = `<span style="background:rgba(245,158,11,0.2); border:1px solid #F59E0B; color:#FCD34D; padding:3px 8px; border-radius:4px; font-weight:800; font-size:0.72rem;"><i class="fa-solid fa-bolt"></i> POSSÍVEL (${lead.score || 75})</span>`;
+      waMessage = encodeURIComponent(
+        `Olá ${firstName}! Sou Christian Hideyuki, da Z8 E-Motion Brasil.\n\n` +
+        `Recebemos seu interesse na nossa rede de concessionárias para a praça de ${cityName}.\n\n` +
+        `Estou à disposição para tirar dúvidas técnicas sobre a frota de 13 modelos elétricos, margens de até 46,8% e o modelo de operação com 2 elevadores.\n\n` +
+        `Qual o melhor horário para conversarmos?`
+      );
+    }
+
+    return `
+      <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+        <td style="padding: 0.75rem 1rem;">
+          <strong style="color: #FFF; display: block;">${lead.name || 'Candidato'}</strong>
+          <span style="font-size: 0.72rem; color: #94A3B8;">${lead.company || lead.name || 'Pessoa Física'} • ${lead.email || 'Via Formulário'}</span>
+        </td>
+        <td style="padding: 0.75rem 1rem; color: #FFF;">${lead.city || 'São Paulo'} - ${lead.state || 'SP'}</td>
+        <td style="padding: 0.75rem 1rem;">
+          <strong style="color: #00F0FF; display: block; font-size: 0.78rem;">${lead.capital || prof.capitalLabel || 'Aporte a Definir'}</strong>
+          <span style="font-size: 0.7rem; color: #64748B;">Origem: ${lead.source || 'Conceito Web'}</span>
+        </td>
+        <td style="padding: 0.75rem 1rem;">${tempBadge}</td>
+        <td style="padding: 0.75rem 1rem; text-align: center;">
+          ${cleanPhone ? `
+            <a href="https://wa.me/55${cleanPhone}?text=${waMessage}" target="_blank" style="background: #25D366; color: #000; padding: 5px 10px; border-radius: 4px; font-weight: 800; font-size: 0.74rem; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
+              <i class="fa-brands fa-whatsapp"></i> Chamar (${lead.phone || lead.whatsapp})
+            </a>
+          ` : `<span style="color:#64748B; font-size:0.74rem;">Sem telefone</span>`}
+        </td>
+        <td style="padding: 0.75rem 1rem; text-align: right;">
+          <select onchange="window.handleLeadStatusChange && window.handleLeadStatusChange('${lead.id}', this.value)" style="background: #0D1117; border: 1px solid rgba(255,255,255,0.2); color: #FFF; padding: 4px 6px; border-radius: 4px; font-size: 0.74rem;">
+            <option value="novo" ${lead.status === 'novo' ? 'selected' : ''}>Novo</option>
+            <option value="contatado" ${lead.status === 'contatado' ? 'selected' : ''}>Contatado</option>
+            <option value="qualificado" ${lead.status === 'qualificado' ? 'selected' : ''}>Qualificado</option>
+            <option value="fechado" ${lead.status === 'fechado' ? 'selected' : ''}>Fechado</option>
+          </select>
+          <button type="button" onclick="window.handleDeleteLead && window.handleDeleteLead('${lead.id}')" title="Excluir" style="background: none; border: none; color: #EF4444; margin-left: 6px; cursor: pointer; font-size: 0.85rem;"><i class="fa-solid fa-trash-can"></i></button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+window.handleLeadStatusChange = async function(leadId, newStatus) {
+  const leads = getAdminLeads();
+  const idx = leads.findIndex(l => l.id === leadId);
+  if (idx >= 0) {
+    leads[idx].status = newStatus;
+    leads[idx].updatedAt = Date.now();
+    localStorage.setItem('z8_crm_leads_data', JSON.stringify(leads));
+  }
+  try {
+    await fetch('/api/leads', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: leadId, status: newStatus })
+    });
+  } catch (_) {}
+};
+
+window.handleDeleteLead = async function(leadId) {
+  if (!confirm('Deseja remover este lead do CRM?')) return;
+  const leads = getAdminLeads().filter(l => l.id !== leadId);
+  localStorage.setItem('z8_crm_leads_data', JSON.stringify(leads));
+  renderAdminLeadsList();
+  try {
+    const adminToken = localStorage.getItem('z8_catalog_auth_token') || '';
+    await fetch(`/api/leads?id=${encodeURIComponent(leadId)}`, {
+      method: 'DELETE',
+      headers: adminToken ? { 'Authorization': `Bearer ${adminToken}` } : {}
+    });
+  } catch (_) {}
+};
+
+export function renderAdminOSTable() {
+  const tbody = document.getElementById('admin-os-table-body');
+  const orders = getStoredWarrantyOrders();
+
+  const pendingCount = orders.filter(o => o.status === 'analyzing').length;
+  const approvedCount = orders.filter(o => o.status === 'approved' || o.status === 'completed').length;
+  const totalCount = orders.length;
+
+  const setEl = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  setEl('adm-os-kpi-pending', pendingCount);
+  setEl('adm-os-kpi-approved', approvedCount);
+  setEl('adm-os-kpi-total', totalCount);
+  setEl('admin-stat-os-badge', totalCount);
+  setEl('admin-stat-os', totalCount);
+
+  if (!tbody) return;
+
+  if (orders.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 2rem; color: #64748B; font-style: italic;">
+          Nenhuma ordem de serviço registrada no sistema.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = orders.map(o => {
+    const isApproved = o.status === 'approved' || o.status === 'completed';
+    return `
+      <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+        <td style="padding: 0.75rem 1rem;">
+          <strong style="color: #00F0FF; display: block;">${o.id}</strong>
+          <span style="font-size: 0.72rem; color: #FFF;">${o.model || o.modelName || 'Z8 E-Motion'}</span>
+        </td>
+        <td style="padding: 0.75rem 1rem;">
+          <strong style="color: #FFF; font-family: monospace; font-size: 0.78rem;">${o.chassi || o.chassis || 'N/A'}</strong>
+          <span style="display: block; font-size: 0.7rem; color: #94A3B8;">${o.odometer || 0} km</span>
+        </td>
+        <td style="padding: 0.75rem 1rem;">
+          <strong style="color: #FFF; display: block;">${o.company || o.clientName || 'Concessionária'}</strong>
+          <span style="font-size: 0.72rem; color: #94A3B8;">${o.city || 'SP'}</span>
+        </td>
+        <td style="padding: 0.75rem 1rem;">
+          <strong style="color: #F59E0B; display: block; font-size: 0.76rem;">${o.component || 'Componente'}</strong>
+          <span style="font-size: 0.7rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${o.diagnosis || o.issueDescription || ''}</span>
+        </td>
+        <td style="padding: 0.75rem 1rem;">
+          <span style="font-size:0.72rem; padding:3px 8px; border-radius:4px; font-weight:700; ${isApproved ? 'background:rgba(16,185,129,0.15); color:#10B981;' : 'background:rgba(245,158,11,0.15); color:#F59E0B;'}">
+            ${isApproved ? 'Aprovado' : 'Em Análise'}
+          </span>
+        </td>
+        <td style="padding: 0.75rem 1rem; text-align: right;">
+          ${!isApproved ? `
+            <button type="button" onclick="window.approveOS && window.approveOS('${o.id}')" style="background: #10B981; color: #0A0B0E; border: none; padding: 4px 10px; border-radius: 4px; font-weight: 800; font-size: 0.74rem; cursor: pointer;">
+              Aprovar OS
+            </button>
+          ` : `<span style="color:#10B981; font-size:0.74rem; font-weight:700;">Peça Despachada</span>`}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
 export function openAdminModal() {
   const modal = document.getElementById('admin-master-modal');
   if (!modal) return;
   modal.classList.add('is-active');
   modal.style.display = 'flex';
   window.lenis?.stop();
+
+  initAdminCockpitTabs();
   loadAdminUsersList();
+  fetchAdminLeadsFromCloud().then(() => renderAdminLeadsList());
+  fetchWarrantyOrdersFromFirestore().then(() => renderAdminOSTable());
 }
 
 export function closeAdminModal() {
@@ -1050,14 +1489,15 @@ export function closeAdminModal() {
 }
 
 function loadAdminUsersList() {
-  subscribeToUsersRealtime((users) => {
-    const listEl = document.getElementById('admin-users-table-body');
-    const pendingEl = document.getElementById('admin-stat-pending');
-    const approvedEl = document.getElementById('admin-stat-approved');
-    const osEl = document.getElementById('admin-stat-os');
+  const listEl = document.getElementById('admin-users-table-body');
+  const pendingEl = document.getElementById('admin-stat-pending');
+  const approvedEl = document.getElementById('admin-stat-approved');
+  const totalUsersEl = document.getElementById('admin-stat-total-users');
+  const tabCountEl = document.getElementById('admin-stat-users-tab-count');
 
-    if (!listEl) return;
+  if (!listEl) return;
 
+  const renderUsers = (users) => {
     let pendingCount = 0;
     let approvedCount = 0;
 
@@ -1066,11 +1506,10 @@ function loadAdminUsersList() {
       if (u.status === 'approved') approvedCount++;
     });
 
-    const orders = getStoredWarrantyOrders();
-
     if (pendingEl) pendingEl.textContent = pendingCount;
     if (approvedEl) approvedEl.textContent = approvedCount;
-    if (osEl) osEl.textContent = orders.length;
+    if (totalUsersEl) totalUsersEl.textContent = users.length;
+    if (tabCountEl) tabCountEl.textContent = users.length;
 
     listEl.innerHTML = users
       .map((u) => {
@@ -1099,6 +1538,26 @@ function loadAdminUsersList() {
       `;
       })
       .join('');
+  };
+
+  // 1. Renderiza imediatamente com os usuários registrados/locais
+  const localUsers = getRegisteredUsers();
+  if (Array.isArray(localUsers) && localUsers.length > 0) {
+    renderUsers(localUsers);
+  }
+
+  // 2. Busca na nuvem (API e Firestore)
+  fetchUsersFromCloud().then((cloudUsers) => {
+    if (Array.isArray(cloudUsers) && cloudUsers.length > 0) {
+      renderUsers(cloudUsers);
+    }
+  });
+
+  // 3. Listener em tempo real do Firestore
+  subscribeToUsersRealtime((realtimeUsers) => {
+    if (Array.isArray(realtimeUsers) && realtimeUsers.length > 0) {
+      renderUsers(realtimeUsers);
+    }
   });
 }
 
@@ -1120,9 +1579,6 @@ window.closeAuthModal = closeAuthModal;
 window.openZ8ModelDrawer = openZ8ModelDrawer;
 window.closeZ8ModelDrawer = closeZ8ModelDrawer;
 
-// ==========================================================================
-// 9. INITIALIZATION ON DOM READY
-// ==========================================================================
 function initTransitionSafety() {
   const unlockPage = () => {
     const pageW = document.querySelector('.page-w');
