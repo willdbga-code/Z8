@@ -15303,7 +15303,36 @@ canvas[data-rive-object] {
     font-size: clamp(1rem, 4.2vw, 1.25rem) !important;
     line-height: 1.35 !important;
     font-weight: 600 !important;
-    color: #F4F5F7 !important;
+  }
+
+  /* Callout 1 (Dark Theme / Section 4 Early Track: #0A1628) */
+  .horizontal-item-w.callout-1 .horizontal-item-text,
+  .horizontal-item-w.callout-1 .horizontal-item-text *,
+  .horizontal-item-w.callout-1 [split-text],
+  .horizontal-item-w.callout-1 [screen-reader],
+  .horizontal-item-w.callout-1 .line {
+    color: #F8FAFC !important;
+  }
+  .horizontal-item-w.callout-1 .span-green-off-white-1,
+  .horizontal-item-w.callout-1 span.span-green-off-white-1 {
+    color: #00F0FF !important;
+    font-weight: 800 !important;
+  }
+
+  /* Callout 2 (Light / White Theme / Section 4 Late Track: #FFFFFF / #F4F5F7) */
+  .horizontal-item-w.callout-2 .horizontal-item-text,
+  .horizontal-item-w.callout-2 .horizontal-item-text *,
+  .horizontal-item-w.callout-2 [split-text],
+  .horizontal-item-w.callout-2 [screen-reader],
+  .horizontal-item-w.callout-2 .line,
+  .horizontal-item-w.callout-2 .horizontal-item-text.c-dark-green-tint-2 {
+    color: #0A1628 !important;
+    font-weight: 700 !important;
+  }
+  .horizontal-item-w.callout-2 .span-dark-green,
+  .horizontal-item-w.callout-2 span.span-dark-green {
+    color: #0066CC !important;
+    font-weight: 800 !important;
   }
 
   .horizontal-rive-placeholder {
@@ -15311,6 +15340,44 @@ canvas[data-rive-object] {
     height: auto !important;
     margin-top: 0.4rem !important;
   }
+}
+
+/* ==========================================================================
+   HORIZONTAL TRACK CALLOUT CONTRAST ENGINE (UNIVERSAL & DESKTOP)
+   Ensures WCAG AAA contrast for dark (#0A1628) and light (#FFFFFF/#F4F5F7) slides.
+   ========================================================================== */
+.horizontal-item-w.callout-1 .horizontal-item-text,
+.horizontal-item-w.callout-1 .horizontal-item-text *,
+.horizontal-item-w.callout-1 [split-text],
+.horizontal-item-w.callout-1 [screen-reader],
+.horizontal-item-w.callout-1 .line {
+  color: #F8FAFC !important;
+}
+.horizontal-item-w.callout-1 .span-green-off-white-1,
+.horizontal-item-w.callout-1 span.span-green-off-white-1 {
+  color: #00F0FF !important;
+  font-weight: 800 !important;
+}
+
+.horizontal-item-w.callout-2 .horizontal-item-text,
+.horizontal-item-w.callout-2 .horizontal-item-text *,
+.horizontal-item-w.callout-2 [split-text],
+.horizontal-item-w.callout-2 [screen-reader],
+.horizontal-item-w.callout-2 .line,
+.horizontal-item-w.callout-2 .horizontal-item-text.c-dark-green-tint-2 {
+  color: #0A1628 !important;
+  font-weight: 700 !important;
+}
+.horizontal-item-w.callout-2 .span-dark-green,
+.horizontal-item-w.callout-2 span.span-dark-green {
+  color: #0066CC !important;
+  font-weight: 800 !important;
+}
+
+.eyebrow-w.c-dark-green-tint-2,
+.eyebrow-w.c-dark-green-tint-2 .text-eyebrow,
+.eyebrow-w.c-dark-green-tint-2 [split-text] {
+  color: #1E293B !important;
 }
 
 
