@@ -900,14 +900,8 @@ function updateNavMenuAuthText(text) {
 
 window.openZ8MenuAuth = function() {
   const user = getCurrentCatalogUser();
-  const admin = isUserAdmin(user);
-  if (user && admin && window.openAdminModal) {
-    window.openAdminModal();
-  } else if (user) {
-    if (confirm(`Conectado como ${user.name || user.email || 'Parceiro'}.\nDeseja sair da conta?`)) {
-      logoutCatalogUser();
-      syncConceitoAuthState();
-    }
+  if (user) {
+    window.location.href = '/conceito-2/';
   } else {
     window.openZ8AuthModal && window.openZ8AuthModal('login');
   }
@@ -917,6 +911,12 @@ function syncConceitoAuthState() {
   const user = getCurrentCatalogUser();
   const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (user && urlParams.get('preview') !== '1' && urlParams.get('public') !== '1') {
+    window.location.replace('/conceito-2/' + window.location.search + window.location.hash);
+    return;
+  }
 
   updateNavMenuAuthText(user ? (admin ? 'Painel Admin' : 'Portal Lojista') : 'Área do Parceiro');
 
@@ -983,7 +983,7 @@ function initConceitoAuthEvents() {
       const res = await loginWithGoogle();
       if (res && res.success) {
         closeZ8AuthModal();
-        syncConceitoAuthState();
+        window.location.href = '/conceito-2/';
       } else {
         alert(res?.error || res?.message || 'Não foi possível concluir o login com o Google.');
       }
@@ -1013,12 +1013,12 @@ function initConceitoAuthEvents() {
       if (res.success) {
         if (msgBox) {
           msgBox.className = 'z8-auth-msg is-success';
-          msgBox.textContent = 'Acesso validado com sucesso! Redirecionando...';
+          msgBox.textContent = 'Acesso validado com sucesso! Redirecionando para a Área do Lojista...';
         }
         setTimeout(() => {
           closeZ8AuthModal();
-          syncConceitoAuthState();
-        }, 500);
+          window.location.href = '/conceito-2/';
+        }, 350);
       } else {
         if (msgBox) {
           msgBox.className = 'z8-auth-msg is-error';

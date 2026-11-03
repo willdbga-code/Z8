@@ -3040,3 +3040,84 @@ html.is-poslogin-direct .z8-public-presentation-wrap {
 .eyebrow-w.c-dark-green-tint-2 [split-text] {
   color: #1E293B !important;
 }
+
+
+/* ==========================================================================
+   Z8 BUTTON ENGINE: ANTI-CLONING, NO-WRAP & ARCHITECTURAL PRECISION
+   Eliminates duplicate text-shadow ghosting and awkward word-wrapping across all CTAs.
+   ========================================================================== */
+.btn-w {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+}
+
+.btn-inner {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  max-width: 100% !important;
+  gap: 0.5rem !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+.btn-inner-text-w {
+  display: inline-flex !important;
+  align-items: center !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  height: auto !important;
+  max-width: 100% !important;
+}
+
+.btn-text,
+[split-text].btn-text {
+  white-space: nowrap !important;
+  text-shadow: none !important;
+  font-size: clamp(0.70rem, 2.8vw, 0.95rem) !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+.btn-w .char {
+  display: inline-block !important;
+  text-shadow: none !important;
+}
+
+.btn-icon-w {
+  flex-shrink: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.exe-text-w .btn-w {
+  width: auto !important;
+  max-width: 100% !important;
+  align-self: flex-start !important;
+  padding: 0.75rem 1.35rem !important;
+}
+
+@media screen and (max-width: 991px) {
+  .exe-text-w {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  .exe-text-w .btn-w {
+    width: max-content !important;
+    max-width: 100% !important;
+    padding: 0.65rem 1rem !important;
+  }
+  .exe-text-w .btn-text {
+    font-size: clamp(0.68rem, 3.2vw, 0.85rem) !important;
+  }
+}

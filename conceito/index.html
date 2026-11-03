@@ -4,8 +4,17 @@
   <meta charset="utf-8"/>
   <script>
     if (window.location.protocol === 'file:') {
-      window.location.replace('http://localhost:3004/conceito/' + window.location.search + window.location.hash);
+      window.location.replace('http://localhost:3000/conceito/' + window.location.search + window.location.hash);
     }
+    (function() {
+      try {
+        var raw = sessionStorage.getItem('z8_catalog_auth_user') || localStorage.getItem('z8_catalog_auth_user');
+        var params = new URLSearchParams(window.location.search);
+        if (raw && params.get('preview') !== '1' && params.get('public') !== '1') {
+          window.location.replace('/conceito-2/' + window.location.search + window.location.hash);
+        }
+      } catch (e) {}
+    })();
   </script>
   <title>Z8 E-Motion — Concessão Oficial &amp; Distribuição Direct-Factory</title>
   <meta content="Seja o concessionário exclusivo Z8 E-Motion na sua região com raio de 50 km blindado em contrato (Art. 784 CPC), margem bruta de até 46,8% e zero royalties sobre vendas." name="description"/>
@@ -1476,10 +1485,10 @@
                   </div>
                 </div>
                 <h2 data-anim-high="right, lime" split-text="lines" class="text-title-reg-brier">Simule o lucro mensal da sua concessão e consulte a disponibilidade do seu raio de 50 km</h2>
-                <a data-btn-rive-rotate="false" data-anim="text-hover" data-btn-rive-hover="" data-theme="lime" data-wf--button-primary--variant="base" href="#simulador-b2b" data-taxi-ignore="true" class="btn-w w-inline-block">
+                <a data-btn-rive-rotate="false" data-btn-rive-hover="" data-theme="lime" data-wf--button-primary--variant="base" href="#simulador-b2b" data-taxi-ignore="true" class="btn-w w-inline-block">
                   <div class="btn-inner">
                     <div class="btn-inner-text-w">
-                      <div split-text="chars" class="btn-text">Simular DRE &amp; Território</div>
+                      <div class="btn-text">Simular DRE &amp; Território</div>
                     </div>
                     <div class="btn-icon-w">
                       <div class="btn-rive-w w-embed">
@@ -1517,10 +1526,10 @@
                   <div class="g-text-para-w is-exe">
                     <p data-anim-high="right, dark-green-tint-1, 200" split-text="lines" class="text-body-reg-mona">Um empreendedor criterioso não busca promessas, mas solidez nos números. Ao simular as margens reais e avaliar o raio exclusivo da sua comarca, você saberá por conta própria se este é o momento certo de liderar a sua região.</p>
                   </div>
-                  <a data-btn-rive-rotate="false" data-anim="text-hover" data-btn-rive-hover="" data-theme="lime" data-wf--button-primary--variant="base" href="#candidatar" data-taxi-ignore="true" onclick="event.preventDefault(); window.openLeadModal && window.openLeadModal('Exe Section CTA');" class="btn-w w-inline-block">
+                  <a data-btn-rive-rotate="false" data-btn-rive-hover="" data-theme="lime" data-wf--button-primary--variant="base" href="#candidatar" data-taxi-ignore="true" onclick="event.preventDefault(); window.openLeadModal && window.openLeadModal('Exe Section CTA');" class="btn-w w-inline-block">
                     <div class="btn-inner">
                       <div class="btn-inner-text-w">
-                        <div split-text="chars" class="btn-text">Examinar viabilidade da minha cidade</div>
+                        <div class="btn-text">Examinar viabilidade da minha cidade</div>
                       </div>
                       <div class="btn-icon-w">
                         <div class="btn-rive-w w-embed">
@@ -1847,10 +1856,10 @@
                     <div class="footer-bg-helmet-layout">
                       <img src="/assets/cria/posters/bike_cutout_hero_square.png" loading="lazy" alt="Z8 Tank High-Speed" class="footer-bg-img z8-footer-bike"/>
                       <div class="footer-bg-bottom-btn-w">
-                        <a data-btn-rive-rotate="false" data-anim="text-hover" data-btn-rive-hover="" data-theme="lime" data-wf--button-primary--variant="base" href="#candidatar" data-taxi-ignore="true" onclick="event.preventDefault(); window.openLeadModal && window.openLeadModal('Footer Main CTA');" class="btn-w w-inline-block">
+                        <a data-btn-rive-rotate="false" data-btn-rive-hover="" data-theme="lime" data-wf--button-primary--variant="base" href="#candidatar" data-taxi-ignore="true" onclick="event.preventDefault(); window.openLeadModal && window.openLeadModal('Footer Main CTA');" class="btn-w w-inline-block">
                           <div class="btn-inner">
                             <div class="btn-inner-text-w">
-                              <div split-text="chars" class="btn-text">receber estudo de viabilidade e cof</div>
+                              <div class="btn-text">receber estudo de viabilidade e cof</div>
                             </div>
                             <div class="btn-icon-w">
                               <div class="btn-rive-w w-embed">

@@ -23,6 +23,8 @@
         var forcePos = params.get('poslogin') === '1' || params.get('auth') === 'admin' || params.get('admin') === '1';
         if (forcePos || raw) {
           document.documentElement.classList.add('is-poslogin-direct');
+        } else {
+          window.location.replace('/conceito/' + window.location.search + window.location.hash);
         }
       } catch (e) {}
     })();

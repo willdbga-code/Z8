@@ -223,18 +223,24 @@ window.openZ8MenuAuth = function() {
 
 window.handleLogout = function() {
   logoutCatalogUser();
+  sessionStorage.removeItem('z8_catalog_auth_session');
+  sessionStorage.removeItem('z8_catalog_auth_user');
+  localStorage.removeItem('z8_catalog_auth_session');
+  localStorage.removeItem('z8_catalog_auth_user');
   document.documentElement.classList.remove('is-poslogin-direct');
   document.body.classList.remove('is-poslogin-direct');
-  syncAuthState();
-  if (window.lenis) {
-    window.lenis.scrollTo(0, { immediate: true });
-  } else {
-    window.scrollTo(0, 0);
-  }
+  window.location.replace('/conceito/');
 };
 
 export function syncAuthState() {
   const user = getCurrentCatalogUser();
+  if (!user) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.get('poslogin') && !urlParams.get('auth') && !urlParams.get('admin')) {
+      window.location.replace('/conceito/');
+      return;
+    }
+  }
   const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
 
