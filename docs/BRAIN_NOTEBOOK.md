@@ -2085,3 +2085,16 @@ pm run build gerado com sucesso em 5.64s.
   - \3713b44\: docs(catalog): catálogo oficial Z8 LAF Edition 2026 em formato vetorial nativo Illustrator
   - \ 9f10f8\: test(scripts): suíte de scripts de inspeção, verificação mobile e auditoria visual da página conceito
 - **Status do Repositório**: 100% sincronizado com origin/main (GitHub: willdbga-code/Z8).
+
+---
+
+### [2026-11-06] Limpeza e Otimização Estrutural do Repositório (Codebase Audit & Hygiene)
+- **Branch**: main (Commit: \144df1a\)
+- **Ações de Limpeza Executadas**:
+  1. **Remoção de 111 micro-scripts descartáveis**: Scripts pontuais (\check_*.py\, \show_*.py\, \ind_*.py\) criados exclusivamente para inspeções de terminal em sessões anteriores.
+  2. **Eliminação de 40 screenshots de teste transitórios**: Arquivos gerados por suítes de auditoria Puppeteer em \public/assets/cria/\ que não são referenciados em nenhuma página web nem no branding.
+  3. **Purga de 185 MB de lixo residual do Illustrator em \catalogo_atacado_pdf/\**: Arquivo \.tmp\ de crash (66 MB), cópia de recuperação automática (61 MB) e cópia redundante (57 MB, já versionada oficialmente em \docs/\).
+  4. **Exclusão de arquivos mortos na raiz**: \pprove_mariana.js\, \patch.js\, \proper_patch.py\, \un_stdout.log\, \un_stderr.log\.
+  5. **Paridade em \ercel.json\**: Inclusão das rotas limpas para \/conceito-2\ e \/conceito-2/\.
+  6. **Integridade de Build**: \
+pm run build\ executado com sucesso reduzindo tempo de compilação de 11.16s para 8.22s.
