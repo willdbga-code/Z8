@@ -1,0 +1,69 @@
+{
+  "appName": "Z8 WMS",
+  "exportedAt": "2026-11-03T19:34:05.984Z",
+  "data": {
+    "vehicles": [
+      {
+        "chassisVin": "Z8-DB018-2026-TEST",
+        "modelId": "z8-tank",
+        "modelName": "Z8 Tank High-Speed 2000W",
+        "factoryCode": "DB018",
+        "status": "in_stock",
+        "color": "Desert Sand",
+        "motor": "2000W 15G",
+        "battery": "60V 20Ah",
+        "tireFront": "110/70-12",
+        "tireRear": "110/70-12",
+        "entryDate": "2026-11-03T19:34:05.984Z",
+        "yardBay": "C-01",
+        "photos": [
+          "/uploads/Z8-DB018-2026-TEST_1793734446004.jpg"
+        ],
+        "pdiHistory": [
+          {
+            "inspectionDate": "2026-11-03T19:34:05.996Z",
+            "technician": "Roberto Mecânico Chefe",
+            "score": "24/24",
+            "passed": true,
+            "notes": "Vistoriado 100% conforme pelo Mobile Scanner",
+            "checklist": []
+          }
+        ],
+        "lastPdiDate": "2026-11-03T19:34:05.996Z",
+        "notes": "PDI: Vistoriado 100% conforme pelo Mobile Scanner"
+      }
+    ],
+    "models": [],
+    "parts": [],
+    "repairs": [],
+    "movements": [
+      {
+        "id": "MOV-1793734446000",
+        "type": "pdi_approved",
+        "date": "2026-11-03T19:34:05.996Z",
+        "chassisVin": "Z8-DB018-2026-TEST",
+        "modelId": "z8-tank",
+        "refDoc": "PDI-24de24",
+        "originDest": "Liberado para Pátio / Venda",
+        "user": "Roberto Mecânico Chefe"
+      }
+    ],
+    "elevators": {
+      "bay1": {
+        "id": "bay1",
+        "name": "Elevador 01 (Bay A - Primário)",
+        "status": "occupied",
+        "chassisVin": "Z8-DB018-2026-TEST",
+        "modelName": "Z8 Tank High-Speed 2000W",
+        "mechanicName": "Carlos Silveira",
+        "operation": "Revisão Pós-Venda e Aperto de Eixo",
+        "startedAt": "2026-11-03T19:34:06.010Z"
+      },
+      "bay2": {
+        "id": "bay2",
+        "name": "Elevador 02 (Bay B)",
+        "status": "available"
+      }
+    }
+  }
+}

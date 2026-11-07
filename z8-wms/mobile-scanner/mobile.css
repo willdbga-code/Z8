@@ -314,3 +314,191 @@ body {
   border-radius: var(--btn-radius);
   border: 1px solid var(--border-subtle);
 }
+
+/* ==========================================================================
+   MOBILE PDI CHECKLIST MODAL SHEET (BAUHAUS DARK COCKPIT)
+   ========================================================================== */
+.m-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 7, 12, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.m-modal-card {
+  background: #0B0F17;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--card-radius);
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+
+.m-modal-header {
+  position: sticky;
+  top: 0;
+  background: #0E1420;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+
+.m-modal-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-cyan);
+  display: block;
+}
+
+.m-modal-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.m-btn-close {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.m-pdi-score-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #121824;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.m-pdi-score-count {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-emerald);
+  margin-right: 6px;
+}
+
+.m-pdi-score-pct {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.m-btn-mini {
+  background: #1C2433;
+  border: 1px solid #2F3B4F;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+}
+.m-btn-mini:active {
+  background: var(--color-cyan);
+  color: #000;
+}
+
+.m-pdi-body {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.m-pdi-cluster {
+  background: #0F141E;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--btn-radius);
+  padding: 12px;
+}
+
+.m-pdi-cluster-head {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-cyan);
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.m-pdi-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.m-pdi-row:last-child {
+  border-bottom: none;
+}
+
+.m-pdi-checkbox {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--color-cyan);
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.m-pdi-label {
+  font-size: 12px;
+  color: #D1D5DB;
+  line-height: 1.4;
+  cursor: pointer;
+  flex: 1;
+}
+
+.m-pdi-footer-fields {
+  padding: 12px 16px;
+  background: #0E1420;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.m-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.m-field-group label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.m-pdi-actions {
+  padding: 12px 16px;
+  background: #0B0F17;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

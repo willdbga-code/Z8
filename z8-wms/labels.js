@@ -9,25 +9,18 @@ export const ThermalLabelEngine = {
    * Render label HTML inside a target container
    * @param {Object} vehicle - Vehicle object with chassisVin, modelName, factoryCode, etc.
    * @param {string} size - '100x50' or '80x40'
+   * @param {number|string} index - Optional identifier for batch rendering
    * @returns {string} HTML string of the label
    */
-  generateLabelHtml(vehicle, size = '100x50') {
+  generateLabelHtml(vehicle, size = '100x50', index = 'single') {
     const isLarge = size === '100x50';
     const qrSize = isLarge ? 84 : 64;
     const barcodeHeight = isLarge ? 34 : 26;
-
-    const qrPayload = JSON.stringify({
-      vin: vehicle.chassisVin,
-      model: vehicle.modelName || vehicle.modelId,
-      code: vehicle.factoryCode,
-      color: vehicle.color,
-      tires: `${vehicle.tireFront}/${vehicle.tireRear}`,
-      battery: vehicle.battery,
-      motor: vehicle.motor
-    });
+    const svgId = `label-barcode-svg-${index}`;
+    const qrId = `label-qr-canvas-${index}`;
 
     return `
-      <div class="thermal-label ${isLarge ? 'label-100x50' : 'label-80x40'}" id="printable-thermal-label">
+      <div class="thermal-label ${isLarge ? 'label-100x50' : 'label-80x40'}" id="printable-thermal-label-${index}">
         <div class="label-header">
           <div class="label-brand">
             <span class="brand-text">Z8 E-MOTION</span>
@@ -68,13 +61,13 @@ export const ThermalLabelEngine = {
           </div>
 
           <div class="label-qr-col">
-            <canvas id="label-qr-canvas" width="${qrSize}" height="${qrSize}"></canvas>
+            <canvas id="${qrId}" width="${qrSize}" height="${qrSize}"></canvas>
             <span class="qr-sub">SCAN PDI</span>
           </div>
         </div>
 
         <div class="label-barcode-row">
-          <svg id="label-barcode-svg"></svg>
+          <svg id="${svgId}"></svg>
         </div>
 
         <div class="label-footer">
@@ -92,12 +85,16 @@ export const ThermalLabelEngine = {
    * Render Barcode and QR code onto the generated HTML elements
    * @param {Object} vehicle 
    * @param {string} size 
+   * @param {number|string} index 
    */
-  renderCodes(vehicle, size = '100x50') {
+  renderCodes(vehicle, size = '100x50', index = 'single') {
+    const svgSelector = `#label-barcode-svg-${index}`;
+    const qrCanvasId = `label-qr-canvas-${index}`;
+
     // 1. Render Barcode Code-128 using JsBarcode
-    if (window.JsBarcode) {
+    if (window.JsBarcode && document.querySelector(svgSelector)) {
       try {
-        window.JsBarcode('#label-barcode-svg', vehicle.chassisVin, {
+        window.JsBarcode(svgSelector, vehicle.chassisVin, {
           format: 'CODE128',
           width: size === '100x50' ? 1.6 : 1.3,
           height: size === '100x50' ? 32 : 24,
@@ -114,7 +111,7 @@ export const ThermalLabelEngine = {
     // 2. Render 2D QR Code using qrcode-generator
     if (window.qrcode) {
       try {
-        const qrCanvas = document.getElementById('label-qr-canvas');
+        const qrCanvas = document.getElementById(qrCanvasId);
         if (qrCanvas) {
           const typeNumber = 0; // auto-detect
           const errorCorrectionLevel = 'M';
@@ -143,6 +140,26 @@ export const ThermalLabelEngine = {
         console.warn('QR code render error:', e);
       }
     }
+  },
+
+  /**
+   * Generate multiple labels HTML for batch printing
+   */
+  generateBatchHtml(vehicles, size = '100x50') {
+    return vehicles.map((v, idx) => `
+      <div class="batch-label-page" style="page-break-after: always; margin-bottom: 20px;">
+        ${this.generateLabelHtml(v, size, idx)}
+      </div>
+    `).join('');
+  },
+
+  /**
+   * Render all codes in a batch
+   */
+  renderBatchCodes(vehicles, size = '100x50') {
+    vehicles.forEach((v, idx) => {
+      this.renderCodes(v, size, idx);
+    });
   },
 
   /**

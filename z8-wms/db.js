@@ -490,6 +490,174 @@ class Z8WmsDatabase {
     this.triggerServerSync();
   }
 
+  // ================= EXPEDIÇÃO / FATURAMENTO / SAÍDA =================
+  async dispatchVehicle(dispatchData) {
+    const {
+      chassisVin,
+      destination,
+      dispatchType = 'outflow_franchise',
+      invoiceDoc,
+      carrier,
+      trackingCode,
+      dispatchDate,
+      notes,
+      user = 'Diretoria Z8'
+    } = dispatchData;
+
+    const vehicle = await this.dexie.vehicles.get(chassisVin);
+    if (!vehicle) throw new Error(`Veículo com Chassi ${chassisVin} não encontrado.`);
+
+    const nowIso = dispatchDate || new Date().toISOString();
+    const updates = {
+      status: 'delivered',
+      exitDate: nowIso,
+      clientOrFranchise: destination,
+      invoiceDoc: invoiceDoc || '',
+      carrier: carrier || '',
+      trackingCode: trackingCode || '',
+      dispatchNotes: notes || ''
+    };
+
+    await this.dexie.vehicles.update(chassisVin, updates);
+
+    await this.logMovement({
+      type: dispatchType,
+      date: nowIso,
+      chassisVin,
+      modelId: vehicle.modelId,
+      refDoc: invoiceDoc || trackingCode || 'DESPACHO-PADRAO',
+      originDest: destination,
+      user
+    });
+
+    this.triggerServerSync();
+    return { ...vehicle, ...updates };
+  }
+
+  // ================= PROTOCOLO TÉCNICO DE PDI =================
+  async savePdiInspection(pdiData) {
+    const {
+      chassisVin,
+      passedItems,
+      totalItems = 24,
+      status, // 'approved' or 'failed'
+      technician,
+      notes,
+      checklist
+    } = pdiData;
+
+    const vehicle = await this.dexie.vehicles.get(chassisVin);
+    if (!vehicle) throw new Error(`Veículo com Chassi ${chassisVin} não encontrado.`);
+
+    const nowIso = new Date().toISOString();
+    const newStatus = status === 'approved' ? 'in_stock' : 'in_service';
+
+    const pdiRecord = {
+      inspectionDate: nowIso,
+      technician: technician || 'Roberto Mecânico Chefe',
+      score: `${passedItems}/${totalItems}`,
+      passed: status === 'approved',
+      notes: notes || '',
+      checklist: checklist || []
+    };
+
+    const pdiHistory = vehicle.pdiHistory || [];
+    pdiHistory.push(pdiRecord);
+
+    const updates = {
+      status: newStatus,
+      pdiHistory,
+      lastPdiDate: nowIso,
+      notes: notes ? `${vehicle.notes ? vehicle.notes + ' | ' : ''}PDI: ${notes}` : vehicle.notes
+    };
+
+    await this.dexie.vehicles.update(chassisVin, updates);
+
+    await this.logMovement({
+      type: status === 'approved' ? 'pdi_approved' : 'pdi_failed',
+      date: nowIso,
+      chassisVin,
+      modelId: vehicle.modelId,
+      refDoc: `PDI-${passedItems}de${totalItems}`,
+      originDest: status === 'approved' ? 'Liberado para Pátio / Venda' : 'Encaminhado p/ Oficina',
+      user: technician || 'Roberto Mecânico Chefe'
+    });
+
+    this.triggerServerSync();
+    return { ...vehicle, ...updates };
+  }
+
+  // ================= BATCH STATUS UPDATE =================
+  async batchUpdateStatus(vins, newStatus, user = 'Operador WMS') {
+    for (const vin of vins) {
+      await this.dexie.vehicles.update(vin, { status: newStatus });
+      await this.logMovement({
+        type: `batch_${newStatus}`,
+        date: new Date().toISOString(),
+        chassisVin: vin,
+        modelId: 'LOTE',
+        refDoc: 'LOTE-SELECAO',
+        originDest: `Status alterado para ${newStatus}`,
+        user
+      });
+    }
+    this.triggerServerSync();
+  }
+
+  // ================= EXPORT TO CSV =================
+  async exportToCsv(tableType = 'vehicles') {
+    let rows = [];
+    let headers = [];
+
+    if (tableType === 'vehicles') {
+      const list = await this.dexie.vehicles.toArray();
+      headers = ['Chassi VIN', 'Modelo', 'Codigo Fabrica', 'Cor', 'Pneus', 'Motor', 'Bateria', 'Data Entrada', 'Status', 'Destino/Cliente', 'Nota Fiscal'];
+      rows = list.map(v => [
+        `"${v.chassisVin}"`,
+        `"${v.modelName || v.modelId}"`,
+        `"${v.factoryCode || ''}"`,
+        `"${v.color || ''}"`,
+        `"${v.tireFront || ''} / ${v.tireRear || ''}"`,
+        `"${v.motor || ''}"`,
+        `"${v.battery || ''}"`,
+        `"${v.entryDate ? new Date(v.entryDate).toLocaleDateString('pt-BR') : ''}"`,
+        `"${v.status || ''}"`,
+        `"${v.clientOrFranchise || ''}"`,
+        `"${v.invoiceDoc || ''}"`
+      ]);
+    } else if (tableType === 'movements') {
+      const list = await this.dexie.movements.orderBy('date').reverse().toArray();
+      headers = ['ID Movimento', 'Tipo', 'Data', 'Chassi VIN', 'Modelo', 'Documento', 'Origem/Destino', 'Responsavel'];
+      rows = list.map(m => [
+        `"${m.id}"`,
+        `"${m.type}"`,
+        `"${m.date ? new Date(m.date).toLocaleString('pt-BR') : ''}"`,
+        `"${m.chassisVin || ''}"`,
+        `"${m.modelId || ''}"`,
+        `"${m.refDoc || ''}"`,
+        `"${m.originDest || ''}"`,
+        `"${m.user || ''}"`
+      ]);
+    } else if (tableType === 'parts') {
+      const list = await this.dexie.parts.toArray();
+      headers = ['Codigo (PN)', 'Descricao PT', 'Descricao CN', 'Categoria', 'Medida Pneu', 'Estoque Atual', 'Estoque Minimo', 'EOQ', 'Custo Unitario'];
+      rows = list.map(p => [
+        `"${p.partNumber}"`,
+        `"${p.namePt || ''}"`,
+        `"${p.nameCn || ''}"`,
+        `"${p.category || ''}"`,
+        `"${p.tireDimensions || ''}"`,
+        p.currentStock,
+        p.minStock,
+        p.eoq || 20,
+        p.unitCost
+      ]);
+    }
+
+    const csvContent = '\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\r\n');
+    return csvContent;
+  }
+
   // ================= BATCH IMPORT (CONTAINER 40HQ) =================
   async importContainerBatch(batchData) {
     const {
@@ -669,6 +837,7 @@ class Z8WmsDatabase {
     const parts = await this.dexie.parts.toArray();
     const repairs = await this.dexie.repairs.toArray();
     const movements = await this.dexie.movements.toArray();
+    const elevators = await this.getElevatorStatus();
 
     return {
       appName: 'Z8 WMS',
@@ -680,8 +849,111 @@ class Z8WmsDatabase {
         repairs: repairs.length,
         movements: movements.length
       },
-      data: { vehicles, models, parts, repairs, movements }
+      data: { vehicles, models, parts, repairs, movements, elevators }
     };
+  }
+
+  // ================= GESTÃO DE ELEVADORES DA OFICINA (TWIN-BAY LIFTS) =================
+  async getElevatorStatus() {
+    const raw = localStorage.getItem('z8_wms_elevators');
+    if (raw) {
+      try {
+        return JSON.parse(raw);
+      } catch (e) {}
+    }
+    const defaultBays = {
+      bay1: {
+        id: 'bay1',
+        name: 'Elevador 01 (Bay A - Primário)',
+        status: 'occupied',
+        chassisVin: 'Z8-DB043-2026-0046',
+        modelName: 'Z8 FX-10 Sport',
+        mechanicName: 'Roberto Mecânico Chefe',
+        operation: 'Diagnóstico Sensor Hall & Freio Hidráulico',
+        startedAt: new Date(Date.now() - 42 * 60 * 1000).toISOString()
+      },
+      bay2: {
+        id: 'bay2',
+        name: 'Elevador 02 (Bay B - Secundário)',
+        status: 'available',
+        chassisVin: null,
+        modelName: null,
+        mechanicName: null,
+        operation: null,
+        startedAt: null
+      }
+    };
+    localStorage.setItem('z8_wms_elevators', JSON.stringify(defaultBays));
+    return defaultBays;
+  }
+
+  async setElevatorStatus(bayId, bayData) {
+    const current = await this.getElevatorStatus();
+    current[bayId] = { ...current[bayId], ...bayData };
+    localStorage.setItem('z8_wms_elevators', JSON.stringify(current));
+    this.triggerServerSync();
+    return current;
+  }
+
+  async allocateElevator(bayId, allocationData) {
+    const {
+      chassisVin,
+      modelName,
+      mechanicName,
+      operation
+    } = allocationData;
+
+    const updated = await this.setElevatorStatus(bayId, {
+      status: 'occupied',
+      chassisVin,
+      modelName,
+      mechanicName,
+      operation,
+      startedAt: new Date().toISOString()
+    });
+
+    if (chassisVin) {
+      await this.dexie.vehicles.update(chassisVin, {
+        status: 'in_service',
+        yardBay: bayId === 'bay1' ? 'D-01' : 'D-02'
+      });
+      await this.logMovement({
+        type: 'elevator_allocated',
+        date: new Date().toISOString(),
+        chassisVin,
+        modelId: modelName || 'OFICINA',
+        refDoc: bayId === 'bay1' ? 'ELEVADOR-01' : 'ELEVADOR-02',
+        originDest: `Elevador ${bayId === 'bay1' ? '1' : '2'} (${operation})`,
+        user: mechanicName || 'Mecânico Z8'
+      });
+    }
+
+    return updated;
+  }
+
+  async releaseElevator(bayId) {
+    const current = await this.getElevatorStatus();
+    const bay = current[bayId];
+    if (bay && bay.chassisVin) {
+      await this.logMovement({
+        type: 'elevator_released',
+        date: new Date().toISOString(),
+        chassisVin: bay.chassisVin,
+        modelId: bay.modelName || 'OFICINA',
+        refDoc: bayId === 'bay1' ? 'ELEVADOR-01' : 'ELEVADOR-02',
+        originDest: 'Liberado do Elevador / Retorno ao Pátio',
+        user: bay.mechanicName || 'Mecânico Z8'
+      });
+    }
+
+    return await this.setElevatorStatus(bayId, {
+      status: 'available',
+      chassisVin: null,
+      modelName: null,
+      mechanicName: null,
+      operation: null,
+      startedAt: null
+    });
   }
 
   /**

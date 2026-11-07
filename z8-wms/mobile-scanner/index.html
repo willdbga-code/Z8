@@ -79,6 +79,10 @@
       </div>
 
       <!-- Quick Actions for Yard Operators -->
+      <button class="m-btn m-btn-primary" id="btn-open-mobile-pdi" style="width: 100%; margin-bottom: 10px; font-weight: 800;">
+        📋 Abrir Inspeção PDI (24 Pontos)
+      </button>
+
       <div class="yard-actions">
         <button class="m-btn m-btn-emerald" id="btn-quick-pdi">
           ✓ PDI Aprovado
@@ -96,6 +100,51 @@
         </label>
         <div id="upload-status-text" class="upload-status"></div>
         <div id="photo-preview-grid" class="photo-preview-grid"></div>
+      </div>
+    </div>
+
+    <!-- Mobile PDI Modal Sheet -->
+    <div class="m-modal-overlay" id="mobile-pdi-sheet" style="display: none;">
+      <div class="m-modal-card">
+        <div class="m-modal-header">
+          <div class="m-modal-title-group">
+            <span class="m-modal-title" id="m-pdi-title">INSPEÇÃO PDI // 24 PONTOS</span>
+            <span class="m-modal-sub" id="m-pdi-sub">Z8-DB018-2026-0001</span>
+          </div>
+          <button class="m-btn-close" id="m-pdi-btn-close">&times;</button>
+        </div>
+
+        <div class="m-pdi-score-bar">
+          <div class="m-pdi-score-text">
+            <span id="m-pdi-score-count">24 / 24</span>
+            <span id="m-pdi-score-pct">(100% CONFORME)</span>
+          </div>
+          <button class="m-btn-mini" id="m-pdi-check-all">Marcar Todos Conformes</button>
+        </div>
+
+        <div class="m-pdi-body" id="m-pdi-checklist-container">
+          <!-- 24 items in 4 clusters rendered dynamically -->
+        </div>
+
+        <div class="m-pdi-footer-fields">
+          <div class="m-field-group">
+            <label id="lbl-m-pdi-tech">Mecânico / Vistoriador:</label>
+            <input type="text" id="m-pdi-tech-input" class="m-input" value="Roberto Mecânico Chefe">
+          </div>
+          <div class="m-field-group">
+            <label id="lbl-m-pdi-notes">Observações do Laudo:</label>
+            <input type="text" id="m-pdi-notes-input" class="m-input" placeholder="Tensão nominal OK, freios sangrados...">
+          </div>
+        </div>
+
+        <div class="m-pdi-actions">
+          <button class="m-btn m-btn-emerald" id="m-btn-approve-pdi">
+            ✓ Salvar e Aprovar PDI
+          </button>
+          <button class="m-btn m-btn-amber" id="m-btn-fail-pdi">
+            ⚠️ Reprovar PDI & Encaminhar p/ Oficina
+          </button>
+        </div>
       </div>
     </div>
 

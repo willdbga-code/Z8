@@ -43,7 +43,7 @@ namespace Z8WMSLauncher
                     {
                         FileName = targetExe,
                         WorkingDirectory = Path.GetDirectoryName(targetExe),
-                        UseShellExecute = false
+                        UseShellExecute = true
                     };
                     Process.Start(psi);
                 }
@@ -59,7 +59,7 @@ namespace Z8WMSLauncher
                         Arguments = "/c npx electron main.cjs",
                         WorkingDirectory = workingDir,
                         CreateNoWindow = true,
-                        UseShellExecute = false
+                        UseShellExecute = true
                     };
                     Process.Start(psi);
                 }

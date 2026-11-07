@@ -11,8 +11,11 @@ const os = require('os');
 
 const PORT = process.env.PORT || 3300;
 const ROOT_DIR = __dirname;
-const DATA_DIR = path.join(ROOT_DIR, 'data');
-const UPLOADS_DIR = path.join(ROOT_DIR, 'uploads');
+const isAsar = __dirname.includes('app.asar');
+const BASE_WRITABLE_DIR = isAsar ? path.dirname(process.execPath) : ROOT_DIR;
+
+const DATA_DIR = path.join(BASE_WRITABLE_DIR, 'data');
+const UPLOADS_DIR = path.join(BASE_WRITABLE_DIR, 'uploads');
 const DB_FILE = path.join(DATA_DIR, 'wms-database.json');
 
 // Ensure directories exist
@@ -233,8 +236,139 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // 8. Save PDI Inspection from Mobile Scanner or Desktop
+  if (pathname === '/api/save-pdi' && req.method === 'POST') {
+    try {
+      const rawBody = await getRequestBody(req);
+      const {
+        chassisVin,
+        passedItems = [],
+        totalItems = 24,
+        status = 'approved',
+        technician = 'Roberto Mecânico Chefe',
+        notes = '',
+        checklist = []
+      } = JSON.parse(rawBody);
+
+      let updatedVehicle = null;
+      const nowIso = new Date().toISOString();
+      const newStatus = status === 'approved' ? 'in_stock' : 'in_service';
+
+      if (fs.existsSync(DB_FILE)) {
+        const dbData = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+        if (dbData.data && dbData.data.vehicles) {
+          const v = dbData.data.vehicles.find(item => item.chassisVin.toLowerCase() === chassisVin.toLowerCase());
+          if (v) {
+            v.status = newStatus;
+            if (!v.pdiHistory) v.pdiHistory = [];
+            v.pdiHistory.push({
+              inspectionDate: nowIso,
+              technician,
+              score: `${passedItems.length}/${totalItems}`,
+              passed: status === 'approved',
+              notes,
+              checklist
+            });
+            v.lastPdiDate = nowIso;
+            if (notes) v.notes = v.notes ? `${v.notes} | PDI: ${notes}` : `PDI: ${notes}`;
+            updatedVehicle = v;
+
+            // Add movement record
+            if (dbData.data.movements) {
+              dbData.data.movements.unshift({
+                id: `MOV-${Date.now()}`,
+                type: status === 'approved' ? 'pdi_approved' : 'pdi_failed',
+                date: nowIso,
+                chassisVin: v.chassisVin,
+                modelId: v.modelId,
+                refDoc: `PDI-${passedItems.length}de${totalItems}`,
+                originDest: status === 'approved' ? 'Liberado para Pátio / Venda' : 'Encaminhado p/ Oficina',
+                user: technician
+              });
+            }
+
+            fs.writeFileSync(DB_FILE, JSON.stringify(dbData, null, 2), 'utf-8');
+          }
+        }
+      }
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, vehicle: updatedVehicle, status: newStatus }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: err.message }));
+    }
+    return;
+  }
+
+  // 9. Workshop Elevators Management Endpoint
+  if (pathname === '/api/elevators') {
+    if (req.method === 'GET') {
+      let elevators = null;
+      if (fs.existsSync(DB_FILE)) {
+        try {
+          const dbData = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+          if (dbData.data && dbData.data.elevators) {
+            elevators = dbData.data.elevators;
+          }
+        } catch (e) {}
+      }
+      if (!elevators) {
+        elevators = {
+          bay1: {
+            id: 'bay1',
+            name: 'Elevador 01 (Bay A - Primário)',
+            status: 'occupied',
+            chassisVin: 'Z8-DB043-2026-0046',
+            modelName: 'Z8 FX-10 Sport',
+            mechanicName: 'Roberto Mecânico Chefe',
+            operation: 'Diagnóstico Sensor Hall & Freio Hidráulico',
+            startedAt: new Date(Date.now() - 42 * 60 * 1000).toISOString()
+          },
+          bay2: {
+            id: 'bay2',
+            name: 'Elevador 02 (Bay B - Secundário)',
+            status: 'available',
+            chassisVin: null,
+            modelName: null,
+            mechanicName: null,
+            operation: null,
+            startedAt: null
+          }
+        };
+      }
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(elevators));
+      return;
+    }
+
+    if (req.method === 'POST') {
+      try {
+        const rawBody = await getRequestBody(req);
+        const newElevators = JSON.parse(rawBody);
+        if (fs.existsSync(DB_FILE)) {
+          const dbData = JSON.parse(fs.readFileSync(DB_FILE, 'utf-8'));
+          if (!dbData.data) dbData.data = {};
+          dbData.data.elevators = newElevators;
+          fs.writeFileSync(DB_FILE, JSON.stringify(dbData, null, 2), 'utf-8');
+        }
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, elevators: newElevators }));
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: err.message }));
+      }
+      return;
+    }
+  }
+
   // ================= STATIC FILES SERVING =================
   let filePath = path.join(ROOT_DIR, pathname === '/' ? 'index.html' : pathname);
+
+  // If path is uploads, serve from dynamic UPLOADS_DIR
+  if (pathname.startsWith('/uploads/')) {
+    filePath = path.join(UPLOADS_DIR, pathname.replace('/uploads/', ''));
+  }
 
   // If path is a directory, check for index.html inside
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
@@ -242,7 +376,7 @@ const server = http.createServer(async (req, res) => {
   }
 
   // Security check: prevent directory traversal
-  if (!filePath.startsWith(ROOT_DIR)) {
+  if (!filePath.startsWith(ROOT_DIR) && !filePath.startsWith(UPLOADS_DIR)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('Access Denied');
     return;

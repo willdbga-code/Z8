@@ -32,6 +32,11 @@
     </div>
 
     <div class="header-right">
+      <button class="btn-bauhaus btn-secondary btn-sm" id="btn-export-csv" data-i18n="btnExportCsv">
+        <span>📊</span>
+        <span>Exportar CSV</span>
+      </button>
+
       <button class="btn-bauhaus btn-secondary btn-sm" id="btn-mobile-connect">
         <span>📱</span>
         <span data-i18n="connectedMobileLabel">CONECTAR SCANNER MOBILE</span>
@@ -79,6 +84,9 @@
     <div class="nav-quick-actions">
       <button class="btn-bauhaus btn-emerald btn-sm" id="btn-quick-inflow" data-i18n="btnNewInflow">
         + Nova Entrada
+      </button>
+      <button class="btn-bauhaus btn-amber btn-sm" id="btn-quick-outflow" data-i18n="btnNewOutflow">
+        🚚 Despachar Saída
       </button>
       <button class="btn-bauhaus btn-secondary btn-sm" id="btn-quick-container" data-i18n="btnImportContainer">
         Importar Container
@@ -198,6 +206,35 @@
     <!-- ================= TAB 2: VEHICLES & CHASSIS ================= -->
     <section class="tab-pane" id="pane-vehicles">
       <div class="cockpit-panel">
+        <!-- Top Toolbar with View Mode Switcher -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+          <div class="view-mode-toggle" style="display: flex; gap: 8px;">
+            <button class="btn-bauhaus btn-secondary btn-sm active" id="btn-view-table" data-i18n="btnViewTable">
+              📋 Exibição em Tabela
+            </button>
+            <button class="btn-bauhaus btn-secondary btn-sm" id="btn-view-yard" data-i18n="btnViewYard">
+              🗺️ Mapa Visual de Baías (2D)
+            </button>
+          </div>
+
+          <!-- Batch Action Bar (Appears when items are checked) -->
+          <div class="batch-action-bar" id="vehicles-batch-bar" style="display: none; align-items: center; gap: 8px;">
+            <span class="batch-count-text" id="batch-selected-count">0 selecionados</span>
+            <button class="btn-bauhaus btn-primary btn-sm" id="btn-batch-labels-trigger" data-i18n="btnBatchPrint">
+              🏷️ Imprimir Etiquetas em Lote
+            </button>
+            <button class="btn-bauhaus btn-amber btn-sm" id="btn-batch-dispatch-trigger" data-i18n="btnBatchDispatch">
+              🚚 Despachar Lote
+            </button>
+            <button class="btn-bauhaus btn-secondary btn-sm" id="btn-batch-pdi-trigger">
+              📋 Mover p/ PDI
+            </button>
+            <button class="btn-bauhaus btn-secondary btn-sm" id="btn-batch-csv-trigger">
+              📊 CSV Selecionados
+            </button>
+          </div>
+        </div>
+
         <!-- Filter Toolbar -->
         <div class="toolbar-grid">
           <div class="search-input-box">
@@ -227,11 +264,14 @@
           </button>
         </div>
 
-        <!-- Table of Vehicles -->
-        <div class="table-responsive">
+        <!-- Table View of Vehicles -->
+        <div class="table-responsive" id="vehicles-table-wrapper">
           <table class="wms-table">
             <thead>
               <tr>
+                <th style="width: 38px; text-align: center;">
+                  <input type="checkbox" id="th-select-all-vehicles" title="Selecionar Todos">
+                </th>
                 <th data-i18n="thChassis">Chassi / VIN</th>
                 <th data-i18n="thModel">Modelo & Código Fábrica</th>
                 <th data-i18n="thColor">Cor de Fábrica</th>
@@ -248,6 +288,11 @@
             </tbody>
           </table>
         </div>
+
+        <!-- 2D Interactive Visual Yard Map View -->
+        <div id="yard-map-container" class="yard-map-layout" style="display: none;">
+          <!-- Dynamically populated with Sectors A, B, C, D -->
+        </div>
       </div>
     </section>
 
@@ -260,6 +305,9 @@
             <span class="panel-subtitle">Auditoria Imutável de Cargas, Desembaraço Aduaneiro e Faturamento</span>
           </div>
           <div class="panel-actions">
+            <button class="btn-bauhaus btn-primary btn-sm" id="btn-open-customs-manifest" data-i18n="btnOpenCustomsManifest">
+              📄 Romaneio de Desembaraço (BL)
+            </button>
             <button class="btn-bauhaus btn-emerald btn-sm" id="btn-open-container-modal-2" data-i18n="btnImportContainer">
               Importar Container 40HQ
             </button>
@@ -290,6 +338,23 @@
 
     <!-- ================= TAB 4: WORKSHOP & SERVICE ORDERS ================= -->
     <section class="tab-pane" id="pane-workshop">
+      <!-- Twin-Bay Hydraulic Elevators Cockpit (Padrão Franquia Z8) -->
+      <div class="cockpit-panel" style="margin-bottom: 20px;">
+        <div class="panel-header">
+          <div class="panel-title-group">
+            <span class="panel-title" data-i18n="elevatorsTitle">Cockpit de Elevadores da Oficina (Padrão Franquia Z8 - 2 Elevadores)</span>
+            <span class="panel-subtitle" data-i18n="elevatorsSubtitle">Monitoramento em tempo real dos elevadores hidráulicos/pneumáticos para motocicletas elétricas</span>
+          </div>
+          <div class="panel-actions">
+            <span class="badge-hud">2 ELEVADORES HIDRÁULICOS // OFICINA Z8</span>
+          </div>
+        </div>
+
+        <div class="elevators-cockpit-grid" id="elevators-container">
+          <!-- Dynamically populated bay1 and bay2 -->
+        </div>
+      </div>
+
       <div class="cockpit-panel">
         <div class="panel-header">
           <div class="panel-title-group">
@@ -653,6 +718,477 @@
         </div>
       </div>
       <div class="modal-footer" style="justify-content: center;">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnClose">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. MODAL: SINGLE VEHICLE ENTRY -->
+  <div class="modal-overlay" id="modal-single-vehicle">
+    <div class="modal-box" style="max-width: 800px;">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="modalSingleVehicleTitle">Entrada de Veículo Individual / Protótipo</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-single-vehicle" class="form-grid">
+          <div class="form-group">
+            <label data-i18n="lblSelectModel">Modelo Z8 Homologado:</label>
+            <select class="form-select" id="sv-model-select" required></select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblChassisVin">Número do Chassi (VIN):</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" class="form-input" id="sv-vin" required placeholder="ex: Z8-DB018-2026-0099" style="flex: 1;">
+              <button type="button" class="btn-bauhaus btn-secondary btn-sm" id="btn-sv-generate-vin" data-i18n="btnGenerateVin">
+                ⚡ Gerar
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblColor">Cor de Fábrica:</label>
+            <select class="form-select" id="sv-color-select"></select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblInitialStatus">Status Inicial:</label>
+            <select class="form-select" id="sv-status-select">
+              <option value="pdi_inspection" data-i18n="statusPdiInspection" selected>Inspeção PDI (Padrão)</option>
+              <option value="in_stock" data-i18n="statusInStock">Em Pátio (Livre)</option>
+              <option value="ready_to_ship" data-i18n="statusReadyToShip">Pronta p/ Saída</option>
+              <option value="in_service" data-i18n="statusInService">Oficina / Reparo</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblEngineSerial">Nº Série do Motor:</label>
+            <input type="text" class="form-input" id="sv-engine-serial" placeholder="ex: MOT-2000W-893140">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblBatterySerial">Nº Série da Bateria:</label>
+            <input type="text" class="form-input" id="sv-battery-serial" placeholder="ex: BAT-60V20A-99201">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblOriginDoc">Documento / Lote / NF-e / BL:</label>
+            <input type="text" class="form-input" id="sv-doc" placeholder="ex: NF-e 49201 / BL-CN-2026">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblYardBay">Posição no Pátio / Baía:</label>
+            <select class="form-select" id="sv-bay-select">
+              <option value="A-01">Baía A-01 (Expedição)</option>
+              <option value="A-02">Baía A-02 (Expedição)</option>
+              <option value="B-01" selected>Baía B-01 (Estoque Geral)</option>
+              <option value="B-02">Baía B-02 (Estoque Geral)</option>
+              <option value="B-03">Baía B-03 (Estoque Geral)</option>
+              <option value="C-01">Baía C-01 (PDI)</option>
+              <option value="C-02">Baía C-02 (PDI)</option>
+              <option value="D-01">Baía D-01 (Oficina / Elevador 1)</option>
+              <option value="D-02">Baía D-02 (Oficina / Elevador 2)</option>
+            </select>
+          </div>
+
+          <div class="form-group form-group-full">
+            <label data-i18n="lblEntryNotes">Observações de Entrada / Vistoria Visual:</label>
+            <textarea class="form-textarea" id="sv-notes" placeholder="Descreva qualquer detalhe da descarga, lacres e condições gerais..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnCancel">Cancelar</button>
+        <button class="btn-bauhaus btn-emerald" id="btn-submit-single-vehicle" data-i18n="btnSubmitSingleVehicle">
+          Confirmar Entrada do Veículo
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. MODAL: DISPATCH / OUTFLOW -->
+  <div class="modal-overlay" id="modal-dispatch-vehicle">
+    <div class="modal-box" style="max-width: 750px;">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="modalDispatchTitle">Expedição & Faturamento de Veículo</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-dispatch-vehicle" class="form-grid">
+          <div class="form-group form-group-full">
+            <label data-i18n="thChassis">Selecione o Chassi a Despachar:</label>
+            <select class="form-select" id="disp-chassis-select" required></select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblDispatchType">Tipo de Saída:</label>
+            <select class="form-select" id="disp-type-select">
+              <option value="outflow_franchise">Saída Atacado Concessionária (Franquia)</option>
+              <option value="outflow_retail">Saída Varejo Final (Consumidor VIP)</option>
+              <option value="outflow_transfer">Transferência entre Galpões / Hub</option>
+              <option value="outflow_test_ride">Cessão para Test-Ride / Evento</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblDestination">Destino / Concessionária / Cliente:</label>
+            <input type="text" class="form-input" id="disp-destination" required placeholder="ex: Z8 Vale do Paraíba (Taubaté - SP)">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblInvoiceNumber">Nota Fiscal / Pedido Nº:</label>
+            <input type="text" class="form-input" id="disp-invoice" required placeholder="ex: NF-e 001.984-Série 1">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblCarrier">Transportadora / Motorista:</label>
+            <input type="text" class="form-input" id="disp-carrier" placeholder="ex: Braspress / Frota Própria Z8">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblTrackingCode">Código de Rastreio / CTe:</label>
+            <input type="text" class="form-input" id="disp-tracking" placeholder="ex: BR849302194SP">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblDispatchDate">Data de Expedição:</label>
+            <input type="date" class="form-input" id="disp-date">
+          </div>
+
+          <div class="form-group form-group-full">
+            <label data-i18n="lblDispatchNotes">Observações da Expedição:</label>
+            <textarea class="form-textarea" id="disp-notes" placeholder="Conferência de chaveiro, manual do proprietário, carregador bivolt..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnCancel">Cancelar</button>
+        <button class="btn-bauhaus btn-amber" id="btn-submit-dispatch" data-i18n="btnSubmitDispatch">
+          Confirmar Saída & Faturamento
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. MODAL: ADD SPARE PART / TIRE -->
+  <div class="modal-overlay" id="modal-add-part">
+    <div class="modal-box" style="max-width: 800px;">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="modalAddPartTitle">Cadastro de Peça Sobressalente & Pneus</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-add-part" class="form-grid">
+          <div class="form-group">
+            <label data-i18n="lblPartNumber">Código da Peça (PN):</label>
+            <input type="text" class="form-input" id="ap-part-number" required placeholder="ex: TIRE-120-70-12-OFFROAD">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblPartCategory">Categoria da Peça:</label>
+            <select class="form-select" id="ap-category">
+              <option value="tires">Pneus & Câmaras (轮胎)</option>
+              <option value="batteries">Baterias & Módulos BMS (电池系统)</option>
+              <option value="motors">Motores & Sensores Hall (电机与霍尔)</option>
+              <option value="controllers">Controladores FOC & Chicotes (控制器)</option>
+              <option value="brakes">Freios Hidráulicos & Pastilhas (油压刹车)</option>
+              <option value="suspension">Suspensão & Garfos (液压减震)</option>
+              <option value="lighting">Faróis LED Halo & Elétrica (灯光系统)</option>
+              <option value="bodywork">Carenagens & Acessórios (塑件与配件)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblPartNamePt">Descrição em Português:</label>
+            <input type="text" class="form-input" id="ap-name-pt" required placeholder="ex: Pneu Neve Cravudo 120/70-12 Aro 12">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblPartNameCn">Descrição em Chinês (中文):</label>
+            <input type="text" class="form-input" id="ap-name-cn" placeholder="ex: 120/70-12 越野雪地真空胎">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblTireDim">Medida do Pneu / Aro (se aplicável):</label>
+            <input type="text" class="form-input" id="ap-tire-dim" placeholder="ex: 120/70-12 Aro 12">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblCompatibleModels">Modelos Compatíveis (ex: z8-tank, z8-fx10):</label>
+            <input type="text" class="form-input" id="ap-compatible" placeholder="z8-tank, z8-tank-2-gps">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblCurrentStock">Estoque Inicial (pcs):</label>
+            <input type="number" class="form-input" id="ap-stock" required min="0" value="20">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblMinStock">Estoque Mínimo (Ponto de Reposição):</label>
+            <input type="number" class="form-input" id="ap-min-stock" required min="1" value="10">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblAnnualDemand">Demanda Anual Estimada (D):</label>
+            <input type="number" class="form-input" id="ap-demand" required min="1" value="120">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblUnitCost">Custo Unitário (R$):</label>
+            <input type="number" class="form-input" id="ap-unit-cost" required min="1" value="150">
+          </div>
+
+          <div class="form-group form-group-full" style="background: #141A24; padding: 12px; border-radius: var(--card-radius); display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <span style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); display: block;">LOTE ECONÔMICO DE COMPRA (EOQ):</span>
+              <strong style="font-family: var(--font-mono); font-size: 16px; color: var(--color-cyan);" id="ap-eoq-preview">45 pcs</strong>
+            </div>
+            <span style="font-size: 11px; color: var(--text-dim); max-width: 320px;">
+              Calculado automaticamente pela fórmula industrial com Lead Time de 45 dias da China.
+            </span>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnCancel">Cancelar</button>
+        <button class="btn-bauhaus btn-emerald" id="btn-submit-add-part" data-i18n="btnSubmitAddPart">
+          Salvar Peça no Almoxarifado
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 9. MODAL: PDI CHECKLIST 24 ITEMS -->
+  <div class="modal-overlay" id="modal-pdi-checklist">
+    <div class="modal-box" style="max-width: 900px;">
+      <div class="modal-header">
+        <div>
+          <span class="modal-title" data-i18n="modalPdiTitle">Protocolo de Entrega Técnica & PDI (24 Itens)</span>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;" data-i18n="pdiSubtitle">
+            Inspeção eletromecânica obrigatória antes da liberação do veículo
+          </div>
+        </div>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body" id="pdi-modal-body">
+        <!-- Rendered dynamically with vehicle data and 24 checklist items -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnCancel">Cancelar</button>
+        <button class="btn-bauhaus btn-crimson" id="btn-fail-pdi" data-i18n="btnFailPdi">
+          ⚠️ Reprovar PDI & Abrir OS
+        </button>
+        <button class="btn-bauhaus btn-emerald" id="btn-approve-pdi" data-i18n="btnApprovePdi">
+          ✓ Aprovar PDI & Liberar para Saída
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10. MODAL: BATCH THERMAL LABELS PRINT -->
+  <div class="modal-overlay" id="modal-batch-labels">
+    <div class="modal-box" style="max-width: 600px;">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="btnBatchPrint">Impressão em Lote de Etiquetas Térmicas</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 10px; margin-bottom: 14px; align-items: center; justify-content: space-between;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="font-family: var(--font-mono); font-size: 11px; font-weight: 700;">Formato:</label>
+            <select class="form-select" id="batch-thermal-size-select" style="width: auto;">
+              <option value="100x50">100 x 50 mm (Industrial)</option>
+              <option value="80x40">80 x 40 mm (Compacta)</option>
+            </select>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 12px; color: var(--color-cyan);" id="batch-labels-count-text">
+            0 etiquetas prontas
+          </span>
+        </div>
+
+        <div class="thermal-preview-container" id="batch-thermal-preview-mount" style="max-height: 480px; overflow-y: auto;">
+          <!-- Batch rendered here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnClose">Fechar</button>
+        <button class="btn-bauhaus btn-primary" id="btn-trigger-batch-print">
+          🖨️ Imprimir Todas as Etiquetas
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. MODAL: ALLOCATE ELEVATOR -->
+  <div class="modal-overlay" id="modal-allocate-elevator">
+    <div class="modal-box" style="max-width: 580px;">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="modalAllocateElevatorTitle">Alocação de Motocicleta no Elevador da Oficina</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-allocate-elevator" class="form-grid">
+          <div class="form-group form-group-full">
+            <label data-i18n="lblSelectElevator">Selecionar Elevador:</label>
+            <select class="form-select" id="alloc-elevator-select" required>
+              <option value="bay1">Elevador 01 (Bay A - Primário)</option>
+              <option value="bay2">Elevador 02 (Bay B - Secundário)</option>
+            </select>
+          </div>
+
+          <div class="form-group form-group-full">
+            <label data-i18n="lblSelectVehicleForElevator">Chassi do Veículo no Pátio:</label>
+            <select class="form-select" id="alloc-vehicle-select" required>
+              <!-- Populated dynamically with available vehicles -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblElevatorTechName">Mecânico Responsável:</label>
+            <input type="text" class="form-input" id="alloc-tech-name" required value="Roberto Mecânico Chefe">
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="lblElevatorOperationType">Tipo de Intervenção Técnica:</label>
+            <select class="form-select" id="alloc-operation-type" required>
+              <option value="Inspeção PDI Completa (24 Itens)">Inspeção PDI Completa (24 Itens)</option>
+              <option value="Diagnóstico Elétrico BMS & Bateria 72V">Diagnóstico Elétrico BMS & Bateria 72V</option>
+              <option value="Sangria e Revisão de Freios DOT4">Sangria e Revisão de Freios DOT4</option>
+              <option value="Substituição Sensor Hall / Acelerador">Substituição Sensor Hall / Acelerador</option>
+              <option value="Troca & Balanceamento de Pneus">Troca & Balanceamento de Pneus</option>
+              <option value="Alinhamento e Ajuste de Suspensão">Alinhamento e Ajuste de Suspensão</option>
+              <option value="Montagem & Pós-Venda Garantia">Montagem & Pós-Venda Garantia</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnCancel">Cancelar</button>
+        <button class="btn-bauhaus btn-emerald" id="btn-confirm-allocate-elevator" data-i18n="btnConfirmElevatorAllocation">
+          Subir no Elevador & Iniciar Serviço
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12. MODAL: CUSTOMS CLEARANCE MANIFEST (ROMANEIO ADUANEIRO) -->
+  <div class="modal-overlay" id="modal-customs-manifest">
+    <div class="modal-box" style="max-width: 950px;">
+      <div class="modal-header">
+        <span class="modal-title" data-i18n="modalCustomsTitle">Romaneio Oficial de Desembaraço Aduaneiro & Importação</span>
+        <button class="btn-modal-close" data-close-modal>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 12px; margin-bottom: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <label style="font-family: var(--font-mono); font-size: 11px; font-weight: 700;" data-i18n="lblCustomsContainerSelect">Selecione o Container 40HQ / BL:</label>
+            <select class="form-select" id="customs-container-select" style="width: auto; min-width: 220px;">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+          <button class="btn-bauhaus btn-primary btn-sm" id="btn-print-customs-sheet" data-i18n="btnPrintCustomsSheet">
+            🖨️ Imprimir Manifesto Aduaneiro (A4)
+          </button>
+        </div>
+
+        <!-- Printable Official Sheet Container -->
+        <div class="customs-manifest-sheet" id="customs-printable-sheet">
+          <div class="customs-doc-header">
+            <div style="display: flex; align-items: center; gap: 14px;">
+              <img src="assets/logos/logo_z8_main.png" alt="Z8 E-Motion" class="customs-doc-logo">
+              <div>
+                <div style="font-family: var(--font-mono); font-weight: 800; font-size: 13px; color: #FFF;">Z8 EMOTION LTDA.</div>
+                <div style="font-size: 10px; color: var(--text-muted);">DIVISÃO DE COMÉRCIO EXTERIOR & LOGÍSTICA // 进出口关务部</div>
+                <div style="font-size: 9px; color: var(--text-dim);">CNPJ: 68.774.164/0001-00 // SJC - SP</div>
+              </div>
+            </div>
+            <div class="customs-doc-title-box">
+              <div class="customs-doc-title">ROMANEIO OFICIAL DE IMPORTAÇÃO & DESEMBARAÇO</div>
+              <div class="customs-doc-sub">IMPORT PACKING LIST & DANGEROUS GOODS DECLARATION</div>
+            </div>
+          </div>
+
+          <table class="customs-meta-table">
+            <tr>
+              <td class="customs-meta-k">CONTAINER 40HQ / BL:</td>
+              <td class="customs-meta-v" id="cm-container-no">CN-40HQ-2026-089</td>
+              <td class="customs-meta-k">FATURA COMERCIAL (INVOICE):</td>
+              <td class="customs-meta-v" id="cm-invoice-no">Z8-EXP-2026-CN089</td>
+            </tr>
+            <tr>
+              <td class="customs-meta-k">PORTO ORIGEM (POL):</td>
+              <td class="customs-meta-v">Ningbo Port (CN) / Shenzhen Base</td>
+              <td class="customs-meta-k">PORTO DESTINO (POD):</td>
+              <td class="customs-meta-v">Porto de Santos - SP (BR)</td>
+            </tr>
+            <tr>
+              <td class="customs-meta-k">PESO BRUTO (GW) / LÍQUIDO:</td>
+              <td class="customs-meta-v" id="cm-weights">10.200 kg / 8.925 kg</td>
+              <td class="customs-meta-k">VOLUME TOTAL (CBM):</td>
+              <td class="customs-meta-v" id="cm-volume">68.0 CBM (40HQ Standard)</td>
+            </tr>
+            <tr>
+              <td class="customs-meta-k">REGIME ADUANEIRO:</td>
+              <td class="customs-meta-v">DI / Declaração de Importação RFB (Canal Verde)</td>
+              <td class="customs-meta-k">QUANTIDADE NO LOTE:</td>
+              <td class="customs-meta-v" id="cm-lot-qty">85 Unidades em Gaiolas de Aço</td>
+            </tr>
+          </table>
+
+          <div class="customs-section-title" data-i18n="customsNcmTitle">Classificação Fiscal Aduaneira (NCM / TIPI)</div>
+          <div class="customs-ncm-box">
+            <div><strong>• NCM 8711.60.00:</strong> Motocicletas (incluindo ciclomotores) com motor elétrico para propulsão. (II: 20% | IPI: 0% | PIS: 2.10% | COFINS: 9.65%).</div>
+            <div><strong>• NCM 8507.60.00:</strong> Acumuladores elétricos de íons de lítio 60V/72V para tração elétrica automotiva. (II: 16% | IPI: 0% | PIS: 2.10% | COFINS: 9.65%).</div>
+            <div><strong>• NCM 8501.31.20:</strong> Motores elétricos de corrente contínua Brushless sem escova no cubo de roda (1200W a 3000W).</div>
+          </div>
+
+          <div class="customs-section-title" data-i18n="customsDangerousGoodsTitle">Declaração de Transporte de Mercadorias Perigosas (ONU / OACI / IMO)</div>
+          <div class="customs-ncm-box">
+            <div><span class="customs-danger-badge">UN 3171</span> <strong>BATTERY-POWERED VEHICLE // CLASSE 9:</strong> Veículos elétricos com conjunto de baterias pré-instalado em conformidade com as Regras de Cargas Perigosas IMO/IMDG e Código Marítimo Internacional.</div>
+            <div style="margin-top: 4px;"><span class="customs-danger-badge">UN 3480</span> <strong>LITHIUM ION BATTERIES // CLASSE 9:</strong> Todas as células e packs possuem certificação UN 38.3 (aprovação em testes de vibração, choque térmico, impacto mecânico e sobrecarga).</div>
+          </div>
+
+          <div class="customs-section-title" data-i18n="customsChassisTableTitle">Relação Oficial de Veículos & Conjunto Propulsor do Lote</div>
+          <div class="table-responsive" style="max-height: 280px; overflow-y: auto; margin-bottom: 16px;">
+            <table class="wms-table" style="font-size: 11px;">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Chassi VIN</th>
+                  <th>Modelo Comercial</th>
+                  <th>Código Fábrica</th>
+                  <th>Cor</th>
+                  <th>Motor CC</th>
+                  <th>Bateria Tração</th>
+                  <th>Pneus Homologados</th>
+                </tr>
+              </thead>
+              <tbody id="customs-chassis-tbody">
+                <!-- Dynamically populated with lot chassis -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="customs-sig-block">
+            <div>
+              <div class="customs-sig-line">
+                <strong>DESPACHANTE ADUANEIRO CREDENCIADO</strong><br>
+                Registro SDA / Receita Federal do Brasil (RFB)<br>
+                Terminal Logístico Porto de Santos
+              </div>
+            </div>
+            <div>
+              <div class="customs-sig-line">
+                <strong>Z8 EMOTION LTDA. // DIRETORIA TÉCNICA</strong><br>
+                Engenheiro Mecânico / Responsável Técnico CREA<br>
+                São José dos Campos - SP
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
         <button class="btn-bauhaus btn-secondary" data-close-modal data-i18n="btnClose">Fechar</button>
       </div>
     </div>

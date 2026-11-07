@@ -1,12 +1,16 @@
 {
   "name": "z8-wms",
-  "version": "1.0.0",
+  "productName": "Z8-WMS",
+  "version": "2026.1.0",
   "description": "Z8 E-Motion Warehouse Management System (WMS) - Bilingual Supply Chain, Stock & Workshop Engine",
   "main": "main.cjs",
   "scripts": {
     "start": "node server.cjs",
     "electron": "npx electron main.cjs",
-    "dev": "node server.cjs"
+    "build:exe": "npx @electron/packager . \"Z8-WMS\" --platform=win32 --arch=x64 --icon=assets/logos/z8_wms_icon.ico --out=dist-app --overwrite"
+  },
+  "devDependencies": {
+    "electron": "45.2.1"
   },
   "keywords": [
     "z8",
