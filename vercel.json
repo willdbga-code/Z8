@@ -49,16 +49,57 @@
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/n95c", "dest": "/n95c/index.html" },
-    { "src": "/n95c/", "dest": "/n95c/index.html" },
-    { "src": "/N95C", "dest": "/n95c/index.html" },
-    { "src": "/N95C/", "dest": "/n95c/index.html" },
-    { "src": "/vendas", "dest": "/vendas/index.html" },
-    { "src": "/vendas/", "dest": "/vendas/index.html" },
-    { "src": "/conceito", "dest": "/conceito/index.html" },
-    { "src": "/conceito/", "dest": "/conceito/index.html" },
-    { "src": "/site-principal", "dest": "/site-principal/index.html" },
-    { "src": "/site-principal/", "dest": "/site-principal/index.html" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/n95c",
+      "dest": "/n95c/index.html"
+    },
+    {
+      "src": "/n95c/",
+      "dest": "/n95c/index.html"
+    },
+    {
+      "src": "/N95C",
+      "dest": "/n95c/index.html"
+    },
+    {
+      "src": "/N95C/",
+      "dest": "/n95c/index.html"
+    },
+    {
+      "src": "/vendas",
+      "dest": "/vendas/index.html"
+    },
+    {
+      "src": "/vendas/",
+      "dest": "/vendas/index.html"
+    },
+    {
+      "src": "/conceito",
+      "dest": "/conceito/index.html"
+    },
+    {
+      "src": "/conceito/",
+      "dest": "/conceito/index.html"
+    },
+    {
+      "src": "/conceito-2",
+      "dest": "/conceito-2/index.html"
+    },
+    {
+      "src": "/conceito-2/",
+      "dest": "/conceito-2/index.html"
+    },
+    {
+      "src": "/site-principal",
+      "dest": "/site-principal/index.html"
+    },
+    {
+      "src": "/site-principal/",
+      "dest": "/site-principal/index.html"
+    }
   ]
 }
