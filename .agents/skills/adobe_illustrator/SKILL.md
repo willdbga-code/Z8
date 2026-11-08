@@ -143,3 +143,39 @@ var cmykPlatinum   = makeCMYK(15, 10, 10, 0);   // Cinza Platina Gráfico
    - Ao exportar PDFs para impressão, mantenha 8.5 pt (3mm) de sangria nas bordas para refile perfeito na guilhotina.
 4. **Preservação de Editabilidade**:
    - Sempre salve simultaneamente a versão `.AI` nativa com `pdfCompatible = true` e a versão `.PDF` em alta definição Acrobat 8 / PDF/X.
+
+
+---
+
+## 🧠 Protocolo de Treinamento de Design Vetorial (Design Thinking & Art Direction)
+
+Para garantir que o agente gere peças de nível **Diretoria de Arte Sênior** e nunca layouts crus de programador:
+
+### As 5 Leis Estéticas Invioláveis no Illustrator:
+1. **Lei da Tipografia Editorial Contida (`areaText` Obrigatório para Parágrafos)**:
+   - É estritamente proibido usar `pointText` para sentenças ou parágrafos com mais de 5 palavras.
+   - Parágrafos devem sempre ser criados através de caixas delimitadoras (`pathItems.rectangle`) convertidas em `textFrames.areaText`, com largura e altura fixadas e `leading` explícito (`autoLeading = false`), impedindo que o texto transpasse as margens do documento.
+2. **Lei do Selo Tridimensional de Prestígio (Luxury Embossed Badge)**:
+   - Nenhum selo pode ser uma forma geométrica chapada e escura.
+   - Todo selo oficial deve possuir:
+     - Fita decorativa inferior bipartida (*Ribbon banner*) com pontas chanfradas em V;
+     - Anel externo dentado de alta precisão (36 a 72 dentes calculados trigonometricamente);
+     - Anel intermediário com contas peroladas (*beaded ring*);
+     - Núcleo com tipografia monumental contrastante e estrelas de chancela.
+3. **Lei da Segurança Gráfica e Fé Pública (Guilloché & QR Code)**:
+   - Certificados, laudos e termos de garantia devem obrigatoriamente incorporar:
+     - Malhas senoidais matemáticas de segurança (*Guilloché pattern*) com traçado ultra-fino (0.4 pt);
+     - Cantoneiras decorativas de precisão nos 4 vértices da moldura perimetral;
+     - QR Code vetorial autêntico de rastreabilidade com chave criptográfica e identificador de chassi (VIN).
+4. **Lei da Proporção Áurea e Escala Modular**:
+   - Alturas e larguras devem respeitar proporções harmônicas sem espaços ociosos.
+   - O documento A4 Paisagem divide-se em:
+     - Topo (15%): Cabeçalho institucional e marca;
+     - Corpo Superior (45%): Duas colunas gêmeas de telemetria e dados técnicos;
+     - Corpo Intermediário (15%): Declaração jurídica e conformidade CDC / CONTRAN 996;
+     - Base (25%): Assinaturas formais com carimbo PDI, QR Code e Medalhão de Garantia de Luxo.
+5. **Paleta de Contrastes Nobres**:
+   - Fundo sempre claro acetinado (`#FEFEFF` / `#FAFAFD`);
+   - Textos de leitura em ardósia escura (`#1E293B` / `#334155`);
+   - Títulos em Black Piano puro (`#0A0B0E`);
+   - Acentos nobres em Dourado de Segurança (`#C29628` / `#D4AF37`) e Ciano Elétrico Z8 (`#00E5FF`).
