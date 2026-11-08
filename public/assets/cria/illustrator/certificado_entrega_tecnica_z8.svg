@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 707" width="100%" height="100%">
+  <defs>
+    <filter id="certShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000000" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Fundo de Papel Premium -->
+  <rect width="1000" height="707" fill="#F8FAFC"/>
+  <rect x="25" y="25" width="950" height="657" fill="#FFFFFF" stroke="#0A0B0E" stroke-width="2.5" filter="url(#certShadow)"/>
+  <rect x="33" y="33" width="934" height="641" fill="none" stroke="#00E5FF" stroke-width="0.75"/>
+
+  <!-- Cantoneiras Bauhaus nos 4 Cantos -->
+  <path d="M 40,65 L 40,40 L 65,40" fill="none" stroke="#00E5FF" stroke-width="3"/>
+  <path d="M 960,65 L 960,40 L 935,40" fill="none" stroke="#00E5FF" stroke-width="3"/>
+  <path d="M 40,642 L 40,667 L 65,667" fill="none" stroke="#00E5FF" stroke-width="3"/>
+  <path d="M 960,642 L 960,667 L 935,667" fill="none" stroke="#00E5FF" stroke-width="3"/>
+
+  <!-- ========================================== -->
+  <!-- CABEÇALHO CORPORATIVO -->
+  <!-- ========================================== -->
+  <line x1="55" y1="58" x2="945" y2="58" stroke="#00E5FF" stroke-width="2.5"/>
+
+  <text x="500" y="82" text-anchor="middle" font-family="'Outfit', 'Montserrat', sans-serif" font-size="12" font-weight="800" letter-spacing="5" fill="#0A0B0E">Z8 E-MOTION // ELECTRIC MOBILITY</text>
+  <text x="500" y="112" text-anchor="middle" font-family="'Outfit', 'Montserrat', sans-serif" font-size="21" font-weight="900" letter-spacing="1.5" fill="#0A0B0E">CERTIFICADO DE ENTREGA TÉCNICA E GARANTIA NACIONAL</text>
+  <text x="500" y="130" text-anchor="middle" font-family="'Outfit', 'Montserrat', sans-serif" font-size="8.5" font-weight="600" letter-spacing="1.5" fill="#64748B">Z8 EMOTION LTDA. • CNPJ: 68.774.164/0001-00 • SÃO JOSÉ DOS CAMPOS - SP • HOMOLOGAÇÃO CONTRAN 996/2022</text>
+
+  <!-- ========================================== -->
+  <!-- SEÇÃO 1: BLOCO ESQUERDO (DADOS DO VEÍCULO) -->
+  <!-- ========================================== -->
+  <g transform="translate(55, 155)">
+    <rect width="425" height="175" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+    <rect width="425" height="28" rx="5" fill="#0A0B0E"/>
+    <rect x="0" y="23" width="425" height="5" fill="#0A0B0E"/>
+    <text x="16" y="19" font-family="'Outfit', sans-serif" font-size="9" font-weight="800" letter-spacing="2" fill="#00E5FF">01 // IDENTIFICAÇÃO DO VEÍCULO E PROPULSÃO</text>
+
+    <!-- Linhas de Dados -->
+    <text x="16" y="52" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">MODELO COMERCIAL:</text>
+    <text x="150" y="52" font-family="'Outfit', sans-serif" font-size="8.5" font-weight="800" fill="#0A0B0E">Z8 TANK HIGH-SPEED // LAF EDITION 2026</text>
+
+    <text x="16" y="74" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">CHASSI (VIN 17 DÍGITOS):</text>
+    <text x="150" y="74" font-family="'Courier New', monospace" font-size="9.5" font-weight="800" fill="#0A0B0E">93ZZ8TNK120260199BR</text>
+
+    <text x="16" y="96" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">MOTORIZAÇÃO ELÉTRICA:</text>
+    <text x="150" y="96" font-family="'Outfit', sans-serif" font-size="8" font-weight="700" fill="#0A0B0E">BRUSHLESS HUB MOTOR 3000W // IP67</text>
+
+    <text x="16" y="118" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">BATERIA DE TRAÇÃO:</text>
+    <text x="150" y="118" font-family="'Outfit', sans-serif" font-size="8" font-weight="700" fill="#0A0B0E">LÍTIO NMC 72V 45Ah (BMS INTELIGENTE CAN-BUS)</text>
+
+    <text x="16" y="140" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">HOMOLOGAÇÃO / CAT:</text>
+    <text x="150" y="140" font-family="'Outfit', sans-serif" font-size="8" font-weight="700" fill="#0A0B0E">RESOLUÇÃO CONTRAN Nº 996/2022 • CAT ATIVO</text>
+
+    <text x="16" y="162" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">UNIDADE EMISSORA:</text>
+    <text x="150" y="162" font-family="'Outfit', sans-serif" font-size="8" font-weight="700" fill="#0A0B0E">MATRIZ Z8 // SÃO JOSÉ DOS CAMPOS - SP</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- SEÇÃO 2: BLOCO DIREITO (TITULAR E PDI) -->
+  <!-- ========================================== -->
+  <g transform="translate(520, 155)">
+    <rect width="425" height="175" rx="5" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+    <rect width="425" height="28" rx="5" fill="#0A0B0E"/>
+    <rect x="0" y="23" width="425" height="5" fill="#0A0B0E"/>
+    <text x="16" y="19" font-family="'Outfit', sans-serif" font-size="9" font-weight="800" letter-spacing="2" fill="#22C55E">02 // TITULARIDADE E INSPEÇÃO DE ENTREGA (PDI)</text>
+
+    <text x="16" y="52" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">PROPRIETÁRIO TITULAR:</text>
+    <text x="150" y="52" font-family="'Outfit', sans-serif" font-size="8.5" font-weight="800" fill="#0A0B0E">WILLIAM DEL BARRIO // DEL BARRIO E-MOTORS</text>
+
+    <text x="16" y="74" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">CPF / CNPJ TITULAR:</text>
+    <text x="150" y="74" font-family="'Courier New', monospace" font-size="9" font-weight="700" fill="#0A0B0E">68.774.164/0001-00</text>
+
+    <text x="16" y="96" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">DATA DE ATIVAÇÃO:</text>
+    <text x="150" y="96" font-family="'Outfit', sans-serif" font-size="8" font-weight="700" fill="#0A0B0E">08 DE NOVEMBRO DE 2026</text>
+
+    <text x="16" y="118" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" fill="#64748B">VIGÊNCIA GARANTIA:</text>
+    <text x="150" y="118" font-family="'Outfit', sans-serif" font-size="8" font-weight="800" fill="#22C55E">24 MESES OFICIAIS Z8 (ATÉ 08/11/2028)</text>
+
+    <!-- Checklist PDI de 6 Pontos -->
+    <rect x="16" y="132" width="393" height="32" rx="3" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
+    <text x="24" y="145" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="700" fill="#065F46">✔ TORQUE DE EIXOS &amp; BALANÇA</text>
+    <text x="150" y="145" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="700" fill="#065F46">✔ FREIOS HIDRÁULICOS &amp; SANGRIA</text>
+    <text x="285" y="145" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="700" fill="#065F46">✔ ILUMINAÇÃO FULL LED</text>
+
+    <text x="24" y="157" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="700" fill="#065F46">✔ BMS &amp; BALANCEAMENTO 72V</text>
+    <text x="150" y="157" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="700" fill="#065F46">✔ SENSORES HALL &amp; ACELERADOR</text>
+    <text x="285" y="157" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="700" fill="#065F46">✔ TEST-RIDE HOMOLOGADO</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- SEÇÃO 3: TERMO DE DECLARAÇÃO LEGAL (CDC) -->
+  <!-- ========================================== -->
+  <g transform="translate(55, 350)">
+    <rect width="890" height="92" rx="4" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="16" y="20" font-family="'Outfit', sans-serif" font-size="8" font-weight="800" letter-spacing="1" fill="#0A0B0E">DECLARAÇÃO FORMAL DE ENTREGA TÉCNICA E VALIDADE NACIONAL DA GARANTIA:</text>
+    
+    <text x="16" y="38" font-family="'Outfit', sans-serif" font-size="7" font-weight="400" fill="#475569">
+      Certificamos que o veículo elétrico acima individualizado foi inspecionado e liberado conforme o rigoroso protocolo de PDI (Pre-Delivery Inspection) em estrita conformidade com o Manual
+    </text>
+    <text x="16" y="52" font-family="'Outfit', sans-serif" font-size="7" font-weight="400" fill="#475569">
+      de Padrões Concessionários Z8 e a Resolução CONTRAN nº 996/2022. O adquirente declara ter recebido o veículo em estado de conservação impecável, acompanhado de chave presencial Smart Key,
+    </text>
+    <text x="16" y="66" font-family="'Outfit', sans-serif" font-size="7" font-weight="400" fill="#475569">
+      carregador bi-volt 72V inteligente e manual técnico digital. A garantia legal e contratual de 24 meses possui vigência nacional e vincula-se ao cumprimento das revisões preventivas periódicas.
+    </text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- SEÇÃO 4: SELO DE GARANTIA (CANTO INFERIOR DIR.) -->
+  <!-- ========================================== -->
+  <g transform="translate(850, 520)">
+    <!-- Selo Circular Embutido -->
+    <circle r="52" fill="#0A0B0E" stroke="#00E5FF" stroke-width="2"/>
+    <circle r="44" fill="#0F131C" stroke="#00E5FF" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle r="36" fill="#131824" stroke="#00E5FF" stroke-width="1.5"/>
+    <text y="-38" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="5" font-weight="800" letter-spacing="2" fill="#FFFFFF">★ GARANTIA Z8 ★</text>
+    <text y="4" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="19" font-weight="900" letter-spacing="1" fill="#00E5FF">2 ANOS</text>
+    <text y="18" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="5" font-weight="700" letter-spacing="1.5" fill="#FFFFFF">COBERTURA TOTAL</text>
+    <text y="28" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="4.5" font-weight="600" fill="#94A3B8">MOTOR &amp; BATERIA 72V</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- SEÇÃO 5: ASSINATURAS FORMAIS -->
+  <!-- ========================================== -->
+  <g transform="translate(55, 520)">
+    <!-- Assinatura 1: Responsável Técnico -->
+    <line x1="20" y1="20" x2="320" y2="20" stroke="#0A0B0E" stroke-width="1.2"/>
+    <text x="170" y="36" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="8" font-weight="800" fill="#0A0B0E">ENGENHEIRO / RESPONSÁVEL TÉCNICO AUTORIZADO Z8</text>
+    <text x="170" y="50" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" fill="#64748B">CREA/CFT Nº 2026-SP • PROTOCOLO ELETRÔNICO PDI-0199</text>
+
+    <!-- Assinatura 2: Proprietário -->
+    <line x1="390" y1="20" x2="690" y2="20" stroke="#0A0B0E" stroke-width="1.2"/>
+    <text x="540" y="36" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="8" font-weight="800" fill="#0A0B0E">PROPRIETÁRIO // TITULAR ADQUIRENTE</text>
+    <text x="540" y="50" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" fill="#64748B">DECLARO O RECEBIMENTO TÉCNICO E CONFORMIDADE INTEGRAL DO VEÍCULO</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- RODAPÉ DE FÉ PÚBLICA -->
+  <!-- ========================================== -->
+  <line x1="55" y1="620" x2="945" y2="620" stroke="#E2E8F0" stroke-width="1"/>
+  <text x="500" y="638" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" font-weight="700" letter-spacing="1" fill="#64748B">CHAVE DE AUTENTICIDADE CRIPTOGRÁFICA: Z8-PDI-93ZZ8TNK120260199-VALID-2028 • CONSULTA PÚBLICA: Z8EMOTION.COM/CERTIFICADOS</text>
+  <text x="500" y="652" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" letter-spacing="1" fill="#94A3B8">Z8 EMOTION LTDA. • AVENIDA DOUTOR ADHEMAR DE BARROS, Nº 566, JARDIM SÃO DIMAS, SÃO JOSÉ DOS CAMPOS - SP</text>
+</svg>

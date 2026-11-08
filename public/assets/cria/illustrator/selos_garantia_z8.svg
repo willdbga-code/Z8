@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 350" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#181B24"/>
+      <stop offset="100%" stop-color="#0A0B0E"/>
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Fundo Studio Dark -->
+  <rect width="900" height="350" fill="url(#bgGlow)"/>
+
+  <!-- Título Superior -->
+  <text x="450" y="38" text-anchor="middle" font-family="'Outfit', 'Montserrat', sans-serif" font-size="13" font-weight="800" letter-spacing="4" fill="#00E5FF">Z8 E-MOTION // ESPECIFICAÇÃO DE SELOS VETORIAIS DE GARANTIA NACIONAL</text>
+  <text x="450" y="56" text-anchor="middle" font-family="'Outfit', 'Montserrat', sans-serif" font-size="8.5" font-weight="500" letter-spacing="2" fill="#94A3B8">PADRÃO CORPORATIVO 2026 • 100% VETORIAL • COMPATÍVEL COM ADOBE ILLUSTRATOR 2026</text>
+
+  <!-- ========================================== -->
+  <!-- SELO 1: CIRCULAR DUPLO (2 ANOS GARANTIA) -->
+  <!-- Centro: (160, 200) -->
+  <!-- ========================================== -->
+  <g transform="translate(160, 200)" filter="url(#shadow)">
+    <!-- Dentes de Alta Precisão (36 dentes) -->
+    <path d="
+      M 0,-100 L 8.6,-95.5 L 17.3,-98.5 L 25.5,-91.3 L 34.2,-94.0 L 41.8,-84.4 L 50.0,-86.6 L 56.7,-74.9 L 64.3,-76.6 L 70.0,-63.3 L 76.6,-64.3 L 81.0,-49.7 L 86.6,-50.0 L 89.8,-34.8 L 94.0,-34.2 L 95.8,-18.7 L 98.5,-17.3 L 98.8,-2.4 L 100,0 L 98.8,2.4 L 98.5,17.3 L 95.8,18.7 L 94.0,34.2 L 89.8,34.8 L 86.6,50.0 L 81.0,49.7 L 76.6,64.3 L 70.0,63.3 L 64.3,76.6 L 56.7,74.9 L 50.0,86.6 L 41.8,84.4 L 34.2,94.0 L 25.5,91.3 L 17.3,98.5 L 8.6,95.5 L 0,100 L -8.6,95.5 L -17.3,98.5 L -25.5,91.3 L -34.2,94.0 L -41.8,84.4 L -50.0,86.6 L -56.7,74.9 L -64.3,76.6 L -70.0,63.3 L -76.6,64.3 L -81.0,49.7 L -86.6,50.0 L -89.8,34.8 L -94.0,34.2 L -95.8,18.7 L -98.5,17.3 L -98.8,2.4 L -100,0 L -98.8,-2.4 L -98.5,-17.3 L -95.8,-18.7 L -94.0,-34.2 L -89.8,-34.8 L -86.6,-50.0 L -81.0,-49.7 L -76.6,-64.3 L -70.0,-63.3 L -64.3,-76.6 L -56.7,-74.9 L -50.0,-86.6 L -41.8,-84.4 L -34.2,-94.0 L -25.5,-91.3 L -17.3,-98.5 L -8.6,-95.5 Z
+    " fill="#0A0B0E" stroke="#00E5FF" stroke-width="1.5"/>
+
+    <!-- Anéis Concêntricos -->
+    <circle r="88" fill="#0D1117" stroke="#00E5FF" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle r="65" fill="#12161F" stroke="#00E5FF" stroke-width="2"/>
+
+    <!-- Textos -->
+    <text y="-72" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="8" font-weight="700" letter-spacing="2.5" fill="#FFFFFF">★ GARANTIA NACIONAL ★</text>
+    <text y="8" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="34" font-weight="900" letter-spacing="1" fill="#00E5FF">2 ANOS</text>
+    <text y="28" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="700" letter-spacing="2" fill="#FFFFFF">COBERTURA TOTAL Z8</text>
+    <text y="42" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" letter-spacing="1.5" fill="#94A3B8">MOTOR &amp; BATERIA 72V</text>
+    <text y="78" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" letter-spacing="1.5" fill="#C2C6CA">CONTRAN 996 HOMOLOGADO</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- SELO 2: HEXAGONAL AERO-TECH (PDI INSPECTION) -->
+  <!-- Centro: (450, 200) -->
+  <!-- ========================================== -->
+  <g transform="translate(450, 200)" filter="url(#shadow)">
+    <!-- Hexágono Externo -->
+    <polygon points="0,-100 86.6,-50 86.6,50 0,100 -86.6,50 -86.6,-50" fill="#0A0B0E" stroke="#22C55E" stroke-width="2.5"/>
+    <polygon points="0,-88 76.2,-44 76.2,44 0,88 -76.2,44 -76.2,-44" fill="#0E1913" stroke="#22C55E" stroke-width="1" stroke-dasharray="4,3"/>
+
+    <!-- Raio Elétrico Vetorial Z8 -->
+    <path d="M -4,-35 L 18,-35 L 2,-5 L 22,-5 L -18,45 L -4,8 L -20,8 Z" fill="#22C55E"/>
+
+    <!-- Textos -->
+    <text y="-62" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="8" font-weight="700" letter-spacing="2" fill="#FFFFFF">INSPEÇÃO TÉCNICA DE PDI</text>
+    <text y="64" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="13" font-weight="900" letter-spacing="1.5" fill="#22C55E">100% APROVADO</text>
+    <text y="78" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" letter-spacing="1" fill="#94A3B8">LAUDO ELETRÔNICO Z8</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- SELO 3: DIAMANTE MINIMALISTA (AUTENTICIDADE) -->
+  <!-- Centro: (740, 200) -->
+  <!-- ========================================== -->
+  <g transform="translate(740, 200)" filter="url(#shadow)">
+    <!-- Diamante Externo 45° -->
+    <rect x="-70" y="-70" width="140" height="140" transform="rotate(45)" fill="#0A0B0E" stroke="#00E5FF" stroke-width="2"/>
+    <rect x="-60" y="-60" width="120" height="120" transform="rotate(45)" fill="#0F131C" stroke="#FFFFFF" stroke-width="0.75"/>
+
+    <!-- Núcleo Tipográfico -->
+    <text y="-12" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="38" font-weight="900" letter-spacing="2" fill="#00E5FF">Z8</text>
+    <text y="6" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" font-weight="800" letter-spacing="4" fill="#FFFFFF">E-MOTION</text>
+    <text y="24" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="7" font-weight="600" letter-spacing="2" fill="#94A3B8">AUTHENTIC PRODUCT</text>
+    <text y="42" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="700" letter-spacing="1" fill="#00E5FF">SÃO JOSÉ DOS CAMPOS</text>
+  </g>
+
+  <!-- Rodapé -->
+  <text x="450" y="332" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="500" letter-spacing="2" fill="#64748B">CONCESSÃO OFICIAL Z8 EMOTION LTDA. • CNPJ: 68.774.164/0001-00 • MATRIZ SÃO JOSÉ DOS CAMPOS - SP</text>
+</svg>
