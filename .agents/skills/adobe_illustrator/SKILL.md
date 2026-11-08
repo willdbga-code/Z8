@@ -179,3 +179,34 @@ Para garantir que o agente gere peças de nível **Diretoria de Arte Sênior** e
    - Textos de leitura em ardósia escura (`#1E293B` / `#334155`);
    - Títulos em Black Piano puro (`#0A0B0E`);
    - Acentos nobres em Dourado de Segurança (`#C29628` / `#D4AF37`) e Ciano Elétrico Z8 (`#00E5FF`).
+
+
+---
+
+## 📐 Caderno de Lições de Design de Walter Mattos (Aplicadas ao Illustrator)
+
+Com base no estudo aprofundado dos projetos e ensinamentos de **Walter Mattos** (referência brasileira em identidade visual e design de marcas):
+
+### 1. O Grid vem para Harmonizar, não para Engessar
+- O grid não é uma prisão matemática onde tudo tem que se encaixar à força. Ele entra após a ideia estabelecida para:
+  - Definir proporções consistentes entre colunas, margens e caixas;
+  - Estabelecer ritmo de leitura (relação harmônica entre blocos de texto e espaços de respiro);
+  - Unificar a família de elementos para que selos, certificados e cartazes conversem na mesma linguagem visual.
+
+### 2. O Princípio Soberano do Ajuste Ótico (Optical Correction)
+- **A matemática do software mente para o olho humano**:
+  - **Centralização Ótica vs. Mecânica**: Em formas curvas (círculos, selos, medalhões) ou caixas com cantos arredondados, o centro geométrico faz textos e ícones parecerem "afundados" ou deslocados para baixo. A regra de Walter Mattos exige subir o elemento ótico em $1.5\text{ pt}$ a $3\text{ pt}$ em relação ao centro métrico para que o cérebro humano o perceba perfeitamente centralizado.
+  - **Peso Visual e Compensação**: Formas triangulares ou pontiagudas (como o raio Z8 ou fitas chanfradas) têm menos massa visual do que retângulos. Elas devem ser ligeiramente ampliadas ou deslocadas para balancear o peso com os blocos adjacentes.
+
+### 3. A Proporção Áurea ($\phi = 1.618$) com Propósito Prático
+- Walter Mattos combate a aplicação cega e vazia da proporção áurea ("jogar espirais em cima de desenhos para impressionar").
+- **Como usamos de verdade**:
+  - Escala modular de tipografia: $6.2\text{ pt} \times 1.618 \approx 10\text{ pt} \times 1.618 \approx 16.2\text{ pt} \times 1.618 \approx 26.2\text{ pt}$.
+  - Relação entre áreas de informação: a proporção entre a área técnica (veículo) e a área legal/assinaturas segue razões harmônicas que geram conforto imediato na leitura.
+
+### 4. Economia Vetorial (Clean Vector Paths)
+- Em projetos no Adobe Illustrator, **menos pontos de ancoragem (anchor points) resultam em curvas mais orgânicas e perfeitas**.
+- Vetores com nós em excesso geram cantos vincados e perda de fluidez. Cada arco ou curva deve ser construído com o mínimo indispensável de pontos Bézier com alças direcionais simétricas.
+
+### 5. Respiro e Espaço Negativo Ativo (Gestalt)
+- O espaço em branco ao redor dos textos técnicos e dos selos é um elemento de composição ativo. Ele evita a poluição visual e confere a autoridade, serenidade e prestígio que uma montadora de veículos elétricos exige.

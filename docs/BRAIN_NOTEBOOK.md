@@ -2116,3 +2116,15 @@ pm run build\ executado com sucesso reduzindo tempo de compilação de 11.16s pa
 - **Artefatos e SVGs Gerados**:
   - `public/assets/cria/illustrator/selos_garantia_z8.svg`
   - `public/assets/cria/illustrator/certificado_entrega_tecnica_z8.svg`
+
+---
+
+### [2026-11-08] Estudo Aprofundado do Design de Walter Mattos e Calibração Estética do Agente
+- **Referência Analisada**: Walter Mattos (waltermattos.com, Behance e cases como *Rede Arquitetos*, *Five Acts*, *Your Spot*, *Alvor*, *Beep*).
+- **Lições Centrais Absorvidas para o Agente**:
+  1. **Ajuste Ótico > Alinhamento Mecânico**: O centro matemático do software engana o olho. Em círculos e selos, elementos visuais devem ter compensação vertical (+1.5pt a +3pt) para neutralizar a ilusão de rebaixamento.
+  2. **Grid como Refinador, Não Prisão**: A criação nasce da necessidade funcional da marca e o grid entra em seguida para conferir proporção, escala harmônica e ritmo visual.
+  3. **Proporção Áurea ($\phi$) Desmistificada**: Aplicação funcional em escalas modulares de tipografia ($6.2 \rightarrow 10 \rightarrow 16.2 \rightarrow 26.2\text{ pt}$) e distribuição de blocos, eliminando modismos vazios.
+  4. **Economia Vetorial (Clean Curves)**: Mínimo de pontos de ancoragem (anchor points) para gerar curvas Bézier suaves, sem rugosidades ou nós desnecessários no Illustrator.
+  5. **Espaço Negativo Ativo**: Uso consciente do respiro para transmitir autoridade e elegância automotiva.
+- **Integração no Ecossistema Z8**: Atualizados `.agents/skills/adobe_illustrator/SKILL.md` e os geradores de certificados e selos vetoriais.
