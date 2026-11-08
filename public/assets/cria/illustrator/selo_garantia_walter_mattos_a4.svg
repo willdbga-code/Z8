@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 707" width="100%" height="100%">
+  <defs>
+    <filter id="heroShadow" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#0A0B0E" flood-opacity="0.25"/>
+    </filter>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+    <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C29628"/>
+      <stop offset="50%" stop-color="#F5E6B9"/>
+      <stop offset="100%" stop-color="#997014"/>
+    </linearGradient>
+    <linearGradient id="cyanCore" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#0096C7"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fundo Acetinado de Apresentação Editorial (Walter Mattos Style) -->
+  <rect width="1000" height="707" fill="#F8FAFC"/>
+  <rect x="25" y="25" width="950" height="657" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" filter="url(#cardShadow)"/>
+
+  <!-- Linha Divisória Vertical Áurea (58% / 42%) -->
+  <line x1="580" y1="40" x2="580" y2="665" stroke="#E2E8F0" stroke-width="0.75"/>
+
+  <!-- ============================================================== -->
+  <!-- CABEÇALHO EDITORIAL SUPERIOR -->
+  <!-- ============================================================== -->
+  <g transform="translate(48, 52)">
+    <text font-family="'Outfit', sans-serif" font-size="7.5" font-weight="800" letter-spacing="3" fill="#00E5FF">Z8 E-MOTION // DESIGN SYSTEM &amp; BRAND ANATOMY</text>
+    <text y="18" font-family="'Outfit', sans-serif" font-size="13" font-weight="900" letter-spacing="1" fill="#0A0B0E">SELO OFICIAL DE GARANTIA NACIONAL // ESTUDO GEOMÉTRICO E COMPENSAÇÃO ÓTICA</text>
+    <text y="30" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" letter-spacing="1" fill="#94A3B8">DIRETRIZES DE REFINAMENTO BASEADAS NOS PRINCÍPIOS DE WALTER MATTOS • PROPORÇÃO ÁUREA (Φ) E EQUILÍBRIO GRAVITACIONAL</text>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- LADO ESQUERDO: O SELO HERO COM LINHAS GUIA DA PROPORÇÃO ÁUREA -->
+  <!-- Centro: (305, 375) -->
+  <!-- ============================================================== -->
+  <g transform="translate(305, 375)">
+    <!-- Linhas de Construção Técnica (Grid e Eixos Cardeais) -->
+    <g stroke="#A5F3FC" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.8">
+      <line x1="-185" y1="0" x2="185" y2="0"/>
+      <line x1="0" y1="-185" x2="0" y2="185"/>
+      <line x1="-135" y1="-135" x2="135" y2="135"/>
+      <line x1="-135" y1="135" x2="135" y2="-135"/>
+    </g>
+
+    <!-- Círculos Guias de Proporção Áurea (Phi = 1.618) -->
+    <!-- R0 = 152 (Outer Bound) -->
+    <circle r="152" fill="none" stroke="#BAE6FD" stroke-width="0.5" stroke-dasharray="3,3"/>
+    <text x="156" y="4" font-family="'Courier New', monospace" font-size="5.5" font-weight="700" fill="#0284C7">R0 (Raio Base)</text>
+
+    <!-- R1 = 152 / 1.15 = 132 (Faixa Tipográfica) -->
+    <circle r="132" fill="none" stroke="#BAE6FD" stroke-width="0.4" stroke-dasharray="2,2"/>
+
+    <!-- R2 = 152 / 1.618 = 94 (Núcleo Áureo Phi) -->
+    <circle r="94" fill="none" stroke="#FEF08A" stroke-width="0.75" stroke-dasharray="4,3"/>
+    <text x="98" y="4" font-family="'Courier New', monospace" font-size="5.5" font-weight="800" fill="#CA8A04">R1 (Φ = 1.618)</text>
+
+    <!-- R3 = 94 / 1.618 = 58 (Insígnia Central Phi^2) -->
+    <circle r="58" fill="none" stroke="#BAE6FD" stroke-width="0.4" stroke-dasharray="2,2"/>
+    <text x="62" y="4" font-family="'Courier New', monospace" font-size="5.5" font-weight="700" fill="#0284C7">R2 (Φ²)</text>
+
+    <!-- Fita Minimalista de Suporte Inferior (Walter Mattos Ribbon) -->
+    <g filter="url(#heroShadow)">
+      <path d="M -28,140 L -75,178 L -60,188 L -75,198 L -20,165 Z" fill="url(#goldRibbon)" stroke="#0A0B0E" stroke-width="0.5"/>
+      <path d="M 28,140 L 75,178 L 60,188 L 75,198 L 20,165 Z" fill="url(#goldRibbon)" stroke="#0A0B0E" stroke-width="0.5"/>
+
+      <!-- 1. Anel Externo Chanfrado (24 facetas limpas calculadas) -->
+      <polygon points="
+        0,-152 20,-146 39,-147 58,-135 76,-132 94,-114 108,-106 123,-83 132,-71 143,-44 147,-30 152,0
+        147,30 143,44 132,71 123,83 108,106 94,114 76,132 58,135 39,147 20,146 0,152
+        -20,146 -39,147 -58,135 -76,132 -94,114 -108,106 -123,83 -132,71 -143,44 -147,30 -152,0
+        -147,-30 -143,-44 -132,-71 -123,-83 -108,-106 -94,-114 -76,-132 -58,-135 -39,-147 -20,-146
+      " fill="#0A0B0E" stroke="#00E5FF" stroke-width="1.8"/>
+
+      <!-- 2. Anel Intermediário de Contenção em Deep Studio -->
+      <circle r="142" fill="#12151C" stroke="#00E5FF" stroke-width="0.75"/>
+      <circle r="132" fill="#12151C" stroke="#334155" stroke-width="0.5"/>
+
+      <!-- Textos em Arco Perfeitamente Calibrados -->
+      <text y="-108" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="7.5" font-weight="800" letter-spacing="3" fill="#F5E6B9">★ GARANTIA NACIONAL DE 24 MESES ★</text>
+      <text y="122" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6.8" font-weight="700" letter-spacing="2" fill="#94A3B8">★ CONFORME RESOLUÇÃO CONTRAN 996 ★</text>
+
+      <!-- 3. Anel Áureo Central Dourado (Raio Phi = 94) -->
+      <circle r="94" fill="#0A0B0E" stroke="#C29628" stroke-width="2.2"/>
+
+      <!-- Micro-contas Peroladas de Precisão Suíça (32 pontos) -->
+      <circle r="86" fill="none" stroke="#D4AF37" stroke-width="1.5" stroke-dasharray="2,7"/>
+
+      <!-- Núcleo Central com Compensação Ótica (+3.5 pt no eixo Y) -->
+      <g transform="translate(0, -4)">
+        <text y="-28" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="9" font-weight="800" letter-spacing="4" fill="#94A3B8">Z8 E-MOTION</text>
+        <text y="8" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="38" font-weight="900" letter-spacing="1" fill="#00E5FF">2 ANOS</text>
+        <text y="28" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="8.5" font-weight="800" letter-spacing="2.5" fill="#FFFFFF">COBERTURA TOTAL</text>
+        <text y="42" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="7" font-weight="700" letter-spacing="1.5" fill="#F5E6B9">BATERIA 72V &amp; CHASSI</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- LADO DIREITO: DIRETRIZES, RACIONAL E VARIAÇÕES WALTER MATTOS -->
+  <!-- ============================================================== -->
+  <!-- Bloco 1: Conceito e Racional de Construção -->
+  <g transform="translate(605, 75)">
+    <text font-family="'Outfit', sans-serif" font-size="8.5" font-weight="900" letter-spacing="2" fill="#0A0B0E">01 // CONCEITO E RACIONAL DE CONSTRUÇÃO</text>
+    
+    <text y="18" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      O Selo de Garantia Nacional Z8 foi construído a partir dos princípios de clareza formal e
+    </text>
+    <text y="30" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      compensação ótica preconizados por Walter Mattos. O círculo externo utiliza 24 facetas
+    </text>
+    <text y="42" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      chanfradas aerodinâmicas inspiradas no design de chassi e aros automotivos. A hierarquia
+    </text>
+    <text y="54" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      entre os anéis respeita a Proporção Áurea (Φ = 1.618), garantindo que a tipografia central
+    </text>
+    <text y="66" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      tenha respiro harmônico. Todos os textos internos possuem elevação de +3.5 pt no eixo
+    </text>
+    <text y="78" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      vertical para neutralizar a ilusão de ótica que rebaixa elementos circulares aos olhos humanos.
+    </text>
+  </g>
+
+  <!-- Bloco 2: Variações e Aplicações Oficiais -->
+  <g transform="translate(605, 195)">
+    <text font-family="'Outfit', sans-serif" font-size="8.5" font-weight="900" letter-spacing="2" fill="#0A0B0E">02 // VARIAÇÕES E ADAPTAÇÃO DE SUPERFÍCIE</text>
+
+    <!-- Card Variação A: Black Piano Dark -->
+    <g transform="translate(0, 15)">
+      <rect width="170" height="105" rx="4" fill="#0A0B0E" stroke="#1E293B" stroke-width="1"/>
+      <circle cx="85" cy="46" r="28" fill="#12151C" stroke="#00E5FF" stroke-width="1"/>
+      <text x="85" y="42" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="5" font-weight="800" fill="#94A3B8">Z8</text>
+      <text x="85" y="52" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="11" font-weight="900" fill="#00E5FF">2 ANOS</text>
+      <text x="85" y="90" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6" font-weight="700" letter-spacing="1" fill="#94A3B8">VERSÃO BLACK PIANO (DARK)</text>
+    </g>
+
+    <!-- Card Variação B: Laser Engraved / Chassi -->
+    <g transform="translate(185, 15)">
+      <rect width="170" height="105" rx="4" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1"/>
+      <circle cx="85" cy="46" r="28" fill="#FFFFFF" stroke="#0A0B0E" stroke-width="1"/>
+      <text x="85" y="42" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="5" font-weight="800" fill="#475569">Z8</text>
+      <text x="85" y="52" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="11" font-weight="900" fill="#0A0B0E">2 ANOS</text>
+      <text x="85" y="90" text-anchor="middle" font-family="'Outfit', sans-serif" font-size="6" font-weight="700" letter-spacing="1" fill="#475569">GRAVAÇÃO A LASER / CHASSI</text>
+    </g>
+  </g>
+
+  <!-- Bloco 3: Zona de Proteção e Redução Mínima -->
+  <g transform="translate(605, 345)">
+    <text font-family="'Outfit', sans-serif" font-size="8.5" font-weight="900" letter-spacing="2" fill="#0A0B0E">03 // ZONA DE PROTEÇÃO E REDUÇÃO MÍNIMA</text>
+
+    <text y="18" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      A Zona de Proteção (Clear Space) corresponde à constante X = raio do núcleo áureo central
+    </text>
+    <text y="30" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      (r2/2). Nenhum texto, foto ou elemento gráfico deve invadir esta área perimetral. A redução
+    </text>
+    <text y="42" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      mínima recomendada para impressão e rotulagem é de 22 mm de diâmetro (preservando
+    </text>
+    <text y="54" font-family="'Inter', sans-serif" font-size="7.2" font-weight="400" fill="#334155">
+      total legibilidade técnica). Para gravação física em peças de metal, o limite é 18 mm.
+    </text>
+  </g>
+
+  <!-- Bloco 4: Paleta Cromática Oficial -->
+  <g transform="translate(605, 435)">
+    <text font-family="'Outfit', sans-serif" font-size="8.5" font-weight="900" letter-spacing="2" fill="#0A0B0E">04 // PALETA CROMÁTICA OFICIAL (ESPECIFICAÇÃO DE COR)</text>
+
+    <!-- Swatch 1: Black Piano -->
+    <g transform="translate(0, 16)">
+      <rect width="14" height="14" rx="2" fill="#0A0B0E" stroke="#DAE0E9" stroke-width="0.5"/>
+      <text x="22" y="11" font-family="'Outfit', sans-serif" font-size="7" font-weight="800" fill="#0A0B0E">BLACK PIANO — <tspan font-weight="500" fill="#64748B">#0A0B0E • C75 M68 Y67 K90</tspan></text>
+    </g>
+
+    <!-- Swatch 2: Electric Cyan -->
+    <g transform="translate(0, 36)">
+      <rect width="14" height="14" rx="2" fill="#00E5FF" stroke="#DAE0E9" stroke-width="0.5"/>
+      <text x="22" y="11" font-family="'Outfit', sans-serif" font-size="7" font-weight="800" fill="#0A0B0E">ELECTRIC CYAN — <tspan font-weight="500" fill="#64748B">#00E5FF • C65 M0 Y5 K0</tspan></text>
+    </g>
+
+    <!-- Swatch 3: Noble Gold -->
+    <g transform="translate(0, 56)">
+      <rect width="14" height="14" rx="2" fill="#C29628" stroke="#DAE0E9" stroke-width="0.5"/>
+      <text x="22" y="11" font-family="'Outfit', sans-serif" font-size="7" font-weight="800" fill="#0A0B0E">NOBLE GOLD — <tspan font-weight="500" fill="#64748B">#C29628 • C20 M35 Y85 K10</tspan></text>
+    </g>
+
+    <!-- Swatch 4: Platinum Grey -->
+    <g transform="translate(0, 76)">
+      <rect width="14" height="14" rx="2" fill="#94A3B8" stroke="#DAE0E9" stroke-width="0.5"/>
+      <text x="22" y="11" font-family="'Outfit', sans-serif" font-size="7" font-weight="800" fill="#0A0B0E">PLATINUM GREY — <tspan font-weight="500" fill="#64748B">#94A3B8 • C40 M28 Y25 K0</tspan></text>
+    </g>
+  </g>
+
+  <!-- ============================================================== -->
+  <!-- RODAPÉ DE AUTORIA E HOMOLOGAÇÃO -->
+  <!-- ============================================================== -->
+  <line x1="48" y1="640" x2="952" y2="640" stroke="#E2E8F0" stroke-width="0.75"/>
+  <text x="48" y="654" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="600" letter-spacing="1" fill="#94A3B8">Z8 EMOTION LTDA. • CNPJ: 68.774.164/0001-00 • SÃO JOSÉ DOS CAMPOS - SP • BRANDBOOK 2026</text>
+  <text x="952" y="654" text-anchor="end" font-family="'Outfit', sans-serif" font-size="6.5" font-weight="800" letter-spacing="1" fill="#00E5FF">METODOLOGIA DE DESIGN WALTER MATTOS • PROPORÇÃO ÁUREA E EQUILÍBRIO ÓTICO</text>
+</svg>
