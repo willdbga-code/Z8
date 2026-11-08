@@ -2083,7 +2083,7 @@ pm run build gerado com sucesso em 5.64s.
 - **Commits Publicados**:
   - \4184f42\: feat(wms): atualizações completas do Z8 WMS, mobile scanner, launcher C# e automações desktop
   - \3713b44\: docs(catalog): catálogo oficial Z8 LAF Edition 2026 em formato vetorial nativo Illustrator
-  - \ 9f10f8\: test(scripts): suíte de scripts de inspeção, verificação mobile e auditoria visual da página conceito
+  - \9f10f8\: test(scripts): suíte de scripts de inspeção, verificação mobile e auditoria visual da página conceito
 - **Status do Repositório**: 100% sincronizado com origin/main (GitHub: willdbga-code/Z8).
 
 ---
@@ -2098,3 +2098,21 @@ pm run build gerado com sucesso em 5.64s.
   5. **Paridade em \ercel.json\**: Inclusão das rotas limpas para \/conceito-2\ e \/conceito-2/\.
   6. **Integridade de Build**: \
 pm run build\ executado com sucesso reduzindo tempo de compilação de 11.16s para 8.22s.
+
+---
+
+### [2026-11-08] Expansão da Skill Adobe Illustrator 2026: Selos de Garantia, Certificados A4 e Debugger Oficial
+- **Extensões & Ferramentas Instaladas**:
+  - `adobe.extendscript-debug` v2.1.0: Conexão direta do VS Code ao Adobe Illustrator 2026 via ExtendScript.
+  - `jock.svg` v1.5.4: Pré-visualizador e editor de arquivos vetoriais SVG no editor.
+- **Skill Expandida (`.agents/skills/adobe_illustrator/SKILL.md`)**:
+  - Fórmulas geométricas trigonométricas para geração de selos paramétricos circulares, anéis e chanfros.
+  - Paleta vetorial corporativa oficial calibrada em RGB (telas/apresentações) e CMYK (gráfica/impressão).
+  - Regras de sangria (bleed 3mm), conversão de tipografia em curvas (`createOutline()`) e preservação de editabilidade.
+- **Scripts Nativos Prontos (`scripts/illustrator/` e `.agents/skills/adobe_illustrator/scripts/`)**:
+  1. `generate_warranty_seals.jsx`: Criação dos 3 selos oficiais de garantia Z8 (Circular Duplo 2 Anos, Hexagonal PDI Aero-Tech e Diamante Autenticidade Black Piano).
+  2. `generate_certificate_a4.jsx`: Certificado Oficial de Entrega Técnica e Garantia A4 Paisagem, com cantoneiras Bauhaus, cabeçalho corporativo da matriz Z8 em São José dos Campos, dados do Chassi/VIN, checklist PDI de 6 eixos, selo 2 Anos embutido e linhas de assinatura formal.
+  3. `generate_pattern_swatch.jsx`: Injeção de padrão vetorial isométrico a 45° no painel Swatches (Amostras) do Illustrator.
+- **Artefatos e SVGs Gerados**:
+  - `public/assets/cria/illustrator/selos_garantia_z8.svg`
+  - `public/assets/cria/illustrator/certificado_entrega_tecnica_z8.svg`
