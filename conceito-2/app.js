@@ -443,7 +443,10 @@ export function syncAuthState() {
 // ==========================================================================
 // 3. FLUID ANIMATED AUTH MODAL (LANDO NORRIS / REA STYLE)
 // ==========================================================================
+let authModalEventsBound = false;
+
 export function openAuthModal(defaultTab = 'login') {
+  initAuthModalEvents();
   const modal = document.getElementById('z8-auth-modal');
   if (!modal) return;
   modal.classList.add('is-active');
@@ -472,9 +475,20 @@ export function switchAuthTab(tabName) {
 }
 
 function initAuthModalEvents() {
+  if (authModalEventsBound) return;
+  authModalEventsBound = true;
+
   // Tabs
   document.querySelectorAll('.z8-auth-tab').forEach((tab) => {
     tab.addEventListener('click', () => switchAuthTab(tab.dataset.tab));
+  });
+
+  // Quick Admin Pre-fill for Testing
+  document.getElementById('btn-quick-admin-login')?.addEventListener('click', () => {
+    const userField = document.getElementById('auth-login-user');
+    const passField = document.getElementById('auth-login-pass');
+    if (userField) userField.value = 'christian.tkh@gmail.com';
+    if (passField) passField.value = '123456';
   });
 
   // Close buttons & Backdrop
@@ -1871,7 +1885,7 @@ function initLeadModal() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function bootConceito2App() {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('logout') === '1') {
     sessionStorage.removeItem('z8_catalog_auth_session');
@@ -1970,7 +1984,13 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('z8-warranty-os-updated', () => {
     loadOSTable();
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootConceito2App);
+} else {
+  bootConceito2App();
+}
 
 window.scrollToOSFooter = function() {
   const el = document.getElementById('rodape-os');

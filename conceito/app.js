@@ -888,7 +888,10 @@ function switchAuthTab(tabName) {
   if (boxForgot) boxForgot.style.display = tabName === 'forgot' ? 'block' : 'none';
 }
 
+let authEventsInitialized = false;
+
 export function openZ8AuthModal(tabName = 'login') {
+  initConceitoAuthEvents();
   const modal = document.getElementById('z8-auth-modal');
   if (!modal) return;
   modal.classList.add('is-active');
@@ -992,9 +995,20 @@ function syncConceitoAuthState() {
 }
 
 function initConceitoAuthEvents() {
+  if (authEventsInitialized) return;
+  authEventsInitialized = true;
+
   // Tabs
   document.querySelectorAll('#z8-auth-modal .z8-auth-tab').forEach((tab) => {
     tab.addEventListener('click', () => switchAuthTab(tab.dataset.tab));
+  });
+
+  // Quick Admin Pre-fill for Testing
+  document.getElementById('btn-quick-admin-login')?.addEventListener('click', () => {
+    const userField = document.getElementById('auth-login-user');
+    const passField = document.getElementById('auth-login-pass');
+    if (userField) userField.value = 'christian.tkh@gmail.com';
+    if (passField) passField.value = '123456';
   });
 
   // Close buttons & Backdrop
@@ -1239,7 +1253,7 @@ export function initKineticTextScrollMobile() {
 }
 window.initKineticTextScrollMobile = initKineticTextScrollMobile;
 
-document.addEventListener('DOMContentLoaded', () => {
+function bootConceitoApp() {
   initTransitionSafety();
   initMarqueeSignatureScroll();
   initOtotBikesAnimation();
@@ -1271,5 +1285,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', () => {
     if (window.innerWidth < 992) runMobileMotion();
   });
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootConceitoApp);
+} else {
+  bootConceitoApp();
+}
 

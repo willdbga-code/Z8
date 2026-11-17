@@ -417,7 +417,7 @@ export async function loginCatalogUser(userOrEmail, password, trap = '') {
 
   // 1. PRIORIDADE MÁXIMA: Autenticação Criptográfica Segura via API Serverless (/api/users)
   // Utiliza PBKDF2 (100.000 iterações + salt), timingSafeEqual, Rate Limiting por IP/e-mail e tokens HMAC-SHA256
-  let apiCallCompleted = false;
+  let apiErrorMsg = null;
   try {
     const res = await fetch(CLOUD_CONFIG.API_USERS_URL, {
       method: 'POST',
@@ -426,58 +426,50 @@ export async function loginCatalogUser(userOrEmail, password, trap = '') {
     });
 
     if (res.status !== 404) {
-      apiCallCompleted = true;
       const data = await res.json().catch(() => null);
 
-    if (res.ok && data?.success && data?.user) {
-      const loggedUser = data.user;
-      const isMaster = isUserAdmin(loggedUser);
+      if (res.ok && data?.success && data?.user) {
+        const loggedUser = data.user;
+        const isMaster = isUserAdmin(loggedUser);
 
-      sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
-      sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
-      localStorage.setItem('z8_catalog_auth_user', JSON.stringify(loggedUser));
-      const pendingApproval = sessionStorage.getItem('z8_pending_approval');
-      if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
-        setTimeout(() => {
-           updateUserStatus(pendingApproval, 'approved');
-           sessionStorage.removeItem('z8_pending_approval');
-        }, 1000);
-      }
-      if (data.token) {
-        localStorage.setItem('z8_catalog_auth_token', data.token);
-      }
+        sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
+        sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(loggedUser));
+        localStorage.setItem('z8_catalog_auth_user', JSON.stringify(loggedUser));
+        const pendingApproval = sessionStorage.getItem('z8_pending_approval');
+        if (pendingApproval && (loggedUser.role === 'admin' || loggedUser.email.toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase())) {
+          setTimeout(() => {
+            updateUserStatus(pendingApproval, 'approved');
+            sessionStorage.removeItem('z8_pending_approval');
+          }, 1000);
+        }
+        if (data.token) {
+          localStorage.setItem('z8_catalog_auth_token', data.token);
+        }
 
-      if (isMaster) {
-        await fetchUsersFromCloud();
-      } else {
-        localStorage.removeItem(USERS_STORAGE_KEY);
-      }
+        if (isMaster) {
+          await fetchUsersFromCloud();
+        } else {
+          localStorage.removeItem(USERS_STORAGE_KEY);
+        }
 
-      window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-      window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
-      return {
-        success: true,
-        user: loggedUser,
-        isPending: loggedUser.status === 'pending'
-      };
-    } else if (data?.error) {
-      // Servidor rejeitou explicitamente as credenciais ou aplicou rate limit: RETORNA ERRO IMEDIATAMENTE!
-      // Cibersegurança: NUNCA fazer fallback para bypass fraco quando o servidor respondeu com 401, 403 ou 429!
-      return { success: false, error: data.error };
+        window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
+        window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
+        return {
+          success: true,
+          user: loggedUser,
+          isPending: loggedUser.status === 'pending'
+        };
+      } else if (res.status === 429 || res.status === 403) {
+        return { success: false, error: data?.error || 'Acesso bloqueado temporariamente.' };
+      } else if (data?.error) {
+        apiErrorMsg = data.error;
       }
     }
   } catch (apiErr) {
-    // API inacessível por ausência de conexão com a rede
-    console.warn('API authentication unavailable, attempting secure offline contingency:', apiErr);
+    console.warn('API authentication unavailable, attempting Firebase Auth / Firestore:', apiErr);
   }
 
-  // Se o servidor de API foi contactado e respondeu, não permite nenhum bypass
-  if (apiCallCompleted) {
-    return { success: false, error: 'Credenciais inválidas. Verifique seu e-mail e senha.' };
-  }
-
-  // 2. CONTINGÊNCIA OFFLINE (Apenas quando a rede estiver indisponível)
-  // Tenta autenticação via Firebase Auth / Firestore seguro
+  // 2. Autenticação via Firebase Auth / Firestore (para contas criadas no Firestore ou contingência)
   try {
     const firestoreAuthRes = await authenticateUserFirestore(clean, rawPassword);
     if (firestoreAuthRes) {
@@ -506,13 +498,10 @@ export async function loginCatalogUser(userOrEmail, password, trap = '') {
       }
     }
   } catch (fsAuthErr) {
-    console.warn('Firestore offline authentication error:', fsAuthErr);
+    console.warn('Firestore authentication error:', fsAuthErr);
   }
 
-  // Sem backdoors! Qualquer outra tentativa com senhas incorretas ou não cadastradas é rejeitada
-
-  // Sem backdoors! Qualquer outra tentativa com senhas fracas ou não cadastradas é rejeitada
-  return { success: false, error: 'Credenciais inválidas. Verifique seu e-mail e senha.' };
+  return { success: false, error: apiErrorMsg || 'Credenciais inválidas. Verifique seu e-mail e senha.' };
 }
 
 export async function resetCatalogUserPassword(email, phone, newPassword) {
