@@ -12182,7 +12182,9 @@ html.z8-modal-active {
 }
 
 .z8-drawer-overlay.is-open,
-.z8-modal-overlay.is-open {
+.z8-drawer-overlay.is-active,
+.z8-modal-overlay.is-open,
+.z8-modal-overlay.is-active {
   opacity: 1;
   pointer-events: auto;
 }

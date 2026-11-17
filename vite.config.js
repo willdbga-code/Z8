@@ -28,7 +28,8 @@ export default defineConfig({
         posters: resolve(import.meta.dirname, 'posters/index.html'),
         apresentacao: resolve(import.meta.dirname, 'apresentacao/index.html'),
         conceito: resolve(import.meta.dirname, 'conceito/index.html'),
-        conceito2: resolve(import.meta.dirname, 'conceito-2/index.html')
+        conceito2: resolve(import.meta.dirname, 'conceito-2/index.html'),
+        lojista: resolve(import.meta.dirname, 'lojista/index.html')
       }
     }
   }

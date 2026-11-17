@@ -22,25 +22,25 @@ export const LAF_PAGES_INDEX = [
   { page: 6, title: '06 // Suporte Pós-Venda, Portal OS & Oficina 2 Elevadores', group: 'institucional' },
   { page: 7, title: '07 // Manifesto: Power, Design and Freedom', group: 'institucional' },
   { page: 8, title: '08 // A Escolha Inteligente (5 Pilares B2B & Varejo)', group: 'institucional' },
-  { page: 9, title: '09 // Ficha LAF 40/60 — Z8 Tank High-Speed 2000W (DB018)', group: 'performance' },
-  { page: 10, title: '10 // Ficha LAF 40/60 — Z8 FX-10 Sport 1500W (DB043)', group: 'performance' },
-  { page: 11, title: '11 // Ficha LAF 40/60 — Z8 FX-12 Sport 2000W (DB043-FX12)', group: 'performance' },
-  { page: 12, title: '12 // Ficha LAF 40/60 — Z8 Tank 2 Expedition 2000W (DB018-T2)', group: 'performance' },
-  { page: 13, title: '13 // Divisor 02 — Linha Urbana (1200W Executivo)', group: 'urbana' },
-  { page: 14, title: '14 // Ficha LAF 40/60 — Z8 N710 Urban Plus 1200W (DB045)', group: 'urbana' },
-  { page: 15, title: '15 // Divisor 03 — Linha Retrô & Custom (Candy & Chopper)', group: 'retro' },
-  { page: 16, title: '16 // Ficha LAF 40/60 — Z8 Q11 Love Retrô 1000W (DB043-Q11)', group: 'retro' },
-  { page: 17, title: '17 // Ficha LAF 40/60 — Z8 Q10 Xiao Q Vintage 1200W (DB038)', group: 'retro' },
-  { page: 18, title: '18 // Ficha LAF 40/60 — Z8 Harley X12 Custom 1200W (XB-024)', group: 'retro' },
-  { page: 19, title: '19 // Divisor 04 — Linha Cargo & E-Bikes (2000W & 500W)', group: 'cargo' },
-  { page: 20, title: '20 // Ficha LAF 40/60 — Z8 U2 Delivery Cargo 2000W (XB-010)', group: 'cargo' },
-  { page: 21, title: '21 // Ficha LAF 40/60 — Z8 GS-005 Golden Eagle 500W (GS-005)', group: 'cargo' },
-  { page: 22, title: '22 // Ficha LAF 40/60 — Z8 Diamond King Kong 500W (GS-052)', group: 'cargo' },
-  { page: 23, title: '23 // Tabela Oficial de Atacado, Margens & Contêiner 40HQ', group: 'atacado' },
-  { page: 24, title: '24 // Por Que Escolher a Z8 E-Motion?', group: 'institucional' },
-  { page: 25, title: '25 // Contracapa Institucional & Contato Diretoria SJC', group: 'institucional' },
-  { page: 26, title: '26 // Ficha LAF 40/60 — Z8 N95C Max Comfort 1200W (DB039)', group: 'urbana' },
-  { page: 27, title: '27 // Ficha LAF 40/60 — Z8 H26 Standard / N7 1200W (DB001)', group: 'urbana' }
+  { page: 9, title: '09 // Divisor 01 — Linha Performance & High-Speed', group: 'performance' },
+  { page: 10, title: '10 // Ficha LAF 40/60 — Z8 Tank Off-Road 1000W (DB018)', group: 'performance' },
+  { page: 11, title: '11 // Ficha LAF 40/60 — Z8 FX-10 Sport 1000W (DB043)', group: 'performance' },
+  { page: 12, title: '12 // Ficha LAF 40/60 — Z8 FX-12 Sport 1000W (DB043-FX12)', group: 'performance' },
+  { page: 13, title: '13 // Ficha LAF 40/60 — Z8 Tank 2 Expedition 1000W (DB018-T2)', group: 'performance' },
+  { page: 14, title: '14 // Divisor 02 — Linha Urbana Executiva', group: 'urbana' },
+  { page: 15, title: '15 // Ficha LAF 40/60 — Z8 N710 Urban Plus 1000W (DB045)', group: 'urbana' },
+  { page: 16, title: '16 // Divisor 03 — Linha Retrô & Custom (Candy & Chopper)', group: 'retro' },
+  { page: 17, title: '17 // Ficha LAF 40/60 — Z8 Q11 Love Retrô 1000W (DB043-Q11)', group: 'retro' },
+  { page: 18, title: '18 // Ficha LAF 40/60 — Z8 Q10 Xiao Q Vintage 1000W (DB038)', group: 'retro' },
+  { page: 19, title: '19 // Ficha LAF 40/60 — Z8 Harley X12 Custom 1000W (XB-024)', group: 'retro' },
+  { page: 20, title: '20 // Divisor 04 — Linha Cargo & E-Bikes', group: 'cargo' },
+  { page: 21, title: '21 // Ficha LAF 40/60 — Z8 U2 Delivery Cargo 1000W (XB-010)', group: 'cargo' },
+  { page: 22, title: '22 // Ficha LAF 40/60 — Z8 GS-005 Golden Eagle 500W (GS-005)', group: 'cargo' },
+  { page: 23, title: '23 // Ficha LAF 40/60 — Z8 Diamond King Kong 1000W (GS-052)', group: 'cargo' },
+  { page: 24, title: '24 // Tabela Oficial de Atacado, Margens & Contêiner 40HQ', group: 'atacado' },
+  { page: 25, title: '25 // Por Que Escolher a Z8 E-Motion?', group: 'institucional' },
+  { page: 26, title: '26 // Ficha LAF 40/60 — Z8 N95C Max Comfort 1000W (DB039)', group: 'urbana' },
+  { page: 27, title: '27 // Contracapa Institucional & Contato Diretoria SJC', group: 'institucional' }
 ];
 
 // ==========================================================================
@@ -954,6 +954,7 @@ export const wholesaleOrderStore = {
 
   syncAllUI() {
     const totals = this.getTotals();
+    const approved = isCatalogApproved();
 
     // 1. Update each model's steppers, inputs and subtotals across all views
     LAF_MODELS.forEach((m) => {
@@ -976,10 +977,15 @@ export const wholesaleOrderStore = {
       subIds.forEach((sid) => {
         const sub = document.getElementById(sid);
         if (sub) {
-          sub.innerHTML = `
-            <span>SUBTOTAL NO PEDIDO (${qty} UN.)</span>
-            <strong>${fmtBRL(subW)} <small>(Lucro: +${fmtBRL(subP)})</small></strong>
-          `;
+          sub.innerHTML = approved
+            ? `
+              <span>SUBTOTAL NO PEDIDO (${qty} UN.)</span>
+              <strong>${fmtBRL(subW)} <small>(Lucro: +${fmtBRL(subP)})</small></strong>
+            `
+            : `
+              <span>SUBTOTAL NO PEDIDO (${qty} UN.)</span>
+              <strong>🔒 Em Homologação <small>(Markup: +${m.markupPct})</small></strong>
+            `;
         }
       });
 
@@ -993,7 +999,7 @@ export const wholesaleOrderStore = {
 
       // Order Desk Table row subtotal
       const tableSub = document.getElementById(`order-subtotal-${canonical}`) || (m.alias ? document.getElementById(`order-subtotal-${m.alias}`) : null);
-      if (tableSub) tableSub.textContent = fmtBRL(subW);
+      if (tableSub) tableSub.textContent = approved ? fmtBRL(subW) : '🔒 Em Homologação';
     });
 
     // 2. Render Top Selected Items Grid in LAF
@@ -1027,13 +1033,13 @@ export const wholesaleOrderStore = {
     if (contBarEl) contBarEl.style.width = `${totals.containerPct}%`;
 
     const sumW = document.getElementById('laf-sum-wholesale');
-    if (sumW) sumW.textContent = fmtBRLCents(totals.totalWholesale);
+    if (sumW) sumW.textContent = approved ? fmtBRLCents(totals.totalWholesale) : '🔒 Em Homologação';
 
     const sumR = document.getElementById('laf-sum-retail');
-    if (sumR) sumR.textContent = fmtBRLCents(totals.totalRetail);
+    if (sumR) sumR.textContent = approved ? fmtBRLCents(totals.totalRetail) : '🔒 Em Homologação';
 
     const sumP = document.getElementById('laf-sum-profit');
-    if (sumP) sumP.textContent = `+${fmtBRLCents(totals.totalProfit)}`;
+    if (sumP) sumP.textContent = approved ? `+${fmtBRLCents(totals.totalProfit)}` : '🔒 Em Homologação';
 
     const sumMarkup = document.getElementById('laf-sum-markup-avg');
     if (sumMarkup) sumMarkup.textContent = `Markup Médio da Operação: +${totals.avgMarkup}%`;
@@ -1122,6 +1128,7 @@ function saveWholesaleOrderLocal(order) {
  * Generates the HTML for a single LAF 40/60 Split Product Sheet
  */
 function renderLafModelSheet(m) {
+  const approved = isCatalogApproved();
   const qty = lafOrderState.quantities[m.id] || 0;
   const subtotal = m.wholesale * qty;
   const profitTotal = m.profit * qty;
@@ -1201,23 +1208,23 @@ function renderLafModelSheet(m) {
           <div class="z8-laf-price-main-row">
             <div class="z8-laf-price-main-left">
               <span class="z8-laf-price-label">VALOR DE ATACADO UNITÁRIO (B2B)</span>
-              <strong class="z8-laf-price-value">${fmtBRLCents(m.wholesale)}</strong>
-              ${m.wholesaleCardRef ? `<small class="z8-laf-price-note">Tab. Contêiner Pág. 24: R$ 6.200,00 | Ficha Avulsa Pág. 11: R$ 6.700,00</small>` : ''}
+              <strong class="z8-laf-price-value">${approved ? fmtBRLCents(m.wholesale) : '🔒 EM HOMOLOGAÇÃO (CNPJ)'}</strong>
+              ${approved && m.wholesaleCardRef ? `<small class="z8-laf-price-note">Tab. Contêiner Pág. 24: R$ 6.200,00 | Ficha Avulsa Pág. 11: R$ 6.700,00</small>` : ''}
             </div>
             <div class="z8-laf-price-lote-box">
               <span>LOTE MÍNIMO (10 UN.)</span>
-              <strong>${fmtBRLCents(m.lote10)}</strong>
+              <strong>${approved ? fmtBRLCents(m.lote10) : '🔒 SOB APROVAÇÃO'}</strong>
             </div>
           </div>
 
           <div class="z8-laf-price-sub-grid">
             <div class="z8-laf-sub-kpi">
               <span>VAREJO SUGERIDO</span>
-              <strong>${fmtBRLCents(m.retail)}</strong>
+              <strong>${approved ? fmtBRLCents(m.retail) : '🔒 EM HOMOLOGAÇÃO'}</strong>
             </div>
             <div class="z8-laf-sub-kpi is-profit">
               <span>LUCRO LOJISTA / UN.</span>
-              <strong>+${fmtBRLCents(m.profit)} (${m.marginPct})</strong>
+              <strong>${approved ? `+${fmtBRLCents(m.profit)} (${m.marginPct})` : `MARGEM ${m.marginPct} (+${m.markupPct})`}</strong>
             </div>
             <div class="z8-laf-sub-kpi">
               <span>CONTÊINER 40HQ</span>
@@ -1252,7 +1259,7 @@ function renderLafModelSheet(m) {
               </div>
               <div class="z8-laf-card-subtotal" id="laf-card-subtotal-${m.id}">
                 <span>SUBTOTAL NO PEDIDO</span>
-                <strong>${fmtBRL(subtotal)} <small>(Lucro: +${fmtBRL(profitTotal)})</small></strong>
+                <strong>${approved ? `${fmtBRL(subtotal)} <small>(Lucro: +${fmtBRL(profitTotal)})</small>` : `🔒 Em Homologação <small>(Markup: +${m.markupPct})</small>`}</strong>
               </div>
             </div>
           </div>
@@ -1310,19 +1317,7 @@ export function renderPortalLojistaLAF() {
 
   const user = getCurrentCatalogUser();
   const isAdmin = isUserAdmin(user);
-
-  const slideOptionsHtml = LAF_PAGES_INDEX.map(
-    (s) => `<option value="${s.page}">${s.title}</option>`
-  ).join('');
-
-  const slideThumbsHtml = LAF_PAGES_INDEX.map(
-    (s) => `
-      <button type="button" class="z8-laf-thumb-btn ${s.page === 1 ? 'is-active' : ''}" data-slide="${s.page}" onclick="window.goToLafSlide(${s.page})">
-        <img src="/assets/catalogo_laf_z8/laf_slide_${String(s.page).padStart(2, '0')}.jpg" alt="${s.title}" loading="lazy"/>
-        <span>PÁG. ${String(s.page).padStart(2, '0')}</span>
-      </button>
-    `
-  ).join('');
+  const approved = isCatalogApproved();
 
   container.innerHTML = `
     <div class="z8-laf-portal-wrapper">
@@ -1347,9 +1342,15 @@ export function renderPortalLojistaLAF() {
           </div>
 
           <div class="z8-laf-topbar-actions">
-            <a href="/docs/CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf" download="CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf" class="z8-laf-top-btn is-cyan">
-              <span><i class="fa-solid fa-download" style="margin-right:6px;"></i>BAIXAR CATÁLOGO LAF (PDF 27 PÁGS)</span>
-            </a>
+            ${
+              approved
+                ? `<a href="/docs/CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf" download="CATALOGO_OFICIAL_Z8_LAF_EDITION_2026.pdf" class="z8-laf-top-btn is-cyan">
+                     <span><i class="fa-solid fa-download" style="margin-right:6px;"></i>BAIXAR CATÁLOGO LAF (PDF 27 PÁGS)</span>
+                   </a>`
+                : `<button type="button" class="z8-laf-top-btn is-cyan" onclick="alert('O download do Catálogo Oficial de Atacado (PDF) é liberado imediatamente após a homologação do seu CNPJ pela Diretoria Matriz Z8.')">
+                     <span><i class="fa-solid fa-lock" style="margin-right:6px;"></i>CATÁLOGO LAF PDF (EM HOMOLOGAÇÃO)</span>
+                   </button>`
+            }
             <button type="button" class="z8-laf-top-btn" onclick="window.scrollToLafSection('laf-block-pedidos')">
               <span><i class="fa-solid fa-cart-shopping" style="margin-right:6px;"></i>MESA DE PEDIDOS (<strong id="laf-top-cart-count">10</strong> MOTOS)</span>
             </button>
@@ -1422,7 +1423,7 @@ export function renderPortalLojistaLAF() {
             </button>
             <button type="button" class="z8-laf-mod-tab" data-mod="fichas" onclick="window.switchLafPortalModule('fichas')">
               <span class="mod-idx">02</span>
-              <span>VALORES DAS 11 MOTOS &amp; FICHAS 40/60</span>
+              <span>VALORES DAS 13 MOTOS &amp; FICHAS 40/60</span>
             </button>
             <button type="button" class="z8-laf-mod-tab" data-mod="pedidos" onclick="window.switchLafPortalModule('pedidos')">
               <span class="mod-idx">03</span>
@@ -1626,13 +1627,13 @@ export function renderPortalLojistaLAF() {
           <div class="z8-laf-presets-bar">
             <span class="z8-laf-presets-label">SUGESTÕES RÁPIDAS DE LOTE:</span>
             <button type="button" class="z8-laf-preset-chip" onclick="window.applyLafOrderPreset('balanced')">
-              <i class="fa-solid fa-bolt" style="color:#00F0FF; margin-right:6px;"></i>Mix Campeão de Giro (10 Motos — R$ 58.600)
+              <i class="fa-solid fa-bolt" style="color:#00F0FF; margin-right:6px;"></i>Mix Campeão de Giro (10 Motos${approved ? ' — R$ 58.800' : ''})
             </button>
             <button type="button" class="z8-laf-preset-chip" onclick="window.applyLafOrderPreset('performance')">
-              <i class="fa-solid fa-fire" style="color:#EA580C; margin-right:6px;"></i>Mix Performance &amp; Executiva (10 Motos — R$ 65.400)
+              <i class="fa-solid fa-fire" style="color:#EA580C; margin-right:6px;"></i>Mix Performance &amp; Executiva (10 Motos${approved ? ' — R$ 68.600' : ''})
             </button>
             <button type="button" class="z8-laf-preset-chip" onclick="window.applyLafOrderPreset('volume')">
-              <i class="fa-solid fa-gem" style="color:#00F0FF; margin-right:6px;"></i>Mix Alto Giro Urbano &amp; E-Bikes (15 Motos — R$ 71.100)
+              <i class="fa-solid fa-gem" style="color:#00F0FF; margin-right:6px;"></i>Mix Alto Giro Urbano &amp; E-Bikes (15 Motos${approved ? ' — R$ 67.800' : ''})
             </button>
             <button type="button" class="z8-laf-preset-chip" onclick="window.applyLafOrderPreset('container40hq')">
               <i class="fa-solid fa-boxes-stacked" style="color:#10B981; margin-right:6px;"></i>Contêiner 40HQ Mix Foshan (112 Motos)
@@ -1647,7 +1648,7 @@ export function renderPortalLojistaLAF() {
             <div id="laf-selected-items-grid" class="z8-laf-selected-items-grid"></div>
 
             <!-- ==================== SELEÇÃO DE MODELOS & QUANTIDADES (MESA DE ATACADO MATRIZ SJC) ==================== -->
-            <div class="z8-laf-orderdesk-block" style="margin: 1.5rem 0; border-top: 1px solid rgba(0, 240, 255, 0.18); padding-top: 1.25rem;">
+            <div id="orderdesk" class="z8-laf-orderdesk-block" style="margin: 1.5rem 0; border-top: 1px solid rgba(0, 240, 255, 0.18); padding-top: 1.25rem;">
               <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
                 <div>
                   <span style="font-size: 0.72rem; color: #00F0FF; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em;">MONTAGEM DE PEDIDO DE LOTE // MATRIZ SÃO JOSÉ DOS CAMPOS</span>
@@ -1682,9 +1683,9 @@ export function renderPortalLojistaLAF() {
                             <strong style="color: #F4F5F7; display: block;">${m.fullName}</strong>
                             <span style="font-size: 0.72rem; color: rgba(244,244,237,0.6);">${m.categoryLabel || m.categoryKey || 'OFICIAL'} // ${m.pn}</span>
                           </td>
-                          <td style="padding: 0.85rem 1rem; color: #00F0FF; font-weight: 700;">${fmtBRL(m.wholesale)}</td>
-                          <td style="padding: 0.85rem 1rem; color: rgba(244,244,237,0.8);">${fmtBRL(m.retail)}</td>
-                          <td style="padding: 0.85rem 1rem; color: #10B981; font-weight: 700;">+${fmtBRL(m.profit)}</td>
+                          <td style="padding: 0.85rem 1rem; color: #00F0FF; font-weight: 700;">${approved ? fmtBRL(m.wholesale) : '🔒 Em Homologação'}</td>
+                          <td style="padding: 0.85rem 1rem; color: rgba(244,244,237,0.8);">${approved ? fmtBRL(m.retail) : '🔒 Em Homologação'}</td>
+                          <td style="padding: 0.85rem 1rem; color: #10B981; font-weight: 700;">${approved ? `+${fmtBRL(m.profit)}` : `+${m.markupPct} Markup`}</td>
                           <td style="padding: 0.85rem 1rem; text-align: center;">
                             <div style="display: inline-flex; align-items: center; gap: 0.35rem; background: #06080D; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px; padding: 2px;">
                               <button type="button" onclick="window.adjustLafQty('${canonical}', -1)" style="background: none; border: none; color: #00F0FF; width: 26px; height: 26px; font-weight: 900; font-size: 0.9rem; cursor: pointer;" aria-label="Diminuir ${m.shortTitle}">-</button>
@@ -1692,7 +1693,7 @@ export function renderPortalLojistaLAF() {
                               <button type="button" onclick="window.adjustLafQty('${canonical}', 1)" style="background: none; border: none; color: #00F0FF; width: 26px; height: 26px; font-weight: 900; font-size: 0.9rem; cursor: pointer;" aria-label="Aumentar ${m.shortTitle}">+</button>
                             </div>
                           </td>
-                          <td id="order-subtotal-${canonical}" style="padding: 0.85rem 1rem; text-align: right; color: #F4F5F7; font-weight: 800;">${fmtBRL(subtotal)}</td>
+                          <td id="order-subtotal-${canonical}" style="padding: 0.85rem 1rem; text-align: right; color: #F4F5F7; font-weight: 800;">${approved ? fmtBRL(subtotal) : '🔒 Em Homologação'}</td>
                         </tr>
                       `;
                     }).join('')}
@@ -1824,6 +1825,20 @@ export function renderPortalLojistaLAF() {
   renderSavedOrdersHistory();
   bindCheckoutForm();
 
+  // Lightbox backdrop click & Escape key support
+  const slideModal = document.getElementById('z8-laf-slide-modal');
+  if (slideModal) {
+    slideModal.addEventListener('click', (e) => {
+      if (e.target === slideModal) window.closeLafSlideModal();
+    });
+  }
+  if (!window.__z8LafEscBound) {
+    window.__z8LafEscBound = true;
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') window.closeLafSlideModal?.();
+    });
+  }
+
   // Make page visible immediately if starting at Portal do Lojista
   const pageW = document.querySelector('.page-w');
   if (pageW && document.body.classList.contains('is-portal-only')) {
@@ -1887,6 +1902,7 @@ function renderSelectedOrderItems() {
     return;
   }
 
+  const approved = isCatalogApproved();
   grid.innerHTML = selectedModels
     .map((m) => {
       const qty = lafOrderState.quantities[m.id] || 0;
@@ -1897,8 +1913,8 @@ function renderSelectedOrderItems() {
           <img src="${m.rightMain}" alt="${m.shortTitle}" loading="lazy" class="z8-laf-selected-chip-img"/>
           <div class="z8-laf-selected-chip-info">
             <span class="z8-laf-selected-chip-pn">${m.pn} // ${m.shortTitle}</span>
-            <strong>${fmtBRLCents(subW)}</strong>
-            <small>Unit: ${fmtBRLCents(m.wholesale)} | Lucro: +${fmtBRL(subP)}</small>
+            <strong>${approved ? fmtBRLCents(subW) : '🔒 Em Homologação'}</strong>
+            <small>${approved ? `Unit: ${fmtBRLCents(m.wholesale)} | Lucro: +${fmtBRL(subP)}` : `Markup: +${m.markupPct} (${m.marginPct} Margem)`}</small>
           </div>
           <div class="z8-laf-stepper is-compact">
             <button type="button" class="z8-laf-step-btn" onclick="window.adjustLafQty('${m.id}', -1)" aria-label="Diminuir ${m.shortTitle}">−</button>
@@ -2034,7 +2050,10 @@ window.applyLafOrderPreset = function (preset) {
 window.getCurrentLafSlide = () => lafOrderState.currentSlide;
 
 window.goToLafSlide = function (pageNum) {
-  const num = Math.max(1, Math.min(26, parseInt(pageNum, 10) || 1));
+  let num = Math.max(1, Math.min(27, parseInt(pageNum, 10) || 1));
+  if (!isCatalogApproved() && (num === 23 || num === 24)) {
+    num = 1;
+  }
   lafOrderState.currentSlide = num;
   const imgSrc = `/assets/catalogo_laf_z8/laf_slide_${String(num).padStart(2, '0')}.jpg`;
   const pageObj = LAF_PAGES_INDEX.find((p) => p.page === num) || LAF_PAGES_INDEX[0];
@@ -2062,11 +2081,15 @@ window.goToLafSlide = function (pageNum) {
 };
 
 window.stepLafSlide = function (delta) {
-  const next = ((lafOrderState.currentSlide - 1 + delta + 26) % 26) + 1;
+  const next = ((lafOrderState.currentSlide - 1 + delta + 27) % 27) + 1;
   window.goToLafSlide(next);
 };
 
 window.openLafSlideModal = function (pageNum) {
+  if (!isCatalogApproved() && pageNum >= 9) {
+    alert('As pranchas técnicas com valores de atacado são liberadas imediatamente após a aprovação do seu CNPJ pela Diretoria Matriz Z8.');
+    return;
+  }
   window.goToLafSlide(pageNum || lafOrderState.currentSlide);
   const modal = document.getElementById('z8-laf-slide-modal');
   if (!modal) return;
@@ -2100,9 +2123,13 @@ window.handlePortalAuthAction = function () {
   const user = getCurrentCatalogUser();
   if (user) {
     if (confirm(`Conectado no Portal Lojista como ${user.name || user.email} (${user.company || 'Parceiro Z8'}).\n\nDeseja desconectar sua conta ou trocar de usuário?`)) {
-      logoutCatalogUser();
-      syncPortalLojistaUser();
-      window.openZ8AuthModal && window.openZ8AuthModal('login');
+      if (typeof window.handleLogout === 'function') {
+        window.handleLogout();
+      } else {
+        logoutCatalogUser();
+        syncPortalLojistaUser();
+        window.location.replace('/');
+      }
     }
   } else {
     window.openZ8AuthModal && window.openZ8AuthModal('login');
@@ -2176,6 +2203,12 @@ function bindCheckoutForm() {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    if (!isCatalogApproved()) {
+      alert('Seu cadastro de lojista está em fase final de homologação de CNPJ pela Diretoria Z8 E-Motion.\n\nClique em "Acelerar Liberação no WhatsApp" no topo da página para liberar o faturamento de atacado imediatamente.');
+      return;
+    }
+
+    const totals = wholesaleOrderStore.getTotals();
     let totalBikes = 0;
     let totalWholesale = 0;
     let totalRetail = 0;
@@ -2207,7 +2240,12 @@ function bindCheckoutForm() {
       }
     });
 
-    if (totalBikes < 10) {
+    if (lafOrderState.mode === 'container40hq' && !totals.isValidMOQ) {
+      alert(`Para importação em Contêiner Fechado 40HQ, selecione ao menos 85% da ocupação cúbica de 1× Contêiner 40HQ.\nOcupação atual: ${totals.containerPct}% (${totalBikes} motocicletas).`);
+      return;
+    }
+
+    if (lafOrderState.mode !== 'container40hq' && totalBikes < 10) {
       alert(`O pedido mínimo de atacado da Z8 E-Motion é de 10 motocicletas (Mix Livre).\nQuantidade atual selecionada: ${totalBikes} unidade(s).`);
       return;
     }
@@ -2298,6 +2336,10 @@ function bindCheckoutForm() {
  * Generates a Printable / PDF Official Wholesale Purchase Order Sheet
  */
 window.printLafOrderQuote = function () {
+  if (!isCatalogApproved()) {
+    alert('A geração do Espelho de Pedido Oficial (PDF) com valores de atacado é liberada após a homologação do seu CNPJ pela Diretoria Matriz Z8.');
+    return;
+  }
   let totalBikes = 0;
   let totalWholesale = 0;
   let totalRetail = 0;

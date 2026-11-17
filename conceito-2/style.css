@@ -53,6 +53,7 @@
   background: linear-gradient(90deg, rgba(245, 158, 11, 0.18), rgba(245, 158, 11, 0.08));
   border-bottom: 1px solid rgba(245, 158, 11, 0.4);
   padding: 0.65rem 1rem;
+  margin-top: clamp(72px, 7.5vw, 96px);
   font-family: 'Mona Sans Variable', sans-serif;
   font-size: 0.8rem;
   color: #F59E0B;
@@ -61,7 +62,7 @@
   justify-content: space-between;
   gap: 1rem;
   position: relative;
-  z-index: 45;
+  z-index: 85;
 }
 
 .z8-pending-banner-content {

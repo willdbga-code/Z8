@@ -79,12 +79,14 @@ const MODEL_COLORS_MAP = {
     { name: 'British Emerald', hex: '#1E4D3B', img: '/assets/models/z8_n710_green.jpg' }
   ],
   'z8-q10': [
-    { name: 'Amarelo Retrô Vintage', hex: '#DFB847', img: '/assets/models/z8_q11_studio.jpg' }
+    { name: 'Amarelo Retrô Vintage', hex: '#DFB847', img: '/assets/models/z8_q11_studio.jpg' },
+    { name: 'Verde Menta Retrô', hex: '#769482', img: '/assets/models/z8_q11_green.jpg' },
+    { name: 'Preto Ônix Vintage', hex: '#1A1C1E', img: '/assets/models/z8_q11_black.jpg' }
   ],
   'z8-q11': [
     { name: 'Rosa Pastel Candy', hex: '#EAA9BA', img: '/assets/models/z8_q10_studio.jpg' },
-    { name: 'Sage Mint', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
-    { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
+    { name: 'Verde Menta Urbano', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
+    { name: 'Preto Ônix', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
   ],
   'z8-diamond': [
     { name: 'Diamond Silver', hex: '#D0D5DD', img: '/assets/models/z8_diamond_studio.jpg' }
@@ -127,6 +129,15 @@ const Z8_FLEET = z8Models.map((m) => {
 
 const fmtBRL = (val) =>
   new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
+
+const escapeHtml = (str) =>
+  String(str ?? '').replace(/[&<>"']/g, (m) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[m]));
 
 // High-Tech Mechanical Synthesizer (Web Audio API)
 function playHighTechTick(type = 'up') {
@@ -233,17 +244,14 @@ window.handleLogout = function() {
   localStorage.removeItem('z8_catalog_auth_user');
   document.documentElement.classList.remove('is-poslogin-direct');
   document.body.classList.remove('is-poslogin-direct');
-  window.location.replace('/conceito/');
+  window.location.replace('/');
 };
 
 export function syncAuthState() {
   const user = getCurrentCatalogUser();
   if (!user) {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (!urlParams.get('poslogin') && !urlParams.get('auth') && !urlParams.get('admin')) {
-      window.location.replace('/conceito/');
-      return;
-    }
+    window.location.replace('/');
+    return;
   }
   const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
@@ -352,9 +360,16 @@ export function syncAuthState() {
     }
 
     if (hudRows && hudRows.length >= 3) {
-      hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong>${fmtBRL(model.wholesale)}</strong>`;
-      hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong>${fmtBRL(model.retail)}</strong>`;
-      hudRows[2].innerHTML = `<span>LUCRO LÍQUIDO</span><strong>+${fmtBRL(model.profit)} (${model.tag})</strong>`;
+      if (approved) {
+        hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong>${fmtBRL(model.wholesale)}</strong>`;
+        hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong>${fmtBRL(model.retail)}</strong>`;
+        hudRows[2].innerHTML = `<span>LUCRO LÍQUIDO</span><strong>+${fmtBRL(model.profit)} (${model.tag})</strong>`;
+      } else {
+        const lockSvg = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
+        hudRows[0].innerHTML = `<span>ATACADO B2B</span><strong class="z8-lock-val">${lockSvg} Em Homologação</strong>`;
+        hudRows[1].innerHTML = `<span>VAREJO SUG.</span><strong class="z8-lock-val">${lockSvg} Em Homologação</strong>`;
+        hudRows[2].innerHTML = `<span>MARKUP COMERCIAL</span><strong>${model.tag} (${model.marginPct}% Margem)</strong>`;
+      }
     }
 
     if (stepperBox) {
@@ -485,14 +500,6 @@ function initAuthModalEvents() {
   document.getElementById('btn-header-login')?.addEventListener('click', () => openAuthModal('login'));
   document.getElementById('btn-header-logout')?.addEventListener('click', window.handleLogout);
   document.getElementById('btn-header-admin')?.addEventListener('click', () => openAdminModal());
-
-  // Quick Admin Pre-fill for Testing
-  document.getElementById('btn-quick-admin-login')?.addEventListener('click', () => {
-    const userField = document.getElementById('auth-login-user');
-    const passField = document.getElementById('auth-login-pass');
-    if (userField) userField.value = 'christian.tkh@gmail.com';
-    if (passField) passField.value = '123456';
-  });
 
   // Switch to forgot tab
   document.getElementById('btn-goto-forgot')?.addEventListener('click', (e) => {
@@ -644,7 +651,10 @@ export function openZ8ModelDrawer(rawModelId) {
   if (!drawer || !body) return;
 
   window.lenis?.stop();
-  drawer.classList.add('is-active');
+  document.body.classList.add('z8-modal-active');
+  document.documentElement.classList.add('z8-modal-active');
+  drawer.classList.add('is-active', 'is-open');
+  drawer.setAttribute('aria-hidden', 'false');
 
   const approved = isCatalogApproved();
   const firstImg = model.colors?.[0]?.img || model.image;
@@ -760,7 +770,10 @@ export function openZ8ModelDrawer(rawModelId) {
 export function closeZ8ModelDrawer() {
   const drawer = document.getElementById('z8-model-drawer');
   if (!drawer) return;
-  drawer.classList.remove('is-active');
+  drawer.classList.remove('is-active', 'is-open');
+  drawer.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('z8-modal-active');
+  document.documentElement.classList.remove('z8-modal-active');
   window.lenis?.start();
 }
 
@@ -1011,23 +1024,24 @@ export function loadOSTable(searchTerm = '') {
       statusText = 'Reprovado';
     }
 
+    const safeId = escapeHtml(o.id);
     const adminActionBtn = isMaster && o.status !== 'approved'
-      ? `<button type="button" onclick="window.approveOS('${o.id}')" style="background:#10B981; color:#0A0B0E; border:none; border-radius:3px; padding:3px 8px; font-weight:800; font-size:0.72rem; cursor:pointer;">Aprovar</button>`
+      ? `<button type="button" onclick="window.approveOS('${safeId}')" style="background:#10B981; color:#0A0B0E; border:none; border-radius:3px; padding:3px 8px; font-weight:800; font-size:0.72rem; cursor:pointer;">Aprovar</button>`
       : '';
 
     return `
       <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
-        <td style="padding: 0.75rem 1rem; font-weight: 800; color: #00F0FF;">${o.id}</td>
-        <td style="padding: 0.75rem 1rem; color: #FFF;">${o.model}</td>
-        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.7); font-family: monospace;">${o.chassi || '-'}</td>
-        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.85);">${o.company || 'Matriz'}</td>
+        <td style="padding: 0.75rem 1rem; font-weight: 800; color: #00F0FF;">${safeId}</td>
+        <td style="padding: 0.75rem 1rem; color: #FFF;">${escapeHtml(o.model)}</td>
+        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.7); font-family: monospace;">${escapeHtml(o.chassi || '-')}</td>
+        <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.85);">${escapeHtml(o.company || 'Matriz')}</td>
         <td style="padding: 0.75rem 1rem; text-align: center;">
           <span style="background:${statusBg}; color:${statusColor}; padding:3px 8px; border-radius:4px; font-size:0.72rem; font-weight:700;">
-            ${statusText}
+            ${escapeHtml(statusText)}
           </span>
         </td>
         <td style="padding: 0.75rem 1rem; text-align: right;">
-          <button type="button" onclick="alert('Laudo Técnico OS ${o.id}:\\n\\nComponente: ${o.component || 'N/A'}\\nDiagnóstico: ${o.diagnosis || 'N/A'}\\nObservações: ${o.adminNotes || 'N/A'}')" style="background:rgba(255,255,255,0.08); color:#FFF; border:1px solid rgba(255,255,255,0.15); border-radius:3px; padding:3px 8px; font-size:0.72rem; cursor:pointer; margin-right:4px;">
+          <button type="button" onclick="window.viewOSReport && window.viewOSReport('${safeId}')" style="background:rgba(255,255,255,0.08); color:#FFF; border:1px solid rgba(255,255,255,0.15); border-radius:3px; padding:3px 8px; font-size:0.72rem; cursor:pointer; margin-right:4px;">
             Ver Laudo
           </button>
           ${adminActionBtn}
@@ -1036,6 +1050,13 @@ export function loadOSTable(searchTerm = '') {
     `;
   }).join('');
 }
+
+window.viewOSReport = function(osId) {
+  const orders = getStoredWarrantyOrders();
+  const o = orders.find((item) => String(item.id) === String(osId));
+  if (!o) return;
+  alert(`Laudo Técnico OS ${o.id}:\n\nComponente: ${o.component || 'N/A'}\nDiagnóstico: ${o.diagnosis || 'N/A'}\nObservações: ${o.adminNotes || 'N/A'}`);
+};
 
 window.approveOS = function(osId) {
   updateWarrantyOrderStatus(osId, 'approved', 'Aprovado - Peça Despachada');
@@ -1338,33 +1359,34 @@ export function renderAdminLeadsList() {
       );
     }
 
+    const safeLeadId = escapeHtml(lead.id);
     return `
       <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
         <td style="padding: 0.75rem 1rem;">
-          <strong style="color: #FFF; display: block;">${lead.name || 'Candidato'}</strong>
-          <span style="font-size: 0.72rem; color: #94A3B8;">${lead.company || lead.name || 'Pessoa Física'} • ${lead.email || 'Via Formulário'}</span>
+          <strong style="color: #FFF; display: block;">${escapeHtml(lead.name || 'Candidato')}</strong>
+          <span style="font-size: 0.72rem; color: #94A3B8;">${escapeHtml(lead.company || lead.name || 'Pessoa Física')} • ${escapeHtml(lead.email || 'Via Formulário')}</span>
         </td>
-        <td style="padding: 0.75rem 1rem; color: #FFF;">${lead.city || 'São Paulo'} - ${lead.state || 'SP'}</td>
+        <td style="padding: 0.75rem 1rem; color: #FFF;">${escapeHtml(lead.city || 'São Paulo')} - ${escapeHtml(lead.state || 'SP')}</td>
         <td style="padding: 0.75rem 1rem;">
-          <strong style="color: #00F0FF; display: block; font-size: 0.78rem;">${lead.capital || prof.capitalLabel || 'Aporte a Definir'}</strong>
-          <span style="font-size: 0.7rem; color: #64748B;">Origem: ${lead.source || 'Conceito Web'}</span>
+          <strong style="color: #00F0FF; display: block; font-size: 0.78rem;">${escapeHtml(lead.capital || prof.capitalLabel || 'Aporte a Definir')}</strong>
+          <span style="font-size: 0.7rem; color: #64748B;">Origem: ${escapeHtml(lead.source || 'Conceito Web')}</span>
         </td>
         <td style="padding: 0.75rem 1rem;">${tempBadge}</td>
         <td style="padding: 0.75rem 1rem; text-align: center;">
           ${cleanPhone ? `
             <a href="https://wa.me/55${cleanPhone}?text=${waMessage}" target="_blank" style="background: #25D366; color: #000; padding: 5px 10px; border-radius: 4px; font-weight: 800; font-size: 0.74rem; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">
-              <i class="fa-brands fa-whatsapp"></i> Chamar (${lead.phone || lead.whatsapp})
+              <i class="fa-brands fa-whatsapp"></i> Chamar (${escapeHtml(lead.phone || lead.whatsapp)})
             </a>
           ` : `<span style="color:#64748B; font-size:0.74rem;">Sem telefone</span>`}
         </td>
         <td style="padding: 0.75rem 1rem; text-align: right;">
-          <select onchange="window.handleLeadStatusChange && window.handleLeadStatusChange('${lead.id}', this.value)" style="background: #0D1117; border: 1px solid rgba(255,255,255,0.2); color: #FFF; padding: 4px 6px; border-radius: 4px; font-size: 0.74rem;">
+          <select onchange="window.handleLeadStatusChange && window.handleLeadStatusChange('${safeLeadId}', this.value)" style="background: #0D1117; border: 1px solid rgba(255,255,255,0.2); color: #FFF; padding: 4px 6px; border-radius: 4px; font-size: 0.74rem;">
             <option value="novo" ${lead.status === 'novo' ? 'selected' : ''}>Novo</option>
             <option value="contatado" ${lead.status === 'contatado' ? 'selected' : ''}>Contatado</option>
             <option value="qualificado" ${lead.status === 'qualificado' ? 'selected' : ''}>Qualificado</option>
             <option value="fechado" ${lead.status === 'fechado' ? 'selected' : ''}>Fechado</option>
           </select>
-          <button type="button" onclick="window.handleDeleteLead && window.handleDeleteLead('${lead.id}')" title="Excluir" style="background: none; border: none; color: #EF4444; margin-left: 6px; cursor: pointer; font-size: 0.85rem;"><i class="fa-solid fa-trash-can"></i></button>
+          <button type="button" onclick="window.handleDeleteLead && window.handleDeleteLead('${safeLeadId}')" title="Excluir" style="background: none; border: none; color: #EF4444; margin-left: 6px; cursor: pointer; font-size: 0.85rem;"><i class="fa-solid fa-trash-can"></i></button>
         </td>
       </tr>
     `;
@@ -1432,23 +1454,24 @@ export function renderAdminOSTable() {
 
   tbody.innerHTML = orders.map(o => {
     const isApproved = o.status === 'approved' || o.status === 'completed';
+    const safeOsId = escapeHtml(o.id);
     return `
       <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
         <td style="padding: 0.75rem 1rem;">
-          <strong style="color: #00F0FF; display: block;">${o.id}</strong>
-          <span style="font-size: 0.72rem; color: #FFF;">${o.model || o.modelName || 'Z8 E-Motion'}</span>
+          <strong style="color: #00F0FF; display: block;">${safeOsId}</strong>
+          <span style="font-size: 0.72rem; color: #FFF;">${escapeHtml(o.model || o.modelName || 'Z8 E-Motion')}</span>
         </td>
         <td style="padding: 0.75rem 1rem;">
-          <strong style="color: #FFF; font-family: monospace; font-size: 0.78rem;">${o.chassi || o.chassis || 'N/A'}</strong>
-          <span style="display: block; font-size: 0.7rem; color: #94A3B8;">${o.odometer || 0} km</span>
+          <strong style="color: #FFF; font-family: monospace; font-size: 0.78rem;">${escapeHtml(o.chassi || o.chassis || 'N/A')}</strong>
+          <span style="display: block; font-size: 0.7rem; color: #94A3B8;">${escapeHtml(o.odometer || 0)} km</span>
         </td>
         <td style="padding: 0.75rem 1rem;">
-          <strong style="color: #FFF; display: block;">${o.company || o.clientName || 'Concessionária'}</strong>
-          <span style="font-size: 0.72rem; color: #94A3B8;">${o.city || 'SP'}</span>
+          <strong style="color: #FFF; display: block;">${escapeHtml(o.company || o.clientName || 'Concessionária')}</strong>
+          <span style="font-size: 0.72rem; color: #94A3B8;">${escapeHtml(o.city || 'SP')}</span>
         </td>
         <td style="padding: 0.75rem 1rem;">
-          <strong style="color: #F59E0B; display: block; font-size: 0.76rem;">${o.component || 'Componente'}</strong>
-          <span style="font-size: 0.7rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${o.diagnosis || o.issueDescription || ''}</span>
+          <strong style="color: #F59E0B; display: block; font-size: 0.76rem;">${escapeHtml(o.component || 'Componente')}</strong>
+          <span style="font-size: 0.7rem; color: #94A3B8; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${escapeHtml(o.diagnosis || o.issueDescription || '')}</span>
         </td>
         <td style="padding: 0.75rem 1rem;">
           <span style="font-size:0.72rem; padding:3px 8px; border-radius:4px; font-weight:700; ${isApproved ? 'background:rgba(16,185,129,0.15); color:#10B981;' : 'background:rgba(245,158,11,0.15); color:#F59E0B;'}">
@@ -1457,7 +1480,7 @@ export function renderAdminOSTable() {
         </td>
         <td style="padding: 0.75rem 1rem; text-align: right;">
           ${!isApproved ? `
-            <button type="button" onclick="window.approveOS && window.approveOS('${o.id}')" style="background: #10B981; color: #0A0B0E; border: none; padding: 4px 10px; border-radius: 4px; font-weight: 800; font-size: 0.74rem; cursor: pointer;">
+            <button type="button" onclick="window.approveOS && window.approveOS('${safeOsId}')" style="background: #10B981; color: #0A0B0E; border: none; padding: 4px 10px; border-radius: 4px; font-weight: 800; font-size: 0.74rem; cursor: pointer;">
               Aprovar OS
             </button>
           ` : `<span style="color:#10B981; font-size:0.74rem; font-weight:700;">Peça Despachada</span>`}
@@ -1514,14 +1537,15 @@ function loadAdminUsersList() {
     listEl.innerHTML = users
       .map((u) => {
         const isApp = u.status === 'approved';
+        const safeUserId = escapeHtml(u.id || u.email);
         return `
         <tr style="border-bottom: 1px solid rgba(255,255,255,0.06);">
           <td style="padding: 0.75rem 1rem;">
-            <strong style="color: #FFF; display: block;">${u.name || 'Sem Nome'}</strong>
-            <span style="font-size: 0.72rem; color: rgba(244,244,237,0.6);">${u.company || 'Empresa'} • ${u.email}</span>
+            <strong style="color: #FFF; display: block;">${escapeHtml(u.name || 'Sem Nome')}</strong>
+            <span style="font-size: 0.72rem; color: rgba(244,244,237,0.6);">${escapeHtml(u.company || 'Empresa')} • ${escapeHtml(u.email)}</span>
           </td>
-          <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.8);">${u.city || 'SP'}/${u.state || 'SP'}</td>
-          <td style="padding: 0.75rem 1rem; color: #00F0FF;">${u.phone || 'N/A'}</td>
+          <td style="padding: 0.75rem 1rem; color: rgba(244,244,237,0.8);">${escapeHtml(u.city || 'SP')}/${escapeHtml(u.state || 'SP')}</td>
+          <td style="padding: 0.75rem 1rem; color: #00F0FF;">${escapeHtml(u.phone || 'N/A')}</td>
           <td style="padding: 0.75rem 1rem;">
             <span style="font-size:0.72rem; padding:2px 8px; border-radius:4px; font-weight:700; ${isApp ? 'background:rgba(16,185,129,0.15); color:#10B981;' : 'background:rgba(245,158,11,0.15); color:#F59E0B;'}">
               ${isApp ? 'Aprovado' : 'Pendente'}
@@ -1530,8 +1554,8 @@ function loadAdminUsersList() {
           <td style="padding: 0.75rem 1rem; text-align: right;">
             ${
               !isApp
-                ? `<button type="button" onclick="window.approveUser && window.approveUser('${u.id || u.email}')" style="background:#10B981; color:#0A0B0E; border:none; padding:4px 10px; border-radius:4px; font-weight:800; font-size:0.74rem; cursor:pointer;">Aprovar 1-Clique</button>`
-                : `<button type="button" onclick="window.rejectUser && window.rejectUser('${u.id || u.email}')" style="background:rgba(239,68,68,0.2); color:#EF4444; border:1px solid rgba(239,68,68,0.4); padding:4px 10px; border-radius:4px; font-weight:700; font-size:0.74rem; cursor:pointer;">Suspender</button>`
+                ? `<button type="button" onclick="window.approveUser && window.approveUser('${safeUserId}')" style="background:#10B981; color:#0A0B0E; border:none; padding:4px 10px; border-radius:4px; font-weight:800; font-size:0.74rem; cursor:pointer;">Aprovar 1-Clique</button>`
+                : `<button type="button" onclick="window.rejectUser && window.rejectUser('${safeUserId}')" style="background:rgba(239,68,68,0.2); color:#EF4444; border:1px solid rgba(239,68,68,0.4); padding:4px 10px; border-radius:4px; font-weight:700; font-size:0.74rem; cursor:pointer;">Suspender</button>`
             }
           </td>
         </tr>
@@ -1697,26 +1721,159 @@ export function initKineticTextScrollMobile() {
 }
 window.initKineticTextScrollMobile = initKineticTextScrollMobile;
 
+let currentLeadOrigin = 'Portal Lojista';
+
+window.openLeadModal = function (origin = 'Portal Lojista') {
+  currentLeadOrigin = origin;
+  const modal = document.getElementById('investor-lead-modal');
+  if (!modal) return;
+  window.lenis?.stop();
+  document.body.classList.add('z8-modal-active');
+  document.documentElement.classList.add('z8-modal-active');
+  modal.classList.add('is-open', 'is-active');
+  modal.setAttribute('aria-hidden', 'false');
+  const dialog = modal.querySelector('.z8-modal-dialog');
+  if (dialog) dialog.scrollTop = 0;
+};
+
+window.closeLeadModal = function () {
+  const modal = document.getElementById('investor-lead-modal');
+  if (modal) {
+    modal.classList.remove('is-open', 'is-active');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+  const drawer = document.getElementById('z8-model-drawer');
+  const isDrawerOpen = drawer?.classList.contains('is-open') || drawer?.classList.contains('is-active');
+  if (!isDrawerOpen) {
+    window.lenis?.start();
+    document.body.classList.remove('z8-modal-active');
+    document.documentElement.classList.remove('z8-modal-active');
+  }
+};
+
+function initLeadModal() {
+  const modal = document.getElementById('investor-lead-modal');
+  const drawer = document.getElementById('z8-model-drawer');
+  const form = document.getElementById('investor-lead-form');
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) window.closeLeadModal();
+    });
+  }
+  if (drawer) {
+    drawer.addEventListener('click', (e) => {
+      if (e.target === drawer) closeZ8ModelDrawer();
+    });
+  }
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('lead-submit-btn');
+      const name = document.getElementById('lead-name')?.value?.trim() || '';
+      const whatsapp = document.getElementById('lead-whatsapp')?.value?.trim() || '';
+      const city = document.getElementById('lead-city')?.value?.trim() || '';
+      const capital = document.getElementById('lead-capital')?.value || '';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'SINCRONIZANDO DOSSIÊ COM A MATRIZ Z8...';
+      }
+
+      const capLower = (capital || '').toLowerCase();
+      const isHighCapital =
+        capLower.includes('130k') ||
+        capLower.includes('180k') ||
+        capLower.includes('200k') ||
+        capLower.includes('acima') ||
+        capLower.includes('150k') ||
+        capLower.includes('100k');
+      const cleanPhone = (whatsapp || '').replace(/\D/g, '');
+      const leadId = 'lead_lojista_' + Date.now();
+
+      const payload = {
+        id: leadId,
+        name,
+        company: name,
+        city: city || 'São Paulo',
+        state: 'SP',
+        whatsapp,
+        phone: whatsapp,
+        email: `${cleanPhone || Date.now()}@candidato.z8emotion.com`,
+        whatsappVerified: true,
+        capital,
+        investment: capital,
+        paymentMethod: 'Candidatura Concessão Franquia',
+        status: 'novo',
+        temperature: isHighCapital ? 'quente' : 'possivel',
+        score: isHighCapital ? 92 : 75,
+        estimatedRevenue: isHighCapital ? 150000.00 : 80000.00,
+        investorProfile: {
+          investmentRange: capital,
+          isInvestor: 'empresa',
+          timeline: 'imediato',
+          involvement: 'operador',
+          capitalLabel: capital,
+          experienceText: `Candidato qualificado via Portal Lojista (${currentLeadOrigin})`
+        },
+        source: `Portal Lojista (${currentLeadOrigin})`,
+        createdAt: new Date().toISOString(),
+        updatedAt: Date.now()
+      };
+
+      try {
+        const { db } = initFirebase();
+        if (db) {
+          await Promise.race([
+            setDoc(doc(db, 'leads', leadId), payload, { merge: true }),
+            new Promise((r) => setTimeout(r, 2500))
+          ]);
+        }
+      } catch (_) {}
+
+      try {
+        await fetch('/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (_) {}
+
+      try {
+        const rawLeads = localStorage.getItem('z8_crm_leads_data') || '[]';
+        const localLeads = JSON.parse(rawLeads);
+        const existingIdx = localLeads.findIndex((l) => (l.phone && l.phone === whatsapp) || l.id === leadId);
+        if (existingIdx >= 0) {
+          localLeads[existingIdx] = { ...localLeads[existingIdx], ...payload };
+        } else {
+          localLeads.unshift(payload);
+        }
+        localStorage.setItem('z8_crm_leads_data', JSON.stringify(localLeads));
+        window.dispatchEvent(new CustomEvent('z8-lead-added', { detail: payload }));
+      } catch (_) {}
+
+      const msg = encodeURIComponent(
+        `Olá, Christian! Solicito a Circular de Oferta de Franquia (COF) e o estudo de viabilidade territorial da Z8 E-Motion.\n\n` +
+          `*Nome:* ${name}\n` +
+          `*Cidade / Região de Interesse:* ${city}\n` +
+          `*Capital Previsto para Implantação:* ${capital}\n` +
+          `*WhatsApp de Contato:* ${whatsapp}`
+      );
+
+      window.closeLeadModal();
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'SOLICITAR ESTUDO DE VIABILIDADE TERRITORIAL ↱';
+      }
+      window.open(`https://wa.me/5512998008818?text=${msg}`, '_blank');
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Direct URL parameter for instant Post-Login evaluation: ?poslogin=1 or ?auth=admin
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('poslogin') === '1' || urlParams.get('auth') === 'admin' || urlParams.get('admin') === '1') {
-    const adminUser = {
-      id: 'user_admin_01',
-      name: 'Christian Hideyuki (Admin Master)',
-      company: 'Z8 E-Motion Brasil (Matriz)',
-      city: 'São Paulo - SP',
-      email: 'christian.tkh@gmail.com',
-      phone: '(12) 99800-8818',
-      role: 'admin',
-      status: 'approved',
-      updatedAt: Date.now(),
-      createdAt: '2026-08-25T16:08:04.281Z'
-    };
-    sessionStorage.setItem('z8_catalog_auth_session', 'authenticated_active_catalog');
-    sessionStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
-    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
-  } else if (urlParams.get('logout') === '1') {
+  if (urlParams.get('logout') === '1') {
     sessionStorage.removeItem('z8_catalog_auth_session');
     sessionStorage.removeItem('z8_catalog_auth_user');
     localStorage.removeItem('z8_catalog_auth_user');
@@ -1726,7 +1883,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initTransitionSafety();
   renderPortalLojistaLAF();
   initAuthModalEvents();
+  initLeadModal();
   syncAuthState();
+
+  window.addEventListener('z8-catalog-auth-changed', () => {
+    renderPortalLojistaLAF();
+    syncAuthState();
+  });
 
   if (urlParams.get('login') === '1' || urlParams.get('modal') === '1' || urlParams.get('auth') === '1') {
     const intro = document.querySelector('.intro');

@@ -178,8 +178,9 @@ const Z8_FLEET = [
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_q10_studio.jpg',
     colors: [
-      { name: 'Pastel Sage', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
-      { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' }
+      { name: 'Candy Pink Love', hex: '#F472B6', img: '/assets/models/z8_q10_studio.jpg' },
+      { name: 'Pink Studio Cutout', hex: '#FB7185', img: '/assets/models/pptx_extracted/image1.jpeg' },
+      { name: '6 Cores Candy', hex: '#38BDF8', img: '/assets/models/pptx_extracted/image2.png' }
     ]
   },
   {
@@ -214,7 +215,12 @@ const Z8_FLEET = [
     range: 'Até 40-50 km (Suporta até 60V 120Ah / 240 km)',
     cnh: '100% Isento CNH // 996',
     baseImg: '/assets/models/z8_q11_studio.jpg',
-    colors: [{ name: 'Pastel Cream', hex: '#E5DEC9', img: '/assets/models/z8_q11_studio.jpg' }]
+    colors: [
+      { name: 'Pastel Yellow (LAF)', hex: '#EAB308', img: '/assets/models/z8_q11_studio.jpg' },
+      { name: 'Sage Olive', hex: '#769482', img: '/assets/models/z8_q10_green.jpg' },
+      { name: 'Onyx Black', hex: '#1A1C1E', img: '/assets/models/z8_q10_black.jpg' },
+      { name: 'Lineup Vintage', hex: '#00F0FF', img: '/assets/models/pptx_extracted/image3.jpg' }
+    ]
   },
   {
     id: 'z8-gs005',
@@ -494,11 +500,18 @@ function initTerritoryRadar() {
     const leadCityInput = document.getElementById('lead-city');
     if (leadCityInput) leadCityInput.value = raw;
 
+    const safeCity = raw
+      .toUpperCase()
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+
     if (isOccupied) {
       res.innerHTML = `
         <div class="z8-city-status-dot" style="background:#eab308;box-shadow:0 0 0 4px rgba(234,179,8,0.25)"></div>
         <div class="z8-city-status-text">
-          <strong>UNIDADE ATIVA // CONSULTAR COTA REGIONAL EM ${raw.toUpperCase()}</strong>
+          <strong>UNIDADE ATIVA // CONSULTAR COTA REGIONAL EM ${safeCity}</strong>
           <span>Já possuímos operação credenciada nesta microrregião. Solicite avaliação de segundo polígono ou cidade adjacente.</span>
         </div>
       `;
@@ -506,7 +519,7 @@ function initTerritoryRadar() {
       res.innerHTML = `
         <div class="z8-city-status-dot" style="background:#16a34a;box-shadow:0 0 0 4px rgba(22,163,74,0.25)"></div>
         <div class="z8-city-status-text">
-          <strong>DISPONÍVEL // RAIO DE ATÉ 50 KM LIVRE EM ${raw.toUpperCase()}</strong>
+          <strong>DISPONÍVEL // RAIO DE ATÉ 50 KM LIVRE EM ${safeCity}</strong>
           <span>Praça apta para bloqueio contratual imediato (Art. 784, III CPC). Clique abaixo para receber a COF e reservar.</span>
         </div>
       `;
@@ -618,7 +631,14 @@ function initLeadModal() {
         submitBtn.textContent = 'SINCRONIZANDO DOSSIÊ COM A MATRIZ Z8...';
       }
 
-      const isHighCapital = capital.includes('150k') || capital.includes('100k') || capital.includes('acima');
+      const capLower = (capital || '').toLowerCase();
+      const isHighCapital =
+        capLower.includes('130k') ||
+        capLower.includes('180k') ||
+        capLower.includes('200k') ||
+        capLower.includes('acima') ||
+        capLower.includes('150k') ||
+        capLower.includes('100k');
       const cleanPhone = (whatsapp || '').replace(/\D/g, '');
       const leadId = 'lead_conceito_' + Date.now();
 
@@ -941,7 +961,7 @@ function updateNavMenuAuthText(text) {
 window.openZ8MenuAuth = function() {
   const user = getCurrentCatalogUser();
   if (user) {
-    window.location.href = '/conceito-2/';
+    window.location.href = '/lojista/';
   } else {
     window.openZ8AuthModal && window.openZ8AuthModal('login');
   }
@@ -954,7 +974,7 @@ function syncConceitoAuthState() {
 
   const urlParams = new URLSearchParams(window.location.search);
   if (user && urlParams.get('preview') !== '1' && urlParams.get('public') !== '1') {
-    window.location.replace('/conceito-2/' + window.location.search + window.location.hash);
+    window.location.replace('/lojista/' + window.location.search + window.location.hash);
     return;
   }
 
@@ -988,14 +1008,6 @@ function initConceitoAuthEvents() {
     });
   }
 
-  // Quick Admin Pre-fill
-  document.getElementById('btn-quick-admin-login')?.addEventListener('click', () => {
-    const userField = document.getElementById('auth-login-user');
-    const passField = document.getElementById('auth-login-pass');
-    if (userField) userField.value = 'christian.tkh@gmail.com';
-    if (passField) passField.value = '123456';
-  });
-
   // Switch to forgot tab
   document.getElementById('btn-goto-forgot')?.addEventListener('click', (e) => {
     e.preventDefault();
@@ -1023,7 +1035,7 @@ function initConceitoAuthEvents() {
       const res = await loginWithGoogle();
       if (res && res.success) {
         closeZ8AuthModal();
-        window.location.href = '/conceito-2/';
+        window.location.href = '/lojista/';
       } else {
         alert(res?.error || res?.message || 'Não foi possível concluir o login com o Google.');
       }
@@ -1057,7 +1069,7 @@ function initConceitoAuthEvents() {
         }
         setTimeout(() => {
           closeZ8AuthModal();
-          window.location.href = '/conceito-2/';
+          window.location.href = '/lojista/';
         }, 350);
       } else {
         if (msgBox) {

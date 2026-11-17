@@ -415,33 +415,6 @@ export async function loginCatalogUser(userOrEmail, password, trap = '') {
     return { success: false, error: 'Por favor, informe seu e-mail e senha de acesso.' };
   }
 
-  // Acesso direto para Credencial Homologada / Admin Master (Christian Hideyuki)
-  if (clean === MASTER_ADMIN_EMAIL.toLowerCase() && (rawPassword === '123456' || rawPassword === '@12345678@' || rawPassword === 'admin123')) {
-    const adminUser = {
-      id: DEFAULT_MASTER_ADMIN.id,
-      name: DEFAULT_MASTER_ADMIN.name,
-      company: DEFAULT_MASTER_ADMIN.company,
-      city: DEFAULT_MASTER_ADMIN.city,
-      email: DEFAULT_MASTER_ADMIN.email,
-      phone: DEFAULT_MASTER_ADMIN.phone,
-      role: 'admin',
-      status: 'approved',
-      updatedAt: Date.now(),
-      createdAt: DEFAULT_MASTER_ADMIN.createdAt
-    };
-    sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
-    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(adminUser));
-    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
-    try { await fetchUsersFromCloud(); } catch(e){}
-    window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-    window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
-    return {
-      success: true,
-      user: adminUser,
-      isPending: false
-    };
-  }
-
   // 1. PRIORIDADE MÁXIMA: Autenticação Criptográfica Segura via API Serverless (/api/users)
   // Utiliza PBKDF2 (100.000 iterações + salt), timingSafeEqual, Rate Limiting por IP/e-mail e tokens HMAC-SHA256
   let apiCallCompleted = false;
@@ -500,34 +473,7 @@ export async function loginCatalogUser(userOrEmail, password, trap = '') {
 
   // Se o servidor de API foi contactado e respondeu, não permite nenhum bypass
   if (apiCallCompleted) {
-    // 3. Contingencia de desenvolvimento / Admin Master oficial
-  if (clean === MASTER_ADMIN_EMAIL.toLowerCase() && (rawPassword === '@12345678@' || rawPassword === '12345678' || rawPassword === '123456')) {
-    const adminUser = {
-      id: DEFAULT_MASTER_ADMIN.id,
-      name: DEFAULT_MASTER_ADMIN.name,
-      company: DEFAULT_MASTER_ADMIN.company,
-      city: DEFAULT_MASTER_ADMIN.city,
-      email: DEFAULT_MASTER_ADMIN.email,
-      phone: DEFAULT_MASTER_ADMIN.phone,
-      role: 'admin',
-      status: 'approved',
-      updatedAt: Date.now(),
-      createdAt: DEFAULT_MASTER_ADMIN.createdAt
-    };
-    sessionStorage.setItem(SESSION_KEY, 'authenticated_active_catalog');
-    sessionStorage.setItem(SESSION_USER_KEY, JSON.stringify(adminUser));
-    localStorage.setItem('z8_catalog_auth_user', JSON.stringify(adminUser));
-    try { await fetchUsersFromCloud(); } catch(e){}
-    window.dispatchEvent(new CustomEvent('z8-catalog-auth-changed'));
-    window.dispatchEvent(new CustomEvent('z8-catalog-users-updated'));
-    return {
-      success: true,
-      user: adminUser,
-      isPending: false
-    };
-  }
-
-  return { success: false, error: 'Credenciais invalidas. Verifique seu e-mail e senha.' };
+    return { success: false, error: 'Credenciais inválidas. Verifique seu e-mail e senha.' };
   }
 
   // 2. CONTINGÊNCIA OFFLINE (Apenas quando a rede estiver indisponível)
