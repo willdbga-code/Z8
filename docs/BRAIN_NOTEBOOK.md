@@ -2128,3 +2128,17 @@ pm run build\ executado com sucesso reduzindo tempo de compilação de 11.16s pa
   4. **Economia Vetorial (Clean Curves)**: Mínimo de pontos de ancoragem (anchor points) para gerar curvas Bézier suaves, sem rugosidades ou nós desnecessários no Illustrator.
   5. **Espaço Negativo Ativo**: Uso consciente do respiro para transmitir autoridade e elegância automotiva.
 - **Integração no Ecossistema Z8**: Atualizados `.agents/skills/adobe_illustrator/SKILL.md` e os geradores de certificados e selos vetoriais.
+
+### Atualização Mobile: Resolução da Colisão do Marquee 3D e Cards no Hero (Novembro 2026)
+- **Diagnóstico Preciso**:
+  1. Em telas mobile (< 992px), o recuo da câmera 3D no WebGL (de z=4.5 para z=12..14) comprimia drasticamente a projeção em perspectiva no eixo Y, fazendo com que TEXT_TOP (ciano) e TEXT_BOTTOM (serifa branca) colidissem e se sobrepusessem.
+  2. O card .home-hero-next-race-w (Território até 50km) estava sendo forçado com display: flex !important sem restrição de media query, ficando renderizado exatamente por baixo dos textos 3D.
+  3. O botão flutuante ciano de controle de toque (.home-hero-touch-controls-w) poluía o canto inferior direito e atrapalhava a rolagem nativa.
+- **Solução Implementada**:
+  1. **WebGL Responsive Engine (public/assets/lando/lando-engine.js)**:
+     - Calibração matemática da separação vertical dos textos proporcionalmente à distância Z da câmera (factor = camera.position.z / 4.5), mantendo separação angular idêntica à do Desktop.
+     - Ajuste de escala e gap vertical (verticalGap: 0.15 e 0.25) para eliminação de sobreposição de glifos.
+  2. **Isolamento Desktop-Only (conceito/style.css)**:
+     - Card .home-hero-next-race-w encapsulado em @media screen and (min-width: 992px) e explicitamente ocultado em mobile (display: none !important).
+     - Controles de toque e cards flutuantes desativados no mobile para permitir rolagem 100% fluida e visão desobstruída do veículo.
+     - Versão Desktop 100% preservada e inalterada.
