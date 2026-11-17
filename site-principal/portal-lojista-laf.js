@@ -1362,7 +1362,7 @@ export function renderPortalLojistaLAF() {
                 : ''
             }
             <button type="button" class="z8-laf-top-btn" onclick="window.handlePortalAuthAction()">
-              <span id="laf-auth-action-label">${user ? '<i class="fa-solid fa-user-check" style="margin-right:6px;"></i>CONTA PARCEIRO / SAIR' : '<i class="fa-solid fa-key" style="margin-right:6px;"></i>LOGIN CREDENCIADO'}</span>
+              <span id="laf-auth-action-label">${user ? '<i class="fa-solid fa-right-from-bracket" style="margin-right:6px;"></i>SAIR DA CONTA (LOGOUT)' : '<i class="fa-solid fa-key" style="margin-right:6px;"></i>LOGIN CREDENCIADO'}</span>
             </button>
           </div>
         </div>
@@ -2122,14 +2122,12 @@ window.openPortalLojista = function (targetModule = 'all') {
 window.handlePortalAuthAction = function () {
   const user = getCurrentCatalogUser();
   if (user) {
-    if (confirm(`Conectado no Portal Lojista como ${user.name || user.email} (${user.company || 'Parceiro Z8'}).\n\nDeseja desconectar sua conta ou trocar de usuário?`)) {
-      if (typeof window.handleLogout === 'function') {
-        window.handleLogout();
-      } else {
-        logoutCatalogUser();
-        syncPortalLojistaUser();
-        window.location.replace('/');
-      }
+    if (typeof window.handleLogout === 'function') {
+      window.handleLogout();
+    } else {
+      logoutCatalogUser();
+      syncPortalLojistaUser();
+      window.location.replace('/');
     }
   } else {
     window.openZ8AuthModal && window.openZ8AuthModal('login');
@@ -2147,7 +2145,7 @@ export function syncPortalLojistaUser() {
       : `TABELA OFICIAL DE ATACADO B2B ABERTA // LOTE MÍNIMO 10 MOTOS (MIX LIVRE)`;
   }
   if (authBtnLabel) {
-    authBtnLabel.innerHTML = user ? '<i class="fa-solid fa-user-check" style="margin-right:6px;"></i>CONTA PARCEIRO / SAIR' : '<i class="fa-solid fa-key" style="margin-right:6px;"></i>LOGIN CREDENCIADO';
+    authBtnLabel.innerHTML = user ? '<i class="fa-solid fa-right-from-bracket" style="margin-right:6px;"></i>SAIR DA CONTA (LOGOUT)' : '<i class="fa-solid fa-key" style="margin-right:6px;"></i>LOGIN CREDENCIADO';
   }
 
   if (user) {

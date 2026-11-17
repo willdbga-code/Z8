@@ -948,7 +948,7 @@ function updateNavMenuAuthText(text) {
   const srClone = linkEl.querySelector('[screen-reader]');
   if (srClone) srClone.textContent = text;
 
-  const getShift = () => window.innerWidth < 480 ? "-4.3rem" : "-5.25rem";
+  const getShift = () => window.innerWidth <= 1024 ? "0em" : "-2.4em";
   linkEl.onmouseenter = () => {
     if (window.gsap) {
       window.gsap.to(chars, { y: getShift(), duration: 0.6, stagger: 0.02, ease: "power3.out", overwrite: true });
@@ -970,10 +970,24 @@ window.openZ8MenuAuth = function() {
   }
 };
 
+window.handleLogout = function() {
+  logoutCatalogUser();
+  sessionStorage.removeItem('z8_catalog_auth_session');
+  sessionStorage.removeItem('z8_catalog_auth_user');
+  localStorage.removeItem('z8_catalog_auth_session');
+  localStorage.removeItem('z8_catalog_auth_user');
+  window.location.replace('/');
+};
+
 function syncConceitoAuthState() {
   const user = getCurrentCatalogUser();
   const approved = isCatalogApproved();
   const admin = isUserAdmin(user);
+
+  const menuLogoutLink = document.getElementById('nav-menu-link-logout');
+  if (menuLogoutLink) {
+    menuLogoutLink.style.display = user ? 'inline-flex' : 'none';
+  }
 
   const urlParams = new URLSearchParams(window.location.search);
   if (user && urlParams.get('preview') !== '1' && urlParams.get('public') !== '1') {

@@ -215,7 +215,7 @@ export function updateNavMenuAuthText(text) {
   const srClone = linkEl.querySelector('[screen-reader]');
   if (srClone) srClone.textContent = text;
 
-  const getShift = () => window.innerWidth < 480 ? "-4.3rem" : "-5.25rem";
+  const getShift = () => window.innerWidth <= 1024 ? "0em" : "-2.4em";
   linkEl.onmouseenter = () => {
     if (window.gsap) {
       window.gsap.to(chars, { y: getShift(), duration: 0.6, stagger: 0.02, ease: "power3.out", overwrite: true });
@@ -262,11 +262,15 @@ export function syncAuthState() {
   const partnerName = document.getElementById('header-partner-name');
   const loginBtn = document.getElementById('btn-header-login');
   const logoutBtn = document.getElementById('btn-header-logout');
+  const menuLogoutLink = document.getElementById('nav-menu-link-logout');
   const adminBtn = document.getElementById('btn-header-admin');
   const pendingBanner = document.getElementById('pending-approval-banner');
   const stickyBar = document.getElementById('z8-sticky-order-bar');
 
   updateNavMenuAuthText('Portal Lojista');
+  if (menuLogoutLink) {
+    menuLogoutLink.style.display = user ? 'inline-flex' : 'none';
+  }
   syncPortalLojistaUser();
 
   if (user) {
