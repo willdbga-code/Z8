@@ -2078,7 +2078,7 @@ textarea.w-input, textarea.w-select {
 
 @font-face {
   font-family: Brier;
-  src: url("https://cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67b6113a220f85ad6497495a_Brier-Bold.woff2") format("woff2");
+  src: url("/assets/lando/fonts/Brier-Bold.woff2") format("woff2"), url("https://cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67b6113a220f85ad6497495a_Brier-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -2086,7 +2086,7 @@ textarea.w-input, textarea.w-select {
 
 @font-face {
   font-family: Mona Sans Variable;
-  src: url("https://cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67bc6274c5b4108b123aa4d5_MonaSans-VariableFont_wdth%2Cwght.woff2") format("woff2");
+  src: url("/assets/lando/fonts/MonaSans-VariableFont.woff2") format("woff2"), url("https://cdn.prod.website-files.com/67b5a02dc5d338960b17a7e9/67bc6274c5b4108b123aa4d5_MonaSans-VariableFont_wdth%2Cwght.woff2") format("woff2");
   font-weight: 200 900;
   font-style: normal;
   font-display: swap;
