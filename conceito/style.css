@@ -8158,7 +8158,7 @@ blockquote {
   }
 
   .gl-carousel {
-    top: 42svh;
+    top: 50%;
   }
 
   .parti-section2-sub-w {
@@ -8460,8 +8460,8 @@ blockquote {
   }
 
   .marquee-gl-target {
-    width: 25rem;
-    height: 29rem;
+    width: min(88vw, 340px);
+    height: min(57vw, 220px);
   }
 
   .gl-canvas {

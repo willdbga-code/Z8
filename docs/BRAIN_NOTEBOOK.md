@@ -2142,3 +2142,20 @@ pm run build\ executado com sucesso reduzindo tempo de compilação de 11.16s pa
      - Card .home-hero-next-race-w encapsulado em @media screen and (min-width: 992px) e explicitamente ocultado em mobile (display: none !important).
      - Controles de toque e cards flutuantes desativados no mobile para permitir rolagem 100% fluida e visão desobstruída do veículo.
      - Versão Desktop 100% preservada e inalterada.
+
+### [2026-11-17] Paridade Total Mobile x Desktop: Reversão do Letreiro e Enquadramento da Moto + Fundo Dinâmico
+- **Solicitação do Usuário**: *"Gem eu quero que apareça a imagem da moto com o fundo dinamico assim como na versão desktop volte o letreiro como estava e coloque o fundo e a moto como na versão desktop"* (com prints comparativos do mobile em 02:59).
+- **Diagnóstico & Solução Estrutural**:
+  1. **Reversão do Letreiro ao Padrão Original (`uX` / `carouselScene`)**:
+     - Revertido `verticalGap: 0` para `textTop` e `verticalGap: -0.175` para `textBottom`, com escalas e posições Y neutras (`0`), eliminando o vão artificial e mantendo as duas linhas unidas e emoldurando o centro da tela.
+     - Definido `this.renderPlane.bounds.topMobile = 0` no mobile (em paridade com o desktop), mantendo o letreiro centralizado no eixo Y junto com o veículo.
+  2. **Enquadramento Completo da Moto no Mobile (`PX` / `headScene`)**:
+     - No viewport vertical mobile (aspect ratio ~0.46 vs 1.6 no desktop), a câmera Three.js com FOV fixo de 15° cortava 55% da moto nas laterais com `z = 3.75`.
+     - Calibrado `this.camera.position.z = g8.lerp(8.0, 5.2, Math.max(this.gl.sizes.width - 320, 0) / 448)` no mobile. A moto fica 100% enquadrada do pneu dianteiro ao bagageiro traseiro no scroll 0, centralizada e imponente.
+  3. **Caixa Alvo da Moto em Proporção Desktop (`.marquee-gl-target`)**:
+     - Ajustado em `conceito/style.css` de `25rem x 29rem` (caixa vertical distorcida de 400x464px) para `width: min(88vw, 340px); height: min(57vw, 220px);`, mantendo a exata proporção paisagem 1.54:1 do Desktop.
+     - `.gl-carousel` centralizado em `top: 50%`.
+  4. **Ativação dos Contornos Dinâmicos Fluidos (`backgroundScene`)**:
+     - Parâmetro `THICKNESS: 0.0008` e `COLOR_FOREGROUND: "#1E3A5F"` calibrados para gerar linhas de contorno nítidas, elegantes e ativas por toda a extensão da tela em fundos escuros.
+  5. **Regra de Blindagem Desktop (Desktop Blindness Rule)**:
+     - Versão Desktop (> 991px) 100% congelada, sem nenhuma alteração visual ou de layout.
