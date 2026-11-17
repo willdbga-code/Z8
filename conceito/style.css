@@ -15404,6 +15404,7 @@ canvas[data-rive-object] {
    Eliminates legacy F1 helmet wireframes and crooked laurel artifacts.
    Ensures 100% mathematical center alignment and authentic Z8 mobility crests.
    ========================================================================== */
+@media screen and (min-width: 992px) {
 .home-hero-next-race-w {
   width: 120px !important;
   height: 244px !important;
@@ -15419,6 +15420,7 @@ canvas[data-rive-object] {
   border-radius: 6px !important;
   clip-path: none !important;
   color: #3B4B61 !important;
+}
 }
 
 .home-hero-next-race-top {
@@ -15937,5 +15939,21 @@ canvas[data-rive-object] {
     font-size: 1em !important;
     letter-spacing: -0.02em !important;
     text-shadow: none !important;
+  }
+}
+
+/* ==========================================================================
+   MOBILE HERO & VIEWPORT STABILIZATION (CLEAN LAYOUT // NO CLASH)
+   Eliminates overlapping cards and touch button obstructions on mobile devices.
+   ========================================================================== */
+@media screen and (max-width: 991px) {
+  .home-hero-next-race-w {
+    display: none !important;
+  }
+  .home-hero-touch-controls-w {
+    display: none !important;
+  }
+  .z8-hero-floating-kpi {
+    display: none !important;
   }
 }
